@@ -27,7 +27,7 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *cityLabel;
 @property (nonatomic, weak) IBOutlet UIButton *selectTownButton;
-
+@property (nonatomic, weak) id savedDelegate;
 @property (nonatomic, weak) IBOutlet UILabel *oldLabelVal;
 @property (nonatomic, strong) IBOutlet NMRangeSlider *oldRangeSlider;
 @property (nonatomic, strong) UIView *notificationView;
