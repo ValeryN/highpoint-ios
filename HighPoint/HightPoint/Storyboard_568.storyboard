@@ -208,7 +208,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2CC-qf-pN4">
-                                <rect key="frame" x="16" y="29" width="26" height="26"/>
+                                <rect key="frame" x="12" y="29" width="26" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -218,7 +218,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0QV-Y0-I9S">
-                                <rect key="frame" x="278" y="29" width="26" height="25"/>
+                                <rect key="frame" x="282" y="29" width="26" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -397,6 +397,47 @@
             </objects>
             <point key="canvasLocation" x="1680" y="23"/>
         </scene>
+        <!--User Profile View Controller-->
+        <scene sceneID="U0Y-iP-7gd">
+            <objects>
+                <viewController storyboardIdentifier="HPUserProfileViewController" id="wOp-6c-9zA" customClass="HPUserProfileViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="j6I-Z3-GzS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="aov-BD-eYc">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bar_background.png" id="qPQ-Ag-0bn">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kx3-nJ-0WC">
+                                        <rect key="frame" x="12" y="29" width="23" height="12"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" backgroundImage="Down.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="downButtonTap:" destination="wOp-6c-9zA" eventType="touchUpInside" id="Jvz-HY-3MW"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="barView" destination="aov-BD-eYc" id="MLK-g7-W4r"/>
+                        <outlet property="downButton" destination="kx3-nJ-0WC" id="TX9-CZ-pfc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ByN-yO-6Py" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2395" y="23"/>
+        </scene>
         <!--Select Town View Controller-->
         <scene sceneID="MTk-ke-Js1">
             <objects>
@@ -436,10 +477,12 @@
     </scenes>
     <resources>
         <image name="Blend 5X" width="16" height="16"/>
+        <image name="Down.png" width="46" height="24"/>
         <image name="Lens" width="16" height="16"/>
         <image name="Next.png" width="24" height="46"/>
         <image name="Point Notice" width="154" height="25"/>
         <image name="Rectangle" width="16" height="16"/>
+        <image name="bar_background.png" width="640" height="129"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

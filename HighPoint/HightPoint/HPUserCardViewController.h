@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "iCarousel.h"
+#import "HPUserProfileViewController.h"
 @protocol UserImageStartAnimationDelegate <NSObject>
 - (void) startAnimation:(UIImageView*) image;
 @end
 
-@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate>
+@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, HPUserProfileViewControllerDelegate>
 @property (nonatomic, weak) IBOutlet UIButton *profileButton;
 @property (nonatomic, weak) IBOutlet UIButton *messageButton;
 @property (nonatomic, weak) IBOutlet UIButton *backButton;
@@ -27,4 +28,9 @@
 @property (nonatomic, assign) NSInteger prevIndex;
 @property (nonatomic, strong) IBOutlet iCarousel *carouselView;
 @property (nonatomic, weak) id <UserImageStartAnimationDelegate> delegate;
+@property(nonatomic, strong) UITapGestureRecognizer *tapGesture;
+@property(nonatomic, strong) UIImageView *captView;
+@property(nonatomic, strong) UIImageView *captViewLeft;
+@property(nonatomic, strong) UIImageView *captViewRight;
+
 @end

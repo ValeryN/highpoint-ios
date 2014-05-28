@@ -21,4 +21,5 @@
 + (UIImage*) maskImage:(UIImage *) image;
 + (UIImage *)applyBlurOnImage: (UIImage *)imageToBlur withRadius: (CGFloat)blurRadius;
 + (void) configureNavigationBar:(UINavigationController*) controller;
++ (UIImage *)captureView:(UIView *)view withArea:(CGRect)screenRect;
 @end

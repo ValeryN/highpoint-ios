@@ -72,6 +72,9 @@
 		3B31865C191A7A4F0000DD8B /* ParaType - Futura PT Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3B318659191A7A4F0000DD8B /* ParaType - Futura PT Book.otf */; };
 		3B31865D191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B31865A191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf */; };
 		3B31865E191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3B31865B191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf */; };
+		3B49DE1E1934AAC500C3EF1E /* HPUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B49DE1D1934AAC500C3EF1E /* HPUserProfileViewController.m */; };
+		3B49DE211934CEF000C3EF1E /* HPSlideUpAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B49DE201934CEF000C3EF1E /* HPSlideUpAnimation.m */; };
+		3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B49DE231934CF2500C3EF1E /* HPSlideDownAnimation.m */; };
 		3B6DB49018FFC24C00C26A50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6DB48F18FFC24C00C26A50 /* Foundation.framework */; };
 		3B6DB49218FFC24C00C26A50 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6DB49118FFC24C00C26A50 /* CoreGraphics.framework */; };
 		3B6DB49418FFC24C00C26A50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6DB49318FFC24C00C26A50 /* UIKit.framework */; };
@@ -98,6 +101,9 @@
 		3BA384081924CDBC00EFC749 /* ScaleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA384071924CDBC00EFC749 /* ScaleAnimation.m */; };
 		3BA3840B1924D58A00EFC749 /* CrossDissolveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3840A1924D58A00EFC749 /* CrossDissolveAnimation.m */; };
 		3BA9A305190125F700CD542A /* DataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA9A304190125F700CD542A /* DataStorage.m */; };
+		3BB5E8681935F43700DDF5F9 /* ModalAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB5E8671935F43700DDF5F9 /* ModalAnimation.m */; };
+		3BB5E86A1935FD5500DDF5F9 /* Down.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB5E8691935FD5500DDF5F9 /* Down.png */; };
+		3BB5E86C1936121F00DDF5F9 /* bar_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BB5E86B1936121F00DDF5F9 /* bar_background.png */; };
 		3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BCB5B00192F76D200E5DCA9 /* Progress Line.png */; };
 		3BCB5B03192F8B2F00E5DCA9 /* Next.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BCB5B02192F8B2F00E5DCA9 /* Next.png */; };
 		3BCB5B07192F8D3500E5DCA9 /* HPSelectTownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCB5B06192F8D3500E5DCA9 /* HPSelectTownViewController.m */; };
@@ -225,6 +231,12 @@
 		3B318659191A7A4F0000DD8B /* ParaType - Futura PT Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ParaType - Futura PT Book.otf"; sourceTree = "<group>"; };
 		3B31865A191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ParaType - Futura PT Light.ttf"; sourceTree = "<group>"; };
 		3B31865B191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YesevaOne-Regular_v2.otf"; sourceTree = "<group>"; };
+		3B49DE1C1934AAC500C3EF1E /* HPUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserProfileViewController.h; sourceTree = "<group>"; };
+		3B49DE1D1934AAC500C3EF1E /* HPUserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserProfileViewController.m; sourceTree = "<group>"; };
+		3B49DE1F1934CEF000C3EF1E /* HPSlideUpAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSlideUpAnimation.h; sourceTree = "<group>"; };
+		3B49DE201934CEF000C3EF1E /* HPSlideUpAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSlideUpAnimation.m; sourceTree = "<group>"; };
+		3B49DE221934CF2500C3EF1E /* HPSlideDownAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSlideDownAnimation.h; sourceTree = "<group>"; };
+		3B49DE231934CF2500C3EF1E /* HPSlideDownAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSlideDownAnimation.m; sourceTree = "<group>"; };
 		3B6DB48C18FFC24C00C26A50 /* HighPoint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HighPoint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B6DB48F18FFC24C00C26A50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3B6DB49118FFC24C00C26A50 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -258,6 +270,10 @@
 		3BA3840A1924D58A00EFC749 /* CrossDissolveAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossDissolveAnimation.m; sourceTree = "<group>"; };
 		3BA9A303190125F700CD542A /* DataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStorage.h; sourceTree = "<group>"; };
 		3BA9A304190125F700CD542A /* DataStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataStorage.m; sourceTree = "<group>"; };
+		3BB5E8661935F43700DDF5F9 /* ModalAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalAnimation.h; sourceTree = "<group>"; };
+		3BB5E8671935F43700DDF5F9 /* ModalAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalAnimation.m; sourceTree = "<group>"; };
+		3BB5E8691935FD5500DDF5F9 /* Down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Down.png; sourceTree = "<group>"; };
+		3BB5E86B1936121F00DDF5F9 /* bar_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background.png; sourceTree = "<group>"; };
 		3BCB5B00192F76D200E5DCA9 /* Progress Line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Progress Line.png"; sourceTree = "<group>"; };
 		3BCB5B02192F8B2F00E5DCA9 /* Next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Next.png; sourceTree = "<group>"; };
 		3BCB5B05192F8D3500E5DCA9 /* HPSelectTownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSelectTownViewController.h; sourceTree = "<group>"; };
@@ -463,6 +479,8 @@
 		3B31864D191A493F0000DD8B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3BB5E86B1936121F00DDF5F9 /* bar_background.png */,
+				3BB5E8691935FD5500DDF5F9 /* Down.png */,
 				3BCB5B08192F946B00E5DCA9 /* Back Tap.png */,
 				3BCB5B09192F946B00E5DCA9 /* Back.png */,
 				3BCB5B02192F8B2F00E5DCA9 /* Next.png */,
@@ -518,6 +536,15 @@
 				3B31865B191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		3B49DE1B1934A50C00C3EF1E /* HPUserProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3B49DE1C1934AAC500C3EF1E /* HPUserProfileViewController.h */,
+				3B49DE1D1934AAC500C3EF1E /* HPUserProfileViewController.m */,
+			);
+			name = HPUserProfileViewController;
 			sourceTree = "<group>";
 		};
 		3B6DB48318FFC24C00C26A50 = {
@@ -616,6 +643,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				3B49DE1B1934A50C00C3EF1E /* HPUserProfileViewController */,
 				3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */,
 				3BD12E57192DFDF30026BA11 /* HPFilterSettingsViewController */,
 				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
@@ -660,12 +688,18 @@
 		3BA384021924C9DD00EFC749 /*  AnimationController */ = {
 			isa = PBXGroup;
 			children = (
+				3BB5E8661935F43700DDF5F9 /* ModalAnimation.h */,
+				3BB5E8671935F43700DDF5F9 /* ModalAnimation.m */,
 				3BA384061924CDBC00EFC749 /* ScaleAnimation.h */,
 				3BA384071924CDBC00EFC749 /* ScaleAnimation.m */,
 				3BA384031924CBBC00EFC749 /* BaseAnimation.h */,
 				3BA384041924CBBC00EFC749 /* BaseAnimation.m */,
 				3BA384091924D58A00EFC749 /* CrossDissolveAnimation.h */,
 				3BA3840A1924D58A00EFC749 /* CrossDissolveAnimation.m */,
+				3B49DE1F1934CEF000C3EF1E /* HPSlideUpAnimation.h */,
+				3B49DE201934CEF000C3EF1E /* HPSlideUpAnimation.m */,
+				3B49DE221934CF2500C3EF1E /* HPSlideDownAnimation.h */,
+				3B49DE231934CF2500C3EF1E /* HPSlideDownAnimation.m */,
 			);
 			name = " AnimationController";
 			sourceTree = "<group>";
@@ -922,6 +956,7 @@
 				3BD12E5E192E0FEE0026BA11 /* Close.png in Resources */,
 				3B298FC0192F476100BEC2AA /* slider-default-trackCrossedOver.png in Resources */,
 				3BD12E5D192E0FEE0026BA11 /* Close Tap.png in Resources */,
+				3BB5E86C1936121F00DDF5F9 /* bar_background.png in Resources */,
 				3B298FBB192F476100BEC2AA /* slider-default-handle.png in Resources */,
 				3B298FC6192F476100BEC2AA /* slider-default7-track@2x.png in Resources */,
 				3B31709F191B6CAF00B72AC1 /* Bubble Tap.png in Resources */,
@@ -951,6 +986,7 @@
 				3B1FC626192A4608009DCD85 /* Green-Button-Tap-C.png in Resources */,
 				3B1FC620192A2B58009DCD85 /* Green-Button-C.png in Resources */,
 				3B298FCB192F476100BEC2AA /* slider-metal-handle-highlighted.png in Resources */,
+				3BB5E86A1935FD5500DDF5F9 /* Down.png in Resources */,
 				3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */,
 				3B298FD1192F476100BEC2AA /* slider-metal-trackBackground.png in Resources */,
 				3B8F366D1920B27C00C71E49 /* Point Notice.png in Resources */,
@@ -991,19 +1027,23 @@
 				3BDA4C4D1906470100EF6619 /* UserParam.m in Sources */,
 				3B6DB4A218FFC24D00C26A50 /* HPAppDelegate.m in Sources */,
 				3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */,
+				3BB5E8681935F43700DDF5F9 /* ModalAnimation.m in Sources */,
 				3B3170B7191BA56900B72AC1 /* HPSwitchViewController.m in Sources */,
 				3BDA4C9819064E5900EF6619 /* UIImage+MultiFormat.m in Sources */,
 				3BDA4C9919064E5900EF6619 /* UIImage+WebP.m in Sources */,
 				3BDA4C6919064AC900EF6619 /* AFURLResponseSerialization.m in Sources */,
 				3BDA4C4A1906470100EF6619 /* User.m in Sources */,
 				3BDA4C6819064AC900EF6619 /* AFURLRequestSerialization.m in Sources */,
+				3B49DE1E1934AAC500C3EF1E /* HPUserProfileViewController.m in Sources */,
 				3BD12E5A192DFE380026BA11 /* HPFilterSettingsViewController.m in Sources */,
 				3BA3840B1924D58A00EFC749 /* CrossDissolveAnimation.m in Sources */,
+				3B49DE211934CEF000C3EF1E /* HPSlideUpAnimation.m in Sources */,
 				3BDA4C6619064AC900EF6619 /* AFSecurityPolicy.m in Sources */,
 				3BDA4C9D19064EAB00EF6619 /* HPRootViewController.m in Sources */,
 				3BDA4C6219064AC900EF6619 /* AFHTTPRequestOperation.m in Sources */,
 				3BDA4C6E19064CD200EF6619 /* HPBaseNetworkManager.m in Sources */,
 				3BDA4C9A19064E5900EF6619 /* UIImageView+WebCache.m in Sources */,
+				3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */,
 				3BDA4C6A19064AC900EF6619 /* AFURLSessionManager.m in Sources */,
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
 				3BDA4C471906470000EF6619 /* UserInfo.m in Sources */,
