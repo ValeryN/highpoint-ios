@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2cZ-pi-3X5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2cZ-pi-3X5">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -46,15 +46,27 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Point Notice" id="WWu-Bc-zmw">
-                                                    <rect key="frame" x="281" y="36" width="23" height="24"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Point Notice" id="WWu-Bc-zmw" userLabel="Show point button">
+                                                    <rect key="frame" x="281" y="40" width="23" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
+                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="У нас тут очень весело. Если кто не боится таких развлечений, пишите!" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bwY-Gy-lWp" userLabel="Label - Point">
+                                                    <rect key="frame" x="16" y="0.0" width="265" height="104"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
+                                                    <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
+                                            <gestureRecognizers/>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="firstLabel" destination="kbB-KV-Mr0" id="j6S-M9-zfd"/>
+                                            <outlet property="point" destination="bwY-Gy-lWp" id="9XC-am-whB"/>
                                             <outlet property="secondLabel" destination="bMB-4H-hBy" id="SdI-v6-BhP"/>
+                                            <outlet property="showPointButton" destination="WWu-Bc-zmw" id="we9-Xw-NHA"/>
                                             <outlet property="userImage" destination="MKe-7w-58l" id="Vmc-qE-wiP"/>
                                             <outlet property="userImageBorder" destination="SMf-Xd-NcU" id="YWe-0F-9GP"/>
                                         </connections>

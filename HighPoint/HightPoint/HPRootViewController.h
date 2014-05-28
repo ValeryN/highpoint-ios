@@ -16,4 +16,5 @@
 @property (nonatomic, strong) HPSwitchViewController *bottomSwitch;
 @property (nonatomic, assign) CGRect savedFrame;
 - (IBAction) filterButtonTap:(id)sender;
+- (IBAction) cellLongTap:(id)sender;
 @end

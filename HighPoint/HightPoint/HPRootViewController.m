@@ -212,10 +212,13 @@
     mCell.secondLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:15.0f];
     mCell.secondLabel.text = @"99 лет, Когалым";
     
+    mCell.point.textColor = [UIColor whiteColor];
+    mCell.point.font = [UIFont fontWithName:@"FuturaPT-Book" size:15.0f];
+    mCell.point.text = @"У нас тут очень весело. Если кто не боится таких развлечений, пишите!";
+    
     mCell.backgroundColor = [UIColor clearColor];
-    
-    
-    
+
+    [self addLongTapGestureRecognizer: mCell];
     
     return mCell;
 }
@@ -386,5 +389,54 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+//==============================================================================
+
+#pragma mark - Gesture recognizers -
+
+//==============================================================================
+
+- (void) addLongTapGestureRecognizer: (UIView*) cell
+{
+    UILongPressGestureRecognizer* longtapRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongTap:)];
+    [cell addGestureRecognizer: longtapRecognizer];
+}
+
+//==============================================================================
+
+- (IBAction) cellLongTap: (id)sender
+{
+    if ([sender isKindOfClass:[UILongPressGestureRecognizer class]] == NO)
+        return;
+    UILongPressGestureRecognizer* recognizer = sender;
+
+    if ([recognizer.view isKindOfClass:[HPMainViewListTableViewCell class]] == NO)
+        return;
+    HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)recognizer.view;
+
+    if (recognizer.state == UIGestureRecognizerStateBegan)
+        [self showPoint: cell];
+    
+    if (recognizer.state == UIGestureRecognizerStateEnded)
+        [self hidePoint: cell];
+}
+
+//==============================================================================
+
+- (void) showPoint: (HPMainViewListTableViewCell*) cell
+{
+    cell.point.hidden = NO;
+    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
+}
+
+//==============================================================================
+
+- (void) hidePoint: (HPMainViewListTableViewCell*) cell
+{
+    cell.point.hidden = YES;
+    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
+}
+
+//==============================================================================
 
 @end
