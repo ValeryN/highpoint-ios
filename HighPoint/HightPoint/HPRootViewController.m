@@ -13,6 +13,11 @@
 
 #import "ScaleAnimation.h"
 #import "CrossDissolveAnimation.h"
+
+
+#define HALFHIDE_MAININFO_DURATION 2
+#define SHOWPOINT_COMPLETELY_DURATION 2
+
 @interface HPRootViewController () {
     ScaleAnimation *_scaleAnimationController;
     CrossDissolveAnimation *_crossDissolveAnimationController;
@@ -425,16 +430,145 @@
 
 - (void) showPoint: (HPMainViewListTableViewCell*) cell
 {
-    cell.point.hidden = NO;
     cell.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
+//    [self animatePointDisplay: cell];
+    
+    [UIView animateKeyframesWithDuration: HALFHIDE_MAININFO_DURATION
+                                   delay: 0
+                                 options: UIViewKeyframeAnimationOptionCalculationModeLinear
+                     animations: ^
+                     {
+                         [self halfhideMaininfo: cell];
+                     }
+                     completion: ^(BOOL finished)
+                     {
+                         [self showpointCompletely: cell];
+                     }];
 }
 
 //==============================================================================
 
 - (void) hidePoint: (HPMainViewListTableViewCell*) cell
 {
-    cell.point.hidden = YES;
     cell.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
+}
+
+//==============================================================================
+
+- (void) showpointCompletely: (HPMainViewListTableViewCell*) cell
+{
+    [UIView animateKeyframesWithDuration: SHOWPOINT_COMPLETELY_DURATION
+                                   delay: 0
+                                 options: UIViewKeyframeAnimationOptionCalculationModeLinear
+                             animations: ^
+                             {
+                                 [self fullhideMaininfo: cell];
+                             }
+                             completion: ^(BOOL finished)
+                             {
+                             }];
+}
+
+//==============================================================================
+
+- (void) halfhideMaininfo: (HPMainViewListTableViewCell*) cell
+{
+    CGRect rect = cell.mainInfoGroup.frame;
+    rect.origin.x = -(rect.size.width + rect.origin.x) / 2.0;
+    cell.mainInfoGroup.frame = rect;
+}
+
+//==============================================================================
+
+- (void) fullhideMaininfo: (HPMainViewListTableViewCell*) cell
+{
+    cell.point.alpha = 1;
+    
+    CGRect rect = cell.mainInfoGroup.frame;
+    rect.origin.x = 2 * rect.origin.x;
+    cell.mainInfoGroup.frame = rect;
+}
+
+//==============================================================================
+
+#pragma mark - layer animation -
+
+//==============================================================================
+
+- (CABasicAnimation*) slideMainInfo: (HPMainViewListTableViewCell*) cell
+{
+    CABasicAnimation* animation =  [CABasicAnimation animationWithKeyPath: @"transform.translation.x"];
+    animation.removedOnCompletion = NO;
+    animation.fillMode = kCAFillModeForwards;
+    animation.duration = HALFHIDE_MAININFO_DURATION;
+    animation.beginTime = 0;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionLinear];
+    
+    CGRect rect = cell.mainInfoGroup.frame;
+    NSNumber* shift = [NSNumber numberWithFloat: -(rect.size.width + rect.origin.x) / 2.0];
+    [animation setToValue: shift];
+    
+    return animation;
+}
+
+//==============================================================================
+
+- (CABasicAnimation*) awayMainInfo: (HPMainViewListTableViewCell*) cell
+{
+    CABasicAnimation* animation =  [CABasicAnimation animationWithKeyPath: @"transform.translation.x"];
+    animation.removedOnCompletion = NO;
+    animation.fillMode = kCAFillModeForwards;
+    animation.duration = SHOWPOINT_COMPLETELY_DURATION;
+    animation.beginTime = HALFHIDE_MAININFO_DURATION;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionLinear];
+    
+    CGRect rect = cell.mainInfoGroup.frame;
+    NSNumber* shift = [NSNumber numberWithFloat: -(rect.size.width + rect.origin.x)];
+    [animation setToValue: shift];
+    
+    return animation;
+}
+
+//==============================================================================
+
+- (CABasicAnimation*) fadeinPointText: (HPMainViewListTableViewCell*) cell
+{
+    CABasicAnimation* animation =  [CABasicAnimation animationWithKeyPath: @"opacity"];
+    animation.removedOnCompletion = NO;
+    animation.fillMode = kCAFillModeForwards;
+    animation.duration = SHOWPOINT_COMPLETELY_DURATION;
+    animation.beginTime = HALFHIDE_MAININFO_DURATION;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionLinear];
+
+    [animation setToValue: @1.0];
+    
+    return animation;
+}
+
+//==============================================================================
+
+- (void) animatePointDisplay: (HPMainViewListTableViewCell*) cell
+{
+    CABasicAnimation* slideMainInfo =  [self slideMainInfo: cell];
+    CABasicAnimation* fadeinPointText =  [self fadeinPointText: cell];
+    CABasicAnimation* awayMainInfo =  [self awayMainInfo: cell];
+
+    CAAnimationGroup* maininfoGroup = [CAAnimationGroup animation];
+    [maininfoGroup setDuration: SHOWPOINT_COMPLETELY_DURATION + HALFHIDE_MAININFO_DURATION];  //Set the duration of the group to the time for all animations
+    maininfoGroup.removedOnCompletion = NO;
+    maininfoGroup.fillMode = kCAFillModeForwards;
+    [maininfoGroup setAnimations: @[slideMainInfo, awayMainInfo]];
+    
+    CAAnimationGroup* pointGroup = [CAAnimationGroup animation];
+    [pointGroup setDuration: SHOWPOINT_COMPLETELY_DURATION + HALFHIDE_MAININFO_DURATION];  //Set the duration of the group to the time for all animations
+    pointGroup.removedOnCompletion = NO;
+    pointGroup.fillMode = kCAFillModeForwards;
+    [pointGroup setAnimations: @[fadeinPointText]];
+
+    [cell.mainInfoGroup.layer addAnimation: maininfoGroup
+                                    forKey: nil];
+    [cell.point.layer addAnimation: pointGroup
+                                    forKey: nil];
 }
 
 //==============================================================================

@@ -15,5 +15,6 @@
 @property (nonatomic, strong) IBOutlet UILabel *firstLabel;
 @property (nonatomic, strong) IBOutlet UILabel *secondLabel;
 @property (nonatomic, strong) IBOutlet UILabel *point;
+@property (nonatomic, strong) IBOutlet UIView *mainInfoGroup;
 
 @end
