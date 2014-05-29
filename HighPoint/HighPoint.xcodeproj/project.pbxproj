@@ -590,10 +590,9 @@
 			children = (
 				3BDA4C6B19064AE700EF6619 /* Networking */,
 				3BDA4C431906449D00EF6619 /* Utils */,
-				3B77908319001DAE00EE0D15 /* SupportClasses */,
 				3B77908219001DA100EE0D15 /* External */,
 				3B77908119001D9100EE0D15 /* CoreData */,
-				3BA384021924C9DD00EFC749 /*  AnimationController */,
+				3BA384021924C9DD00EFC749 /* AnimationController */,
 				3B6DB4C718FFCC4B00C26A50 /* ViewControllers */,
 				3B6DB4C618FFCC3200C26A50 /* AppDelegate */,
 				3B31864C191A493F0000DD8B /* Resources */,
@@ -652,7 +651,6 @@
 				3BD12E57192DFDF30026BA11 /* HPFilterSettingsViewController */,
 				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
 				3B3170B2191B9E7700B72AC1 /* HPSwitchViewController */,
-				3BDA4CA319065A0900EF6619 /* HPDetailUserInfoViewController */,
 				3BDA4C9E19064EC300EF6619 /* HPRootViewController */,
 			);
 			name = ViewControllers;
@@ -682,14 +680,7 @@
 			name = External;
 			sourceTree = "<group>";
 		};
-		3B77908319001DAE00EE0D15 /* SupportClasses */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = SupportClasses;
-			sourceTree = "<group>";
-		};
-		3BA384021924C9DD00EFC749 /*  AnimationController */ = {
+		3BA384021924C9DD00EFC749 /* AnimationController */ = {
 			isa = PBXGroup;
 			children = (
 				3BB5E8661935F43700DDF5F9 /* ModalAnimation.h */,
@@ -705,7 +696,7 @@
 				3B49DE221934CF2500C3EF1E /* HPSlideDownAnimation.h */,
 				3B49DE231934CF2500C3EF1E /* HPSlideDownAnimation.m */,
 			);
-			name = " AnimationController";
+			name = AnimationController;
 			sourceTree = "<group>";
 		};
 		3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */ = {
@@ -831,13 +822,6 @@
 				3B31709C191B6B5100B72AC1 /* HPMainViewListTableViewCell.m */,
 			);
 			name = HPRootViewController;
-			sourceTree = "<group>";
-		};
-		3BDA4CA319065A0900EF6619 /* HPDetailUserInfoViewController */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = HPDetailUserInfoViewController;
 			sourceTree = "<group>";
 		};
 		3BDA4CA4190660B400EF6619 /* SocketRocket */ = {
