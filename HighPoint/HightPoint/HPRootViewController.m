@@ -450,7 +450,7 @@
 }
 
 //==============================================================================
-
+ 
 - (void) showpointCompletely: (HPMainViewListTableViewCell*) cell
 {
     [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
