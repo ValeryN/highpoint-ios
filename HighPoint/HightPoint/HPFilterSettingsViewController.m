@@ -109,6 +109,7 @@
     
 }
 - (IBAction) closeButtonTap:(id)sender {
+    self.navigationController.delegate = self.savedDelegate;
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction) menSwitchTap:(id)sender {
@@ -162,7 +163,8 @@
     //self.view.userInteractionEnabled = NO;
     storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
     HPSelectTownViewController *town = [storyBoard instantiateViewControllerWithIdentifier:@"HPSelectTownViewController"];
-    
+    self.savedDelegate = self.navigationController.delegate;
+    self.navigationController.delegate = nil;
     //_crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:town animated:YES];
 }
