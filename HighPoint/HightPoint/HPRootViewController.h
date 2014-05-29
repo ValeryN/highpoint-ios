@@ -17,6 +17,6 @@
 @property (nonatomic, assign) CGRect savedFrame;
 
 - (IBAction) filterButtonTap:(id)sender;
-- (IBAction) cellLongTap:(id)sender;
+- (IBAction) cellLongTap:(id)sender; 
 
 @end
