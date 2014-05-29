@@ -437,8 +437,8 @@
     cell.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
     
     [UIView animateWithDuration: HALFHIDE_MAININFO_DURATION
-                                   delay: 0
-                                 options: UIViewAnimationOptionCurveLinear
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
                      animations: ^
                      {
                          [self halfhideMaininfo: cell];
@@ -451,18 +451,36 @@
 
 //==============================================================================
  
+- (void) hidePoint: (HPMainViewListTableViewCell*) cell
+{
+    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
+    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^
+                     {
+                        [self fadeawayPointText: cell];
+                     }
+                     completion: ^(BOOL finished)
+                     {
+                         [self showMainInfo: cell];
+                     }];
+}
+
+//==============================================================================
+
 - (void) showpointCompletely: (HPMainViewListTableViewCell*) cell
 {
     [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
-                                   delay: 0
-                                 options: UIViewAnimationOptionCurveLinear
-                             animations: ^
-                             {
-                                 [self fullhideMaininfo: cell];
-                             }
-                             completion: ^(BOOL finished)
-                             {
-                             }];
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                      animations: ^
+                      {
+                          [self fullhideMaininfo: cell];
+                      }
+                      completion: ^(BOOL finished)
+                      {
+                      }];
 }
 
 //==============================================================================
@@ -487,24 +505,6 @@
 
 //==============================================================================
 
-- (void) hidePoint: (HPMainViewListTableViewCell*) cell
-{
-    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
-    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-     {
-         [self fadeawayPointText: cell];
-     }
-                     completion: ^(BOOL finished)
-     {
-         [self showMainInfo: cell];
-     }];
-}
-
-//==============================================================================
-
 - (void) fadeawayPointText: (HPMainViewListTableViewCell*) cell
 {
     cell.point.alpha = 0.5;
@@ -518,16 +518,16 @@
                           delay: 0
                         options: UIViewAnimationOptionCurveLinear
                      animations: ^
-     {
-         cell.point.alpha = 0.0;
-         
-         CGRect rect = cell.mainInfoGroup.frame;
-         rect.origin.x = 12;
-         cell.mainInfoGroup.frame = rect;
-     }
+                     {
+                         cell.point.alpha = 0.0;
+                         
+                         CGRect rect = cell.mainInfoGroup.frame;
+                         rect.origin.x = 12;
+                         cell.mainInfoGroup.frame = rect;
+                     }
                      completion: ^(BOOL finished)
-     {
-     }];
+                     {
+                     }];
 }
 
 //==============================================================================
