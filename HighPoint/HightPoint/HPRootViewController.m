@@ -6,13 +6,25 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
+//==============================================================================
+
 #import "HPRootViewController.h"
 #import "HPBaseNetworkManager.h"
 #import "HPMainViewListTableViewCell.h"
 #import "Utils.h"
-
 #import "ScaleAnimation.h"
 #import "CrossDissolveAnimation.h"
+
+
+//==============================================================================
+
+#define HALFHIDE_MAININFO_DURATION 0.2
+#define SHOWPOINT_COMPLETELY_DURATION 0.2
+#define CELL_HEIGHT 104
+#define CELLS_COUNT 20  //  for test purposes only remove on production
+
+//==============================================================================
+
 @interface HPRootViewController () {
     ScaleAnimation *_scaleAnimationController;
     CrossDissolveAnimation *_crossDissolveAnimationController;
@@ -140,16 +152,30 @@
     }
 
 }
-#pragma mark -
-#pragma mark Navigation bar button tap handler
-- (void) profileButtonPressedStart:(id) sender {
+
+//==============================================================================
+
+#pragma mark - Navigation bar button tap handler -
+
+//==============================================================================
+
+- (void) profileButtonPressedStart:(id) sender
+{
     [self showNotification];
 }
-- (void) bubbleButtonPressedStart:(id) sender {
+//==============================================================================
+
+- (void) bubbleButtonPressedStart:(id) sender
+{
     [self hideNotification];
 }
-#pragma mark -
-#pragma mark filter button tap handler
+
+//==============================================================================
+
+#pragma mark - filter button tap handler -
+
+//==============================================================================
+
 - (IBAction) filterButtonTap:(id)sender {
     UIStoryboard *storyBoard;
     //self.view.userInteractionEnabled = NO;
@@ -161,44 +187,46 @@
     [self.navigationController pushViewController:filter animated:YES];
 
 }
-#pragma mark -
-#pragma mark TableView and DataSource delegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+
+//==============================================================================
+
+#pragma mark - TableView and DataSource delegate-
+
+//==============================================================================
+
+- (NSInteger) numberOfSectionsInTableView: (UITableView*) tableView
 {
     return 1;
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return 20;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+
+//==============================================================================
+
+- (NSInteger) tableView: (UITableView*) tableView numberOfRowsInSection: (NSInteger) section
 {
-    return 104;
+    return CELLS_COUNT;
 }
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+
+//==============================================================================
+
+- (CGFloat) tableView: (UITableView*) tableView heightForRowAtIndexPath: (NSIndexPath*) indexPath
 {
-    UITableViewCell *emptyCell = nil;
-    static NSString *cellId = @"cell";
+    return CELL_HEIGHT;
+}
+
+//==============================================================================
+
+- (UITableViewCell*) tableView: (UITableView*) tableView cellForRowAtIndexPath: (NSIndexPath*) indexPath
+{
     static NSString *mainCellId = @"maincell";
-    
-    emptyCell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (!emptyCell) {
-        emptyCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-    }
-    emptyCell.backgroundColor = [UIColor clearColor];
-    
-    HPMainViewListTableViewCell *mCell = nil;
-    
-    mCell = [tableView dequeueReusableCellWithIdentifier:mainCellId];
-    if (!mCell) {
-        mCell = [[HPMainViewListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:mainCellId];
-    }
-    UIImage *img =[UIImage imageNamed:@"img_sample1"];
-    if(indexPath.row == 3) {
+    HPMainViewListTableViewCell *mCell = [tableView dequeueReusableCellWithIdentifier:mainCellId];
+    if (!mCell)
+        mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
+
+    UIImage* img =[UIImage imageNamed: @"img_sample1"];
+    if (indexPath.row == 3)
         img = [Utils applyBlurOnImage:img withRadius:10.0];
-    }
-    //img = [Utils scaleImage:img toSize:CGSizeMake(176/2, 176/2)];
-    UIImage *img_ = [Utils maskImage:img];
+
+    UIImage* img_ = [Utils maskImage: img];
     mCell.userImageBorder.autoresizingMask = UIViewAutoresizingNone;
     mCell.userImage.autoresizingMask = UIViewAutoresizingNone;
     mCell.userImage.image = img_;
@@ -212,63 +240,31 @@
     mCell.secondLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:15.0f];
     mCell.secondLabel.text = @"99 лет, Когалым";
     
+    mCell.point.textColor = [UIColor whiteColor];
+    mCell.point.font = [UIFont fontWithName:@"FuturaPT-Book" size:15.0f];
+    mCell.point.text = @"У нас тут очень весело. Если кто не боится таких развлечений, пишите!";
+    
     mCell.backgroundColor = [UIColor clearColor];
-    
-    
-    
+
+    [self addLongTapGestureRecognizer: mCell];
     
     return mCell;
 }
-//select some book from list
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    HPMainViewListTableViewCell *cell = (HPMainViewListTableViewCell *)[self.mainListTable cellForRowAtIndexPath:indexPath];
-    NSLog(@"frame %f", cell.frame.origin.x);
-    NSLog(@"frame %f", cell.frame.origin.y);
-    
-    /*
-    CGRect test__ = [self.view convertRect:cell.frame fromView:self.mainListTable];
-    NSLog(@"frame_ %f", test__.origin.x);
-    NSLog(@"frame_ %f", test__.origin.y);
-    
-    UIImage *img =[UIImage imageNamed:@"img_sample1"];
-    UIImageView *test = [[UIImageView alloc] initWithImage:img];
-    test.frame = CGRectMake(-20, test__.origin.y - 40.0, test.frame.size.width, test.frame.size.height);
-    [self.view addSubview:test];
-    test.transform = CGAffineTransformMakeScale(0.1, 0.1);
-    
-    [UIView animateWithDuration:3 delay:0.0 usingSpringWithDamping:8.8 initialSpringVelocity:1.0 options:0 animations:^{
-        test.transform = CGAffineTransformIdentity;
-        test.frame = CGRectMake(self.view.center.x - test.frame.size.width/2.0, self.view.center.y - test.frame.size.height/2.0, test.frame.size.width, test.frame.size.height);
-    } completion:^(BOOL finished) {
-        
-    }];
-    /*
-    UIImage *img =[UIImage imageNamed:@"img_sample1"];
-    UIImageView *test = [[UIImageView alloc] initWithImage:img];
-    test.frame = CGRectMake(-20, test__.origin.y - 40.0, test.frame.size.width, test.frame.size.height);
-    [self.view addSubview:test];
-    test.transform = CGAffineTransformMakeScale(0.1, 0.1);
-    [UIView animateWithDuration:3.9 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        // animate it to the identity transform (100% scale)
-        test.transform = CGAffineTransformIdentity;
-        test.frame = CGRectMake(self.view.center.x - test.frame.size.width/2.0, self.view.center.y - test.frame.size.height/2.0, test.frame.size.width, test.frame.size.height);
-    } completion:^(BOOL finished){
-        
-    }];
-    */
-    UIStoryboard *storyBoard;
-    //self.view.userInteractionEnabled = NO;
-    storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
+
+//==============================================================================
+
+- (void) tableView: (UITableView*) tableView didSelectRowAtIndexPath: (NSIndexPath*) indexPath
+{
+    HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)[self.mainListTable cellForRowAtIndexPath: indexPath];
+
+    UIStoryboard* storyBoard = [UIStoryboard storyboardWithName: [Utils getStoryBoardName] bundle: nil];
     
     HPUserCardViewController *card = [storyBoard instantiateViewControllerWithIdentifier:@"HPUserCardViewController"];
     card.delegate = self;
-    
-     [card.navigationController setNavigationBarHidden:YES];
-    
+    [card.navigationController setNavigationBarHidden:YES];
+
     CGRect test__ = [self.view convertRect:cell.frame fromView:self.mainListTable];
-    NSLog(@"frame_ %f", test__.origin.x);
-    NSLog(@"frame_ %f", test__.origin.y);
-    
+
     UIImage *img =[UIImage imageNamed:@"img_sample1"];
     card.userImage = [[UIImageView alloc] initWithImage:img];
     card.userImage.frame = CGRectMake(0, 0, 264.0, 356.0);
@@ -276,25 +272,22 @@
     self.savedFrame = card.userImage.frame;
     card.userImage.transform = CGAffineTransformMakeScale(0.01, 0.01);
     [card.view addSubview:card.userImage];
-    
-    
+
     [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-        
         card.userImage.frame = CGRectMake(card.view.center.x - card.userImage.frame.size.width/2.0, 257.0, card.userImage.frame.size.width, card.userImage.frame.size.height);
         card.userImage.transform = CGAffineTransformIdentity;
-        
     } completion:^(BOOL finished) {
-        
         [card.userImage removeFromSuperview];
         card.carouselView.hidden = NO;
         card.carouselView.currentItemView.hidden = NO;
-        
     }];
     
     _crossDissolveAnimationController.viewForInteraction = card.view;
     [self.navigationController pushViewController:card animated:YES];
-    
 }
+
+//==============================================================================
+
 - (void) startAnimation:(UIImageView *)image {
     //card.userImage.frame = CGRectMake(-20, test__.origin.y - 40.0, card.userImage.frame.size.width, card.userImage.frame.size.height);
     UIImage *img =[UIImage imageNamed:@"img_sample1"];
@@ -386,5 +379,142 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+//==============================================================================
+
+#pragma mark - Gesture recognizers -
+
+//==============================================================================
+
+- (void) addLongTapGestureRecognizer: (UIView*) cell
+{
+    UILongPressGestureRecognizer* longtapRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongTap:)];
+    [cell addGestureRecognizer: longtapRecognizer];
+}
+
+//==============================================================================
+
+- (IBAction) cellLongTap: (id)sender
+{
+    if ([sender isKindOfClass:[UILongPressGestureRecognizer class]] == NO)
+        return;
+    UILongPressGestureRecognizer* recognizer = sender;
+
+    if ([recognizer.view isKindOfClass:[HPMainViewListTableViewCell class]] == NO)
+        return;
+    HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)recognizer.view;
+
+    if (recognizer.state == UIGestureRecognizerStateBegan)
+        [self showPoint: cell];
+    
+    if (recognizer.state == UIGestureRecognizerStateEnded)
+        [self hidePoint: cell];
+}
+
+//==============================================================================
+
+#pragma mark - show point animation -
+
+//==============================================================================
+
+- (void) showPoint: (HPMainViewListTableViewCell*) cell
+{
+    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
+    
+    [UIView animateWithDuration: HALFHIDE_MAININFO_DURATION
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^
+                     {
+                         [self halfhideMaininfo: cell];
+                     }
+                     completion: ^(BOOL finished)
+                     {
+                         [self showpointCompletely: cell];
+                     }];
+}
+
+//==============================================================================
+ 
+- (void) hidePoint: (HPMainViewListTableViewCell*) cell
+{
+    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
+    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^
+                     {
+                        [self fadeawayPointText: cell];
+                     }
+                     completion: ^(BOOL finished)
+                     {
+                         [self showMainInfo: cell];
+                     }];
+}
+
+//==============================================================================
+
+- (void) showpointCompletely: (HPMainViewListTableViewCell*) cell
+{
+    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                      animations: ^
+                      {
+                          [self fullhideMaininfo: cell];
+                      }
+                      completion: ^(BOOL finished)
+                      {
+                      }];
+}
+
+//==============================================================================
+
+- (void) halfhideMaininfo: (HPMainViewListTableViewCell*) cell
+{
+    CGRect rect = cell.mainInfoGroup.frame;
+    rect.origin.x = -(rect.size.width + rect.origin.x) / 2.0;
+    cell.mainInfoGroup.frame = rect;
+}
+
+//==============================================================================
+
+- (void) fullhideMaininfo: (HPMainViewListTableViewCell*) cell
+{
+    cell.point.alpha = 1;
+    
+    CGRect rect = cell.mainInfoGroup.frame;
+    rect.origin.x = 2 * rect.origin.x;
+    cell.mainInfoGroup.frame = rect;
+}
+
+//==============================================================================
+
+- (void) fadeawayPointText: (HPMainViewListTableViewCell*) cell
+{
+    cell.point.alpha = 0.5;
+}
+
+//==============================================================================
+
+- (void) showMainInfo: (HPMainViewListTableViewCell*) cell
+{
+    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^
+                     {
+                         cell.point.alpha = 0.0;
+                         
+                         CGRect rect = cell.mainInfoGroup.frame;
+                         rect.origin.x = 12;
+                         cell.mainInfoGroup.frame = rect;
+                     }
+                     completion: ^(BOOL finished)
+                     {
+                     }];
+}
+
+//==============================================================================
 
 @end

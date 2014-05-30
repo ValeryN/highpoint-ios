@@ -146,6 +146,8 @@
 		3BDA4CAE1906628200EF6619 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDA4CAD1906628200EF6619 /* Security.framework */; };
 		3BEA72AF1924F8E500FDCA08 /* Close Round Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BEA72AD1924F8E500FDCA08 /* Close Round Tap.png */; };
 		3BEA72B01924F8E500FDCA08 /* Close Round.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BEA72AE1924F8E500FDCA08 /* Close Round.png */; };
+		4C4A012A1935FD9000B56126 /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C4A01291935FD9000B56126 /* Point Notice Tap.png */; };
+		4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C4A01291935FD9000B56126 /* Point Notice Tap.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -350,6 +352,7 @@
 		3BDA4CAD1906628200EF6619 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		3BEA72AD1924F8E500FDCA08 /* Close Round Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Round Tap.png"; sourceTree = "<group>"; };
 		3BEA72AE1924F8E500FDCA08 /* Close Round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Round.png"; sourceTree = "<group>"; };
+		4C4A01291935FD9000B56126 /* Point Notice Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice Tap.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -489,6 +492,8 @@
 				3BD12E5C192E0FEE0026BA11 /* Close.png */,
 				3B7D8AC2192CC8CE006BD206 /* Heart Tap.png */,
 				3B7D8AC3192CC8CE006BD206 /* Heart.png */,
+				4C4A01291935FD9000B56126 /* Point Notice Tap.png */,
+				3B8F366C1920B27C00C71E49 /* Point Notice.png */,
 				3B1FC629192A5429009DCD85 /* Point Tap.png */,
 				3B1FC62A192A5429009DCD85 /* Point.png */,
 				3B1FC623192A4608009DCD85 /* Green-Button-Tap-C.png */,
@@ -501,7 +506,6 @@
 				3B6E4EB21929F56F00CF670E /* Info.png */,
 				3BEA72AD1924F8E500FDCA08 /* Close Round Tap.png */,
 				3BEA72AE1924F8E500FDCA08 /* Close Round.png */,
-				3B8F366C1920B27C00C71E49 /* Point Notice.png */,
 				3B8F366A1920B1B200C71E49 /* Lens.png */,
 				3B3170C1191BC82A00B72AC1 /* Blend 5X.png */,
 				3B3170BF191BB55A00B72AC1 /* Rectangle.png */,
@@ -586,10 +590,9 @@
 			children = (
 				3BDA4C6B19064AE700EF6619 /* Networking */,
 				3BDA4C431906449D00EF6619 /* Utils */,
-				3B77908319001DAE00EE0D15 /* SupportClasses */,
 				3B77908219001DA100EE0D15 /* External */,
 				3B77908119001D9100EE0D15 /* CoreData */,
-				3BA384021924C9DD00EFC749 /*  AnimationController */,
+				3BA384021924C9DD00EFC749 /* AnimationController */,
 				3B6DB4C718FFCC4B00C26A50 /* ViewControllers */,
 				3B6DB4C618FFCC3200C26A50 /* AppDelegate */,
 				3B31864C191A493F0000DD8B /* Resources */,
@@ -648,7 +651,6 @@
 				3BD12E57192DFDF30026BA11 /* HPFilterSettingsViewController */,
 				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
 				3B3170B2191B9E7700B72AC1 /* HPSwitchViewController */,
-				3BDA4CA319065A0900EF6619 /* HPDetailUserInfoViewController */,
 				3BDA4C9E19064EC300EF6619 /* HPRootViewController */,
 			);
 			name = ViewControllers;
@@ -678,14 +680,7 @@
 			name = External;
 			sourceTree = "<group>";
 		};
-		3B77908319001DAE00EE0D15 /* SupportClasses */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = SupportClasses;
-			sourceTree = "<group>";
-		};
-		3BA384021924C9DD00EFC749 /*  AnimationController */ = {
+		3BA384021924C9DD00EFC749 /* AnimationController */ = {
 			isa = PBXGroup;
 			children = (
 				3BB5E8661935F43700DDF5F9 /* ModalAnimation.h */,
@@ -701,7 +696,7 @@
 				3B49DE221934CF2500C3EF1E /* HPSlideDownAnimation.h */,
 				3B49DE231934CF2500C3EF1E /* HPSlideDownAnimation.m */,
 			);
-			name = " AnimationController";
+			name = AnimationController;
 			sourceTree = "<group>";
 		};
 		3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */ = {
@@ -829,13 +824,6 @@
 			name = HPRootViewController;
 			sourceTree = "<group>";
 		};
-		3BDA4CA319065A0900EF6619 /* HPDetailUserInfoViewController */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = HPDetailUserInfoViewController;
-			sourceTree = "<group>";
-		};
 		3BDA4CA4190660B400EF6619 /* SocketRocket */ = {
 			isa = PBXGroup;
 			children = (
@@ -931,6 +919,7 @@
 				3B3170BD191BAFC200B72AC1 /* Switcher-L.png in Resources */,
 				3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */,
 				3B3170AB191B7E7600B72AC1 /* Userpic Shape Red.png in Resources */,
+				4C4A012A1935FD9000B56126 /* Point Notice Tap.png in Resources */,
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
 				3B1FC628192A4608009DCD85 /* Green-Button-Tap-R.png in Resources */,
 				3B318648191A3FF30000DD8B /* Storyboard_480.storyboard in Resources */,
@@ -1008,6 +997,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */,
 				3B6DB4B918FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
