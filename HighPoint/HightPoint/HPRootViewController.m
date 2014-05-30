@@ -226,10 +226,10 @@
     if (indexPath.row == 3)
         img = [img applyBlurWithRadius: 5.0];
 
-    UIImage* img_ = [img maskImageWithPattern: [UIImage imageNamed:@"Userpic Shape Green"]];
+    UIImage* img_ = [img maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask"]];
     mCell.userImageBorder.autoresizingMask = UIViewAutoresizingNone;
     mCell.userImage.autoresizingMask = UIViewAutoresizingNone;
-    mCell.userImage.image = img;
+    mCell.userImage.image = img_;
     mCell.userImageBorder.image = [UIImage imageNamed:@"Userpic Shape Green"];
     
     mCell.firstLabel.textColor = [UIColor whiteColor];
