@@ -14,7 +14,7 @@
 #import "Utils.h"
 #import "ScaleAnimation.h"
 #import "CrossDissolveAnimation.h"
-
+#import "UIImage+HighPoint.h"
 
 //==============================================================================
 
@@ -224,12 +224,12 @@
 
     UIImage* img =[UIImage imageNamed: @"img_sample1"];
     if (indexPath.row == 3)
-        img = [Utils applyBlurOnImage:img withRadius:10.0];
+        img = [img applyBlurWithRadius: 5.0];
 
-    UIImage* img_ = [Utils maskImage: img];
+    UIImage* img_ = [img maskImageWithPattern: [UIImage imageNamed:@"Userpic Shape Green"]];
     mCell.userImageBorder.autoresizingMask = UIViewAutoresizingNone;
     mCell.userImage.autoresizingMask = UIViewAutoresizingNone;
-    mCell.userImage.image = img_;
+    mCell.userImage.image = img;
     mCell.userImageBorder.image = [UIImage imageNamed:@"Userpic Shape Green"];
     
     mCell.firstLabel.textColor = [UIColor whiteColor];

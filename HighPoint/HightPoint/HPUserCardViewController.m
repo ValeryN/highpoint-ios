@@ -10,7 +10,8 @@
 
 #import "Utils.h"
 #import "ModalAnimation.h"
-//#import "Constants.h"
+#import "UIImage+HighPoint.h"
+
 @interface HPUserCardViewController ()  {
     ModalAnimation *_modalAnimationController;
 }
@@ -300,14 +301,16 @@
     temp.backgroundColor = [UIColor clearColor];
     
     
-    UIImage *blureImg = [Utils applyBlurOnImage:[Utils scaleImage:self.userImage.image toSize:CGSizeMake(264.0 + 90, 356.0 + 90)]  withRadius:30.0];
+    UIImage* scaledImage = [Utils scaleImage:self.userImage.image toSize:CGSizeMake(264.0 + 90, 356.0 + 90)];
+    UIImage *blureImg = [scaledImage applyBlurWithRadius: 30.0];
     UIImageView *blureImgView = [[UIImageView alloc] initWithImage:blureImg];
     blureImgView.frame = CGRectMake(0, 0, 264.0, 356.0);
     blureImgView.contentMode = UIViewContentModeScaleToFill;
 
     [temp addSubview:blureImgView];
     UIImage *img =[UIImage imageNamed:@"img_sample1"];
-    UIImage *img_ = [Utils maskImage:img];
+    
+    UIImage *img_ = [img maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask.png"]];
     UIImageView *avaImg = [[UIImageView alloc] initWithImage:img_];
     avaImg.frame = CGRectMake(84.0, 52, 92.0, 92.0);    //image size
     UIImageView *borderImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Userpic Shape Green"]];
