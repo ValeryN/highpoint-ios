@@ -18,7 +18,7 @@
 
 //==============================================================================
 
-#define HALFHIDE_MAININFO_DURATION 0.2
+#define HALFHIDE_MAININFO_DURATION 0.1
 #define SHOWPOINT_COMPLETELY_DURATION 0.2
 #define SHOWPOINT_VIBRATE_DURATION 0.4
 #define CELL_HEIGHT 104
