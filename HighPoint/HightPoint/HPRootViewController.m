@@ -20,6 +20,7 @@
 
 #define HALFHIDE_MAININFO_DURATION 0.2
 #define SHOWPOINT_COMPLETELY_DURATION 0.2
+#define SHOWPOINT_VIBRATE_DURATION 0.4
 #define CELL_HEIGHT 104
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 
@@ -390,6 +391,23 @@
 {
     UILongPressGestureRecognizer* longtapRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongTap:)];
     [cell addGestureRecognizer: longtapRecognizer];
+    
+    UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTap:)];
+    [cell addGestureRecognizer: tapRecognizer];
+}
+
+//==============================================================================
+
+- (IBAction) cellTap: (id)sender
+{
+    if ([sender isKindOfClass:[UITapGestureRecognizer class]] == NO)
+        return;
+    UITapGestureRecognizer* recognizer = sender;
+    
+    if ([recognizer.view isKindOfClass:[HPMainViewListTableViewCell class]] == NO)
+        return;
+    HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)recognizer.view;
+    [self vibrateThePoint: cell];
 }
 
 //==============================================================================
@@ -399,14 +417,14 @@
     if ([sender isKindOfClass:[UILongPressGestureRecognizer class]] == NO)
         return;
     UILongPressGestureRecognizer* recognizer = sender;
-
+    
     if ([recognizer.view isKindOfClass:[HPMainViewListTableViewCell class]] == NO)
         return;
     HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)recognizer.view;
 
     if (recognizer.state == UIGestureRecognizerStateBegan)
         [self showPoint: cell];
-    
+
     if (recognizer.state == UIGestureRecognizerStateEnded)
         [self hidePoint: cell];
 }
@@ -414,6 +432,39 @@
 //==============================================================================
 
 #pragma mark - show point animation -
+
+//==============================================================================
+
+- (void) vibrateThePoint: (HPMainViewListTableViewCell*) cell
+{
+    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
+    
+    [UIView animateWithDuration: SHOWPOINT_VIBRATE_DURATION / 2
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^
+                     {
+                         CGRect rect = cell.mainInfoGroup.frame;
+                         rect.origin.x = 0;//-(rect.size.width + rect.origin.x) / 8.0;
+                         cell.mainInfoGroup.frame = rect;
+                     }
+                     completion: ^(BOOL finished)
+                     {
+                         [UIView animateWithDuration: SHOWPOINT_VIBRATE_DURATION / 2
+                                               delay: 0
+                                             options: UIViewAnimationOptionCurveLinear
+                                          animations: ^
+                                          {
+                                              CGRect rect = cell.mainInfoGroup.frame;
+                                              rect.origin.x = 12;
+                                              cell.mainInfoGroup.frame = rect;
+                                          }
+                                          completion: ^(BOOL finished)
+                                          {
+                                              cell.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
+                                          }];
+                     }];
+}
 
 //==============================================================================
 

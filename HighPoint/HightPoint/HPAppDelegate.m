@@ -33,16 +33,8 @@
     //[[initViewController navigationController].navigationBar setBarTintColor:[UIColor whiteColor]];
     
     [self.window setRootViewController:initViewController];
-    for (NSString* family in [UIFont familyNames])
-    {
-        NSLog(@"%@", family);
-        
-        for (NSString* name in [UIFont fontNamesForFamilyName: family])
-        {
-            NSLog(@"  %@", name);
-        }
-    }
     [self.window makeKeyAndVisible];
+
     return YES;
 }
 
