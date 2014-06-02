@@ -117,10 +117,14 @@
 
 //==============================================================================
 
-- (void)tapGesture:(UIPanGestureRecognizer *)recognizer
+- (void)tapGesture: (UIPanGestureRecognizer *)recognizer
 {
     [self animationViewsUp];
 }
+
+//==============================================================================
+
+#pragma mark - HPUserProfileViewControllerDelegate -
 
 //==============================================================================
 
@@ -133,36 +137,54 @@
 
 - (void) animationViewsUp
 {
-    UIImage *captureImg = [Utils captureView:self.carouselView.currentItemView withArea:CGRectMake(0, 0, self.carouselView.currentItemView.frame.size.width, self.carouselView.currentItemView.frame.size.height)];
+    CGRect rect = CGRectMake(0, 0, self.carouselView.currentItemView.frame.size.width, self.carouselView.currentItemView.frame.size.height);
+    UIImage *captureImg = [Utils captureView: self.carouselView.currentItemView
+                                    withArea: rect];
     
     //need get cell from left and right
     UIView* leftView;
     UIView* rightView;
-    
-    NSLog(@"%d",self.carouselView.currentItemIndex);
-    NSLog(@"%d",self.carouselView.numberOfItems);
-    
-    if(self.carouselView.currentItemIndex > 0 && self.carouselView.currentItemIndex < self.carouselView.numberOfItems && self.carouselView.currentItemIndex != self.carouselView.numberOfItems - 1) {
-        leftView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex-1];
-        rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex+1];
-    } else if(self.carouselView.currentItemIndex == 0) {
-        leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 1];
-        rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex+1];
-    } else if(self.carouselView.currentItemIndex == self.carouselView.numberOfItems - 1) {
-        leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 2];
-        rightView = [self.carouselView itemViewAtIndex: 0];
+
+    if ((self.carouselView.currentItemIndex > 0) &&
+        (self.carouselView.currentItemIndex < self.carouselView.numberOfItems) &&
+        (self.carouselView.currentItemIndex != self.carouselView.numberOfItems - 1))
+    {
+        leftView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex - 1];
+        rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex + 1];
+    }
+    else
+    {
+        if (self.carouselView.currentItemIndex == 0)
+        {
+            leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 1];
+            rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex + 1];
+        }
+        else
+        {
+            if (self.carouselView.currentItemIndex == self.carouselView.numberOfItems - 1)
+            {
+                leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 2];
+                rightView = [self.carouselView itemViewAtIndex: 0];
+            }
+        }
     }
     
-    UIImage *captureImgLeft = [Utils captureView:leftView withArea:CGRectMake(0, 0, leftView.frame.size.width, leftView.frame.size.height)];
-    UIImage *captureImgRight = [Utils captureView:rightView withArea:CGRectMake(0, 0, rightView.frame.size.width, rightView.frame.size.height)];
+    rect = CGRectMake(0, 0, leftView.frame.size.width, leftView.frame.size.height);
+    UIImage *captureImgLeft = [Utils captureView:leftView withArea: rect];
     
-    self.captView = [[UIImageView alloc] initWithImage:captureImg];
-    self.captViewLeft = [[UIImageView alloc] initWithImage:captureImgLeft];
-    self.captViewRight = [[UIImageView alloc] initWithImage:captureImgRight];
+    rect = CGRectMake(0, 0, rightView.frame.size.width, rightView.frame.size.height);
+    UIImage *captureImgRight = [Utils captureView:rightView withArea: rect];
     
-    CGRect result = [self.view convertRect:self.carouselView.currentItemView.frame fromView:self.carouselView.currentItemView];
-    CGRect resultLeft = [self.view convertRect:leftView.frame fromView:leftView];
-    CGRect resultRight = [self.view convertRect:rightView.frame fromView:rightView];
+    self.captView = [[UIImageView alloc] initWithImage: captureImg];
+    self.captViewLeft = [[UIImageView alloc] initWithImage: captureImgLeft];
+    self.captViewRight = [[UIImageView alloc] initWithImage: captureImgRight];
+    
+    CGRect result = [self.view convertRect: self.carouselView.currentItemView.frame
+                                  fromView: self.carouselView.currentItemView];
+    CGRect resultLeft = [self.view convertRect: leftView.frame
+                                      fromView: leftView];
+    CGRect resultRight = [self.view convertRect: rightView.frame
+                                       fromView: rightView];
     self.captView.frame = result;
     self.captViewLeft.frame = resultLeft;
     self.captViewRight.frame = resultRight;
@@ -179,45 +201,53 @@
     self.captViewRight.layer.anchorPoint = CGPointMake(1.0, 1.0);
     self.captViewRight.frame = originalFrame;
     
-    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-        
-        self.captView.frame = CGRectMake(self.captView.frame.origin.x, self.captView.frame.origin.y - 450.0, self.captView.frame.size.width, self.captView.frame.size.height);
-        self.captViewLeft.transform = CGAffineTransformMakeRotation(M_PI * 1.5);
-        self.captViewRight.transform = CGAffineTransformMakeRotation(M_PI * -1.5);
-        
-    } completion:^(BOOL finished) {
-    }];
+    [UIView animateWithDuration: 0.7
+                          delay: 0
+                        options: UIViewAnimationOptionTransitionNone
+                     animations: ^
+                                {
+                                    CGRect captviewRect = CGRectMake(self.captView.frame.origin.x,
+                                                                     self.captView.frame.origin.y - 450.0,
+                                                                     self.captView.frame.size.width,
+                                                                     self.captView.frame.size.height);
+                                    self.captView.frame = captviewRect;
+                                    self.captViewLeft.transform = CGAffineTransformMakeRotation(M_PI * 1.5);
+                                    self.captViewRight.transform = CGAffineTransformMakeRotation(M_PI * -1.5);
+                                }
+                     completion: ^(BOOL finished)
+                                {
+                                }];
 
     HPUserProfileViewController *modal = [[HPUserProfileViewController alloc] initWithNibName: @"HPUserProfile" bundle: nil];
     modal.delegate = self;
     modal.transitioningDelegate = self;
     modal.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController:modal animated:YES completion:nil];
+    [self presentViewController: modal animated: YES completion: nil];
 }
 
 //==============================================================================
 
 - (void) animationViewsDown
 {
-    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-        
-        self.captView.frame = CGRectMake(self.captView.frame.origin.x, self.captView.frame.origin.y + 450.0, self.captView.frame.size.width, self.captView.frame.size.height);
-        self.captViewLeft.transform = CGAffineTransformIdentity;
-        self.captViewRight.transform = CGAffineTransformIdentity;
-        
-    } completion:^(BOOL finished) {
-        NSLog(@"end animation1");
-        [self.captView removeFromSuperview];
-        [self.captViewLeft removeFromSuperview];
-        [self.captViewRight removeFromSuperview];
-        self.captView = nil;
-        self.captViewLeft  = nil;
-        self.captViewRight =  nil;
-        self.carouselView.hidden = NO;
-        NSLog(@"end animation2");
-
-    }];
-
+    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^
+                        {
+                            self.captView.frame = CGRectMake(self.captView.frame.origin.x,
+                                                             self.captView.frame.origin.y + 450.0,
+                                                             self.captView.frame.size.width,
+                                                             self.captView.frame.size.height);
+                            self.captViewLeft.transform = CGAffineTransformIdentity;
+                            self.captViewRight.transform = CGAffineTransformIdentity;
+                        }
+                     completion:^(BOOL finished)
+                        {
+                            [self.captView removeFromSuperview];
+                            [self.captViewLeft removeFromSuperview];
+                            [self.captViewRight removeFromSuperview];
+                            self.captView = nil;
+                            self.captViewLeft  = nil;
+                            self.captViewRight =  nil;
+                            self.carouselView.hidden = NO;
+                        }];
 }
 
 //==============================================================================
