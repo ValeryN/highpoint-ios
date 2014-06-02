@@ -152,15 +152,9 @@
 
 - (IBAction) filterButtonTap: (id)sender
 {
-    UIStoryboard *storyBoard;
-    //self.view.userInteractionEnabled = NO;
-    storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
-    
-    HPFilterSettingsViewController *filter = [storyBoard instantiateViewControllerWithIdentifier:@"HPFilterSettingsViewController"];
-     
+    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName:@"HPFilterSettings" bundle:nil];
     _crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:filter animated:YES];
-
 }
 
 //==============================================================================
@@ -199,9 +193,9 @@
 
     UIImage* img =[UIImage imageNamed: @"img_sample1"];
     if (indexPath.row == 3)
-        img = [img applyBlurWithRadius: 5.0];
+        img = [img hp_applyBlurWithRadius: 5.0];
 
-    UIImage* img_ = [img maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask"]];
+    UIImage* img_ = [img hp_maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask"]];
     mCell.userImageBorder.autoresizingMask = UIViewAutoresizingNone;
     mCell.userImage.autoresizingMask = UIViewAutoresizingNone;
     mCell.userImage.image = img_;

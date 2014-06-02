@@ -6,31 +6,35 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
+//==============================================================================
+
 #import "HPUserCardViewController.h"
-
 #import "Utils.h"
-#import "ModalAnimation.h"
 #import "UIImage+HighPoint.h"
+#import "UINavigationController+HighPoint.h"
 
-@interface HPUserCardViewController ()  {
-    ModalAnimation *_modalAnimationController;
-}
-@end
+//==============================================================================
+
+#define ICAROUSEL_ITEMS_COUNT 20
+#define ICAROUSEL_ITEMS_WIDTH 264.0
+
+//==============================================================================
 
 @implementation HPUserCardViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+//==============================================================================
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self initObjects];
+}
+
+//==============================================================================
+
+- (void) initObjects
+{
     self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
     self.carouselView.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
     [self.profileButton setBackgroundImage:[UIImage imageNamed:@"Profile.png"] forState:UIControlStateNormal];
@@ -57,84 +61,107 @@
     
     self.carouselView.type = iCarouselTypeRotary;
     self.carouselView.decelerationRate = 0.7;
-    //_carousel.bounceDistance = 0.1;
     self.carouselView.scrollEnabled = YES;
     self.carouselView.exclusiveTouch = YES;
     
     self.carouselView.delegate = self;
     self.carouselView.dataSource = self;
     self.carouselView.hidden = YES;
-    
-    _modalAnimationController = [[ModalAnimation alloc] init];
-    // Do any additional setup after loading the view.
 }
-- (void) viewDidAppear:(BOOL)animated {
+
+//==============================================================================
+
+- (void) viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
-    //[self.navigationController setNavigationBarHidden:YES];
+
     self.carouselView.currentItemView.hidden = YES;
     self.carouselView.currentItemView.layer.cornerRadius = 5;
     self.carouselView.currentItemView.layer.masksToBounds = YES;
 }
-- (void) viewWillAppear:(BOOL)animated {
+
+//==============================================================================
+
+- (void) viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
-    //[self addTapGesture];
-}
-- (void) viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-}
-#pragma mark - Transitioning Delegate (Modal)
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-    _modalAnimationController.type = AnimationTypePresent;
-    return _modalAnimationController;
 }
 
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-    _modalAnimationController.type = AnimationTypeDismiss;
-    return _modalAnimationController;
-}
+//==============================================================================
 
-#pragma mark -
-#pragma mark handle tap gesture
-- (void)tapGesture:(UIPanGestureRecognizer *)recognizer {
-    NSLog(@"boom boom");
+#pragma mark - handle tap gesture -
+
+//==============================================================================
+
+- (void)tapGesture: (UIPanGestureRecognizer *)recognizer
+{
     [self animationViewsUp];
 }
-- (void)profileWillBeHidden {
+
+//==============================================================================
+
+#pragma mark - HPUserProfileViewControllerDelegate -
+
+//==============================================================================
+
+- (void)profileWillBeHidden
+{
     [self animationViewsDown];
 }
-- (void) animationViewsUp {
-    UIImage *captureImg = [Utils captureView:self.carouselView.currentItemView withArea:CGRectMake(0, 0, self.carouselView.currentItemView.frame.size.width, self.carouselView.currentItemView.frame.size.height)];
+
+//==============================================================================
+
+- (void) animationViewsUp
+{
+    CGRect rect = CGRectMake(0, 0, self.carouselView.currentItemView.frame.size.width, self.carouselView.currentItemView.frame.size.height);
+    UIImage *captureImg = [Utils captureView: self.carouselView.currentItemView
+                                    withArea: rect];
     
     //need get cell from left and right
     UIView* leftView;
     UIView* rightView;
-    
-    NSLog(@"%d",self.carouselView.currentItemIndex);
-    NSLog(@"%d",self.carouselView.numberOfItems);
-    
-    if(self.carouselView.currentItemIndex > 0 && self.carouselView.currentItemIndex < self.carouselView.numberOfItems && self.carouselView.currentItemIndex != self.carouselView.numberOfItems - 1) {
-        leftView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex-1];
-        rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex+1];
-    } else if(self.carouselView.currentItemIndex == 0) {
-        leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 1];
-        rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex+1];
-    } else if(self.carouselView.currentItemIndex == self.carouselView.numberOfItems - 1) {
-        leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 2];
-        rightView = [self.carouselView itemViewAtIndex: 0];
+
+    if ((self.carouselView.currentItemIndex > 0) &&
+        (self.carouselView.currentItemIndex < self.carouselView.numberOfItems) &&
+        (self.carouselView.currentItemIndex != self.carouselView.numberOfItems - 1))
+    {
+        leftView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex - 1];
+        rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex + 1];
+    }
+    else
+    {
+        if (self.carouselView.currentItemIndex == 0)
+        {
+            leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 1];
+            rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex + 1];
+        }
+        else
+        {
+            if (self.carouselView.currentItemIndex == self.carouselView.numberOfItems - 1)
+            {
+                leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 2];
+                rightView = [self.carouselView itemViewAtIndex: 0];
+            }
+        }
     }
     
-    UIImage *captureImgLeft = [Utils captureView:leftView withArea:CGRectMake(0, 0, leftView.frame.size.width, leftView.frame.size.height)];
-    UIImage *captureImgRight = [Utils captureView:rightView withArea:CGRectMake(0, 0, rightView.frame.size.width, rightView.frame.size.height)];
+    rect = CGRectMake(0, 0, leftView.frame.size.width, leftView.frame.size.height);
+    UIImage *captureImgLeft = [Utils captureView:leftView withArea: rect];
     
-    self.captView = [[UIImageView alloc] initWithImage:captureImg];
-    self.captViewLeft = [[UIImageView alloc] initWithImage:captureImgLeft];
-    self.captViewRight = [[UIImageView alloc] initWithImage:captureImgRight];
+    rect = CGRectMake(0, 0, rightView.frame.size.width, rightView.frame.size.height);
+    UIImage *captureImgRight = [Utils captureView:rightView withArea: rect];
     
-    CGRect result = [self.view convertRect:self.carouselView.currentItemView.frame fromView:self.carouselView.currentItemView];
-    CGRect resultLeft = [self.view convertRect:leftView.frame fromView:leftView];
-    CGRect resultRight = [self.view convertRect:rightView.frame fromView:rightView];
+    self.captView = [[UIImageView alloc] initWithImage: captureImg];
+    self.captViewLeft = [[UIImageView alloc] initWithImage: captureImgLeft];
+    self.captViewRight = [[UIImageView alloc] initWithImage: captureImgRight];
+    
+    CGRect result = [self.view convertRect: self.carouselView.currentItemView.frame
+                                  fromView: self.carouselView.currentItemView];
+    CGRect resultLeft = [self.view convertRect: leftView.frame
+                                      fromView: leftView];
+    CGRect resultRight = [self.view convertRect: rightView.frame
+                                       fromView: rightView];
     self.captView.frame = result;
     self.captViewLeft.frame = resultLeft;
     self.captViewRight.frame = resultRight;
@@ -151,86 +178,89 @@
     self.captViewRight.layer.anchorPoint = CGPointMake(1.0, 1.0);
     self.captViewRight.frame = originalFrame;
     
-    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-        
-        self.captView.frame = CGRectMake(self.captView.frame.origin.x, self.captView.frame.origin.y - 450.0, self.captView.frame.size.width, self.captView.frame.size.height);
-        self.captViewLeft.transform = CGAffineTransformMakeRotation(M_PI * 1.5);
-        self.captViewRight.transform = CGAffineTransformMakeRotation(M_PI * -1.5);
-        
-    } completion:^(BOOL finished) {
-    }];
-    
-    
-    /*
-    
-    [UIView animateKeyframesWithDuration:1.7 delay:0.0 options:0 animations:^{
-        [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.15 animations:^{
-            //90 degrees (clockwise)
-           
-        }];
-        
-    } completion:^(BOOL finished) {
-        
-    }];
-    */
-    UIStoryboard *storyBoard;
-    //self.view.userInteractionEnabled = NO;
-    storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
-    HPUserProfileViewController *modal = [storyBoard instantiateViewControllerWithIdentifier:@"HPUserProfileViewController"];
+    [UIView animateWithDuration: 0.7
+                          delay: 0
+                        options: UIViewAnimationOptionTransitionNone
+                     animations: ^
+                                {
+                                    CGRect captviewRect = CGRectMake(self.captView.frame.origin.x,
+                                                                     self.captView.frame.origin.y - 450.0,
+                                                                     self.captView.frame.size.width,
+                                                                     self.captView.frame.size.height);
+                                    self.captView.frame = captviewRect;
+                                    self.captViewLeft.transform = CGAffineTransformMakeRotation(M_PI * 1.5);
+                                    self.captViewRight.transform = CGAffineTransformMakeRotation(M_PI * -1.5);
+                                }
+                     completion: ^(BOOL finished)
+                                {
+                                }];
+
+    HPUserProfileViewController *modal = [[HPUserProfileViewController alloc] initWithNibName: @"HPUserProfile" bundle: nil];
     modal.delegate = self;
-    modal.transitioningDelegate = self;
-    modal.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController:modal animated:YES completion:nil];
-}
-- (void) animationViewsDown {
-    
-    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-        
-        self.captView.frame = CGRectMake(self.captView.frame.origin.x, self.captView.frame.origin.y + 450.0, self.captView.frame.size.width, self.captView.frame.size.height);
-        self.captViewLeft.transform = CGAffineTransformIdentity;
-        self.captViewRight.transform = CGAffineTransformIdentity;
-        
-    } completion:^(BOOL finished) {
-        NSLog(@"end animation1");
-        [self.captView removeFromSuperview];
-        [self.captViewLeft removeFromSuperview];
-        [self.captViewRight removeFromSuperview];
-        self.captView = nil;
-        self.captViewLeft  = nil;
-        self.captViewRight =  nil;
-        self.carouselView.hidden = NO;
-        NSLog(@"end animation2");
-
-    }];
-
+    [self.navigationController hp_presentViewController: modal];
 }
 
-#pragma mark -
-#pragma mark Navigation bar button tap handler
-- (void) profileButtonPressedStart:(UIButton *)sender {
-    //[self showNotification];
+//==============================================================================
+
+- (void) animationViewsDown
+{
+    [UIView animateWithDuration: 0.7
+                          delay: 0
+                        options: UIViewAnimationOptionTransitionNone
+                     animations: ^
+                        {
+                            self.captView.frame = CGRectMake(self.captView.frame.origin.x,
+                                                             self.captView.frame.origin.y + 450.0,
+                                                             self.captView.frame.size.width,
+                                                             self.captView.frame.size.height);
+                            self.captViewLeft.transform = CGAffineTransformIdentity;
+                            self.captViewRight.transform = CGAffineTransformIdentity;
+                        }
+                     completion:^(BOOL finished)
+                        {
+                            [self.captView removeFromSuperview];
+                            [self.captViewLeft removeFromSuperview];
+                            [self.captViewRight removeFromSuperview];
+                            self.captView = nil;
+                            self.captViewLeft  = nil;
+                            self.captViewRight =  nil;
+                            self.carouselView.hidden = NO;
+                        }];
+    [self.navigationController hp_popViewController];
 }
-- (void) messageButtonPressedStart:(UIButton *)sender {
-    //[self showNotification];
+
+//==============================================================================
+
+#pragma mark - Navigation bar button tap handler -
+
+//==============================================================================
+
+- (void) profileButtonPressedStart:(UIButton *)sender
+{
+
 }
-- (void) backButtonPressedStart:(id) sender {
-    //[self showNotification];
-    //[self.userImage removeFromSuperview];
+
+//==============================================================================
+
+- (void) messageButtonPressedStart:(UIButton *)sender
+{
+
+}
+
+//==============================================================================
+
+- (void) backButtonPressedStart:(id) sender
+{
     [self.delegate startAnimation:self.userImage];
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (void) pointButtonTap:(id) sender {
+
+//==============================================================================
+
+- (void) pointButtonTap:(id) sender
+{
     
     self.viewState = !self.viewState;
-    //[UIView beginAnimations:nil context:NULL];
-    //[UIView setAnimationDuration:0.75];
-    // checks to see if the view is attached
-    //[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
-    //                       forView:self.carouselView.currentItemView
-    //                         cache:YES];
-    
-    //[UIView commitAnimations];
-    
     if(self.viewState) {
         //flip from right
         
@@ -273,7 +303,11 @@
     self.carouselView.currentItemView.layer.masksToBounds = YES;
 
 }
-- (UIView*) getCardTopSide {
+
+//==============================================================================
+
+- (UIView*) getCardTopSide
+{
     UIView *temp = [[UIView alloc] initWithFrame:self.carouselView.currentItemView.frame];
     temp.backgroundColor = [UIColor clearColor];
     UIButton *infoButton = [[UIButton alloc] initWithFrame:CGRectMake(12.0, 312, 32.0, 32.0)];
@@ -296,13 +330,17 @@
     [temp addSubview:messButton];
     return temp;
 }
-- (UIView*) getCardBottomSide {
+
+//==============================================================================
+
+- (UIView*) getCardBottomSide
+{
     UIView *temp = [[UIView alloc] initWithFrame:self.carouselView.currentItemView.frame];
     temp.backgroundColor = [UIColor clearColor];
     
     
     UIImage* scaledImage = [Utils scaleImage:self.userImage.image toSize:CGSizeMake(264.0 + 90, 356.0 + 90)];
-    UIImage *blureImg = [scaledImage applyBlurWithRadius: 30.0];
+    UIImage *blureImg = [scaledImage hp_applyBlurWithRadius: 30.0];
     UIImageView *blureImgView = [[UIImageView alloc] initWithImage:blureImg];
     blureImgView.frame = CGRectMake(0, 0, 264.0, 356.0);
     blureImgView.contentMode = UIViewContentModeScaleToFill;
@@ -310,7 +348,7 @@
     [temp addSubview:blureImgView];
     UIImage *img =[UIImage imageNamed:@"img_sample1"];
     
-    UIImage *img_ = [img maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask.png"]];
+    UIImage *img_ = [img hp_maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask.png"]];
     UIImageView *avaImg = [[UIImageView alloc] initWithImage:img_];
     avaImg.frame = CGRectMake(84.0, 52, 92.0, 92.0);    //image size
     UIImageView *borderImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Userpic Shape Green"]];
@@ -368,32 +406,42 @@
     [temp addSubview:pointButton];
     return temp;
 }
-- (UIImageView*) getBackgroundImage {
-    
+
+//==============================================================================
+
+- (UIImageView*) getBackgroundImage
+{
     UIImageView *iv = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, 264.0, 356.0)];
     [(UIImageView*) iv setContentMode:UIViewContentModeScaleToFill];
     [(UIImageView*) iv setImage:self.userImage.image];
     return iv;
 }
+
+//==============================================================================
+
 - (CGFloat)carouselItemWidth:(iCarousel*)carousel
 {
-    return 264.0;
+    return ICAROUSEL_ITEMS_WIDTH;
 }
-#pragma mark -
-#pragma mark iCarousel methods
+
+//==============================================================================
+
+#pragma mark - iCarousel methods -
+
+//==============================================================================
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
 {
     //return the total number of items in the carousel
-    return 20;
+    return ICAROUSEL_ITEMS_COUNT;
 }
+
+//==============================================================================
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
 {
    if (view == nil)
     {
-        //view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 264.0, 356.0)];
-        //view.contentMode = UIViewContentModeScaleAspectFit;
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 264.0, 356.0)];
         UIImageView *iv = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, 264.0, 356.0)];
         [(UIImageView*) iv setContentMode:UIViewContentModeScaleToFill];
@@ -406,7 +454,10 @@
     }
     return view;
 }
-- (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
+
+//==============================================================================
+
+- (CGFloat)carousel: (iCarousel *)carousel valueForOption: (iCarouselOption)option withDefault:(CGFloat)value
 {
     switch (option)
     {
@@ -424,11 +475,18 @@
             return value;
     }
 }
-- (void)carouselDidEndDragging:(iCarousel *)carousel willDecelerate:(BOOL)decelerate {
-    //self.bannerView.contentOffset
+
+//==============================================================================
+
+- (void)carouselDidEndDragging: (iCarousel *)carousel willDecelerate: (BOOL)decelerate
+{
     self.dragging = YES;
 }
-- (void) clearViewForIndex:(NSInteger) index andImage:(BOOL) clear  {
+
+//==============================================================================
+
+- (void) clearViewForIndex:(NSInteger) index andImage:(BOOL) clear
+{
     UIView* prevView = [self.carouselView itemViewAtIndex:index];
     [prevView removeGestureRecognizer:self.tapGesture];
     self.tapGesture = nil;
@@ -442,17 +500,12 @@
         }
     }
 }
-- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel {
-    
-    //NSLog(@"%f", self.carouselView.currentItemView.frame.size.width);
-    //NSLog(@"%f", self.carouselView.currentItemView.frame.size.height);
+
+//==============================================================================
+
+- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel
+{
     [self clearViewForIndex:self.prevIndex andImage:NO];
-    
-    //if(self.carouselView.currentItemIndex > self.prevIndex) {
-    //    NSLog(@"right to left");
-    //} else {
-    //    NSLog(@"left to right");
-    //}
     if(self.dragging) {
         self.dragging = NO;
         UIView *animV =[self getCardTopSide];
@@ -478,10 +531,12 @@
         [self.tapGesture setDelegate:self];
         [self.carouselView.currentItemView addGestureRecognizer:self.tapGesture];
     }
-
 }
-- (void) messButtonPressedStart:(UIButton *)sender{
-    
+
+//==============================================================================
+
+- (void) messButtonPressedStart:(UIButton *)sender
+{
     [self.messButtonView removeFromSuperview];
     self.messButtonView = nil;
     self.messButtonView = [Utils getViewForGreenButtonForText:@"Написать ей" andTapped:YES];
@@ -489,8 +544,11 @@
     [self.carouselView.currentItemView insertSubview:self.messButtonView belowSubview:sender];
 
 }
-- (void) messButtonPressedStop:(UIButton *)sender {
-    
+
+//==============================================================================
+
+- (void) messButtonPressedStop:(UIButton *)sender
+{
     [self.messButtonView removeFromSuperview];
     self.messButtonView = nil;
     self.messButtonView = [Utils getViewForGreenButtonForText:@"Написать ей" andTapped:NO];
@@ -498,30 +556,13 @@
     [self.carouselView.currentItemView insertSubview:self.messButtonView belowSubview:sender];
 
 }
-/*
-- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index{
-    
-}
- */
+
+//==============================================================================
+
 - (void) showReceiptViewController:(NSString*) articleName {
     
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+//==============================================================================
 
 @end

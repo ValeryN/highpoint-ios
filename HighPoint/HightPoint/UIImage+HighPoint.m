@@ -16,8 +16,11 @@
 
 //==============================================================================
 
-- (UIImage*) maskImageWithPattern: (UIImage*) pattern
+- (UIImage*) hp_maskImageWithPattern: (UIImage*) pattern
 {
+    if (pattern == nil)
+        return nil;
+    
     CGImageRef sourceImage = self.CGImage;
     CGImageRef imageWithAlpha = sourceImage;
 
@@ -35,7 +38,7 @@
 
 //==============================================================================
 
-- (UIImage*) applyBlurWithRadius: (CGFloat) blurRadius
+- (UIImage*) hp_applyBlurWithRadius: (CGFloat) blurRadius
 {
     CIImage* originalImage = [CIImage imageWithCGImage: self.CGImage];
     CIFilter* filter = [CIFilter filterWithName: @"CIGaussianBlur"

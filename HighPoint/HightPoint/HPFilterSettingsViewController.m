@@ -159,13 +159,9 @@
         }
 }
 - (IBAction) townSelectTap:(id)sender {
-    UIStoryboard *storyBoard;
-    //self.view.userInteractionEnabled = NO;
-    storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
-    HPSelectTownViewController *town = [storyBoard instantiateViewControllerWithIdentifier:@"HPSelectTownViewController"];
+    HPSelectTownViewController *town = [[HPSelectTownViewController alloc] initWithNibName: @"HPSelectTown" bundle: nil];
     self.savedDelegate = self.navigationController.delegate;
     self.navigationController.delegate = nil;
-    //_crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:town animated:YES];
 }
 - (void) updateSliderLabels {
@@ -189,23 +185,5 @@
 - (IBAction)labelSliderChanged:(NMRangeSlider*)sender   {
     [self updateSliderLabels];
 }
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

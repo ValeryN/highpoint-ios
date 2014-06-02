@@ -6,12 +6,17 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
+//==============================================================================
+
 #import <UIKit/UIKit.h>
+
+//==============================================================================
 
 @protocol  HPUserProfileViewControllerDelegate <NSObject>
 - (void)profileWillBeHidden;
 @end
 
+//==============================================================================
 
 @interface HPUserProfileViewController : UIViewController
 @property (nonatomic, weak) IBOutlet UIButton *downButton;
