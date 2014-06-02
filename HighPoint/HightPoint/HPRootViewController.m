@@ -289,18 +289,6 @@
 
 //==============================================================================
 
-- (UIImage *)applyBlurOnImage: (UIImage *)imageToBlur withRadius: (CGFloat)blurRadius
-{
-    CIImage *originalImage = [CIImage imageWithCGImage: imageToBlur.CGImage];
-    CIFilter *filter = [CIFilter filterWithName: @"CIGaussianBlur" keysAndValues: kCIInputImageKey, originalImage, @"inputRadius", @(blurRadius), nil];
-    CIImage *outputImage = filter.outputImage;
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CGImageRef outImage = [context createCGImage: outputImage fromRect: [outputImage extent]];
-    return [UIImage imageWithCGImage: outImage];
-}
-
-//==============================================================================
-
 #pragma mark - Notification view hide/show method -
 
 //==============================================================================
