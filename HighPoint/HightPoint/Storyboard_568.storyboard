@@ -83,6 +83,7 @@
                                             <outlet property="point" destination="bwY-Gy-lWp" id="9XC-am-whB"/>
                                             <outlet property="secondLabel" destination="bMB-4H-hBy" id="SdI-v6-BhP"/>
                                             <outlet property="showPointButton" destination="WWu-Bc-zmw" id="we9-Xw-NHA"/>
+                                            <outlet property="showPointGroup" destination="IHw-GO-4eP" id="BOV-M9-IaV"/>
                                             <outlet property="userImage" destination="MKe-7w-58l" id="Vmc-qE-wiP"/>
                                             <outlet property="userImageBorder" destination="SMf-Xd-NcU" id="YWe-0F-9GP"/>
                                         </connections>
@@ -120,112 +121,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0a2-YX-SYV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="739" y="23"/>
-        </scene>
-        <!--Switch View Controller-->
-        <scene sceneID="B9t-tf-R3L">
-            <objects>
-                <viewController storyboardIdentifier="HPSwitchViewController" id="MY0-fQ-E2R" customClass="HPSwitchViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="cf4-Ms-mZ8">
-                        <rect key="frame" x="0.0" y="0.0" width="193" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Rectangle" id="zab-CA-OE6">
-                                <rect key="frame" x="0.0" y="0.0" width="193" height="32"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jch-Ot-tLX">
-                                <rect key="frame" x="4" y="5" width="79" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hii-pB-Zib">
-                                <rect key="frame" x="111" y="5" width="79" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </view>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="193" height="32"/>
-                    <connections>
-                        <outlet property="leftLabel" destination="jch-Ot-tLX" id="5dW-uJ-FCu"/>
-                        <outlet property="rightLabel" destination="hii-pB-Zib" id="cM8-pM-9dK"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="b5o-yr-uuQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1097" y="23"/>
-        </scene>
-        <!--User Card View Controller-->
-        <scene sceneID="ODN-CE-6cL">
-            <objects>
-                <viewController storyboardIdentifier="HPUserCardViewController" id="VGi-hN-chS" customClass="HPUserCardViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Xxu-3l-dxA">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CZY-M0-THU">
-                                <rect key="frame" x="16" y="29" width="26" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Fhf-bN-nwt">
-                                <rect key="frame" x="278" y="29" width="26" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rrO-XP-CRf">
-                                <rect key="frame" x="144" y="516" width="32" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <view contentMode="scaleToFill" id="xuC-qL-ckS" customClass="iCarousel">
-                                <rect key="frame" x="0.0" y="80" width="320" height="356"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lkK-u5-bvj">
-                                <rect key="frame" x="0.0" y="438" width="320" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Asm-Ft-PYa">
-                                <rect key="frame" x="0.0" y="478" width="320" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <connections>
-                        <outlet property="backButton" destination="rrO-XP-CRf" id="1bv-hE-718"/>
-                        <outlet property="carouselView" destination="xuC-qL-ckS" id="e22-Ys-TwP"/>
-                        <outlet property="detailLabel" destination="Asm-Ft-PYa" id="czs-Hr-Oz1"/>
-                        <outlet property="messageButton" destination="Fhf-bN-nwt" id="eaV-bl-R2w"/>
-                        <outlet property="nameLabel" destination="lkK-u5-bvj" id="8Pt-sX-CaE"/>
-                        <outlet property="profileButton" destination="CZY-M0-THU" id="Z3L-jc-sx4"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Mrf-gu-SDS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1326" y="23"/>
         </scene>
         <!--Filter Settings View Controller-->
         <scene sceneID="tm8-U9-Ouy">
@@ -509,7 +404,6 @@
         <image name="Lens" width="16" height="16"/>
         <image name="Next.png" width="24" height="46"/>
         <image name="Point Notice.png" width="46" height="48"/>
-        <image name="Rectangle" width="16" height="16"/>
         <image name="bar_background.png" width="640" height="129"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

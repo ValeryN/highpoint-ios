@@ -148,6 +148,10 @@
 		3BEA72B01924F8E500FDCA08 /* Close Round.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BEA72AE1924F8E500FDCA08 /* Close Round.png */; };
 		4C4A012A1935FD9000B56126 /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C4A01291935FD9000B56126 /* Point Notice Tap.png */; };
 		4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C4A01291935FD9000B56126 /* Point Notice Tap.png */; };
+		4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
+		4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
+		4CA2F9D7193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
+		4CA2F9D8193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
 		4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 		4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 /* End PBXBuildFile section */
@@ -355,6 +359,8 @@
 		3BEA72AD1924F8E500FDCA08 /* Close Round Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Round Tap.png"; sourceTree = "<group>"; };
 		3BEA72AE1924F8E500FDCA08 /* Close Round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Round.png"; sourceTree = "<group>"; };
 		4C4A01291935FD9000B56126 /* Point Notice Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice Tap.png"; sourceTree = "<group>"; };
+		4C5AC331193C5D7800A72676 /* HPSwitch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSwitch.xib; sourceTree = "<group>"; };
+		4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCard.xib; sourceTree = "<group>"; };
 		4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HighPoint.h"; sourceTree = "<group>"; };
 		4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HighPoint.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -451,6 +457,7 @@
 			children = (
 				3B29F8E31922303D00EC6395 /* HPUserCardViewController.h */,
 				3B29F8E41922303D00EC6395 /* HPUserCardViewController.m */,
+				4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */,
 			);
 			name = HPUserCardViewController;
 			sourceTree = "<group>";
@@ -470,6 +477,7 @@
 			children = (
 				3B3170B5191BA56900B72AC1 /* HPSwitchViewController.h */,
 				3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */,
+				4C5AC331193C5D7800A72676 /* HPSwitch.xib */,
 			);
 			name = HPSwitchViewController;
 			sourceTree = "<group>";
@@ -956,6 +964,7 @@
 				3B6E4EB31929F56F00CF670E /* Info Tap.png in Resources */,
 				3B1FC622192A2B58009DCD85 /* Green-Button-R.png in Resources */,
 				3B7D8AC4192CC8CE006BD206 /* Heart Tap.png in Resources */,
+				4CA2F9D7193C64B800D7FBFD /* HPUserCard.xib in Resources */,
 				3BD12E5E192E0FEE0026BA11 /* Close.png in Resources */,
 				3B298FC0192F476100BEC2AA /* slider-default-trackCrossedOver.png in Resources */,
 				3BD12E5D192E0FEE0026BA11 /* Close Tap.png in Resources */,
@@ -996,6 +1005,7 @@
 				3B298FC9192F476100BEC2AA /* slider-default7-trackCrossedOver.png in Resources */,
 				3B6DB4C518FFC33900C26A50 /* Storyboard_568.storyboard in Resources */,
 				3B1FC627192A4608009DCD85 /* Green-Button-Tap-L.png in Resources */,
+				4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */,
 				3B1FC62C192A5429009DCD85 /* Point.png in Resources */,
 				3B31865D191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf in Resources */,
 				3B3170A7191B7D1500B72AC1 /* Userpic Mask.png in Resources */,
@@ -1011,8 +1021,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CA2F9D8193C64B800D7FBFD /* HPUserCard.xib in Resources */,
 				4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */,
 				3B6DB4B918FFC24D00C26A50 /* InfoPlist.strings in Resources */,
+				4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
