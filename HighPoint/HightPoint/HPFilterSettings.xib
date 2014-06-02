@@ -38,6 +38,9 @@
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="profileButtonTap:" destination="-1" eventType="touchUpInside" id="b12-Na-CDc"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4l8-eT-m39" userLabel="ChatList Button">
                     <rect key="frame" x="282" y="29" width="26" height="26"/>
@@ -45,6 +48,9 @@
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="messageButtonTap:" destination="-1" eventType="touchUpInside" id="FDC-C6-ils"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X2w-AO-Hwo" userLabel="Close Button">
                     <rect key="frame" x="12" y="520" width="26" height="26"/>
@@ -53,6 +59,9 @@
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="closeButtonTap:" destination="-1" eventType="touchUpInside" id="Ysz-Lc-PZc"/>
+                    </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Фильтр" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTQ-pn-NLa" userLabel="Title Label">
                     <rect key="frame" x="114" y="31" width="92" height="21"/>
@@ -79,11 +88,17 @@
                     <rect key="frame" x="259" y="73" width="51" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="onTintColor" red="0.36470588240000001" green="0.72941176470000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="womenSwitchTap:" destination="-1" eventType="valueChanged" id="LXa-uQ-rPt"/>
+                    </connections>
                 </switch>
                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7lI-Fw-w7F" userLabel="Men Switch">
                     <rect key="frame" x="259" y="121" width="51" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="onTintColor" red="0.36470588240000001" green="0.72941176470000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="menSwitchTap:" destination="-1" eventType="valueChanged" id="4yx-kG-D08"/>
+                    </connections>
                 </switch>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Женщины" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCv-Af-oXs" userLabel="Women Label">
                     <rect key="frame" x="12" y="78" width="157" height="21"/>
@@ -107,6 +122,9 @@
                     <rect key="frame" x="12" y="208" width="295" height="10"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="labelSliderChanged:" destination="-1" eventType="valueChanged" id="mQs-KB-B7o"/>
+                    </connections>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7iS-aS-FOf" userLabel="Age Value Label">
                     <rect key="frame" x="220" y="170" width="87" height="21"/>
@@ -118,6 +136,9 @@
                     <rect key="frame" x="259" y="265" width="51" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="onTintColor" red="0.36470588240000001" green="0.72941176470000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="townSwitchTap:" destination="-1" eventType="valueChanged" id="Ef9-KQ-i5F"/>
+                    </connections>
                 </switch>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Поиск по городу" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Oo-UO-GVm" userLabel="City Filter Label">
                     <rect key="frame" x="12" y="270" width="157" height="21"/>
@@ -161,6 +182,9 @@
                     <state key="normal" backgroundImage="Next.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="townSelectTap:" destination="-1" eventType="touchUpInside" id="qFI-48-df1"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
