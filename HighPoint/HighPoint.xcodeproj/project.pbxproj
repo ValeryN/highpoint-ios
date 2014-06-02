@@ -156,6 +156,8 @@
 		4C89BD31193C899400DAE2EE /* HPUserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */; };
 		4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */; };
 		4C89BD35193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */; };
+		4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */; };
+		4C89BD38193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */; };
 		4CA2F9D7193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
 		4CA2F9D8193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
 		4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
@@ -370,6 +372,7 @@
 		4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserProfile.xib; sourceTree = "<group>"; };
 		4C89BD32193CAAF100DAE2EE /* UINavigationController+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+HighPoint.h"; sourceTree = "<group>"; };
 		4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+HighPoint.m"; sourceTree = "<group>"; };
+		4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSelectTown.xib; sourceTree = "<group>"; };
 		4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCard.xib; sourceTree = "<group>"; };
 		4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HighPoint.h"; sourceTree = "<group>"; };
 		4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HighPoint.m"; sourceTree = "<group>"; };
@@ -728,6 +731,7 @@
 			children = (
 				3BCB5B05192F8D3500E5DCA9 /* HPSelectTownViewController.h */,
 				3BCB5B06192F8D3500E5DCA9 /* HPSelectTownViewController.m */,
+				4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */,
 			);
 			name = HPSelectTownViewController;
 			sourceTree = "<group>";
@@ -1016,6 +1020,7 @@
 				3BB5E86A1935FD5500DDF5F9 /* Down.png in Resources */,
 				3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */,
 				3B298FD1192F476100BEC2AA /* slider-metal-trackBackground.png in Resources */,
+				4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,
 				3B8F366D1920B27C00C71E49 /* Point Notice.png in Resources */,
 				3B298FC9192F476100BEC2AA /* slider-default7-trackCrossedOver.png in Resources */,
 				3B6DB4C518FFC33900C26A50 /* Storyboard_568.storyboard in Resources */,
@@ -1043,6 +1048,7 @@
 				4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */,
 				3B6DB4B918FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 				4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */,
+				4C89BD38193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

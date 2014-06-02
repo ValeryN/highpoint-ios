@@ -159,13 +159,9 @@
         }
 }
 - (IBAction) townSelectTap:(id)sender {
-    UIStoryboard *storyBoard;
-    //self.view.userInteractionEnabled = NO;
-    storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
-    HPSelectTownViewController *town = [storyBoard instantiateViewControllerWithIdentifier:@"HPSelectTownViewController"];
+    HPSelectTownViewController *town = [[HPSelectTownViewController alloc] initWithNibName: @"HPSelectTown" bundle: nil];
     self.savedDelegate = self.navigationController.delegate;
     self.navigationController.delegate = nil;
-    //_crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:town animated:YES];
 }
 - (void) updateSliderLabels {
