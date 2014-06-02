@@ -234,14 +234,12 @@
 - (void) tableView: (UITableView*) tableView didSelectRowAtIndexPath: (NSIndexPath*) indexPath
 {
     HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)[self.mainListTable cellForRowAtIndexPath: indexPath];
-
-    UIStoryboard* storyBoard = [UIStoryboard storyboardWithName: [Utils getStoryBoardName] bundle: nil];
-    
-    HPUserCardViewController *card = [storyBoard instantiateViewControllerWithIdentifier:@"HPUserCardViewController"];
+    HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCard" bundle: nil];
     card.delegate = self;
-    [card.navigationController setNavigationBarHidden:YES];
+    [card.navigationController setNavigationBarHidden: YES];
 
-    CGRect test__ = [self.view convertRect:cell.frame fromView:self.mainListTable];
+    CGRect test__ = [self.view convertRect: cell.frame
+                                  fromView: self.mainListTable];
 
     UIImage *img =[UIImage imageNamed:@"img_sample1"];
     card.userImage = [[UIImageView alloc] initWithImage:img];
@@ -251,17 +249,23 @@
     card.userImage.transform = CGAffineTransformMakeScale(0.01, 0.01);
     [card.view addSubview:card.userImage];
 
-    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-        card.userImage.frame = CGRectMake(card.view.center.x - card.userImage.frame.size.width/2.0, 257.0, card.userImage.frame.size.width, card.userImage.frame.size.height);
-        card.userImage.transform = CGAffineTransformIdentity;
-    } completion:^(BOOL finished) {
-        [card.userImage removeFromSuperview];
-        card.carouselView.hidden = NO;
-        card.carouselView.currentItemView.hidden = NO;
-    }];
+    [UIView animateWithDuration: 0.7
+                          delay: 0
+                        options: UIViewAnimationOptionTransitionNone
+                     animations: ^
+                            {
+                                card.userImage.frame = CGRectMake(card.view.center.x - card.userImage.frame.size.width/2.0, 257.0, card.userImage.frame.size.width, card.userImage.frame.size.height);
+                                card.userImage.transform = CGAffineTransformIdentity;
+                            }
+                     completion: ^(BOOL finished)
+                            {
+                                [card.userImage removeFromSuperview];
+                                card.carouselView.hidden = NO;
+                                card.carouselView.currentItemView.hidden = NO;
+                            }];
     
     _crossDissolveAnimationController.viewForInteraction = card.view;
-    [self.navigationController pushViewController:card animated:YES];
+    [self.navigationController pushViewController: card animated: YES];
 }
 
 //==============================================================================
@@ -360,13 +364,13 @@
 
 //==============================================================================
 
-- (void) addGestureRecognizer: (UIView*) cell
+- (void) addGestureRecognizer: (HPMainViewListTableViewCell*) cell
 {
     UILongPressGestureRecognizer* longtapRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongTap:)];
-    [cell addGestureRecognizer: longtapRecognizer];
+    [cell.showPointGroup addGestureRecognizer: longtapRecognizer];
     
     UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTap:)];
-    [cell addGestureRecognizer: tapRecognizer];
+    [cell.showPointGroup addGestureRecognizer: tapRecognizer];
 }
 
 //==============================================================================

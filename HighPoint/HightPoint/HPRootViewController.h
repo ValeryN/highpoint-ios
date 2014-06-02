@@ -9,11 +9,12 @@
 //==============================================================================
 
 #import <UIKit/UIKit.h>
+
 #import "HPSwitchViewController.h"
-#import "HPUserCardViewController.h"
 #import "HPFilterSettingsViewController.h"
 #import "ScaleAnimation.h"
 #import "CrossDissolveAnimation.h"
+#import "HPUserCardViewController.h"
 
 //==============================================================================
 
