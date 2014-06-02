@@ -50,8 +50,9 @@
     UIStoryboard *storyBoard;
     //self.view.userInteractionEnabled = NO;
     storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
-    if(!self.bottomSwitch) {
-        self.bottomSwitch = [storyBoard instantiateViewControllerWithIdentifier:@"HPSwitchViewController"];
+    if(!self.bottomSwitch)
+    {
+        self.bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
         [self addChildViewController:self.bottomSwitch];
         [self.view insertSubview:self.bottomSwitch.view atIndex:2];
         [self.bottomSwitch didMoveToParentViewController:self];

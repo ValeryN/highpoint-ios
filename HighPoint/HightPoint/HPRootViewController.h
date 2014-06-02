@@ -10,6 +10,7 @@
 #import "HPSwitchViewController.h"
 #import "HPUserCardViewController.h"
 #import "HPFilterSettingsViewController.h"
+
 @interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, UserImageStartAnimationDelegate>
 @property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, strong) IBOutlet UITableView *mainListTable;

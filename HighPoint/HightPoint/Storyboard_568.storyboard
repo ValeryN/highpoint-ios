@@ -113,48 +113,6 @@
             </objects>
             <point key="canvasLocation" x="739" y="23"/>
         </scene>
-        <!--Switch View Controller-->
-        <scene sceneID="B9t-tf-R3L">
-            <objects>
-                <viewController storyboardIdentifier="HPSwitchViewController" id="MY0-fQ-E2R" customClass="HPSwitchViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="cf4-Ms-mZ8">
-                        <rect key="frame" x="0.0" y="0.0" width="193" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Rectangle" id="zab-CA-OE6">
-                                <rect key="frame" x="0.0" y="0.0" width="193" height="32"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jch-Ot-tLX">
-                                <rect key="frame" x="4" y="5" width="79" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hii-pB-Zib">
-                                <rect key="frame" x="111" y="5" width="79" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </view>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="193" height="32"/>
-                    <connections>
-                        <outlet property="leftLabel" destination="jch-Ot-tLX" id="5dW-uJ-FCu"/>
-                        <outlet property="rightLabel" destination="hii-pB-Zib" id="cM8-pM-9dK"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="b5o-yr-uuQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1097" y="23"/>
-        </scene>
         <!--User Card View Controller-->
         <scene sceneID="ODN-CE-6cL">
             <objects>
@@ -501,7 +459,6 @@
         <image name="Lens" width="16" height="16"/>
         <image name="Next.png" width="24" height="46"/>
         <image name="Point Notice" width="154" height="25"/>
-        <image name="Rectangle" width="16" height="16"/>
         <image name="bar_background.png" width="640" height="129"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
