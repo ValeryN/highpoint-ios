@@ -11,6 +11,7 @@
 #import "HPUserCardViewController.h"
 #import "Utils.h"
 #import "UIImage+HighPoint.h"
+#import "UINavigationController+HighPoint.h"
 
 //==============================================================================
 
@@ -66,8 +67,6 @@
     self.carouselView.delegate = self;
     self.carouselView.dataSource = self;
     self.carouselView.hidden = YES;
-    
-    _modalAnimationController = [ModalAnimation new];
 }
 
 //==============================================================================
@@ -87,28 +86,6 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
-}
-
-//==============================================================================
-
-#pragma mark - Transitioning Delegate (Modal) -
-
-//==============================================================================
-
-- (id<UIViewControllerAnimatedTransitioning>) animationControllerForPresentedController: (UIViewController *)presented
-                                                                 presentingController: (UIViewController *)presenting
-                                                                     sourceController:(UIViewController *)source
-{
-    _modalAnimationController.type = AnimationTypePresent;
-    return _modalAnimationController;
-}
-
-//==============================================================================
-
-- (id<UIViewControllerAnimatedTransitioning>) animationControllerForDismissedController: (UIViewController*) dismissed
-{
-    _modalAnimationController.type = AnimationTypeDismiss;
-    return _modalAnimationController;
 }
 
 //==============================================================================
@@ -220,16 +197,17 @@
 
     HPUserProfileViewController *modal = [[HPUserProfileViewController alloc] initWithNibName: @"HPUserProfile" bundle: nil];
     modal.delegate = self;
-    modal.transitioningDelegate = self;
-    modal.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController: modal animated: YES completion: nil];
+    [self.navigationController hp_presentViewController: modal];
 }
 
 //==============================================================================
 
 - (void) animationViewsDown
 {
-    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^
+    [UIView animateWithDuration: 0.7
+                          delay: 0
+                        options: UIViewAnimationOptionTransitionNone
+                     animations: ^
                         {
                             self.captView.frame = CGRectMake(self.captView.frame.origin.x,
                                                              self.captView.frame.origin.y + 450.0,
@@ -248,6 +226,7 @@
                             self.captViewRight =  nil;
                             self.carouselView.hidden = NO;
                         }];
+    [self.navigationController hp_popViewController];
 }
 
 //==============================================================================
@@ -361,7 +340,7 @@
     
     
     UIImage* scaledImage = [Utils scaleImage:self.userImage.image toSize:CGSizeMake(264.0 + 90, 356.0 + 90)];
-    UIImage *blureImg = [scaledImage applyBlurWithRadius: 30.0];
+    UIImage *blureImg = [scaledImage hp_applyBlurWithRadius: 30.0];
     UIImageView *blureImgView = [[UIImageView alloc] initWithImage:blureImg];
     blureImgView.frame = CGRectMake(0, 0, 264.0, 356.0);
     blureImgView.contentMode = UIViewContentModeScaleToFill;
@@ -369,7 +348,7 @@
     [temp addSubview:blureImgView];
     UIImage *img =[UIImage imageNamed:@"img_sample1"];
     
-    UIImage *img_ = [img maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask.png"]];
+    UIImage *img_ = [img hp_maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask.png"]];
     UIImageView *avaImg = [[UIImageView alloc] initWithImage:img_];
     avaImg.frame = CGRectMake(84.0, 52, 92.0, 92.0);    //image size
     UIImageView *borderImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Userpic Shape Green"]];

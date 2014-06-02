@@ -154,6 +154,8 @@
 		4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */; };
 		4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */; };
 		4C89BD31193C899400DAE2EE /* HPUserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */; };
+		4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */; };
+		4C89BD35193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */; };
 		4CA2F9D7193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
 		4CA2F9D8193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
 		4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
@@ -366,6 +368,8 @@
 		4C5AC331193C5D7800A72676 /* HPSwitch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSwitch.xib; sourceTree = "<group>"; };
 		4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPFilterSettings.xib; sourceTree = "<group>"; };
 		4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserProfile.xib; sourceTree = "<group>"; };
+		4C89BD32193CAAF100DAE2EE /* UINavigationController+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+HighPoint.h"; sourceTree = "<group>"; };
+		4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+HighPoint.m"; sourceTree = "<group>"; };
 		4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCard.xib; sourceTree = "<group>"; };
 		4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HighPoint.h"; sourceTree = "<group>"; };
 		4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HighPoint.m"; sourceTree = "<group>"; };
@@ -861,6 +865,8 @@
 			children = (
 				4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */,
 				4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */,
+				4C89BD32193CAAF100DAE2EE /* UINavigationController+HighPoint.h */,
+				4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1075,6 +1081,7 @@
 				3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */,
 				3BDA4C6A19064AC900EF6619 /* AFURLSessionManager.m in Sources */,
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
+				4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
 				3BDA4C471906470000EF6619 /* UserInfo.m in Sources */,
 				3BDA4C8E19064E5900EF6619 /* NSData+ImageContentType.m in Sources */,
 				3BDA4C6419064AC900EF6619 /* AFHTTPSessionManager.m in Sources */,
@@ -1104,6 +1111,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
+				4C89BD35193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
 				3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

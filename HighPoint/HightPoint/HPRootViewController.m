@@ -193,9 +193,9 @@
 
     UIImage* img =[UIImage imageNamed: @"img_sample1"];
     if (indexPath.row == 3)
-        img = [img applyBlurWithRadius: 5.0];
+        img = [img hp_applyBlurWithRadius: 5.0];
 
-    UIImage* img_ = [img maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask"]];
+    UIImage* img_ = [img hp_maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask"]];
     mCell.userImageBorder.autoresizingMask = UIViewAutoresizingNone;
     mCell.userImage.autoresizingMask = UIViewAutoresizingNone;
     mCell.userImage.image = img_;

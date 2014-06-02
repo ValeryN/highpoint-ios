@@ -11,7 +11,6 @@
 #import <UIKit/UIKit.h>
 #import "iCarousel.h"
 #import "HPUserProfileViewController.h"
-#import "ModalAnimation.h"
 
 //==============================================================================
 
@@ -22,9 +21,6 @@
 //==============================================================================
 
 @interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, HPUserProfileViewControllerDelegate>
-{
-    ModalAnimation *_modalAnimationController;
-}
 
 @property (nonatomic, weak) IBOutlet UIButton *profileButton;
 @property (nonatomic, weak) IBOutlet UIButton *messageButton;
