@@ -148,6 +148,18 @@
 		3BEA72B01924F8E500FDCA08 /* Close Round.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BEA72AE1924F8E500FDCA08 /* Close Round.png */; };
 		4C4A012A1935FD9000B56126 /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C4A01291935FD9000B56126 /* Point Notice Tap.png */; };
 		4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C4A01291935FD9000B56126 /* Point Notice Tap.png */; };
+		4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
+		4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
+		4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */; };
+		4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */; };
+		4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */; };
+		4C89BD31193C899400DAE2EE /* HPUserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */; };
+		4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */; };
+		4C89BD35193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */; };
+		4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */; };
+		4C89BD38193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */; };
+		4CA2F9D7193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
+		4CA2F9D8193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
 		4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 		4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 /* End PBXBuildFile section */
@@ -355,6 +367,13 @@
 		3BEA72AD1924F8E500FDCA08 /* Close Round Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Round Tap.png"; sourceTree = "<group>"; };
 		3BEA72AE1924F8E500FDCA08 /* Close Round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Round.png"; sourceTree = "<group>"; };
 		4C4A01291935FD9000B56126 /* Point Notice Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice Tap.png"; sourceTree = "<group>"; };
+		4C5AC331193C5D7800A72676 /* HPSwitch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSwitch.xib; sourceTree = "<group>"; };
+		4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPFilterSettings.xib; sourceTree = "<group>"; };
+		4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserProfile.xib; sourceTree = "<group>"; };
+		4C89BD32193CAAF100DAE2EE /* UINavigationController+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+HighPoint.h"; sourceTree = "<group>"; };
+		4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+HighPoint.m"; sourceTree = "<group>"; };
+		4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSelectTown.xib; sourceTree = "<group>"; };
+		4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCard.xib; sourceTree = "<group>"; };
 		4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HighPoint.h"; sourceTree = "<group>"; };
 		4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HighPoint.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -451,6 +470,7 @@
 			children = (
 				3B29F8E31922303D00EC6395 /* HPUserCardViewController.h */,
 				3B29F8E41922303D00EC6395 /* HPUserCardViewController.m */,
+				4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */,
 			);
 			name = HPUserCardViewController;
 			sourceTree = "<group>";
@@ -470,6 +490,7 @@
 			children = (
 				3B3170B5191BA56900B72AC1 /* HPSwitchViewController.h */,
 				3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */,
+				4C5AC331193C5D7800A72676 /* HPSwitch.xib */,
 			);
 			name = HPSwitchViewController;
 			sourceTree = "<group>";
@@ -551,6 +572,7 @@
 			children = (
 				3B49DE1C1934AAC500C3EF1E /* HPUserProfileViewController.h */,
 				3B49DE1D1934AAC500C3EF1E /* HPUserProfileViewController.m */,
+				4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */,
 			);
 			name = HPUserProfileViewController;
 			sourceTree = "<group>";
@@ -709,6 +731,7 @@
 			children = (
 				3BCB5B05192F8D3500E5DCA9 /* HPSelectTownViewController.h */,
 				3BCB5B06192F8D3500E5DCA9 /* HPSelectTownViewController.m */,
+				4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */,
 			);
 			name = HPSelectTownViewController;
 			sourceTree = "<group>";
@@ -718,6 +741,7 @@
 			children = (
 				3BD12E58192DFE380026BA11 /* HPFilterSettingsViewController.h */,
 				3BD12E59192DFE380026BA11 /* HPFilterSettingsViewController.m */,
+				4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */,
 			);
 			name = HPFilterSettingsViewController;
 			sourceTree = "<group>";
@@ -845,6 +869,8 @@
 			children = (
 				4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */,
 				4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */,
+				4C89BD32193CAAF100DAE2EE /* UINavigationController+HighPoint.h */,
+				4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -927,6 +953,7 @@
 			files = (
 				3BCB5B03192F8B2F00E5DCA9 /* Next.png in Resources */,
 				3B298FBF192F476100BEC2AA /* slider-default-trackBackground.png in Resources */,
+				4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */,
 				3B298FCC192F476100BEC2AA /* slider-metal-handle-highlighted@2x.png in Resources */,
 				3B298FCA192F476100BEC2AA /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				3BEA72B01924F8E500FDCA08 /* Close Round.png in Resources */,
@@ -956,6 +983,7 @@
 				3B6E4EB31929F56F00CF670E /* Info Tap.png in Resources */,
 				3B1FC622192A2B58009DCD85 /* Green-Button-R.png in Resources */,
 				3B7D8AC4192CC8CE006BD206 /* Heart Tap.png in Resources */,
+				4CA2F9D7193C64B800D7FBFD /* HPUserCard.xib in Resources */,
 				3BD12E5E192E0FEE0026BA11 /* Close.png in Resources */,
 				3B298FC0192F476100BEC2AA /* slider-default-trackCrossedOver.png in Resources */,
 				3BD12E5D192E0FEE0026BA11 /* Close Tap.png in Resources */,
@@ -992,11 +1020,14 @@
 				3BB5E86A1935FD5500DDF5F9 /* Down.png in Resources */,
 				3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */,
 				3B298FD1192F476100BEC2AA /* slider-metal-trackBackground.png in Resources */,
+				4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,
 				3B8F366D1920B27C00C71E49 /* Point Notice.png in Resources */,
 				3B298FC9192F476100BEC2AA /* slider-default7-trackCrossedOver.png in Resources */,
 				3B6DB4C518FFC33900C26A50 /* Storyboard_568.storyboard in Resources */,
 				3B1FC627192A4608009DCD85 /* Green-Button-Tap-L.png in Resources */,
+				4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */,
 				3B1FC62C192A5429009DCD85 /* Point.png in Resources */,
+				4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
 				3B31865D191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf in Resources */,
 				3B3170A7191B7D1500B72AC1 /* Userpic Mask.png in Resources */,
 				3B298FC8192F476100BEC2AA /* slider-default7-trackBackground@2x.png in Resources */,
@@ -1011,8 +1042,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CA2F9D8193C64B800D7FBFD /* HPUserCard.xib in Resources */,
+				4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
+				4C89BD31193C899400DAE2EE /* HPUserProfile.xib in Resources */,
 				4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */,
 				3B6DB4B918FFC24D00C26A50 /* InfoPlist.strings in Resources */,
+				4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */,
+				4C89BD38193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1051,6 +1087,7 @@
 				3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */,
 				3BDA4C6A19064AC900EF6619 /* AFURLSessionManager.m in Sources */,
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
+				4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
 				3BDA4C471906470000EF6619 /* UserInfo.m in Sources */,
 				3BDA4C8E19064E5900EF6619 /* NSData+ImageContentType.m in Sources */,
 				3BDA4C6419064AC900EF6619 /* AFHTTPSessionManager.m in Sources */,
@@ -1080,6 +1117,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
+				4C89BD35193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
 				3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

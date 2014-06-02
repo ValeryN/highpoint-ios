@@ -1,8 +1,8 @@
 //
-//  UIImage+HighPoint.h
+//  UINavigationController+HighPoint.h
 //  HighPoint
 //
-//  Created by Michael on 30.05.14.
+//  Created by Michael on 02.06.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -12,7 +12,7 @@
 
 //==============================================================================
 
-@interface UIImage (HighPoint)
-- (UIImage*) hp_maskImageWithPattern: (UIImage*) image;
-- (UIImage*) hp_applyBlurWithRadius: (CGFloat) blurRadius;
+@interface UINavigationController (HighPoint)
+- (void) hp_presentViewController: (UIViewController*) vc;
+- (void) hp_popViewController;
 @end

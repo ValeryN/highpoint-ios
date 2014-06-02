@@ -16,9 +16,6 @@
 
 //==============================================================================
 
-#define HALFHIDE_MAININFO_DURATION 0.1
-#define SHOWPOINT_COMPLETELY_DURATION 0.2
-#define SHOWPOINT_VIBRATE_DURATION 0.4
 #define CELL_HEIGHT 104
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 
@@ -38,14 +35,14 @@
     
     [self configureNavigationBar];
     self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
-    if (!self.bottomSwitch)
+    UIStoryboard *storyBoard;
+    storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
+    if(!self.bottomSwitch)
     {
-        self.bottomSwitch = [storyBoard instantiateViewControllerWithIdentifier: @"HPSwitchViewController"];
-        [self addChildViewController: self.bottomSwitch];
-        [self.view insertSubview: self.bottomSwitch.view
-                         atIndex: 2];
-        [self.bottomSwitch didMoveToParentViewController: self];
+        self.bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
+        [self addChildViewController:self.bottomSwitch];
+        [self.view insertSubview:self.bottomSwitch.view atIndex:2];
+        [self.bottomSwitch didMoveToParentViewController:self];
     }
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
     self.navigationController.delegate = self;
@@ -155,15 +152,9 @@
 
 - (IBAction) filterButtonTap: (id)sender
 {
-    UIStoryboard *storyBoard;
-    //self.view.userInteractionEnabled = NO;
-    storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
-    
-    HPFilterSettingsViewController *filter = [storyBoard instantiateViewControllerWithIdentifier:@"HPFilterSettingsViewController"];
-     
+    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName:@"HPFilterSettings" bundle:nil];
     _crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:filter animated:YES];
-
 }
 
 //==============================================================================
@@ -202,9 +193,9 @@
 
     UIImage* img =[UIImage imageNamed: @"img_sample1"];
     if (indexPath.row == 3)
-        img = [img applyBlurWithRadius: 5.0];
+        img = [img hp_applyBlurWithRadius: 5.0];
 
-    UIImage* img_ = [img maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask"]];
+    UIImage* img_ = [img hp_maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask"]];
     mCell.userImageBorder.autoresizingMask = UIViewAutoresizingNone;
     mCell.userImage.autoresizingMask = UIViewAutoresizingNone;
     mCell.userImage.image = img_;
@@ -223,9 +214,8 @@
     mCell.point.text = @"У нас тут очень весело. Если кто не боится таких развлечений, пишите!";
     
     mCell.backgroundColor = [UIColor clearColor];
+    [mCell addGestureRecognizer];
 
-    [self addGestureRecognizer: mCell];
-    
     return mCell;
 }
 
@@ -234,14 +224,12 @@
 - (void) tableView: (UITableView*) tableView didSelectRowAtIndexPath: (NSIndexPath*) indexPath
 {
     HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)[self.mainListTable cellForRowAtIndexPath: indexPath];
-
-    UIStoryboard* storyBoard = [UIStoryboard storyboardWithName: [Utils getStoryBoardName] bundle: nil];
-    
-    HPUserCardViewController *card = [storyBoard instantiateViewControllerWithIdentifier:@"HPUserCardViewController"];
+    HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCard" bundle: nil];
     card.delegate = self;
-    [card.navigationController setNavigationBarHidden:YES];
+    [card.navigationController setNavigationBarHidden: YES];
 
-    CGRect test__ = [self.view convertRect:cell.frame fromView:self.mainListTable];
+    CGRect test__ = [self.view convertRect: cell.frame
+                                  fromView: self.mainListTable];
 
     UIImage *img =[UIImage imageNamed:@"img_sample1"];
     card.userImage = [[UIImageView alloc] initWithImage:img];
@@ -251,17 +239,23 @@
     card.userImage.transform = CGAffineTransformMakeScale(0.01, 0.01);
     [card.view addSubview:card.userImage];
 
-    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-        card.userImage.frame = CGRectMake(card.view.center.x - card.userImage.frame.size.width/2.0, 257.0, card.userImage.frame.size.width, card.userImage.frame.size.height);
-        card.userImage.transform = CGAffineTransformIdentity;
-    } completion:^(BOOL finished) {
-        [card.userImage removeFromSuperview];
-        card.carouselView.hidden = NO;
-        card.carouselView.currentItemView.hidden = NO;
-    }];
+    [UIView animateWithDuration: 0.7
+                          delay: 0
+                        options: UIViewAnimationOptionTransitionNone
+                     animations: ^
+                            {
+                                card.userImage.frame = CGRectMake(card.view.center.x - card.userImage.frame.size.width/2.0, 257.0, card.userImage.frame.size.width, card.userImage.frame.size.height);
+                                card.userImage.transform = CGAffineTransformIdentity;
+                            }
+                     completion: ^(BOOL finished)
+                            {
+                                [card.userImage removeFromSuperview];
+                                card.carouselView.hidden = NO;
+                                card.carouselView.currentItemView.hidden = NO;
+                            }];
     
     _crossDissolveAnimationController.viewForInteraction = card.view;
-    [self.navigationController pushViewController:card animated:YES];
+    [self.navigationController pushViewController: card animated: YES];
 }
 
 //==============================================================================
@@ -281,18 +275,6 @@
     } completion:^(BOOL finished) {
         [temp removeFromSuperview];
     }];
-}
-
-//==============================================================================
-
-- (UIImage *)applyBlurOnImage: (UIImage *)imageToBlur withRadius: (CGFloat)blurRadius
-{
-    CIImage *originalImage = [CIImage imageWithCGImage: imageToBlur.CGImage];
-    CIFilter *filter = [CIFilter filterWithName: @"CIGaussianBlur" keysAndValues: kCIInputImageKey, originalImage, @"inputRadius", @(blurRadius), nil];
-    CIImage *outputImage = filter.outputImage;
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CGImageRef outImage = [context createCGImage: outputImage fromRect: [outputImage extent]];
-    return [UIImage imageWithCGImage: outImage];
 }
 
 //==============================================================================
@@ -352,191 +334,6 @@
             return animationController;
         default: return nil;
     }
-}
-
-//==============================================================================
-
-#pragma mark - Gesture recognizers -
-
-//==============================================================================
-
-- (void) addGestureRecognizer: (UIView*) cell
-{
-    UILongPressGestureRecognizer* longtapRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongTap:)];
-    [cell addGestureRecognizer: longtapRecognizer];
-    
-    UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTap:)];
-    [cell addGestureRecognizer: tapRecognizer];
-}
-
-//==============================================================================
-
-- (IBAction) cellTap: (id)sender
-{
-    if ([sender isKindOfClass:[UITapGestureRecognizer class]] == NO)
-        return;
-    UITapGestureRecognizer* recognizer = sender;
-    
-    if ([recognizer.view isKindOfClass:[HPMainViewListTableViewCell class]] == NO)
-        return;
-    HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)recognizer.view;
-    [self vibrateThePoint: cell];
-}
-
-//==============================================================================
-
-- (IBAction) cellLongTap: (id)sender
-{
-    if ([sender isKindOfClass:[UILongPressGestureRecognizer class]] == NO)
-        return;
-    UILongPressGestureRecognizer* recognizer = sender;
-    
-    if ([recognizer.view isKindOfClass:[HPMainViewListTableViewCell class]] == NO)
-        return;
-    HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)recognizer.view;
-
-    if (recognizer.state == UIGestureRecognizerStateBegan)
-        [self showPoint: cell];
-
-    if (recognizer.state == UIGestureRecognizerStateEnded)
-        [self hidePoint: cell];
-}
-
-//==============================================================================
-
-#pragma mark - show point animation -
-
-//==============================================================================
-
-- (void) vibrateThePoint: (HPMainViewListTableViewCell*) cell
-{
-    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
-    
-    [UIView animateWithDuration: SHOWPOINT_VIBRATE_DURATION / 2
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-                     {
-                         CGRect rect = cell.mainInfoGroup.frame;
-                         rect.origin.x = 0;//-(rect.size.width + rect.origin.x) / 8.0;
-                         cell.mainInfoGroup.frame = rect;
-                     }
-                     completion: ^(BOOL finished)
-                     {
-                         [UIView animateWithDuration: SHOWPOINT_VIBRATE_DURATION / 2
-                                               delay: 0
-                                             options: UIViewAnimationOptionCurveLinear
-                                          animations: ^
-                                          {
-                                              CGRect rect = cell.mainInfoGroup.frame;
-                                              rect.origin.x = 12;
-                                              cell.mainInfoGroup.frame = rect;
-                                          }
-                                          completion: ^(BOOL finished)
-                                          {
-                                              cell.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
-                                          }];
-                     }];
-}
-
-//==============================================================================
-
-- (void) showPoint: (HPMainViewListTableViewCell*) cell
-{
-    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
-    
-    [UIView animateWithDuration: HALFHIDE_MAININFO_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-                     {
-                         [self halfhideMaininfo: cell];
-                     }
-                     completion: ^(BOOL finished)
-                     {
-                         [self showpointCompletely: cell];
-                     }];
-}
-
-//==============================================================================
- 
-- (void) hidePoint: (HPMainViewListTableViewCell*) cell
-{
-    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
-    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-                     {
-                        [self fadeawayPointText: cell];
-                     }
-                     completion: ^(BOOL finished)
-                     {
-                         [self showMainInfo: cell];
-                     }];
-}
-
-//==============================================================================
-
-- (void) showpointCompletely: (HPMainViewListTableViewCell*) cell
-{
-    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                      animations: ^
-                      {
-                          [self fullhideMaininfo: cell];
-                      }
-                      completion: ^(BOOL finished)
-                      {
-                      }];
-}
-
-//==============================================================================
-
-- (void) halfhideMaininfo: (HPMainViewListTableViewCell*) cell
-{
-    CGRect rect = cell.mainInfoGroup.frame;
-    rect.origin.x = -(rect.size.width + rect.origin.x) / 2.0;
-    cell.mainInfoGroup.frame = rect;
-}
-
-//==============================================================================
-
-- (void) fullhideMaininfo: (HPMainViewListTableViewCell*) cell
-{
-    cell.point.alpha = 1;
-    
-    CGRect rect = cell.mainInfoGroup.frame;
-    rect.origin.x = 2 * rect.origin.x;
-    cell.mainInfoGroup.frame = rect;
-}
-
-//==============================================================================
-
-- (void) fadeawayPointText: (HPMainViewListTableViewCell*) cell
-{
-    cell.point.alpha = 0.5;
-}
-
-//==============================================================================
-
-- (void) showMainInfo: (HPMainViewListTableViewCell*) cell
-{
-    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-                     {
-                         cell.point.alpha = 0.0;
-                         
-                         CGRect rect = cell.mainInfoGroup.frame;
-                         rect.origin.x = 12;
-                         cell.mainInfoGroup.frame = rect;
-                     }
-                     completion: ^(BOOL finished)
-                     {
-                     }];
 }
 
 //==============================================================================
