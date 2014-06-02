@@ -83,6 +83,7 @@
                                             <outlet property="point" destination="bwY-Gy-lWp" id="9XC-am-whB"/>
                                             <outlet property="secondLabel" destination="bMB-4H-hBy" id="SdI-v6-BhP"/>
                                             <outlet property="showPointButton" destination="WWu-Bc-zmw" id="we9-Xw-NHA"/>
+                                            <outlet property="showPointGroup" destination="IHw-GO-4eP" id="BOV-M9-IaV"/>
                                             <outlet property="userImage" destination="MKe-7w-58l" id="Vmc-qE-wiP"/>
                                             <outlet property="userImageBorder" destination="SMf-Xd-NcU" id="YWe-0F-9GP"/>
                                         </connections>

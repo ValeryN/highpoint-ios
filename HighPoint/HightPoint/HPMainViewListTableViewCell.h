@@ -10,6 +10,11 @@
 
 @interface HPMainViewListTableViewCell : UITableViewCell
 
+- (void) vibrateThePoint;
+- (void) showPoint;
+- (void) hidePoint;
+- (void) addGestureRecognizer;
+
 @property (nonatomic, strong) IBOutlet UIImageView *showPointButton;
 @property (nonatomic, strong) IBOutlet UIView *showPointGroup;
 

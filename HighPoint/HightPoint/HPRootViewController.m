@@ -16,9 +16,6 @@
 
 //==============================================================================
 
-#define HALFHIDE_MAININFO_DURATION 0.1
-#define SHOWPOINT_COMPLETELY_DURATION 0.2
-#define SHOWPOINT_VIBRATE_DURATION 0.4
 #define CELL_HEIGHT 104
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 
@@ -223,9 +220,8 @@
     mCell.point.text = @"У нас тут очень весело. Если кто не боится таких развлечений, пишите!";
     
     mCell.backgroundColor = [UIColor clearColor];
+    [mCell addGestureRecognizer];
 
-    [self addGestureRecognizer: mCell];
-    
     return mCell;
 }
 
@@ -344,191 +340,6 @@
             return animationController;
         default: return nil;
     }
-}
-
-//==============================================================================
-
-#pragma mark - Gesture recognizers -
-
-//==============================================================================
-
-- (void) addGestureRecognizer: (HPMainViewListTableViewCell*) cell
-{
-    UILongPressGestureRecognizer* longtapRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongTap:)];
-    [cell.showPointGroup addGestureRecognizer: longtapRecognizer];
-    
-    UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTap:)];
-    [cell.showPointGroup addGestureRecognizer: tapRecognizer];
-}
-
-//==============================================================================
-
-- (IBAction) cellTap: (id)sender
-{
-    if ([sender isKindOfClass:[UITapGestureRecognizer class]] == NO)
-        return;
-    UITapGestureRecognizer* recognizer = sender;
-    
-    if ([recognizer.view isKindOfClass:[HPMainViewListTableViewCell class]] == NO)
-        return;
-    HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)recognizer.view;
-    [self vibrateThePoint: cell];
-}
-
-//==============================================================================
-
-- (IBAction) cellLongTap: (id)sender
-{
-    if ([sender isKindOfClass:[UILongPressGestureRecognizer class]] == NO)
-        return;
-    UILongPressGestureRecognizer* recognizer = sender;
-    
-    if ([recognizer.view isKindOfClass:[HPMainViewListTableViewCell class]] == NO)
-        return;
-    HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)recognizer.view;
-
-    if (recognizer.state == UIGestureRecognizerStateBegan)
-        [self showPoint: cell];
-
-    if (recognizer.state == UIGestureRecognizerStateEnded)
-        [self hidePoint: cell];
-}
-
-//==============================================================================
-
-#pragma mark - show point animation -
-
-//==============================================================================
-
-- (void) vibrateThePoint: (HPMainViewListTableViewCell*) cell
-{
-    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
-    
-    [UIView animateWithDuration: SHOWPOINT_VIBRATE_DURATION / 2
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-                     {
-                         CGRect rect = cell.mainInfoGroup.frame;
-                         rect.origin.x = 0;//-(rect.size.width + rect.origin.x) / 8.0;
-                         cell.mainInfoGroup.frame = rect;
-                     }
-                     completion: ^(BOOL finished)
-                     {
-                         [UIView animateWithDuration: SHOWPOINT_VIBRATE_DURATION / 2
-                                               delay: 0
-                                             options: UIViewAnimationOptionCurveLinear
-                                          animations: ^
-                                          {
-                                              CGRect rect = cell.mainInfoGroup.frame;
-                                              rect.origin.x = 12;
-                                              cell.mainInfoGroup.frame = rect;
-                                          }
-                                          completion: ^(BOOL finished)
-                                          {
-                                              cell.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
-                                          }];
-                     }];
-}
-
-//==============================================================================
-
-- (void) showPoint: (HPMainViewListTableViewCell*) cell
-{
-    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
-    
-    [UIView animateWithDuration: HALFHIDE_MAININFO_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-                     {
-                         [self halfhideMaininfo: cell];
-                     }
-                     completion: ^(BOOL finished)
-                     {
-                         [self showpointCompletely: cell];
-                     }];
-}
-
-//==============================================================================
- 
-- (void) hidePoint: (HPMainViewListTableViewCell*) cell
-{
-    cell.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
-    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-                     {
-                        [self fadeawayPointText: cell];
-                     }
-                     completion: ^(BOOL finished)
-                     {
-                         [self showMainInfo: cell];
-                     }];
-}
-
-//==============================================================================
-
-- (void) showpointCompletely: (HPMainViewListTableViewCell*) cell
-{
-    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                      animations: ^
-                      {
-                          [self fullhideMaininfo: cell];
-                      }
-                      completion: ^(BOOL finished)
-                      {
-                      }];
-}
-
-//==============================================================================
-
-- (void) halfhideMaininfo: (HPMainViewListTableViewCell*) cell
-{
-    CGRect rect = cell.mainInfoGroup.frame;
-    rect.origin.x = -(rect.size.width + rect.origin.x) / 2.0;
-    cell.mainInfoGroup.frame = rect;
-}
-
-//==============================================================================
-
-- (void) fullhideMaininfo: (HPMainViewListTableViewCell*) cell
-{
-    cell.point.alpha = 1;
-    
-    CGRect rect = cell.mainInfoGroup.frame;
-    rect.origin.x = 2 * rect.origin.x;
-    cell.mainInfoGroup.frame = rect;
-}
-
-//==============================================================================
-
-- (void) fadeawayPointText: (HPMainViewListTableViewCell*) cell
-{
-    cell.point.alpha = 0.5;
-}
-
-//==============================================================================
-
-- (void) showMainInfo: (HPMainViewListTableViewCell*) cell
-{
-    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-                     {
-                         cell.point.alpha = 0.0;
-                         
-                         CGRect rect = cell.mainInfoGroup.frame;
-                         rect.origin.x = 12;
-                         cell.mainInfoGroup.frame = rect;
-                     }
-                     completion: ^(BOOL finished)
-                     {
-                     }];
 }
 
 //==============================================================================
