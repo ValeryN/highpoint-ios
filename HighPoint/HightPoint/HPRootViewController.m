@@ -12,8 +12,6 @@
 #import "HPBaseNetworkManager.h"
 #import "HPMainViewListTableViewCell.h"
 #import "Utils.h"
-#import "ScaleAnimation.h"
-#import "CrossDissolveAnimation.h"
 #import "UIImage+HighPoint.h"
 
 //==============================================================================
@@ -26,67 +24,49 @@
 
 //==============================================================================
 
-@interface HPRootViewController () {
-    ScaleAnimation *_scaleAnimationController;
-    CrossDissolveAnimation *_crossDissolveAnimationController;
-}
-@end
-
 @implementation HPRootViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+//==============================================================================
+
+#pragma mark - controller view delegate -
+
+//==============================================================================
+
+- (void)viewDidLoad
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-#pragma mark -
-#pragma mark controller view delegate
-- (void)viewDidLoad {
-    [super viewDidLoad];//34,45,77,90 30, 29, 48
+    [super viewDidLoad];
+    
     [self configureNavigationBar];
     self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    UIStoryboard *storyBoard;
-    //self.view.userInteractionEnabled = NO;
-    storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
-    if(!self.bottomSwitch) {
-        self.bottomSwitch = [storyBoard instantiateViewControllerWithIdentifier:@"HPSwitchViewController"];
-        [self addChildViewController:self.bottomSwitch];
-        [self.view insertSubview:self.bottomSwitch.view atIndex:2];
-        [self.bottomSwitch didMoveToParentViewController:self];
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
+    if (!self.bottomSwitch)
+    {
+        self.bottomSwitch = [storyBoard instantiateViewControllerWithIdentifier: @"HPSwitchViewController"];
+        [self addChildViewController: self.bottomSwitch];
+        [self.view insertSubview: self.bottomSwitch.view
+                         atIndex: 2];
+        [self.bottomSwitch didMoveToParentViewController: self];
     }
-    //_scaleAnimationController = [[ScaleAnimation alloc] initWithNavigationController:self.navigationController];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
-    //self.navigationItem.leftBarButtonItem = btnAdd_;
-    // Do any additional setup after loading the view.
     self.navigationController.delegate = self;
 }
-- (void) viewWillAppear:(BOOL)animated {
+
+//==============================================================================
+
+- (void) viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
-    //[[HPBaseNetworkManager sharedNetworkManager] startNetworkStatusMonitor];
-    //[[HPBaseNetworkManager sharedNetworkManager] setNetworkStatusMonitorCallback];
-    
-    
-}
-- (void) viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
 }
 
-#pragma mark -
-#pragma mark Configure Navigation bar method
+//==============================================================================
+
+#pragma mark - Configure Navigation bar method -
+
+//==============================================================================
+
 - (void) configureNavigationBar {
     [Utils configureNavigationBar:[self navigationController]];
-    /*
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        [[self navigationController].navigationBar setBarTintColor:[UIColor colorWithRed:34.0/255.0 green:45.0/255.0 blue:77.0/255.0 alpha:0.9]];
-    } else {
-        [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithRed:34.0/255.0 green:45.0/255.0 blue:77.0/255.0 alpha:0.9]];
-        [[self navigationController].navigationBar setTintColor:[UIColor colorWithRed:34.0/255.0 green:45.0/255.0 blue:77.0/255.0 alpha:0.9]];
-    }
-    */
     UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
     [leftButton setContentMode:UIViewContentModeScaleAspectFit];
     
@@ -94,8 +74,7 @@
     [leftButton setBackgroundImage:[UIImage imageNamed:@"Profile Tap.png"] forState:UIControlStateHighlighted];
     
     [leftButton addTarget:self action:@selector(profileButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
-    //[leftButton addTarget:self action:@selector(profileButtonPressedStop:) forControlEvents:UIControlEventTouchUpInside];
-    
+
     UIBarButtonItem *leftButton_ = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
@@ -119,7 +98,6 @@
     [rightButton setBackgroundImage:[UIImage imageNamed:@"Bubble.png"] forState:UIControlStateNormal];
     [rightButton setBackgroundImage:[UIImage imageNamed:@"Bubble Tap.png"] forState:UIControlStateHighlighted];
     [rightButton addTarget:self action:@selector(bubbleButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
-    //[rightButton addTarget:self action:@selector(bubbleButtonPressedStop:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightButton_ = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         // Add a negative spacer on iOS >= 7.0
@@ -137,7 +115,6 @@
                                                                          [UIFont fontWithName:@"FuturaPT-Light" size:18.0f], NSFontAttributeName,
                                                                          [UIColor whiteColor], NSForegroundColorAttributeName,
                                                                          shadow, NSShadowAttributeName,nil]];
-        //self.navigationController.navigationItem.title = @"Дэвушки";
         [self.navigationItem setTitle:@"Москва, девушки 80-100"];
         
     } else {
@@ -151,7 +128,6 @@
                                                                 }];
         [self.navigationItem setTitle:@"Москва, девушки 80-100"];
     }
-
 }
 
 //==============================================================================
@@ -160,13 +136,13 @@
 
 //==============================================================================
 
-- (void) profileButtonPressedStart:(id) sender
+- (void) profileButtonPressedStart: (id) sender
 {
     [self showNotification];
 }
 //==============================================================================
 
-- (void) bubbleButtonPressedStart:(id) sender
+- (void) bubbleButtonPressedStart: (id) sender
 {
     [self hideNotification];
 }
@@ -177,7 +153,8 @@
 
 //==============================================================================
 
-- (IBAction) filterButtonTap:(id)sender {
+- (IBAction) filterButtonTap: (id)sender
+{
     UIStoryboard *storyBoard;
     //self.view.userInteractionEnabled = NO;
     storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
@@ -191,7 +168,7 @@
 
 //==============================================================================
 
-#pragma mark - TableView and DataSource delegate-
+#pragma mark - TableView and DataSource delegate -
 
 //==============================================================================
 
@@ -247,7 +224,7 @@
     
     mCell.backgroundColor = [UIColor clearColor];
 
-    [self addLongTapGestureRecognizer: mCell];
+    [self addGestureRecognizer: mCell];
     
     return mCell;
 }
@@ -289,31 +266,27 @@
 
 //==============================================================================
 
-- (void) startAnimation:(UIImageView *)image {
-    //card.userImage.frame = CGRectMake(-20, test__.origin.y - 40.0, card.userImage.frame.size.width, card.userImage.frame.size.height);
+- (void) startAnimation:(UIImageView *)image
+{
     UIImage *img =[UIImage imageNamed:@"img_sample1"];
     UIImageView *temp = [[UIImageView alloc] initWithImage:img];
     
     
     temp.frame = CGRectMake(self.view.center.x - temp.frame.size.width/2.0, self.view.center.y - temp.frame.size.height/2.0, temp.frame.size.width, temp.frame.size.height);
-    //card.userImage.transform = CGAffineTransformMakeScale(0.1, 0.1);
     [self.view addSubview:temp];
-    
-    //image.transform = CGAffineTransformIdentity; UIViewAnimationOptionCurveEaseOut
+
     [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-        //image.transform = CGAffineTransformIdentity;
         temp.frame = self.savedFrame;
         temp.transform = CGAffineTransformMakeScale(0.01, 0.01);
-        //image.transform = CGAffineTransformMakeScale(2.0, 2.0);
-        
     } completion:^(BOOL finished) {
         [temp removeFromSuperview];
     }];
-
 }
 
-- (UIImage *)applyBlurOnImage: (UIImage *)imageToBlur withRadius: (CGFloat)blurRadius {
-    
+//==============================================================================
+
+- (UIImage *)applyBlurOnImage: (UIImage *)imageToBlur withRadius: (CGFloat)blurRadius
+{
     CIImage *originalImage = [CIImage imageWithCGImage: imageToBlur.CGImage];
     CIFilter *filter = [CIFilter filterWithName: @"CIGaussianBlur" keysAndValues: kCIInputImageKey, originalImage, @"inputRadius", @(blurRadius), nil];
     CIImage *outputImage = filter.outputImage;
@@ -322,15 +295,14 @@
     return [UIImage imageWithCGImage: outImage];
 }
 
-- (void)didReceiveMemoryWarning
+//==============================================================================
+
+#pragma mark - Notification view hide/show method -
+
+//==============================================================================
+
+- (void) hideNotification
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-#pragma mark -
-#pragma mark Notification view hide/show method
-- (void) hideNotification {
-    
     [UIView transitionWithView:[self navigationController].view
                       duration:0.2
                        options:UIViewAnimationOptionTransitionCrossDissolve //any animation
@@ -342,7 +314,11 @@
                     }];
 
 }
-- (void) showNotification {
+
+//==============================================================================
+
+- (void) showNotification
+{
     [UIView transitionWithView:[self navigationController].view
                       duration:0.2
                        options:UIViewAnimationOptionTransitionCrossDissolve //any animation
@@ -353,10 +329,18 @@
                         
                     }];
 }
-#pragma mark - Navigation Controller Delegate
 
--(id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC {
- 
+//==============================================================================
+
+#pragma mark - Navigation Controller Delegate -
+
+//==============================================================================
+
+- (id<UIViewControllerAnimatedTransitioning>) navigationController: (UINavigationController *)navigationController
+                                   animationControllerForOperation: (UINavigationControllerOperation)operation
+                                                fromViewController: (UIViewController *)fromVC
+                                                  toViewController: (UIViewController *)toVC
+{
     BaseAnimation *animationController;
     animationController = _crossDissolveAnimationController;
     switch (operation) {
@@ -370,24 +354,13 @@
     }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 //==============================================================================
 
 #pragma mark - Gesture recognizers -
 
 //==============================================================================
 
-- (void) addLongTapGestureRecognizer: (UIView*) cell
+- (void) addGestureRecognizer: (UIView*) cell
 {
     UILongPressGestureRecognizer* longtapRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongTap:)];
     [cell addGestureRecognizer: longtapRecognizer];
