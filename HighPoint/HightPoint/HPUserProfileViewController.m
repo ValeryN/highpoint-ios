@@ -6,52 +6,37 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
+//==============================================================================
+
 #import "HPUserProfileViewController.h"
 #import "Utils.h"
-@interface HPUserProfileViewController () @end
+
+//==============================================================================
 
 @implementation HPUserProfileViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+//==============================================================================
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor colorWithRed: 30.0/255.0
+                                                green: 29.0/255.0
+                                                 blue: 48.0/255.0
+                                                alpha: 1.0];
 }
-- (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-}
-- (IBAction)downButtonTap:(id)sender {
-    if([self.delegate respondsToSelector:@selector(profileWillBeHidden)]) {
+
+//==============================================================================
+
+- (IBAction)downButtonTap: (id)sender
+{
+    if ([self.delegate respondsToSelector: @selector(profileWillBeHidden)])
         [self.delegate profileWillBeHidden];
-    }
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+    [self dismissViewControllerAnimated: YES
+                             completion: nil];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+//==============================================================================
 
 @end
