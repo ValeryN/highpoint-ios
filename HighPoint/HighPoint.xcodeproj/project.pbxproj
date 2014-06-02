@@ -150,6 +150,8 @@
 		4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C4A01291935FD9000B56126 /* Point Notice Tap.png */; };
 		4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
 		4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
+		4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */; };
+		4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */; };
 		4CA2F9D7193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
 		4CA2F9D8193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
 		4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
@@ -360,6 +362,7 @@
 		3BEA72AE1924F8E500FDCA08 /* Close Round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Round.png"; sourceTree = "<group>"; };
 		4C4A01291935FD9000B56126 /* Point Notice Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice Tap.png"; sourceTree = "<group>"; };
 		4C5AC331193C5D7800A72676 /* HPSwitch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSwitch.xib; sourceTree = "<group>"; };
+		4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPFilterSettings.xib; sourceTree = "<group>"; };
 		4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCard.xib; sourceTree = "<group>"; };
 		4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HighPoint.h"; sourceTree = "<group>"; };
 		4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HighPoint.m"; sourceTree = "<group>"; };
@@ -726,6 +729,7 @@
 			children = (
 				3BD12E58192DFE380026BA11 /* HPFilterSettingsViewController.h */,
 				3BD12E59192DFE380026BA11 /* HPFilterSettingsViewController.m */,
+				4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */,
 			);
 			name = HPFilterSettingsViewController;
 			sourceTree = "<group>";
@@ -1007,6 +1011,7 @@
 				3B1FC627192A4608009DCD85 /* Green-Button-Tap-L.png in Resources */,
 				4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */,
 				3B1FC62C192A5429009DCD85 /* Point.png in Resources */,
+				4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
 				3B31865D191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf in Resources */,
 				3B3170A7191B7D1500B72AC1 /* Userpic Mask.png in Resources */,
 				3B298FC8192F476100BEC2AA /* slider-default7-trackBackground@2x.png in Resources */,
@@ -1022,6 +1027,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CA2F9D8193C64B800D7FBFD /* HPUserCard.xib in Resources */,
+				4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
 				4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */,
 				3B6DB4B918FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 				4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */,

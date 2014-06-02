@@ -152,15 +152,9 @@
 
 - (IBAction) filterButtonTap: (id)sender
 {
-    UIStoryboard *storyBoard;
-    //self.view.userInteractionEnabled = NO;
-    storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
-    
-    HPFilterSettingsViewController *filter = [storyBoard instantiateViewControllerWithIdentifier:@"HPFilterSettingsViewController"];
-     
+    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName:@"HPFilterSettings" bundle:nil];
     _crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:filter animated:YES];
-
 }
 
 //==============================================================================
