@@ -150,6 +150,8 @@
 		4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C4A01291935FD9000B56126 /* Point Notice Tap.png */; };
 		4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
 		4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
+		4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
+		4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -356,6 +358,8 @@
 		3BEA72AE1924F8E500FDCA08 /* Close Round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Round.png"; sourceTree = "<group>"; };
 		4C4A01291935FD9000B56126 /* Point Notice Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice Tap.png"; sourceTree = "<group>"; };
 		4C5AC331193C5D7800A72676 /* HPSwitch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSwitch.xib; sourceTree = "<group>"; };
+		4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HighPoint.h"; sourceTree = "<group>"; };
+		4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HighPoint.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -592,6 +596,7 @@
 		3B6DB49718FFC24D00C26A50 /* HightPoint */ = {
 			isa = PBXGroup;
 			children = (
+				4CE598E819386C71008CEC24 /* Categories */,
 				3BDA4C6B19064AE700EF6619 /* Networking */,
 				3BDA4C431906449D00EF6619 /* Utils */,
 				3B77908219001DA100EE0D15 /* External */,
@@ -839,6 +844,15 @@
 			path = External/SocketRocket;
 			sourceTree = "<group>";
 		};
+		4CE598E819386C71008CEC24 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */,
+				4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1037,6 +1051,7 @@
 				3BDA4C6619064AC900EF6619 /* AFSecurityPolicy.m in Sources */,
 				3BDA4C9D19064EAB00EF6619 /* HPRootViewController.m in Sources */,
 				3BDA4C6219064AC900EF6619 /* AFHTTPRequestOperation.m in Sources */,
+				4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
 				3BDA4C6E19064CD200EF6619 /* HPBaseNetworkManager.m in Sources */,
 				3BDA4C9A19064E5900EF6619 /* UIImageView+WebCache.m in Sources */,
 				3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */,
@@ -1070,6 +1085,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
 				3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

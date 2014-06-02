@@ -53,10 +53,18 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Point Notice" id="WWu-Bc-zmw" userLabel="Show point button">
-                                                    <rect key="frame" x="285" y="40" width="23" height="24"/>
+                                                <view contentMode="scaleToFill" id="IHw-GO-4eP" userLabel="Point Group">
+                                                    <rect key="frame" x="280" y="0.0" width="40" height="104"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Point Notice.png" id="WWu-Bc-zmw" userLabel="Show point button">
+                                                            <rect key="frame" x="8" y="40" width="23" height="24"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="У нас тут очень весело. Если кто не боится таких развлечений, пишите!" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bwY-Gy-lWp" userLabel="Label - Point">
                                                     <rect key="frame" x="12" y="0.0" width="256" height="104"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -458,7 +466,8 @@
         <image name="Down.png" width="46" height="24"/>
         <image name="Lens" width="16" height="16"/>
         <image name="Next.png" width="24" height="46"/>
-        <image name="Point Notice" width="154" height="25"/>
+        <image name="Point Notice.png" width="46" height="48"/>
+        <image name="Rectangle" width="16" height="16"/>
         <image name="bar_background.png" width="640" height="129"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

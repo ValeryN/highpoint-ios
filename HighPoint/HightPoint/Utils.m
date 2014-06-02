@@ -98,30 +98,8 @@
     return notView;
 
 }
-+ (UIImage*) maskImage:(UIImage *) image
-{
-    UIImage *mask_ = [UIImage imageNamed:@"Userpic Mask"];
-    CGImageRef maskRef = mask_.CGImage;
-    
-    CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
-                                        CGImageGetHeight(maskRef),
-                                        CGImageGetBitsPerComponent(maskRef),
-                                        CGImageGetBitsPerPixel(maskRef),
-                                        CGImageGetBytesPerRow(maskRef),
-                                        CGImageGetDataProvider(maskRef), NULL, false);
-    
-    CGImageRef masked = CGImageCreateWithMask([image CGImage], mask);
-    return [UIImage imageWithCGImage:masked];
-}
-+ (UIImage *)applyBlurOnImage: (UIImage *)imageToBlur withRadius: (CGFloat)blurRadius {
-    
-    CIImage *originalImage = [CIImage imageWithCGImage: imageToBlur.CGImage];
-    CIFilter *filter = [CIFilter filterWithName: @"CIGaussianBlur" keysAndValues: kCIInputImageKey, originalImage, @"inputRadius", @(blurRadius), nil];
-    CIImage *outputImage = filter.outputImage;
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CGImageRef outImage = [context createCGImage: outputImage fromRect: [outputImage extent]];
-    return [UIImage imageWithCGImage: outImage];
-}
+
+//==============================================================================
 
 + (UIView*) getNotificationViewForText:(NSString*) text {
     
