@@ -18,8 +18,6 @@
 + (UIImage *)scaleImage:(UIImage *)image toSize:(CGSize)size;
 + (UIView*) getNotificationViewForText:(NSString*) text;
 + (UIView*) getViewForGreenButtonForText:(NSString*) text andTapped:(BOOL) tapped;
-+ (UIImage*) maskImage:(UIImage *) image;
-+ (UIImage *)applyBlurOnImage: (UIImage *)imageToBlur withRadius: (CGFloat)blurRadius;
 + (void) configureNavigationBar:(UINavigationController*) controller;
 + (UIImage *)captureView:(UIView *)view withArea:(CGRect)screenRect;
 @end

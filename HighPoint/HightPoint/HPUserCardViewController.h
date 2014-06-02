@@ -6,14 +6,22 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
+//==============================================================================
+
 #import <UIKit/UIKit.h>
 #import "iCarousel.h"
 #import "HPUserProfileViewController.h"
+
+//==============================================================================
+
 @protocol UserImageStartAnimationDelegate <NSObject>
 - (void) startAnimation:(UIImageView*) image;
 @end
 
+//==============================================================================
+
 @interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, HPUserProfileViewControllerDelegate>
+
 @property (nonatomic, weak) IBOutlet UIButton *profileButton;
 @property (nonatomic, weak) IBOutlet UIButton *messageButton;
 @property (nonatomic, weak) IBOutlet UIButton *backButton;

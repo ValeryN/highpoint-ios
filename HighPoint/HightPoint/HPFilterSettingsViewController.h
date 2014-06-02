@@ -34,7 +34,6 @@
 @property (nonatomic, assign) BOOL menSwitchState;
 @property (nonatomic, assign) BOOL womenSwitchState;
 
-@property (nonatomic, weak) IBOutlet UIView *sepView1;
 - (IBAction) menSwitchTap:(id)sender;
 - (IBAction) womenSwitchTap:(id)sender;
 - (IBAction) profileButtonTap:(id)sender;

@@ -6,7 +6,11 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
+//==============================================================================
+
 #import <UIKit/UIKit.h>
+
+//==============================================================================
 
 @interface HPSwitchViewController : UIViewController <UIGestureRecognizerDelegate>
 @property (nonatomic, assign) BOOL switchState;
@@ -15,5 +19,4 @@
 @property(nonatomic, strong) UISwipeGestureRecognizer *swipeGesture;
 @property(nonatomic, weak) IBOutlet UILabel *leftLabel;
 @property(nonatomic, weak) IBOutlet UILabel *rightLabel;
-
 @end

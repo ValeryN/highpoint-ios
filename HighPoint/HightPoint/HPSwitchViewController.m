@@ -6,32 +6,33 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
+//==============================================================================
+
 #import "HPSwitchViewController.h"
 #import "Constants.h"
 #import "Utils.h"
-@interface HPSwitchViewController ()
 
-@end
+//==============================================================================
 
 @implementation HPSwitchViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+//==============================================================================
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_CLASSIC) {
+    [self initObjects];
+}
+
+//==============================================================================
+
+- (void) initObjects
+{
+    if ([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_CLASSIC)
         self.view.frame = CGRectMake(mainScreenSwitchToLeft, iPhone4ScreenHight - mainScreenSwitchToBottom_480 - mainScreenSwitchHeight , mainScreenSwitchWidth, mainScreenSwitchHeight);
-    } else {
+    else
         self.view.frame = CGRectMake(mainScreenSwitchToLeft, iPhone5ScreenHight - mainScreenSwitchToBottom_568 - mainScreenSwitchHeight, mainScreenSwitchWidth, mainScreenSwitchHeight);
-    }
+
     self.switchView = [self getSwitchView];
     [self.view addSubview:self.switchView];
     
@@ -43,37 +44,34 @@
     self.rightLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0 ];
     self.leftLabel.text = @"Все люди";
     self.rightLabel.text = @"Поинты";
-    //30 29 48
     self.leftLabel.textColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:0.4];
-    //self.leftLabel.alpha = 0.4;
     self.rightLabel.textColor = [UIColor colorWithRed:80.0/255.0 green:226.0/255.0 blue:193.0/255.0 alpha:1.0];
     
     [self.view addSubview:self.leftLabel];
     [self.view addSubview:self.rightLabel];
-    
-    // Do any additional setup after loading the view.
 }
-- (void) viewWillAppear:(BOOL)animated {
+
+//==============================================================================
+
+- (void) viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     [self addGesture];
 }
-- (void) viewWillDisappear:(BOOL)animated {
+
+//==============================================================================
+
+- (void) viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
     [self removeGesture];
 }
-- (UIView*) getSwitchView   {
-    
+
+//==============================================================================
+
+- (UIView*) getSwitchView
+{
     CGFloat width = 72;
-    //if ([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
-    //{
-    //    width = [text sizeWithFont:[UIFont fontWithName:@"FuturaPT-Book" size:16.0 ]].width;
-    //}
-    //else
-    //{
-    //    width = ceil([text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"FuturaPT-Book" size:16.0]}].width);
-    //}
-    
-    
     UIImage *imgC = [[UIImage imageNamed:@"Switcher-C"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     UIImage *imgL= [UIImage imageNamed:@"Switcher-L"];
     UIImage *imgR= [UIImage imageNamed:@"Switcher-R"];
@@ -91,20 +89,7 @@
     [notView addSubview:viewLeft];
     [notView addSubview:viewCenter];
     [notView addSubview:viewRight];
-    /*
-    CGFloat shift;
-    if(text.length == 1)
-        shift = 7;
-    else shift = 4;
-    
-    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(shift, 3.5, width, 16.0)];
-    textLabel.backgroundColor = [UIColor clearColor];
-    textLabel.text = text;
-    textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
-    textLabel.textColor = [UIColor whiteColor];
-    textLabel.textAlignment = NSTextAlignmentCenter;
-    [notView addSubview:textLabel];
-    */
+
     CGRect fr = notView.frame;
     fr.origin.x = 2;
     fr.origin.y = 2;
@@ -113,6 +98,9 @@
     return notView;
     
 }
+
+//==============================================================================
+
 - (void) addGesture
 {
     if(self.tapGesture == nil)
@@ -130,14 +118,20 @@
         [[self view] addGestureRecognizer:self.swipeGesture];
     }
 }
+
+//==============================================================================
+
 - (void) removeGesture
 {
     [[self view] removeGestureRecognizer:self.tapGesture];
     [[self view] removeGestureRecognizer:self.swipeGesture];
-    //[self.tapGesture release];
+
     self.tapGesture = nil;
     self.swipeGesture = nil;
 }
+
+//==============================================================================
+
 - (void) tapGesture:(UITapGestureRecognizer *)recognizer {
     self.switchState = !self.switchState;
     if(self.switchState) {
@@ -146,6 +140,9 @@
         [self moveSwitchToLeft];
     }
 }
+
+//==============================================================================
+
 - (void) swipeGesture:(UISwipeGestureRecognizer *)recognizer {
     self.switchState = !self.switchState;
     if(self.switchState) {
@@ -154,6 +151,9 @@
         [self moveSwitchToLeft];
     }
 }
+
+//==============================================================================
+
 - (void) moveSwitchToRight {
     CGRect newFrame;
     if([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_CLASSIC) {
@@ -172,6 +172,9 @@
          
      }];
 }
+
+//==============================================================================
+
 - (void) moveSwitchToLeft {
     CGRect newFrame;
     if([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_CLASSIC) {
@@ -191,21 +194,7 @@
                      }];
 
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+//==============================================================================
 
 @end
