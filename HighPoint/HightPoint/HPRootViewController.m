@@ -13,6 +13,8 @@
 #import "HPMainViewListTableViewCell.h"
 #import "Utils.h"
 #import "UIImage+HighPoint.h"
+#import "UINavigationController+HighPoint.h"
+#import "UIDevice+HighPoint.h"
 
 //==============================================================================
 
@@ -35,8 +37,6 @@
     
     [self configureNavigationBar];
     self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    UIStoryboard *storyBoard;
-    storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
     if(!self.bottomSwitch)
     {
         self.bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
@@ -62,31 +62,21 @@
 
 //==============================================================================
 
-- (void) configureNavigationBar {
-    [Utils configureNavigationBar:[self navigationController]];
-    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
-    [leftButton setContentMode:UIViewContentModeScaleAspectFit];
+- (UIBarButtonItem*) createLeftButton
+{
+    UIButton* leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
+    [leftButton setContentMode: UIViewContentModeScaleAspectFit];
+    [leftButton setBackgroundImage:[UIImage imageNamed: @"Profile.png"] forState: UIControlStateNormal];
+    [leftButton setBackgroundImage:[UIImage imageNamed: @"Profile Tap.png"] forState: UIControlStateHighlighted];
+    [leftButton addTarget: self action: @selector(profileButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
     
-    [leftButton setBackgroundImage:[UIImage imageNamed:@"Profile.png"] forState:UIControlStateNormal];
-    [leftButton setBackgroundImage:[UIImage imageNamed:@"Profile Tap.png"] forState:UIControlStateHighlighted];
-    
-    [leftButton addTarget:self action:@selector(profileButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
+    return [[UIBarButtonItem alloc] initWithCustomView: leftButton];
+}
 
-    UIBarButtonItem *leftButton_ = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        // Add a negative spacer on iOS >= 7.0
-        UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
-                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                           target:nil action:nil];
-        negativeSpacer.width = 0;
-        [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, leftButton_, nil]];
-    } else {
-        // Just set the UIBarButtonItem as you would normally
-        [self.navigationItem setLeftBarButtonItem:leftButton_];
-    }
-    self.notificationView = [Utils getNotificationViewForText:@"8"];
-    
+//==============================================================================
+
+- (UIBarButtonItem*) createRightButton
+{
     UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 26, 25)];
     [rightButton setContentMode:UIViewContentModeScaleAspectFit];
     
@@ -95,36 +85,30 @@
     [rightButton setBackgroundImage:[UIImage imageNamed:@"Bubble.png"] forState:UIControlStateNormal];
     [rightButton setBackgroundImage:[UIImage imageNamed:@"Bubble Tap.png"] forState:UIControlStateHighlighted];
     [rightButton addTarget:self action:@selector(bubbleButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
-    UIBarButtonItem *rightButton_ = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        // Add a negative spacer on iOS >= 7.0
-        UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
-                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                           target:nil action:nil];
-        negativeSpacer.width = 0;
-        
-        [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, rightButton_, nil]];
-        
-        NSShadow *shadow = [NSShadow new];
-        [shadow setShadowColor: [UIColor clearColor]];
-        [shadow setShadowOffset: CGSizeMake(0.0f, 0.0f)];
-        [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                         [UIFont fontWithName:@"FuturaPT-Light" size:18.0f], NSFontAttributeName,
-                                                                         [UIColor whiteColor], NSForegroundColorAttributeName,
-                                                                         shadow, NSShadowAttributeName,nil]];
-        [self.navigationItem setTitle:@"Москва, девушки 80-100"];
-        
-    } else {
-        
-        [self.navigationItem setRightBarButtonItem:rightButton_];
-        [[UINavigationBar appearance] setTitleTextAttributes: @{
-                                                                UITextAttributeTextColor: [UIColor whiteColor],
-                                                                UITextAttributeTextShadowColor: [UIColor clearColor],
-                                                                UITextAttributeTextShadowOffset: [NSValue valueWithUIOffset:UIOffsetMake(0.0f, 0.0f)],
-                                                                UITextAttributeFont: [UIFont fontWithName:@"FuturaPT-Light" size:18.0f]
-                                                                }];
-        [self.navigationItem setTitle:@"Москва, девушки 80-100"];
-    }
+    
+    return [[UIBarButtonItem alloc] initWithCustomView: rightButton];
+}
+
+//==============================================================================
+
+- (void) configureNavigationBar
+{
+    [self.navigationController hp_configureNavigationBar];
+    UIBarButtonItem *profileButton = [self createLeftButton];
+    [self.navigationItem setLeftBarButtonItem: profileButton];
+    
+    self.notificationView = [Utils getNotificationViewForText:@"8"];
+    
+    UIBarButtonItem* chatsButton = [self createRightButton];
+    [self.navigationItem setRightBarButtonItem: chatsButton];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                            UITextAttributeTextColor: [UIColor whiteColor],
+                                                            UITextAttributeTextShadowColor: [UIColor clearColor],
+                                                            UITextAttributeTextShadowOffset: [NSValue valueWithUIOffset:UIOffsetMake(0.0f, 0.0f)],
+                                                            UITextAttributeFont: [UIFont fontWithName:@"FuturaPT-Light" size:18.0f]
+                                                            }];
+    [self.navigationItem setTitle:@"Москва, девушки 80-100"];
 }
 
 //==============================================================================
@@ -135,13 +119,13 @@
 
 - (void) profileButtonPressedStart: (id) sender
 {
-    [self showNotification];
+    [self showNotificationBadge];
 }
 //==============================================================================
 
 - (void) bubbleButtonPressedStart: (id) sender
 {
-    [self hideNotification];
+    [self hideNotificationBadge];
 }
 
 //==============================================================================
@@ -283,7 +267,7 @@
 
 //==============================================================================
 
-- (void) hideNotification
+- (void) hideNotificationBadge
 {
     [UIView transitionWithView:[self navigationController].view
                       duration:0.2
@@ -299,7 +283,7 @@
 
 //==============================================================================
 
-- (void) showNotification
+- (void) showNotificationBadge
 {
     [UIView transitionWithView:[self navigationController].view
                       duration:0.2
