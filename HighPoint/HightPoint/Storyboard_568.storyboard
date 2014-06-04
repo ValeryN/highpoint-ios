@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="104" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="NN0-MU-hah">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="104" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="NN0-MU-hah">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -98,7 +98,7 @@
                                     <outlet property="delegate" destination="d74-B2-43R" id="7Qq-ef-nZr"/>
                                 </connections>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Blend 5X" translatesAutoresizingMaskIntoConstraints="NO" id="rlD-h7-wo0">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="Blend 5X" translatesAutoresizingMaskIntoConstraints="NO" id="rlD-h7-wo0">
                                 <rect key="frame" x="0.0" y="408" width="320" height="160"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -114,6 +114,13 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="NN0-MU-hah" secondAttribute="bottom" id="86P-js-lea"/>
+                            <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="rlD-h7-wo0" secondAttribute="bottom" id="ApK-Jj-pTD"/>
+                            <constraint firstAttribute="trailing" secondItem="NN0-MU-hah" secondAttribute="trailing" id="BPR-FZ-znb"/>
+                            <constraint firstItem="NN0-MU-hah" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" id="pGc-sa-CYS"/>
+                            <constraint firstItem="NN0-MU-hah" firstAttribute="top" secondItem="Ixf-VR-DTw" secondAttribute="top" id="vh1-YT-v7y"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bkJ-CB-an4"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
