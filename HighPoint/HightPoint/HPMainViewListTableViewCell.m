@@ -9,6 +9,8 @@
 //==============================================================================
 
 #import "HPMainViewListTableViewCell.h"
+#import "UIImage+HighPoint.h"
+#import "UILabel+HighPoint.h"
 
 //==============================================================================
 
@@ -19,6 +21,37 @@
 //==============================================================================
 
 @implementation HPMainViewListTableViewCell
+
+//==============================================================================
+
+- (void) configureCell
+{
+    UIImage* userAvatar = [UIImage imageNamed: @"img_sample1"];
+    UIImage* userAvatarWithMask = [userAvatar hp_maskImageWithPattern: [UIImage imageNamed: @"Userpic Mask"]];
+    self.userImage.image = userAvatarWithMask;
+    self.userImageBorder.image = [UIImage imageNamed: @"Userpic Shape Green"];
+
+    [self.firstLabel hp_tuneForUseListCellName];
+    self.firstLabel.text = @"Анастасия Шляпова";
+    
+    [self.secondLabel hp_tuneForUseListCellAgeAndCity];
+    self.secondLabel.text = @"99 лет, Когалым";
+    
+    [self.point hp_tuneForUseListCellPointText];
+    self.point.text = @"У нас тут очень весело. Если кто не боится таких развлечений, пишите!";
+
+    [self addGestureRecognizer];
+}
+
+//==============================================================================
+
+- (void) blurUserImage
+{
+    UIImage* userAvatar = [UIImage imageNamed: @"img_sample1"];
+    userAvatar = [userAvatar hp_applyBlurWithRadius: 5.0];
+    UIImage* userAvatarWithMask = [userAvatar hp_maskImageWithPattern: [UIImage imageNamed: @"Userpic Mask"]];
+    self.userImage.image = userAvatarWithMask;
+}
 
 //==============================================================================
 
@@ -127,7 +160,7 @@
 
 - (void) fullhideMaininfo
 {
-    self.point.alpha = 1;
+    self.point.alpha = 1.0;
     
     CGRect rect = self.mainInfoGroup.frame;
     rect.origin.x = 2 * rect.origin.x;

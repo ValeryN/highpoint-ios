@@ -18,7 +18,6 @@
 
 //==============================================================================
 
-#define CELL_HEIGHT 104
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 
 //==============================================================================
@@ -161,13 +160,6 @@
 
 //==============================================================================
 
-- (CGFloat) tableView: (UITableView*) tableView heightForRowAtIndexPath: (NSIndexPath*) indexPath
-{
-    return CELL_HEIGHT;
-}
-
-//==============================================================================
-
 - (UITableViewCell*) tableView: (UITableView*) tableView cellForRowAtIndexPath: (NSIndexPath*) indexPath
 {
     static NSString *mainCellId = @"maincell";
@@ -175,31 +167,10 @@
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
 
-    UIImage* img =[UIImage imageNamed: @"img_sample1"];
+    [mCell configureCell];
     if (indexPath.row == 3)
-        img = [img hp_applyBlurWithRadius: 5.0];
-
-    UIImage* img_ = [img hp_maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask"]];
-    mCell.userImageBorder.autoresizingMask = UIViewAutoresizingNone;
-    mCell.userImage.autoresizingMask = UIViewAutoresizingNone;
-    mCell.userImage.image = img_;
-    mCell.userImageBorder.image = [UIImage imageNamed:@"Userpic Shape Green"];
-    
-    mCell.firstLabel.textColor = [UIColor whiteColor];
-    mCell.firstLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:18.0 ];
-    mCell.firstLabel.text = @"Анастасия Шляпова";
-    
-    mCell.secondLabel.textColor = [UIColor whiteColor];
-    mCell.secondLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:15.0f];
-    mCell.secondLabel.text = @"99 лет, Когалым";
-    
-    mCell.point.textColor = [UIColor whiteColor];
-    mCell.point.font = [UIFont fontWithName:@"FuturaPT-Book" size:15.0f];
-    mCell.point.text = @"У нас тут очень весело. Если кто не боится таких развлечений, пишите!";
-    
-    mCell.backgroundColor = [UIColor clearColor];
-    [mCell addGestureRecognizer];
-
+        [mCell blurUserImage];
+        
     return mCell;
 }
 
