@@ -13,8 +13,10 @@
 #define SCREEN_SIZE_IPAD_CLASSIC 9.7
 @interface Utils : NSObject
 @property (nonatomic, strong) UIViewController *controller;
+
+//+ (NSString*) getStoryBoardName;
+
 + (CGFloat)screenPhysicalSize;
-+ (NSString*) getStoryBoardName;
 + (UIImage *)scaleImage:(UIImage *)image toSize:(CGSize)size;
 + (UIView*) getNotificationViewForText:(NSString*) text;
 + (UIView*) getViewForGreenButtonForText:(NSString*) text andTapped:(BOOL) tapped;

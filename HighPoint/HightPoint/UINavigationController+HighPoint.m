@@ -9,6 +9,7 @@
 //==============================================================================
 
 #import "UINavigationController+HighPoint.h"
+#import "UIDevice+HighPoint.h"
 
 //==============================================================================
 
@@ -54,5 +55,22 @@
 }
 
 //==============================================================================
+
+- (void) hp_configureNavigationBar
+{
+    UIColor* color = [UIColor colorWithRed: 34.0 / 255.0
+                                     green: 45.0 / 255.0
+                                      blue: 77.0 / 255.0
+                                     alpha: 0.9];
+    if ([UIDevice hp_isIOS7])
+    {
+        [self.navigationBar setBarTintColor: color];
+    }
+    else
+    {
+        [[UINavigationBar appearance] setBackgroundColor: color];
+        [self.navigationBar setTintColor: color];
+    }
+}
 
 @end

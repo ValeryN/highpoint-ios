@@ -24,12 +24,12 @@
         return SCREEN_SIZE_IPAD_CLASSIC; // iPad
     }
 }
-+ (NSString*) getStoryBoardName
-{
-    if([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_TALL)
-        return @"Storyboard_568";
-    else return @"Storyboard_480";
-}
+//+ (NSString*) getStoryBoardName
+//{
+//    if([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_TALL)
+//        return @"Storyboard_568";
+//    else return @"Storyboard_480";
+//}
 +(UIImage *)scaleImage:(UIImage *)image toSize:(CGSize)size {
     UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
     

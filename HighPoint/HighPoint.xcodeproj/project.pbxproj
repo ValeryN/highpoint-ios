@@ -62,7 +62,6 @@
 		3B3170BE191BAFC200B72AC1 /* Switcher-R.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170BB191BAFC200B72AC1 /* Switcher-R.png */; };
 		3B3170C0191BB55A00B72AC1 /* Rectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170BF191BB55A00B72AC1 /* Rectangle.png */; };
 		3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170C1191BC82A00B72AC1 /* Blend 5X.png */; };
-		3B318648191A3FF30000DD8B /* Storyboard_480.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B318647191A3FF30000DD8B /* Storyboard_480.storyboard */; };
 		3B31864B191A408B0000DD8B /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31864A191A408B0000DD8B /* Utils.m */; };
 		3B31864F191A493F0000DD8B /* Profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B31864E191A493F0000DD8B /* Profile.png */; };
 		3B318651191A5E4D0000DD8B /* Bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B318650191A5E4D0000DD8B /* Bubble.png */; };
@@ -150,6 +149,10 @@
 		4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C4A01291935FD9000B56126 /* Point Notice Tap.png */; };
 		4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
 		4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
+		4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8096A4193DDA7300E4C174 /* HPIOSVersion.m */; };
+		4C8096A8193DDA7300E4C174 /* HPIOSVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8096A4193DDA7300E4C174 /* HPIOSVersion.m */; };
+		4C8096A9193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8096A6193DDA7300E4C174 /* UIDevice+HighPoint.m */; };
+		4C8096AA193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8096A6193DDA7300E4C174 /* UIDevice+HighPoint.m */; };
 		4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */; };
 		4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */; };
 		4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */; };
@@ -236,7 +239,6 @@
 		3B3170BB191BAFC200B72AC1 /* Switcher-R.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Switcher-R.png"; sourceTree = "<group>"; };
 		3B3170BF191BB55A00B72AC1 /* Rectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rectangle.png; sourceTree = "<group>"; };
 		3B3170C1191BC82A00B72AC1 /* Blend 5X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blend 5X.png"; sourceTree = "<group>"; };
-		3B318647191A3FF30000DD8B /* Storyboard_480.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard_480.storyboard; sourceTree = "<group>"; };
 		3B318649191A408B0000DD8B /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		3B31864A191A408B0000DD8B /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		3B31864E191A493F0000DD8B /* Profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile.png; sourceTree = "<group>"; };
@@ -368,6 +370,11 @@
 		3BEA72AE1924F8E500FDCA08 /* Close Round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Round.png"; sourceTree = "<group>"; };
 		4C4A01291935FD9000B56126 /* Point Notice Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice Tap.png"; sourceTree = "<group>"; };
 		4C5AC331193C5D7800A72676 /* HPSwitch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSwitch.xib; sourceTree = "<group>"; };
+		4C8096A3193DDA7300E4C174 /* HPIOSVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPIOSVersion.h; sourceTree = "<group>"; };
+		4C8096A4193DDA7300E4C174 /* HPIOSVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPIOSVersion.m; sourceTree = "<group>"; };
+		4C8096A5193DDA7300E4C174 /* UIDevice+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+HighPoint.h"; sourceTree = "<group>"; };
+		4C8096A6193DDA7300E4C174 /* UIDevice+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+HighPoint.m"; sourceTree = "<group>"; };
+		4C8096AB193DDB0300E4C174 /* HPLanguageStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPLanguageStrings.h; sourceTree = "<group>"; };
 		4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPFilterSettings.xib; sourceTree = "<group>"; };
 		4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserProfile.xib; sourceTree = "<group>"; };
 		4C89BD32193CAAF100DAE2EE /* UINavigationController+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+HighPoint.h"; sourceTree = "<group>"; };
@@ -614,6 +621,9 @@
 		3B6DB49718FFC24D00C26A50 /* HightPoint */ = {
 			isa = PBXGroup;
 			children = (
+				4C8096AB193DDB0300E4C174 /* HPLanguageStrings.h */,
+				4C8096A3193DDA7300E4C174 /* HPIOSVersion.h */,
+				4C8096A4193DDA7300E4C174 /* HPIOSVersion.m */,
 				4CE598E819386C71008CEC24 /* Categories */,
 				3BDA4C6B19064AE700EF6619 /* Networking */,
 				3BDA4C431906449D00EF6619 /* Utils */,
@@ -627,7 +637,6 @@
 				3B6DB4A318FFC24D00C26A50 /* HightPoint.xcdatamodeld */,
 				3B6DB49818FFC24D00C26A50 /* Supporting Files */,
 				3B6DB4C418FFC33900C26A50 /* Storyboard_568.storyboard */,
-				3B318647191A3FF30000DD8B /* Storyboard_480.storyboard */,
 			);
 			path = HightPoint;
 			sourceTree = "<group>";
@@ -867,6 +876,8 @@
 		4CE598E819386C71008CEC24 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				4C8096A5193DDA7300E4C174 /* UIDevice+HighPoint.h */,
+				4C8096A6193DDA7300E4C174 /* UIDevice+HighPoint.m */,
 				4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */,
 				4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */,
 				4C89BD32193CAAF100DAE2EE /* UINavigationController+HighPoint.h */,
@@ -963,7 +974,6 @@
 				4C4A012A1935FD9000B56126 /* Point Notice Tap.png in Resources */,
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
 				3B1FC628192A4608009DCD85 /* Green-Button-Tap-R.png in Resources */,
-				3B318648191A3FF30000DD8B /* Storyboard_480.storyboard in Resources */,
 				3B3170BC191BAFC200B72AC1 /* Switcher-C.png in Resources */,
 				3BEA72AF1924F8E500FDCA08 /* Close Round Tap.png in Resources */,
 				3B298FC7192F476100BEC2AA /* slider-default7-trackBackground.png in Resources */,
@@ -1065,7 +1075,9 @@
 				3BDA4C9519064E5900EF6619 /* SDWebImagePrefetcher.m in Sources */,
 				3BDA4CA8190660B400EF6619 /* SRWebSocket.m in Sources */,
 				3BDA4C4D1906470100EF6619 /* UserParam.m in Sources */,
+				4C8096A9193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				3B6DB4A218FFC24D00C26A50 /* HPAppDelegate.m in Sources */,
+				4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
 				3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */,
 				3BB5E8681935F43700DDF5F9 /* ModalAnimation.m in Sources */,
 				3B3170B7191BA56900B72AC1 /* HPSwitchViewController.m in Sources */,
@@ -1118,6 +1130,8 @@
 			files = (
 				4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
 				4C89BD35193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
+				4C8096A8193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
+				4C8096AA193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
