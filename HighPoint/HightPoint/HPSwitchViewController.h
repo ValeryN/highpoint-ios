@@ -15,8 +15,8 @@
 @interface HPSwitchViewController : UIViewController <UIGestureRecognizerDelegate>
 @property (nonatomic, assign) BOOL switchState;
 @property (nonatomic, strong) UIView *switchView;
-@property(nonatomic, strong) UITapGestureRecognizer *tapGesture;
-@property(nonatomic, strong) UISwipeGestureRecognizer *swipeGesture;
-@property(nonatomic, weak) IBOutlet UILabel *leftLabel;
-@property(nonatomic, weak) IBOutlet UILabel *rightLabel;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
+@property (nonatomic, strong) UISwipeGestureRecognizer *swipeGesture;
+@property (nonatomic, weak) IBOutlet UILabel *leftLabel;
+@property (nonatomic, weak) IBOutlet UILabel *rightLabel;
 @end

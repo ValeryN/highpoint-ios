@@ -14,8 +14,11 @@
 
 @interface UILabel (HighPoint)
 
-- (void) hp_tuneForUseListCellName;
-- (void) hp_tuneForUseListCellAgeAndCity;
-- (void) hp_tuneForUseListCellPointText;
+- (void) hp_tuneForUserListCellName;
+- (void) hp_tuneForUserListCellAgeAndCity;
+- (void) hp_tuneForUserListCellPointText;
+
+- (void) hp_tuneForSwitchIsOn;
+- (void) hp_tuneForSwitchIsOff;
 
 @end

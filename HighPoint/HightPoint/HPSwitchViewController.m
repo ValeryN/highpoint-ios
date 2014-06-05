@@ -11,6 +11,7 @@
 #import "HPSwitchViewController.h"
 #import "Constants.h"
 #import "Utils.h"
+#import "UILabel+HighPoint.h"
 
 //==============================================================================
 
@@ -33,22 +34,18 @@
     else
         self.view.frame = CGRectMake(mainScreenSwitchToLeft, iPhone5ScreenHight - mainScreenSwitchToBottom_568 - mainScreenSwitchHeight, mainScreenSwitchWidth, mainScreenSwitchHeight);
 
-    self.switchView = [self getSwitchView];
-    [self.view addSubview:self.switchView];
+    self.switchView = [self createSwitchView];
+    [self.view addSubview: self.switchView];
     
     //switch label
     [self.leftLabel removeFromSuperview];
     [self.rightLabel removeFromSuperview];
     
-    self.leftLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0 ];
-    self.rightLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0 ];
-    self.leftLabel.text = @"Все люди";
-    self.rightLabel.text = @"Поинты";
-    self.leftLabel.textColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:0.4];
-    self.rightLabel.textColor = [UIColor colorWithRed:80.0/255.0 green:226.0/255.0 blue:193.0/255.0 alpha:1.0];
+    [self.leftLabel hp_tuneForSwitchIsOn];
+    [self.rightLabel hp_tuneForSwitchIsOff];
     
-    [self.view addSubview:self.leftLabel];
-    [self.view addSubview:self.rightLabel];
+    [self.view addSubview: self.leftLabel];
+    [self.view addSubview: self.rightLabel];
 }
 
 //==============================================================================
@@ -69,31 +66,37 @@
 
 //==============================================================================
 
-- (UIView*) getSwitchView
+- (UIView*) createSwitchView
 {
-    CGFloat width = 72;
-    UIImage *imgC = [[UIImage imageNamed:@"Switcher-C"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    UIImage *imgL= [UIImage imageNamed:@"Switcher-L"];
-    UIImage *imgR= [UIImage imageNamed:@"Switcher-R"];
-    
-    UIImageView *viewCenter = [[UIImageView alloc] initWithImage:imgC];
-    UIImageView *viewLeft = [[UIImageView alloc] initWithImage:imgL];
-    viewLeft.frame = CGRectMake(0, 0, viewLeft.frame.size.width/2.0, viewLeft.frame.size.height/2.0);
-    UIImageView *viewRight = [[UIImageView alloc] initWithImage:imgR];
-    if(width >=15)
-        viewCenter.frame = CGRectMake(viewLeft.frame.size.width, 0, width - 15.0 ,viewCenter.frame.size.height/2.0);
-    else viewCenter.frame = CGRectMake(viewLeft.frame.size.width, 0.0, 0.0 ,viewCenter.frame.size.height/2.0);
-    viewRight.frame = CGRectMake(viewLeft.frame.size.width + viewCenter.frame.size.width, 0, viewRight.frame.size.width/2.0,viewCenter.frame.size.height);
-    UIView *notView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewLeft.frame.size.width + viewCenter.frame.size.width + viewRight.frame.size.width, viewCenter.frame.size.height)];
-    notView.backgroundColor = [UIColor clearColor];
-    [notView addSubview:viewLeft];
-    [notView addSubview:viewCenter];
-    [notView addSubview:viewRight];
+    UIImage *imgC = [[UIImage imageNamed: @"Switcher-C"] resizableImageWithCapInsets: UIEdgeInsetsMake(0, 0, 0, 0)];
+    UIImage *imgL= [UIImage imageNamed: @"Switcher-L"];
+    UIImage *imgR= [UIImage imageNamed: @"Switcher-R"];
 
-    CGRect fr = notView.frame;
-    fr.origin.x = 2;
-    fr.origin.y = 2;
-    notView.frame = fr;
+    UIImageView *viewLeft = [[UIImageView alloc] initWithImage: imgL];
+    viewLeft.frame = CGRectMake(0, 0, viewLeft.frame.size.width / 2.0, viewLeft.frame.size.height / 2.0);
+    UIImageView *viewRight = [[UIImageView alloc] initWithImage: imgR];
+    
+    UIImageView *viewCenter = [[UIImageView alloc] initWithImage: imgC];
+    viewCenter.frame = CGRectMake(viewLeft.frame.size.width, 0, 56, viewCenter.frame.size.height / 2.0);
+    viewRight.frame = CGRectMake(viewLeft.frame.size.width + viewCenter.frame.size.width,
+                                 0,
+                                 viewRight.frame.size.width / 2.0,
+                                 viewCenter.frame.size.height);
+    
+    CGRect rect = CGRectMake(0,
+                             0,
+                             viewLeft.frame.size.width + viewCenter.frame.size.width + viewRight.frame.size.width,
+                             viewCenter.frame.size.height);
+    UIView* notView = [[UIView alloc] initWithFrame: rect];
+    notView.backgroundColor = [UIColor clearColor];
+    [notView addSubview: viewLeft];
+    [notView addSubview: viewCenter];
+    [notView addSubview: viewRight];
+
+    rect = notView.frame;
+    rect.origin.x = 2;
+    rect.origin.y = 2;
+    notView.frame = rect;
      
     return notView;
     

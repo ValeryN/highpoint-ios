@@ -31,13 +31,13 @@
     self.userImage.image = userAvatarWithMask;
     self.userImageBorder.image = [UIImage imageNamed: @"Userpic Shape Green"];
 
-    [self.firstLabel hp_tuneForUseListCellName];
+    [self.firstLabel hp_tuneForUserListCellName];
     self.firstLabel.text = @"Анастасия Шляпова";
     
-    [self.secondLabel hp_tuneForUseListCellAgeAndCity];
+    [self.secondLabel hp_tuneForUserListCellAgeAndCity];
     self.secondLabel.text = @"99 лет, Когалым";
     
-    [self.point hp_tuneForUseListCellPointText];
+    [self.point hp_tuneForUserListCellPointText];
     self.point.text = @"У нас тут очень весело. Если кто не боится таких развлечений, пишите!";
 
     [self addGestureRecognizer];
