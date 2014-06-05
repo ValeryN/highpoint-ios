@@ -15,10 +15,10 @@
 #import "UIImage+HighPoint.h"
 #import "UINavigationController+HighPoint.h"
 #import "UIDevice+HighPoint.h"
+#import "UILabel+HighPoint.h"
 
 //==============================================================================
 
-#define CELL_HEIGHT 104
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 
 //==============================================================================
@@ -37,11 +37,12 @@
     
     [self configureNavigationBar];
     self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    if(!self.bottomSwitch)
+    if (!self.bottomSwitch)
     {
         self.bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
-        [self addChildViewController:self.bottomSwitch];
-        [self.view insertSubview:self.bottomSwitch.view atIndex:2];
+
+        [self addChildViewController: self.bottomSwitch];
+        [self.view insertSubview: self.bottomSwitch.view atIndex: 2];
         [self.bottomSwitch didMoveToParentViewController:self];
     }
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
@@ -64,7 +65,7 @@
 
 - (UIBarButtonItem*) createLeftButton
 {
-    UIButton* leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
+    UIButton* leftButton = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 26, 26)];
     [leftButton setContentMode: UIViewContentModeScaleAspectFit];
     [leftButton setBackgroundImage:[UIImage imageNamed: @"Profile.png"] forState: UIControlStateNormal];
     [leftButton setBackgroundImage:[UIImage imageNamed: @"Profile Tap.png"] forState: UIControlStateHighlighted];
@@ -78,12 +79,12 @@
 - (UIBarButtonItem*) createRightButton
 {
     UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 26, 25)];
-    [rightButton setContentMode:UIViewContentModeScaleAspectFit];
+    [rightButton setContentMode: UIViewContentModeScaleAspectFit];
     
-    [rightButton addSubview:self.notificationView];
+    [rightButton addSubview: self.notificationView];
     
-    [rightButton setBackgroundImage:[UIImage imageNamed:@"Bubble.png"] forState:UIControlStateNormal];
-    [rightButton setBackgroundImage:[UIImage imageNamed:@"Bubble Tap.png"] forState:UIControlStateHighlighted];
+    [rightButton setBackgroundImage:[UIImage imageNamed: @"Bubble.png"] forState:UIControlStateNormal];
+    [rightButton setBackgroundImage:[UIImage imageNamed: @"Bubble Tap.png"] forState:UIControlStateHighlighted];
     [rightButton addTarget:self action:@selector(bubbleButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
     
     return [[UIBarButtonItem alloc] initWithCustomView: rightButton];
@@ -97,18 +98,22 @@
     UIBarButtonItem *profileButton = [self createLeftButton];
     [self.navigationItem setLeftBarButtonItem: profileButton];
     
-    self.notificationView = [Utils getNotificationViewForText:@"8"];
+    self.notificationView = [Utils getNotificationViewForText: @"8"];
     
     UIBarButtonItem* chatsButton = [self createRightButton];
     [self.navigationItem setRightBarButtonItem: chatsButton];
     
+    UIColor* color = [UIColor colorWithRed: 230.0 / 255.0
+                                     green: 236.0 / 255.0
+                                      blue: 242.0 / 255.0
+                                     alpha: 1.0];
     [[UINavigationBar appearance] setTitleTextAttributes: @{
-                                                            UITextAttributeTextColor: [UIColor whiteColor],
+                                                            UITextAttributeTextColor: color,
                                                             UITextAttributeTextShadowColor: [UIColor clearColor],
                                                             UITextAttributeTextShadowOffset: [NSValue valueWithUIOffset:UIOffsetMake(0.0f, 0.0f)],
                                                             UITextAttributeFont: [UIFont fontWithName:@"FuturaPT-Light" size:18.0f]
                                                             }];
-    [self.navigationItem setTitle:@"Москва, девушки 80-100"];
+    [self.navigationItem setTitle: @"Москва, девушки 80-100"];
 }
 
 //==============================================================================
@@ -161,45 +166,17 @@
 
 //==============================================================================
 
-- (CGFloat) tableView: (UITableView*) tableView heightForRowAtIndexPath: (NSIndexPath*) indexPath
-{
-    return CELL_HEIGHT;
-}
-
-//==============================================================================
-
 - (UITableViewCell*) tableView: (UITableView*) tableView cellForRowAtIndexPath: (NSIndexPath*) indexPath
 {
     static NSString *mainCellId = @"maincell";
-    HPMainViewListTableViewCell *mCell = [tableView dequeueReusableCellWithIdentifier:mainCellId];
+    HPMainViewListTableViewCell *mCell = [tableView dequeueReusableCellWithIdentifier: mainCellId];
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
 
-    UIImage* img =[UIImage imageNamed: @"img_sample1"];
+    [mCell configureCell];
     if (indexPath.row == 3)
-        img = [img hp_applyBlurWithRadius: 5.0];
-
-    UIImage* img_ = [img hp_maskImageWithPattern: [UIImage imageNamed:@"Userpic Mask"]];
-    mCell.userImageBorder.autoresizingMask = UIViewAutoresizingNone;
-    mCell.userImage.autoresizingMask = UIViewAutoresizingNone;
-    mCell.userImage.image = img_;
-    mCell.userImageBorder.image = [UIImage imageNamed:@"Userpic Shape Green"];
+        [mCell makeAnonymous];
     
-    mCell.firstLabel.textColor = [UIColor whiteColor];
-    mCell.firstLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:18.0 ];
-    mCell.firstLabel.text = @"Анастасия Шляпова";
-    
-    mCell.secondLabel.textColor = [UIColor whiteColor];
-    mCell.secondLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:15.0f];
-    mCell.secondLabel.text = @"99 лет, Когалым";
-    
-    mCell.point.textColor = [UIColor whiteColor];
-    mCell.point.font = [UIFont fontWithName:@"FuturaPT-Book" size:15.0f];
-    mCell.point.text = @"У нас тут очень весело. Если кто не боится таких развлечений, пишите!";
-    
-    mCell.backgroundColor = [UIColor clearColor];
-    [mCell addGestureRecognizer];
-
     return mCell;
 }
 
