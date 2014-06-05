@@ -15,6 +15,7 @@
 #import "UIImage+HighPoint.h"
 #import "UINavigationController+HighPoint.h"
 #import "UIDevice+HighPoint.h"
+#import "UILabel+HighPoint.h"
 
 //==============================================================================
 
@@ -64,7 +65,7 @@
 
 - (UIBarButtonItem*) createLeftButton
 {
-    UIButton* leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
+    UIButton* leftButton = [[UIButton alloc] initWithFrame: CGRectMake(0, 0, 26, 26)];
     [leftButton setContentMode: UIViewContentModeScaleAspectFit];
     [leftButton setBackgroundImage:[UIImage imageNamed: @"Profile.png"] forState: UIControlStateNormal];
     [leftButton setBackgroundImage:[UIImage imageNamed: @"Profile Tap.png"] forState: UIControlStateHighlighted];
@@ -78,12 +79,12 @@
 - (UIBarButtonItem*) createRightButton
 {
     UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 26, 25)];
-    [rightButton setContentMode:UIViewContentModeScaleAspectFit];
+    [rightButton setContentMode: UIViewContentModeScaleAspectFit];
     
-    [rightButton addSubview:self.notificationView];
+    [rightButton addSubview: self.notificationView];
     
-    [rightButton setBackgroundImage:[UIImage imageNamed:@"Bubble.png"] forState:UIControlStateNormal];
-    [rightButton setBackgroundImage:[UIImage imageNamed:@"Bubble Tap.png"] forState:UIControlStateHighlighted];
+    [rightButton setBackgroundImage:[UIImage imageNamed: @"Bubble.png"] forState:UIControlStateNormal];
+    [rightButton setBackgroundImage:[UIImage imageNamed: @"Bubble Tap.png"] forState:UIControlStateHighlighted];
     [rightButton addTarget:self action:@selector(bubbleButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
     
     return [[UIBarButtonItem alloc] initWithCustomView: rightButton];
@@ -174,8 +175,8 @@
 
     [mCell configureCell];
     if (indexPath.row == 3)
-        [mCell blurUserImage];
-        
+        [mCell makeAnonymous];
+    
     return mCell;
 }
 

@@ -10,7 +10,7 @@
 
 @interface HPMainViewListTableViewCell : UITableViewCell
 
-- (void) blurUserImage;
+- (void) makeAnonymous;
 - (void) configureCell;
 - (void) vibrateThePoint;
 - (void) showPoint;

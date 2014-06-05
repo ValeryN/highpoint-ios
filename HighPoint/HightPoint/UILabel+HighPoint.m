@@ -39,7 +39,11 @@
 
 - (void) hp_tuneForUserListCellAnonymous
 {
-    self.font = [UIFont fontWithName: @"FuturaPT-Medium" size: 15.0];
+    self.font = [UIFont fontWithName: @"FuturaPT-Light" size: 15.0];
+    self.textColor = [UIColor colorWithRed: 230.0 / 255.0
+                                     green: 236.0 / 255.0
+                                      blue: 242.0 / 255.0
+                                     alpha: 0.6];
 }
 
 //==============================================================================

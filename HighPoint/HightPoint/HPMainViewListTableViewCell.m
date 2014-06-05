@@ -24,6 +24,15 @@
 
 //==============================================================================
 
+- (void) makeAnonymous
+{
+    [_secondLabel hp_tuneForUserListCellAnonymous];
+    [_firstLabel hp_tuneForUserListCellAnonymous];
+    [self blurUserImage];
+}
+
+//==============================================================================
+
 - (void) configureCell
 {
     UIImage* userAvatar = [UIImage imageNamed: @"img_sample1"];
