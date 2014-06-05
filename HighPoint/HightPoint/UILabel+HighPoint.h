@@ -17,6 +17,7 @@
 - (void) hp_tuneForUserListCellName;
 - (void) hp_tuneForUserListCellAgeAndCity;
 - (void) hp_tuneForUserListCellPointText;
+- (void) hp_tuneForUserListCellAnonymous;
 
 - (void) hp_tuneForSwitchIsOn;
 - (void) hp_tuneForSwitchIsOff;

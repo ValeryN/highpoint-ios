@@ -109,15 +109,16 @@
     if(self.tapGesture == nil)
     {
         self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-        self.swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
         self.tapGesture.cancelsTouchesInView = NO;
-        self.swipeGesture.cancelsTouchesInView = NO;
         self.tapGesture.numberOfTouchesRequired = 1;
+        [self.tapGesture setDelegate:self];
+        [[self view] addGestureRecognizer:self.tapGesture];
+
+        self.swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
+        self.swipeGesture.cancelsTouchesInView = NO;
         self.swipeGesture.direction  = UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight;
         self.swipeGesture.numberOfTouchesRequired = 1;
-        [self.tapGesture setDelegate:self];
         [self.swipeGesture setDelegate:self];
-        [[self view] addGestureRecognizer:self.tapGesture];
         [[self view] addGestureRecognizer:self.swipeGesture];
     }
 }
@@ -164,37 +165,42 @@
     } else {
         newFrame = CGRectMake(2 + 102, 2, mainScreenSwitchWidth, mainScreenSwitchHeight);
     }
-    self.rightLabel.textColor = [UIColor colorWithRed:80.0/255.0 green:226.0/255.0 blue:193.0/255.0 alpha:0.4];
-    self.leftLabel.textColor = [UIColor colorWithRed:80.0/255.0 green:226.0/255.0 blue:193.0/255.0 alpha:1.0];
-    CGRect offSetRect=CGRectOffset(newFrame, 0.0f, 0.0f);
-    [UIView animateWithDuration:0.4 animations:^{
-     self.switchView.frame=offSetRect;
-     }
-     completion:^(BOOL finished){
-         self.rightLabel.textColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:0.4];
-         
-     }];
+
+    [self.rightLabel hp_tuneForSwitchIsOn];
+    [self.leftLabel hp_tuneForSwitchIsOff];
+    CGRect offSetRect = CGRectOffset(newFrame, 0.0f, 0.0f);
+    
+    [UIView animateWithDuration: 0.4
+                     animations: ^{
+                                    self.switchView.frame = offSetRect;
+                                 }
+                     completion: ^(BOOL finished)
+                                {
+                                 }];
 }
 
 //==============================================================================
 
-- (void) moveSwitchToLeft {
+- (void) moveSwitchToLeft
+{
     CGRect newFrame;
     if([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_CLASSIC) {
         newFrame = CGRectMake(2, 2 , mainScreenSwitchWidth, mainScreenSwitchHeight);
     } else {
         newFrame = CGRectMake(2, 2, mainScreenSwitchWidth, mainScreenSwitchHeight);
     }
-    self.leftLabel.textColor = [UIColor colorWithRed:80.0/255.0 green:226.0/255.0 blue:193.0/255.0 alpha:0.4];
-    self.rightLabel.textColor = [UIColor colorWithRed:80.0/255.0 green:226.0/255.0 blue:193.0/255.0 alpha:1.0];
-    CGRect offSetRect=CGRectOffset(newFrame, 0.0f, 0.0f);
-    [UIView animateWithDuration:0.4 animations:^{
-        self.switchView.frame=offSetRect;
-    }
-                     completion:^(BOOL finished){
-                         self.leftLabel.textColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:0.4];
-                         
-                     }];
+
+    [self.rightLabel hp_tuneForSwitchIsOff];
+    [self.leftLabel hp_tuneForSwitchIsOn];
+
+    CGRect offSetRect = CGRectOffset(newFrame, 0.0f, 0.0f);
+    [UIView animateWithDuration: 0.4
+                     animations: ^{
+                                    self.switchView.frame = offSetRect;
+                                }
+                     completion: ^(BOOL finished)
+                        {
+                         }];
 
 }
 

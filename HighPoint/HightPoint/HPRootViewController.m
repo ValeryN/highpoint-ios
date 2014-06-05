@@ -36,11 +36,12 @@
     
     [self configureNavigationBar];
     self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    if(!self.bottomSwitch)
+    if (!self.bottomSwitch)
     {
         self.bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
-        [self addChildViewController:self.bottomSwitch];
-        [self.view insertSubview:self.bottomSwitch.view atIndex:2];
+
+        [self addChildViewController: self.bottomSwitch];
+        [self.view insertSubview: self.bottomSwitch.view atIndex: 2];
         [self.bottomSwitch didMoveToParentViewController:self];
     }
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
