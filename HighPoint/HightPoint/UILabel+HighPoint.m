@@ -19,15 +19,13 @@
 - (void) hp_tuneForUseListCellName
 {
     self.font = [UIFont fontWithName: @"FuturaPT-Book" size: 18.0];
-    self.alpha = 1.0;
 }
 
 //==============================================================================
 
 - (void) hp_tuneForUseListCellAgeAndCity
 {
-    self.font = [UIFont fontWithName: @"FuturaPT-Light" size: 18.0];
-    self.alpha = 0.92;
+    self.font = [UIFont fontWithName: @"FuturaPT-Light" size: 15.0];
 }
 
 //==============================================================================

@@ -96,18 +96,22 @@
     UIBarButtonItem *profileButton = [self createLeftButton];
     [self.navigationItem setLeftBarButtonItem: profileButton];
     
-    self.notificationView = [Utils getNotificationViewForText:@"8"];
+    self.notificationView = [Utils getNotificationViewForText: @"8"];
     
     UIBarButtonItem* chatsButton = [self createRightButton];
     [self.navigationItem setRightBarButtonItem: chatsButton];
     
+    UIColor* color = [UIColor colorWithRed: 230.0 / 255.0
+                                     green: 236.0 / 255.0
+                                      blue: 242.0 / 255.0
+                                     alpha: 1.0];
     [[UINavigationBar appearance] setTitleTextAttributes: @{
-                                                            UITextAttributeTextColor: [UIColor whiteColor],
+                                                            UITextAttributeTextColor: color,
                                                             UITextAttributeTextShadowColor: [UIColor clearColor],
                                                             UITextAttributeTextShadowOffset: [NSValue valueWithUIOffset:UIOffsetMake(0.0f, 0.0f)],
                                                             UITextAttributeFont: [UIFont fontWithName:@"FuturaPT-Light" size:18.0f]
                                                             }];
-    [self.navigationItem setTitle:@"Москва, девушки 80-100"];
+    [self.navigationItem setTitle: @"Москва, девушки 80-100"];
 }
 
 //==============================================================================
@@ -163,7 +167,7 @@
 - (UITableViewCell*) tableView: (UITableView*) tableView cellForRowAtIndexPath: (NSIndexPath*) indexPath
 {
     static NSString *mainCellId = @"maincell";
-    HPMainViewListTableViewCell *mCell = [tableView dequeueReusableCellWithIdentifier:mainCellId];
+    HPMainViewListTableViewCell *mCell = [tableView dequeueReusableCellWithIdentifier: mainCellId];
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
 
