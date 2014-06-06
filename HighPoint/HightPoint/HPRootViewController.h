@@ -18,7 +18,7 @@
 
 //==============================================================================
 
-@interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, UserImageStartAnimationDelegate>
+@interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, UserImageStartAnimationDelegate, HPSwitchProtocol>
 {
     ScaleAnimation *_scaleAnimationController;
     CrossDissolveAnimation *_crossDissolveAnimationController;

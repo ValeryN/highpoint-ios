@@ -12,7 +12,16 @@
 
 //==============================================================================
 
+@protocol HPSwitchProtocol
+- (void) switchedToLeft;
+- (void) switchedToRight;
+@end
+
+//==============================================================================
+
 @interface HPSwitchViewController : UIViewController <UIGestureRecognizerDelegate>
+@property (nonatomic, weak) NSObject<HPSwitchProtocol>* delegate;
+
 @property (nonatomic, weak) IBOutlet UIView *switchView;
 @property (nonatomic, weak) IBOutlet UIImageView *backgroundView;
 @property (nonatomic, weak) IBOutlet UIImageView *centerPart;

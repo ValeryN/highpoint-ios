@@ -40,7 +40,7 @@
     if (!self.bottomSwitch)
     {
         self.bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
-
+        self.bottomSwitch.delegate = self;
         [self addChildViewController: self.bottomSwitch];
         [self.view addSubview: _bottomSwitch.view];
     }
@@ -294,6 +294,24 @@
             return animationController;
         default: return nil;
     }
+}
+
+//==============================================================================
+
+#pragma mark - HPSwitch Delegate -
+
+//==============================================================================
+
+- (void) switchedToLeft
+{
+    NSLog(@"switched into left");
+}
+
+//==============================================================================
+
+- (void) switchedToRight
+{
+    NSLog(@"switched into right");
 }
 
 //==============================================================================

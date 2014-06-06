@@ -139,6 +139,9 @@
                      completion: ^(BOOL finished)
                                 {
                                  }];
+    if (_delegate == nil)
+        return;
+    [_delegate switchedToRight];
 }
 
 //==============================================================================
@@ -157,6 +160,9 @@
                         {
                          }];
 
+    if (_delegate == nil)
+        return;
+    [_delegate switchedToLeft];
 }
 
 //==============================================================================
