@@ -21,7 +21,8 @@
 
 @interface HPSwitchViewController : UIViewController <UIGestureRecognizerDelegate>
 
-- (IBAction) swipeGesture:(UISwipeGestureRecognizer *)recognizer;
+- (IBAction) swipeRightGesture:(UISwipeGestureRecognizer *)recognizer;
+- (IBAction) swipeLeftGesture:(UISwipeGestureRecognizer *)recognizer;
 - (IBAction) tapGesture:(UITapGestureRecognizer *)recognizer;
 
 @property (nonatomic, weak) NSObject<HPSwitchProtocol>* delegate;

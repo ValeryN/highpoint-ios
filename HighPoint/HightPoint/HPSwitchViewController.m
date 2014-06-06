@@ -54,23 +54,34 @@
 
 //==============================================================================
 
-- (IBAction) tapGesture:(UITapGestureRecognizer *)recognizer {
+- (IBAction) tapGesture:(UITapGestureRecognizer *)recognizer
+{
     self.switchState = !self.switchState;
-    if(self.switchState) {
+    if(self.switchState)
         [self moveSwitchToRight];
-    } else {
+    else
         [self moveSwitchToLeft];
+}
+
+//==============================================================================
+
+- (IBAction) swipeRightGesture:(UISwipeGestureRecognizer *)recognizer
+{
+    if ((!self.switchState) && (recognizer.direction == UISwipeGestureRecognizerDirectionRight))
+    {
+        [self moveSwitchToRight];
+        self.switchState = !self.switchState;
     }
 }
 
 //==============================================================================
 
-- (IBAction) swipeGesture:(UISwipeGestureRecognizer *)recognizer {
-    self.switchState = !self.switchState;
-    if(self.switchState) {
-        [self moveSwitchToRight];
-    } else {
+- (IBAction) swipeLeftGesture:(UISwipeGestureRecognizer *)recognizer
+{
+    if ((self.switchState) && (recognizer.direction == UISwipeGestureRecognizerDirectionLeft))
+    {
         [self moveSwitchToLeft];
+        self.switchState = !self.switchState;
     }
 }
 

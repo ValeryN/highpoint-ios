@@ -32,16 +32,16 @@
                             <rect key="frame" x="0.0" y="0.0" width="15" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Switcher-R" translatesAutoresizingMaskIntoConstraints="NO" id="OVO-au-9tb" userLabel="Right Part Image View">
+                            <rect key="frame" x="94" y="0.0" width="15" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Switcher-C" translatesAutoresizingMaskIntoConstraints="NO" id="lyf-Ol-tlp" userLabel="Center Part Image View">
                             <rect key="frame" x="15" y="0.0" width="79" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="79" id="DSG-dR-hFy"/>
                             </constraints>
-                        </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Switcher-R" translatesAutoresizingMaskIntoConstraints="NO" id="OVO-au-9tb" userLabel="Right Part Image View">
-                            <rect key="frame" x="94" y="0.0" width="15" height="28"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -86,6 +86,7 @@
             <connections>
                 <outletCollection property="gestureRecognizers" destination="tAf-yv-w6H" appends="YES" id="K1J-Yp-YcP"/>
                 <outletCollection property="gestureRecognizers" destination="1li-hQ-Gz9" appends="YES" id="Wnr-sv-vEv"/>
+                <outletCollection property="gestureRecognizers" destination="LQM-Np-Avh" appends="YES" id="K4P-Li-bOs"/>
             </connections>
         </view>
         <tapGestureRecognizer id="1li-hQ-Gz9">
@@ -93,14 +94,14 @@
                 <action selector="tapGesture:" destination="-1" id="WJp-T4-Zbd"/>
             </connections>
         </tapGestureRecognizer>
-        <swipeGestureRecognizer direction="right" id="tAf-yv-w6H">
-            <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="number" keyPath="direction">
-                    <integer key="value" value="3"/>
-                </userDefinedRuntimeAttribute>
-            </userDefinedRuntimeAttributes>
+        <swipeGestureRecognizer direction="right" id="LQM-Np-Avh" userLabel="Right Swipe Gesture Recognizer">
             <connections>
-                <action selector="swipeGesture:" destination="-1" id="Hrw-0b-ufd"/>
+                <action selector="swipeRightGesture:" destination="-1" id="uwI-ni-mtK"/>
+            </connections>
+        </swipeGestureRecognizer>
+        <swipeGestureRecognizer direction="left" id="tAf-yv-w6H" userLabel="Left Swipe Gesture Recognizer">
+            <connections>
+                <action selector="swipeLeftGesture:" destination="-1" id="5Ly-2y-l6G"/>
             </connections>
         </swipeGestureRecognizer>
     </objects>
