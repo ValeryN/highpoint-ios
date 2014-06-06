@@ -57,10 +57,6 @@
 		3B3170B1191B931300B72AC1 /* Userpic-Maskk_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170B0191B931300B72AC1 /* Userpic-Maskk_2.png */; };
 		3B3170B4191BA50600B72AC1 /* Green Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170B3191BA50600B72AC1 /* Green Button.png */; };
 		3B3170B7191BA56900B72AC1 /* HPSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */; };
-		3B3170BC191BAFC200B72AC1 /* Switcher-C.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170B9191BAFC200B72AC1 /* Switcher-C.png */; };
-		3B3170BD191BAFC200B72AC1 /* Switcher-L.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170BA191BAFC200B72AC1 /* Switcher-L.png */; };
-		3B3170BE191BAFC200B72AC1 /* Switcher-R.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170BB191BAFC200B72AC1 /* Switcher-R.png */; };
-		3B3170C0191BB55A00B72AC1 /* Rectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170BF191BB55A00B72AC1 /* Rectangle.png */; };
 		3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170C1191BC82A00B72AC1 /* Blend 5X.png */; };
 		3B31864B191A408B0000DD8B /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31864A191A408B0000DD8B /* Utils.m */; };
 		3B31864F191A493F0000DD8B /* Profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B31864E191A493F0000DD8B /* Profile.png */; };
@@ -238,10 +234,6 @@
 		3B3170B5191BA56900B72AC1 /* HPSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSwitchViewController.h; sourceTree = "<group>"; };
 		3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSwitchViewController.m; sourceTree = "<group>"; };
 		3B3170B8191BA64B00B72AC1 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		3B3170B9191BAFC200B72AC1 /* Switcher-C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Switcher-C.png"; sourceTree = "<group>"; };
-		3B3170BA191BAFC200B72AC1 /* Switcher-L.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Switcher-L.png"; sourceTree = "<group>"; };
-		3B3170BB191BAFC200B72AC1 /* Switcher-R.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Switcher-R.png"; sourceTree = "<group>"; };
-		3B3170BF191BB55A00B72AC1 /* Rectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rectangle.png; sourceTree = "<group>"; };
 		3B3170C1191BC82A00B72AC1 /* Blend 5X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blend 5X.png"; sourceTree = "<group>"; };
 		3B318649191A408B0000DD8B /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		3B31864A191A408B0000DD8B /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
@@ -547,10 +539,6 @@
 				3BEA72AE1924F8E500FDCA08 /* Close Round.png */,
 				3B8F366A1920B1B200C71E49 /* Lens.png */,
 				3B3170C1191BC82A00B72AC1 /* Blend 5X.png */,
-				3B3170BF191BB55A00B72AC1 /* Rectangle.png */,
-				3B3170B9191BAFC200B72AC1 /* Switcher-C.png */,
-				3B3170BA191BAFC200B72AC1 /* Switcher-L.png */,
-				3B3170BB191BAFC200B72AC1 /* Switcher-R.png */,
 				3B3170B3191BA50600B72AC1 /* Green Button.png */,
 				3B3170B0191B931300B72AC1 /* Userpic-Maskk_2.png */,
 				3B3170AE191B91AD00B72AC1 /* pin_popup_blackw@2x.png */,
@@ -978,13 +966,11 @@
 				3B298FCC192F476100BEC2AA /* slider-metal-handle-highlighted@2x.png in Resources */,
 				3B298FCA192F476100BEC2AA /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				3BEA72B01924F8E500FDCA08 /* Close Round.png in Resources */,
-				3B3170BD191BAFC200B72AC1 /* Switcher-L.png in Resources */,
 				3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */,
 				3B3170AB191B7E7600B72AC1 /* Userpic Shape Red.png in Resources */,
 				4C4A012A1935FD9000B56126 /* Point Notice Tap.png in Resources */,
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
 				3B1FC628192A4608009DCD85 /* Green-Button-Tap-R.png in Resources */,
-				3B3170BC191BAFC200B72AC1 /* Switcher-C.png in Resources */,
 				3BEA72AF1924F8E500FDCA08 /* Close Round Tap.png in Resources */,
 				3B298FC7192F476100BEC2AA /* slider-default7-trackBackground.png in Resources */,
 				3B7D8AC5192CC8CE006BD206 /* Heart.png in Resources */,
@@ -1020,7 +1006,6 @@
 				3B298FCD192F476100BEC2AA /* slider-metal-handle.png in Resources */,
 				3B298FCE192F476100BEC2AA /* slider-metal-handle@2x.png in Resources */,
 				3B8F366B1920B1B200C71E49 /* Lens.png in Resources */,
-				3B3170BE191BAFC200B72AC1 /* Switcher-R.png in Resources */,
 				3B318657191A6C6D0000DD8B /* Notice-R.png in Resources */,
 				3B298FD2192F476100BEC2AA /* slider-metal-trackBackground@2x.png in Resources */,
 				3BCB5B0B192F946B00E5DCA9 /* Back.png in Resources */,
@@ -1033,7 +1018,6 @@
 				3B1FC62B192A5429009DCD85 /* Point Tap.png in Resources */,
 				3B318651191A5E4D0000DD8B /* Bubble.png in Resources */,
 				3B298FBC192F476100BEC2AA /* slider-default-handle@2x.png in Resources */,
-				3B3170C0191BB55A00B72AC1 /* Rectangle.png in Resources */,
 				3B298FC5192F476100BEC2AA /* slider-default7-track.png in Resources */,
 				3B1FC626192A4608009DCD85 /* Green-Button-Tap-C.png in Resources */,
 				3B1FC620192A2B58009DCD85 /* Green-Button-C.png in Resources */,

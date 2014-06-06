@@ -13,10 +13,16 @@
 //==============================================================================
 
 @interface HPSwitchViewController : UIViewController <UIGestureRecognizerDelegate>
-@property (nonatomic, assign) BOOL switchState;
-@property (nonatomic, strong) UIView *switchView;
-@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
-@property (nonatomic, strong) UISwipeGestureRecognizer *swipeGesture;
+@property (nonatomic, weak) IBOutlet UIView *switchView;
+@property (nonatomic, weak) IBOutlet UIImageView *backgroundView;
+@property (nonatomic, weak) IBOutlet UIImageView *centerPart;
+
 @property (nonatomic, weak) IBOutlet UILabel *leftLabel;
 @property (nonatomic, weak) IBOutlet UILabel *rightLabel;
+
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
+@property (nonatomic, strong) UISwipeGestureRecognizer *swipeGesture;
+
+@property (nonatomic, assign) BOOL switchState;
+
 @end

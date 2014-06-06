@@ -42,8 +42,7 @@
         self.bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
 
         [self addChildViewController: self.bottomSwitch];
-        [self.view insertSubview: self.bottomSwitch.view atIndex: 2];
-        [self.bottomSwitch didMoveToParentViewController:self];
+        [self.view addSubview: _bottomSwitch.view];
     }
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
     self.navigationController.delegate = self;

@@ -19,33 +19,28 @@
 
 //==============================================================================
 
-- (void)viewDidLoad
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    [super viewDidLoad];
+    self = [super initWithNibName: nibNameOrNil bundle:nibBundleOrNil];
+    
+    if (self == nil)
+        return nil;
     [self initObjects];
+    
+    return self;
 }
 
 //==============================================================================
 
 - (void) initObjects
 {
-    if ([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_CLASSIC)
-        self.view.frame = CGRectMake(mainScreenSwitchToLeft, iPhone4ScreenHight - mainScreenSwitchToBottom_480 - mainScreenSwitchHeight , mainScreenSwitchWidth, mainScreenSwitchHeight);
-    else
-        self.view.frame = CGRectMake(mainScreenSwitchToLeft, iPhone5ScreenHight - mainScreenSwitchToBottom_568 - mainScreenSwitchHeight, mainScreenSwitchWidth, mainScreenSwitchHeight);
+    self.view.frame = CGRectMake(mainScreenSwitchToLeft, iPhone5ScreenHight - mainScreenSwitchToBottom_568 - mainScreenSwitchHeight, self.view.frame.size.width, self.view.frame.size.height);
+    
+    [self createSwitchView];
 
-    self.switchView = [self createSwitchView];
-    [self.view addSubview: self.switchView];
-    
-    //switch label
-    [self.leftLabel removeFromSuperview];
-    [self.rightLabel removeFromSuperview];
-    
     [self.leftLabel hp_tuneForSwitchIsOn];
     [self.rightLabel hp_tuneForSwitchIsOff];
-    
-    [self.view addSubview: self.leftLabel];
-    [self.view addSubview: self.rightLabel];
+
 }
 
 //==============================================================================
@@ -54,6 +49,8 @@
 {
     [super viewWillAppear:animated];
     [self addGesture];
+    [_leftLabel sizeToFit];
+    [_rightLabel sizeToFit];
 }
 
 //==============================================================================
@@ -66,40 +63,11 @@
 
 //==============================================================================
 
-- (UIView*) createSwitchView
+- (void) createSwitchView
 {
-    UIImage *imgC = [[UIImage imageNamed: @"Switcher-C"] resizableImageWithCapInsets: UIEdgeInsetsMake(0, 0, 0, 0)];
-    UIImage *imgL= [UIImage imageNamed: @"Switcher-L"];
-    UIImage *imgR= [UIImage imageNamed: @"Switcher-R"];
-
-    UIImageView *viewLeft = [[UIImageView alloc] initWithImage: imgL];
-    viewLeft.frame = CGRectMake(0, 0, viewLeft.frame.size.width / 2.0, viewLeft.frame.size.height / 2.0);
-    UIImageView *viewRight = [[UIImageView alloc] initWithImage: imgR];
-    
-    UIImageView *viewCenter = [[UIImageView alloc] initWithImage: imgC];
-    viewCenter.frame = CGRectMake(viewLeft.frame.size.width, 0, 56, viewCenter.frame.size.height / 2.0);
-    viewRight.frame = CGRectMake(viewLeft.frame.size.width + viewCenter.frame.size.width,
-                                 0,
-                                 viewRight.frame.size.width / 2.0,
-                                 viewCenter.frame.size.height);
-    
-    CGRect rect = CGRectMake(0,
-                             0,
-                             viewLeft.frame.size.width + viewCenter.frame.size.width + viewRight.frame.size.width,
-                             viewCenter.frame.size.height);
-    UIView* notView = [[UIView alloc] initWithFrame: rect];
-    notView.backgroundColor = [UIColor clearColor];
-    [notView addSubview: viewLeft];
-    [notView addSubview: viewCenter];
-    [notView addSubview: viewRight];
-
-    rect = notView.frame;
-    rect.origin.x = 2;
-    rect.origin.y = 2;
-    notView.frame = rect;
-     
-    return notView;
-    
+    UIImage *image = [UIImage imageNamed: @"Rectangle"];
+    UIImage *resizableImage = [image resizableImageWithCapInsets: UIEdgeInsetsMake(0, 30, image.size.height, 30)];
+    _backgroundView.image = resizableImage;
 }
 
 //==============================================================================
@@ -158,21 +126,15 @@
 
 //==============================================================================
 
-- (void) moveSwitchToRight {
-    CGRect newFrame;
-    if([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_CLASSIC) {
-        newFrame = CGRectMake(2 + 102, 2 , mainScreenSwitchWidth, mainScreenSwitchHeight);
-    } else {
-        newFrame = CGRectMake(2 + 102, 2, mainScreenSwitchWidth, mainScreenSwitchHeight);
-    }
-
+- (void) moveSwitchToRight
+{
     [self.rightLabel hp_tuneForSwitchIsOn];
     [self.leftLabel hp_tuneForSwitchIsOff];
-    CGRect offSetRect = CGRectOffset(newFrame, 0.0f, 0.0f);
-    
+
+    CGRect newFrame = [self switchOnLabel: _rightLabel];
     [UIView animateWithDuration: 0.4
                      animations: ^{
-                                    self.switchView.frame = offSetRect;
+                                    self.switchView.frame = newFrame;
                                  }
                      completion: ^(BOOL finished)
                                 {
@@ -183,25 +145,40 @@
 
 - (void) moveSwitchToLeft
 {
-    CGRect newFrame;
-    if([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_CLASSIC) {
-        newFrame = CGRectMake(2, 2 , mainScreenSwitchWidth, mainScreenSwitchHeight);
-    } else {
-        newFrame = CGRectMake(2, 2, mainScreenSwitchWidth, mainScreenSwitchHeight);
-    }
-
     [self.rightLabel hp_tuneForSwitchIsOff];
     [self.leftLabel hp_tuneForSwitchIsOn];
 
-    CGRect offSetRect = CGRectOffset(newFrame, 0.0f, 0.0f);
+    CGRect newFrame = [self switchOnLabel: _leftLabel];
     [UIView animateWithDuration: 0.4
                      animations: ^{
-                                    self.switchView.frame = offSetRect;
+                                    self.switchView.frame = newFrame;
                                 }
                      completion: ^(BOOL finished)
                         {
                          }];
 
+}
+
+//==============================================================================
+
+- (CGRect) switchOnLabel: (UILabel*) label
+{
+    
+//    CGRect rect = CGRectMake(_centerPart.frame.origin.x,
+//                             _centerPart.frame.origin.y,
+//                             label.frame.size.width,
+//                             _centerPart.frame.size.height);
+//    _centerPart.frame = rect;
+//    
+//    rect = CGRectMake(label.frame.origin.x - 15,
+//                      _switchView.frame.origin.y,
+//                      15 * 2 + _centerPart.frame.size.width,
+//                      _switchView.frame.size.height);
+    CGRect rect = CGRectMake(label.frame.origin.x - 15,
+                              _switchView.frame.origin.y,
+                              15 * 2 + label.frame.size.width + 100,
+                              _switchView.frame.size.height);
+    return rect;
 }
 
 //==============================================================================

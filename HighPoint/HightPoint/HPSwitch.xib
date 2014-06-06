@@ -6,8 +6,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPSwitchViewController">
             <connections>
+                <outlet property="backgroundView" destination="dkK-EG-PQx" id="ihE-oc-XnR"/>
+                <outlet property="centerPart" destination="lyf-Ol-tlp" id="Asr-Gt-e7h"/>
                 <outlet property="leftLabel" destination="IOm-Zn-HeT" id="uVV-VB-cQu"/>
                 <outlet property="rightLabel" destination="z7B-al-ty1" id="Blt-1Z-OBz"/>
+                <outlet property="switchView" destination="elf-tI-zPF" id="uVU-td-HoR"/>
                 <outlet property="view" destination="iN0-l3-epB" id="qcg-ge-fzL"/>
             </connections>
         </placeholder>
@@ -16,30 +19,75 @@
             <rect key="frame" x="0.0" y="0.0" width="193" height="32"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Rectangle.png" translatesAutoresizingMaskIntoConstraints="NO" id="dkK-EG-PQx">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dkK-EG-PQx">
                     <rect key="frame" x="0.0" y="0.0" width="193" height="32"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Все люди" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IOm-Zn-HeT">
-                    <rect key="frame" x="4" y="5" width="79" height="21"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="elf-tI-zPF" userLabel="Switch View">
+                    <rect key="frame" x="2" y="2" width="109" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Switcher-L" translatesAutoresizingMaskIntoConstraints="NO" id="KHO-IV-qCD" userLabel="Left Part Image View">
+                            <rect key="frame" x="0.0" y="0.0" width="15" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Switcher-C" translatesAutoresizingMaskIntoConstraints="NO" id="lyf-Ol-tlp" userLabel="Center Part Image View">
+                            <rect key="frame" x="15" y="0.0" width="79" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="79" id="DSG-dR-hFy"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Switcher-R" translatesAutoresizingMaskIntoConstraints="NO" id="OVO-au-9tb" userLabel="Right Part Image View">
+                            <rect key="frame" x="94" y="0.0" width="15" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="KHO-IV-qCD" firstAttribute="top" secondItem="elf-tI-zPF" secondAttribute="top" id="7BS-YQ-l4g"/>
+                        <constraint firstAttribute="height" constant="28" id="Cnn-G9-FW9"/>
+                        <constraint firstAttribute="trailing" secondItem="OVO-au-9tb" secondAttribute="trailing" id="HzR-8R-etC"/>
+                        <constraint firstItem="lyf-Ol-tlp" firstAttribute="leading" secondItem="KHO-IV-qCD" secondAttribute="trailing" id="I4o-Bz-ihk"/>
+                        <constraint firstItem="OVO-au-9tb" firstAttribute="leading" secondItem="lyf-Ol-tlp" secondAttribute="trailing" id="Kh6-Wi-2vj"/>
+                        <constraint firstItem="lyf-Ol-tlp" firstAttribute="top" secondItem="elf-tI-zPF" secondAttribute="top" id="bJm-8X-aNm"/>
+                        <constraint firstItem="OVO-au-9tb" firstAttribute="top" secondItem="elf-tI-zPF" secondAttribute="top" id="pMH-Ew-a8d"/>
+                        <constraint firstItem="KHO-IV-qCD" firstAttribute="leading" secondItem="elf-tI-zPF" secondAttribute="leading" id="qwo-sA-T5F"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Все люди" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IOm-Zn-HeT">
+                    <rect key="frame" x="17" y="5" width="79" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Поинты" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z7B-al-ty1">
-                    <rect key="frame" x="111" y="5" width="79" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Поинты" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z7B-al-ty1">
+                    <rect key="frame" x="97" y="5" width="79" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="dkK-EG-PQx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="23r-5t-20R"/>
+                <constraint firstAttribute="trailing" secondItem="dkK-EG-PQx" secondAttribute="trailing" id="9Qt-q8-wBk"/>
+                <constraint firstItem="dkK-EG-PQx" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="LDX-Cp-Ka2"/>
+                <constraint firstItem="elf-tI-zPF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="2" id="WsS-t3-rQ3"/>
+                <constraint firstAttribute="bottom" secondItem="dkK-EG-PQx" secondAttribute="bottom" id="j50-TH-frN"/>
+                <constraint firstItem="elf-tI-zPF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="yYk-xZ-55F"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
     <resources>
-        <image name="Rectangle.png" width="386" height="64"/>
+        <image name="Switcher-C" width="1" height="28"/>
+        <image name="Switcher-L" width="15" height="28"/>
+        <image name="Switcher-R" width="15" height="28"/>
     </resources>
 </document>
