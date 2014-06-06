@@ -83,7 +83,26 @@
                 <constraint firstItem="elf-tI-zPF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="yYk-xZ-55F"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="tAf-yv-w6H" appends="YES" id="K1J-Yp-YcP"/>
+                <outletCollection property="gestureRecognizers" destination="1li-hQ-Gz9" appends="YES" id="Wnr-sv-vEv"/>
+            </connections>
         </view>
+        <tapGestureRecognizer id="1li-hQ-Gz9">
+            <connections>
+                <action selector="tapGesture:" destination="-1" id="WJp-T4-Zbd"/>
+            </connections>
+        </tapGestureRecognizer>
+        <swipeGestureRecognizer direction="right" id="tAf-yv-w6H">
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="number" keyPath="direction">
+                    <integer key="value" value="3"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <action selector="swipeGesture:" destination="-1" id="Hrw-0b-ufd"/>
+            </connections>
+        </swipeGestureRecognizer>
     </objects>
     <resources>
         <image name="Switcher-C" width="1" height="28"/>

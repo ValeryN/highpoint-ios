@@ -26,7 +26,7 @@
     if (self == nil)
         return nil;
     [self initObjects];
-    
+
     return self;
 }
 
@@ -45,24 +45,6 @@
 
 //==============================================================================
 
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self addGesture];
-    [_leftLabel sizeToFit];
-    [_rightLabel sizeToFit];
-}
-
-//==============================================================================
-
-- (void) viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self removeGesture];
-}
-
-//==============================================================================
-
 - (void) createSwitchView
 {
     UIImage *image = [UIImage imageNamed: @"Rectangle"];
@@ -72,39 +54,7 @@
 
 //==============================================================================
 
-- (void) addGesture
-{
-    if(self.tapGesture == nil)
-    {
-        self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-        self.tapGesture.cancelsTouchesInView = NO;
-        self.tapGesture.numberOfTouchesRequired = 1;
-        [self.tapGesture setDelegate:self];
-        [[self view] addGestureRecognizer:self.tapGesture];
-
-        self.swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
-        self.swipeGesture.cancelsTouchesInView = NO;
-        self.swipeGesture.direction  = UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight;
-        self.swipeGesture.numberOfTouchesRequired = 1;
-        [self.swipeGesture setDelegate:self];
-        [[self view] addGestureRecognizer:self.swipeGesture];
-    }
-}
-
-//==============================================================================
-
-- (void) removeGesture
-{
-    [[self view] removeGestureRecognizer:self.tapGesture];
-    [[self view] removeGestureRecognizer:self.swipeGesture];
-
-    self.tapGesture = nil;
-    self.swipeGesture = nil;
-}
-
-//==============================================================================
-
-- (void) tapGesture:(UITapGestureRecognizer *)recognizer {
+- (IBAction) tapGesture:(UITapGestureRecognizer *)recognizer {
     self.switchState = !self.switchState;
     if(self.switchState) {
         [self moveSwitchToRight];
@@ -115,7 +65,7 @@
 
 //==============================================================================
 
-- (void) swipeGesture:(UISwipeGestureRecognizer *)recognizer {
+- (IBAction) swipeGesture:(UISwipeGestureRecognizer *)recognizer {
     self.switchState = !self.switchState;
     if(self.switchState) {
         [self moveSwitchToRight];
