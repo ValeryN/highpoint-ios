@@ -34,13 +34,14 @@
 
 - (void) initObjects
 {
-    self.view.frame = CGRectMake(mainScreenSwitchToLeft, iPhone5ScreenHight - mainScreenSwitchToBottom_568 - mainScreenSwitchHeight, self.view.frame.size.width, self.view.frame.size.height);
-    
+    self.view.frame = CGRectMake(mainScreenSwitchToLeft,
+                                 iPhone5ScreenHight - mainScreenSwitchToBottom_568 - mainScreenSwitchHeight,
+                                 self.view.frame.size.width,
+                                 self.view.frame.size.height);
     [self createSwitchView];
 
     [self.leftLabel hp_tuneForSwitchIsOn];
     [self.rightLabel hp_tuneForSwitchIsOff];
-
 }
 
 //==============================================================================
@@ -103,6 +104,7 @@
     if (_delegate == nil)
         return;
     [_delegate switchedToRight];
+
 }
 
 //==============================================================================
@@ -130,21 +132,10 @@
 
 - (CGRect) switchOnLabel: (UILabel*) label
 {
-    
-//    CGRect rect = CGRectMake(_centerPart.frame.origin.x,
-//                             _centerPart.frame.origin.y,
-//                             label.frame.size.width,
-//                             _centerPart.frame.size.height);
-//    _centerPart.frame = rect;
-//    
-//    rect = CGRectMake(label.frame.origin.x - 15,
-//                      _switchView.frame.origin.y,
-//                      15 * 2 + _centerPart.frame.size.width,
-//                      _switchView.frame.size.height);
     CGRect rect = CGRectMake(label.frame.origin.x - 15,
-                              _switchView.frame.origin.y,
-                              15 * 2 + label.frame.size.width + 100,
-                              _switchView.frame.size.height);
+                             _switchView.frame.origin.y,
+                             15 * 2 + label.frame.size.width,
+                             _switchView.frame.size.height);
     return rect;
 }
 
