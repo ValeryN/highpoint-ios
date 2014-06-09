@@ -23,16 +23,9 @@
 
 //==============================================================================
 
-- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void) viewDidLoad
 {
-    self = [super initWithNibName: nibNameOrNil bundle:nibBundleOrNil];
-    
-    if (self == nil)
-        return nil;
-    
     [self initObjects];
-
-    return self;
 }
 
 //==============================================================================
@@ -52,6 +45,8 @@
 - (void) positionSwitcher: (CGRect) rect
 {
     self.view.frame = rect;
+    rect.origin.x = 0;
+    rect.origin.y = 0;
     _backgroundView.frame = rect;
 }
 
@@ -122,8 +117,8 @@
                                     self.switchView.frame = newFrame;
                                 }
                      completion: ^(BOOL finished)
-                        {
-                         }];
+                                {
+                                 }];
 
     if (_delegate == nil)
         return;
