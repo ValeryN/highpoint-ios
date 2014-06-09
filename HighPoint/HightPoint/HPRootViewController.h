@@ -22,11 +22,11 @@
 {
     ScaleAnimation *_scaleAnimationController;
     CrossDissolveAnimation *_crossDissolveAnimationController;
+    HPSwitchViewController *_bottomSwitch;
 }
 
 @property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, strong) IBOutlet UITableView *mainListTable;
-@property (nonatomic, strong) HPSwitchViewController *bottomSwitch;
 @property (nonatomic, assign) CGRect savedFrame;
 
 - (IBAction) filterButtonTap:(id)sender;

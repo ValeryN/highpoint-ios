@@ -15,7 +15,6 @@
 
 //==============================================================================
 
-#define BOTTOM_SHIFT 20
 #define SWITCH_ANIMATION_SPEED 0.4
 
 //==============================================================================
@@ -30,6 +29,7 @@
     
     if (self == nil)
         return nil;
+    
     [self initObjects];
 
     return self;
@@ -39,12 +39,9 @@
 
 - (void) initObjects
 {
-    CGRect rect = [UIScreen mainScreen].bounds;
-    self.view.frame = CGRectMake(fabs(rect.size.width - self.view.frame.size.width) / 2,
-                                 rect.size.height - self.view.frame.size.height - BOTTOM_SHIFT,
-                                 self.view.frame.size.width,
-                                 self.view.frame.size.height);
-    [self createSwitchView];
+    UIImage *image = [UIImage imageNamed: @"Rectangle"];
+    UIImage *resizableImage = [image resizableImageWithCapInsets: UIEdgeInsetsMake(0, 30, image.size.height, 30)];
+    _backgroundView.image = resizableImage;
 
     [self.leftLabel hp_tuneForSwitchIsOn];
     [self.rightLabel hp_tuneForSwitchIsOff];
@@ -52,11 +49,10 @@
 
 //==============================================================================
 
-- (void) createSwitchView
+- (void) positionSwitcher: (CGRect) rect
 {
-    UIImage *image = [UIImage imageNamed: @"Rectangle"];
-    UIImage *resizableImage = [image resizableImageWithCapInsets: UIEdgeInsetsMake(0, 30, image.size.height, 30)];
-    _backgroundView.image = resizableImage;
+    self.view.frame = rect;
+    _backgroundView.frame = rect;
 }
 
 //==============================================================================

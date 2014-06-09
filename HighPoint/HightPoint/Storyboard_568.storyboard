@@ -104,10 +104,15 @@
                                 <rect key="frame" x="0.0" y="408" width="320" height="160"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7c7-ao-JSu" userLabel="Lens Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7c7-ao-JSu" userLabel="Lens Button">
                                 <rect key="frame" x="12" y="524" width="24" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="Lens.png">
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="0jM-CC-yUl"/>
+                                    <constraint firstAttribute="height" constant="24" id="SPl-Ei-qiF"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="Lens">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -120,6 +125,8 @@
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="NN0-MU-hah" secondAttribute="bottom" id="86P-js-lea"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="rlD-h7-wo0" secondAttribute="bottom" id="ApK-Jj-pTD"/>
                             <constraint firstAttribute="trailing" secondItem="NN0-MU-hah" secondAttribute="trailing" id="BPR-FZ-znb"/>
+                            <constraint firstItem="7c7-ao-JSu" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" constant="12" id="GXF-xz-12D"/>
+                            <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="7c7-ao-JSu" secondAttribute="bottom" constant="20" id="Upj-mN-UQn"/>
                             <constraint firstItem="NN0-MU-hah" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" id="pGc-sa-CYS"/>
                             <constraint firstItem="NN0-MU-hah" firstAttribute="top" secondItem="Ixf-VR-DTw" secondAttribute="top" id="vh1-YT-v7y"/>
                         </constraints>
@@ -158,7 +165,7 @@
     </scenes>
     <resources>
         <image name="Blend 5X.png" width="640" height="320"/>
-        <image name="Lens.png" width="48" height="48"/>
+        <image name="Lens" width="24" height="24"/>
         <image name="Point Notice.png" width="46" height="48"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

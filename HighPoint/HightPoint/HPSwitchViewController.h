@@ -21,6 +21,8 @@
 
 @interface HPSwitchViewController : UIViewController <UIGestureRecognizerDelegate>
 
+- (void) positionSwitcher: (CGRect) rect;
+
 - (IBAction) swipeRightGesture:(UISwipeGestureRecognizer *)recognizer;
 - (IBAction) swipeLeftGesture:(UISwipeGestureRecognizer *)recognizer;
 - (IBAction) tapGesture:(UITapGestureRecognizer *)recognizer;

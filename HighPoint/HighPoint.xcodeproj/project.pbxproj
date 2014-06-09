@@ -90,7 +90,6 @@
 		3B6E4EB41929F56F00CF670E /* Info.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B6E4EB21929F56F00CF670E /* Info.png */; };
 		3B7D8AC4192CC8CE006BD206 /* Heart Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B7D8AC2192CC8CE006BD206 /* Heart Tap.png */; };
 		3B7D8AC5192CC8CE006BD206 /* Heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B7D8AC3192CC8CE006BD206 /* Heart.png */; };
-		3B8F366B1920B1B200C71E49 /* Lens.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8F366A1920B1B200C71E49 /* Lens.png */; };
 		3B8F366D1920B27C00C71E49 /* Point Notice.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8F366C1920B27C00C71E49 /* Point Notice.png */; };
 		3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA384041924CBBC00EFC749 /* BaseAnimation.m */; };
 		3BA384081924CDBC00EFC749 /* ScaleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA384071924CDBC00EFC749 /* ScaleAnimation.m */; };
@@ -274,7 +273,6 @@
 		3B6E4EB21929F56F00CF670E /* Info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Info.png; sourceTree = "<group>"; };
 		3B7D8AC2192CC8CE006BD206 /* Heart Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Heart Tap.png"; sourceTree = "<group>"; };
 		3B7D8AC3192CC8CE006BD206 /* Heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heart.png; sourceTree = "<group>"; };
-		3B8F366A1920B1B200C71E49 /* Lens.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lens.png; sourceTree = "<group>"; };
 		3B8F366C1920B27C00C71E49 /* Point Notice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice.png"; sourceTree = "<group>"; };
 		3BA384031924CBBC00EFC749 /* BaseAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseAnimation.h; sourceTree = "<group>"; };
 		3BA384041924CBBC00EFC749 /* BaseAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseAnimation.m; sourceTree = "<group>"; };
@@ -537,7 +535,6 @@
 				3B6E4EB21929F56F00CF670E /* Info.png */,
 				3BEA72AD1924F8E500FDCA08 /* Close Round Tap.png */,
 				3BEA72AE1924F8E500FDCA08 /* Close Round.png */,
-				3B8F366A1920B1B200C71E49 /* Lens.png */,
 				3B3170C1191BC82A00B72AC1 /* Blend 5X.png */,
 				3B3170B3191BA50600B72AC1 /* Green Button.png */,
 				3B3170B0191B931300B72AC1 /* Userpic-Maskk_2.png */,
@@ -1005,7 +1002,6 @@
 				3B298FC3192F476100BEC2AA /* slider-default7-handle.png in Resources */,
 				3B298FCD192F476100BEC2AA /* slider-metal-handle.png in Resources */,
 				3B298FCE192F476100BEC2AA /* slider-metal-handle@2x.png in Resources */,
-				3B8F366B1920B1B200C71E49 /* Lens.png in Resources */,
 				3B318657191A6C6D0000DD8B /* Notice-R.png in Resources */,
 				3B298FD2192F476100BEC2AA /* slider-metal-trackBackground@2x.png in Resources */,
 				3BCB5B0B192F946B00E5DCA9 /* Back.png in Resources */,

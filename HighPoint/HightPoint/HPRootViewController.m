@@ -20,6 +20,7 @@
 //==============================================================================
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
+#define BOTTOM_SHIFT 20
 
 //==============================================================================
 
@@ -37,15 +38,31 @@
     
     [self configureNavigationBar];
     self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    if (!self.bottomSwitch)
-    {
-        self.bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
-        self.bottomSwitch.delegate = self;
-        [self addChildViewController: self.bottomSwitch];
-        [self.view addSubview: _bottomSwitch.view];
-    }
+    
+    [self createSwitch];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
     self.navigationController.delegate = self;
+}
+
+//==============================================================================
+
+- (void) createSwitch
+{
+    if (!_bottomSwitch)
+    {
+        _bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
+        _bottomSwitch.delegate = self;
+        [self addChildViewController: _bottomSwitch];
+        [self.view addSubview: _bottomSwitch.view];
+
+        CGRect rect = [UIScreen mainScreen].bounds;
+        CGFloat shift = [UIDevice hp_isIOS7] ? 0 : [UIApplication sharedApplication].statusBarFrame.size.height;
+        rect = CGRectMake(fabs(rect.size.width - _bottomSwitch.view.frame.size.width) / 2,
+                         rect.size.height - _bottomSwitch.view.frame.size.height - BOTTOM_SHIFT - shift,
+                         _bottomSwitch.view.frame.size.width,
+                         _bottomSwitch.view.frame.size.height);
+        [_bottomSwitch positionSwitcher: rect];
+    }
 }
 
 //==============================================================================
