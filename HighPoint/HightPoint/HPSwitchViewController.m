@@ -15,6 +15,11 @@
 
 //==============================================================================
 
+#define BOTTOM_SHIFT 20
+#define SWITCH_ANIMATION_SPEED 0.4
+
+//==============================================================================
+
 @implementation HPSwitchViewController
 
 //==============================================================================
@@ -34,8 +39,9 @@
 
 - (void) initObjects
 {
-    self.view.frame = CGRectMake(mainScreenSwitchToLeft,
-                                 iPhone5ScreenHight - mainScreenSwitchToBottom_568 - mainScreenSwitchHeight,
+    CGRect rect = [UIScreen mainScreen].bounds;
+    self.view.frame = CGRectMake(fabs(rect.size.width - self.view.frame.size.width) / 2,
+                                 rect.size.height - self.view.frame.size.height - BOTTOM_SHIFT,
                                  self.view.frame.size.width,
                                  self.view.frame.size.height);
     [self createSwitchView];
@@ -94,7 +100,7 @@
     [self.leftLabel hp_tuneForSwitchIsOff];
 
     CGRect newFrame = [self switchOnLabel: _rightLabel];
-    [UIView animateWithDuration: 0.4
+    [UIView animateWithDuration: SWITCH_ANIMATION_SPEED
                      animations: ^{
                                     self.switchView.frame = newFrame;
                                  }
@@ -115,7 +121,7 @@
     [self.leftLabel hp_tuneForSwitchIsOn];
 
     CGRect newFrame = [self switchOnLabel: _leftLabel];
-    [UIView animateWithDuration: 0.4
+    [UIView animateWithDuration: SWITCH_ANIMATION_SPEED
                      animations: ^{
                                     self.switchView.frame = newFrame;
                                 }
