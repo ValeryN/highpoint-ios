@@ -10,7 +10,9 @@
                 <outlet property="backgroundView" destination="dkK-EG-PQx" id="dH4-3Q-Gvc"/>
                 <outlet property="centerPart" destination="lyf-Ol-tlp" id="Asr-Gt-e7h"/>
                 <outlet property="leftLabel" destination="IOm-Zn-HeT" id="uVV-VB-cQu"/>
+                <outlet property="leftLabelInactive" destination="Pg4-uV-9Q0" id="jn9-Xs-h01"/>
                 <outlet property="rightLabel" destination="z7B-al-ty1" id="Blt-1Z-OBz"/>
+                <outlet property="rightLabelInactive" destination="gfx-kw-8OR" id="oFd-0A-3eE"/>
                 <outlet property="switchView" destination="elf-tI-zPF" id="uVU-td-HoR"/>
                 <outlet property="view" destination="iN0-l3-epB" id="qcg-ge-fzL"/>
             </connections>
@@ -52,7 +54,23 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Поинты" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="z7B-al-ty1">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Все люди" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pg4-uV-9Q0" userLabel="Inactive Label - Все люди">
+                    <rect key="frame" x="17" y="4" width="67" height="24"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Поинты" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="z7B-al-ty1">
+                    <rect key="frame" x="99" y="4" width="54" height="24"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Поинты" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gfx-kw-8OR" userLabel="Inactive Label - Поинты">
                     <rect key="frame" x="99" y="4" width="54" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

@@ -15,7 +15,7 @@
 
 //==============================================================================
 
-#define SWITCH_ANIMATION_SPEED 0.4
+#define SWITCH_ANIMATION_SPEED 0.2
 #define SIDE_BORDER_SIZE 15
 
 //==============================================================================
@@ -38,7 +38,10 @@
     _backgroundView.image = resizableImage;
 
     [self.leftLabel hp_tuneForSwitchIsOn];
-    [self.rightLabel hp_tuneForSwitchIsOff];
+    [self.leftLabelInactive hp_tuneForSwitchIsOff];
+
+    [self.rightLabel hp_tuneForSwitchIsOn];
+    [self.rightLabelInactive hp_tuneForSwitchIsOff];
 }
 
 //==============================================================================
@@ -92,14 +95,15 @@
 
 - (void) moveSwitchToRight
 {
-    [self.rightLabel hp_tuneForSwitchIsOn];
-    [self.leftLabel hp_tuneForSwitchIsOff];
-
     CGRect newFrame = [self switchOnLabel: _rightLabel];
     [UIView animateWithDuration: SWITCH_ANIMATION_SPEED
                      animations: ^{
-                                    self.switchView.frame = newFrame;
-                                 }
+                                     self.switchView.frame = newFrame;
+                                     self.leftLabel.alpha = 0;
+                                     self.leftLabelInactive.alpha = 1;
+                                     self.rightLabel.alpha = 1;
+                                     self.rightLabelInactive.alpha = 0;
+                      }
                      completion: ^(BOOL finished)
                                 {
                                  }];
@@ -113,13 +117,14 @@
 
 - (void) moveSwitchToLeft
 {
-    [self.rightLabel hp_tuneForSwitchIsOff];
-    [self.leftLabel hp_tuneForSwitchIsOn];
-
     CGRect newFrame = [self switchOnLabel: _leftLabel];
     [UIView animateWithDuration: SWITCH_ANIMATION_SPEED
                      animations: ^{
                                     self.switchView.frame = newFrame;
+                         self.leftLabel.alpha = 1;
+                         self.leftLabelInactive.alpha = 0;
+                         self.rightLabel.alpha = 0;
+                         self.rightLabelInactive.alpha = 1;
                                 }
                      completion: ^(BOOL finished)
                                 {

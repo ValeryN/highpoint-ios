@@ -160,7 +160,7 @@
 
 - (IBAction) filterButtonTap: (id)sender
 {
-    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName:@"HPFilterSettings" bundle:nil];
+    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
     _crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:filter animated:YES];
 }

@@ -34,7 +34,9 @@
 @property (nonatomic, weak) IBOutlet UIImageView *centerPart;
 
 @property (nonatomic, weak) IBOutlet UILabel *leftLabel;
+@property (nonatomic, weak) IBOutlet UILabel *leftLabelInactive;
 @property (nonatomic, weak) IBOutlet UILabel *rightLabel;
+@property (nonatomic, weak) IBOutlet UILabel *rightLabelInactive;
 
 @property (nonatomic, assign) BOOL switchState;
 

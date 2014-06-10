@@ -847,10 +847,10 @@
 		3BDA4C9E19064EC300EF6619 /* HPRootViewController */ = {
 			isa = PBXGroup;
 			children = (
-				3BDA4C9B19064EAB00EF6619 /* HPRootViewController.h */,
 				3BDA4C9C19064EAB00EF6619 /* HPRootViewController.m */,
 				3B31709B191B6B5100B72AC1 /* HPMainViewListTableViewCell.h */,
 				3B31709C191B6B5100B72AC1 /* HPMainViewListTableViewCell.m */,
+				3BDA4C9B19064EAB00EF6619 /* HPRootViewController.h */,
 			);
 			name = HPRootViewController;
 			sourceTree = "<group>";
