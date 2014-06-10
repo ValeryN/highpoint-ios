@@ -16,6 +16,7 @@
 //==============================================================================
 
 #define SWITCH_ANIMATION_SPEED 0.4
+#define SIDE_BORDER_SIZE 15
 
 //==============================================================================
 
@@ -49,6 +50,10 @@
     rect.origin.y = 0;
     _backgroundView.frame = rect;
 }
+
+//==============================================================================
+
+#pragma mark - Gestures -
 
 //==============================================================================
 
@@ -129,9 +134,9 @@
 
 - (CGRect) switchOnLabel: (UILabel*) label
 {
-    CGRect rect = CGRectMake(label.frame.origin.x - 15,
+    CGRect rect = CGRectMake(label.frame.origin.x - SIDE_BORDER_SIZE,
                              _switchView.frame.origin.y,
-                             15 * 2 + label.frame.size.width,
+                             SIDE_BORDER_SIZE * 2 + label.frame.size.width,
                              _switchView.frame.size.height);
     return rect;
 }

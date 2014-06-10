@@ -37,7 +37,10 @@
     [super viewDidLoad];
     
     [self configureNavigationBar];
-    self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
+    self.view.backgroundColor = [UIColor colorWithRed: 30.0 / 255.0
+                                                green: 29.0 / 255.0
+                                                 blue: 48.0 / 255.0
+                                                alpha: 1.0];
     
     [self createSwitch];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
