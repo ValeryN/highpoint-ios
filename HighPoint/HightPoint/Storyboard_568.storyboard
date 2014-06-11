@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2cZ-pi-3X5">
     <dependencies>
-        <deployment version="1536" defaultVersion="1552" identifier="iOS"/>
+        <deployment version="1536" defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
@@ -104,30 +104,42 @@
                                 <rect key="frame" x="0.0" y="408" width="320" height="160"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7c7-ao-JSu" userLabel="Lens Button">
-                                <rect key="frame" x="12" y="524" width="24" height="24"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j7y-09-8PB" userLabel="Filter Group View">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7c7-ao-JSu" userLabel="Lens Button">
+                                        <rect key="frame" x="12" y="0.0" width="24" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="24" id="0jM-CC-yUl"/>
+                                            <constraint firstAttribute="height" constant="24" id="SPl-Ei-qiF"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="Lens">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="filterButtonTap:" destination="d74-B2-43R" eventType="touchUpInside" id="LHf-PF-kCO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="0jM-CC-yUl"/>
-                                    <constraint firstAttribute="height" constant="24" id="SPl-Ei-qiF"/>
+                                    <constraint firstItem="7c7-ao-JSu" firstAttribute="leading" secondItem="j7y-09-8PB" secondAttribute="leading" constant="12" id="PHt-MY-Z0r"/>
+                                    <constraint firstItem="7c7-ao-JSu" firstAttribute="top" secondItem="j7y-09-8PB" secondAttribute="top" id="lFX-Fn-CxS"/>
                                 </constraints>
-                                <state key="normal" backgroundImage="Lens">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="filterButtonTap:" destination="d74-B2-43R" eventType="touchUpInside" id="LHf-PF-kCO"/>
-                                </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="j7y-09-8PB" secondAttribute="bottom" id="7yF-fJ-F2L"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="NN0-MU-hah" secondAttribute="bottom" id="86P-js-lea"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="rlD-h7-wo0" secondAttribute="bottom" id="ApK-Jj-pTD"/>
                             <constraint firstAttribute="trailing" secondItem="NN0-MU-hah" secondAttribute="trailing" id="BPR-FZ-znb"/>
-                            <constraint firstItem="7c7-ao-JSu" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" constant="12" id="GXF-xz-12D"/>
-                            <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="7c7-ao-JSu" secondAttribute="bottom" constant="20" id="Upj-mN-UQn"/>
+                            <constraint firstAttribute="trailing" secondItem="j7y-09-8PB" secondAttribute="trailing" id="omS-3C-nAj"/>
                             <constraint firstItem="NN0-MU-hah" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" id="pGc-sa-CYS"/>
+                            <constraint firstItem="j7y-09-8PB" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" id="rSD-cS-IWZ"/>
                             <constraint firstItem="NN0-MU-hah" firstAttribute="top" secondItem="Ixf-VR-DTw" secondAttribute="top" id="vh1-YT-v7y"/>
                         </constraints>
                     </view>
@@ -135,6 +147,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="filterGroupView" destination="j7y-09-8PB" id="V6I-jv-RfS"/>
                         <outlet property="mainListTable" destination="NN0-MU-hah" id="gRO-VO-oVS"/>
                     </connections>
                 </viewController>

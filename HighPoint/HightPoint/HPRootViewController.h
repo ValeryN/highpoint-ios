@@ -26,6 +26,7 @@
 }
 
 @property (nonatomic, strong) UIView *notificationView;
+@property (nonatomic, strong) IBOutlet UIView* filterGroupView;
 @property (nonatomic, strong) IBOutlet UITableView *mainListTable;
 @property (nonatomic, assign) CGRect savedFrame;
 

@@ -20,7 +20,7 @@
 //==============================================================================
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
-#define BOTTOM_SHIFT 20
+#define SWITCH_BOTTOM_SHIFT 16
 
 //==============================================================================
 
@@ -56,12 +56,11 @@
         _bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
         _bottomSwitch.delegate = self;
         [self addChildViewController: _bottomSwitch];
-        [self.view addSubview: _bottomSwitch.view];
+        [_filterGroupView addSubview: _bottomSwitch.view];
 
         CGRect rect = [UIScreen mainScreen].bounds;
-        CGFloat shift = [UIDevice hp_isIOS7] ? 0 : [UIApplication sharedApplication].statusBarFrame.size.height;
         rect = CGRectMake(fabs(rect.size.width - _bottomSwitch.view.frame.size.width) / 2,
-                         rect.size.height - _bottomSwitch.view.frame.size.height - BOTTOM_SHIFT - shift,
+                          _filterGroupView.frame.size.height - SWITCH_BOTTOM_SHIFT - _bottomSwitch.view.frame.size.height,
                          _bottomSwitch.view.frame.size.width,
                          _bottomSwitch.view.frame.size.height);
         [_bottomSwitch positionSwitcher: rect];
