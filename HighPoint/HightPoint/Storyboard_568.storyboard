@@ -104,8 +104,8 @@
                                 <rect key="frame" x="0.0" y="408" width="320" height="160"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j7y-09-8PB" userLabel="Filter Group View">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j7y-09-8PB" userLabel="Filter Group View">
+                                <rect key="frame" x="0.0" y="520" width="320" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7c7-ao-JSu" userLabel="Lens Button">
@@ -126,7 +126,9 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="Jbi-BC-O7W"/>
                                     <constraint firstItem="7c7-ao-JSu" firstAttribute="leading" secondItem="j7y-09-8PB" secondAttribute="leading" constant="12" id="PHt-MY-Z0r"/>
+                                    <constraint firstAttribute="width" constant="320" id="c0G-Zy-5Zk"/>
                                     <constraint firstItem="7c7-ao-JSu" firstAttribute="top" secondItem="j7y-09-8PB" secondAttribute="top" id="lFX-Fn-CxS"/>
                                 </constraints>
                             </view>

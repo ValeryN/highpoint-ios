@@ -21,6 +21,7 @@
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
+#define HIDE_FILTER_ANIMATION_SPEED 0.5
 
 //==============================================================================
 
@@ -331,6 +332,87 @@
 - (void) switchedToRight
 {
     NSLog(@"switched into right");
+}
+
+//==============================================================================
+
+#pragma mark - scroll delegate -
+
+//==============================================================================
+
+- (void) scrollViewWillEndDragging: (UIScrollView*) scrollView
+                      withVelocity: (CGPoint)velocity
+               targetContentOffset: (inout CGPoint*) targetContentOffset
+{
+    if (velocity.y > 0)
+    {
+        if (_filterGroupView.frame.origin.y != [self topFilterBorder])
+            return;
+        
+        [self hideFilters];
+    }
+    
+    if (velocity.y < 0)
+    {
+        if (_filterGroupView.frame.origin.y != [self bottomFilterBorder])
+            return;
+        
+        [self showFilters];
+    }
+}
+
+//==============================================================================
+
+#pragma mark - filter animation -
+
+//==============================================================================
+
+- (void) hideFilters
+{
+    [UIView animateWithDuration: HIDE_FILTER_ANIMATION_SPEED
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^
+     {
+         CGRect rect = _filterGroupView.frame;
+         rect.origin.y = [self bottomFilterBorder];
+         _filterGroupView.frame = rect;
+     }
+                     completion: ^(BOOL finished)
+     {
+     }];
+}
+
+//==============================================================================
+
+- (void) showFilters
+{
+    [UIView animateWithDuration: HIDE_FILTER_ANIMATION_SPEED
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^
+     {
+         CGRect rect = _filterGroupView.frame;
+         rect.origin.y = [self topFilterBorder];
+         _filterGroupView.frame = rect;
+     }
+                     completion: ^(BOOL finished)
+     {
+     }];
+}
+
+//==============================================================================
+
+- (CGFloat) topFilterBorder
+{
+    return self.view.frame.size.height - _filterGroupView.frame.size.height;
+}
+
+//==============================================================================
+
+- (CGFloat) bottomFilterBorder
+{
+    return self.view.frame.size.height;
 }
 
 //==============================================================================
