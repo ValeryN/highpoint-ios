@@ -11,7 +11,12 @@
 #import "HPSwitchViewController.h"
 #import "Constants.h"
 #import "Utils.h"
-#import "UILabel+HighPoint.h"
+#import "UIButton+HighPoint.h"
+
+//==============================================================================
+
+#define SWITCH_ANIMATION_SPEED 0.2
+#define SIDE_BORDER_SIZE 15
 
 //==============================================================================
 
@@ -19,9 +24,8 @@
 
 //==============================================================================
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
-    [super viewDidLoad];
     [self initObjects];
 }
 
@@ -29,179 +33,154 @@
 
 - (void) initObjects
 {
-    if ([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_CLASSIC)
-        self.view.frame = CGRectMake(mainScreenSwitchToLeft, iPhone4ScreenHight - mainScreenSwitchToBottom_480 - mainScreenSwitchHeight , mainScreenSwitchWidth, mainScreenSwitchHeight);
+    UIImage *image = [UIImage imageNamed: @"Rectangle"];
+    UIImage *resizableImage = [image resizableImageWithCapInsets: UIEdgeInsetsMake(0, 30, image.size.height, 30)];
+    _backgroundView.image = resizableImage;
+
+    [self.leftButton hp_tuneFontForSwitch];
+    [self.leftButtonInactive hp_tuneFontForSwitch];
+
+    [self.rightButton hp_tuneFontForSwitch];
+    [self.rightButtonInactive hp_tuneFontForSwitch];
+
+    [self makeRightButtonClickable];
+}
+
+//==============================================================================
+
+- (void) positionSwitcher: (CGRect) rect
+{
+    self.view.frame = rect;
+    rect.origin.x = 0;
+    rect.origin.y = 0;
+    _backgroundView.frame = rect;
+}
+
+//==============================================================================
+
+#pragma mark - Gestures -
+
+//==============================================================================
+
+- (IBAction) buttonTap:(id)sender
+{
+    self.switchState = !self.switchState;
+    if (self.switchState)
+        [self moveSwitchToRight];
     else
-        self.view.frame = CGRectMake(mainScreenSwitchToLeft, iPhone5ScreenHight - mainScreenSwitchToBottom_568 - mainScreenSwitchHeight, mainScreenSwitchWidth, mainScreenSwitchHeight);
-
-    self.switchView = [self createSwitchView];
-    [self.view addSubview: self.switchView];
-    
-    //switch label
-    [self.leftLabel removeFromSuperview];
-    [self.rightLabel removeFromSuperview];
-    
-    [self.leftLabel hp_tuneForSwitchIsOn];
-    [self.rightLabel hp_tuneForSwitchIsOff];
-    
-    [self.view addSubview: self.leftLabel];
-    [self.view addSubview: self.rightLabel];
+        [self moveSwitchToLeft];
 }
 
 //==============================================================================
 
-- (void) viewWillAppear:(BOOL)animated
+- (IBAction) tapGesture:(UITapGestureRecognizer *)recognizer
 {
-    [super viewWillAppear:animated];
-    [self addGesture];
+    self.switchState = !self.switchState;
+    if (self.switchState)
+        [self moveSwitchToRight];
+    else
+        [self moveSwitchToLeft];
 }
 
 //==============================================================================
 
-- (void) viewWillDisappear:(BOOL)animated
+- (IBAction) swipeRightGesture:(UISwipeGestureRecognizer *)recognizer
 {
-    [super viewWillDisappear:animated];
-    [self removeGesture];
-}
-
-//==============================================================================
-
-- (UIView*) createSwitchView
-{
-    UIImage *imgC = [[UIImage imageNamed: @"Switcher-C"] resizableImageWithCapInsets: UIEdgeInsetsMake(0, 0, 0, 0)];
-    UIImage *imgL= [UIImage imageNamed: @"Switcher-L"];
-    UIImage *imgR= [UIImage imageNamed: @"Switcher-R"];
-
-    UIImageView *viewLeft = [[UIImageView alloc] initWithImage: imgL];
-    viewLeft.frame = CGRectMake(0, 0, viewLeft.frame.size.width / 2.0, viewLeft.frame.size.height / 2.0);
-    UIImageView *viewRight = [[UIImageView alloc] initWithImage: imgR];
-    
-    UIImageView *viewCenter = [[UIImageView alloc] initWithImage: imgC];
-    viewCenter.frame = CGRectMake(viewLeft.frame.size.width, 0, 56, viewCenter.frame.size.height / 2.0);
-    viewRight.frame = CGRectMake(viewLeft.frame.size.width + viewCenter.frame.size.width,
-                                 0,
-                                 viewRight.frame.size.width / 2.0,
-                                 viewCenter.frame.size.height);
-    
-    CGRect rect = CGRectMake(0,
-                             0,
-                             viewLeft.frame.size.width + viewCenter.frame.size.width + viewRight.frame.size.width,
-                             viewCenter.frame.size.height);
-    UIView* notView = [[UIView alloc] initWithFrame: rect];
-    notView.backgroundColor = [UIColor clearColor];
-    [notView addSubview: viewLeft];
-    [notView addSubview: viewCenter];
-    [notView addSubview: viewRight];
-
-    rect = notView.frame;
-    rect.origin.x = 2;
-    rect.origin.y = 2;
-    notView.frame = rect;
-     
-    return notView;
-    
-}
-
-//==============================================================================
-
-- (void) addGesture
-{
-    if(self.tapGesture == nil)
+    if ((!self.switchState) && (recognizer.direction == UISwipeGestureRecognizerDirectionRight))
     {
-        self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-        self.tapGesture.cancelsTouchesInView = NO;
-        self.tapGesture.numberOfTouchesRequired = 1;
-        [self.tapGesture setDelegate:self];
-        [[self view] addGestureRecognizer:self.tapGesture];
-
-        self.swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
-        self.swipeGesture.cancelsTouchesInView = NO;
-        self.swipeGesture.direction  = UISwipeGestureRecognizerDirectionLeft | UISwipeGestureRecognizerDirectionRight;
-        self.swipeGesture.numberOfTouchesRequired = 1;
-        [self.swipeGesture setDelegate:self];
-        [[self view] addGestureRecognizer:self.swipeGesture];
+        [self moveSwitchToRight];
+        self.switchState = !self.switchState;
     }
 }
 
 //==============================================================================
 
-- (void) removeGesture
+- (IBAction) swipeLeftGesture:(UISwipeGestureRecognizer *)recognizer
 {
-    [[self view] removeGestureRecognizer:self.tapGesture];
-    [[self view] removeGestureRecognizer:self.swipeGesture];
-
-    self.tapGesture = nil;
-    self.swipeGesture = nil;
-}
-
-//==============================================================================
-
-- (void) tapGesture:(UITapGestureRecognizer *)recognizer {
-    self.switchState = !self.switchState;
-    if(self.switchState) {
-        [self moveSwitchToRight];
-    } else {
+    if ((self.switchState) && (recognizer.direction == UISwipeGestureRecognizerDirectionLeft))
+    {
         [self moveSwitchToLeft];
+        self.switchState = !self.switchState;
     }
 }
 
 //==============================================================================
 
-- (void) swipeGesture:(UISwipeGestureRecognizer *)recognizer {
-    self.switchState = !self.switchState;
-    if(self.switchState) {
-        [self moveSwitchToRight];
-    } else {
-        [self moveSwitchToLeft];
-    }
-}
-
-//==============================================================================
-
-- (void) moveSwitchToRight {
-    CGRect newFrame;
-    if([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_CLASSIC) {
-        newFrame = CGRectMake(2 + 102, 2 , mainScreenSwitchWidth, mainScreenSwitchHeight);
-    } else {
-        newFrame = CGRectMake(2 + 102, 2, mainScreenSwitchWidth, mainScreenSwitchHeight);
-    }
-
-    [self.rightLabel hp_tuneForSwitchIsOn];
-    [self.leftLabel hp_tuneForSwitchIsOff];
-    CGRect offSetRect = CGRectOffset(newFrame, 0.0f, 0.0f);
+- (void) moveSwitchToRight
+{
+    [self makeLeftButtonClickable];
     
-    [UIView animateWithDuration: 0.4
+    CGRect newFrame = [self switchOnLabel: _rightButton];
+    [UIView animateWithDuration: SWITCH_ANIMATION_SPEED
                      animations: ^{
-                                    self.switchView.frame = offSetRect;
-                                 }
+                                     self.switchView.frame = newFrame;
+                                     self.leftButton.alpha = 0;
+                                     self.leftButtonInactive.alpha = 1;
+                                     self.rightButton.alpha = 1;
+                                     self.rightButtonInactive.alpha = 0;
+                      }
                      completion: ^(BOOL finished)
                                 {
                                  }];
+    if (_delegate == nil)
+        return;
+    [_delegate switchedToRight];
+
 }
 
 //==============================================================================
 
 - (void) moveSwitchToLeft
 {
-    CGRect newFrame;
-    if([Utils screenPhysicalSize] == SCREEN_SIZE_IPHONE_CLASSIC) {
-        newFrame = CGRectMake(2, 2 , mainScreenSwitchWidth, mainScreenSwitchHeight);
-    } else {
-        newFrame = CGRectMake(2, 2, mainScreenSwitchWidth, mainScreenSwitchHeight);
-    }
-
-    [self.rightLabel hp_tuneForSwitchIsOff];
-    [self.leftLabel hp_tuneForSwitchIsOn];
-
-    CGRect offSetRect = CGRectOffset(newFrame, 0.0f, 0.0f);
-    [UIView animateWithDuration: 0.4
+    [self makeRightButtonClickable];
+    
+    CGRect newFrame = [self switchOnLabel: _leftButton];
+    [UIView animateWithDuration: SWITCH_ANIMATION_SPEED
                      animations: ^{
-                                    self.switchView.frame = offSetRect;
+                                    self.switchView.frame = newFrame;
+                         self.leftButton.alpha = 1;
+                         self.leftButtonInactive.alpha = 0;
+                         self.rightButton.alpha = 0;
+                         self.rightButtonInactive.alpha = 1;
                                 }
                      completion: ^(BOOL finished)
-                        {
-                         }];
+                                {
+                                 }];
 
+    if (_delegate == nil)
+        return;
+    [_delegate switchedToLeft];
+}
+
+//==============================================================================
+
+- (void) makeRightButtonClickable
+{
+    _rightButton.userInteractionEnabled = YES;
+    _rightButtonInactive.userInteractionEnabled = YES;
+    _leftButton.userInteractionEnabled = NO;
+    _leftButtonInactive.userInteractionEnabled = NO;
+}
+
+//==============================================================================
+
+- (void) makeLeftButtonClickable
+{
+    _rightButton.userInteractionEnabled = NO;
+    _rightButtonInactive.userInteractionEnabled = NO;
+    _leftButton.userInteractionEnabled = YES;
+    _leftButtonInactive.userInteractionEnabled = YES;
+}
+
+//==============================================================================
+
+- (CGRect) switchOnLabel: (UIView*) label
+{
+    CGRect rect = CGRectMake(label.frame.origin.x - SIDE_BORDER_SIZE,
+                             _switchView.frame.origin.y,
+                             SIDE_BORDER_SIZE * 2 + label.frame.size.width,
+                             _switchView.frame.size.height);
+    return rect;
 }
 
 //==============================================================================

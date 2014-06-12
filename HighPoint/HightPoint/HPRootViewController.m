@@ -20,6 +20,8 @@
 //==============================================================================
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
+#define SWITCH_BOTTOM_SHIFT 16
+#define HIDE_FILTER_ANIMATION_SPEED 0.5
 
 //==============================================================================
 
@@ -36,17 +38,34 @@
     [super viewDidLoad];
     
     [self configureNavigationBar];
-    self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    if (!self.bottomSwitch)
-    {
-        self.bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
-
-        [self addChildViewController: self.bottomSwitch];
-        [self.view insertSubview: self.bottomSwitch.view atIndex: 2];
-        [self.bottomSwitch didMoveToParentViewController:self];
-    }
+    self.view.backgroundColor = [UIColor colorWithRed: 30.0 / 255.0
+                                                green: 29.0 / 255.0
+                                                 blue: 48.0 / 255.0
+                                                alpha: 1.0];
+    
+    [self createSwitch];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
     self.navigationController.delegate = self;
+}
+
+//==============================================================================
+
+- (void) createSwitch
+{
+    if (!_bottomSwitch)
+    {
+        _bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
+        _bottomSwitch.delegate = self;
+        [self addChildViewController: _bottomSwitch];
+        [_filterGroupView addSubview: _bottomSwitch.view];
+
+        CGRect rect = [UIScreen mainScreen].bounds;
+        rect = CGRectMake(fabs(rect.size.width - _bottomSwitch.view.frame.size.width) / 2,
+                          _filterGroupView.frame.size.height - SWITCH_BOTTOM_SHIFT - _bottomSwitch.view.frame.size.height,
+                         _bottomSwitch.view.frame.size.width,
+                         _bottomSwitch.view.frame.size.height);
+        [_bottomSwitch positionSwitcher: rect];
+    }
 }
 
 //==============================================================================
@@ -141,7 +160,7 @@
 
 - (IBAction) filterButtonTap: (id)sender
 {
-    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName:@"HPFilterSettings" bundle:nil];
+    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
     _crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:filter animated:YES];
 }
@@ -295,6 +314,105 @@
             return animationController;
         default: return nil;
     }
+}
+
+//==============================================================================
+
+#pragma mark - HPSwitch Delegate -
+
+//==============================================================================
+
+- (void) switchedToLeft
+{
+    NSLog(@"switched into left");
+}
+
+//==============================================================================
+
+- (void) switchedToRight
+{
+    NSLog(@"switched into right");
+}
+
+//==============================================================================
+
+#pragma mark - scroll delegate -
+
+//==============================================================================
+
+- (void) scrollViewWillEndDragging: (UIScrollView*) scrollView
+                      withVelocity: (CGPoint)velocity
+               targetContentOffset: (inout CGPoint*) targetContentOffset
+{
+    if (velocity.y > 0)
+    {
+        if (_filterGroupView.frame.origin.y != [self topFilterBorder])
+            return;
+        
+        [self hideFilters];
+    }
+    
+    if (velocity.y < 0)
+    {
+        if (_filterGroupView.frame.origin.y != [self bottomFilterBorder])
+            return;
+        
+        [self showFilters];
+    }
+}
+
+//==============================================================================
+
+#pragma mark - filter animation -
+
+//==============================================================================
+
+- (void) hideFilters
+{
+    [UIView animateWithDuration: HIDE_FILTER_ANIMATION_SPEED
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^
+     {
+         CGRect rect = _filterGroupView.frame;
+         rect.origin.y = [self bottomFilterBorder];
+         _filterGroupView.frame = rect;
+     }
+                     completion: ^(BOOL finished)
+     {
+     }];
+}
+
+//==============================================================================
+
+- (void) showFilters
+{
+    [UIView animateWithDuration: HIDE_FILTER_ANIMATION_SPEED
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^
+     {
+         CGRect rect = _filterGroupView.frame;
+         rect.origin.y = [self topFilterBorder];
+         _filterGroupView.frame = rect;
+     }
+                     completion: ^(BOOL finished)
+     {
+     }];
+}
+
+//==============================================================================
+
+- (CGFloat) topFilterBorder
+{
+    return self.view.frame.size.height - _filterGroupView.frame.size.height;
+}
+
+//==============================================================================
+
+- (CGFloat) bottomFilterBorder
+{
+    return self.view.frame.size.height;
 }
 
 //==============================================================================
