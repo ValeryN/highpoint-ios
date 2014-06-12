@@ -9,10 +9,10 @@
             <connections>
                 <outlet property="backgroundView" destination="dkK-EG-PQx" id="dH4-3Q-Gvc"/>
                 <outlet property="centerPart" destination="lyf-Ol-tlp" id="Asr-Gt-e7h"/>
-                <outlet property="leftLabel" destination="IOm-Zn-HeT" id="uVV-VB-cQu"/>
-                <outlet property="leftLabelInactive" destination="Pg4-uV-9Q0" id="jn9-Xs-h01"/>
-                <outlet property="rightLabel" destination="z7B-al-ty1" id="Blt-1Z-OBz"/>
-                <outlet property="rightLabelInactive" destination="gfx-kw-8OR" id="oFd-0A-3eE"/>
+                <outlet property="leftButton" destination="rIX-NY-JXy" id="KyW-3Z-Mmi"/>
+                <outlet property="leftButtonInactive" destination="epL-sT-kUh" id="gON-ET-TmO"/>
+                <outlet property="rightButton" destination="1gL-dw-Bvw" id="4Oj-ZI-6KD"/>
+                <outlet property="rightButtonInactive" destination="lTp-Zu-6pz" id="GSg-H0-Cn1"/>
                 <outlet property="switchView" destination="elf-tI-zPF" id="uVU-td-HoR"/>
                 <outlet property="view" destination="iN0-l3-epB" id="qcg-ge-fzL"/>
             </connections>
@@ -46,52 +46,70 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Все люди" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IOm-Zn-HeT">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rIX-NY-JXy" userLabel="Все люди - Button">
                     <rect key="frame" x="17" y="4" width="67" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Все люди" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pg4-uV-9Q0" userLabel="Inactive Label - Все люди">
+                    <state key="normal" title="Все люди">
+                        <color key="titleColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonTap:" destination="-1" eventType="touchUpInside" id="U52-Xr-zHH"/>
+                    </connections>
+                </button>
+                <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="epL-sT-kUh" userLabel="Все люди Inactive- Button">
                     <rect key="frame" x="17" y="4" width="67" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Поинты" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="z7B-al-ty1">
+                    <state key="normal" title="Все люди">
+                        <color key="titleColor" red="0.31372549019607843" green="0.8901960784313725" blue="0.76078431372549016" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonTap:" destination="-1" eventType="touchUpInside" id="nH6-86-6K1"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lTp-Zu-6pz" userLabel="Поинты Inactive - Button">
                     <rect key="frame" x="114" y="4" width="54" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Поинты" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gfx-kw-8OR" userLabel="Inactive Label - Поинты">
+                    <state key="normal" title="Поинты">
+                        <color key="titleColor" red="0.31372549019607843" green="0.8901960784313725" blue="0.76078431372549016" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonTap:" destination="-1" eventType="touchUpInside" id="89E-BI-nQh"/>
+                    </connections>
+                </button>
+                <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1gL-dw-Bvw" userLabel="Поинты - Button">
                     <rect key="frame" x="114" y="4" width="54" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                    <state key="normal" title="Поинты">
+                        <color key="titleColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonTap:" destination="-1" eventType="touchUpInside" id="sdD-MM-HTK"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outletCollection property="gestureRecognizers" destination="tAf-yv-w6H" appends="YES" id="K1J-Yp-YcP"/>
-                <outletCollection property="gestureRecognizers" destination="1li-hQ-Gz9" appends="YES" id="Wnr-sv-vEv"/>
                 <outletCollection property="gestureRecognizers" destination="LQM-Np-Avh" appends="YES" id="K4P-Li-bOs"/>
             </connections>
         </view>
-        <tapGestureRecognizer id="1li-hQ-Gz9">
-            <connections>
-                <action selector="tapGesture:" destination="-1" id="WJp-T4-Zbd"/>
-            </connections>
-        </tapGestureRecognizer>
         <swipeGestureRecognizer direction="right" id="LQM-Np-Avh" userLabel="Right Swipe Gesture Recognizer">
             <connections>
                 <action selector="swipeRightGesture:" destination="-1" id="uwI-ni-mtK"/>

@@ -11,7 +11,7 @@
 #import "HPSwitchViewController.h"
 #import "Constants.h"
 #import "Utils.h"
-#import "UILabel+HighPoint.h"
+#import "UIButton+HighPoint.h"
 
 //==============================================================================
 
@@ -37,11 +37,13 @@
     UIImage *resizableImage = [image resizableImageWithCapInsets: UIEdgeInsetsMake(0, 30, image.size.height, 30)];
     _backgroundView.image = resizableImage;
 
-    [self.leftLabel hp_tuneForSwitchIsOn];
-    [self.leftLabelInactive hp_tuneForSwitchIsOff];
+    [self.leftButton hp_tuneFontForSwitch];
+    [self.leftButtonInactive hp_tuneFontForSwitch];
 
-    [self.rightLabel hp_tuneForSwitchIsOn];
-    [self.rightLabelInactive hp_tuneForSwitchIsOff];
+    [self.rightButton hp_tuneFontForSwitch];
+    [self.rightButtonInactive hp_tuneFontForSwitch];
+
+    [self makeRightButtonClickable];
 }
 
 //==============================================================================
@@ -60,10 +62,21 @@
 
 //==============================================================================
 
+- (IBAction) buttonTap:(id)sender
+{
+    self.switchState = !self.switchState;
+    if (self.switchState)
+        [self moveSwitchToRight];
+    else
+        [self moveSwitchToLeft];
+}
+
+//==============================================================================
+
 - (IBAction) tapGesture:(UITapGestureRecognizer *)recognizer
 {
     self.switchState = !self.switchState;
-    if(self.switchState)
+    if (self.switchState)
         [self moveSwitchToRight];
     else
         [self moveSwitchToLeft];
@@ -95,14 +108,16 @@
 
 - (void) moveSwitchToRight
 {
-    CGRect newFrame = [self switchOnLabel: _rightLabel];
+    [self makeLeftButtonClickable];
+    
+    CGRect newFrame = [self switchOnLabel: _rightButton];
     [UIView animateWithDuration: SWITCH_ANIMATION_SPEED
                      animations: ^{
                                      self.switchView.frame = newFrame;
-                                     self.leftLabel.alpha = 0;
-                                     self.leftLabelInactive.alpha = 1;
-                                     self.rightLabel.alpha = 1;
-                                     self.rightLabelInactive.alpha = 0;
+                                     self.leftButton.alpha = 0;
+                                     self.leftButtonInactive.alpha = 1;
+                                     self.rightButton.alpha = 1;
+                                     self.rightButtonInactive.alpha = 0;
                       }
                      completion: ^(BOOL finished)
                                 {
@@ -117,14 +132,16 @@
 
 - (void) moveSwitchToLeft
 {
-    CGRect newFrame = [self switchOnLabel: _leftLabel];
+    [self makeRightButtonClickable];
+    
+    CGRect newFrame = [self switchOnLabel: _leftButton];
     [UIView animateWithDuration: SWITCH_ANIMATION_SPEED
                      animations: ^{
                                     self.switchView.frame = newFrame;
-                         self.leftLabel.alpha = 1;
-                         self.leftLabelInactive.alpha = 0;
-                         self.rightLabel.alpha = 0;
-                         self.rightLabelInactive.alpha = 1;
+                         self.leftButton.alpha = 1;
+                         self.leftButtonInactive.alpha = 0;
+                         self.rightButton.alpha = 0;
+                         self.rightButtonInactive.alpha = 1;
                                 }
                      completion: ^(BOOL finished)
                                 {
@@ -137,7 +154,27 @@
 
 //==============================================================================
 
-- (CGRect) switchOnLabel: (UILabel*) label
+- (void) makeRightButtonClickable
+{
+    _rightButton.userInteractionEnabled = YES;
+    _rightButtonInactive.userInteractionEnabled = YES;
+    _leftButton.userInteractionEnabled = NO;
+    _leftButtonInactive.userInteractionEnabled = NO;
+}
+
+//==============================================================================
+
+- (void) makeLeftButtonClickable
+{
+    _rightButton.userInteractionEnabled = NO;
+    _rightButtonInactive.userInteractionEnabled = NO;
+    _leftButton.userInteractionEnabled = YES;
+    _leftButtonInactive.userInteractionEnabled = YES;
+}
+
+//==============================================================================
+
+- (CGRect) switchOnLabel: (UIView*) label
 {
     CGRect rect = CGRectMake(label.frame.origin.x - SIDE_BORDER_SIZE,
                              _switchView.frame.origin.y,

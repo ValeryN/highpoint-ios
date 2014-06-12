@@ -162,6 +162,8 @@
 		4C89BD38193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */; };
 		4CA2F9D7193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
 		4CA2F9D8193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
+		4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
+		4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
 		4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 		4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 /* End PBXBuildFile section */
@@ -378,6 +380,8 @@
 		4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+HighPoint.m"; sourceTree = "<group>"; };
 		4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSelectTown.xib; sourceTree = "<group>"; };
 		4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCard.xib; sourceTree = "<group>"; };
+		4CAD4A5E1949B1A600E8E26C /* UIButton+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+HighPoint.h"; sourceTree = "<group>"; };
+		4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+HighPoint.m"; sourceTree = "<group>"; };
 		4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HighPoint.h"; sourceTree = "<group>"; };
 		4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HighPoint.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -877,6 +881,8 @@
 				4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */,
 				4C8096AC193F2E2200E4C174 /* UILabel+HighPoint.h */,
 				4C8096AD193F2E2200E4C174 /* UILabel+HighPoint.m */,
+				4CAD4A5E1949B1A600E8E26C /* UIButton+HighPoint.h */,
+				4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1084,6 +1090,7 @@
 				3B49DE211934CEF000C3EF1E /* HPSlideUpAnimation.m in Sources */,
 				3BDA4C6619064AC900EF6619 /* AFSecurityPolicy.m in Sources */,
 				3BDA4C9D19064EAB00EF6619 /* HPRootViewController.m in Sources */,
+				4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				3BDA4C6219064AC900EF6619 /* AFHTTPRequestOperation.m in Sources */,
 				4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
 				3BDA4C6E19064CD200EF6619 /* HPBaseNetworkManager.m in Sources */,
@@ -1126,6 +1133,7 @@
 				4C8096A8193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
 				4C8096AF193F2E2200E4C174 /* UILabel+HighPoint.m in Sources */,
 				4C8096AA193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
+				4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

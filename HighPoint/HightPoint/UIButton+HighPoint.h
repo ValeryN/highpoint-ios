@@ -1,8 +1,8 @@
 //
-//  UILabel+HighPoint.h
+//  UIButton+HighPoint.h
 //  HighPoint
 //
-//  Created by Michael on 04.06.14.
+//  Created by Michael on 12.06.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -12,11 +12,8 @@
 
 //==============================================================================
 
-@interface UILabel (HighPoint)
+@interface UIButton (HighPoint)
 
-- (void) hp_tuneForUserListCellName;
-- (void) hp_tuneForUserListCellAgeAndCity;
-- (void) hp_tuneForUserListCellPointText;
-- (void) hp_tuneForUserListCellAnonymous;
+- (void) hp_tuneFontForSwitch;
 
 @end
