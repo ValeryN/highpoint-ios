@@ -11,12 +11,17 @@
 #import "HPMainViewListTableViewCell.h"
 #import "UIImage+HighPoint.h"
 #import "UILabel+HighPoint.h"
+#import "HPMainViewListTableViewCell+HighPoint.h"
 
 //==============================================================================
 
 #define HALFHIDE_MAININFO_DURATION 0.1
 #define SHOWPOINT_COMPLETELY_DURATION 0.2
 #define SHOWPOINT_VIBRATE_DURATION 0.4
+
+//==============================================================================
+
+static HPMainViewListTableViewCell* _prevCell;
 
 //==============================================================================
 
@@ -133,6 +138,7 @@
                      completion: ^(BOOL finished)
      {
          [self showMainInfo];
+         [HPMainViewListTableViewCell makeCellReleased];
      }];
 }
 
@@ -241,6 +247,40 @@
     
     if (recognizer.state == UIGestureRecognizerStateEnded)
         [self hidePoint];
+}
+
+//==============================================================================
+
+#pragma mark - UIView touches processing -
+
+//==============================================================================
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesBegan:touches withEvent:event];
+    
+    if (_prevCell)
+        [_prevCell hp_tuneForUserListReleasedCell];
+    _prevCell = self;
+    [self hp_tuneForUserListPressedCell];
+}
+
+//==============================================================================
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesEnded:touches withEvent:event];
+    
+    [self hp_tuneForUserListReleasedCell];
+    NSLog(@"touch ended");
+}
+
+//==============================================================================
+
++ (void) makeCellReleased
+{
+    if (_prevCell)
+        [_prevCell hp_tuneForUserListReleasedCell];
 }
 
 //==============================================================================
