@@ -10,6 +10,8 @@
 
 @interface HPMainViewListTableViewCell : UITableViewCell
 
++ (void) makeCellReleased;
+
 - (void) makeAnonymous;
 - (void) configureCell;
 - (void) vibrateThePoint;
