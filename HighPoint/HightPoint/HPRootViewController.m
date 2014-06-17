@@ -201,6 +201,7 @@
 
 //==============================================================================
 
+
 - (void) tableView: (UITableView*) tableView didSelectRowAtIndexPath: (NSIndexPath*) indexPath
 {
     HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)[self.mainListTable cellForRowAtIndexPath: indexPath];
@@ -337,6 +338,20 @@
 //==============================================================================
 
 #pragma mark - scroll delegate -
+
+//==============================================================================
+
+- (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [HPMainViewListTableViewCell makeCellReleased];
+}
+
+//==============================================================================
+
+- (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [HPMainViewListTableViewCell makeCellReleased];
+}
 
 //==============================================================================
 

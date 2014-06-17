@@ -166,6 +166,8 @@
 		4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
 		4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 		4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
+		4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
+		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -384,6 +386,8 @@
 		4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+HighPoint.m"; sourceTree = "<group>"; };
 		4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HighPoint.h"; sourceTree = "<group>"; };
 		4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HighPoint.m"; sourceTree = "<group>"; };
+		4CF3A326194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPMainViewListTableViewCell+HighPoint.h"; sourceTree = "<group>"; };
+		4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPMainViewListTableViewCell+HighPoint.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -883,6 +887,8 @@
 				4C8096AD193F2E2200E4C174 /* UILabel+HighPoint.m */,
 				4CAD4A5E1949B1A600E8E26C /* UIButton+HighPoint.h */,
 				4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */,
+				4CF3A326194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.h */,
+				4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1107,6 +1113,7 @@
 				3B31709D191B6B5200B72AC1 /* HPMainViewListTableViewCell.m in Sources */,
 				3BA9A305190125F700CD542A /* DataStorage.m in Sources */,
 				4C8096AE193F2E2200E4C174 /* UILabel+HighPoint.m in Sources */,
+				4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
 				3BCB5B07192F8D3500E5DCA9 /* HPSelectTownViewController.m in Sources */,
 				3BDA4C9419064E5900EF6619 /* SDWebImageManager.m in Sources */,
 				3BDA4C9119064E5900EF6619 /* SDWebImageDecoder.m in Sources */,
@@ -1134,6 +1141,7 @@
 				4C8096AF193F2E2200E4C174 /* UILabel+HighPoint.m in Sources */,
 				4C8096AA193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
+				4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
 				3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
