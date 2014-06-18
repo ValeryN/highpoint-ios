@@ -48,4 +48,18 @@
 
 //==============================================================================
 
+- (void) hp_tuneForUserCardName
+{
+    self.font = [UIFont fontWithName: @"YesevaOne" size: 24.0f];
+}
+
+//==============================================================================
+
+- (void) hp_tuneForUserCardDetails
+{
+    self.font = [UIFont fontWithName: @"FuturaPT-Light" size:16.0f];
+}
+
+//==============================================================================
+
 @end
