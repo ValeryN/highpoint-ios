@@ -25,16 +25,17 @@
 @property (nonatomic, weak) IBOutlet UIButton *profileButton;
 @property (nonatomic, weak) IBOutlet UIButton *messageButton;
 @property (nonatomic, weak) IBOutlet UIButton *backButton;
+@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
+@property (nonatomic, weak) IBOutlet UILabel *detailLabel;
+@property (nonatomic, strong) IBOutlet iCarousel *carouselView;
+
 @property (nonatomic, strong) UIImageView *userImage;
 @property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, strong) UIView *messButtonView;
 @property (nonatomic, strong) UIButton *infoButton;
 @property (nonatomic, assign) BOOL dragging;
-@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
-@property (nonatomic, weak) IBOutlet UILabel *detailLabel;
 @property (nonatomic, assign) BOOL viewState;
 @property (nonatomic, assign) NSInteger prevIndex;
-@property (nonatomic, strong) IBOutlet iCarousel *carouselView;
 @property (nonatomic, weak) id <UserImageStartAnimationDelegate> delegate;
 @property(nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property(nonatomic, strong) UIImageView *captView;

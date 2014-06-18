@@ -45,8 +45,6 @@
 		3B29F8E51922303D00EC6395 /* HPUserCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B29F8E41922303D00EC6395 /* HPUserCardViewController.m */; };
 		3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2C1FA019260F0500D499A7 /* iCarousel.m */; };
 		3B31709D191B6B5200B72AC1 /* HPMainViewListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31709C191B6B5100B72AC1 /* HPMainViewListTableViewCell.m */; };
-		3B31709F191B6CAF00B72AC1 /* Bubble Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B31709E191B6CAF00B72AC1 /* Bubble Tap.png */; };
-		3B3170A1191B6CBA00B72AC1 /* Profile Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A0191B6CBA00B72AC1 /* Profile Tap.png */; };
 		3B3170A4191B7A1D00B72AC1 /* img_sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A2191B7A1D00B72AC1 /* img_sample.png */; };
 		3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A3191B7A1D00B72AC1 /* img_sample1.png */; };
 		3B3170A7191B7D1500B72AC1 /* Userpic Mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A6191B7D1500B72AC1 /* Userpic Mask.png */; };
@@ -59,8 +57,6 @@
 		3B3170B7191BA56900B72AC1 /* HPSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */; };
 		3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170C1191BC82A00B72AC1 /* Blend 5X.png */; };
 		3B31864B191A408B0000DD8B /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31864A191A408B0000DD8B /* Utils.m */; };
-		3B31864F191A493F0000DD8B /* Profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B31864E191A493F0000DD8B /* Profile.png */; };
-		3B318651191A5E4D0000DD8B /* Bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B318650191A5E4D0000DD8B /* Bubble.png */; };
 		3B318653191A674A0000DD8B /* Notice-C.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B318652191A674A0000DD8B /* Notice-C.png */; };
 		3B318656191A6C6D0000DD8B /* Notice-L.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B318654191A6C6D0000DD8B /* Notice-L.png */; };
 		3B318657191A6C6D0000DD8B /* Notice-R.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B318655191A6C6D0000DD8B /* Notice-R.png */; };
@@ -223,8 +219,6 @@
 		3B2C1FA019260F0500D499A7 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		3B31709B191B6B5100B72AC1 /* HPMainViewListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPMainViewListTableViewCell.h; sourceTree = "<group>"; };
 		3B31709C191B6B5100B72AC1 /* HPMainViewListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPMainViewListTableViewCell.m; sourceTree = "<group>"; };
-		3B31709E191B6CAF00B72AC1 /* Bubble Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bubble Tap.png"; sourceTree = "<group>"; };
-		3B3170A0191B6CBA00B72AC1 /* Profile Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Profile Tap.png"; sourceTree = "<group>"; };
 		3B3170A2191B7A1D00B72AC1 /* img_sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_sample.png; sourceTree = "<group>"; };
 		3B3170A3191B7A1D00B72AC1 /* img_sample1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_sample1.png; sourceTree = "<group>"; };
 		3B3170A6191B7D1500B72AC1 /* Userpic Mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Userpic Mask.png"; sourceTree = "<group>"; };
@@ -240,8 +234,6 @@
 		3B3170C1191BC82A00B72AC1 /* Blend 5X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blend 5X.png"; sourceTree = "<group>"; };
 		3B318649191A408B0000DD8B /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		3B31864A191A408B0000DD8B /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
-		3B31864E191A493F0000DD8B /* Profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile.png; sourceTree = "<group>"; };
-		3B318650191A5E4D0000DD8B /* Bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bubble.png; sourceTree = "<group>"; };
 		3B318652191A674A0000DD8B /* Notice-C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Notice-C.png"; sourceTree = "<group>"; };
 		3B318654191A6C6D0000DD8B /* Notice-L.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Notice-L.png"; sourceTree = "<group>"; };
 		3B318655191A6C6D0000DD8B /* Notice-R.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Notice-R.png"; sourceTree = "<group>"; };
@@ -553,13 +545,9 @@
 				3B3170A6191B7D1500B72AC1 /* Userpic Mask.png */,
 				3B3170A2191B7A1D00B72AC1 /* img_sample.png */,
 				3B3170A3191B7A1D00B72AC1 /* img_sample1.png */,
-				3B3170A0191B6CBA00B72AC1 /* Profile Tap.png */,
-				3B31709E191B6CAF00B72AC1 /* Bubble Tap.png */,
 				3B318654191A6C6D0000DD8B /* Notice-L.png */,
 				3B318655191A6C6D0000DD8B /* Notice-R.png */,
 				3B318652191A674A0000DD8B /* Notice-C.png */,
-				3B318650191A5E4D0000DD8B /* Bubble.png */,
-				3B31864E191A493F0000DD8B /* Profile.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -680,12 +668,12 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				3B49DE1B1934A50C00C3EF1E /* HPUserProfileViewController */,
-				3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */,
-				3BD12E57192DFDF30026BA11 /* HPFilterSettingsViewController */,
 				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
 				3B3170B2191B9E7700B72AC1 /* HPSwitchViewController */,
 				3BDA4C9E19064EC300EF6619 /* HPRootViewController */,
+				3B49DE1B1934A50C00C3EF1E /* HPUserProfileViewController */,
+				3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */,
+				3BD12E57192DFDF30026BA11 /* HPFilterSettingsViewController */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1005,7 +993,6 @@
 				3BB5E86C1936121F00DDF5F9 /* bar_background.png in Resources */,
 				3B298FBB192F476100BEC2AA /* slider-default-handle.png in Resources */,
 				3B298FC6192F476100BEC2AA /* slider-default7-track@2x.png in Resources */,
-				3B31709F191B6CAF00B72AC1 /* Bubble Tap.png in Resources */,
 				3B31865E191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf in Resources */,
 				3B3170AF191B91AD00B72AC1 /* pin_popup_blackw@2x.png in Resources */,
 				3B3170B4191BA50600B72AC1 /* Green Button.png in Resources */,
@@ -1024,7 +1011,6 @@
 				3B298FBD192F476100BEC2AA /* slider-default-track.png in Resources */,
 				3B298FBA192F476100BEC2AA /* slider-default-handle-highlighted@2x.png in Resources */,
 				3B1FC62B192A5429009DCD85 /* Point Tap.png in Resources */,
-				3B318651191A5E4D0000DD8B /* Bubble.png in Resources */,
 				3B298FBC192F476100BEC2AA /* slider-default-handle@2x.png in Resources */,
 				3B298FC5192F476100BEC2AA /* slider-default7-track.png in Resources */,
 				3B1FC626192A4608009DCD85 /* Green-Button-Tap-C.png in Resources */,
@@ -1044,8 +1030,6 @@
 				3B31865D191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf in Resources */,
 				3B3170A7191B7D1500B72AC1 /* Userpic Mask.png in Resources */,
 				3B298FC8192F476100BEC2AA /* slider-default7-trackBackground@2x.png in Resources */,
-				3B3170A1191B6CBA00B72AC1 /* Profile Tap.png in Resources */,
-				3B31864F191A493F0000DD8B /* Profile.png in Resources */,
 				3B298FC1192F476100BEC2AA /* slider-default-trackCrossedOver@2x.png in Resources */,
 				3B3170AA191B7E7600B72AC1 /* Userpic Shape Green.png in Resources */,
 			);

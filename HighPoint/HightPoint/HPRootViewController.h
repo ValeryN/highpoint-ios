@@ -25,11 +25,15 @@
     HPSwitchViewController *_bottomSwitch;
 }
 
+@property (nonatomic, weak) IBOutlet UIButton* chatsListButton;
+
 @property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, strong) IBOutlet UIView* filterGroupView;
 @property (nonatomic, strong) IBOutlet UITableView *mainListTable;
 @property (nonatomic, assign) CGRect savedFrame;
 
 - (IBAction) filterButtonTap:(id)sender;
+- (IBAction) profileButtonPressedStart: (id) sender;
+- (IBAction) bubbleButtonPressedStart: (id) sender;
 
 @end
