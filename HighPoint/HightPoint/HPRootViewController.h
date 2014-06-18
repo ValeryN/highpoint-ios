@@ -26,10 +26,10 @@
 }
 
 @property (nonatomic, weak) IBOutlet UIButton* chatsListButton;
-
-@property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, strong) IBOutlet UIView* filterGroupView;
 @property (nonatomic, strong) IBOutlet UITableView *mainListTable;
+
+@property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, assign) CGRect savedFrame;
 
 - (IBAction) filterButtonTap:(id)sender;

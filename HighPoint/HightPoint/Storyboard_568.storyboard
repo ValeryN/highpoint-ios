@@ -146,9 +146,9 @@
                             <constraint firstItem="NN0-MU-hah" firstAttribute="top" secondItem="Ixf-VR-DTw" secondAttribute="top" id="vh1-YT-v7y"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Девушки, 24-27, Москва" id="bkJ-CB-an4">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="g3O-hB-8xM">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tXB-vf-WNG" userLabel="Profile - Button">
+                    <navigationItem key="navigationItem" title="Девушки, 24-27, Москва" id="uF6-uG-LRu">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="C05-69-sr6">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sff-ia-dzY" userLabel="Profile - Button">
                                 <rect key="frame" x="16" y="9" width="26" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -157,12 +157,12 @@
                                 </state>
                                 <state key="highlighted" backgroundImage="Profile Tap.png"/>
                                 <connections>
-                                    <action selector="profileButtonPressedStart:" destination="d74-B2-43R" eventType="touchUpInside" id="Ih2-yC-e2k"/>
+                                    <action selector="profileButtonPressedStart:" destination="d74-B2-43R" eventType="touchUpInside" id="4k6-lH-taX"/>
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="8rt-LD-FOy">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HeR-N6-gdv" userLabel="Chats list - Button">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="y6x-65-r5e">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aHY-bi-ett" userLabel="Chats list - Button">
                                 <rect key="frame" x="278" y="9" width="26" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -171,7 +171,7 @@
                                 </state>
                                 <state key="highlighted" backgroundImage="Bubble Tap"/>
                                 <connections>
-                                    <action selector="bubbleButtonPressedStart:" destination="d74-B2-43R" eventType="touchUpInside" id="ae7-1s-026"/>
+                                    <action selector="bubbleButtonPressedStart:" destination="d74-B2-43R" eventType="touchUpInside" id="mPf-iV-DQJ"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -179,7 +179,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="chatsListButton" destination="HeR-N6-gdv" id="wN6-DE-eFx"/>
+                        <outlet property="chatsListButton" destination="aHY-bi-ett" id="UR2-jA-ZDa"/>
                         <outlet property="filterGroupView" destination="j7y-09-8PB" id="V6I-jv-RfS"/>
                         <outlet property="mainListTable" destination="NN0-MU-hah" id="gRO-VO-oVS"/>
                     </connections>

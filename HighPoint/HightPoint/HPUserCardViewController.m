@@ -12,6 +12,10 @@
 #import "Utils.h"
 #import "UIImage+HighPoint.h"
 #import "UINavigationController+HighPoint.h"
+#import "UIViewController+HighPoint.h"
+#import "UILabel+HighPoint.h"
+#import "UIView+HighPoint.h"
+#import "HPUserCardView.h"
 
 //==============================================================================
 
@@ -35,57 +39,106 @@
 
 - (void) initObjects
 {
-    self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    self.carouselView.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    [self.profileButton setBackgroundImage:[UIImage imageNamed:@"Profile.png"] forState:UIControlStateNormal];
-    [self.profileButton setBackgroundImage:[UIImage imageNamed:@"Profile Tap.png"] forState:UIControlStateHighlighted];
-    
-    [self.profileButton addTarget:self action:@selector(profileButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
-    
-    self.notificationView = [Utils getNotificationViewForText:@"8"];
-    [self.messageButton addSubview:self.notificationView];
-    
-    [self.messageButton setBackgroundImage:[UIImage imageNamed:@"Bubble.png"] forState:UIControlStateNormal];
-    [self.messageButton setBackgroundImage:[UIImage imageNamed:@"Bubble Tap.png"] forState:UIControlStateHighlighted];
-    [self.messageButton addTarget:self action:@selector(messageButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
-    
-    [self.backButton setBackgroundImage:[UIImage imageNamed:@"Close Round.png"] forState:UIControlStateNormal];
-    [self.backButton setBackgroundImage:[UIImage imageNamed:@"Close Round Tap"] forState:UIControlStateHighlighted];
-    [self.backButton addTarget:self action:@selector(backButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
-    
-    self.nameLabel.font = [UIFont fontWithName:@"YesevaOne" size:24.0f];
+    [self createNavigationItem];
+
+    [self.nameLabel hp_tuneForUserCardName];
     self.nameLabel.text = @"Октябрина";
     
-    self.detailLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:16.0f];
+    [self.detailLabel hp_tuneForUserCardDetails];
     self.detailLabel.text = @"99 лет, Когалым";
-    
+
     self.carouselView.type = iCarouselTypeRotary;
     self.carouselView.decelerationRate = 0.7;
     self.carouselView.scrollEnabled = YES;
-    self.carouselView.exclusiveTouch = YES;
-    
     self.carouselView.delegate = self;
     self.carouselView.dataSource = self;
     self.carouselView.hidden = YES;
+    self.carouselView.exclusiveTouch = YES;
 }
 
 //==============================================================================
 
-- (void) viewDidAppear:(BOOL)animated
+- (void) createNavigationItem
 {
-    [super viewDidAppear:animated];
-
-    self.carouselView.currentItemView.hidden = YES;
-    self.carouselView.currentItemView.layer.cornerRadius = 5;
-    self.carouselView.currentItemView.layer.masksToBounds = YES;
+    UIBarButtonItem* chatlistButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Bubble"]
+                                                        highlighedImage: [UIImage imageNamed:@"Bubble Tap"]
+                                                                 action: @selector(messageButtonPressedStart:)];
+    self.notificationView = [Utils getNotificationViewForText:@"8"];
+    [chatlistButton.customView addSubview: _notificationView];
+    self.navigationItem.rightBarButtonItem = chatlistButton;
+    
+    UIBarButtonItem* backButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Close.png"]
+                                                        highlighedImage: [UIImage imageNamed:@"Close Tap.png"]
+                                                                 action: @selector(backButtonPressedStart:)];
+    self.navigationItem.leftBarButtonItem = backButton;
+    
+    self.navigationItem.title = @"Октябрина";
 }
 
 //==============================================================================
 
-- (void) viewWillAppear:(BOOL)animated
+- (UIBarButtonItem*) createBarButtonItemWithImage: (UIImage*) image
+                                  highlighedImage: (UIImage*) highlighedImage
+                                  action: (SEL) action
 {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES];
+    UIButton* newButton = [UIButton buttonWithType: UIButtonTypeCustom];
+    newButton.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+    [newButton setBackgroundImage: image forState: UIControlStateNormal];
+    [newButton setBackgroundImage: highlighedImage forState: UIControlStateHighlighted];
+    [newButton addTarget: self
+                  action: action
+        forControlEvents: UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* newbuttonItem = [[UIBarButtonItem alloc] initWithCustomView: newButton];
+
+    return newbuttonItem;
+}
+
+//==============================================================================
+
+//- (void) viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//
+//    NSLog(@"UserCard navi %@\t\tnavi item %@", self.navigationController, self.navigationItem);
+//
+//    self.carouselView.currentItemView.hidden = YES;
+//    self.carouselView.currentItemView.layer.cornerRadius = 5;
+//    self.carouselView.currentItemView.layer.masksToBounds = YES;
+//}
+
+//==============================================================================
+
+#pragma mark - message buttons -
+
+//==============================================================================
+
+- (void) messButtonPressedStart:(UIButton *)sender
+{
+    [self.messButtonView removeFromSuperview];
+    self.messButtonView = nil;
+    self.messButtonView = [Utils getViewForGreenButtonForText:@"Написать ей" andTapped:YES];
+    self.messButtonView.frame = CGRectMake(self.carouselView.currentItemView.frame.size.width/2 - self.messButtonView.frame.size.width/2 , 312, self.messButtonView.frame.size.width, self.messButtonView.frame.size.height);
+    [self.carouselView.currentItemView insertSubview:self.messButtonView belowSubview:sender];
+
+}
+
+//==============================================================================
+
+- (void) messButtonPressedStop:(UIButton *)sender
+{
+    [self.messButtonView removeFromSuperview];
+    self.messButtonView = nil;
+    self.messButtonView = [Utils getViewForGreenButtonForText:@"Написать ей" andTapped:NO];
+    self.messButtonView.frame = CGRectMake(self.carouselView.currentItemView.frame.size.width/2 - self.messButtonView.frame.size.width/2 , 312, self.messButtonView.frame.size.width, self.messButtonView.frame.size.height);
+    [self.carouselView.currentItemView insertSubview:self.messButtonView belowSubview:sender];
+
+}
+
+//==============================================================================
+
+- (void) showReceiptViewController:(NSString*) articleName {
+    
 }
 
 //==============================================================================
@@ -235,13 +288,6 @@
 
 //==============================================================================
 
-- (void) profileButtonPressedStart:(UIButton *)sender
-{
-
-}
-
-//==============================================================================
-
 - (void) messageButtonPressedStart:(UIButton *)sender
 {
 
@@ -251,15 +297,14 @@
 
 - (void) backButtonPressedStart:(id) sender
 {
-    [self.delegate startAnimation:self.userImage];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.delegate startAnimation: self.userImage];
+    [self.navigationController popViewControllerAnimated: YES];
 }
 
 //==============================================================================
 
 - (void) pointButtonTap:(id) sender
 {
-    
     self.viewState = !self.viewState;
     if(self.viewState) {
         //flip from right
@@ -419,41 +464,34 @@
 
 //==============================================================================
 
-- (CGFloat)carouselItemWidth:(iCarousel*)carousel
-{
-    return ICAROUSEL_ITEMS_WIDTH;
-}
+#pragma mark - iCarousel data source -
 
 //==============================================================================
 
-#pragma mark - iCarousel methods -
-
-//==============================================================================
-
-- (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
+- (NSUInteger)numberOfItemsInCarousel: (iCarousel*) carousel
 {
-    //return the total number of items in the carousel
     return ICAROUSEL_ITEMS_COUNT;
 }
 
 //==============================================================================
 
-- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
+- (UIView*)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
 {
    if (view == nil)
     {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 264.0, 356.0)];
-        UIImageView *iv = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, 264.0, 356.0)];
-        [(UIImageView*) iv setContentMode:UIViewContentModeScaleToFill];
-        [(UIImageView*) iv setImage:self.userImage.image];
-        [view addSubview:[self getBackgroundImage]];
-        
-        view.layer.cornerRadius = 3;
-        view.layer.masksToBounds = YES;
-        view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
+        NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPUserCardView" owner: self options: nil];
+        HPUserCardView* cardview = (HPUserCardView*)nibs[0];
+        [cardview hp_roundViewWithRadius: 3];
+        cardview.backgroundAvatar.image = _userImage.image;
+        view = cardview;
     }
+    
     return view;
 }
+
+//==============================================================================
+
+#pragma mark - iCarousel delegate -
 
 //==============================================================================
 
@@ -481,24 +519,6 @@
 - (void)carouselDidEndDragging: (iCarousel *)carousel willDecelerate: (BOOL)decelerate
 {
     self.dragging = YES;
-}
-
-//==============================================================================
-
-- (void) clearViewForIndex:(NSInteger) index andImage:(BOOL) clear
-{
-    UIView* prevView = [self.carouselView itemViewAtIndex:index];
-    [prevView removeGestureRecognizer:self.tapGesture];
-    self.tapGesture = nil;
-    NSArray *subviews = [prevView subviews];
-    for(UIView* v in subviews) {
-        if(!clear) {
-        if(![v isKindOfClass:[UIImageView class] ])
-            [v removeFromSuperview];
-        } else {
-            [v removeFromSuperview];
-        }
-    }
 }
 
 //==============================================================================
@@ -535,32 +555,31 @@
 
 //==============================================================================
 
-- (void) messButtonPressedStart:(UIButton *)sender
+- (CGFloat)carouselItemWidth:(iCarousel*)carousel
 {
-    [self.messButtonView removeFromSuperview];
-    self.messButtonView = nil;
-    self.messButtonView = [Utils getViewForGreenButtonForText:@"Написать ей" andTapped:YES];
-    self.messButtonView.frame = CGRectMake(self.carouselView.currentItemView.frame.size.width/2 - self.messButtonView.frame.size.width/2 , 312, self.messButtonView.frame.size.width, self.messButtonView.frame.size.height);
-    [self.carouselView.currentItemView insertSubview:self.messButtonView belowSubview:sender];
-
+    return ICAROUSEL_ITEMS_WIDTH;
 }
 
 //==============================================================================
 
-- (void) messButtonPressedStop:(UIButton *)sender
-{
-    [self.messButtonView removeFromSuperview];
-    self.messButtonView = nil;
-    self.messButtonView = [Utils getViewForGreenButtonForText:@"Написать ей" andTapped:NO];
-    self.messButtonView.frame = CGRectMake(self.carouselView.currentItemView.frame.size.width/2 - self.messButtonView.frame.size.width/2 , 312, self.messButtonView.frame.size.width, self.messButtonView.frame.size.height);
-    [self.carouselView.currentItemView insertSubview:self.messButtonView belowSubview:sender];
-
-}
+#pragma mark - private -
 
 //==============================================================================
 
-- (void) showReceiptViewController:(NSString*) articleName {
-    
+- (void) clearViewForIndex:(NSInteger) index andImage:(BOOL) clear
+{
+    UIView* prevView = [self.carouselView itemViewAtIndex:index];
+    [prevView removeGestureRecognizer:self.tapGesture];
+    self.tapGesture = nil;
+    NSArray *subviews = [prevView subviews];
+    for(UIView* v in subviews) {
+        if(!clear) {
+        if(![v isKindOfClass:[UIImageView class] ])
+            [v removeFromSuperview];
+        } else {
+            [v removeFromSuperview];
+        }
+    }
 }
 
 //==============================================================================

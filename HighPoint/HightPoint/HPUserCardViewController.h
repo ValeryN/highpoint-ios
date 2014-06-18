@@ -22,9 +22,6 @@
 
 @interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, HPUserProfileViewControllerDelegate>
 
-@property (nonatomic, weak) IBOutlet UIButton *profileButton;
-@property (nonatomic, weak) IBOutlet UIButton *messageButton;
-@property (nonatomic, weak) IBOutlet UIButton *backButton;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *detailLabel;
 @property (nonatomic, strong) IBOutlet iCarousel *carouselView;
