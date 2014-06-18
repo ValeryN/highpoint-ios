@@ -58,20 +58,6 @@
 
 - (void) hp_configureNavigationBarForUserList
 {
-//    UIColor* color2 = [UIColor colorWithRed: 34.0 / 255.0
-//                                     green: 45.0 / 255.0
-//                                      blue: 77.0 / 255.0
-//                                     alpha: 0.9];
-//    if ([UIDevice hp_isIOS7])
-//    {
-//        self.navigationBar.barTintColor = color2;
-//    }
-//    else
-//    {
-//        [UINavigationBar appearance].backgroundColor = color2;
-//        self.navigationBar.tintColor = color2;
-//    }
-
     UIColor* color = [UIColor colorWithRed: 230.0 / 255.0
                             green: 236.0 / 255.0
                              blue: 242.0 / 255.0
