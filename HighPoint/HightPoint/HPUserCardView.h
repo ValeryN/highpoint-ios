@@ -15,5 +15,8 @@
 @interface HPUserCardView : UIView
 
 @property (nonatomic, weak) IBOutlet UIImageView* backgroundAvatar;
+@property (nonatomic, weak) IBOutlet UILabel* photoIndex;
+@property (nonatomic, weak) IBOutlet UILabel* details;
+@property (nonatomic, weak) IBOutlet UILabel* name;
 
 @end

@@ -134,7 +134,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="j7y-09-8PB" secondAttribute="bottom" id="7yF-fJ-F2L"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="NN0-MU-hah" secondAttribute="bottom" id="86P-js-lea"/>
@@ -215,7 +215,7 @@
         <image name="Bubble" width="26" height="25"/>
         <image name="Bubble Tap" width="26" height="25"/>
         <image name="Lens" width="24" height="24"/>
-        <image name="Point Notice.png" width="46" height="48"/>
+        <image name="Point Notice.png" width="193" height="32"/>
         <image name="Profile" width="26" height="26"/>
         <image name="Profile Tap.png" width="193" height="32"/>
     </resources>

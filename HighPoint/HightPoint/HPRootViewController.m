@@ -146,69 +146,8 @@
 
 - (void) tableView: (UITableView*) tableView didSelectRowAtIndexPath: (NSIndexPath*) indexPath
 {
-    HPMainViewListTableViewCell* cell = (HPMainViewListTableViewCell*)[self.mainListTable cellForRowAtIndexPath: indexPath];
-    HPUserCardViewController* card = [self createUsersScreen: cell.frame];
-
-    [UIView animateWithDuration: 0.7
-                          delay: 0
-                        options: UIViewAnimationOptionTransitionNone
-                     animations: ^
-                            {
-                                card.userImage.frame = CGRectMake(card.view.center.x - card.userImage.frame.size.width / 2.0,
-                                                                  257.0,
-                                                                  card.userImage.frame.size.width,
-                                                                  card.userImage.frame.size.height);
-                                card.userImage.transform = CGAffineTransformIdentity;
-                            }
-                     completion: ^(BOOL finished)
-                            {
-                                [card.userImage removeFromSuperview];
-                                card.carouselView.hidden = NO;
-                                card.carouselView.currentItemView.hidden = NO;
-                            }];
-    
-    _crossDissolveAnimationController.viewForInteraction = card.view;
+    HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCardViewController" bundle: nil];
     [self.navigationController pushViewController: card animated: YES];
-}
-
-//==============================================================================
-
-- (HPUserCardViewController*) createUsersScreen: (CGRect) rect
-{
-    HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCard" bundle: nil];
-    card.delegate = self;
-
-    CGRect cellRect = [self.view convertRect: rect
-                                  fromView: self.mainListTable];
-
-    UIImage *img =[UIImage imageNamed:@"img_sample1"];
-    card.userImage = [[UIImageView alloc] initWithImage: img];
-    card.userImage.frame = CGRectMake(0, 0, 264.0, 356.0);
-    card.userImage.center = CGPointMake(cellRect.origin.x + 45, cellRect.origin.y + 40);
-    self.savedFrame = card.userImage.frame;
-    card.userImage.transform = CGAffineTransformMakeScale(0.01, 0.01);
-    [card.view addSubview: card.userImage];
-    
-    return card;
-}
-
-//==============================================================================
-
-- (void) startAnimation:(UIImageView *)image
-{
-    UIImage *img =[UIImage imageNamed:@"img_sample1"];
-    UIImageView *temp = [[UIImageView alloc] initWithImage:img];
-    
-    
-    temp.frame = CGRectMake(self.view.center.x - temp.frame.size.width/2.0, self.view.center.y - temp.frame.size.height/2.0, temp.frame.size.width, temp.frame.size.height);
-    [self.view addSubview:temp];
-
-    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-        temp.frame = self.savedFrame;
-        temp.transform = CGAffineTransformMakeScale(0.01, 0.01);
-    } completion:^(BOOL finished) {
-        [temp removeFromSuperview];
-    }];
 }
 
 //==============================================================================
@@ -244,30 +183,6 @@
                     completion:^(BOOL finished){
                         
                     }];
-}
-
-//==============================================================================
-
-#pragma mark - Navigation Controller Delegate -
-
-//==============================================================================
-
-- (id<UIViewControllerAnimatedTransitioning>) navigationController: (UINavigationController *)navigationController
-                                   animationControllerForOperation: (UINavigationControllerOperation)operation
-                                                fromViewController: (UIViewController *)fromVC
-                                                  toViewController: (UIViewController *)toVC
-{
-    BaseAnimation *animationController;
-    animationController = _crossDissolveAnimationController;
-    switch (operation) {
-        case UINavigationControllerOperationPush:
-            animationController.type = AnimationTypePresent;
-            return  animationController;
-        case UINavigationControllerOperationPop:
-            animationController.type = AnimationTypeDismiss;
-            return animationController;
-        default: return nil;
-    }
 }
 
 //==============================================================================

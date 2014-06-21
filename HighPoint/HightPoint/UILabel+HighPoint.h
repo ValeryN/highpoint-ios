@@ -20,5 +20,6 @@
 - (void) hp_tuneForUserListCellAnonymous;
 - (void) hp_tuneForUserCardName;
 - (void) hp_tuneForUserCardDetails;
+- (void) hp_tuneForUserCardPhotoIndex;
 
 @end
