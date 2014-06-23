@@ -13,23 +13,19 @@
 #import "iCarousel.h"
 #import "HPUserProfileViewController.h"
 #import "HPUserCardView.h"
+#import "HPGreenButtonVC.h"
 
 //==============================================================================
 
-@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
+@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UserCardViewProtocol, GreenButtonProtocol>
 
 @property (nonatomic, strong) UIView *sendMessageButton;
-@property (nonatomic, strong) UIButton *infoButton;
-
 @property (nonatomic, strong) IBOutlet iCarousel* carouselView;
-@property(nonatomic, strong) UIImageView *captView;
-@property(nonatomic, strong) UIImageView *captViewLeft;
-@property(nonatomic, strong) UIImageView *captViewRight;
-
+@property (nonatomic, strong) IBOutlet UIButton* infoButton;
 @property (nonatomic, strong) UIView *notificationView;
-@property(nonatomic, strong) UITapGestureRecognizer *tapGesture;
-@property (nonatomic, assign) BOOL dragging;
-@property (nonatomic, assign) BOOL viewState;
-@property (nonatomic, assign) NSInteger prevIndex;
+
+- (IBAction) slideLeftPressed: (id)sender;
+- (IBAction) slideRightPressed: (id)sender;
+- (IBAction) infoButtonPressed: (id)sender;
 
 @end

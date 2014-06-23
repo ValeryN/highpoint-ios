@@ -15,5 +15,6 @@
 @interface UIButton (HighPoint)
 
 - (void) hp_tuneFontForSwitch;
+- (void) hp_tuneFontForGreenButton;
 
 @end

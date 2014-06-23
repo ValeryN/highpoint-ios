@@ -21,6 +21,9 @@
 
 #define ICAROUSEL_ITEMS_COUNT 20
 #define ICAROUSEL_ITEMS_WIDTH 264.0
+#define GREENBUTTON_BOTTOM_SHIFT 20
+#define SPACE_BETWEEN_GREENBUTTON_AND_INFO 40
+#define FLIP_ANIMATION_SPEED 0.5
 
 //==============================================================================
 
@@ -37,18 +40,29 @@
 
 //==============================================================================
 
-//- (void) viewDidAppear:(BOOL)animated
-//{
-//    [super viewDidAppear: animated];
-//    [self initCarousel];
-//}
-
-//==============================================================================
-
 - (void) initObjects
 {
     [self createNavigationItem];
     [self initCarousel];
+    [self createGreenButton];
+}
+
+//==============================================================================
+
+- (void) createGreenButton
+{
+    HPGreenButtonVC* sendMessage = [[HPGreenButtonVC alloc] initWithNibName: @"HPGreenButtonVC" bundle: nil];
+    sendMessage.delegate = self;
+
+    CGRect rect = sendMessage.view.frame;
+    rect.origin.x = _infoButton.frame.origin.x + _infoButton.frame.size.width + SPACE_BETWEEN_GREENBUTTON_AND_INFO;
+    rect.origin.y = [UIScreen mainScreen].bounds.size.height - rect.size.height - GREENBUTTON_BOTTOM_SHIFT;
+    sendMessage.view.frame = rect;
+    
+    sendMessage.delegate = self;
+    
+    [self addChildViewController: sendMessage];
+    [self.view addSubview: sendMessage.view];
 }
 
 //==============================================================================
@@ -57,10 +71,8 @@
 {
     _carouselView.type = iCarouselTypeRotary;
     _carouselView.decelerationRate = 0.7;
-//    _carouselView.scrollSpeed = 0.1;
     _carouselView.scrollEnabled = YES;
-//    _carouselView.hidden = YES;
-//    _carouselView.exclusiveTouch = YES;
+    _carouselView.exclusiveTouch = YES;
 }
 
 //==============================================================================
@@ -140,7 +152,10 @@
         if ([nibs[0] isKindOfClass:[HPUserCardView class]] == NO)
             return nil;
         
-        view = (HPUserCardView*)nibs[0];
+        HPUserCardView* view2 = (HPUserCardView*)nibs[0];
+        view2.delegate = self;
+        [view2 initObjects];
+        view = view2;
     }
     
     return view;
@@ -175,7 +190,7 @@
 
 - (void)carouselDidEndDragging: (iCarousel *)carousel willDecelerate: (BOOL)decelerate
 {
-    self.dragging = YES;
+//    self.dragging = YES;
 }
 
 //==============================================================================
@@ -217,6 +232,63 @@
 - (CGFloat)carouselItemWidth:(iCarousel*)carousel
 {
     return ICAROUSEL_ITEMS_WIDTH;
+}
+
+//==============================================================================
+
+#pragma mark - Slide buttons -
+
+//==============================================================================
+
+- (IBAction) slideLeftPressed: (id)sender
+{
+    NSInteger currentItemIndex = _carouselView.currentItemIndex;
+    NSInteger itemIndexToScrollTo = _carouselView.currentItemIndex - 1;
+    if (currentItemIndex == 0)
+        itemIndexToScrollTo = _carouselView.numberOfItems - 1;
+    
+    [_carouselView scrollToItemAtIndex: itemIndexToScrollTo animated: YES];
+}
+
+//==============================================================================
+
+- (IBAction) slideRightPressed: (id)sender
+{
+    NSInteger currentItemIndex = _carouselView.currentItemIndex;
+    NSInteger itemIndexToScrollTo = _carouselView.currentItemIndex + 1;
+    if (currentItemIndex >= _carouselView.numberOfItems)
+        itemIndexToScrollTo = 0;
+    
+    [_carouselView scrollToItemAtIndex: itemIndexToScrollTo animated: YES];
+}
+
+//==============================================================================
+
+#pragma mark - Buttons pressed -
+
+//==============================================================================
+
+- (void) greenButtonPressed: (HPGreenButtonVC*) button
+{
+    NSLog(@"Green button pressed");
+}
+
+//==============================================================================
+
+- (IBAction) infoButtonPressed: (id)sender
+{
+    NSLog(@"info button pressed");
+}
+
+//==============================================================================
+
+#pragma mark - User card delegate -
+
+//==============================================================================
+
+- (void) pointButtonPressed: (HPUserCardView*) userCard
+{
+    NSLog(@"point button pressed");
 }
 
 //==============================================================================
