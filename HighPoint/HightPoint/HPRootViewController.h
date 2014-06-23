@@ -18,18 +18,22 @@
 
 //==============================================================================
 
-@interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, UserImageStartAnimationDelegate, HPSwitchProtocol>
+@interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, HPSwitchProtocol>
 {
     ScaleAnimation *_scaleAnimationController;
     CrossDissolveAnimation *_crossDissolveAnimationController;
     HPSwitchViewController *_bottomSwitch;
 }
 
-@property (nonatomic, strong) UIView *notificationView;
+@property (nonatomic, weak) IBOutlet UIButton* chatsListButton;
 @property (nonatomic, strong) IBOutlet UIView* filterGroupView;
 @property (nonatomic, strong) IBOutlet UITableView *mainListTable;
+
+@property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, assign) CGRect savedFrame;
 
 - (IBAction) filterButtonTap:(id)sender;
+- (IBAction) profileButtonPressedStart: (id) sender;
+- (IBAction) bubbleButtonPressedStart: (id) sender;
 
 @end

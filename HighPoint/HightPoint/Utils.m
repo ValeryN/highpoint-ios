@@ -91,10 +91,6 @@
     textLabel.textAlignment = NSTextAlignmentCenter;
     [notView addSubview:textLabel];
     
-    //CGRect fr = notView.frame;
-    //fr.origin.x = 30 - notView.frame.size.width;
-    //fr.origin.y = -6;
-    //notView.frame = fr;
     return notView;
 
 }

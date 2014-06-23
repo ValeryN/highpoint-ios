@@ -1,8 +1,8 @@
 //
-//  UINavigationController+HighPoint.h
+//  UIViewController+HighPoint.h
 //  HighPoint
 //
-//  Created by Michael on 02.06.14.
+//  Created by Michael on 18.06.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -12,8 +12,8 @@
 
 //==============================================================================
 
-@interface UINavigationController (HighPoint)
-- (void) hp_presentViewController: (UIViewController*) vc;
-- (void) hp_popViewController;
-- (void) hp_configureNavigationBarForUserList;
+@interface UIViewController (HighPoint)
+
+- (void) hp_setNavigationItemPropertiesFromOtherItem: (UINavigationItem*) navItem;
+
 @end
