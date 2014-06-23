@@ -59,8 +59,8 @@
     _carouselView.decelerationRate = 0.7;
 //    _carouselView.scrollSpeed = 0.1;
     _carouselView.scrollEnabled = YES;
-    _carouselView.hidden = YES;
-    _carouselView.exclusiveTouch = YES;
+//    _carouselView.hidden = YES;
+//    _carouselView.exclusiveTouch = YES;
 }
 
 //==============================================================================
