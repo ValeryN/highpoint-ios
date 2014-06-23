@@ -36,7 +36,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="slideLeft:" destination="-1" eventType="touchUpInside" id="j7I-3W-42t"/>
+                        <action selector="slideLeftPressed:" destination="-1" eventType="touchUpInside" id="Kza-QI-ep0"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="55n-1v-tDe" userLabel="Slide Right - Button">
@@ -47,7 +47,19 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="slideRight:" destination="-1" eventType="touchUpInside" id="l0O-7m-ZWA"/>
+                        <action selector="slideRightPressed:" destination="-1" eventType="touchUpInside" id="zVG-a2-Udt"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0f-D7-WJB" userLabel="Info - Button">
+                    <rect key="frame" x="40" y="514" width="32" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <state key="normal" backgroundImage="Info">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="Info Tap"/>
+                    <connections>
+                        <action selector="infoButtonPressed:" destination="-1" eventType="touchUpInside" id="IkJ-qs-I0m"/>
                     </connections>
                 </button>
             </subviews>
@@ -60,4 +72,8 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <resources>
+        <image name="Info" width="32" height="32"/>
+        <image name="Info Tap" width="32" height="32"/>
+    </resources>
 </document>

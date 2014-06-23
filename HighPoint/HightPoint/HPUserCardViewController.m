@@ -227,7 +227,7 @@
 
 //==============================================================================
 
-- (IBAction) slideLeft: (id)sender
+- (IBAction) slideLeftPressed: (id)sender
 {
     NSInteger currentItemIndex = _carouselView.currentItemIndex;
     NSInteger itemIndexToScrollTo = _carouselView.currentItemIndex - 1;
@@ -239,7 +239,7 @@
 
 //==============================================================================
 
-- (IBAction) slideRight: (id)sender
+- (IBAction) slideRightPressed: (id)sender
 {
     NSInteger currentItemIndex = _carouselView.currentItemIndex;
     NSInteger itemIndexToScrollTo = _carouselView.currentItemIndex + 1;
@@ -251,7 +251,18 @@
 
 //==============================================================================
 
-#pragma mark - TRESHAK -
+#pragma mark - Buttons pressed -
+
+//==============================================================================
+
+- (IBAction) infoButtonPressed: (id)sender
+{
+    NSLog(@"info button pressed");
+}
+
+//==============================================================================
+
+#pragma mark - User card delegate -
 
 //==============================================================================
 
