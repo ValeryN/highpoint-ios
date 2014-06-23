@@ -7,6 +7,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPGreenButtonVC">
             <connections>
                 <outlet property="centerPart" destination="Ga5-lx-Og0" id="Dsw-4V-uT0"/>
+                <outlet property="centerPartPressed" destination="jPI-UX-kFb" id="LoP-o8-Fnw"/>
+                <outlet property="leftPart" destination="bgK-Oq-Lgj" id="Ax9-uU-fUY"/>
+                <outlet property="leftPartPressed" destination="jJ9-BA-f6S" id="Av5-Bq-mW8"/>
+                <outlet property="rightPart" destination="YCo-iQ-zgP" id="JaS-40-MRC"/>
+                <outlet property="rightPartPressed" destination="cPb-07-xuo" id="NX2-e4-i7L"/>
                 <outlet property="view" destination="iN0-l3-epB" id="zLs-Dm-yE0"/>
             </connections>
         </placeholder>
@@ -22,6 +27,10 @@
                     <state key="normal" title="Напис">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="touchDown:" destination="-1" eventType="touchDown" id="HKO-Tf-N47"/>
+                        <action selector="touchUpInside:" destination="-1" eventType="touchUpInside" id="6v2-re-al1"/>
+                    </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Green-Button-L" translatesAutoresizingMaskIntoConstraints="NO" id="bgK-Oq-Lgj" userLabel="Left part - Image View">
                     <rect key="frame" x="0.0" y="0.0" width="17" height="32"/>
@@ -35,13 +44,27 @@
                     <rect key="frame" x="73" y="0.0" width="17" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Green-Button-Tap-R" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-07-xuo" userLabel="Right Part Pressed - Image View">
+                    <rect key="frame" x="73" y="0.0" width="17" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jPI-UX-kFb" userLabel="Center Part Pressed - Image View">
+                    <rect key="frame" x="17" y="0.0" width="56" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Green-Button-Tap-L" translatesAutoresizingMaskIntoConstraints="NO" id="jJ9-BA-f6S" userLabel="Left part  Pressed- Image View">
+                    <rect key="frame" x="0.0" y="0.0" width="17" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
-            <color key="backgroundColor" red="0.1333333333" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
     <resources>
         <image name="Green-Button-L" width="17" height="32"/>
         <image name="Green-Button-R" width="17" height="32"/>
+        <image name="Green-Button-Tap-L" width="17" height="32"/>
+        <image name="Green-Button-Tap-R" width="17" height="32"/>
     </resources>
 </document>

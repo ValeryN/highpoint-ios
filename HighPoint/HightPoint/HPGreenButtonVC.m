@@ -28,6 +28,51 @@
     UIImage *image = [UIImage imageNamed: @"Green-Button-C"];
     UIImage *resizableImage = [image resizableImageWithCapInsets: UIEdgeInsetsMake(0, image.size.width, image.size.height, image.size.width)];
     _centerPart.image = resizableImage;
+    
+    image = [UIImage imageNamed: @"Green-Button-Tap-C"];
+    resizableImage = [image resizableImageWithCapInsets: UIEdgeInsetsMake(0, image.size.width, image.size.height, image.size.width)];
+    _centerPartPressed.image = resizableImage;
+}
+
+//==============================================================================
+
+
+- (IBAction) touchUpInside:(id)sender
+{
+    [self releaseButton];
+}
+
+//==============================================================================
+
+- (IBAction) touchDown:(id)sender
+{
+    [self highlightButton];
+}
+
+//==============================================================================
+
+- (void) highlightButton
+{
+    _centerPart.hidden = YES;
+    _rightPart.hidden = YES;
+    _leftPart.hidden = YES;
+    
+    _centerPartPressed.hidden = NO;
+    _rightPartPressed.hidden = NO;
+    _leftPartPressed.hidden = NO;
+}
+
+//==============================================================================
+
+- (void) releaseButton
+{
+    _centerPart.hidden = NO;
+    _rightPart.hidden = NO;
+    _leftPart.hidden = NO;
+    
+    _centerPartPressed.hidden = YES;
+    _rightPartPressed.hidden = YES;
+    _leftPartPressed.hidden = YES;
 }
 
 //==============================================================================
