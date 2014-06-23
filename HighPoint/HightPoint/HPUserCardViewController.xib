@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPUserCardViewController">
             <connections>
                 <outlet property="carouselView" destination="dmE-vu-pcg" id="lVp-cG-LNr"/>
+                <outlet property="infoButton" destination="J0f-D7-WJB" id="OKn-Va-aZI"/>
                 <outlet property="view" destination="iN0-l3-epB" id="5oa-jj-oiT"/>
             </connections>
         </placeholder>

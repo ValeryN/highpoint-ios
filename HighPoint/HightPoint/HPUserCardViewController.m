@@ -21,6 +21,8 @@
 
 #define ICAROUSEL_ITEMS_COUNT 20
 #define ICAROUSEL_ITEMS_WIDTH 264.0
+#define GREENBUTTON_BOTTOM_SHIFT 20
+#define SPACE_BETWEEN_GREENBUTTON_AND_INFO 40
 
 //==============================================================================
 
@@ -37,18 +39,27 @@
 
 //==============================================================================
 
-//- (void) viewDidAppear:(BOOL)animated
-//{
-//    [super viewDidAppear: animated];
-//    [self initCarousel];
-//}
-
-//==============================================================================
-
 - (void) initObjects
 {
     [self createNavigationItem];
     [self initCarousel];
+    [self createGreenButton];
+}
+
+//==============================================================================
+
+- (void) createGreenButton
+{
+    HPGreenButtonVC* sendMessage = [[HPGreenButtonVC alloc] initWithNibName: @"HPGreenButtonVC" bundle: nil];
+    sendMessage.delegate = self;
+
+    CGRect rect = sendMessage.view.frame;
+    rect.origin.x = _infoButton.frame.origin.x + _infoButton.frame.size.width + SPACE_BETWEEN_GREENBUTTON_AND_INFO;
+    rect.origin.y = [UIScreen mainScreen].bounds.size.height - rect.size.height - GREENBUTTON_BOTTOM_SHIFT;
+    sendMessage.view.frame = rect;
+    
+    [self addChildViewController: sendMessage];
+    [self.view addSubview: sendMessage.view];
 }
 
 //==============================================================================
@@ -58,7 +69,6 @@
     _carouselView.type = iCarouselTypeRotary;
     _carouselView.decelerationRate = 0.7;
     _carouselView.scrollEnabled = YES;
-//    _carouselView.hidden = YES;
     _carouselView.exclusiveTouch = YES;
 }
 
@@ -254,6 +264,11 @@
 #pragma mark - Buttons pressed -
 
 //==============================================================================
+
+- (void) greenButtonPressed: (HPGreenButtonVC*) button
+{
+    NSLog(@"Green button pressed");
+}
 
 - (IBAction) infoButtonPressed: (id)sender
 {
