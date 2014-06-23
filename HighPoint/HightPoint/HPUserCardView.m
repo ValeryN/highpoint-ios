@@ -50,4 +50,12 @@
 
 //==============================================================================
 
+- (IBAction) pointButtonPressed: (id)sender
+{
+    if (_delegate == nil)
+        return;
+    
+    [_delegate pointButtonPressed: self];
+}
+
 @end

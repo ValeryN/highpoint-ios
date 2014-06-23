@@ -140,6 +140,7 @@
             return nil;
         
         HPUserCardView* view2 = (HPUserCardView*)nibs[0];
+        view2.delegate = self;
         [view2 initObjects];
         view = view2;
     }
@@ -234,7 +235,6 @@
         itemIndexToScrollTo = _carouselView.numberOfItems - 1;
     
     [_carouselView scrollToItemAtIndex: itemIndexToScrollTo animated: YES];
-    NSLog(@"slide left");
 }
 
 //==============================================================================
@@ -247,7 +247,17 @@
         itemIndexToScrollTo = 0;
     
     [_carouselView scrollToItemAtIndex: itemIndexToScrollTo animated: YES];
-    NSLog(@"slide right");
+}
+
+//==============================================================================
+
+#pragma mark - TRESHAK -
+
+//==============================================================================
+
+- (void) pointButtonPressed: (HPUserCardView*) userCard
+{
+    NSLog(@"point button pressed");
 }
 
 //==============================================================================

@@ -16,7 +16,7 @@
 
 //==============================================================================
 
-@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
+@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UserCardViewProtocol>
 
 @property (nonatomic, strong) UIView *sendMessageButton;
 @property (nonatomic, strong) UIButton *infoButton;
