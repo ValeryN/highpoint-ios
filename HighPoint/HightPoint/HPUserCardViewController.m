@@ -23,6 +23,7 @@
 #define ICAROUSEL_ITEMS_WIDTH 264.0
 #define GREENBUTTON_BOTTOM_SHIFT 20
 #define SPACE_BETWEEN_GREENBUTTON_AND_INFO 40
+#define FLIP_ANIMATION_SPEED 0.5
 
 //==============================================================================
 
@@ -189,7 +190,7 @@
 
 - (void)carouselDidEndDragging: (iCarousel *)carousel willDecelerate: (BOOL)decelerate
 {
-    self.dragging = YES;
+//    self.dragging = YES;
 }
 
 //==============================================================================
