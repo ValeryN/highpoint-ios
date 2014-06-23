@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Root View Controller - Девушки, 24-27, Москва-->
         <scene sceneID="X0c-d5-7dI">
             <objects>
                 <viewController storyboardIdentifier="HPRootViewController" id="d74-B2-43R" customClass="HPRootViewController" sceneMemberID="viewController">
@@ -134,7 +134,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="j7y-09-8PB" secondAttribute="bottom" id="7yF-fJ-F2L"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="NN0-MU-hah" secondAttribute="bottom" id="86P-js-lea"/>
@@ -146,10 +146,40 @@
                             <constraint firstItem="NN0-MU-hah" firstAttribute="top" secondItem="Ixf-VR-DTw" secondAttribute="top" id="vh1-YT-v7y"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="bkJ-CB-an4"/>
+                    <navigationItem key="navigationItem" title="Девушки, 24-27, Москва" id="uF6-uG-LRu">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="C05-69-sr6">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sff-ia-dzY" userLabel="Profile - Button">
+                                <rect key="frame" x="16" y="9" width="26" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" backgroundImage="Profile">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="Profile Tap.png"/>
+                                <connections>
+                                    <action selector="profileButtonPressedStart:" destination="d74-B2-43R" eventType="touchUpInside" id="4k6-lH-taX"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="y6x-65-r5e">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aHY-bi-ett" userLabel="Chats list - Button">
+                                <rect key="frame" x="278" y="9" width="26" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <state key="normal" backgroundImage="Bubble">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="Bubble Tap"/>
+                                <connections>
+                                    <action selector="bubbleButtonPressedStart:" destination="d74-B2-43R" eventType="touchUpInside" id="mPf-iV-DQJ"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="chatsListButton" destination="aHY-bi-ett" id="UR2-jA-ZDa"/>
                         <outlet property="filterGroupView" destination="j7y-09-8PB" id="V6I-jv-RfS"/>
                         <outlet property="mainListTable" destination="NN0-MU-hah" id="gRO-VO-oVS"/>
                     </connections>
@@ -168,6 +198,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eta-FH-I31">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.1333333333" green="0.1764705882" blue="0.30196078430000001" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -181,8 +212,12 @@
     </scenes>
     <resources>
         <image name="Blend 5X.png" width="640" height="320"/>
+        <image name="Bubble" width="26" height="25"/>
+        <image name="Bubble Tap" width="26" height="25"/>
         <image name="Lens" width="24" height="24"/>
-        <image name="Point Notice.png" width="46" height="48"/>
+        <image name="Point Notice.png" width="193" height="32"/>
+        <image name="Profile" width="26" height="26"/>
+        <image name="Profile Tap.png" width="193" height="32"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

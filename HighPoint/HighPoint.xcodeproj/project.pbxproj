@@ -7,14 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B1FC620192A2B58009DCD85 /* Green-Button-C.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B1FC61D192A2B58009DCD85 /* Green-Button-C.png */; };
-		3B1FC621192A2B58009DCD85 /* Green-Button-L.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B1FC61E192A2B58009DCD85 /* Green-Button-L.png */; };
-		3B1FC622192A2B58009DCD85 /* Green-Button-R.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B1FC61F192A2B58009DCD85 /* Green-Button-R.png */; };
-		3B1FC626192A4608009DCD85 /* Green-Button-Tap-C.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B1FC623192A4608009DCD85 /* Green-Button-Tap-C.png */; };
-		3B1FC627192A4608009DCD85 /* Green-Button-Tap-L.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B1FC624192A4608009DCD85 /* Green-Button-Tap-L.png */; };
-		3B1FC628192A4608009DCD85 /* Green-Button-Tap-R.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B1FC625192A4608009DCD85 /* Green-Button-Tap-R.png */; };
-		3B1FC62B192A5429009DCD85 /* Point Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B1FC629192A5429009DCD85 /* Point Tap.png */; };
-		3B1FC62C192A5429009DCD85 /* Point.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B1FC62A192A5429009DCD85 /* Point.png */; };
 		3B298FB9192F476100BEC2AA /* slider-default-handle-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B298F9B192F476100BEC2AA /* slider-default-handle-highlighted.png */; };
 		3B298FBA192F476100BEC2AA /* slider-default-handle-highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B298F9C192F476100BEC2AA /* slider-default-handle-highlighted@2x.png */; };
 		3B298FBB192F476100BEC2AA /* slider-default-handle.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B298F9D192F476100BEC2AA /* slider-default-handle.png */; };
@@ -45,8 +37,6 @@
 		3B29F8E51922303D00EC6395 /* HPUserCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B29F8E41922303D00EC6395 /* HPUserCardViewController.m */; };
 		3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2C1FA019260F0500D499A7 /* iCarousel.m */; };
 		3B31709D191B6B5200B72AC1 /* HPMainViewListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31709C191B6B5100B72AC1 /* HPMainViewListTableViewCell.m */; };
-		3B31709F191B6CAF00B72AC1 /* Bubble Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B31709E191B6CAF00B72AC1 /* Bubble Tap.png */; };
-		3B3170A1191B6CBA00B72AC1 /* Profile Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A0191B6CBA00B72AC1 /* Profile Tap.png */; };
 		3B3170A4191B7A1D00B72AC1 /* img_sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A2191B7A1D00B72AC1 /* img_sample.png */; };
 		3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A3191B7A1D00B72AC1 /* img_sample1.png */; };
 		3B3170A7191B7D1500B72AC1 /* Userpic Mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A6191B7D1500B72AC1 /* Userpic Mask.png */; };
@@ -59,8 +49,6 @@
 		3B3170B7191BA56900B72AC1 /* HPSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */; };
 		3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170C1191BC82A00B72AC1 /* Blend 5X.png */; };
 		3B31864B191A408B0000DD8B /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31864A191A408B0000DD8B /* Utils.m */; };
-		3B31864F191A493F0000DD8B /* Profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B31864E191A493F0000DD8B /* Profile.png */; };
-		3B318651191A5E4D0000DD8B /* Bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B318650191A5E4D0000DD8B /* Bubble.png */; };
 		3B318653191A674A0000DD8B /* Notice-C.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B318652191A674A0000DD8B /* Notice-C.png */; };
 		3B318656191A6C6D0000DD8B /* Notice-L.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B318654191A6C6D0000DD8B /* Notice-L.png */; };
 		3B318657191A6C6D0000DD8B /* Notice-R.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B318655191A6C6D0000DD8B /* Notice-R.png */; };
@@ -86,11 +74,8 @@
 		3B6DB4B918FFC24D00C26A50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B6DB4B718FFC24D00C26A50 /* InfoPlist.strings */; };
 		3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6DB4BA18FFC24D00C26A50 /* HightPointTests.m */; };
 		3B6DB4C518FFC33900C26A50 /* Storyboard_568.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B6DB4C418FFC33900C26A50 /* Storyboard_568.storyboard */; };
-		3B6E4EB31929F56F00CF670E /* Info Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B6E4EB11929F56F00CF670E /* Info Tap.png */; };
-		3B6E4EB41929F56F00CF670E /* Info.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B6E4EB21929F56F00CF670E /* Info.png */; };
 		3B7D8AC4192CC8CE006BD206 /* Heart Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B7D8AC2192CC8CE006BD206 /* Heart Tap.png */; };
 		3B7D8AC5192CC8CE006BD206 /* Heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B7D8AC3192CC8CE006BD206 /* Heart.png */; };
-		3B8F366D1920B27C00C71E49 /* Point Notice.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8F366C1920B27C00C71E49 /* Point Notice.png */; };
 		3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA384041924CBBC00EFC749 /* BaseAnimation.m */; };
 		3BA384081924CDBC00EFC749 /* ScaleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA384071924CDBC00EFC749 /* ScaleAnimation.m */; };
 		3BA3840B1924D58A00EFC749 /* CrossDissolveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3840A1924D58A00EFC749 /* CrossDissolveAnimation.m */; };
@@ -104,8 +89,6 @@
 		3BCB5B0A192F946B00E5DCA9 /* Back Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BCB5B08192F946B00E5DCA9 /* Back Tap.png */; };
 		3BCB5B0B192F946B00E5DCA9 /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BCB5B09192F946B00E5DCA9 /* Back.png */; };
 		3BD12E5A192DFE380026BA11 /* HPFilterSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD12E59192DFE380026BA11 /* HPFilterSettingsViewController.m */; };
-		3BD12E5D192E0FEE0026BA11 /* Close Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BD12E5B192E0FEE0026BA11 /* Close Tap.png */; };
-		3BD12E5E192E0FEE0026BA11 /* Close.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BD12E5C192E0FEE0026BA11 /* Close.png */; };
 		3BDA4C471906470000EF6619 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDA4C461906470000EF6619 /* UserInfo.m */; };
 		3BDA4C4A1906470100EF6619 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDA4C491906470100EF6619 /* User.m */; };
 		3BDA4C4D1906470100EF6619 /* UserParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDA4C4C1906470100EF6619 /* UserParam.m */; };
@@ -138,10 +121,6 @@
 		3BDA4CAA1906623E00EF6619 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDA4CA91906623E00EF6619 /* CFNetwork.framework */; };
 		3BDA4CAC1906627000EF6619 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDA4CAB1906627000EF6619 /* libicucore.dylib */; };
 		3BDA4CAE1906628200EF6619 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDA4CAD1906628200EF6619 /* Security.framework */; };
-		3BEA72AF1924F8E500FDCA08 /* Close Round Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BEA72AD1924F8E500FDCA08 /* Close Round Tap.png */; };
-		3BEA72B01924F8E500FDCA08 /* Close Round.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BEA72AE1924F8E500FDCA08 /* Close Round.png */; };
-		4C4A012A1935FD9000B56126 /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C4A01291935FD9000B56126 /* Point Notice Tap.png */; };
-		4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C4A01291935FD9000B56126 /* Point Notice Tap.png */; };
 		4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
 		4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
 		4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8096A4193DDA7300E4C174 /* HPIOSVersion.m */; };
@@ -160,10 +139,22 @@
 		4C89BD35193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */; };
 		4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */; };
 		4C89BD38193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */; };
-		4CA2F9D7193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
-		4CA2F9D8193C64B800D7FBFD /* HPUserCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */; };
+		4C91C1E8195812A4002B27D4 /* HPGreenButtonVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C91C1E7195812A4002B27D4 /* HPGreenButtonVC.m */; };
+		4C91C1EB1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C91C1EA1958170C002B27D4 /* HPGreenButtonVC.xib */; };
+		4C91C1EC1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C91C1EA1958170C002B27D4 /* HPGreenButtonVC.xib */; };
+		4C91C1ED19581711002B27D4 /* HPGreenButtonVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C91C1E7195812A4002B27D4 /* HPGreenButtonVC.m */; };
+		4CA2F9D7193C64B800D7FBFD /* HPUserCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */; };
+		4CA2F9D8193C64B800D7FBFD /* HPUserCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */; };
 		4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
 		4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
+		4CDC98B619517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC98B519517FB4006D2F89 /* UIViewController+HighPoint.m */; };
+		4CDC98B719517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC98B519517FB4006D2F89 /* UIViewController+HighPoint.m */; };
+		4CDC98B919519D08006D2F89 /* HPUserCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDC98B819519D08006D2F89 /* HPUserCardViewController.xib */; };
+		4CDC98BA19519D08006D2F89 /* HPUserCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDC98B819519D08006D2F89 /* HPUserCardViewController.xib */; };
+		4CDC98BD19519EEB006D2F89 /* UIView+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC98BC19519EEB006D2F89 /* UIView+HighPoint.m */; };
+		4CDC98BE19519EEB006D2F89 /* UIView+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC98BC19519EEB006D2F89 /* UIView+HighPoint.m */; };
+		4CDC98C119519FA2006D2F89 /* HPUserCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC98C019519FA2006D2F89 /* HPUserCardView.m */; };
+		4CDC98C219519FA2006D2F89 /* HPUserCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC98C019519FA2006D2F89 /* HPUserCardView.m */; };
 		4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 		4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 		4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
@@ -181,14 +172,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3B1FC61D192A2B58009DCD85 /* Green-Button-C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Green-Button-C.png"; sourceTree = "<group>"; };
-		3B1FC61E192A2B58009DCD85 /* Green-Button-L.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Green-Button-L.png"; sourceTree = "<group>"; };
-		3B1FC61F192A2B58009DCD85 /* Green-Button-R.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Green-Button-R.png"; sourceTree = "<group>"; };
-		3B1FC623192A4608009DCD85 /* Green-Button-Tap-C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Green-Button-Tap-C.png"; sourceTree = "<group>"; };
-		3B1FC624192A4608009DCD85 /* Green-Button-Tap-L.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Green-Button-Tap-L.png"; sourceTree = "<group>"; };
-		3B1FC625192A4608009DCD85 /* Green-Button-Tap-R.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Green-Button-Tap-R.png"; sourceTree = "<group>"; };
-		3B1FC629192A5429009DCD85 /* Point Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Tap.png"; sourceTree = "<group>"; };
-		3B1FC62A192A5429009DCD85 /* Point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Point.png; sourceTree = "<group>"; };
 		3B298F9B192F476100BEC2AA /* slider-default-handle-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default-handle-highlighted.png"; sourceTree = "<group>"; };
 		3B298F9C192F476100BEC2AA /* slider-default-handle-highlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default-handle-highlighted@2x.png"; sourceTree = "<group>"; };
 		3B298F9D192F476100BEC2AA /* slider-default-handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default-handle.png"; sourceTree = "<group>"; };
@@ -223,8 +206,6 @@
 		3B2C1FA019260F0500D499A7 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		3B31709B191B6B5100B72AC1 /* HPMainViewListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPMainViewListTableViewCell.h; sourceTree = "<group>"; };
 		3B31709C191B6B5100B72AC1 /* HPMainViewListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPMainViewListTableViewCell.m; sourceTree = "<group>"; };
-		3B31709E191B6CAF00B72AC1 /* Bubble Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bubble Tap.png"; sourceTree = "<group>"; };
-		3B3170A0191B6CBA00B72AC1 /* Profile Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Profile Tap.png"; sourceTree = "<group>"; };
 		3B3170A2191B7A1D00B72AC1 /* img_sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_sample.png; sourceTree = "<group>"; };
 		3B3170A3191B7A1D00B72AC1 /* img_sample1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_sample1.png; sourceTree = "<group>"; };
 		3B3170A6191B7D1500B72AC1 /* Userpic Mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Userpic Mask.png"; sourceTree = "<group>"; };
@@ -240,8 +221,6 @@
 		3B3170C1191BC82A00B72AC1 /* Blend 5X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blend 5X.png"; sourceTree = "<group>"; };
 		3B318649191A408B0000DD8B /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		3B31864A191A408B0000DD8B /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
-		3B31864E191A493F0000DD8B /* Profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Profile.png; sourceTree = "<group>"; };
-		3B318650191A5E4D0000DD8B /* Bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bubble.png; sourceTree = "<group>"; };
 		3B318652191A674A0000DD8B /* Notice-C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Notice-C.png"; sourceTree = "<group>"; };
 		3B318654191A6C6D0000DD8B /* Notice-L.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Notice-L.png"; sourceTree = "<group>"; };
 		3B318655191A6C6D0000DD8B /* Notice-R.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Notice-R.png"; sourceTree = "<group>"; };
@@ -273,11 +252,8 @@
 		3B6DB4B818FFC24D00C26A50 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3B6DB4BA18FFC24D00C26A50 /* HightPointTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HightPointTests.m; sourceTree = "<group>"; };
 		3B6DB4C418FFC33900C26A50 /* Storyboard_568.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard_568.storyboard; sourceTree = "<group>"; };
-		3B6E4EB11929F56F00CF670E /* Info Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Info Tap.png"; sourceTree = "<group>"; };
-		3B6E4EB21929F56F00CF670E /* Info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Info.png; sourceTree = "<group>"; };
 		3B7D8AC2192CC8CE006BD206 /* Heart Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Heart Tap.png"; sourceTree = "<group>"; };
 		3B7D8AC3192CC8CE006BD206 /* Heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heart.png; sourceTree = "<group>"; };
-		3B8F366C1920B27C00C71E49 /* Point Notice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice.png"; sourceTree = "<group>"; };
 		3BA384031924CBBC00EFC749 /* BaseAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseAnimation.h; sourceTree = "<group>"; };
 		3BA384041924CBBC00EFC749 /* BaseAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseAnimation.m; sourceTree = "<group>"; };
 		3BA384061924CDBC00EFC749 /* ScaleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScaleAnimation.h; sourceTree = "<group>"; };
@@ -298,8 +274,6 @@
 		3BCB5B09192F946B00E5DCA9 /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
 		3BD12E58192DFE380026BA11 /* HPFilterSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPFilterSettingsViewController.h; sourceTree = "<group>"; };
 		3BD12E59192DFE380026BA11 /* HPFilterSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFilterSettingsViewController.m; sourceTree = "<group>"; };
-		3BD12E5B192E0FEE0026BA11 /* Close Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Tap.png"; sourceTree = "<group>"; };
-		3BD12E5C192E0FEE0026BA11 /* Close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Close.png; sourceTree = "<group>"; };
 		3BDA4C451906470000EF6619 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
 		3BDA4C461906470000EF6619 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
 		3BDA4C481906470100EF6619 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -364,9 +338,6 @@
 		3BDA4CA91906623E00EF6619 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3BDA4CAB1906627000EF6619 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		3BDA4CAD1906628200EF6619 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		3BEA72AD1924F8E500FDCA08 /* Close Round Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Round Tap.png"; sourceTree = "<group>"; };
-		3BEA72AE1924F8E500FDCA08 /* Close Round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Round.png"; sourceTree = "<group>"; };
-		4C4A01291935FD9000B56126 /* Point Notice Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice Tap.png"; sourceTree = "<group>"; };
 		4C5AC331193C5D7800A72676 /* HPSwitch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSwitch.xib; sourceTree = "<group>"; };
 		4C8096A3193DDA7300E4C174 /* HPIOSVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPIOSVersion.h; sourceTree = "<group>"; };
 		4C8096A4193DDA7300E4C174 /* HPIOSVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPIOSVersion.m; sourceTree = "<group>"; };
@@ -381,9 +352,19 @@
 		4C89BD32193CAAF100DAE2EE /* UINavigationController+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+HighPoint.h"; sourceTree = "<group>"; };
 		4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+HighPoint.m"; sourceTree = "<group>"; };
 		4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSelectTown.xib; sourceTree = "<group>"; };
-		4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCard.xib; sourceTree = "<group>"; };
+		4C91C1E6195812A4002B27D4 /* HPGreenButtonVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGreenButtonVC.h; sourceTree = "<group>"; };
+		4C91C1E7195812A4002B27D4 /* HPGreenButtonVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPGreenButtonVC.m; sourceTree = "<group>"; };
+		4C91C1EA1958170C002B27D4 /* HPGreenButtonVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPGreenButtonVC.xib; sourceTree = "<group>"; };
+		4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCardView.xib; sourceTree = "<group>"; };
 		4CAD4A5E1949B1A600E8E26C /* UIButton+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+HighPoint.h"; sourceTree = "<group>"; };
 		4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+HighPoint.m"; sourceTree = "<group>"; };
+		4CDC98B419517FB4006D2F89 /* UIViewController+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+HighPoint.h"; sourceTree = "<group>"; };
+		4CDC98B519517FB4006D2F89 /* UIViewController+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+HighPoint.m"; sourceTree = "<group>"; };
+		4CDC98B819519D08006D2F89 /* HPUserCardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCardViewController.xib; sourceTree = "<group>"; };
+		4CDC98BB19519EEB006D2F89 /* UIView+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+HighPoint.h"; sourceTree = "<group>"; };
+		4CDC98BC19519EEB006D2F89 /* UIView+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HighPoint.m"; sourceTree = "<group>"; };
+		4CDC98BF19519FA2006D2F89 /* HPUserCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserCardView.h; sourceTree = "<group>"; };
+		4CDC98C019519FA2006D2F89 /* HPUserCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserCardView.m; sourceTree = "<group>"; };
 		4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HighPoint.h"; sourceTree = "<group>"; };
 		4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HighPoint.m"; sourceTree = "<group>"; };
 		4CF3A326194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPMainViewListTableViewCell+HighPoint.h"; sourceTree = "<group>"; };
@@ -480,9 +461,12 @@
 		3B29F8E219222F1A00EC6395 /* HPUserCardViewController */ = {
 			isa = PBXGroup;
 			children = (
+				4CDC98BF19519FA2006D2F89 /* HPUserCardView.h */,
+				4CDC98C019519FA2006D2F89 /* HPUserCardView.m */,
+				4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */,
 				3B29F8E31922303D00EC6395 /* HPUserCardViewController.h */,
 				3B29F8E41922303D00EC6395 /* HPUserCardViewController.m */,
-				4CA2F9D6193C64B800D7FBFD /* HPUserCard.xib */,
+				4CDC98B819519D08006D2F89 /* HPUserCardViewController.xib */,
 			);
 			name = HPUserCardViewController;
 			sourceTree = "<group>";
@@ -495,16 +479,6 @@
 			);
 			name = iCarousel;
 			path = External/iCarousel;
-			sourceTree = "<group>";
-		};
-		3B3170B2191B9E7700B72AC1 /* HPSwitchViewController */ = {
-			isa = PBXGroup;
-			children = (
-				3B3170B5191BA56900B72AC1 /* HPSwitchViewController.h */,
-				3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */,
-				4C5AC331193C5D7800A72676 /* HPSwitch.xib */,
-			);
-			name = HPSwitchViewController;
 			sourceTree = "<group>";
 		};
 		3B31864C191A493F0000DD8B /* Resources */ = {
@@ -525,24 +499,8 @@
 				3BCB5B09192F946B00E5DCA9 /* Back.png */,
 				3BCB5B02192F8B2F00E5DCA9 /* Next.png */,
 				3BCB5B00192F76D200E5DCA9 /* Progress Line.png */,
-				3BD12E5B192E0FEE0026BA11 /* Close Tap.png */,
-				3BD12E5C192E0FEE0026BA11 /* Close.png */,
 				3B7D8AC2192CC8CE006BD206 /* Heart Tap.png */,
 				3B7D8AC3192CC8CE006BD206 /* Heart.png */,
-				4C4A01291935FD9000B56126 /* Point Notice Tap.png */,
-				3B8F366C1920B27C00C71E49 /* Point Notice.png */,
-				3B1FC629192A5429009DCD85 /* Point Tap.png */,
-				3B1FC62A192A5429009DCD85 /* Point.png */,
-				3B1FC623192A4608009DCD85 /* Green-Button-Tap-C.png */,
-				3B1FC624192A4608009DCD85 /* Green-Button-Tap-L.png */,
-				3B1FC625192A4608009DCD85 /* Green-Button-Tap-R.png */,
-				3B1FC61D192A2B58009DCD85 /* Green-Button-C.png */,
-				3B1FC61E192A2B58009DCD85 /* Green-Button-L.png */,
-				3B1FC61F192A2B58009DCD85 /* Green-Button-R.png */,
-				3B6E4EB11929F56F00CF670E /* Info Tap.png */,
-				3B6E4EB21929F56F00CF670E /* Info.png */,
-				3BEA72AD1924F8E500FDCA08 /* Close Round Tap.png */,
-				3BEA72AE1924F8E500FDCA08 /* Close Round.png */,
 				3B3170C1191BC82A00B72AC1 /* Blend 5X.png */,
 				3B3170B3191BA50600B72AC1 /* Green Button.png */,
 				3B3170B0191B931300B72AC1 /* Userpic-Maskk_2.png */,
@@ -553,13 +511,9 @@
 				3B3170A6191B7D1500B72AC1 /* Userpic Mask.png */,
 				3B3170A2191B7A1D00B72AC1 /* img_sample.png */,
 				3B3170A3191B7A1D00B72AC1 /* img_sample1.png */,
-				3B3170A0191B6CBA00B72AC1 /* Profile Tap.png */,
-				3B31709E191B6CAF00B72AC1 /* Bubble Tap.png */,
 				3B318654191A6C6D0000DD8B /* Notice-L.png */,
 				3B318655191A6C6D0000DD8B /* Notice-R.png */,
 				3B318652191A674A0000DD8B /* Notice-C.png */,
-				3B318650191A5E4D0000DD8B /* Bubble.png */,
-				3B31864E191A493F0000DD8B /* Profile.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -622,6 +576,7 @@
 		3B6DB49718FFC24D00C26A50 /* HightPoint */ = {
 			isa = PBXGroup;
 			children = (
+				4C91C1E9195812AD002B27D4 /* Controls */,
 				4CE598E819386C71008CEC24 /* Categories */,
 				3BDA4C6B19064AE700EF6619 /* Networking */,
 				3BDA4C431906449D00EF6619 /* Utils */,
@@ -680,12 +635,11 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
+				3BDA4C9E19064EC300EF6619 /* HPRootViewController */,
 				3B49DE1B1934A50C00C3EF1E /* HPUserProfileViewController */,
 				3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */,
 				3BD12E57192DFDF30026BA11 /* HPFilterSettingsViewController */,
-				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
-				3B3170B2191B9E7700B72AC1 /* HPSwitchViewController */,
-				3BDA4C9E19064EC300EF6619 /* HPRootViewController */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -874,6 +828,19 @@
 			path = External/SocketRocket;
 			sourceTree = "<group>";
 		};
+		4C91C1E9195812AD002B27D4 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				3B3170B5191BA56900B72AC1 /* HPSwitchViewController.h */,
+				3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */,
+				4C5AC331193C5D7800A72676 /* HPSwitch.xib */,
+				4C91C1E6195812A4002B27D4 /* HPGreenButtonVC.h */,
+				4C91C1E7195812A4002B27D4 /* HPGreenButtonVC.m */,
+				4C91C1EA1958170C002B27D4 /* HPGreenButtonVC.xib */,
+			);
+			name = Controls;
+			sourceTree = "<group>";
+		};
 		4CE598E819386C71008CEC24 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -889,6 +856,10 @@
 				4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */,
 				4CF3A326194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.h */,
 				4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */,
+				4CDC98B419517FB4006D2F89 /* UIViewController+HighPoint.h */,
+				4CDC98B519517FB4006D2F89 /* UIViewController+HighPoint.m */,
+				4CDC98BB19519EEB006D2F89 /* UIView+HighPoint.h */,
+				4CDC98BC19519EEB006D2F89 /* UIView+HighPoint.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -974,13 +945,9 @@
 				4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */,
 				3B298FCC192F476100BEC2AA /* slider-metal-handle-highlighted@2x.png in Resources */,
 				3B298FCA192F476100BEC2AA /* slider-default7-trackCrossedOver@2x.png in Resources */,
-				3BEA72B01924F8E500FDCA08 /* Close Round.png in Resources */,
 				3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */,
 				3B3170AB191B7E7600B72AC1 /* Userpic Shape Red.png in Resources */,
-				4C4A012A1935FD9000B56126 /* Point Notice Tap.png in Resources */,
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
-				3B1FC628192A4608009DCD85 /* Green-Button-Tap-R.png in Resources */,
-				3BEA72AF1924F8E500FDCA08 /* Close Round Tap.png in Resources */,
 				3B298FC7192F476100BEC2AA /* slider-default7-trackBackground.png in Resources */,
 				3B7D8AC5192CC8CE006BD206 /* Heart.png in Resources */,
 				3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */,
@@ -988,24 +955,20 @@
 				3B31865C191A7A4F0000DD8B /* ParaType - Futura PT Book.otf in Resources */,
 				3B3170B1191B931300B72AC1 /* Userpic-Maskk_2.png in Resources */,
 				3B6DB49C18FFC24D00C26A50 /* InfoPlist.strings in Resources */,
+				4C91C1EB1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
-				3B6E4EB41929F56F00CF670E /* Info.png in Resources */,
 				3BCB5B0A192F946B00E5DCA9 /* Back Tap.png in Resources */,
 				3B298FD0192F476100BEC2AA /* slider-metal-track@2x.png in Resources */,
 				3B298FB9192F476100BEC2AA /* slider-default-handle-highlighted.png in Resources */,
 				3B298FBE192F476100BEC2AA /* slider-default-track@2x.png in Resources */,
 				3B318656191A6C6D0000DD8B /* Notice-L.png in Resources */,
-				3B6E4EB31929F56F00CF670E /* Info Tap.png in Resources */,
-				3B1FC622192A2B58009DCD85 /* Green-Button-R.png in Resources */,
 				3B7D8AC4192CC8CE006BD206 /* Heart Tap.png in Resources */,
-				4CA2F9D7193C64B800D7FBFD /* HPUserCard.xib in Resources */,
-				3BD12E5E192E0FEE0026BA11 /* Close.png in Resources */,
+				4CA2F9D7193C64B800D7FBFD /* HPUserCardView.xib in Resources */,
+				4CDC98B919519D08006D2F89 /* HPUserCardViewController.xib in Resources */,
 				3B298FC0192F476100BEC2AA /* slider-default-trackCrossedOver.png in Resources */,
-				3BD12E5D192E0FEE0026BA11 /* Close Tap.png in Resources */,
 				3BB5E86C1936121F00DDF5F9 /* bar_background.png in Resources */,
 				3B298FBB192F476100BEC2AA /* slider-default-handle.png in Resources */,
 				3B298FC6192F476100BEC2AA /* slider-default7-track@2x.png in Resources */,
-				3B31709F191B6CAF00B72AC1 /* Bubble Tap.png in Resources */,
 				3B31865E191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf in Resources */,
 				3B3170AF191B91AD00B72AC1 /* pin_popup_blackw@2x.png in Resources */,
 				3B3170B4191BA50600B72AC1 /* Green Button.png in Resources */,
@@ -1018,34 +981,24 @@
 				3B298FD2192F476100BEC2AA /* slider-metal-trackBackground@2x.png in Resources */,
 				3BCB5B0B192F946B00E5DCA9 /* Back.png in Resources */,
 				3B3170AD191B88E000B72AC1 /* Userpic-Mask.png in Resources */,
-				3B1FC621192A2B58009DCD85 /* Green-Button-L.png in Resources */,
 				4C8096B1193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */,
 				3B6DB4A718FFC24D00C26A50 /* Images.xcassets in Resources */,
 				3B298FBD192F476100BEC2AA /* slider-default-track.png in Resources */,
 				3B298FBA192F476100BEC2AA /* slider-default-handle-highlighted@2x.png in Resources */,
-				3B1FC62B192A5429009DCD85 /* Point Tap.png in Resources */,
-				3B318651191A5E4D0000DD8B /* Bubble.png in Resources */,
 				3B298FBC192F476100BEC2AA /* slider-default-handle@2x.png in Resources */,
 				3B298FC5192F476100BEC2AA /* slider-default7-track.png in Resources */,
-				3B1FC626192A4608009DCD85 /* Green-Button-Tap-C.png in Resources */,
-				3B1FC620192A2B58009DCD85 /* Green-Button-C.png in Resources */,
 				3B298FCB192F476100BEC2AA /* slider-metal-handle-highlighted.png in Resources */,
 				3BB5E86A1935FD5500DDF5F9 /* Down.png in Resources */,
 				3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */,
 				3B298FD1192F476100BEC2AA /* slider-metal-trackBackground.png in Resources */,
 				4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,
-				3B8F366D1920B27C00C71E49 /* Point Notice.png in Resources */,
 				3B298FC9192F476100BEC2AA /* slider-default7-trackCrossedOver.png in Resources */,
 				3B6DB4C518FFC33900C26A50 /* Storyboard_568.storyboard in Resources */,
-				3B1FC627192A4608009DCD85 /* Green-Button-Tap-L.png in Resources */,
 				4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */,
-				3B1FC62C192A5429009DCD85 /* Point.png in Resources */,
 				4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
 				3B31865D191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf in Resources */,
 				3B3170A7191B7D1500B72AC1 /* Userpic Mask.png in Resources */,
 				3B298FC8192F476100BEC2AA /* slider-default7-trackBackground@2x.png in Resources */,
-				3B3170A1191B6CBA00B72AC1 /* Profile Tap.png in Resources */,
-				3B31864F191A493F0000DD8B /* Profile.png in Resources */,
 				3B298FC1192F476100BEC2AA /* slider-default-trackCrossedOver@2x.png in Resources */,
 				3B3170AA191B7E7600B72AC1 /* Userpic Shape Green.png in Resources */,
 			);
@@ -1055,14 +1008,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CA2F9D8193C64B800D7FBFD /* HPUserCard.xib in Resources */,
+				4CA2F9D8193C64B800D7FBFD /* HPUserCardView.xib in Resources */,
+				4CDC98BA19519D08006D2F89 /* HPUserCardViewController.xib in Resources */,
 				4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
 				4C8096B2193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */,
 				4C89BD31193C899400DAE2EE /* HPUserProfile.xib in Resources */,
-				4C4A012B1935FD9000B56126 /* Point Notice Tap.png in Resources */,
 				3B6DB4B918FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 				4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */,
 				4C89BD38193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,
+				4C91C1EC1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1082,6 +1036,7 @@
 				4C8096A9193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				3B6DB4A218FFC24D00C26A50 /* HPAppDelegate.m in Sources */,
 				4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
+				4CDC98B619517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
 				3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */,
 				3BB5E8681935F43700DDF5F9 /* ModalAnimation.m in Sources */,
 				3B3170B7191BA56900B72AC1 /* HPSwitchViewController.m in Sources */,
@@ -1101,6 +1056,8 @@
 				4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
 				3BDA4C6E19064CD200EF6619 /* HPBaseNetworkManager.m in Sources */,
 				3BDA4C9A19064E5900EF6619 /* UIImageView+WebCache.m in Sources */,
+				4CDC98BD19519EEB006D2F89 /* UIView+HighPoint.m in Sources */,
+				4C91C1E8195812A4002B27D4 /* HPGreenButtonVC.m in Sources */,
 				3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */,
 				3BDA4C6A19064AC900EF6619 /* AFURLSessionManager.m in Sources */,
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
@@ -1126,6 +1083,7 @@
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,
 				3BDA4C9619064E5900EF6619 /* UIButton+WebCache.m in Sources */,
 				3BDA4C9719064E5900EF6619 /* UIImage+GIF.m in Sources */,
+				4CDC98C119519FA2006D2F89 /* HPUserCardView.m in Sources */,
 				3B31864B191A408B0000DD8B /* Utils.m in Sources */,
 				3BDA4C8F19064E5900EF6619 /* SDImageCache.m in Sources */,
 			);
@@ -1135,13 +1093,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CDC98C219519FA2006D2F89 /* HPUserCardView.m in Sources */,
 				4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
 				4C89BD35193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
+				4C91C1ED19581711002B27D4 /* HPGreenButtonVC.m in Sources */,
 				4C8096A8193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
+				4CDC98BE19519EEB006D2F89 /* UIView+HighPoint.m in Sources */,
 				4C8096AF193F2E2200E4C174 /* UILabel+HighPoint.m in Sources */,
 				4C8096AA193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
+				4CDC98B719517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
 				3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

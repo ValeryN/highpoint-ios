@@ -9,36 +9,23 @@
 //==============================================================================
 
 #import <UIKit/UIKit.h>
+
 #import "iCarousel.h"
 #import "HPUserProfileViewController.h"
+#import "HPUserCardView.h"
+#import "HPGreenButtonVC.h"
 
 //==============================================================================
 
-@protocol UserImageStartAnimationDelegate <NSObject>
-- (void) startAnimation:(UIImageView*) image;
-@end
+@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UserCardViewProtocol, GreenButtonProtocol>
 
-//==============================================================================
-
-@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, HPUserProfileViewControllerDelegate>
-
-@property (nonatomic, weak) IBOutlet UIButton *profileButton;
-@property (nonatomic, weak) IBOutlet UIButton *messageButton;
-@property (nonatomic, weak) IBOutlet UIButton *backButton;
-@property (nonatomic, strong) UIImageView *userImage;
+@property (nonatomic, strong) UIView *sendMessageButton;
+@property (nonatomic, strong) IBOutlet iCarousel* carouselView;
+@property (nonatomic, strong) IBOutlet UIButton* infoButton;
 @property (nonatomic, strong) UIView *notificationView;
-@property (nonatomic, strong) UIView *messButtonView;
-@property (nonatomic, strong) UIButton *infoButton;
-@property (nonatomic, assign) BOOL dragging;
-@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
-@property (nonatomic, weak) IBOutlet UILabel *detailLabel;
-@property (nonatomic, assign) BOOL viewState;
-@property (nonatomic, assign) NSInteger prevIndex;
-@property (nonatomic, strong) IBOutlet iCarousel *carouselView;
-@property (nonatomic, weak) id <UserImageStartAnimationDelegate> delegate;
-@property(nonatomic, strong) UITapGestureRecognizer *tapGesture;
-@property(nonatomic, strong) UIImageView *captView;
-@property(nonatomic, strong) UIImageView *captViewLeft;
-@property(nonatomic, strong) UIImageView *captViewRight;
+
+- (IBAction) slideLeftPressed: (id)sender;
+- (IBAction) slideRightPressed: (id)sender;
+- (IBAction) infoButtonPressed: (id)sender;
 
 @end
