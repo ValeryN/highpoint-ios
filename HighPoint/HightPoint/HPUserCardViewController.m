@@ -139,7 +139,9 @@
         if ([nibs[0] isKindOfClass:[HPUserCardView class]] == NO)
             return nil;
         
-        view = (HPUserCardView*)nibs[0];
+        HPUserCardView* view2 = (HPUserCardView*)nibs[0];
+        [view2 initObjects];
+        view = view2;
     }
     
     return view;

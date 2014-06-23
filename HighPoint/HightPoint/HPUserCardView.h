@@ -19,4 +19,6 @@
 @property (nonatomic, weak) IBOutlet UILabel* details;
 @property (nonatomic, weak) IBOutlet UILabel* name;
 
+- (void) initObjects;
+
 @end
