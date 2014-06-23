@@ -32,4 +32,7 @@
 @property (nonatomic, assign) BOOL viewState;
 @property (nonatomic, assign) NSInteger prevIndex;
 
+- (IBAction) slideLeft: (id)sender;
+- (IBAction) slideRight: (id)sender;
+
 @end

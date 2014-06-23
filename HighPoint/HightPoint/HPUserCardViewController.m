@@ -57,10 +57,9 @@
 {
     _carouselView.type = iCarouselTypeRotary;
     _carouselView.decelerationRate = 0.7;
-//    _carouselView.scrollSpeed = 0.1;
     _carouselView.scrollEnabled = YES;
 //    _carouselView.hidden = YES;
-//    _carouselView.exclusiveTouch = YES;
+    _carouselView.exclusiveTouch = YES;
 }
 
 //==============================================================================
@@ -217,6 +216,36 @@
 - (CGFloat)carouselItemWidth:(iCarousel*)carousel
 {
     return ICAROUSEL_ITEMS_WIDTH;
+}
+
+//==============================================================================
+
+#pragma mark - Slide buttons -
+
+//==============================================================================
+
+- (IBAction) slideLeft: (id)sender
+{
+    NSInteger currentItemIndex = _carouselView.currentItemIndex;
+    NSInteger itemIndexToScrollTo = _carouselView.currentItemIndex - 1;
+    if (currentItemIndex == 0)
+        itemIndexToScrollTo = _carouselView.numberOfItems - 1;
+    
+    [_carouselView scrollToItemAtIndex: itemIndexToScrollTo animated: YES];
+    NSLog(@"slide left");
+}
+
+//==============================================================================
+
+- (IBAction) slideRight: (id)sender
+{
+    NSInteger currentItemIndex = _carouselView.currentItemIndex;
+    NSInteger itemIndexToScrollTo = _carouselView.currentItemIndex + 1;
+    if (currentItemIndex >= _carouselView.numberOfItems)
+        itemIndexToScrollTo = 0;
+    
+    [_carouselView scrollToItemAtIndex: itemIndexToScrollTo animated: YES];
+    NSLog(@"slide right");
 }
 
 //==============================================================================
