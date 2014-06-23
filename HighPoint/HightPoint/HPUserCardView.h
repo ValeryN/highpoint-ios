@@ -10,15 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
-//==============================================================================
-
-@class HPUserCardView;
-
-@protocol UserCardViewProtocol <NSObject>
-
-- (void) pointButtonPressed: (HPUserCardView*) userCard;
-
-@end
+#import "UserCardOrPointProtocol.h"
 
 //==============================================================================
 
@@ -26,7 +18,7 @@
 
 - (IBAction) pointButtonPressed: (id)sender;
 
-@property (nonatomic, weak) NSObject<UserCardViewProtocol>* delegate;
+@property (nonatomic, weak) NSObject<UserCardOrPointProtocol>* delegate;
 
 @property (nonatomic, weak) IBOutlet UIImageView* backgroundAvatar;
 @property (nonatomic, weak) IBOutlet UILabel* photoIndex;

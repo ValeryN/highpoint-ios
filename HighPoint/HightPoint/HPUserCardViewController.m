@@ -69,6 +69,10 @@
 
 - (void) initCarousel
 {
+    _cardOrPoint = [NSMutableArray array];
+    for (NSInteger i = 0; i < ICAROUSEL_ITEMS_COUNT; i++)
+        _cardOrPoint[i] = [HPUserCardOrPoint new];
+
     _carouselView.type = iCarouselTypeRotary;
     _carouselView.decelerationRate = 0.7;
     _carouselView.scrollEnabled = YES;
@@ -148,14 +152,14 @@
 {
    if (view == nil)
     {
-        NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPUserCardView" owner: self options: nil];
-        if ([nibs[0] isKindOfClass:[HPUserCardView class]] == NO)
-            return nil;
+        if (_cardOrPoint == nil)
+            NSAssert(YES, @"no description for carousel item");
         
-        HPUserCardView* view2 = (HPUserCardView*)nibs[0];
-        view2.delegate = self;
-        [view2 initObjects];
-        view = view2;
+        HPUserCardOrPoint* cardOrPoint = (HPUserCardOrPoint*)_cardOrPoint[_carouselView.currentItemIndex];
+        if ([cardOrPoint isUserPoint])
+            view = [cardOrPoint userPointWithDelegate: self];
+        else
+            view = [cardOrPoint userCardWithDelegate: self];
     }
     
     return view;
@@ -286,8 +290,19 @@
 
 //==============================================================================
 
-- (void) pointButtonPressed: (HPUserCardView*) userCard
+- (void) switchButtonPressed
 {
+    UIView *container = self.carouselView.currentItemView;
+    
+    [UIView transitionWithView: container
+                      duration: FLIP_ANIMATION_SPEED
+                       options: UIViewAnimationOptionTransitionFlipFromRight
+                    animations: ^{
+                        [_carouselView reloadItemAtIndex: _carouselView.currentItemIndex
+                                                animated: NO];
+                    }
+                    completion: ^(BOOL finished){
+                }];
     NSLog(@"point button pressed");
 }
 

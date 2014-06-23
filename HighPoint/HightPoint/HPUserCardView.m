@@ -55,7 +55,7 @@
     if (_delegate == nil)
         return;
     
-    [_delegate pointButtonPressed: self];
+    [_delegate switchButtonPressed];
 }
 
 @end
