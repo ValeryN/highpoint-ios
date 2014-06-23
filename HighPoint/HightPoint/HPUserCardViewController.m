@@ -58,6 +58,8 @@
     rect.origin.y = [UIScreen mainScreen].bounds.size.height - rect.size.height - GREENBUTTON_BOTTOM_SHIFT;
     sendMessage.view.frame = rect;
     
+    sendMessage.delegate = self;
+    
     [self addChildViewController: sendMessage];
     [self.view addSubview: sendMessage.view];
 }
@@ -269,6 +271,8 @@
 {
     NSLog(@"Green button pressed");
 }
+
+//==============================================================================
 
 - (IBAction) infoButtonPressed: (id)sender
 {

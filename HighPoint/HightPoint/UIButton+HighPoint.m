@@ -23,4 +23,12 @@
 
 //==============================================================================
 
+- (void) hp_tuneFontForGreenButton
+{
+    self.titleLabel.font = [UIFont fontWithName: @"FuturaPT-Light" size: 18.0];
+    self.titleLabel.textColor = [UIColor colorWithRed: 80.0f / 255.0f green: 226.0f / 255.0f blue:193.0f / 255.0f alpha: 1.0f];
+}
+
+//==============================================================================
+
 @end

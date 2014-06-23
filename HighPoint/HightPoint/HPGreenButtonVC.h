@@ -24,6 +24,8 @@
 
 @interface HPGreenButtonVC : UIViewController
 
+@property (nonatomic, weak) IBOutlet UIButton* button;
+
 @property (nonatomic, weak) IBOutlet UIImageView* rightPart;
 @property (nonatomic, weak) IBOutlet UIImageView* centerPart;
 @property (nonatomic, weak) IBOutlet UIImageView* leftPart;

@@ -9,6 +9,7 @@
 //==============================================================================
 
 #import "HPGreenButtonVC.h"
+#import "UIButton+HighPoint.h"
 
 //==============================================================================
 
@@ -32,6 +33,8 @@
     image = [UIImage imageNamed: @"Green-Button-Tap-C"];
     resizableImage = [image resizableImageWithCapInsets: UIEdgeInsetsMake(0, image.size.width, image.size.height, image.size.width)];
     _centerPartPressed.image = resizableImage;
+    
+    [_button hp_tuneFontForGreenButton];
 }
 
 //==============================================================================
@@ -73,6 +76,9 @@
     _centerPartPressed.hidden = YES;
     _rightPartPressed.hidden = YES;
     _leftPartPressed.hidden = YES;
+    
+    if (_delegate)
+        [_delegate greenButtonPressed: self];
 }
 
 //==============================================================================
