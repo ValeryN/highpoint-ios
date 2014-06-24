@@ -16,7 +16,21 @@
 
 //==============================================================================
 
-- (HPUserPointView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate
+- (id) init
+{
+    self = [super init];
+    
+    if (self == nil)
+        return nil;
+    
+    _isUserPointView = YES;
+    
+    return self;
+}
+
+//==============================================================================
+
+- (UIView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate
 {
     _isUserPointView = YES;
     NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPUserPointView" owner: self options: nil];
@@ -31,7 +45,7 @@
 
 //==============================================================================
 
-- (HPUserCardView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate
+- (UIView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate
 {
     _isUserPointView = NO;
     NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPUserCardView" owner: self options: nil];

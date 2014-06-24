@@ -20,8 +20,8 @@
     BOOL _isUserPointView;
 }
 
-- (HPUserCardView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate;
-- (HPUserPointView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate;
+- (UIView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate;
+- (UIView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate;
 - (BOOL) isUserPoint;
 
 @end

@@ -16,6 +16,7 @@
 #import "UILabel+HighPoint.h"
 #import "UIView+HighPoint.h"
 #import "HPUserCardView.h"
+#import "HPUserCardOrPointView.h"
 
 //==============================================================================
 
@@ -154,12 +155,8 @@
     {
         if (_cardOrPoint == nil)
             NSAssert(YES, @"no description for carousel item");
-        
-        HPUserCardOrPoint* cardOrPoint = (HPUserCardOrPoint*)_cardOrPoint[_carouselView.currentItemIndex];
-        if ([cardOrPoint isUserPoint])
-            view = [cardOrPoint userPointWithDelegate: self];
-        else
-            view = [cardOrPoint userCardWithDelegate: self];
+        view = [[HPUserCardOrPointView alloc] initWithCardOrPoint: _cardOrPoint[index]
+                                                         delegate: self];
     }
     
     return view;
@@ -292,18 +289,17 @@
 
 - (void) switchButtonPressed
 {
-    UIView *container = self.carouselView.currentItemView;
+    HPUserCardOrPointView* container = (HPUserCardOrPointView*)self.carouselView.currentItemView;
     
     [UIView transitionWithView: container
                       duration: FLIP_ANIMATION_SPEED
                        options: UIViewAnimationOptionTransitionFlipFromRight
                     animations: ^{
-                        [_carouselView reloadItemAtIndex: _carouselView.currentItemIndex
-                                                animated: NO];
+                        [container switchSidesWithCardOrPoint: _cardOrPoint[_carouselView.currentItemIndex]
+                                                     delegate: self];
                     }
                     completion: ^(BOOL finished){
                 }];
-    NSLog(@"point button pressed");
 }
 
 //==============================================================================
