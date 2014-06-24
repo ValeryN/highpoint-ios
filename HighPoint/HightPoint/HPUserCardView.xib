@@ -11,39 +11,17 @@
             <rect key="frame" x="0.0" y="0.0" width="264" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_sample.png" translatesAutoresizingMaskIntoConstraints="NO" id="Uxd-9G-h75">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_sample.png" translatesAutoresizingMaskIntoConstraints="NO" id="Uxd-9G-h75" userLabel="mybackground">
                     <rect key="frame" x="0.0" y="0.0" width="264" height="352"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="264" id="4vf-oP-uti"/>
-                        <constraint firstAttribute="height" constant="352" id="EbE-Bp-0Td"/>
+                        <constraint firstAttribute="height" constant="352" id="aw1-Wg-M4W"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ss-XU-wru" userLabel="Name Label">
-                    <rect key="frame" x="0.0" y="352" width="264" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="264" id="NzQ-SF-7g0"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="24"/>
-                    <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99 лет, Когалым" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGg-E3-fOi" userLabel="Details Label">
-                    <rect key="frame" x="0.0" y="395" width="264" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="264" id="BAW-pK-Pfi"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="16"/>
-                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1 / 12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yCl-TR-RLZ" userLabel="Photo index - Label">
-                    <rect key="frame" x="12" y="319" width="44" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 / 12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yCl-TR-RLZ" userLabel="Photo index - Label">
+                    <rect key="frame" x="12" y="390" width="44" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -66,14 +44,39 @@
                         <action selector="pointButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="bgO-OO-NrM"/>
                     </connections>
                 </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ss-XU-wru" userLabel="Name Label">
+                    <rect key="frame" x="0.0" y="352" width="264" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="264" id="NzQ-SF-7g0"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="24"/>
+                    <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99 лет, Когалым" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGg-E3-fOi" userLabel="Details Label">
+                    <rect key="frame" x="0.0" y="390" width="264" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="264" id="BAW-pK-Pfi"/>
+                        <constraint firstAttribute="height" constant="21" id="uij-WO-bZa"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="16"/>
+                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="WRs-Ga-WAz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="220" id="8Ew-Ky-Hde"/>
-                <constraint firstItem="yGg-E3-fOi" firstAttribute="top" secondItem="7Ss-XU-wru" secondAttribute="bottom" constant="11" id="Dv1-lU-EKq"/>
                 <constraint firstItem="Uxd-9G-h75" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="IA1-dc-MEz"/>
-                <constraint firstItem="7Ss-XU-wru" firstAttribute="top" secondItem="Uxd-9G-h75" secondAttribute="bottom" id="IO9-yT-NRK"/>
+                <constraint firstItem="yCl-TR-RLZ" firstAttribute="top" secondItem="7Ss-XU-wru" secondAttribute="bottom" constant="6" id="NTM-BA-Sbh"/>
+                <constraint firstItem="yGg-E3-fOi" firstAttribute="top" secondItem="7Ss-XU-wru" secondAttribute="bottom" constant="6" id="Z6q-lk-ghx"/>
                 <constraint firstItem="yGg-E3-fOi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gnD-du-7O1"/>
+                <constraint firstItem="7Ss-XU-wru" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="352" id="jyv-Qj-o8A"/>
+                <constraint firstItem="yCl-TR-RLZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="12" id="nBM-eS-tjj"/>
                 <constraint firstItem="WRs-Ga-WAz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="nX7-ck-BFS"/>
                 <constraint firstItem="7Ss-XU-wru" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pTd-8y-iFD"/>
                 <constraint firstItem="Uxd-9G-h75" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wTG-ZE-Unf"/>

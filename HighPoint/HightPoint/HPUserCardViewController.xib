@@ -68,7 +68,6 @@
             <constraints>
                 <constraint firstItem="dmE-vu-pcg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="1Ip-ZI-P4k"/>
                 <constraint firstItem="dmE-vu-pcg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="28" id="nRy-Fc-qnz"/>
-                <constraint firstAttribute="trailing" secondItem="dmE-vu-pcg" secondAttribute="trailing" constant="28" id="zi7-Fh-FYn"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
