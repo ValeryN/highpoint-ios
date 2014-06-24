@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="264" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="img_sample.png" translatesAutoresizingMaskIntoConstraints="NO" id="Uxd-9G-h75">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_sample.png" translatesAutoresizingMaskIntoConstraints="NO" id="Uxd-9G-h75">
                     <rect key="frame" x="0.0" y="0.0" width="264" height="352"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -20,7 +20,7 @@
                         <constraint firstAttribute="height" constant="352" id="EbE-Bp-0Td"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ss-XU-wru" userLabel="Name Label">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ss-XU-wru" userLabel="Name Label">
                     <rect key="frame" x="0.0" y="352" width="264" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -31,7 +31,7 @@
                     <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="99 лет, Когалым" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGg-E3-fOi" userLabel="Details Label">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99 лет, Когалым" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGg-E3-fOi" userLabel="Details Label">
                     <rect key="frame" x="0.0" y="395" width="264" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -50,7 +50,7 @@
                     <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WRs-Ga-WAz" userLabel="Show Point - Button">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WRs-Ga-WAz" userLabel="Show Point - Button">
                     <rect key="frame" x="220" y="12" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -68,6 +68,16 @@
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="WRs-Ga-WAz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="220" id="8Ew-Ky-Hde"/>
+                <constraint firstItem="yGg-E3-fOi" firstAttribute="top" secondItem="7Ss-XU-wru" secondAttribute="bottom" constant="11" id="Dv1-lU-EKq"/>
+                <constraint firstItem="Uxd-9G-h75" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="IA1-dc-MEz"/>
+                <constraint firstItem="7Ss-XU-wru" firstAttribute="top" secondItem="Uxd-9G-h75" secondAttribute="bottom" id="IO9-yT-NRK"/>
+                <constraint firstItem="yGg-E3-fOi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gnD-du-7O1"/>
+                <constraint firstItem="WRs-Ga-WAz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="nX7-ck-BFS"/>
+                <constraint firstItem="7Ss-XU-wru" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pTd-8y-iFD"/>
+                <constraint firstItem="Uxd-9G-h75" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wTG-ZE-Unf"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="backgroundAvatar" destination="Uxd-9G-h75" id="s5O-Gf-d1b"/>
