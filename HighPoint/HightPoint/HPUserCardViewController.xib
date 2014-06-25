@@ -52,8 +52,8 @@
                         <action selector="slideRightPressed:" destination="-1" eventType="touchUpInside" id="zVG-a2-Udt"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0f-D7-WJB" userLabel="Info - Button">
-                    <rect key="frame" x="40" y="514" width="32" height="32"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0f-D7-WJB" userLabel="Info - Button">
+                    <rect key="frame" x="40" y="448" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <state key="normal" backgroundImage="Info">
@@ -68,6 +68,8 @@
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="dmE-vu-pcg" secondAttribute="bottom" constant="76" id="8F5-bA-Fpa"/>
+                <constraint firstItem="J0f-D7-WJB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="40" id="Hs7-s2-y3A"/>
+                <constraint firstAttribute="bottom" secondItem="J0f-D7-WJB" secondAttribute="bottom" constant="24" id="OJC-Qm-9yz"/>
                 <constraint firstItem="dmE-vu-pcg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="28" id="nRy-Fc-qnz"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

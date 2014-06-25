@@ -26,7 +26,8 @@
 #define GREENBUTTON_BOTTOM_SHIFT 20
 #define SPACE_BETWEEN_GREENBUTTON_AND_INFO 40
 #define FLIP_ANIMATION_SPEED 0.5
-#define CONSTRAINT_TOP_FOR_CAROUSEL 76
+#define CONSTRAINT_TOP_FOR_CAROUSEL 32
+#define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
 
 //==============================================================================
 
@@ -61,21 +62,23 @@
         NSArray* cons = self.view.constraints;
         for (NSLayoutConstraint* consIter in cons)
         {
-            if (consIter.firstAttribute == NSLayoutAttributeBottom)
-                consIter.constant = 32;//CONSTRAINT_TOP_FOR_CAROUSEL;
+            if ((consIter.firstAttribute == NSLayoutAttributeBottom) &&
+                (consIter.firstItem == self.view) &&
+                (consIter.secondItem == _carouselView))
+                consIter.constant = CONSTRAINT_TOP_FOR_CAROUSEL;
         }
         
         cons = _carouselView.constraints;
         for (NSLayoutConstraint* consIter in cons)
         {
-            if (consIter.firstAttribute == NSLayoutAttributeHeight)
-                consIter.constant = 340;
+            if ((consIter.firstAttribute == NSLayoutAttributeHeight) &&
+                (consIter.firstItem == _carouselView))
+                consIter.constant = CONSTRAINT_HEIGHT_FOR_CAROUSEL;
         }
     }
 }
 
 //==============================================================================
-
 
 - (void) createGreenButton
 {
