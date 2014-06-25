@@ -482,12 +482,6 @@
 				4CDC98B819519D08006D2F89 /* HPUserCardViewController.xib */,
 				4CBFB5A819586E3E002D7249 /* HPUserCardOrPointView.h */,
 				4CBFB5A919586E3E002D7249 /* HPUserCardOrPointView.m */,
-				4CDC98BF19519FA2006D2F89 /* HPUserCardView.h */,
-				4CDC98C019519FA2006D2F89 /* HPUserCardView.m */,
-				4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */,
-				4C91C1EE19585AC1002B27D4 /* HPUserPointView.h */,
-				4C91C1EF19585AC1002B27D4 /* HPUserPointView.m */,
-				4C91C1F019585AC1002B27D4 /* HPUserPointView.xib */,
 				4C91C1F519585CAA002B27D4 /* HPUserCardOrPoint.h */,
 				4C91C1F619585CAA002B27D4 /* HPUserCardOrPoint.m */,
 				4C91C1F919585F46002B27D4 /* UserCardOrPointProtocol.h */,
@@ -659,6 +653,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4CBFB5B7195AF458002D7249 /* CardPoint */,
 				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
 				3BDA4C9E19064EC300EF6619 /* HPRootViewController */,
 				3B49DE1B1934A50C00C3EF1E /* HPUserProfileViewController */,
@@ -863,6 +858,19 @@
 				4C91C1EA1958170C002B27D4 /* HPGreenButtonVC.xib */,
 			);
 			name = Controls;
+			sourceTree = "<group>";
+		};
+		4CBFB5B7195AF458002D7249 /* CardPoint */ = {
+			isa = PBXGroup;
+			children = (
+				4CDC98BF19519FA2006D2F89 /* HPUserCardView.h */,
+				4CDC98C019519FA2006D2F89 /* HPUserCardView.m */,
+				4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */,
+				4C91C1EE19585AC1002B27D4 /* HPUserPointView.h */,
+				4C91C1EF19585AC1002B27D4 /* HPUserPointView.m */,
+				4C91C1F019585AC1002B27D4 /* HPUserPointView.xib */,
+			);
+			name = CardPoint;
 			sourceTree = "<group>";
 		};
 		4CE598E819386C71008CEC24 /* Categories */ = {

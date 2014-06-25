@@ -17,6 +17,7 @@
 #import "UIView+HighPoint.h"
 #import "HPUserCardView.h"
 #import "HPUserCardOrPointView.h"
+#import "UIDevice+HighPoint.h"
 
 //==============================================================================
 
@@ -25,6 +26,7 @@
 #define GREENBUTTON_BOTTOM_SHIFT 20
 #define SPACE_BETWEEN_GREENBUTTON_AND_INFO 40
 #define FLIP_ANIMATION_SPEED 0.5
+#define CONSTRAINT_TOP_FOR_CAROUSEL 76
 
 //==============================================================================
 
@@ -46,9 +48,34 @@
     [self createNavigationItem];
     [self initCarousel];
     [self createGreenButton];
+    
+    [self fixUserCardConstraint];
 }
 
 //==============================================================================
+
+- (void) fixUserCardConstraint
+{
+    if (![UIDevice hp_isWideScreen])
+    {
+        NSArray* cons = self.view.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if (consIter.firstAttribute == NSLayoutAttributeBottom)
+                consIter.constant = 32;//CONSTRAINT_TOP_FOR_CAROUSEL;
+        }
+        
+        cons = _carouselView.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if (consIter.firstAttribute == NSLayoutAttributeHeight)
+                consIter.constant = 340;
+        }
+    }
+}
+
+//==============================================================================
+
 
 - (void) createGreenButton
 {
