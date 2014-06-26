@@ -12,6 +12,15 @@
 
 @interface HPUserPointView : UIView
 
+- (IBAction) pointButtonPressed: (id)sender;
+
 @property (nonatomic, weak) NSObject<UserCardOrPointProtocol>* delegate;
+
+@property (nonatomic, weak) IBOutlet UIImageView* backgroundAvatar;
+@property (nonatomic, weak) IBOutlet UILabel* details;
+@property (nonatomic, weak) IBOutlet UILabel* name;
+
+- (void) initObjects;
+
 
 @end
