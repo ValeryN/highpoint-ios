@@ -16,14 +16,18 @@
 #import "UILabel+HighPoint.h"
 #import "UIView+HighPoint.h"
 #import "HPUserCardView.h"
+#import "HPUserCardOrPointView.h"
+#import "UIDevice+HighPoint.h"
 
 //==============================================================================
 
 #define ICAROUSEL_ITEMS_COUNT 20
 #define ICAROUSEL_ITEMS_WIDTH 264.0
-#define GREENBUTTON_BOTTOM_SHIFT 20
+#define GREENBUTTON_BOTTOM_SHIFT 50
 #define SPACE_BETWEEN_GREENBUTTON_AND_INFO 40
 #define FLIP_ANIMATION_SPEED 0.5
+#define CONSTRAINT_TOP_FOR_CAROUSEL 32
+#define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
 
 //==============================================================================
 
@@ -44,7 +48,34 @@
 {
     [self createNavigationItem];
     [self initCarousel];
+    
+    [self fixUserCardConstraint];
     [self createGreenButton];
+}
+
+//==============================================================================
+
+- (void) fixUserCardConstraint
+{
+    if (![UIDevice hp_isWideScreen])
+    {
+        NSArray* cons = self.view.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeBottom) &&
+                (consIter.firstItem == self.view) &&
+                (consIter.secondItem == _carouselView))
+                consIter.constant = CONSTRAINT_TOP_FOR_CAROUSEL;
+        }
+        
+        cons = _carouselView.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeHeight) &&
+                (consIter.firstItem == _carouselView))
+                consIter.constant = CONSTRAINT_HEIGHT_FOR_CAROUSEL;
+        }
+    }
 }
 
 //==============================================================================
@@ -52,23 +83,67 @@
 - (void) createGreenButton
 {
     HPGreenButtonVC* sendMessage = [[HPGreenButtonVC alloc] initWithNibName: @"HPGreenButtonVC" bundle: nil];
+    sendMessage.view.translatesAutoresizingMaskIntoConstraints = NO;
     sendMessage.delegate = self;
 
     CGRect rect = sendMessage.view.frame;
     rect.origin.x = _infoButton.frame.origin.x + _infoButton.frame.size.width + SPACE_BETWEEN_GREENBUTTON_AND_INFO;
-    rect.origin.y = [UIScreen mainScreen].bounds.size.height - rect.size.height - GREENBUTTON_BOTTOM_SHIFT;
+    rect.origin.y = _infoButton.frame.origin.y;
     sendMessage.view.frame = rect;
-    
+
     sendMessage.delegate = self;
-    
     [self addChildViewController: sendMessage];
     [self.view addSubview: sendMessage.view];
+
+    [self createGreenButtonsConstraint: sendMessage];
+}
+
+//==============================================================================
+
+- (void) createGreenButtonsConstraint: (HPGreenButtonVC*) sendMessage
+{
+    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
+                                                                 attribute: NSLayoutAttributeWidth
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: nil
+                                                                 attribute: NSLayoutAttributeNotAnAttribute
+                                                                multiplier: 1.0
+                                                                  constant: sendMessage.view.frame.size.width]];
+
+    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
+                                                                 attribute: NSLayoutAttributeHeight
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: nil
+                                                                 attribute: NSLayoutAttributeNotAnAttribute
+                                                                multiplier: 1.0
+                                                                  constant: sendMessage.view.frame.size.height]];
+
+    NSArray* cons = self.view.constraints;
+    for (NSLayoutConstraint* consIter in cons)
+    {
+        if ((consIter.firstAttribute == NSLayoutAttributeBottom) &&
+            (consIter.firstItem == self.view) &&
+            (consIter.secondItem == _infoButton))
+            {
+               [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.view
+                                                                     attribute: NSLayoutAttributeBottom
+                                                                     relatedBy: NSLayoutRelationEqual
+                                                                        toItem: sendMessage.view
+                                                                     attribute: NSLayoutAttributeBottom
+                                                                    multiplier: 1.0
+                                                                      constant: consIter.constant]];
+            }
+    }
 }
 
 //==============================================================================
 
 - (void) initCarousel
 {
+    _cardOrPoint = [NSMutableArray array];
+    for (NSInteger i = 0; i < ICAROUSEL_ITEMS_COUNT; i++)
+        _cardOrPoint[i] = [HPUserCardOrPoint new];
+
     _carouselView.type = iCarouselTypeRotary;
     _carouselView.decelerationRate = 0.7;
     _carouselView.scrollEnabled = YES;
@@ -148,14 +223,10 @@
 {
    if (view == nil)
     {
-        NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPUserCardView" owner: self options: nil];
-        if ([nibs[0] isKindOfClass:[HPUserCardView class]] == NO)
-            return nil;
-        
-        HPUserCardView* view2 = (HPUserCardView*)nibs[0];
-        view2.delegate = self;
-        [view2 initObjects];
-        view = view2;
+        if (_cardOrPoint == nil)
+            NSAssert(YES, @"no description for carousel item");
+        view = [[HPUserCardOrPointView alloc] initWithCardOrPoint: _cardOrPoint[index]
+                                                         delegate: self];
     }
     
     return view;
@@ -286,9 +357,19 @@
 
 //==============================================================================
 
-- (void) pointButtonPressed: (HPUserCardView*) userCard
+- (void) switchButtonPressed
 {
-    NSLog(@"point button pressed");
+    HPUserCardOrPointView* container = (HPUserCardOrPointView*)self.carouselView.currentItemView;
+    
+    [UIView transitionWithView: container
+                      duration: FLIP_ANIMATION_SPEED
+                       options: UIViewAnimationOptionTransitionFlipFromRight
+                    animations: ^{
+                        [container switchSidesWithCardOrPoint: _cardOrPoint[_carouselView.currentItemIndex]
+                                                     delegate: self];
+                    }
+                    completion: ^(BOOL finished){
+                }];
 }
 
 //==============================================================================

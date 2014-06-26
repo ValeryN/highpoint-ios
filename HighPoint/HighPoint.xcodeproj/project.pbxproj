@@ -143,10 +143,18 @@
 		4C91C1EB1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C91C1EA1958170C002B27D4 /* HPGreenButtonVC.xib */; };
 		4C91C1EC1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C91C1EA1958170C002B27D4 /* HPGreenButtonVC.xib */; };
 		4C91C1ED19581711002B27D4 /* HPGreenButtonVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C91C1E7195812A4002B27D4 /* HPGreenButtonVC.m */; };
+		4C91C1F119585AC1002B27D4 /* HPUserPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C91C1EF19585AC1002B27D4 /* HPUserPointView.m */; };
+		4C91C1F219585AC1002B27D4 /* HPUserPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C91C1EF19585AC1002B27D4 /* HPUserPointView.m */; };
+		4C91C1F319585AC1002B27D4 /* HPUserPointView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C91C1F019585AC1002B27D4 /* HPUserPointView.xib */; };
+		4C91C1F419585AC1002B27D4 /* HPUserPointView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C91C1F019585AC1002B27D4 /* HPUserPointView.xib */; };
+		4C91C1F719585CAA002B27D4 /* HPUserCardOrPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C91C1F619585CAA002B27D4 /* HPUserCardOrPoint.m */; };
+		4C91C1F819585CAA002B27D4 /* HPUserCardOrPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C91C1F619585CAA002B27D4 /* HPUserCardOrPoint.m */; };
 		4CA2F9D7193C64B800D7FBFD /* HPUserCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */; };
 		4CA2F9D8193C64B800D7FBFD /* HPUserCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */; };
 		4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
 		4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
+		4CBFB5AA19586E3E002D7249 /* HPUserCardOrPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBFB5A919586E3E002D7249 /* HPUserCardOrPointView.m */; };
+		4CBFB5AB19586E3E002D7249 /* HPUserCardOrPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBFB5A919586E3E002D7249 /* HPUserCardOrPointView.m */; };
 		4CDC98B619517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC98B519517FB4006D2F89 /* UIViewController+HighPoint.m */; };
 		4CDC98B719517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC98B519517FB4006D2F89 /* UIViewController+HighPoint.m */; };
 		4CDC98B919519D08006D2F89 /* HPUserCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDC98B819519D08006D2F89 /* HPUserCardViewController.xib */; };
@@ -355,9 +363,17 @@
 		4C91C1E6195812A4002B27D4 /* HPGreenButtonVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGreenButtonVC.h; sourceTree = "<group>"; };
 		4C91C1E7195812A4002B27D4 /* HPGreenButtonVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPGreenButtonVC.m; sourceTree = "<group>"; };
 		4C91C1EA1958170C002B27D4 /* HPGreenButtonVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPGreenButtonVC.xib; sourceTree = "<group>"; };
+		4C91C1EE19585AC1002B27D4 /* HPUserPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserPointView.h; sourceTree = "<group>"; };
+		4C91C1EF19585AC1002B27D4 /* HPUserPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserPointView.m; sourceTree = "<group>"; };
+		4C91C1F019585AC1002B27D4 /* HPUserPointView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserPointView.xib; sourceTree = "<group>"; };
+		4C91C1F519585CAA002B27D4 /* HPUserCardOrPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserCardOrPoint.h; sourceTree = "<group>"; };
+		4C91C1F619585CAA002B27D4 /* HPUserCardOrPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserCardOrPoint.m; sourceTree = "<group>"; };
+		4C91C1F919585F46002B27D4 /* UserCardOrPointProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserCardOrPointProtocol.h; sourceTree = "<group>"; };
 		4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCardView.xib; sourceTree = "<group>"; };
 		4CAD4A5E1949B1A600E8E26C /* UIButton+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+HighPoint.h"; sourceTree = "<group>"; };
 		4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+HighPoint.m"; sourceTree = "<group>"; };
+		4CBFB5A819586E3E002D7249 /* HPUserCardOrPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserCardOrPointView.h; sourceTree = "<group>"; };
+		4CBFB5A919586E3E002D7249 /* HPUserCardOrPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserCardOrPointView.m; sourceTree = "<group>"; };
 		4CDC98B419517FB4006D2F89 /* UIViewController+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+HighPoint.h"; sourceTree = "<group>"; };
 		4CDC98B519517FB4006D2F89 /* UIViewController+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+HighPoint.m"; sourceTree = "<group>"; };
 		4CDC98B819519D08006D2F89 /* HPUserCardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCardViewController.xib; sourceTree = "<group>"; };
@@ -461,12 +477,14 @@
 		3B29F8E219222F1A00EC6395 /* HPUserCardViewController */ = {
 			isa = PBXGroup;
 			children = (
-				4CDC98BF19519FA2006D2F89 /* HPUserCardView.h */,
-				4CDC98C019519FA2006D2F89 /* HPUserCardView.m */,
-				4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */,
 				3B29F8E31922303D00EC6395 /* HPUserCardViewController.h */,
 				3B29F8E41922303D00EC6395 /* HPUserCardViewController.m */,
 				4CDC98B819519D08006D2F89 /* HPUserCardViewController.xib */,
+				4CBFB5A819586E3E002D7249 /* HPUserCardOrPointView.h */,
+				4CBFB5A919586E3E002D7249 /* HPUserCardOrPointView.m */,
+				4C91C1F519585CAA002B27D4 /* HPUserCardOrPoint.h */,
+				4C91C1F619585CAA002B27D4 /* HPUserCardOrPoint.m */,
+				4C91C1F919585F46002B27D4 /* UserCardOrPointProtocol.h */,
 			);
 			name = HPUserCardViewController;
 			sourceTree = "<group>";
@@ -635,6 +653,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4CBFB5B7195AF458002D7249 /* CardPoint */,
 				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
 				3BDA4C9E19064EC300EF6619 /* HPRootViewController */,
 				3B49DE1B1934A50C00C3EF1E /* HPUserProfileViewController */,
@@ -841,6 +860,19 @@
 			name = Controls;
 			sourceTree = "<group>";
 		};
+		4CBFB5B7195AF458002D7249 /* CardPoint */ = {
+			isa = PBXGroup;
+			children = (
+				4CDC98BF19519FA2006D2F89 /* HPUserCardView.h */,
+				4CDC98C019519FA2006D2F89 /* HPUserCardView.m */,
+				4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */,
+				4C91C1EE19585AC1002B27D4 /* HPUserPointView.h */,
+				4C91C1EF19585AC1002B27D4 /* HPUserPointView.m */,
+				4C91C1F019585AC1002B27D4 /* HPUserPointView.xib */,
+			);
+			name = CardPoint;
+			sourceTree = "<group>";
+		};
 		4CE598E819386C71008CEC24 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -998,6 +1030,7 @@
 				4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
 				3B31865D191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf in Resources */,
 				3B3170A7191B7D1500B72AC1 /* Userpic Mask.png in Resources */,
+				4C91C1F319585AC1002B27D4 /* HPUserPointView.xib in Resources */,
 				3B298FC8192F476100BEC2AA /* slider-default7-trackBackground@2x.png in Resources */,
 				3B298FC1192F476100BEC2AA /* slider-default-trackCrossedOver@2x.png in Resources */,
 				3B3170AA191B7E7600B72AC1 /* Userpic Shape Green.png in Resources */,
@@ -1012,6 +1045,7 @@
 				4CDC98BA19519D08006D2F89 /* HPUserCardViewController.xib in Resources */,
 				4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
 				4C8096B2193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */,
+				4C91C1F419585AC1002B27D4 /* HPUserPointView.xib in Resources */,
 				4C89BD31193C899400DAE2EE /* HPUserProfile.xib in Resources */,
 				3B6DB4B918FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 				4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */,
@@ -1044,7 +1078,9 @@
 				3BDA4C9919064E5900EF6619 /* UIImage+WebP.m in Sources */,
 				3BDA4C6919064AC900EF6619 /* AFURLResponseSerialization.m in Sources */,
 				3BDA4C4A1906470100EF6619 /* User.m in Sources */,
+				4CBFB5AA19586E3E002D7249 /* HPUserCardOrPointView.m in Sources */,
 				3BDA4C6819064AC900EF6619 /* AFURLRequestSerialization.m in Sources */,
+				4C91C1F719585CAA002B27D4 /* HPUserCardOrPoint.m in Sources */,
 				3B49DE1E1934AAC500C3EF1E /* HPUserProfileViewController.m in Sources */,
 				3BD12E5A192DFE380026BA11 /* HPFilterSettingsViewController.m in Sources */,
 				3BA3840B1924D58A00EFC749 /* CrossDissolveAnimation.m in Sources */,
@@ -1063,6 +1099,7 @@
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
 				4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
 				3BDA4C471906470000EF6619 /* UserInfo.m in Sources */,
+				4C91C1F119585AC1002B27D4 /* HPUserPointView.m in Sources */,
 				3BDA4C8E19064E5900EF6619 /* NSData+ImageContentType.m in Sources */,
 				3BDA4C6419064AC900EF6619 /* AFHTTPSessionManager.m in Sources */,
 				3BA384081924CDBC00EFC749 /* ScaleAnimation.m in Sources */,
@@ -1095,7 +1132,9 @@
 			files = (
 				4CDC98C219519FA2006D2F89 /* HPUserCardView.m in Sources */,
 				4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
+				4C91C1F219585AC1002B27D4 /* HPUserPointView.m in Sources */,
 				4C89BD35193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
+				4CBFB5AB19586E3E002D7249 /* HPUserCardOrPointView.m in Sources */,
 				4C91C1ED19581711002B27D4 /* HPGreenButtonVC.m in Sources */,
 				4C8096A8193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
 				4CDC98BE19519EEB006D2F89 /* UIView+HighPoint.m in Sources */,
@@ -1104,6 +1143,7 @@
 				4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
 				4CDC98B719517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
+				4C91C1F819585CAA002B27D4 /* HPUserCardOrPoint.m in Sources */,
 				3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

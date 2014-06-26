@@ -14,10 +14,14 @@
 #import "HPUserProfileViewController.h"
 #import "HPUserCardView.h"
 #import "HPGreenButtonVC.h"
+#import "HPUserCardOrPoint.h"
 
 //==============================================================================
 
-@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UserCardViewProtocol, GreenButtonProtocol>
+@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UserCardOrPointProtocol, GreenButtonProtocol>
+{
+    NSMutableArray* _cardOrPoint;
+}
 
 @property (nonatomic, strong) UIView *sendMessageButton;
 @property (nonatomic, strong) IBOutlet iCarousel* carouselView;
