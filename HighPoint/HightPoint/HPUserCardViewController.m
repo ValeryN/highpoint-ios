@@ -23,7 +23,7 @@
 
 #define ICAROUSEL_ITEMS_COUNT 20
 #define ICAROUSEL_ITEMS_WIDTH 264.0
-#define GREENBUTTON_BOTTOM_SHIFT 20
+#define GREENBUTTON_BOTTOM_SHIFT 50
 #define SPACE_BETWEEN_GREENBUTTON_AND_INFO 40
 #define FLIP_ANIMATION_SPEED 0.5
 #define CONSTRAINT_TOP_FOR_CAROUSEL 32
@@ -48,9 +48,9 @@
 {
     [self createNavigationItem];
     [self initCarousel];
-    [self createGreenButton];
     
     [self fixUserCardConstraint];
+    [self createGreenButton];
 }
 
 //==============================================================================
@@ -83,17 +83,57 @@
 - (void) createGreenButton
 {
     HPGreenButtonVC* sendMessage = [[HPGreenButtonVC alloc] initWithNibName: @"HPGreenButtonVC" bundle: nil];
+    sendMessage.view.translatesAutoresizingMaskIntoConstraints = NO;
     sendMessage.delegate = self;
 
     CGRect rect = sendMessage.view.frame;
     rect.origin.x = _infoButton.frame.origin.x + _infoButton.frame.size.width + SPACE_BETWEEN_GREENBUTTON_AND_INFO;
-    rect.origin.y = [UIScreen mainScreen].bounds.size.height - rect.size.height - GREENBUTTON_BOTTOM_SHIFT;
+    rect.origin.y = _infoButton.frame.origin.y;
     sendMessage.view.frame = rect;
-    
+
     sendMessage.delegate = self;
-    
     [self addChildViewController: sendMessage];
     [self.view addSubview: sendMessage.view];
+
+    [self createGreenButtonsConstraint: sendMessage];
+}
+
+//==============================================================================
+
+- (void) createGreenButtonsConstraint: (HPGreenButtonVC*) sendMessage
+{
+    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
+                                                                 attribute: NSLayoutAttributeWidth
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: nil
+                                                                 attribute: NSLayoutAttributeNotAnAttribute
+                                                                multiplier: 1.0
+                                                                  constant: sendMessage.view.frame.size.width]];
+
+    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
+                                                                 attribute: NSLayoutAttributeHeight
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: nil
+                                                                 attribute: NSLayoutAttributeNotAnAttribute
+                                                                multiplier: 1.0
+                                                                  constant: sendMessage.view.frame.size.height]];
+
+    NSArray* cons = self.view.constraints;
+    for (NSLayoutConstraint* consIter in cons)
+    {
+        if ((consIter.firstAttribute == NSLayoutAttributeBottom) &&
+            (consIter.firstItem == self.view) &&
+            (consIter.secondItem == _infoButton))
+            {
+               [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.view
+                                                                     attribute: NSLayoutAttributeBottom
+                                                                     relatedBy: NSLayoutRelationEqual
+                                                                        toItem: sendMessage.view
+                                                                     attribute: NSLayoutAttributeBottom
+                                                                    multiplier: 1.0
+                                                                      constant: consIter.constant]];
+            }
+    }
 }
 
 //==============================================================================
