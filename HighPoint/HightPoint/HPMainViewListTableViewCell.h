@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class User;
 @interface HPMainViewListTableViewCell : UITableViewCell
 
 + (void) makeCellReleased;
 
 - (void) makeAnonymous;
-- (void) configureCell;
+- (void) configureCell:(User*) user;
 - (void) vibrateThePoint;
 - (void) showPoint;
 - (void) hidePoint;

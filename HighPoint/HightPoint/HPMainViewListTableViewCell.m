@@ -12,7 +12,7 @@
 #import "UIImage+HighPoint.h"
 #import "UILabel+HighPoint.h"
 #import "HPMainViewListTableViewCell+HighPoint.h"
-
+#import "User.h"
 //==============================================================================
 
 #define HALFHIDE_MAININFO_DURATION 0.1
@@ -38,7 +38,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
 //==============================================================================
 
-- (void) configureCell
+- (void) configureCell:(User*) user
 {
     UIImage* userAvatar = [UIImage imageNamed: @"img_sample1"];
     UIImage* userAvatarWithMask = [userAvatar hp_maskImageWithPattern: [UIImage imageNamed: @"Userpic Mask"]];
@@ -46,7 +46,7 @@ static HPMainViewListTableViewCell* _prevCell;
     self.userImageBorder.image = [UIImage imageNamed: @"Userpic Shape Green"];
 
     [self.firstLabel hp_tuneForUserListCellName];
-    self.firstLabel.text = @"Анастасия Шляпова";
+    self.firstLabel.text = user.name;
     
     [self.secondLabel hp_tuneForUserListCellAgeAndCity];
     self.secondLabel.text = @"99 лет, Когалым";

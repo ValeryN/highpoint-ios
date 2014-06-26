@@ -16,7 +16,7 @@
 #import "UINavigationController+HighPoint.h"
 #import "UIDevice+HighPoint.h"
 #import "UILabel+HighPoint.h"
-
+#import "DataStorage.h"
 //==============================================================================
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
@@ -43,6 +43,10 @@
 }
 
 //==============================================================================
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
+}
 
 - (void) createSwitch
 {
@@ -122,7 +126,7 @@
 
 - (NSInteger) tableView: (UITableView*) tableView numberOfRowsInSection: (NSInteger) section
 {
-    return CELLS_COUNT;
+    return [[self.allUsers fetchedObjects] count];
 }
 
 //==============================================================================
@@ -133,8 +137,8 @@
     HPMainViewListTableViewCell *mCell = [tableView dequeueReusableCellWithIdentifier: mainCellId];
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
-
-    [mCell configureCell];
+    User *user = [[self.allUsers fetchedObjects] objectAtIndex:indexPath.row];
+    [mCell configureCell: user];
     if (indexPath.row == 3)
         [mCell makeAnonymous];
     
