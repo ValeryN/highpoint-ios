@@ -40,8 +40,6 @@
 		3B3170A4191B7A1D00B72AC1 /* img_sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A2191B7A1D00B72AC1 /* img_sample.png */; };
 		3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A3191B7A1D00B72AC1 /* img_sample1.png */; };
 		3B3170A7191B7D1500B72AC1 /* Userpic Mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A6191B7D1500B72AC1 /* Userpic Mask.png */; };
-		3B3170AA191B7E7600B72AC1 /* Userpic Shape Green.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A8191B7E7600B72AC1 /* Userpic Shape Green.png */; };
-		3B3170AB191B7E7600B72AC1 /* Userpic Shape Red.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A9191B7E7600B72AC1 /* Userpic Shape Red.png */; };
 		3B3170AD191B88E000B72AC1 /* Userpic-Mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170AC191B88E000B72AC1 /* Userpic-Mask.png */; };
 		3B3170AF191B91AD00B72AC1 /* pin_popup_blackw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170AE191B91AD00B72AC1 /* pin_popup_blackw@2x.png */; };
 		3B3170B1191B931300B72AC1 /* Userpic-Maskk_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170B0191B931300B72AC1 /* Userpic-Maskk_2.png */; };
@@ -166,6 +164,10 @@
 		4C91C1F819585CAA002B27D4 /* HPUserCardOrPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C91C1F619585CAA002B27D4 /* HPUserCardOrPoint.m */; };
 		4CA2F9D7193C64B800D7FBFD /* HPUserCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */; };
 		4CA2F9D8193C64B800D7FBFD /* HPUserCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */; };
+		4CA7B63B195C379000DC9D52 /* HPAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7B63A195C379000DC9D52 /* HPAvatarView.m */; };
+		4CA7B63C195C379000DC9D52 /* HPAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7B63A195C379000DC9D52 /* HPAvatarView.m */; };
+		4CA7B63E195C37B200DC9D52 /* HPAvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA7B63D195C37B200DC9D52 /* HPAvatarView.xib */; };
+		4CA7B63F195C37B200DC9D52 /* HPAvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA7B63D195C37B200DC9D52 /* HPAvatarView.xib */; };
 		4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
 		4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
 		4CBFB5AA19586E3E002D7249 /* HPUserCardOrPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBFB5A919586E3E002D7249 /* HPUserCardOrPointView.m */; };
@@ -232,8 +234,6 @@
 		3B3170A2191B7A1D00B72AC1 /* img_sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_sample.png; sourceTree = "<group>"; };
 		3B3170A3191B7A1D00B72AC1 /* img_sample1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_sample1.png; sourceTree = "<group>"; };
 		3B3170A6191B7D1500B72AC1 /* Userpic Mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Userpic Mask.png"; sourceTree = "<group>"; };
-		3B3170A8191B7E7600B72AC1 /* Userpic Shape Green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Userpic Shape Green.png"; sourceTree = "<group>"; };
-		3B3170A9191B7E7600B72AC1 /* Userpic Shape Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Userpic Shape Red.png"; sourceTree = "<group>"; };
 		3B3170AC191B88E000B72AC1 /* Userpic-Mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Userpic-Mask.png"; sourceTree = "<group>"; };
 		3B3170AE191B91AD00B72AC1 /* pin_popup_blackw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pin_popup_blackw@2x.png"; sourceTree = "<group>"; };
 		3B3170B0191B931300B72AC1 /* Userpic-Maskk_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Userpic-Maskk_2.png"; sourceTree = "<group>"; };
@@ -418,6 +418,9 @@
 		4C91C1F619585CAA002B27D4 /* HPUserCardOrPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserCardOrPoint.m; sourceTree = "<group>"; };
 		4C91C1F919585F46002B27D4 /* UserCardOrPointProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserCardOrPointProtocol.h; sourceTree = "<group>"; };
 		4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCardView.xib; sourceTree = "<group>"; };
+		4CA7B639195C379000DC9D52 /* HPAvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAvatarView.h; sourceTree = "<group>"; };
+		4CA7B63A195C379000DC9D52 /* HPAvatarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAvatarView.m; sourceTree = "<group>"; };
+		4CA7B63D195C37B200DC9D52 /* HPAvatarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAvatarView.xib; sourceTree = "<group>"; };
 		4CAD4A5E1949B1A600E8E26C /* UIButton+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+HighPoint.h"; sourceTree = "<group>"; };
 		4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+HighPoint.m"; sourceTree = "<group>"; };
 		4CBFB5A819586E3E002D7249 /* HPUserCardOrPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserCardOrPointView.h; sourceTree = "<group>"; };
@@ -572,8 +575,6 @@
 				3B3170B0191B931300B72AC1 /* Userpic-Maskk_2.png */,
 				3B3170AE191B91AD00B72AC1 /* pin_popup_blackw@2x.png */,
 				3B3170AC191B88E000B72AC1 /* Userpic-Mask.png */,
-				3B3170A8191B7E7600B72AC1 /* Userpic Shape Green.png */,
-				3B3170A9191B7E7600B72AC1 /* Userpic Shape Red.png */,
 				3B3170A6191B7D1500B72AC1 /* Userpic Mask.png */,
 				3B3170A2191B7A1D00B72AC1 /* img_sample.png */,
 				3B3170A3191B7A1D00B72AC1 /* img_sample1.png */,
@@ -946,6 +947,9 @@
 				4C91C1E6195812A4002B27D4 /* HPGreenButtonVC.h */,
 				4C91C1E7195812A4002B27D4 /* HPGreenButtonVC.m */,
 				4C91C1EA1958170C002B27D4 /* HPGreenButtonVC.xib */,
+				4CA7B639195C379000DC9D52 /* HPAvatarView.h */,
+				4CA7B63A195C379000DC9D52 /* HPAvatarView.m */,
+				4CA7B63D195C37B200DC9D52 /* HPAvatarView.xib */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -1068,7 +1072,6 @@
 				3B298FCC192F476100BEC2AA /* slider-metal-handle-highlighted@2x.png in Resources */,
 				3B298FCA192F476100BEC2AA /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */,
-				3B3170AB191B7E7600B72AC1 /* Userpic Shape Red.png in Resources */,
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
 				3B298FC7192F476100BEC2AA /* slider-default7-trackBackground.png in Resources */,
 				3B7D8AC5192CC8CE006BD206 /* Heart.png in Resources */,
@@ -1111,6 +1114,7 @@
 				3B298FC5192F476100BEC2AA /* slider-default7-track.png in Resources */,
 				3B298FCB192F476100BEC2AA /* slider-metal-handle-highlighted.png in Resources */,
 				3BB5E86A1935FD5500DDF5F9 /* Down.png in Resources */,
+				4CA7B63E195C37B200DC9D52 /* HPAvatarView.xib in Resources */,
 				3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */,
 				3B298FD1192F476100BEC2AA /* slider-metal-trackBackground.png in Resources */,
 				4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,
@@ -1123,7 +1127,6 @@
 				4C91C1F319585AC1002B27D4 /* HPUserPointView.xib in Resources */,
 				3B298FC8192F476100BEC2AA /* slider-default7-trackBackground@2x.png in Resources */,
 				3B298FC1192F476100BEC2AA /* slider-default-trackCrossedOver@2x.png in Resources */,
-				3B3170AA191B7E7600B72AC1 /* Userpic Shape Green.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1131,6 +1134,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CA7B63F195C37B200DC9D52 /* HPAvatarView.xib in Resources */,
 				4CA2F9D8193C64B800D7FBFD /* HPUserCardView.xib in Resources */,
 				4CDC98BA19519D08006D2F89 /* HPUserCardViewController.xib in Resources */,
 				4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
@@ -1158,6 +1162,7 @@
 				3BDA4C9519064E5900EF6619 /* SDWebImagePrefetcher.m in Sources */,
 				3BDA4CA8190660B400EF6619 /* SRWebSocket.m in Sources */,
 				4C8096A9193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
+				4CA7B63B195C379000DC9D52 /* HPAvatarView.m in Sources */,
 				3B39D325195C5B34002520B9 /* City.m in Sources */,
 				3B6DB4A218FFC24D00C26A50 /* HPAppDelegate.m in Sources */,
 				3B39D31D195C3122002520B9 /* SocketIOTransportWebsocket.m in Sources */,
@@ -1247,6 +1252,7 @@
 				4C8096AA193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
+				4CA7B63C195C379000DC9D52 /* HPAvatarView.m in Sources */,
 				4CDC98B719517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
 				4C91C1F819585CAA002B27D4 /* HPUserCardOrPoint.m in Sources */,
 				3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */,

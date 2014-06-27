@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPAvatarView.h"
 
 @class User;
 @interface HPMainViewListTableViewCell : UITableViewCell
@@ -22,11 +23,15 @@
 @property (nonatomic, weak) IBOutlet UIImageView *showPointButton;
 @property (nonatomic, weak) IBOutlet UIView *showPointGroup;
 
+
 @property (nonatomic, weak) IBOutlet UIImageView *userImage;
 @property (nonatomic, weak) IBOutlet UIImageView *userImageBorder;
 @property (nonatomic, weak) IBOutlet UILabel *firstLabel;
 @property (nonatomic, weak) IBOutlet UILabel *secondLabel;
 @property (nonatomic, weak) IBOutlet UILabel *point;
 @property (nonatomic, weak) IBOutlet UIView *mainInfoGroup;
+
+@property (nonatomic, strong) IBOutlet HPAvatarView *avatar;
+
 
 @end
