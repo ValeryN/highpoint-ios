@@ -1,11 +1,126 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C64" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="User" representedClassName="User" syncable="YES"/>
-    <entity name="UserInfo" representedClassName="UserInfo" syncable="YES"/>
-    <entity name="UserParam" representedClassName="UserParam" syncable="YES"/>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="AppSetting" representedClassName="AppSetting" syncable="YES">
+        <attribute name="avatarMaxFileSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="avatarMinImageHeight" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="avatarMinImageWidth" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="pointMaxPeriod" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="pointMinPeriod" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="webSoketUrl" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Avatar" representedClassName="Avatar" syncable="YES">
+        <attribute name="highCrop" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="highImageHeight" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="highImageSrc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="highImageWidth" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="originalImageHeight" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="originalImageSrc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="originalImageWidth" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="squareCrop" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="squareImageHeight" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="squareImageSrc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="squareImageWidth" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="avatar" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Career" representedClassName="Career" syncable="YES">
+        <attribute name="companyId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="fromYear" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="postId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="toYear" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="career" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="City" representedClassName="City" syncable="YES">
+        <attribute name="cityEnName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="cityName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cityNameForms" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cityRegionId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="Country" representedClassName="Country" syncable="YES">
+        <attribute name="countryEnName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countryId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="countryName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countryNameForms" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Education" representedClassName="Education" syncable="YES">
+        <attribute name="fromYear" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="schoolId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="specialityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="toYear" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="education" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Gender" representedClassName="Gender" syncable="YES">
+        <attribute name="genderType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="userfilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserFilter" inverseName="gender" inverseEntity="UserFilter" syncable="YES"/>
+    </entity>
+    <entity name="MaxEntertainmentPrice" representedClassName="MaxEntertainmentPrice" syncable="YES">
+        <attribute name="amount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="maxentertainment" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="MinEntertainmentPrice" representedClassName="MinEntertainmentPrice" syncable="YES">
+        <attribute name="amount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="minentertainment" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Region" representedClassName="Region" syncable="YES">
+        <attribute name="regionCountryId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="regionEnName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="regionId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="regionName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="regionNameForms" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="User" representedClassName="User" syncable="YES">
+        <attribute name="cityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateOfBirth" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="favoriteCityIds" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="favoritePlaceIds" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="isCurrentUser" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="languageIds" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nameForms" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="visibility" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <relationship name="avatar" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Avatar" inverseName="user" inverseEntity="Avatar" syncable="YES"/>
+        <relationship name="career" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Career" inverseName="user" inverseEntity="Career" syncable="YES"/>
+        <relationship name="education" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Education" inverseName="user" inverseEntity="Education" syncable="YES"/>
+        <relationship name="maxentertainment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MaxEntertainmentPrice" inverseName="user" inverseEntity="MaxEntertainmentPrice" syncable="YES"/>
+        <relationship name="minentertainment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MinEntertainmentPrice" inverseName="user" inverseEntity="MinEntertainmentPrice" syncable="YES"/>
+        <relationship name="userfilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserFilter" inverseName="user" inverseEntity="UserFilter" syncable="YES"/>
+    </entity>
+    <entity name="UserFilter" representedClassName="UserFilter" syncable="YES">
+        <attribute name="maxAge" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="minAge" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="viewType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="gender" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Gender" inverseName="userfilter" inverseEntity="Gender" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="userfilter" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="UserPoint" representedClassName="UserPoint" syncable="YES">
+        <attribute name="pointCreatedAt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pointId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="pointLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="pointText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pointUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="pointValidTo" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="User" positionX="-63" positionY="-18" width="128" height="43"/>
-        <element name="UserInfo" positionX="-54" positionY="-9" width="128" height="43"/>
-        <element name="UserParam" positionX="-36" positionY="0" width="128" height="45"/>
+        <element name="AppSetting" positionX="-200" positionY="-414" width="128" height="133"/>
+        <element name="Avatar" positionX="-209" positionY="-270" width="128" height="223"/>
+        <element name="Career" positionX="-144" positionY="56" width="128" height="133"/>
+        <element name="Education" positionX="144" positionY="-331" width="128" height="133"/>
+        <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
+        <element name="MaxEntertainmentPrice" positionX="27" positionY="-0" width="128" height="88"/>
+        <element name="MinEntertainmentPrice" positionX="493" positionY="-153" width="128" height="88"/>
+        <element name="User" positionX="-36" positionY="-414" width="128" height="328"/>
+        <element name="UserFilter" positionX="538" positionY="-306" width="128" height="118"/>
+        <element name="UserPoint" positionX="-9" positionY="-270" width="128" height="133"/>
+        <element name="City" positionX="-9" positionY="-270" width="128" height="118"/>
+        <element name="Region" positionX="0" positionY="-261" width="128" height="118"/>
+        <element name="Country" positionX="9" positionY="-252" width="128" height="103"/>
     </elements>
 </model>

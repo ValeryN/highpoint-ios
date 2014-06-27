@@ -12,7 +12,7 @@
 #import "UIImage+HighPoint.h"
 #import "UILabel+HighPoint.h"
 #import "HPMainViewListTableViewCell+HighPoint.h"
-
+#import "User.h"
 //==============================================================================
 
 #define HALFHIDE_MAININFO_DURATION 0.1
@@ -39,10 +39,10 @@ static HPMainViewListTableViewCell* _prevCell;
 
 //==============================================================================
 
-- (void) configureCell
+- (void) configureCell:(User*) user
 {
     [self.firstLabel hp_tuneForUserListCellName];
-    self.firstLabel.text = @"Анастасия Шляпова";
+    self.firstLabel.text = user.name;
     
     [self.secondLabel hp_tuneForUserListCellAgeAndCity];
     self.secondLabel.text = @"99 лет, Когалым";

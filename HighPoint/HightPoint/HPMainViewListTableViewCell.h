@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "HPAvatar.h"
 
+@class User;
 @interface HPMainViewListTableViewCell : UITableViewCell
 
 + (void) makeCellReleased;
 
 - (void) makeAnonymous;
-- (void) configureCell;
+- (void) configureCell:(User*) user;
 - (void) vibrateThePoint;
 - (void) showPoint;
 - (void) hidePoint;

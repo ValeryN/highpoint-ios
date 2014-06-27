@@ -11,6 +11,7 @@
 #import "HPAppDelegate.h"
 #import "Utils.h"
 #import "HPRootViewController.h"
+#import "HPBaseNetworkManager.h"
 
 //==============================================================================
 
@@ -35,16 +36,7 @@
     [self.window setRootViewController: initViewController];
     [self.window makeKeyAndVisible];
 
-    for (NSString* family in [UIFont familyNames])
-    {
-        NSLog(@"%@", family);
-        
-        for (NSString* name in [UIFont fontNamesForFamilyName: family])
-        {
-            NSLog(@"  %@", name);
-        }
-    }
-
+    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
     return YES;
 }
 
