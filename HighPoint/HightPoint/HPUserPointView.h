@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 #import "UserCardOrPointProtocol.h"
-#import "HPAvatar.h"
+#import "HPAvatarView.h"
 
 //==============================================================================
 
@@ -19,7 +19,7 @@
 
 @property (nonatomic, weak) NSObject<UserCardOrPointProtocol>* delegate;
 
-@property (nonatomic, weak) IBOutlet HPAvatar* avatar;
+@property (nonatomic, weak) IBOutlet HPAvatarView* avatar;
 @property (nonatomic, weak) IBOutlet UIImageView* backgroundAvatar;
 @property (nonatomic, weak) IBOutlet UILabel* details;
 @property (nonatomic, weak) IBOutlet UILabel* name;

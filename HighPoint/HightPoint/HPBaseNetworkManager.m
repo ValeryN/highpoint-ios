@@ -21,6 +21,7 @@ static HPBaseNetworkManager *networkManager;
 
 
 @implementation HPBaseNetworkManager
+
 + (HPBaseNetworkManager *) sharedNetworkManager {
     //networkManager = nil;
     @synchronized (self){

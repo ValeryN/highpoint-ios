@@ -8,22 +8,22 @@
 
 //==============================================================================
 
-#import "HPAvatar.h"
+#import "HPAvatarView.h"
 #import "UIImage+HighPoint.h"
 
 //==============================================================================
 
-@implementation HPAvatar
+@implementation HPAvatarView
 
 //==============================================================================
 
-+ (HPAvatar*) createAvatar
++ (HPAvatarView*) createAvatar
 {
-    NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPAvatar" owner: self options: nil];
-    if ([nibs[0] isKindOfClass:[HPAvatar class]] == NO)
+    NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPAvatarView" owner: self options: nil];
+    if ([nibs[0] isKindOfClass:[HPAvatarView class]] == NO)
         return nil;
     
-    HPAvatar* avatar = (HPAvatar*)nibs[0];
+    HPAvatarView* avatar = (HPAvatarView*)nibs[0];
     [avatar initObjects];
     
     return avatar;

@@ -12,9 +12,9 @@
 
 //==============================================================================
 
-@interface HPAvatar : UIView
+@interface HPAvatarView : UIView
 
-+ (HPAvatar*) createAvatar;
++ (HPAvatarView*) createAvatar;
 
 @property (nonatomic, weak) IBOutlet UIImageView* avatar;
 @property (nonatomic, weak) IBOutlet UIImageView* avatarBorder;

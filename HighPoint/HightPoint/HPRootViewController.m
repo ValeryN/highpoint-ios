@@ -17,6 +17,8 @@
 #import "UIDevice+HighPoint.h"
 #import "UILabel+HighPoint.h"
 #import "DataStorage.h"
+#import "HPBaseNetworkManager.h"
+
 //==============================================================================
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
@@ -36,17 +38,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     [self configureNavigationBar];
     [self createSwitch];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
 }
 
 //==============================================================================
-- (void) viewWillAppear:(BOOL)animated {
+
+- (void) viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
 }
+
+//==============================================================================
 
 - (void) createSwitch
 {
