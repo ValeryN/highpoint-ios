@@ -30,6 +30,7 @@
 - (void) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 - (User*) getCurrentUser;
+- (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (AppSetting*) getAppSettings;
 - (void) saveContext;
 @end

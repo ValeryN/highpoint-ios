@@ -171,9 +171,9 @@
     return newImage;
 }
 + (NSDictionary*) getParameterForPointsRequest:(NSInteger) lastPoint {
-    return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:lastPoint], @"afterPointId", @"", @"", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:lastPoint], @"afterPointId", @"1", @"includeUsers", nil];
 }
 + (NSDictionary*) getParameterForUsersRequest:(NSInteger) lastUser {
-    return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:lastUser], @"afterUserId", @"", @"", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:lastUser], @"afterUserId", @"1", @"includePoints", nil];
 }
 @end

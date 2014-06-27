@@ -24,8 +24,8 @@
 }
 
 @property (nonatomic, strong) UIView *sendMessageButton;
-@property (nonatomic, strong) IBOutlet iCarousel* carouselView;
-@property (nonatomic, strong) IBOutlet UIButton* infoButton;
+@property (nonatomic, weak) IBOutlet iCarousel* carouselView;
+@property (nonatomic, weak) IBOutlet UIButton* infoButton;
 @property (nonatomic, strong) UIView *notificationView;
 
 - (IBAction) slideLeftPressed: (id)sender;

@@ -19,14 +19,14 @@
 - (void) showPoint;
 - (void) hidePoint;
 
-@property (nonatomic, strong) IBOutlet UIImageView *showPointButton;
-@property (nonatomic, strong) IBOutlet UIView *showPointGroup;
+@property (nonatomic, weak) IBOutlet UIImageView *showPointButton;
+@property (nonatomic, weak) IBOutlet UIView *showPointGroup;
 
-@property (nonatomic, strong) IBOutlet UIImageView *userImage;
-@property (nonatomic, strong) IBOutlet UIImageView *userImageBorder;
-@property (nonatomic, strong) IBOutlet UILabel *firstLabel;
-@property (nonatomic, strong) IBOutlet UILabel *secondLabel;
-@property (nonatomic, strong) IBOutlet UILabel *point;
-@property (nonatomic, strong) IBOutlet UIView *mainInfoGroup;
+@property (nonatomic, weak) IBOutlet UIImageView *userImage;
+@property (nonatomic, weak) IBOutlet UIImageView *userImageBorder;
+@property (nonatomic, weak) IBOutlet UILabel *firstLabel;
+@property (nonatomic, weak) IBOutlet UILabel *secondLabel;
+@property (nonatomic, weak) IBOutlet UILabel *point;
+@property (nonatomic, weak) IBOutlet UIView *mainInfoGroup;
 
 @end
