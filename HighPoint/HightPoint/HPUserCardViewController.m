@@ -80,6 +80,12 @@
 
 //==============================================================================
 
+- (void) fixUserPointConstraint
+{
+}
+
+//==============================================================================
+
 - (void) createGreenButton
 {
     HPGreenButtonVC* sendMessage = [[HPGreenButtonVC alloc] initWithNibName: @"HPGreenButtonVC" bundle: nil];
