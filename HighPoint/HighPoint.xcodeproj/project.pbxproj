@@ -164,10 +164,10 @@
 		4C91C1F819585CAA002B27D4 /* HPUserCardOrPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C91C1F619585CAA002B27D4 /* HPUserCardOrPoint.m */; };
 		4CA2F9D7193C64B800D7FBFD /* HPUserCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */; };
 		4CA2F9D8193C64B800D7FBFD /* HPUserCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */; };
-		4CA7B63B195C379000DC9D52 /* HPAvatar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7B63A195C379000DC9D52 /* HPAvatar.m */; };
-		4CA7B63C195C379000DC9D52 /* HPAvatar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7B63A195C379000DC9D52 /* HPAvatar.m */; };
-		4CA7B63E195C37B200DC9D52 /* HPAvatar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA7B63D195C37B200DC9D52 /* HPAvatar.xib */; };
-		4CA7B63F195C37B200DC9D52 /* HPAvatar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA7B63D195C37B200DC9D52 /* HPAvatar.xib */; };
+		4CA7B63B195C379000DC9D52 /* HPAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7B63A195C379000DC9D52 /* HPAvatarView.m */; };
+		4CA7B63C195C379000DC9D52 /* HPAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7B63A195C379000DC9D52 /* HPAvatarView.m */; };
+		4CA7B63E195C37B200DC9D52 /* HPAvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA7B63D195C37B200DC9D52 /* HPAvatarView.xib */; };
+		4CA7B63F195C37B200DC9D52 /* HPAvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA7B63D195C37B200DC9D52 /* HPAvatarView.xib */; };
 		4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
 		4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
 		4CBFB5AA19586E3E002D7249 /* HPUserCardOrPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBFB5A919586E3E002D7249 /* HPUserCardOrPointView.m */; };
@@ -417,9 +417,9 @@
 		4C91C1F619585CAA002B27D4 /* HPUserCardOrPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserCardOrPoint.m; sourceTree = "<group>"; };
 		4C91C1F919585F46002B27D4 /* UserCardOrPointProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserCardOrPointProtocol.h; sourceTree = "<group>"; };
 		4CA2F9D6193C64B800D7FBFD /* HPUserCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCardView.xib; sourceTree = "<group>"; };
-		4CA7B639195C379000DC9D52 /* HPAvatar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAvatar.h; sourceTree = "<group>"; };
-		4CA7B63A195C379000DC9D52 /* HPAvatar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAvatar.m; sourceTree = "<group>"; };
-		4CA7B63D195C37B200DC9D52 /* HPAvatar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAvatar.xib; sourceTree = "<group>"; };
+		4CA7B639195C379000DC9D52 /* HPAvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAvatarView.h; sourceTree = "<group>"; };
+		4CA7B63A195C379000DC9D52 /* HPAvatarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAvatarView.m; sourceTree = "<group>"; };
+		4CA7B63D195C37B200DC9D52 /* HPAvatarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAvatarView.xib; sourceTree = "<group>"; };
 		4CAD4A5E1949B1A600E8E26C /* UIButton+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+HighPoint.h"; sourceTree = "<group>"; };
 		4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+HighPoint.m"; sourceTree = "<group>"; };
 		4CBFB5A819586E3E002D7249 /* HPUserCardOrPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserCardOrPointView.h; sourceTree = "<group>"; };
@@ -945,9 +945,9 @@
 				4C91C1E6195812A4002B27D4 /* HPGreenButtonVC.h */,
 				4C91C1E7195812A4002B27D4 /* HPGreenButtonVC.m */,
 				4C91C1EA1958170C002B27D4 /* HPGreenButtonVC.xib */,
-				4CA7B639195C379000DC9D52 /* HPAvatar.h */,
-				4CA7B63A195C379000DC9D52 /* HPAvatar.m */,
-				4CA7B63D195C37B200DC9D52 /* HPAvatar.xib */,
+				4CA7B639195C379000DC9D52 /* HPAvatarView.h */,
+				4CA7B63A195C379000DC9D52 /* HPAvatarView.m */,
+				4CA7B63D195C37B200DC9D52 /* HPAvatarView.xib */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -1112,7 +1112,7 @@
 				3B298FC5192F476100BEC2AA /* slider-default7-track.png in Resources */,
 				3B298FCB192F476100BEC2AA /* slider-metal-handle-highlighted.png in Resources */,
 				3BB5E86A1935FD5500DDF5F9 /* Down.png in Resources */,
-				4CA7B63E195C37B200DC9D52 /* HPAvatar.xib in Resources */,
+				4CA7B63E195C37B200DC9D52 /* HPAvatarView.xib in Resources */,
 				3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */,
 				3B298FD1192F476100BEC2AA /* slider-metal-trackBackground.png in Resources */,
 				4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,
@@ -1132,7 +1132,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CA7B63F195C37B200DC9D52 /* HPAvatar.xib in Resources */,
+				4CA7B63F195C37B200DC9D52 /* HPAvatarView.xib in Resources */,
 				4CA2F9D8193C64B800D7FBFD /* HPUserCardView.xib in Resources */,
 				4CDC98BA19519D08006D2F89 /* HPUserCardViewController.xib in Resources */,
 				4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
@@ -1160,7 +1160,7 @@
 				3BDA4C9519064E5900EF6619 /* SDWebImagePrefetcher.m in Sources */,
 				3BDA4CA8190660B400EF6619 /* SRWebSocket.m in Sources */,
 				4C8096A9193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
-				4CA7B63B195C379000DC9D52 /* HPAvatar.m in Sources */,
+				4CA7B63B195C379000DC9D52 /* HPAvatarView.m in Sources */,
 				3B39D325195C5B34002520B9 /* City.m in Sources */,
 				3B6DB4A218FFC24D00C26A50 /* HPAppDelegate.m in Sources */,
 				3B39D31D195C3122002520B9 /* SocketIOTransportWebsocket.m in Sources */,
@@ -1174,10 +1174,7 @@
 				3B39D322195C5B33002520B9 /* Country.m in Sources */,
 				3BDA4C9919064E5900EF6619 /* UIImage+WebP.m in Sources */,
 				3BDA4C6919064AC900EF6619 /* AFURLResponseSerialization.m in Sources */,
-
-				3BDA4C4A1906470100EF6619 /* User.m in Sources */,
 				4CBFB5AA19586E3E002D7249 /* HPUserCardOrPointView.m in Sources */,
-
 				3BDA4C6819064AC900EF6619 /* AFURLRequestSerialization.m in Sources */,
 				4C91C1F719585CAA002B27D4 /* HPUserCardOrPoint.m in Sources */,
 				3B49DE1E1934AAC500C3EF1E /* HPUserProfileViewController.m in Sources */,
@@ -1202,10 +1199,7 @@
 				3BDA4C6A19064AC900EF6619 /* AFURLSessionManager.m in Sources */,
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
 				4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
-
-				3BDA4C471906470000EF6619 /* UserInfo.m in Sources */,
 				4C91C1F119585AC1002B27D4 /* HPUserPointView.m in Sources */,
-
 				3BDA4C8E19064E5900EF6619 /* NSData+ImageContentType.m in Sources */,
 				3B39D301195C3091002520B9 /* Gender.m in Sources */,
 				3BDA4C6419064AC900EF6619 /* AFHTTPSessionManager.m in Sources */,
@@ -1256,7 +1250,7 @@
 				4C8096AA193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
-				4CA7B63C195C379000DC9D52 /* HPAvatar.m in Sources */,
+				4CA7B63C195C379000DC9D52 /* HPAvatarView.m in Sources */,
 				4CDC98B719517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
 				4C91C1F819585CAA002B27D4 /* HPUserCardOrPoint.m in Sources */,
 				3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */,

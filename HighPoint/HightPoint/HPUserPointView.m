@@ -44,7 +44,7 @@
 
     [_details hp_tuneForUserCardDetails];
     [_name hp_tuneForUserCardName];
-    _avatar = [HPAvatar createAvatar];
+    _avatar = [HPAvatarView createAvatar];
     [self addSubview: _avatar];
     
     [self fixUserCardConstraint];
