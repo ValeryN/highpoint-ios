@@ -22,4 +22,6 @@
 + (UIView*) getViewForGreenButtonForText:(NSString*) text andTapped:(BOOL) tapped;
 + (void) configureNavigationBar:(UINavigationController*) controller;
 + (UIImage *)captureView:(UIView *)view withArea:(CGRect)screenRect;
++ (NSDictionary*) getParameterForPointsRequest:(NSInteger) lastPoint;
++ (NSDictionary*) getParameterForUsersRequest:(NSInteger) lastUser;
 @end

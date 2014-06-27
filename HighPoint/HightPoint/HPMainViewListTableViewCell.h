@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPAvatar.h"
 
+@class User;
 @interface HPMainViewListTableViewCell : UITableViewCell
 
 + (void) makeCellReleased;
 
 - (void) makeAnonymous;
-- (void) configureCell;
+- (void) configureCell:(User*) user;
 - (void) vibrateThePoint;
 - (void) showPoint;
 - (void) hidePoint;
@@ -21,8 +23,7 @@
 @property (nonatomic, strong) IBOutlet UIImageView *showPointButton;
 @property (nonatomic, strong) IBOutlet UIView *showPointGroup;
 
-@property (nonatomic, strong) IBOutlet UIImageView *userImage;
-@property (nonatomic, strong) IBOutlet UIImageView *userImageBorder;
+@property (nonatomic, strong) IBOutlet HPAvatar *avatar;
 @property (nonatomic, strong) IBOutlet UILabel *firstLabel;
 @property (nonatomic, strong) IBOutlet UILabel *secondLabel;
 @property (nonatomic, strong) IBOutlet UILabel *point;

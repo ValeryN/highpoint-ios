@@ -44,6 +44,8 @@
 
     [_details hp_tuneForUserCardDetails];
     [_name hp_tuneForUserCardName];
+    _avatar = [HPAvatar createAvatar];
+    [self addSubview: _avatar];
     
     [self fixUserCardConstraint];
 }
@@ -52,16 +54,20 @@
 
 - (void) fixUserCardConstraint
 {
-    if (![UIDevice hp_isWideScreen])
-    {
-        NSArray* cons = self.constraints;
-        for (NSLayoutConstraint* consIter in cons)
-        {
-            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == _name))
-                consIter.constant = CONSTRAINT_TOP_FOR_NAMELABEL;
-        }
-    }
+//   [self addConstraint:[NSLayoutConstraint constraintWithItem: self
+//                                                         attribute: NSLayoutAttributeBottom
+//                                                         relatedBy: NSLayoutRelationEqual
+//                                                            toItem: _avatar
+//                                                         attribute: NSLayoutAttributeBottom
+//                                                        multiplier: 1.0
+//                                                          constant: CONSTRAINT_TOP_LEFT_FOR_AVATAR]];
+//   [self addConstraint:[NSLayoutConstraint constraintWithItem: self
+//                                                         attribute: NSLayoutAttributeBottom
+//                                                         relatedBy: NSLayoutRelationEqual
+//                                                            toItem: _avatar
+//                                                         attribute: NSLayoutAttributeBottom
+//                                                        multiplier: 1.0
+//                                                          constant: CONSTRAINT_TOP_LEFT_FOR_AVATAR]];
 }
 
 //==============================================================================

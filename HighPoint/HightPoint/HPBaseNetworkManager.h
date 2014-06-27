@@ -7,9 +7,39 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SocketIO.h"
+@class User;
+@interface HPBaseNetworkManager : NSObject <SocketIODelegate>
 
-@interface HPBaseNetworkManager : NSObject
 + (HPBaseNetworkManager*) sharedNetworkManager;
 - (void) startNetworkStatusMonitor;
 - (void) setNetworkStatusMonitorCallback;
+- (void) initSocketIO:(NSDictionary*) param;
+- (void) sendMessage:(NSDictionary*) param;
+- (void) makeAutorizationRequest:(NSDictionary*) param;
+- (void) makeRegistrationRequest:(NSDictionary*) param;
+//- (void) getApplicationSettingsRequest:(NSDictionary*) param;
+- (void) getUserInfoRequest:(NSDictionary*) param;
+- (void) getCurrentUserSettingsRequest:(NSDictionary*) param;
+- (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param;
+- (void) getUsersListRequest:(NSDictionary*) param;
+- (void) getPointsListRequest:(NSDictionary*) param;
+- (void) makePointLikeRequest:(NSString*) pointId;
+- (void) makePointUnLikeRequest:(NSString*) pointId;
+- (void) getApplicationSettingsRequest;
+- (void) getCurrentUserRequest;
+- (void) getUsersRequest:(NSInteger) lastUser;
+- (void) getPointsRequest:(NSInteger) lastPoint;
+//- (User*) getCurrentUser;
+- (void) getGeoLocation:(NSDictionary*) param;
+- (void) findGeoLocation:(NSDictionary*) param;
+
+- (void) sendUserActivityStart:(NSDictionary*) param;
+- (void) sendUserActivityEnd:(NSDictionary*) param;
+- (void) sendUserMessagesRead:(NSDictionary*) param;
+- (void) sendUserTypingStart:(NSDictionary*) param;
+- (void) sendUserTypingFinish:(NSDictionary*) param;
+- (void) sendUserNotificationRead:(NSDictionary*) param;
+- (void) sendUserAllNotificationRead:(NSDictionary*) param;
+
 @end

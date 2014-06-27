@@ -29,18 +29,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qbC-tq-hhG" userLabel="Main info group">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qbC-tq-hhG" userLabel="Main info group">
                                                     <rect key="frame" x="12" y="0.0" width="256" height="104"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MKe-7w-58l" userLabel="Avatar Image View">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekU-kd-49v" userLabel="Avatar - View" customClass="HPAvatar">
                                                             <rect key="frame" x="0.0" y="8" width="88" height="88"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SMf-Xd-NcU" userLabel="Avatar Border Image View">
-                                                            <rect key="frame" x="0.0" y="8" width="88" height="88"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="88" id="i06-3D-oUF"/>
+                                                                <constraint firstAttribute="height" constant="88" id="rSL-WA-qDv"/>
+                                                            </constraints>
+                                                        </view>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kbB-KV-Mr0" userLabel="Name Label">
                                                             <rect key="frame" x="100" y="31" width="160" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -58,6 +59,12 @@
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="ekU-kd-49v" firstAttribute="top" secondItem="qbC-tq-hhG" secondAttribute="top" constant="8" id="8Yl-A0-V9t"/>
+                                                        <constraint firstItem="ekU-kd-49v" firstAttribute="leading" secondItem="qbC-tq-hhG" secondAttribute="leading" id="akr-WU-y8J"/>
+                                                        <constraint firstAttribute="height" constant="104" id="il8-eu-eSy"/>
+                                                        <constraint firstAttribute="width" constant="256" id="ywn-yl-1Og"/>
+                                                    </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IHw-GO-4eP" userLabel="Point Group">
                                                     <rect key="frame" x="280" y="0.0" width="40" height="104"/>
@@ -82,17 +89,20 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <gestureRecognizers/>
+                                            <constraints>
+                                                <constraint firstItem="qbC-tq-hhG" firstAttribute="leading" secondItem="lWp-py-opE" secondAttribute="leading" constant="12" id="C6o-bf-Zw8"/>
+                                                <constraint firstItem="qbC-tq-hhG" firstAttribute="top" secondItem="lWp-py-opE" secondAttribute="top" id="ocs-Ge-t5p"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
+                                            <outlet property="avatar" destination="ekU-kd-49v" id="zH1-Ic-SOw"/>
                                             <outlet property="firstLabel" destination="kbB-KV-Mr0" id="j6S-M9-zfd"/>
                                             <outlet property="mainInfoGroup" destination="qbC-tq-hhG" id="buP-Fd-adS"/>
                                             <outlet property="point" destination="bwY-Gy-lWp" id="9XC-am-whB"/>
                                             <outlet property="secondLabel" destination="bMB-4H-hBy" id="SdI-v6-BhP"/>
                                             <outlet property="showPointButton" destination="WWu-Bc-zmw" id="we9-Xw-NHA"/>
                                             <outlet property="showPointGroup" destination="IHw-GO-4eP" id="BOV-M9-IaV"/>
-                                            <outlet property="userImage" destination="MKe-7w-58l" id="Vmc-qE-wiP"/>
-                                            <outlet property="userImageBorder" destination="SMf-Xd-NcU" id="YWe-0F-9GP"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -101,9 +111,15 @@
                                     <outlet property="delegate" destination="d74-B2-43R" id="7Qq-ef-nZr"/>
                                 </connections>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="Blend 5X.png" translatesAutoresizingMaskIntoConstraints="NO" id="rlD-h7-wo0">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blend 5X.png" translatesAutoresizingMaskIntoConstraints="NO" id="rlD-h7-wo0">
                                 <rect key="frame" x="0.0" y="408" width="320" height="160"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="0k7-Mx-H6o"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="160" id="76f-ua-aiv"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="eur-Pb-4aF"/>
+                                    <constraint firstAttribute="height" constant="160" id="kyO-jP-t1j"/>
+                                </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j7y-09-8PB" userLabel="Filter Group View">
                                 <rect key="frame" x="0.0" y="520" width="320" height="48"/>
@@ -136,6 +152,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="rlD-h7-wo0" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" id="5rw-wY-iUP"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="j7y-09-8PB" secondAttribute="bottom" id="7yF-fJ-F2L"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="NN0-MU-hah" secondAttribute="bottom" id="86P-js-lea"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="rlD-h7-wo0" secondAttribute="bottom" id="ApK-Jj-pTD"/>
@@ -215,7 +232,7 @@
         <image name="Bubble" width="26" height="25"/>
         <image name="Bubble Tap" width="26" height="25"/>
         <image name="Lens" width="24" height="24"/>
-        <image name="Point Notice.png" width="193" height="32"/>
+        <image name="Point Notice.png" width="650" height="923"/>
         <image name="Profile" width="26" height="26"/>
         <image name="Profile Tap.png" width="193" height="32"/>
     </resources>

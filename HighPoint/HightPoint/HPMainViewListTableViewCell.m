@@ -12,12 +12,13 @@
 #import "UIImage+HighPoint.h"
 #import "UILabel+HighPoint.h"
 #import "HPMainViewListTableViewCell+HighPoint.h"
-
+#import "User.h"
 //==============================================================================
 
 #define HALFHIDE_MAININFO_DURATION 0.1
 #define SHOWPOINT_COMPLETELY_DURATION 0.2
 #define SHOWPOINT_VIBRATE_DURATION 0.4
+#define CONSTRAINT_TOP_FOR_AVATAR 8
 
 //==============================================================================
 
@@ -33,20 +34,15 @@ static HPMainViewListTableViewCell* _prevCell;
 {
     [_secondLabel hp_tuneForUserListCellAnonymous];
     [_firstLabel hp_tuneForUserListCellAnonymous];
-    [self blurUserImage];
+    [_avatar privacyLevel];
 }
 
 //==============================================================================
 
-- (void) configureCell
+- (void) configureCell:(User*) user
 {
-    UIImage* userAvatar = [UIImage imageNamed: @"img_sample1"];
-    UIImage* userAvatarWithMask = [userAvatar hp_maskImageWithPattern: [UIImage imageNamed: @"Userpic Mask"]];
-    self.userImage.image = userAvatarWithMask;
-    self.userImageBorder.image = [UIImage imageNamed: @"Userpic Shape Green"];
-
     [self.firstLabel hp_tuneForUserListCellName];
-    self.firstLabel.text = @"Анастасия Шляпова";
+    self.firstLabel.text = user.name;
     
     [self.secondLabel hp_tuneForUserListCellAgeAndCity];
     self.secondLabel.text = @"99 лет, Когалым";
@@ -54,17 +50,42 @@ static HPMainViewListTableViewCell* _prevCell;
     [self.point hp_tuneForUserListCellPointText];
     self.point.text = @"У нас тут очень весело. Если кто не боится таких развлечений, пишите!";
 
+    [self createAvatar];
+
     [self addGestureRecognizer];
 }
 
 //==============================================================================
 
-- (void) blurUserImage
+- (void) createAvatar
 {
-    UIImage* userAvatar = [UIImage imageNamed: @"img_sample1"];
-    userAvatar = [userAvatar hp_applyBlurWithRadius: 5.0];
-    UIImage* userAvatarWithMask = [userAvatar hp_maskImageWithPattern: [UIImage imageNamed: @"Userpic Mask"]];
-    self.userImage.image = userAvatarWithMask;
+    _avatar = [HPAvatar createAvatar];
+    [_mainInfoGroup addSubview: _avatar];
+    _avatar.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [_avatar addConstraint:[NSLayoutConstraint constraintWithItem: _avatar
+                                                                 attribute: NSLayoutAttributeWidth
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: nil
+                                                                 attribute: NSLayoutAttributeNotAnAttribute
+                                                                multiplier: 1.0
+                                                                  constant: _avatar.frame.size.width]];
+
+    [_avatar addConstraint:[NSLayoutConstraint constraintWithItem: _avatar
+                                                                 attribute: NSLayoutAttributeHeight
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: nil
+                                                                 attribute: NSLayoutAttributeNotAnAttribute
+                                                                multiplier: 1.0
+                                                                  constant: _avatar.frame.size.height]];
+
+   [_mainInfoGroup addConstraint:[NSLayoutConstraint constraintWithItem: _mainInfoGroup
+                                                         attribute: NSLayoutAttributeBottom
+                                                         relatedBy: NSLayoutRelationEqual
+                                                            toItem: _avatar
+                                                         attribute: NSLayoutAttributeBottom
+                                                        multiplier: 1.0
+                                                          constant: CONSTRAINT_TOP_FOR_AVATAR]];
 }
 
 //==============================================================================

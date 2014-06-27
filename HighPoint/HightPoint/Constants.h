@@ -8,13 +8,30 @@
 
 #ifndef HightPoint_Constants_h
 #define HightPoint_Constants_h
-const float iPhone5ScreenHight = 568.0;
-const float iPhone4ScreenHight = 480.0;
-const float iPhoneScreenWidth = 320.0;
-const float mainScreenSwitchHeight = 32.0;
-const float mainScreenSwitchToBottom_568 = 20.0;
-const float mainScreenSwitchToBottom_480 = 16.0;
-const float mainScreenSwitchToLeft = 64;
-const float mainScreenSwitchWidth = 193;
-const float timeLabelWidth = 100;
+static float const iPhone5ScreenHight = 568.0;
+static float const iPhone4ScreenHight = 480.0;
+static float const iPhoneScreenWidth = 320.0;
+static float const mainScreenSwitchHeight = 32.0;
+static float const mainScreenSwitchToBottom_568 = 20.0;
+static float const mainScreenSwitchToBottom_480 = 16.0;
+static float const mainScreenSwitchToLeft = 64;
+static float const mainScreenSwitchWidth = 193;
+static float const timeLabelWidth = 100;
+//http request constants
+static NSString * const kApplicationSettingsRequest = @"/v201405/settings";
+static NSString * const kCurrentUserRequest = @"/v201405/me";
+static NSString * const kUsersRequest = @"/v201405/users";
+static NSString * const kGeoLocationRequest = @"/v201405/geo";
+static NSString * const kPointsRequest = @"/v201405/points";
+static NSString * const kRegistrationRequest = @"/v201405/signup";
+static NSString * const kSigninRequest = @"/v201405/signin";
+//socket io constants
+static NSString * const kSendMessage = @"sendMessage";
+static NSString * const kActivityEnd = @"activityEnd";
+static NSString * const kActivityStart = @"activityStart";
+static NSString * const kMessagesRead = @"messagesRead";
+static NSString * const kTypingFinish = @"typingFinish";
+static NSString * const kTypingStart = @"typingStart";
+static NSString * const kNotificationRead = @"notificationRead";
+static NSString * const kAllNotificationRead = @"allNotificationsRead";
 #endif
