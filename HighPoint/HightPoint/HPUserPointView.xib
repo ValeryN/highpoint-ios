@@ -19,18 +19,32 @@
                         <constraint firstAttribute="height" constant="352" id="qqC-0J-jIf"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bkg-Qg-pOk" userLabel="Name - Label">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z0K-MS-BmS" userLabel="Like - Button">
+                    <rect key="frame" x="120" y="305" width="24" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="AWb-aI-dh5"/>
+                        <constraint firstAttribute="width" constant="24" id="cp0-Si-2HB"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="Heart">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="Heart Tap"/>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bkg-Qg-pOk" userLabel="Name - Label">
                     <rect key="frame" x="0.0" y="352" width="264" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstAttribute="height" constant="32" id="KTm-aw-gRc"/>
                         <constraint firstAttribute="width" constant="264" id="rIu-Of-2UY"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="99 лет, Когалым" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2N6-9E-8Ut" userLabel="City - Label">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99 лет, Когалым" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2N6-9E-8Ut" userLabel="City - Label">
                     <rect key="frame" x="0.0" y="390" width="264" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -58,20 +72,34 @@
                         <action selector="pointButtonPressed:" destination="i5M-Pr-FkT" eventType="touchUpInside" id="Yda-ow-72a"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="saf-rl-B8l" userLabel="Avatar - View">
+                    <rect key="frame" x="88" y="86" width="88" height="88"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="88" id="3JX-t9-qBm"/>
+                        <constraint firstAttribute="height" constant="88" id="PY8-pU-qqJ"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="saf-rl-B8l" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="86" id="7am-E8-aGa"/>
                 <constraint firstItem="Bkg-Qg-pOk" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Aws-x7-rmW"/>
                 <constraint firstItem="Vf2-N3-Lz4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="B7G-rx-Q2a"/>
+                <constraint firstItem="saf-rl-B8l" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="88" id="BKQ-kg-gjC"/>
                 <constraint firstItem="Bkg-Qg-pOk" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="352" id="Upn-Ji-E3E"/>
                 <constraint firstItem="2N6-9E-8Ut" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Wgw-cW-RBC"/>
                 <constraint firstItem="4Z7-TM-zwq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="12" id="cky-HS-q6X"/>
                 <constraint firstItem="4Z7-TM-zwq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="220" id="ejE-Xb-gv0"/>
+                <constraint firstItem="Bkg-Qg-pOk" firstAttribute="top" secondItem="z0K-MS-BmS" secondAttribute="bottom" constant="27" id="noA-K2-A5X"/>
                 <constraint firstItem="2N6-9E-8Ut" firstAttribute="top" secondItem="Bkg-Qg-pOk" secondAttribute="bottom" constant="6" id="pbO-X8-Jmv"/>
+                <constraint firstItem="z0K-MS-BmS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="120" id="vTT-Gj-Ks2"/>
                 <constraint firstItem="Vf2-N3-Lz4" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="vgP-OH-TOV"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="avatarGroup" destination="saf-rl-B8l" id="h5B-BG-j40"/>
                 <outlet property="backgroundAvatar" destination="Vf2-N3-Lz4" id="dex-Ro-36A"/>
                 <outlet property="details" destination="2N6-9E-8Ut" id="lym-XS-7U1"/>
                 <outlet property="name" destination="Bkg-Qg-pOk" id="O9O-0r-zrw"/>
@@ -79,6 +107,8 @@
         </view>
     </objects>
     <resources>
+        <image name="Heart" width="24" height="20"/>
+        <image name="Heart Tap" width="24" height="20"/>
         <image name="User" width="32" height="32"/>
         <image name="User Tap" width="32" height="32"/>
         <image name="img_sample.png" width="650" height="923"/>

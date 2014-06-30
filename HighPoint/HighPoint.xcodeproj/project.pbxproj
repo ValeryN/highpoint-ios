@@ -313,8 +313,8 @@
 		3B6DB4B818FFC24D00C26A50 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3B6DB4BA18FFC24D00C26A50 /* HightPointTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HightPointTests.m; sourceTree = "<group>"; };
 		3B6DB4C418FFC33900C26A50 /* Storyboard_568.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard_568.storyboard; sourceTree = "<group>"; };
-		3B7D8AC2192CC8CE006BD206 /* Heart Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Heart Tap.png"; sourceTree = "<group>"; };
-		3B7D8AC3192CC8CE006BD206 /* Heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heart.png; sourceTree = "<group>"; };
+		3B7D8AC2192CC8CE006BD206 /* Heart Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Heart Tap.png"; path = "Resources/Images/Heart Tap.png"; sourceTree = "<group>"; };
+		3B7D8AC3192CC8CE006BD206 /* Heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Heart.png; path = Resources/Images/Heart.png; sourceTree = "<group>"; };
 		3BA384031924CBBC00EFC749 /* BaseAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseAnimation.h; sourceTree = "<group>"; };
 		3BA384041924CBBC00EFC749 /* BaseAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseAnimation.m; sourceTree = "<group>"; };
 		3BA384061924CDBC00EFC749 /* ScaleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScaleAnimation.h; sourceTree = "<group>"; };
@@ -567,8 +567,6 @@
 				3BCB5B09192F946B00E5DCA9 /* Back.png */,
 				3BCB5B02192F8B2F00E5DCA9 /* Next.png */,
 				3BCB5B00192F76D200E5DCA9 /* Progress Line.png */,
-				3B7D8AC2192CC8CE006BD206 /* Heart Tap.png */,
-				3B7D8AC3192CC8CE006BD206 /* Heart.png */,
 				3B3170C1191BC82A00B72AC1 /* Blend 5X.png */,
 				3B3170B3191BA50600B72AC1 /* Green Button.png */,
 				3B3170B0191B931300B72AC1 /* Userpic-Maskk_2.png */,
@@ -672,6 +670,8 @@
 				3B6DB4C618FFCC3200C26A50 /* AppDelegate */,
 				3B31864C191A493F0000DD8B /* Resources */,
 				3B6DB4A618FFC24D00C26A50 /* Images.xcassets */,
+				3B7D8AC2192CC8CE006BD206 /* Heart Tap.png */,
+				3B7D8AC3192CC8CE006BD206 /* Heart.png */,
 				3B6DB4A318FFC24D00C26A50 /* HightPoint.xcdatamodeld */,
 				3B6DB49818FFC24D00C26A50 /* Supporting Files */,
 				3B6DB4C418FFC33900C26A50 /* Storyboard_568.storyboard */,

@@ -33,7 +33,7 @@
                                                     <rect key="frame" x="12" y="0.0" width="256" height="104"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekU-kd-49v" userLabel="Avatar - View" customClass="HPAvatar">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekU-kd-49v" userLabel="Avatar - View" customClass="HPAvatarView">
                                                             <rect key="frame" x="0.0" y="8" width="88" height="88"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
