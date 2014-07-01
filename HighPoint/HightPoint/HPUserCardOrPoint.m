@@ -32,7 +32,6 @@
 
 - (UIView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate
 {
-    _isUserPointView = YES;
     NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPUserPointView" owner: self options: nil];
     if ([nibs[0] isKindOfClass:[HPUserPointView class]] == NO)
         return nil;
@@ -49,7 +48,6 @@
 
 - (UIView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate
 {
-    _isUserPointView = NO;
     NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPUserCardView" owner: self options: nil];
     if ([nibs[0] isKindOfClass:[HPUserCardView class]] == NO)
         return nil;
@@ -59,6 +57,14 @@
     [newCard initObjects];
 
     return newCard;
+}
+
+//==============================================================================
+
+- (BOOL) switchUserPoint
+{
+    _isUserPointView = !_isUserPointView;
+    return _isUserPointView;
 }
 
 //==============================================================================
