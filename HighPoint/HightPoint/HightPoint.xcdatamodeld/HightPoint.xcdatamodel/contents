@@ -112,15 +112,15 @@
         <element name="AppSetting" positionX="-200" positionY="-414" width="128" height="133"/>
         <element name="Avatar" positionX="-209" positionY="-270" width="128" height="223"/>
         <element name="Career" positionX="-144" positionY="56" width="128" height="133"/>
+        <element name="City" positionX="-9" positionY="-270" width="128" height="118"/>
+        <element name="Country" positionX="9" positionY="-252" width="128" height="103"/>
         <element name="Education" positionX="144" positionY="-331" width="128" height="133"/>
         <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
         <element name="MaxEntertainmentPrice" positionX="27" positionY="-0" width="128" height="88"/>
         <element name="MinEntertainmentPrice" positionX="493" positionY="-153" width="128" height="88"/>
+        <element name="Region" positionX="0" positionY="-261" width="128" height="118"/>
         <element name="User" positionX="-36" positionY="-414" width="128" height="328"/>
         <element name="UserFilter" positionX="538" positionY="-306" width="128" height="118"/>
         <element name="UserPoint" positionX="-9" positionY="-270" width="128" height="133"/>
-        <element name="City" positionX="-9" positionY="-270" width="128" height="118"/>
-        <element name="Region" positionX="0" positionY="-261" width="128" height="118"/>
-        <element name="Country" positionX="9" positionY="-252" width="128" height="103"/>
     </elements>
 </model>

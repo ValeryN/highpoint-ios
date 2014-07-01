@@ -17,7 +17,11 @@
 #import "UIDevice+HighPoint.h"
 #import "UILabel+HighPoint.h"
 #import "DataStorage.h"
+
+#import "NotificationsConstants.h"
+
 #import "HPBaseNetworkManager.h"
+
 
 //==============================================================================
 
@@ -49,10 +53,29 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
+    [self registerNotification];
+    [self updateCurrentView];
+    
 }
 
 //==============================================================================
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self unregisterNotification];
+}
+//==============================================================================
+- (void) registerNotification {
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateViews object:nil];
+}
+//==============================================================================
+- (void) unregisterNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateViews object:nil];
+}
+//==============================================================================
+
+
+//==============================================================================
+
 
 - (void) createSwitch
 {
@@ -116,7 +139,10 @@
     _crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:filter animated:YES];
 }
-
+- (void) updateCurrentView {
+    self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
+    [self.mainListTable reloadData];
+}
 //==============================================================================
 
 #pragma mark - TableView and DataSource delegate -
@@ -144,6 +170,7 @@
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
     User *user = [[self.allUsers fetchedObjects] objectAtIndex:indexPath.row];
+    NSLog(@"%@", [[DataStorage sharedDataStorage] getPointForUserId:user.userId].pointText);
     [mCell configureCell: user];
     if (indexPath.row == 3)
         [mCell makeAnonymous];

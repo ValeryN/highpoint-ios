@@ -14,6 +14,7 @@
 #import "URLs.h"
 #import "Utils.h"
 #import "Constants.h"
+#import "NotificationsConstants.h"
 static HPBaseNetworkManager *networkManager;
 @interface HPBaseNetworkManager ()
 @property (nonatomic,strong) SocketIO* socketIO;
@@ -93,41 +94,6 @@ static HPBaseNetworkManager *networkManager;
         [alert show];
     }];
 }
-- (void) getPointsRequest:(NSInteger) lastPoint {
-    NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
-    url = [url stringByAppendingString:kPointsRequest];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    
-    [manager GET:url parameters:[Utils getParameterForPointsRequest:lastPoint] success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"POINTS -->: %@", operation.responseString);
-        NSError *error = nil;
-        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
-        if(jsonData) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                     options:kNilOptions
-                                                                       error:&error];
-            if(jsonDict) {
-                //[[DataStorage sharedDataStorage] createUserEntity:jsonDict];
-                NSArray *poi = [[jsonDict objectForKey:@"data"] objectForKey:@"points"];
-                for(NSDictionary *dict in poi) {
-                    [[DataStorage sharedDataStorage] createPoint:dict];
-                }
-            }
-            else NSLog(@"Error, no valid data");
-            
-        }
-        
-        //NSMutableDictionary *parsedDictionary = [NSMutableDictionary new];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error.localizedDescription);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-        
-    }];
-
-}
 - (void) getGeoLocation:(NSDictionary*) param {
     //
     NSString *url = nil;
@@ -161,6 +127,48 @@ static HPBaseNetworkManager *networkManager;
         
     }];
 }
+
+- (void) getPointsRequest:(NSInteger) lastPoint {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kPointsRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    
+    [manager GET:url parameters:[Utils getParameterForPointsRequest:lastPoint] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"POINTS -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                //[[DataStorage sharedDataStorage] createUserEntity:jsonDict];
+                NSArray *poi = [[jsonDict objectForKey:@"data"] objectForKey:@"points"];
+                for(NSDictionary *dict in poi) {
+                    [[DataStorage sharedDataStorage] createPoint:dict];
+                }
+                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                for(NSDictionary *dict in usr) {
+                    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
+                    [self getGeoLocation:param];
+                    [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO];
+                }
+            }
+            else NSLog(@"Error, no valid data");
+            
+        }
+        
+        //NSMutableDictionary *parsedDictionary = [NSMutableDictionary new];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+
+}
 - (void) getUsersRequest:(NSInteger) lastUser {
     ///v201405/users
     NSString *url = nil;
@@ -180,11 +188,21 @@ static HPBaseNetworkManager *networkManager;
             if(jsonDict) {
                 //[[DataStorage sharedDataStorage] createUserEntity:jsonDict];
                 NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                
                 for(NSDictionary *dict in usr) {
                     NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
                     [self getGeoLocation:param];
                     [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO];
                 }
+                NSArray *keys = [[[jsonDict objectForKey:@"data"] objectForKey:@"points"] allKeys];
+                for(NSString *key in keys) {
+                    NSDictionary *dict = [[[jsonDict objectForKey:@"data"] objectForKey:@"points"] objectForKey:key];
+                    [[DataStorage sharedDataStorage] createPoint:dict];
+                }
+                NSNotification *notification = [NSNotification notificationWithName:kNeedUpdateViews
+                                                                             object:nil
+                                                                           userInfo:nil];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
             }
             else NSLog(@"Error, no valid data");
         }
