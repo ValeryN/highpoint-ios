@@ -18,7 +18,7 @@
 
 //==============================================================================
 
-@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UserCardOrPointProtocol, GreenButtonProtocol>
+@interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UserCardOrPointProtocol, GreenButtonProtocol, PointViewProtocol>
 {
     NSMutableArray* _cardOrPoint;
 }

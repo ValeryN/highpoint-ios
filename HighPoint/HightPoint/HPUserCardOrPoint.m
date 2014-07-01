@@ -39,6 +39,7 @@
     
     HPUserPointView* newPoint = (HPUserPointView*)nibs[0];
     newPoint.delegate = delegate;
+    newPoint.pointDelegate = delegate;
     [newPoint initObjects];
 
     return newPoint;
