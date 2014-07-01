@@ -13,6 +13,7 @@
 #import "UILabel+HighPoint.h"
 #import "UIDevice+HighPoint.h"
 #import "UIImage+HighPoint.h"
+#import "UITextView+HightPoint.h"
 
 //==============================================================================
 
@@ -52,6 +53,8 @@
     _avatar = [HPAvatarView createAvatar];
     [_avatarGroup addSubview: _avatar];
     [self fixAvatarConstraint];
+    
+    [_pointText hp_tuneForUserPoint];
 }
 
 //==============================================================================
@@ -100,5 +103,13 @@
 }
 
 //==============================================================================
+
+- (IBAction) heartButtonPressed: (id)sender
+{
+    if (_pointDelegate == nil)
+        return;
+    
+    [_pointDelegate heartTapped];
+}
 
 @end
