@@ -83,26 +83,6 @@
                 consIter.constant = CONSTRAINT_HEIGHT_FOR_BGIMAGE;
         }
     }
-    
-//    if ([_childContainerView isKindOfClass:[HPUserPointView class]])
-//    {
-//        HPUserPointView* v = (HPUserPointView*)_childContainerView;
-//        [v.avatarGroup addConstraint:[NSLayoutConstraint constraintWithItem: v
-//                                                             attribute: NSLayoutAttributeTop
-//                                                             relatedBy: NSLayoutRelationEqual
-//                                                                toItem: v.avatar
-//                                                             attribute: NSLayoutAttributeTop
-//                                                            multiplier: 1.0
-//                                                              constant: CONSTRAINT_TOP_FOR_AVATAR]];
-//        
-//        [v.avatarGroup addConstraint:[NSLayoutConstraint constraintWithItem: v
-//                                                             attribute: NSLayoutAttributeLeft
-//                                                             relatedBy: NSLayoutRelationEqual
-//                                                                toItem: v.avatar
-//                                                             attribute: NSLayoutAttributeLeft
-//                                                            multiplier: 1.0
-//                                                              constant: 12]];
-//    }
 }
 
 //==============================================================================

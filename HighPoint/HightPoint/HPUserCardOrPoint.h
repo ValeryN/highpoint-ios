@@ -23,5 +23,6 @@
 - (UIView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate;
 - (UIView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate;
 - (BOOL) isUserPoint;
+- (BOOL) switchUserPoint;
 
 @end
