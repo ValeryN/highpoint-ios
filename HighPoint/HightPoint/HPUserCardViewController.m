@@ -75,6 +75,11 @@
                 (consIter.firstItem == _carouselView))
                 consIter.constant = CONSTRAINT_HEIGHT_FOR_CAROUSEL;
         }
+        
+        CGRect rect = _carouselView.frame;
+        rect.size.height = CONSTRAINT_HEIGHT_FOR_CAROUSEL;
+        rect.origin.y = CONSTRAINT_TOP_FOR_CAROUSEL;
+        _carouselView.frame = rect;
     }
 }
 
