@@ -275,18 +275,23 @@ static HPBaseNetworkManager *networkManager;
 - (void) getUserInfoRequest:(NSDictionary*) param {
    
 }
-- (void) getCurrentUserSettingsRequest:(NSDictionary*) param {
-    
-}
+//- (void) getCurrentUserSettingsRequest:(NSDictionary*) param {
+//    
+//}
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param {
     
 }
-- (void) getUsersListRequest:(NSDictionary*) param {
-    
-}
-- (void) getPointsListRequest:(NSDictionary*) param {
-    
-}
+
+//- (void) getUsersListRequest:(NSDictionary*) param {
+//    
+//}
+
+
+//- (void) getPointsListRequest:(NSDictionary*) param {
+//    
+//}
+
+
 - (void) makePointLikeRequest:(NSString*) pointId {
     ///v201405/points/<id>/like
     NSString *url = nil;

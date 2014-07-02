@@ -20,10 +20,10 @@
 - (void) makeRegistrationRequest:(NSDictionary*) param;
 //- (void) getApplicationSettingsRequest:(NSDictionary*) param;
 - (void) getUserInfoRequest:(NSDictionary*) param;
-- (void) getCurrentUserSettingsRequest:(NSDictionary*) param;
+//- (void) getCurrentUserSettingsRequest:(NSDictionary*) param;
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param;
-- (void) getUsersListRequest:(NSDictionary*) param;
-- (void) getPointsListRequest:(NSDictionary*) param;
+//- (void) getUsersListRequest:(NSDictionary*) param;
+//- (void) getPointsListRequest:(NSDictionary*) param;
 - (void) makePointLikeRequest:(NSString*) pointId;
 - (void) makePointUnLikeRequest:(NSString*) pointId;
 - (void) getApplicationSettingsRequest;
