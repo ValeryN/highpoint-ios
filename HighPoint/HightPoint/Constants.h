@@ -25,6 +25,9 @@ static NSString * const kGeoLocationRequest = @"/v201405/geo";
 static NSString * const kPointsRequest = @"/v201405/points";
 static NSString * const kRegistrationRequest = @"/v201405/signup";
 static NSString * const kSigninRequest = @"/v201405/signin";
+static NSString * const kPointsLikeRequest = @"/v201405/points/%@/like";
+static NSString * const kPointsUnlikeRequest = @"/v201405/points/%@/unlike";
+
 //socket io constants
 static NSString * const kSendMessage = @"sendMessage";
 static NSString * const kActivityEnd = @"activityEnd";

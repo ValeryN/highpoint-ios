@@ -15,6 +15,10 @@
 #import "Utils.h"
 #import "Constants.h"
 #import "NotificationsConstants.h"
+#import "UserTokenUtils.h"
+
+
+
 static HPBaseNetworkManager *networkManager;
 @interface HPBaseNetworkManager ()
 @property (nonatomic,strong) SocketIO* socketIO;
@@ -52,18 +56,15 @@ static HPBaseNetworkManager *networkManager;
     url = [url stringByAppendingString:kSigninRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    
-    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSLog(@"auth parameters = %@", param);
+    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                     options:kNilOptions
-                                                                       error:&error];
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
+            [UserTokenUtils setUserToken:[[jsonDict objectForKey:@"data"] objectForKey:@"token"]];
             }
-        
-        //NSMutableDictionary *parsedDictionary = [NSMutableDictionary new];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -149,11 +150,12 @@ static HPBaseNetworkManager *networkManager;
                 for(NSDictionary *dict in poi) {
                     [[DataStorage sharedDataStorage] createPoint:dict];
                 }
-                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
-                for(NSDictionary *dict in usr) {
-                    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
+                NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                for(NSString *key in usr) {
+                    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[[usr objectForKey:key] objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
+                    
                     [self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO];
+                    [[DataStorage sharedDataStorage] createUserEntity:[usr objectForKey:key] isCurrent:NO];
                 }
             }
             else NSLog(@"Error, no valid data");
@@ -274,23 +276,82 @@ static HPBaseNetworkManager *networkManager;
 - (void) getUserInfoRequest:(NSDictionary*) param {
    
 }
-- (void) getCurrentUserSettingsRequest:(NSDictionary*) param {
-    
-}
+//- (void) getCurrentUserSettingsRequest:(NSDictionary*) param {
+//    
+//}
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param {
     
 }
-- (void) getUsersListRequest:(NSDictionary*) param {
-    
-}
-- (void) getPointsListRequest:(NSDictionary*) param {
-    
-}
+
+//- (void) getUsersListRequest:(NSDictionary*) param {
+//    
+//}
+
+
+//- (void) getPointsListRequest:(NSDictionary*) param {
+//    
+//}
+
+
 - (void) makePointLikeRequest:(NSString*) pointId {
+    ///v201405/points/<id>/like
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:[NSString stringWithFormat:kPointsLikeRequest, pointId]];
+    NSLog(@"url like = %@", url);
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"POINT LIKE RESP JSON: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                // success
+            } else {
+                NSLog(@"Error, no valid data");
+            }
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
     
 }
 - (void) makePointUnLikeRequest:(NSString*) pointId {
-    
+    ///v201405/points/<id>/like
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:[NSString stringWithFormat:kPointsUnlikeRequest, pointId]];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"POINT UNLIKE RESP JSON: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                // success
+            } else {
+                NSLog(@"Error, no valid data");
+            }
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
 }
 # pragma mark -
 # pragma mark socket io methods
