@@ -134,6 +134,8 @@
 		3BDA4CAE1906628200EF6619 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDA4CAD1906628200EF6619 /* Security.framework */; };
 		4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1A488319629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
+		4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FE935196427220016DED5 /* UIImage+StackBlur.m */; };
+		4C1FE937196427220016DED5 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FE935196427220016DED5 /* UIImage+StackBlur.m */; };
 		4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
 		4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
 		4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8096A4193DDA7300E4C174 /* HPIOSVersion.m */; };
@@ -395,6 +397,8 @@
 		3BDA4CAD1906628200EF6619 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4C1A488019629A7C00DD36F9 /* UITextView+HightPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+HightPoint.h"; sourceTree = "<group>"; };
 		4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HightPoint.m"; sourceTree = "<group>"; };
+		4C1FE934196427220016DED5 /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+StackBlur.h"; sourceTree = "<group>"; };
+		4C1FE935196427220016DED5 /* UIImage+StackBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+StackBlur.m"; sourceTree = "<group>"; };
 		4C5AC331193C5D7800A72676 /* HPSwitch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSwitch.xib; sourceTree = "<group>"; };
 		4C8096A3193DDA7300E4C174 /* HPIOSVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPIOSVersion.h; sourceTree = "<group>"; };
 		4C8096A4193DDA7300E4C174 /* HPIOSVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPIOSVersion.m; sourceTree = "<group>"; };
@@ -973,6 +977,8 @@
 		4CE598E819386C71008CEC24 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				4C1FE934196427220016DED5 /* UIImage+StackBlur.h */,
+				4C1FE935196427220016DED5 /* UIImage+StackBlur.m */,
 				4C8096A5193DDA7300E4C174 /* UIDevice+HighPoint.h */,
 				4C8096A6193DDA7300E4C174 /* UIDevice+HighPoint.m */,
 				4CE598E919386C97008CEC24 /* UIImage+HighPoint.h */,
@@ -1230,6 +1236,7 @@
 				3BDA4C6319064AC900EF6619 /* AFHTTPRequestOperationManager.m in Sources */,
 				3B39D2F2195C3090002520B9 /* AppSetting.m in Sources */,
 				3BDA4C8D19064E5900EF6619 /* MKAnnotationView+WebCache.m in Sources */,
+				4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,
 				3BDA4C9619064E5900EF6619 /* UIButton+WebCache.m in Sources */,
@@ -1254,6 +1261,7 @@
 				4C8096A8193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
 				4CDC98BE19519EEB006D2F89 /* UIView+HighPoint.m in Sources */,
 				4C8096AF193F2E2200E4C174 /* UILabel+HighPoint.m in Sources */,
+				4C1FE937196427220016DED5 /* UIImage+StackBlur.m in Sources */,
 				4C8096AA193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,

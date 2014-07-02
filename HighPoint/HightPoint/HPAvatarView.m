@@ -89,7 +89,7 @@
 - (void) blurUserImage
 {
     UIImage* userAvatar = [UIImage imageNamed: @"img_sample1"];
-    userAvatar = [userAvatar hp_applyBlurWithRadius: 5.0];
+    userAvatar = [userAvatar hp_imageWithGaussianBlur: 10];
     UIImage* userAvatarWithMask = [userAvatar hp_maskImageWithPattern: [UIImage imageNamed: @"Userpic Mask"]];
     _avatar.image = userAvatarWithMask;
 }

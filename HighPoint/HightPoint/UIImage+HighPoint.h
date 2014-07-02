@@ -15,4 +15,5 @@
 @interface UIImage (HighPoint)
 - (UIImage*) hp_maskImageWithPattern: (UIImage*) image;
 - (UIImage*) hp_applyBlurWithRadius: (CGFloat) blurRadius;
+- (UIImage*) hp_imageWithGaussianBlur: (NSInteger) blurRadius;
 @end

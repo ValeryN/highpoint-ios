@@ -45,7 +45,8 @@
 - (void) initObjects
 {
     [_backgroundAvatar hp_roundViewWithRadius: USERPOINT_ROUND_RADIUS];
-    _backgroundAvatar.image = [_backgroundAvatar.image hp_applyBlurWithRadius: AVATAR_BLUR_RADIUS];
+//    _backgroundAvatar.image = [_backgroundAvatar.image hp_applyBlurWithRadius: AVATAR_BLUR_RADIUS];
+    _backgroundAvatar.image = [_backgroundAvatar.image hp_imageWithGaussianBlur: AVATAR_BLUR_RADIUS];
 
     [_details hp_tuneForUserCardDetails];
     [_name hp_tuneForUserCardName];
