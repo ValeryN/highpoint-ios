@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPSelectTownViewController : UIViewController
+@interface HPSelectTownViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+
+@property (weak, nonatomic) IBOutlet UITableView *townsTableView;
 
 @end

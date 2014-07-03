@@ -187,6 +187,8 @@
 		4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
+		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
+		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -443,6 +445,9 @@
 		4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPMainViewListTableViewCell+HighPoint.m"; sourceTree = "<group>"; };
 		CD183C35196418D0002AC98D /* UserTokenUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTokenUtils.h; sourceTree = "<group>"; };
 		CD183C36196418D0002AC98D /* UserTokenUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTokenUtils.m; sourceTree = "<group>"; };
+		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
+		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
+		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -783,6 +788,9 @@
 		3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */ = {
 			isa = PBXGroup;
 			children = (
+				CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */,
+				CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */,
+				CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */,
 				3BCB5B05192F8D3500E5DCA9 /* HPSelectTownViewController.h */,
 				3BCB5B06192F8D3500E5DCA9 /* HPSelectTownViewController.m */,
 				4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */,
@@ -1092,6 +1100,7 @@
 				3B6DB49C18FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 				4C91C1EB1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
+				CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */,
 				3BCB5B0A192F946B00E5DCA9 /* Back Tap.png in Resources */,
 				3B298FD0192F476100BEC2AA /* slider-metal-track@2x.png in Resources */,
 				3B298FB9192F476100BEC2AA /* slider-default-handle-highlighted.png in Resources */,
@@ -1237,6 +1246,7 @@
 				3B39D2F2195C3090002520B9 /* AppSetting.m in Sources */,
 				3BDA4C8D19064E5900EF6619 /* MKAnnotationView+WebCache.m in Sources */,
 				4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */,
+				CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,
 				3BDA4C9619064E5900EF6619 /* UIButton+WebCache.m in Sources */,
