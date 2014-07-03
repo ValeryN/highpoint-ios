@@ -26,7 +26,8 @@
 #define GREENBUTTON_BOTTOM_SHIFT 50
 #define SPACE_BETWEEN_GREENBUTTON_AND_INFO 40
 #define FLIP_ANIMATION_SPEED 0.5
-#define CONSTRAINT_TOP_FOR_CAROUSEL 32
+#define CONSTRAINT_TOP_FOR_CAROUSEL 76
+#define CONSTRAINT_WIDE_TOP_FOR_CAROUSEL 80
 #define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
 
 //==============================================================================
@@ -57,29 +58,28 @@
 
 - (void) fixUserCardConstraint
 {
+    CGFloat topCarousel = CONSTRAINT_WIDE_TOP_FOR_CAROUSEL;
+    if (![UIDevice hp_isWideScreen])
+        topCarousel = CONSTRAINT_TOP_FOR_CAROUSEL;
+
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: _carouselView
+                                                                 attribute: NSLayoutAttributeTop
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: self.view
+                                                                 attribute: NSLayoutAttributeTop
+                                                                multiplier: 1.0
+                                                                  constant: topCarousel]];
+
     if (![UIDevice hp_isWideScreen])
     {
-        NSArray* cons = self.view.constraints;
-        for (NSLayoutConstraint* consIter in cons)
-        {
-            if ((consIter.firstAttribute == NSLayoutAttributeBottom) &&
-                (consIter.firstItem == self.view) &&
-                (consIter.secondItem == _carouselView))
-                consIter.constant = CONSTRAINT_TOP_FOR_CAROUSEL;
-        }
         
-        cons = _carouselView.constraints;
+        NSArray* cons = _carouselView.constraints;
         for (NSLayoutConstraint* consIter in cons)
         {
             if ((consIter.firstAttribute == NSLayoutAttributeHeight) &&
                 (consIter.firstItem == _carouselView))
                 consIter.constant = CONSTRAINT_HEIGHT_FOR_CAROUSEL;
         }
-        
-        CGRect rect = _carouselView.frame;
-        rect.size.height = CONSTRAINT_HEIGHT_FOR_CAROUSEL;
-        rect.origin.y = CONSTRAINT_TOP_FOR_CAROUSEL;
-        _carouselView.frame = rect;
     }
 }
 

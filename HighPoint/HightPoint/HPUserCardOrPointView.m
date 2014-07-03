@@ -62,9 +62,11 @@
     rect.origin.x = 0;
     rect.origin.y = 0;
     if (![UIDevice hp_isWideScreen])
-        rect.size.height = 340;
-        
+        rect.size.height = CONSTRAINT_HEIGHT_FOR_BGIMAGE;
     _childContainerView.frame = rect;
+        
+    rect = self.frame;
+    rect.size = _childContainerView.frame.size;
     self.frame = rect;
 }
 
