@@ -20,6 +20,7 @@ static float const timeLabelWidth = 100;
 //http request constants
 static NSString * const kApplicationSettingsRequest = @"/v201405/settings";
 static NSString * const kCurrentUserRequest = @"/v201405/me";
+static NSString * const kCurrentUserFilter = @"/v201405/me/filter";
 static NSString * const kUsersRequest = @"/v201405/users";
 static NSString * const kGeoLocationRequest = @"/v201405/geo";
 static NSString * const kPointsRequest = @"/v201405/points";
