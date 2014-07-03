@@ -8,5 +8,13 @@
 
 #ifndef HighPoint_NotificationsConstants_h
 #define HighPoint_NotificationsConstants_h
-static NSString * const kNeedUpdateViews = @"NeedUpdateViews";
+
+
+
+
+static NSString * const kNeedUpdateUsersListViews = @"NeedUpdateUsersListViews";
+
+
+
+
 #endif

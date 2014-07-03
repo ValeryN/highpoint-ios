@@ -103,7 +103,7 @@ static HPBaseNetworkManager *networkManager;
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"USERS -->: %@", operation.responseString);
+        NSLog(@"GEOLOCATION -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -201,7 +201,7 @@ static HPBaseNetworkManager *networkManager;
                     NSDictionary *dict = [[[jsonDict objectForKey:@"data"] objectForKey:@"points"] objectForKey:key];
                     [[DataStorage sharedDataStorage] createPoint:dict];
                 }
-                NSNotification *notification = [NSNotification notificationWithName:kNeedUpdateViews
+                NSNotification *notification = [NSNotification notificationWithName:kNeedUpdateUsersListViews
                                                                              object:nil
                                                                            userInfo:nil];
                 [[NSNotificationCenter defaultCenter] postNotification:notification];

@@ -9,6 +9,7 @@
 #import "HPSelectTownViewController.h"
 #import "Utils.h"
 #import "HPTownTableViewCell.h"
+#import "HPBaseNetworkManager.h"
 
 @interface HPSelectTownViewController ()
 
@@ -39,6 +40,9 @@
     [Utils configureNavigationBar:self.navigationController];
     [self configureNavButton];
     [self.navigationController setNavigationBarHidden:NO];
+    
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"query",@"query",@"limit",@"limit",nil];
+    [[HPBaseNetworkManager sharedNetworkManager] findGeoLocation:dict];
 }
 - (void) configureNavButton {
     UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 12, 23)];
