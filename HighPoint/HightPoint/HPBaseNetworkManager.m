@@ -243,7 +243,32 @@ static HPBaseNetworkManager *networkManager;
     }];
 }
 - (void) findGeoLocation:(NSDictionary*) param {
-    
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kGeoLocationFindRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"FIND GEO LOCATION JSON --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                
+            } else {
+                NSLog(@"Error, no valid data");
+            }
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
 }
 - (void) getApplicationSettingsRequest {
     ///v201405/settings
@@ -273,9 +298,9 @@ static HPBaseNetworkManager *networkManager;
     }];
 }
 
-- (void) getUserInfoRequest:(NSDictionary*) param {
-   
-}
+//- (void) getUserInfoRequest:(NSDictionary*) param {
+//   
+//}
 //- (void) getCurrentUserSettingsRequest:(NSDictionary*) param {
 //    
 //}
