@@ -233,7 +233,8 @@ static DataStorage *dataStorage;
                 user.nameForms = par;
             }
         }
-        NSLog(@"%@", user.nameForms);
+        user.point = [[DataStorage sharedDataStorage] getPointForUserId:user.userId];
+        NSLog(@"saved point text %@", user.point.pointText);
         [self saveContext];
     }
 }
@@ -455,6 +456,22 @@ static DataStorage *dataStorage;
     NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
     [sortDescriptors addObject:sortDescriptor];
     [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"point.@count == 1"];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
     NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError* error=nil;
 	if (![controller performFetch:&error])

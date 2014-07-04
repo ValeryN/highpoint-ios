@@ -41,7 +41,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
 //==============================================================================
 
-- (void) configureCell:(User*) user : (UserPoint *) point
+- (void) configureCell:(User*) user
 {
     [self.firstLabel hp_tuneForUserListCellName];
     self.firstLabel.text = user.name;
@@ -51,13 +51,13 @@ static HPMainViewListTableViewCell* _prevCell;
     
     [self.point hp_tuneForUserListCellPointText];
     
-    if (point.pointText.length > 0) {
-        self.point.text = point.pointText;
+    if (user.point.pointText.length > 0) {
+        self.point.text = user.point.pointText;
         [self.showPointGroup setHidden:NO];
     } else  {
         [self.showPointGroup setHidden:YES];
     }
-    self.point.text = point.pointText;
+    self.point.text = user.point.pointText;
 
     [self createAvatar];
 

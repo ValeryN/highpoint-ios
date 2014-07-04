@@ -2,7 +2,7 @@
 //  User.m
 //  HighPoint
 //
-//  Created by Andrey Anisimov on 26.06.14.
+//  Created by Julia Pozdnyakova on 04.07.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -13,6 +13,7 @@
 #import "MaxEntertainmentPrice.h"
 #import "MinEntertainmentPrice.h"
 #import "UserFilter.h"
+#import "UserPoint.h"
 
 
 @implementation User
@@ -36,5 +37,6 @@
 @dynamic maxentertainment;
 @dynamic minentertainment;
 @dynamic userfilter;
+@dynamic point;
 
 @end

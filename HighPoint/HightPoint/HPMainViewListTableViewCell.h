@@ -17,7 +17,7 @@
 + (void) makeCellReleased;
 
 - (void) makeAnonymous;
-- (void) configureCell:(User*) user : (UserPoint *) point;
+- (void) configureCell:(User*) user;
 - (void) vibrateThePoint;
 - (void) showPoint;
 - (void) hidePoint;

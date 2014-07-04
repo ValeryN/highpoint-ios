@@ -145,7 +145,13 @@
     [self.navigationController pushViewController:filter animated:YES];
 }
 - (void) updateCurrentView {
-    self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
+    NSLog(@"switcher state = %d", _bottomSwitch.switchState);
+    
+    if (_bottomSwitch.switchState) {
+        self.allUsers = [[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController];
+    } else {
+        self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
+    }
     [self.mainListTable reloadData];
 }
 //==============================================================================
@@ -175,8 +181,7 @@
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
     User *user = [[self.allUsers fetchedObjects] objectAtIndex:indexPath.row];
-    UserPoint *point = [[DataStorage sharedDataStorage] getPointForUserId:user.userId];
-    [mCell configureCell: user :point];
+    [mCell configureCell: user];
     if (indexPath.row == 3)
         [mCell makeAnonymous];
     
@@ -237,13 +242,16 @@
 {
     [self updateCurrentView];
     NSLog(@"switched into left");
+    NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
 
 //==============================================================================
 
 - (void) switchedToRight
 {
+    [self updateCurrentView];
     NSLog(@"switched into right");
+    NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
 
 //==============================================================================

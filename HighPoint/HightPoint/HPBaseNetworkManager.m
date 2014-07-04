@@ -189,18 +189,21 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 //[[DataStorage sharedDataStorage] createUserEntity:jsonDict];
-                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 
-                for(NSDictionary *dict in usr) {
-                    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
-                    [self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO];
-                }
+                
                 NSArray *keys = [[[jsonDict objectForKey:@"data"] objectForKey:@"points"] allKeys];
                 for(NSString *key in keys) {
                     NSDictionary *dict = [[[jsonDict objectForKey:@"data"] objectForKey:@"points"] objectForKey:key];
                     [[DataStorage sharedDataStorage] createPoint:dict];
                 }
+                
+                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                for(NSDictionary *dict in usr) {
+                    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
+                    [self getGeoLocation:param];
+                    [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO];
+                }
+                
                 NSNotification *notification = [NSNotification notificationWithName:kNeedUpdateUsersListViews
                                                                              object:nil
                                                                            userInfo:nil];

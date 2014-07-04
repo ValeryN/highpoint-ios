@@ -91,6 +91,7 @@
         <relationship name="education" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Education" inverseName="user" inverseEntity="Education" syncable="YES"/>
         <relationship name="maxentertainment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MaxEntertainmentPrice" inverseName="user" inverseEntity="MaxEntertainmentPrice" syncable="YES"/>
         <relationship name="minentertainment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MinEntertainmentPrice" inverseName="user" inverseEntity="MinEntertainmentPrice" syncable="YES"/>
+        <relationship name="point" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserPoint" inverseName="user" inverseEntity="UserPoint" syncable="YES"/>
         <relationship name="userfilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserFilter" inverseName="user" inverseEntity="UserFilter" syncable="YES"/>
     </entity>
     <entity name="UserFilter" representedClassName="UserFilter" syncable="YES">
@@ -107,20 +108,21 @@
         <attribute name="pointText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pointUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="pointValidTo" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="point" inverseEntity="User" syncable="YES"/>
     </entity>
     <elements>
         <element name="AppSetting" positionX="-200" positionY="-414" width="128" height="133"/>
         <element name="Avatar" positionX="-209" positionY="-270" width="128" height="223"/>
         <element name="Career" positionX="-144" positionY="56" width="128" height="133"/>
-        <element name="City" positionX="-9" positionY="-270" width="128" height="118"/>
-        <element name="Country" positionX="9" positionY="-252" width="128" height="103"/>
+        <element name="City" positionX="340" positionY="-495" width="128" height="118"/>
+        <element name="Country" positionX="153" positionY="-486" width="128" height="103"/>
         <element name="Education" positionX="144" positionY="-331" width="128" height="133"/>
         <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
         <element name="MaxEntertainmentPrice" positionX="27" positionY="-0" width="128" height="88"/>
         <element name="MinEntertainmentPrice" positionX="493" positionY="-153" width="128" height="88"/>
-        <element name="Region" positionX="0" positionY="-261" width="128" height="118"/>
-        <element name="User" positionX="-36" positionY="-414" width="128" height="328"/>
+        <element name="Region" positionX="538" positionY="-522" width="128" height="118"/>
+        <element name="User" positionX="-36" positionY="-414" width="128" height="343"/>
         <element name="UserFilter" positionX="538" positionY="-306" width="128" height="118"/>
-        <element name="UserPoint" positionX="-9" positionY="-270" width="128" height="133"/>
+        <element name="UserPoint" positionX="295" positionY="-16" width="128" height="148"/>
     </elements>
 </model>

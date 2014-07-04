@@ -32,6 +32,7 @@
 - (NSFetchedResultsController*) applicationSettingFetchResultsController;
 - (void) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
+-(NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (AppSetting*) getAppSettings;
