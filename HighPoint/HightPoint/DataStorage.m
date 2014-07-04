@@ -52,8 +52,37 @@ static DataStorage *dataStorage;
         [arr addObject:gender];
     }
     uf.gender = [NSSet setWithArray:arr];
+    [self saveContext];
     return uf;
+    
 }
+
+- (UserFilter*) getUserFilter {
+    NSArray *fetchedObjects;
+    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"UserFilter"  inManagedObjectContext: self.moc];
+    [fetch setEntity:entityDescription];
+    NSError * error = nil;
+    fetchedObjects = [self.moc executeFetchRequest:fetch error:&error];
+    if([fetchedObjects count] == 1)
+        return [fetchedObjects objectAtIndex:0];
+    else
+        return nil;
+}
+
+- (void) deleteUserFilter {
+    NSFetchRequest * allFilters = [[NSFetchRequest alloc] init];
+    [allFilters setEntity:[NSEntityDescription entityForName:@"UserFilter" inManagedObjectContext:self.moc]];
+    [allFilters setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * filters = [self.moc executeFetchRequest:allFilters error:&error];
+    //error handling goes here
+    for (NSManagedObject * filter in filters) {
+        [self.moc deleteObject:filter];
+    }
+    [self saveContext];
+}
+
 #pragma mark -
 #pragma mark education entity
 - (Education*) createEducationEntity:(NSDictionary *)param {

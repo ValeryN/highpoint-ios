@@ -313,6 +313,7 @@ static HPBaseNetworkManager *networkManager;
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    NSLog(@"USER FILTER PARAMS --> %@", param.description);
     [manager PUT:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@" FILTER JSON --> %@", operation.responseString);
         NSError *error = nil;
