@@ -175,8 +175,8 @@
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
     User *user = [[self.allUsers fetchedObjects] objectAtIndex:indexPath.row];
-    NSLog(@"%@", [[DataStorage sharedDataStorage] getPointForUserId:user.userId].pointText);
-    [mCell configureCell: user];
+    UserPoint *point = [[DataStorage sharedDataStorage] getPointForUserId:user.userId];
+    [mCell configureCell: user :point];
     if (indexPath.row == 3)
         [mCell makeAnonymous];
     
@@ -235,6 +235,7 @@
 
 - (void) switchedToLeft
 {
+    [self updateCurrentView];
     NSLog(@"switched into left");
 }
 

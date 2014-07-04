@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "HPAvatarView.h"
+#import "UserPoint.h"
+
 
 @class User;
 @interface HPMainViewListTableViewCell : UITableViewCell
@@ -15,7 +17,7 @@
 + (void) makeCellReleased;
 
 - (void) makeAnonymous;
-- (void) configureCell:(User*) user;
+- (void) configureCell:(User*) user : (UserPoint *) point;
 - (void) vibrateThePoint;
 - (void) showPoint;
 - (void) hidePoint;

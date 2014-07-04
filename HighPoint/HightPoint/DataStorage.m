@@ -426,6 +426,9 @@ static DataStorage *dataStorage;
         return [temp objectAtIndex:0];
     else return nil;
 }
+
+#pragma mark - users
+
 -(NSFetchedResultsController*) allUsersFetchResultsController {
     NSFetchRequest* request = [[NSFetchRequest alloc] init];
 	NSEntityDescription* entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:self.moc];
@@ -443,6 +446,26 @@ static DataStorage *dataStorage;
     return controller;
 
 }
+
+-(NSFetchedResultsController*) allUsersWithPointFetchResultsController {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    return controller;
+    
+}
+
+
 -(NSFetchedResultsController*) applicationSettingFetchResultsController
 {
     NSFetchRequest* request = [[NSFetchRequest alloc] init];

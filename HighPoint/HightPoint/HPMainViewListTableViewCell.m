@@ -13,6 +13,8 @@
 #import "UILabel+HighPoint.h"
 #import "HPMainViewListTableViewCell+HighPoint.h"
 #import "User.h"
+
+
 //==============================================================================
 
 #define HALFHIDE_MAININFO_DURATION 0.1
@@ -39,7 +41,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
 //==============================================================================
 
-- (void) configureCell:(User*) user
+- (void) configureCell:(User*) user : (UserPoint *) point
 {
     [self.firstLabel hp_tuneForUserListCellName];
     self.firstLabel.text = user.name;
@@ -48,7 +50,14 @@ static HPMainViewListTableViewCell* _prevCell;
     self.secondLabel.text = @"99 лет, Когалым";
     
     [self.point hp_tuneForUserListCellPointText];
-    self.point.text = @"У нас тут очень весело. Если кто не боится таких развлечений, пишите!";
+    
+    if (point.pointText.length > 0) {
+        self.point.text = point.pointText;
+        [self.showPointGroup setHidden:NO];
+    } else  {
+        [self.showPointGroup setHidden:YES];
+    }
+    self.point.text = point.pointText;
 
     [self createAvatar];
 
