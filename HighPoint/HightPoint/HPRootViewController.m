@@ -41,6 +41,11 @@
 {
     [super viewDidLoad];
 
+    //TODO : delete
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
+    [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
+
+    
     [self configureNavigationBar];
     [self createSwitch];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
@@ -51,6 +56,8 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO];
     [self registerNotification];
     [self updateCurrentView];
     
