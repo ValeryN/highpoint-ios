@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NMRangeSlider.h"
-@interface HPFilterSettingsViewController : UIViewController
+@interface HPFilterSettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UIButton *profileButton;
 @property (nonatomic, weak) IBOutlet UIButton *messageButton;
 @property (nonatomic, weak) IBOutlet UIButton *closeButton;
@@ -25,8 +25,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *guideLabel3;
 @property (nonatomic, weak) IBOutlet UILabel *guideLabel4;
 
-@property (nonatomic, weak) IBOutlet UILabel *cityLabel;
-@property (nonatomic, weak) IBOutlet UIButton *selectTownButton;
+
 @property (nonatomic, weak) id savedDelegate;
 @property (nonatomic, weak) IBOutlet UILabel *oldLabelVal;
 @property (nonatomic, strong) IBOutlet NMRangeSlider *oldRangeSlider;
@@ -34,11 +33,14 @@
 @property (nonatomic, assign) BOOL menSwitchState;
 @property (nonatomic, assign) BOOL womenSwitchState;
 
+@property (weak, nonatomic) IBOutlet UITableView *townsTableView;
+
+
 - (IBAction) menSwitchTap:(id)sender;
 - (IBAction) womenSwitchTap:(id)sender;
 - (IBAction) profileButtonTap:(id)sender;
 - (IBAction) messageButtonTap:(id)sender;
 - (IBAction) closeButtonTap:(id)sender;
 - (IBAction) townSwitchTap:(id)sender;
-- (IBAction) townSelectTap:(id)sender;
+
 @end

@@ -12,12 +12,15 @@
 #import "DataStorage.h"
 #import "HPBaseNetworkManager.h"
 #import "Gender.h"
+#import "HPTownTableViewCell.h"
 
 @interface HPFilterSettingsViewController ()
 
 @end
 
-@implementation HPFilterSettingsViewController
+@implementation HPFilterSettingsViewController {
+    NSArray *allCities;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -65,10 +68,7 @@
     self.townLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0f];
     self.townLabel.textColor = [UIColor whiteColor];
     
-    self.cityLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0f];
-    self.cityLabel.textColor = [UIColor whiteColor];
-    self.cityLabel.hidden = YES;
-    self.selectTownButton.hidden = YES;
+    
     self.guideLabel1.font = [UIFont fontWithName:@"FuturaPT-Light" size:15.0f];
     self.guideLabel1.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.6];
     self.guideLabel2.font = [UIFont fontWithName:@"FuturaPT-Light" size:15.0f];
@@ -93,6 +93,9 @@
     //[self.view addSubview:self.oldRangeSlider];
     //[self.messageButton addTarget:self action:@selector(messageButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
     // Do any additional setup after loading the view.
+    
+    self.townsTableView.delegate = self;
+    self.townsTableView.dataSource = self;
 }
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -123,6 +126,7 @@
         self.oldRangeSlider.upperValue = 30.0;
     }
     [self updateSliderLabels];
+    allCities = [userFilter.city allObjects];
 }
 #pragma mark -
 #pragma mark controller button tap handler
@@ -161,8 +165,7 @@
                 self.guideLabel2.hidden = YES;
                 self.guideLabel3.hidden = YES;
                 self.guideLabel4.hidden = YES;
-                self.cityLabel.hidden = NO;
-                self.selectTownButton.hidden = NO;
+                self.townsTableView.hidden = NO;
             }
             completion:^(BOOL finished){
                             
@@ -177,20 +180,14 @@
                 self.guideLabel2.hidden = NO;
                 self.guideLabel3.hidden = NO;
                 self.guideLabel4.hidden = NO;
-                self.cityLabel.hidden = YES;
-                self.selectTownButton.hidden = YES;
+                self.townsTableView.hidden = YES;
             }
             completion:^(BOOL finished){
                             
             }];
         }
 }
-- (IBAction) townSelectTap:(id)sender {
-    HPSelectTownViewController *town = [[HPSelectTownViewController alloc] initWithNibName: @"HPSelectTown" bundle: nil];
-    self.savedDelegate = self.navigationController.delegate;
-    self.navigationController.delegate = nil;
-    [self.navigationController pushViewController:town animated:YES];
-}
+
 - (void) updateSliderLabels {
     NSString *left = [NSString stringWithFormat:@"%.0f", self.oldRangeSlider.lowerValue];
     NSString *right = [NSString stringWithFormat:@"%.0f", self.oldRangeSlider.upperValue];
@@ -229,5 +226,57 @@
     [[DataStorage sharedDataStorage] createUserFilterEntity:filterParams];
     [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
 }
+
+#pragma mark - table view
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *townCellIdentifier = @"PaymentCellIdentif";
+    HPTownTableViewCell *townCell = (HPTownTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
+    
+    if (townCell == nil)
+    {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPTownTableViewCell" owner:self options:nil];
+        townCell = [nib objectAtIndex:0];
+    }
+    City *city = [allCities objectAtIndex:indexPath.row];
+    [townCell configureCell:city];
+    return townCell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return allCities.count;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    HPSelectTownViewController *town = [[HPSelectTownViewController alloc] initWithNibName: @"HPSelectTown" bundle: nil];
+    self.savedDelegate = self.navigationController.delegate;
+    self.navigationController.delegate = nil;
+    
+    [self.navigationController pushViewController:town animated:YES];
+
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [[UIView alloc] initWithFrame:CGRectZero];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [[UIView alloc] initWithFrame:CGRectZero];
+}
+
 
 @end

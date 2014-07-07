@@ -6,7 +6,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPFilterSettingsViewController">
             <connections>
-                <outlet property="cityLabel" destination="bsL-9R-4c2" id="gJZ-Dq-rvM"/>
                 <outlet property="closeButton" destination="X2w-AO-Hwo" id="FLD-JA-KK7"/>
                 <outlet property="filterLabel" destination="zTQ-pn-NLa" id="bFy-nw-o4N"/>
                 <outlet property="guideLabel1" destination="Dxg-3s-wnr" id="ROY-ko-2ui"/>
@@ -20,8 +19,8 @@
                 <outlet property="oldLabelVal" destination="7iS-aS-FOf" id="IcW-bh-KH5"/>
                 <outlet property="oldRangeSlider" destination="yKW-ZT-DBr" id="lvt-8d-JYr"/>
                 <outlet property="profileButton" destination="XbW-QB-9Mr" id="irP-us-cDJ"/>
-                <outlet property="selectTownButton" destination="nVB-Zy-gxk" id="UsN-cp-RdR"/>
                 <outlet property="townLabel" destination="3Oo-UO-GVm" id="XMn-wQ-Vi5"/>
+                <outlet property="townsTableView" destination="4U6-vD-cMC" id="A0v-zP-tOy"/>
                 <outlet property="view" destination="iN0-l3-epB" id="FTe-70-CKa"/>
                 <outlet property="womenLabel" destination="MCv-Af-oXs" id="CL5-VC-8lV"/>
                 <outlet property="womenSw" destination="K4O-PL-Wrf" id="obV-kU-WxA"/>
@@ -158,12 +157,6 @@
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Москва" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bsL-9R-4c2">
-                    <rect key="frame" x="12" y="311" width="81" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Сейчас в своей ленте вы видите людей" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxg-3s-wnr">
                     <rect key="frame" x="12" y="311" width="288" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -176,23 +169,16 @@
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nVB-Zy-gxk" userLabel="Select City Button">
-                    <rect key="frame" x="296" y="310" width="12" height="23"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="Next.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="townSelectTap:" destination="-1" eventType="touchUpInside" id="qFI-48-df1"/>
-                    </connections>
-                </button>
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="4U6-vD-cMC">
+                    <rect key="frame" x="0.0" y="304" width="320" height="208"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
-    <resources>
-        <image name="Next.png" width="24" height="46"/>
-    </resources>
 </document>
