@@ -44,6 +44,7 @@
     //TODO : delete
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
+    [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
 
     
     [self configureNavigationBar];
