@@ -15,6 +15,7 @@
 
 #define CONSTRAINT_HEIGHT_FOR_BGIMAGE 340
 #define CONSTRAINT_TOP_FOR_AVATAR 68
+#define CONSTRAINT_TOP_FOR_AVATAR_GROUP 28
 
 //==============================================================================
 
@@ -74,15 +75,30 @@
 
 - (void) fixUserCardConstraint
 {
-    if ((![UIDevice hp_isWideScreen]) &&
-        ([_childContainerView isKindOfClass:[HPUserCardView class]]))
+    if (![UIDevice hp_isWideScreen])
     {
-        HPUserCardView* v = (HPUserCardView*)_childContainerView;
-        NSArray* cons = v.backgroundAvatar.constraints;
-        for (NSLayoutConstraint* consIter in cons)
+        if ([_childContainerView isKindOfClass:[HPUserCardView class]])
         {
-            if (consIter.firstAttribute == NSLayoutAttributeHeight)
-                consIter.constant = CONSTRAINT_HEIGHT_FOR_BGIMAGE;
+            HPUserCardView* v = (HPUserCardView*)_childContainerView;
+            NSArray* cons = v.backgroundAvatar.constraints;
+            for (NSLayoutConstraint* consIter in cons)
+            {
+                if (consIter.firstAttribute == NSLayoutAttributeHeight)
+                    consIter.constant = CONSTRAINT_HEIGHT_FOR_BGIMAGE;
+            }
+        }
+        if ([_childContainerView isKindOfClass:[HPUserPointView class]])
+        {
+            HPUserPointView* v = (HPUserPointView*)_childContainerView;
+            NSArray* cons = v.constraints;
+            for (NSLayoutConstraint* consIter in cons)
+            {
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == v.avatarGroup) &&
+                (consIter.secondItem == v)
+                )
+                consIter.constant = CONSTRAINT_TOP_FOR_AVATAR_GROUP;
+            }
         }
     }
 }

@@ -29,6 +29,7 @@
 @property (nonatomic, weak) NSObject<PointViewProtocol>* pointDelegate;
 
 @property (nonatomic, weak) HPAvatarView* avatar;
+@property (nonatomic, weak) IBOutlet UIButton* heartLike;
 @property (nonatomic, weak) IBOutlet UIImageView* backgroundAvatar;
 @property (nonatomic, weak) IBOutlet UILabel* details;
 @property (nonatomic, weak) IBOutlet UILabel* name;

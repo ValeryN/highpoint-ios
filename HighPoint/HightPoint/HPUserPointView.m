@@ -18,9 +18,13 @@
 //==============================================================================
 
 #define USERPOINT_ROUND_RADIUS 5
-#define CONSTRAINT_TOP_FOR_NAMELABEL 276
 #define AVATAR_BLUR_RADIUS 40
-#define CONSTRAINT_TOP_FOR_AVATAR_GROUP 40
+
+#define CONSTRAINT_TOP_FOR_HEART 245
+#define CONSTRAINT_TOP_FOR_NAMELABEL 286
+#define CONSTRAINT_WIDTH_FOR_SELF 264
+#define CONSTRAINT_WIDE_HEIGHT_FOR_SELF 416
+#define CONSTRAINT_HEIGHT_FOR_SELF 340
 
 //==============================================================================
 
@@ -45,7 +49,6 @@
 - (void) initObjects
 {
     [_backgroundAvatar hp_roundViewWithRadius: USERPOINT_ROUND_RADIUS];
-//    _backgroundAvatar.image = [_backgroundAvatar.image hp_applyBlurWithRadius: AVATAR_BLUR_RADIUS];
     _backgroundAvatar.image = [_backgroundAvatar.image hp_imageWithGaussianBlur: AVATAR_BLUR_RADIUS];
 
     [_details hp_tuneForUserCardDetails];
@@ -53,9 +56,51 @@
     
     _avatar = [HPAvatarView createAvatar];
     [_avatarGroup addSubview: _avatar];
+
     [self fixAvatarConstraint];
+    [self fixSelfConstraint];
     
     [_pointText hp_tuneForUserPoint];
+}
+
+//==============================================================================
+
+- (void) fixSelfConstraint
+{
+    CGFloat height = CONSTRAINT_WIDE_HEIGHT_FOR_SELF;
+    if (![UIDevice hp_isWideScreen])
+        height = CONSTRAINT_HEIGHT_FOR_SELF;
+
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addConstraint:[NSLayoutConstraint constraintWithItem: self
+                                                                 attribute: NSLayoutAttributeWidth
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: nil
+                                                                 attribute: NSLayoutAttributeNotAnAttribute
+                                                                multiplier: 1.0
+                                                                  constant: CONSTRAINT_WIDTH_FOR_SELF]];
+
+    [self addConstraint:[NSLayoutConstraint constraintWithItem: self
+                                                                 attribute: NSLayoutAttributeHeight
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: nil
+                                                                 attribute: NSLayoutAttributeNotAnAttribute
+                                                                multiplier: 1.0
+                                                                  constant: height]];
+    if (![UIDevice hp_isWideScreen])
+    {
+        NSArray* cons = self.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == _name))
+                consIter.constant = CONSTRAINT_TOP_FOR_NAMELABEL;
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == _heartLike) &&
+                (consIter.secondItem == self))
+                consIter.constant = CONSTRAINT_TOP_FOR_HEART;
+        }
+    }
 }
 
 //==============================================================================
@@ -79,18 +124,6 @@
                                                                  attribute: NSLayoutAttributeNotAnAttribute
                                                                 multiplier: 1.0
                                                                   constant: _avatar.frame.size.height]];
-    if (![UIDevice hp_isWideScreen])
-    {
-        NSArray* cons = _avatarGroup.constraints;
-        for (NSLayoutConstraint* consIter in cons)
-        {
-            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self) &&
-                (consIter.secondItem == _avatarGroup)
-                )
-                consIter.constant = CONSTRAINT_TOP_FOR_AVATAR_GROUP;
-        }
-    }
 }
 
 //==============================================================================
