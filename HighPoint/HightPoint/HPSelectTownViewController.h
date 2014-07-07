@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPSelectTownViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface HPSelectTownViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UITableView *townsTableView;
+@property (weak, nonatomic) IBOutlet UISearchBar *townSearchBar;
+
+
+@property (nonatomic, strong) NSMutableArray *allCities;
+
 
 @end

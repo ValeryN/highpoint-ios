@@ -13,7 +13,7 @@
 
 
 static NSString * const kNeedUpdateUsersListViews = @"NeedUpdateUsersListViews";
-
+static NSString *const kNeedUpdateCitiesListView = @"kNeedUpdateCitiesListView";
 
 
 

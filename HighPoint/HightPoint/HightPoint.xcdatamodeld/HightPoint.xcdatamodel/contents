@@ -34,8 +34,10 @@
         <attribute name="cityEnName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="cityName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="cityNameForms" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cityNameForms" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="cityRegionId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="temp" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <relationship name="userfilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserFilter" inverseName="city" inverseEntity="UserFilter" syncable="YES"/>
     </entity>
     <entity name="Country" representedClassName="Country" syncable="YES">
         <attribute name="countryEnName" optional="YES" attributeType="String" syncable="YES"/>
@@ -98,6 +100,7 @@
         <attribute name="maxAge" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="minAge" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="viewType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="city" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="City" inverseName="userfilter" inverseEntity="City" syncable="YES"/>
         <relationship name="gender" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Gender" inverseName="userfilter" inverseEntity="Gender" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="userfilter" inverseEntity="User" syncable="YES"/>
     </entity>
@@ -114,7 +117,7 @@
         <element name="AppSetting" positionX="-200" positionY="-414" width="128" height="133"/>
         <element name="Avatar" positionX="-209" positionY="-270" width="128" height="223"/>
         <element name="Career" positionX="-144" positionY="56" width="128" height="133"/>
-        <element name="City" positionX="340" positionY="-495" width="128" height="118"/>
+        <element name="City" positionX="340" positionY="-495" width="128" height="148"/>
         <element name="Country" positionX="153" positionY="-486" width="128" height="103"/>
         <element name="Education" positionX="144" positionY="-331" width="128" height="133"/>
         <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
@@ -122,7 +125,7 @@
         <element name="MinEntertainmentPrice" positionX="493" positionY="-153" width="128" height="88"/>
         <element name="Region" positionX="538" positionY="-522" width="128" height="118"/>
         <element name="User" positionX="-36" positionY="-414" width="128" height="343"/>
-        <element name="UserFilter" positionX="538" positionY="-306" width="128" height="118"/>
+        <element name="UserFilter" positionX="538" positionY="-306" width="128" height="133"/>
         <element name="UserPoint" positionX="295" positionY="-16" width="128" height="148"/>
     </elements>
 </model>

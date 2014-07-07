@@ -191,11 +191,7 @@ static HPBaseNetworkManager *networkManager;
                 //[[DataStorage sharedDataStorage] createUserEntity:jsonDict];
                 
                 
-                NSArray *keys = [[[jsonDict objectForKey:@"data"] objectForKey:@"points"] allKeys];
-                for(NSString *key in keys) {
-                    NSDictionary *dict = [[[jsonDict objectForKey:@"data"] objectForKey:@"points"] objectForKey:key];
-                    [[DataStorage sharedDataStorage] createPoint:dict];
-                }
+                
                 
                 NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 for(NSDictionary *dict in usr) {
@@ -262,7 +258,11 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                
+                NSArray *cities = [jsonDict objectForKey:@"cities"] ;
+                for(NSDictionary *dict in cities) {
+                    [[DataStorage sharedDataStorage] createCity: dict :YES];
+                }
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCitiesListView object:self userInfo:nil];
             } else {
                 NSLog(@"Error, no valid data");
             }

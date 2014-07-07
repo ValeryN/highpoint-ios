@@ -57,6 +57,25 @@ static DataStorage *dataStorage;
     
 }
 
+- (void) setCityToUserFilter :(City *) city {
+    NSArray *fetchedObjects;
+    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"UserFilter"  inManagedObjectContext: self.moc];
+    [fetch setEntity:entityDescription];
+    NSError * error = nil;
+    fetchedObjects = [self.moc executeFetchRequest:fetch error:&error];
+    if([fetchedObjects count] == 1) {
+        UserFilter *filter = [fetchedObjects objectAtIndex:0];
+        NSMutableSet *cities = [[NSMutableSet alloc] initWithSet:filter.city];
+        [cities addObject:city];
+        filter.city = cities;
+        [self saveContext];
+        return;
+    }
+    else
+        return;
+}
+
 - (UserFilter*) getUserFilter {
     NSArray *fetchedObjects;
     NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
@@ -523,6 +542,97 @@ static DataStorage *dataStorage;
 - (void) DeleteAllPoints {
     
 }
+
+
+#pragma mark - city
+- (City*) createCity:(NSDictionary *)param : (BOOL) isTemp {
+    City *cityEnt = (City*)[NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:self.moc];
+    cityEnt.cityEnName = [param objectForKey:@"enName"];
+    cityEnt.cityId = [param objectForKey:@"id"];
+    cityEnt.cityName = [param objectForKey:@"name"];
+    cityEnt.cityNameForms = [param objectForKey:@"nameForms"];
+    cityEnt.cityRegionId = [param objectForKey:@"regionId"];
+    cityEnt.temp = [NSNumber numberWithBool:isTemp];
+    [self saveContext];
+    return cityEnt;
+    
+}
+
+
+-(NSFetchedResultsController*) allTempCitiesFetchResultsController {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    
+    
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"cityId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"temp == 1"];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    return controller;
+    
+}
+
+- (void) deleteAllTempCities {
+    NSFetchRequest * allCities = [[NSFetchRequest alloc] init];
+    [allCities setEntity:[NSEntityDescription entityForName:@"City" inManagedObjectContext:self.moc]];
+    [allCities setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * cities = [self.moc executeFetchRequest:allCities error:&error];
+    //error handling goes here
+    NSLog(@"cities count = %d", cities.count);
+    for (City * city in cities) {
+        if ([city.temp boolValue]) {
+            NSLog(@"delete city id = %@", city.cityId);
+            [self.moc deleteObject:city];
+        }
+    }
+    [self saveContext];
+}
+
+- (void) setCityNotTemp : (NSNumber *) cityId {
+    
+    NSError *error = nil;
+    City *city = nil;
+    NSFetchRequest * request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:@"City" inManagedObjectContext:self.moc]];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"cityId == %@", cityId]];
+    
+    city = [[self.moc executeFetchRequest:request error:&error] lastObject];
+    if (error || !city) {
+        NSLog(@"error - no object");
+        return;
+    }
+    city.temp = [NSNumber numberWithBool:NO];
+    [self saveContext];
+}
+
+
+#pragma mark - save context
+
+
 - (void) saveContext
 {
     //if ([[self moc] hasChanges])

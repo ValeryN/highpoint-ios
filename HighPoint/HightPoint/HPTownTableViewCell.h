@@ -12,8 +12,7 @@
 @interface HPTownTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *townNameLabel;
-
-
+@property (weak, nonatomic) IBOutlet UIImageView *isSelectedImgView;
 
 - (void) configureCell : (City *) city;
 

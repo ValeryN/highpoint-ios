@@ -17,6 +17,7 @@
 #import "Career.h"
 #import "Avatar.h"
 #import "UserPoint.h"
+#import "City.h"
 
 @interface DataStorage : NSObject
 @property (nonatomic, strong) NSManagedObjectContext *moc;
@@ -29,6 +30,7 @@
 - (UserFilter*) createUserFilterEntity:(NSDictionary *)param;
 - (void) deleteUserFilter;
 - (UserFilter*) getUserFilter;
+- (void) setCityToUserFilter :(City *) city;
 - (NSFetchedResultsController*) applicationSettingFetchResultsController;
 - (void) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
@@ -36,5 +38,9 @@
 - (User*) getCurrentUser;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (AppSetting*) getAppSettings;
+- (City*) createCity:(NSDictionary *)param : (BOOL) isTemp;
+-(NSFetchedResultsController*) allTempCitiesFetchResultsController;
+- (void) deleteAllTempCities;
+- (void) setCityNotTemp : (NSNumber *) cityId;
 - (void) saveContext;
 @end

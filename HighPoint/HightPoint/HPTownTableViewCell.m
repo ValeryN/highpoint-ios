@@ -26,8 +26,7 @@
 - (void) configureCell : (City *) city {
     self.backgroundColor = [UIColor clearColor];
     self.townNameLabel.textColor = [UIColor whiteColor];
-    
-    
+    self.townNameLabel.text = city.cityName;
 }
 
 @end

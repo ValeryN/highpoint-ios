@@ -60,7 +60,6 @@
 		3B39D301195C3091002520B9 /* Gender.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D300195C3091002520B9 /* Gender.m */; };
 		3B39D304195C3091002520B9 /* Education.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D303195C3091002520B9 /* Education.m */; };
 		3B39D307195C3091002520B9 /* Avatar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D306195C3091002520B9 /* Avatar.m */; };
-		3B39D30A195C3091002520B9 /* UserFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D309195C3091002520B9 /* UserFilter.m */; };
 		3B39D30D195C3091002520B9 /* UserPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D30C195C3091002520B9 /* UserPoint.m */; };
 		3B39D31A195C3122002520B9 /* SocketIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D310195C3122002520B9 /* SocketIO.m */; };
 		3B39D31B195C3122002520B9 /* SocketIOJSONSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D312195C3122002520B9 /* SocketIOJSONSerialization.m */; };
@@ -68,7 +67,6 @@
 		3B39D31D195C3122002520B9 /* SocketIOTransportWebsocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D317195C3122002520B9 /* SocketIOTransportWebsocket.m */; };
 		3B39D31E195C3122002520B9 /* SocketIOTransportXHR.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D319195C3122002520B9 /* SocketIOTransportXHR.m */; };
 		3B39D322195C5B33002520B9 /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D321195C5B33002520B9 /* Country.m */; };
-		3B39D325195C5B34002520B9 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D324195C5B34002520B9 /* City.m */; };
 		3B39D328195C5B5C002520B9 /* Region.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D327195C5B5C002520B9 /* Region.m */; };
 		3B49DE1E1934AAC500C3EF1E /* HPUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B49DE1D1934AAC500C3EF1E /* HPUserProfileViewController.m */; };
 		3B49DE211934CEF000C3EF1E /* HPSlideUpAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B49DE201934CEF000C3EF1E /* HPSlideUpAnimation.m */; };
@@ -187,6 +185,8 @@
 		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
 		CD1B0F4B19669D57007F4FCA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1B0F4A19669D57007F4FCA /* User.m */; };
+		CD8CF436196A99D2000C7F18 /* UserFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8CF435196A99D2000C7F18 /* UserFilter.m */; };
+		CD8CF43F196AA463000C7F18 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8CF43E196AA463000C7F18 /* City.m */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 /* End PBXBuildFile section */
@@ -269,8 +269,6 @@
 		3B39D303195C3091002520B9 /* Education.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Education.m; sourceTree = "<group>"; };
 		3B39D305195C3091002520B9 /* Avatar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Avatar.h; sourceTree = "<group>"; };
 		3B39D306195C3091002520B9 /* Avatar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Avatar.m; sourceTree = "<group>"; };
-		3B39D308195C3091002520B9 /* UserFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFilter.h; sourceTree = "<group>"; };
-		3B39D309195C3091002520B9 /* UserFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFilter.m; sourceTree = "<group>"; };
 		3B39D30B195C3091002520B9 /* UserPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPoint.h; sourceTree = "<group>"; };
 		3B39D30C195C3091002520B9 /* UserPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPoint.m; sourceTree = "<group>"; };
 		3B39D30F195C3122002520B9 /* SocketIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIO.h; sourceTree = "<group>"; };
@@ -287,8 +285,6 @@
 		3B39D31F195C3198002520B9 /* URLs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLs.h; sourceTree = "<group>"; };
 		3B39D320195C5B33002520B9 /* Country.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Country.h; sourceTree = "<group>"; };
 		3B39D321195C5B33002520B9 /* Country.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Country.m; sourceTree = "<group>"; };
-		3B39D323195C5B34002520B9 /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
-		3B39D324195C5B34002520B9 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		3B39D326195C5B5C002520B9 /* Region.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Region.h; sourceTree = "<group>"; };
 		3B39D327195C5B5C002520B9 /* Region.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Region.m; sourceTree = "<group>"; };
 		3B49DE1C1934AAC500C3EF1E /* HPUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserProfileViewController.h; sourceTree = "<group>"; };
@@ -445,6 +441,10 @@
 		CD183C36196418D0002AC98D /* UserTokenUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTokenUtils.m; sourceTree = "<group>"; };
 		CD1B0F4919669D57007F4FCA /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		CD1B0F4A19669D57007F4FCA /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		CD8CF434196A99D2000C7F18 /* UserFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFilter.h; sourceTree = "<group>"; };
+		CD8CF435196A99D2000C7F18 /* UserFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFilter.m; sourceTree = "<group>"; };
+		CD8CF43D196AA463000C7F18 /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
+		CD8CF43E196AA463000C7F18 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
@@ -827,18 +827,16 @@
 		3BDA4C441906461900EF6619 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				CD8CF434196A99D2000C7F18 /* UserFilter.h */,
+				CD8CF435196A99D2000C7F18 /* UserFilter.m */,
 				CD1B0F4919669D57007F4FCA /* User.h */,
 				CD1B0F4A19669D57007F4FCA /* User.m */,
 				3B39D326195C5B5C002520B9 /* Region.h */,
 				3B39D327195C5B5C002520B9 /* Region.m */,
-				3B39D323195C5B34002520B9 /* City.h */,
-				3B39D324195C5B34002520B9 /* City.m */,
 				3B39D320195C5B33002520B9 /* Country.h */,
 				3B39D321195C5B33002520B9 /* Country.m */,
 				3B39D30B195C3091002520B9 /* UserPoint.h */,
 				3B39D30C195C3091002520B9 /* UserPoint.m */,
-				3B39D308195C3091002520B9 /* UserFilter.h */,
-				3B39D309195C3091002520B9 /* UserFilter.m */,
 				3B39D305195C3091002520B9 /* Avatar.h */,
 				3B39D306195C3091002520B9 /* Avatar.m */,
 				3B39D302195C3091002520B9 /* Education.h */,
@@ -853,6 +851,8 @@
 				3B39D2F4195C3091002520B9 /* MaxEntertainmentPrice.m */,
 				3B39D2F0195C3090002520B9 /* AppSetting.h */,
 				3B39D2F1195C3090002520B9 /* AppSetting.m */,
+				CD8CF43D196AA463000C7F18 /* City.h */,
+				CD8CF43E196AA463000C7F18 /* City.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -1182,7 +1182,6 @@
 				4C8096A9193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				4CA7B63B195C379000DC9D52 /* HPAvatarView.m in Sources */,
 				CD1B0F4B19669D57007F4FCA /* User.m in Sources */,
-				3B39D325195C5B34002520B9 /* City.m in Sources */,
 				3B6DB4A218FFC24D00C26A50 /* HPAppDelegate.m in Sources */,
 				3B39D31D195C3122002520B9 /* SocketIOTransportWebsocket.m in Sources */,
 				4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
@@ -1210,10 +1209,10 @@
 				3B39D31E195C3122002520B9 /* SocketIOTransportXHR.m in Sources */,
 				4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				3BDA4C6219064AC900EF6619 /* AFHTTPRequestOperation.m in Sources */,
-				3B39D30A195C3091002520B9 /* UserFilter.m in Sources */,
 				4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
 				3BDA4C6E19064CD200EF6619 /* HPBaseNetworkManager.m in Sources */,
 				3B39D31C195C3122002520B9 /* SocketIOPacket.m in Sources */,
+				CD8CF436196A99D2000C7F18 /* UserFilter.m in Sources */,
 				3B39D30D195C3091002520B9 /* UserPoint.m in Sources */,
 				3BDA4C9A19064E5900EF6619 /* UIImageView+WebCache.m in Sources */,
 				4CDC98BD19519EEB006D2F89 /* UIView+HighPoint.m in Sources */,
@@ -1248,6 +1247,7 @@
 				4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */,
 				CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
+				CD8CF43F196AA463000C7F18 /* City.m in Sources */,
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,
 				3BDA4C9619064E5900EF6619 /* UIButton+WebCache.m in Sources */,
 				3BDA4C9719064E5900EF6619 /* UIImage+GIF.m in Sources */,

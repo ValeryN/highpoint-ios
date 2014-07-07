@@ -110,10 +110,10 @@
         self.oldRangeSlider.upperValue = [userFilter.maxAge floatValue];
         for (Gender *num in [userFilter.gender allObjects]) {
             NSLog(@"num = %@ -- %@", num, [num class]);
-            if ([num.genderType intValue] == 1) {
+            if ([num.genderType intValue] == 2) {
                 [self.womenSw setOn:YES];
             }
-            if ([num.genderType intValue] == 2) {
+            if ([num.genderType intValue] == 1) {
                 [self.menSw setOn:YES];
             }
         }
@@ -218,10 +218,10 @@
 - (void) saveFilter {
     NSMutableArray *genderArr = [[NSMutableArray alloc] init];
     if (self.womenSw.isOn) {
-        [genderArr addObject:[NSNumber numberWithFloat:1]];
+        [genderArr addObject:[NSNumber numberWithFloat:2]];
     }
     if (self.menSw.isOn) {
-        [genderArr addObject:[NSNumber numberWithFloat:2]];
+        [genderArr addObject:[NSNumber numberWithFloat:1]];
     }
     //TODO: city ids and view type ?
     NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders",@"", @"cityIds", nil];

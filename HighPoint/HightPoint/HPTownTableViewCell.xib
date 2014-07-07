@@ -21,9 +21,15 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ojR-4R-9Ad">
+                        <rect key="frame" x="285" y="12" width="25" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </imageView>
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="isSelectedImgView" destination="ojR-4R-9Ad" id="XnF-Fg-KvM"/>
                 <outlet property="townNameLabel" destination="l4F-zL-WNV" id="EFL-10-3in"/>
             </connections>
         </tableViewCell>

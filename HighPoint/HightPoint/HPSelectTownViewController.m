@@ -10,12 +10,15 @@
 #import "Utils.h"
 #import "HPTownTableViewCell.h"
 #import "HPBaseNetworkManager.h"
+#import "NotificationsConstants.h"
+#import "DataStorage.h"
 
 @interface HPSelectTownViewController ()
 
 @end
 
 @implementation HPSelectTownViewController
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +36,8 @@
     self.townsTableView.delegate = self;
     self.townsTableView.dataSource = self;
     self.townsTableView.backgroundColor = [UIColor clearColor];
+    self.townSearchBar.delegate = self;
+    self.allCities = [[NSMutableArray alloc] init];
     // Do any additional setup after loading the view.
 }
 - (void) viewWillAppear:(BOOL)animated {
@@ -40,10 +45,17 @@
     [Utils configureNavigationBar:self.navigationController];
     [self configureNavButton];
     [self.navigationController setNavigationBarHidden:NO];
-    
-    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"query",@"query",@"limit",@"limit",nil];
-    [[HPBaseNetworkManager sharedNetworkManager] findGeoLocation:dict];
+    [self registerNotification];
+    [self updateCurrentView];
 }
+
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[DataStorage sharedDataStorage] deleteAllTempCities];
+    [self unregisterNotification];
+}
+
 - (void) configureNavButton {
     UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 12, 23)];
     [leftButton setContentMode:UIViewContentModeScaleAspectFit];
@@ -75,6 +87,24 @@
 }
 
 
+#pragma mark - notifications 
+- (void) registerNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateCitiesListView object:nil];
+}
+
+- (void) unregisterNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateCitiesListView object:nil];
+}
+
+#pragma mark - update current view
+
+- (void) updateCurrentView
+{
+    self.allCities = [[[[DataStorage sharedDataStorage] allTempCitiesFetchResultsController] fetchedObjects] mutableCopy];
+    [self.townsTableView reloadData];
+}
+
+
 #pragma mark - table view
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -87,14 +117,15 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPTownTableViewCell" owner:self options:nil];
         townCell = [nib objectAtIndex:0];
     }
-    [townCell configureCell:nil];
+    City *city = [self.allCities objectAtIndex:indexPath.row];
+    [townCell configureCell:city];
     return townCell;
 
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return self.allCities.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -110,14 +141,32 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    City *city = [self.allCities objectAtIndex:indexPath.row];
+    [[DataStorage sharedDataStorage] setCityNotTemp:city.cityId];
+    [[DataStorage sharedDataStorage] setCityToUserFilter:city];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     return [[UIView alloc] initWithFrame:CGRectZero];
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [[UIView alloc] initWithFrame:CGRectZero];
+}
 
+#pragma mark - search bar
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if (searchText.length > 0) {
+        [[DataStorage sharedDataStorage] deleteAllTempCities];
+        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:searchText,@"query",@"20",@"limit",nil];
+        [[HPBaseNetworkManager sharedNetworkManager] findGeoLocation:dict];
+    } else {
+        [[DataStorage sharedDataStorage] deleteAllTempCities];
+        [self.allCities removeAllObjects];
+        [self.townsTableView reloadData];
+    }
+}
 
 @end
