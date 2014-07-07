@@ -57,7 +57,6 @@
 		3B39D2F5195C3091002520B9 /* MaxEntertainmentPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D2F4195C3091002520B9 /* MaxEntertainmentPrice.m */; };
 		3B39D2F8195C3091002520B9 /* MinEntertainmentPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D2F7195C3091002520B9 /* MinEntertainmentPrice.m */; };
 		3B39D2FB195C3091002520B9 /* Career.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D2FA195C3091002520B9 /* Career.m */; };
-		3B39D2FE195C3091002520B9 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D2FD195C3091002520B9 /* User.m */; };
 		3B39D301195C3091002520B9 /* Gender.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D300195C3091002520B9 /* Gender.m */; };
 		3B39D304195C3091002520B9 /* Education.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D303195C3091002520B9 /* Education.m */; };
 		3B39D307195C3091002520B9 /* Avatar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D306195C3091002520B9 /* Avatar.m */; };
@@ -187,6 +186,9 @@
 		4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
+		CD1B0F4B19669D57007F4FCA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1B0F4A19669D57007F4FCA /* User.m */; };
+		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
+		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -261,8 +263,6 @@
 		3B39D2F7195C3091002520B9 /* MinEntertainmentPrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinEntertainmentPrice.m; sourceTree = "<group>"; };
 		3B39D2F9195C3091002520B9 /* Career.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Career.h; sourceTree = "<group>"; };
 		3B39D2FA195C3091002520B9 /* Career.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Career.m; sourceTree = "<group>"; };
-		3B39D2FC195C3091002520B9 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		3B39D2FD195C3091002520B9 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		3B39D2FF195C3091002520B9 /* Gender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gender.h; sourceTree = "<group>"; };
 		3B39D300195C3091002520B9 /* Gender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gender.m; sourceTree = "<group>"; };
 		3B39D302195C3091002520B9 /* Education.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Education.h; sourceTree = "<group>"; };
@@ -443,6 +443,11 @@
 		4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPMainViewListTableViewCell+HighPoint.m"; sourceTree = "<group>"; };
 		CD183C35196418D0002AC98D /* UserTokenUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTokenUtils.h; sourceTree = "<group>"; };
 		CD183C36196418D0002AC98D /* UserTokenUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTokenUtils.m; sourceTree = "<group>"; };
+		CD1B0F4919669D57007F4FCA /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		CD1B0F4A19669D57007F4FCA /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
+		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
+		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -783,6 +788,9 @@
 		3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */ = {
 			isa = PBXGroup;
 			children = (
+				CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */,
+				CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */,
+				CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */,
 				3BCB5B05192F8D3500E5DCA9 /* HPSelectTownViewController.h */,
 				3BCB5B06192F8D3500E5DCA9 /* HPSelectTownViewController.m */,
 				4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */,
@@ -819,6 +827,8 @@
 		3BDA4C441906461900EF6619 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				CD1B0F4919669D57007F4FCA /* User.h */,
+				CD1B0F4A19669D57007F4FCA /* User.m */,
 				3B39D326195C5B5C002520B9 /* Region.h */,
 				3B39D327195C5B5C002520B9 /* Region.m */,
 				3B39D323195C5B34002520B9 /* City.h */,
@@ -835,8 +845,6 @@
 				3B39D303195C3091002520B9 /* Education.m */,
 				3B39D2FF195C3091002520B9 /* Gender.h */,
 				3B39D300195C3091002520B9 /* Gender.m */,
-				3B39D2FC195C3091002520B9 /* User.h */,
-				3B39D2FD195C3091002520B9 /* User.m */,
 				3B39D2F9195C3091002520B9 /* Career.h */,
 				3B39D2FA195C3091002520B9 /* Career.m */,
 				3B39D2F6195C3091002520B9 /* MinEntertainmentPrice.h */,
@@ -1092,6 +1100,7 @@
 				3B6DB49C18FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 				4C91C1EB1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
+				CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */,
 				3BCB5B0A192F946B00E5DCA9 /* Back Tap.png in Resources */,
 				3B298FD0192F476100BEC2AA /* slider-metal-track@2x.png in Resources */,
 				3B298FB9192F476100BEC2AA /* slider-default-handle-highlighted.png in Resources */,
@@ -1172,6 +1181,7 @@
 				3BDA4CA8190660B400EF6619 /* SRWebSocket.m in Sources */,
 				4C8096A9193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				4CA7B63B195C379000DC9D52 /* HPAvatarView.m in Sources */,
+				CD1B0F4B19669D57007F4FCA /* User.m in Sources */,
 				3B39D325195C5B34002520B9 /* City.m in Sources */,
 				3B6DB4A218FFC24D00C26A50 /* HPAppDelegate.m in Sources */,
 				3B39D31D195C3122002520B9 /* SocketIOTransportWebsocket.m in Sources */,
@@ -1224,7 +1234,6 @@
 				3BA9A305190125F700CD542A /* DataStorage.m in Sources */,
 				4C8096AE193F2E2200E4C174 /* UILabel+HighPoint.m in Sources */,
 				4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
-				3B39D2FE195C3091002520B9 /* User.m in Sources */,
 				3B39D2F5195C3091002520B9 /* MaxEntertainmentPrice.m in Sources */,
 				3BCB5B07192F8D3500E5DCA9 /* HPSelectTownViewController.m in Sources */,
 				3BDA4C9419064E5900EF6619 /* SDWebImageManager.m in Sources */,
@@ -1237,6 +1246,7 @@
 				3B39D2F2195C3090002520B9 /* AppSetting.m in Sources */,
 				3BDA4C8D19064E5900EF6619 /* MKAnnotationView+WebCache.m in Sources */,
 				4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */,
+				CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,
 				3BDA4C9619064E5900EF6619 /* UIButton+WebCache.m in Sources */,

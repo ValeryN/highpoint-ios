@@ -52,8 +52,37 @@ static DataStorage *dataStorage;
         [arr addObject:gender];
     }
     uf.gender = [NSSet setWithArray:arr];
+    [self saveContext];
     return uf;
+    
 }
+
+- (UserFilter*) getUserFilter {
+    NSArray *fetchedObjects;
+    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"UserFilter"  inManagedObjectContext: self.moc];
+    [fetch setEntity:entityDescription];
+    NSError * error = nil;
+    fetchedObjects = [self.moc executeFetchRequest:fetch error:&error];
+    if([fetchedObjects count] == 1)
+        return [fetchedObjects objectAtIndex:0];
+    else
+        return nil;
+}
+
+- (void) deleteUserFilter {
+    NSFetchRequest * allFilters = [[NSFetchRequest alloc] init];
+    [allFilters setEntity:[NSEntityDescription entityForName:@"UserFilter" inManagedObjectContext:self.moc]];
+    [allFilters setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * filters = [self.moc executeFetchRequest:allFilters error:&error];
+    //error handling goes here
+    for (NSManagedObject * filter in filters) {
+        [self.moc deleteObject:filter];
+    }
+    [self saveContext];
+}
+
 #pragma mark -
 #pragma mark education entity
 - (Education*) createEducationEntity:(NSDictionary *)param {
@@ -204,7 +233,8 @@ static DataStorage *dataStorage;
                 user.nameForms = par;
             }
         }
-        NSLog(@"%@", user.nameForms);
+        user.point = [[DataStorage sharedDataStorage] getPointForUserId:user.userId];
+        NSLog(@"saved point text %@", user.point.pointText);
         [self saveContext];
     }
 }
@@ -397,6 +427,9 @@ static DataStorage *dataStorage;
         return [temp objectAtIndex:0];
     else return nil;
 }
+
+#pragma mark - users
+
 -(NSFetchedResultsController*) allUsersFetchResultsController {
     NSFetchRequest* request = [[NSFetchRequest alloc] init];
 	NSEntityDescription* entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:self.moc];
@@ -414,6 +447,42 @@ static DataStorage *dataStorage;
     return controller;
 
 }
+
+-(NSFetchedResultsController*) allUsersWithPointFetchResultsController {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"point.@count == 1"];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    return controller;
+    
+}
+
+
 -(NSFetchedResultsController*) applicationSettingFetchResultsController
 {
     NSFetchRequest* request = [[NSFetchRequest alloc] init];

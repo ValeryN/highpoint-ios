@@ -9,6 +9,10 @@
 #import "HPFilterSettingsViewController.h"
 #import "HPSelectTownViewController.h"
 #import "Utils.h"
+#import "DataStorage.h"
+#import "HPBaseNetworkManager.h"
+#import "Gender.h"
+
 @interface HPFilterSettingsViewController ()
 
 @end
@@ -74,7 +78,7 @@
     self.guideLabel4.font = [UIFont fontWithName:@"FuturaPT-Light" size:15.0f];
     self.guideLabel4.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.6];
     
-    [self.womenSw setOn:YES];
+    [self.womenSw setOn:NO];
     [self.menSw setOn:NO];
     
     //self.oldRangeSlider.lowerValue = 18;
@@ -96,8 +100,28 @@
     self.oldRangeSlider.minimumValue = 18;
     self.oldRangeSlider.maximumValue = 60;
     //self.oldRangeSlider.minimumRange = 1;
-    self.oldRangeSlider.lowerValue = 40.0;
-    self.oldRangeSlider.upperValue = 60.0;
+    
+    
+    //set values from DB
+    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
+    NSLog(@"Current user filter = %@", userFilter.description);
+    if (userFilter) {
+        self.oldRangeSlider.lowerValue = [userFilter.minAge floatValue];
+        self.oldRangeSlider.upperValue = [userFilter.maxAge floatValue];
+        for (Gender *num in [userFilter.gender allObjects]) {
+            NSLog(@"num = %@ -- %@", num, [num class]);
+            if ([num.genderType intValue] == 1) {
+                [self.womenSw setOn:YES];
+            }
+            if ([num.genderType intValue] == 2) {
+                [self.menSw setOn:YES];
+            }
+        }
+    } else {
+        [self.womenSw setOn:YES];
+        self.oldRangeSlider.lowerValue = 20.0;
+        self.oldRangeSlider.upperValue = 30.0;
+    }
     [self updateSliderLabels];
 }
 #pragma mark -
@@ -109,6 +133,9 @@
     
 }
 - (IBAction) closeButtonTap:(id)sender {
+    //save filter entity and make user filter request
+
+    [self saveFilter];
     self.navigationController.delegate = self.savedDelegate;
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -184,6 +211,23 @@
 }
 - (IBAction)labelSliderChanged:(NMRangeSlider*)sender   {
     [self updateSliderLabels];
+}
+
+#pragma mark - save filters 
+
+- (void) saveFilter {
+    NSMutableArray *genderArr = [[NSMutableArray alloc] init];
+    if (self.womenSw.isOn) {
+        [genderArr addObject:[NSNumber numberWithFloat:1]];
+    }
+    if (self.menSw.isOn) {
+        [genderArr addObject:[NSNumber numberWithFloat:2]];
+    }
+    //TODO: city ids and view type ?
+    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders",@"", @"cityIds", nil];
+    [[DataStorage sharedDataStorage] deleteUserFilter];
+    [[DataStorage sharedDataStorage] createUserFilterEntity:filterParams];
+    [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
 }
 
 @end

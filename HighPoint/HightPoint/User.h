@@ -2,14 +2,14 @@
 //  User.h
 //  HighPoint
 //
-//  Created by Andrey Anisimov on 26.06.14.
+//  Created by Julia Pozdnyakova on 04.07.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Avatar, Career, Education, MaxEntertainmentPrice, MinEntertainmentPrice, UserFilter;
+@class Avatar, Career, Education, MaxEntertainmentPrice, MinEntertainmentPrice, UserFilter, UserPoint;
 
 @interface User : NSManagedObject
 
@@ -32,6 +32,7 @@
 @property (nonatomic, retain) MaxEntertainmentPrice *maxentertainment;
 @property (nonatomic, retain) MinEntertainmentPrice *minentertainment;
 @property (nonatomic, retain) UserFilter *userfilter;
+@property (nonatomic, retain) UserPoint *point;
 @end
 
 @interface User (CoreDataGeneratedAccessors)

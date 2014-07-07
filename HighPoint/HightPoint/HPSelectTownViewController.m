@@ -8,6 +8,9 @@
 
 #import "HPSelectTownViewController.h"
 #import "Utils.h"
+#import "HPTownTableViewCell.h"
+#import "HPBaseNetworkManager.h"
+
 @interface HPSelectTownViewController ()
 
 @end
@@ -27,6 +30,9 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
+    self.townsTableView.delegate = self;
+    self.townsTableView.dataSource = self;
+    self.townsTableView.backgroundColor = [UIColor clearColor];
     // Do any additional setup after loading the view.
 }
 - (void) viewWillAppear:(BOOL)animated {
@@ -34,6 +40,9 @@
     [Utils configureNavigationBar:self.navigationController];
     [self configureNavButton];
     [self.navigationController setNavigationBarHidden:NO];
+    
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"query",@"query",@"limit",@"limit",nil];
+    [[HPBaseNetworkManager sharedNetworkManager] findGeoLocation:dict];
 }
 - (void) configureNavButton {
     UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 12, 23)];
@@ -64,5 +73,51 @@
     //[self showNotification];
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
+#pragma mark - table view
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *townCellIdentifier = @"PaymentCellIdentif";
+    HPTownTableViewCell *townCell = (HPTownTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
+    
+    if (townCell == nil)
+    {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPTownTableViewCell" owner:self options:nil];
+        townCell = [nib objectAtIndex:0];
+    }
+    [townCell configureCell:nil];
+    return townCell;
+
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 5;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [[UIView alloc] initWithFrame:CGRectZero];
+}
+
+
 
 @end

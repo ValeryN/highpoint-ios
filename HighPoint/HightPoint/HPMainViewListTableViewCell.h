@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "HPAvatarView.h"
+#import "UserPoint.h"
+
 
 @class User;
 @interface HPMainViewListTableViewCell : UITableViewCell

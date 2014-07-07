@@ -103,7 +103,7 @@ static HPBaseNetworkManager *networkManager;
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"USERS -->: %@", operation.responseString);
+        NSLog(@"GEOLOCATION -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -189,19 +189,22 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 //[[DataStorage sharedDataStorage] createUserEntity:jsonDict];
-                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 
-                for(NSDictionary *dict in usr) {
-                    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
-                    [self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO];
-                }
+                
                 NSArray *keys = [[[jsonDict objectForKey:@"data"] objectForKey:@"points"] allKeys];
                 for(NSString *key in keys) {
                     NSDictionary *dict = [[[jsonDict objectForKey:@"data"] objectForKey:@"points"] objectForKey:key];
                     [[DataStorage sharedDataStorage] createPoint:dict];
                 }
-                NSNotification *notification = [NSNotification notificationWithName:kNeedUpdateViews
+                
+                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                for(NSDictionary *dict in usr) {
+                    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
+                    [self getGeoLocation:param];
+                    [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO];
+                }
+                
+                NSNotification *notification = [NSNotification notificationWithName:kNeedUpdateUsersListViews
                                                                              object:nil
                                                                            userInfo:nil];
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -243,7 +246,32 @@ static HPBaseNetworkManager *networkManager;
     }];
 }
 - (void) findGeoLocation:(NSDictionary*) param {
-    
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kGeoLocationFindRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"FIND GEO LOCATION JSON --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                
+            } else {
+                NSLog(@"Error, no valid data");
+            }
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
 }
 - (void) getApplicationSettingsRequest {
     ///v201405/settings
@@ -273,13 +301,43 @@ static HPBaseNetworkManager *networkManager;
     }];
 }
 
-- (void) getUserInfoRequest:(NSDictionary*) param {
-   
-}
+//- (void) getUserInfoRequest:(NSDictionary*) param {
+//   
+//}
 //- (void) getCurrentUserSettingsRequest:(NSDictionary*) param {
 //    
 //}
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param {
+    ///v201405/me/filter
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kCurrentUserFilter];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    NSLog(@"USER FILTER PARAMS --> %@", param.description);
+    [manager PUT:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@" FILTER JSON --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                // TODO: save ?
+            } else {
+                NSLog(@"Error, no valid data");
+            }
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
     
 }
 

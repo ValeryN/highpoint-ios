@@ -20,8 +20,6 @@
 
 #import "NotificationsConstants.h"
 
-#import "HPBaseNetworkManager.h"
-
 
 //==============================================================================
 
@@ -43,6 +41,11 @@
 {
     [super viewDidLoad];
 
+    //TODO : delete
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
+    [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
+
+    
     [self configureNavigationBar];
     [self createSwitch];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
@@ -53,6 +56,8 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO];
     [self registerNotification];
     [self updateCurrentView];
     
@@ -65,11 +70,11 @@
 }
 //==============================================================================
 - (void) registerNotification {
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateViews object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
 }
 //==============================================================================
 - (void) unregisterNotification {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateViews object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
 }
 //==============================================================================
 
@@ -140,7 +145,13 @@
     [self.navigationController pushViewController:filter animated:YES];
 }
 - (void) updateCurrentView {
-    self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
+    NSLog(@"switcher state = %d", _bottomSwitch.switchState);
+    
+    if (_bottomSwitch.switchState) {
+        self.allUsers = [[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController];
+    } else {
+        self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
+    }
     [self.mainListTable reloadData];
 }
 //==============================================================================
@@ -170,7 +181,6 @@
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
     User *user = [[self.allUsers fetchedObjects] objectAtIndex:indexPath.row];
-    NSLog(@"%@", [[DataStorage sharedDataStorage] getPointForUserId:user.userId].pointText);
     [mCell configureCell: user];
     if (indexPath.row == 3)
         [mCell makeAnonymous];
@@ -230,14 +240,18 @@
 
 - (void) switchedToLeft
 {
+    [self updateCurrentView];
     NSLog(@"switched into left");
+    NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
 
 //==============================================================================
 
 - (void) switchedToRight
 {
+    [self updateCurrentView];
     NSLog(@"switched into right");
+    NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
 
 //==============================================================================
