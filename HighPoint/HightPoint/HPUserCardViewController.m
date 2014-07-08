@@ -317,6 +317,8 @@
 - (IBAction) infoButtonPressed: (id)sender
 {
     NSLog(@"info button pressed");
+    HPUserProfileViewController* infoVC = [[HPUserProfileViewController alloc] initWithNibName: @"HPUserProfile" bundle: nil];
+    [self.navigationController pushViewController: infoVC animated: YES];
 }
 
 //==============================================================================

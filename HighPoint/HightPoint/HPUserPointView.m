@@ -100,6 +100,12 @@
                 (consIter.secondItem == self))
                 consIter.constant = CONSTRAINT_TOP_FOR_HEART;
         }
+        cons = _backgroundAvatar.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if (consIter.firstAttribute == NSLayoutAttributeHeight)
+                consIter.constant = CONSTRAINT_HEIGHT_FOR_SELF;
+        }
     }
 }
 

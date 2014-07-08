@@ -10,17 +10,14 @@
 
 #import <UIKit/UIKit.h>
 
-//==============================================================================
-
-@protocol  HPUserProfileViewControllerDelegate <NSObject>
-- (void)profileWillBeHidden;
-@end
+#import "HPGreenButtonVC.h"
 
 //==============================================================================
 
-@interface HPUserProfileViewController : UIViewController
-@property (nonatomic, weak) IBOutlet UIButton *downButton;
-@property (nonatomic, weak) IBOutlet UIView *barView;
-@property (nonatomic, weak) id<HPUserProfileViewControllerDelegate> delegate;
+@interface HPUserProfileViewController : UIViewController<GreenButtonProtocol>
+
+@property (weak, nonatomic) IBOutlet UIScrollView* photoScroller;
+
 - (IBAction)downButtonTap:(id)sender;
+
 @end

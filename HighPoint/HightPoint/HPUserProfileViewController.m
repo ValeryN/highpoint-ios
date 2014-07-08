@@ -10,6 +10,11 @@
 
 #import "HPUserProfileViewController.h"
 #import "Utils.h"
+#import "UIDevice+HighPoint.h"
+
+//==============================================================================
+
+#define GREEN_BUTTON_BOTTOM 20
 
 //==============================================================================
 
@@ -20,28 +25,73 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.view.backgroundColor = [UIColor colorWithRed: 30.0/255.0
-//                                                green: 29.0/255.0
-//                                                 blue: 48.0/255.0
-//                                                alpha: 1.0];
+    
+    [self createGreenButton];
 }
 
 //==============================================================================
 
-- (void) viewDidAppear:(BOOL)animated
+- (void) createGreenButton
 {
-    [super viewDidAppear: animated];
+    HPGreenButtonVC* sendMessage = [[HPGreenButtonVC alloc] initWithNibName: @"HPGreenButtonVC" bundle: nil];
+    sendMessage.view.translatesAutoresizingMaskIntoConstraints = NO;
+    sendMessage.delegate = self;
+
+    CGRect rect = sendMessage.view.frame;
+    CGRect bounds = [UIScreen mainScreen].bounds;
+    rect.origin.x = (bounds.size.width - rect.size.width) / 2.0f;
+    rect.origin.y = bounds.size.height - rect.size.height - GREEN_BUTTON_BOTTOM;
+    sendMessage.view.frame = rect;
+
+    [self addChildViewController: sendMessage];
+    [self.view addSubview: sendMessage.view];
+
+    [self createGreenButtonsConstraint: sendMessage];
 }
 
 //==============================================================================
 
-- (IBAction)downButtonTap: (id)sender
+- (void) createGreenButtonsConstraint: (HPGreenButtonVC*) sendMessage
 {
-    if ([self.delegate respondsToSelector: @selector(profileWillBeHidden)])
-        [self.delegate profileWillBeHidden];
+    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
+                                                                 attribute: NSLayoutAttributeWidth
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: nil
+                                                                 attribute: NSLayoutAttributeNotAnAttribute
+                                                                multiplier: 1.0
+                                                                  constant: sendMessage.view.frame.size.width]];
 
-    [self dismissViewControllerAnimated: YES
-                             completion: nil];
+    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
+                                                                 attribute: NSLayoutAttributeHeight
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: nil
+                                                                 attribute: NSLayoutAttributeNotAnAttribute
+                                                                multiplier: 1.0
+                                                                  constant: sendMessage.view.frame.size.height]];
+//
+//    NSArray* cons = self.view.constraints;
+//    for (NSLayoutConstraint* consIter in cons)
+//    {
+//        if ((consIter.firstAttribute == NSLayoutAttributeBottom) &&
+//            (consIter.firstItem == self.view) &&
+//            (consIter.secondItem == _infoButton))
+//            {
+//               [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.view
+//                                                                     attribute: NSLayoutAttributeBottom
+//                                                                     relatedBy: NSLayoutRelationEqual
+//                                                                        toItem: sendMessage.view
+//                                                                     attribute: NSLayoutAttributeBottom
+//                                                                    multiplier: 1.0
+//                                                                      constant: consIter.constant]];
+//            }
+//    }
+}
+
+//==============================================================================
+
+- (void) greenButtonPressed: (HPGreenButtonVC*) button
+{
+    NSLog(@"Green button pressed");
 }
 
 //==============================================================================
