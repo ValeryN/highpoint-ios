@@ -46,8 +46,12 @@
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
 
-    
-    
+    //socket init
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"localhost",@"host", @"3002",@"port", nil];
+    [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
+
+    //
+
     [self configureNavigationBar];
     [self createSwitch];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
