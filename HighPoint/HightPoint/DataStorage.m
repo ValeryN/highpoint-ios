@@ -60,9 +60,7 @@ static DataStorage *dataStorage;
     
     if ( [[param objectForKey:@"cityIds"] isKindOfClass: [NSArray class]]) {
         for (int i = 0; i < citiesArr.count; i++) {
-            if ([((City*)[citiesArr objectAtIndex:i]).cityId stringValue].length >0) {
-                cityIds = [[cityIds stringByAppendingString:[((City*)[citiesArr objectAtIndex:i]).cityId stringValue]] stringByAppendingString:@","];
-            }
+                cityIds = [[cityIds stringByAppendingString:[[citiesArr objectAtIndex:i] stringValue]] stringByAppendingString:@","];
         }
         if ([cityIds length] > 0) {
             cityIds = [cityIds substringToIndex:[cityIds length] - 1];
