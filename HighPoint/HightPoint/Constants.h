@@ -39,4 +39,8 @@ static NSString * const kTypingFinish = @"typingFinish";
 static NSString * const kTypingStart = @"typingStart";
 static NSString * const kNotificationRead = @"notificationRead";
 static NSString * const kAllNotificationRead = @"allNotificationsRead";
+
+static NSString * const kMeUpdate = @"meUpdate";
+
+
 #endif

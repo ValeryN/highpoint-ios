@@ -120,6 +120,7 @@ static HPBaseNetworkManager *networkManager;
                 }
                 NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
+                
             }
             else NSLog(@"Error, no valid data");
             
@@ -487,7 +488,20 @@ static HPBaseNetworkManager *networkManager;
     {
         NSArray* args = packet.args;
         NSDictionary* arg = args[0];
-        
+    }
+    
+    if ([packet.name isEqualToString:kMeUpdate]) {
+        NSLog(@"me update args = %@", packet.args);
+        NSDictionary *jsonDict = [packet.args objectAtIndex:0];
+        if(jsonDict) {
+            [[DataStorage sharedDataStorage] deleteAllCities];
+            [[DataStorage sharedDataStorage] deleteCurrentUser];
+            [[DataStorage sharedDataStorage] createUserEntity: [jsonDict objectForKey:@"user"] isCurrent:YES];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCurrentUserData object:self userInfo:nil];
+        } else {
+            NSLog(@"Error, no valid data");
+        }
+
     }
 }
 

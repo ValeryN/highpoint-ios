@@ -36,6 +36,7 @@
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 -(NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
+- (void) deleteCurrentUser;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (AppSetting*) getAppSettings;
 - (City*) createCity:(NSDictionary *)param;
@@ -44,5 +45,6 @@
 - (City *) insertCityObjectToContext: (City *) city;
 - (void) removeCityObjectById : (City *)city;
 - (void) removeCityFromUserFilter :(City *) city;
+- (void) deleteAllCities;
 - (void) saveContext;
 @end

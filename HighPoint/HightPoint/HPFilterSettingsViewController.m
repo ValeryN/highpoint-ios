@@ -14,6 +14,7 @@
 #import "Gender.h"
 #import "HPTownTableViewCell.h"
 #import "HPAddTownTableViewCell.h"
+#import "NotificationsConstants.h"
 
 @interface HPFilterSettingsViewController ()
 
@@ -100,36 +101,23 @@
 }
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self registerNotification];
+    
     [self.navigationController setNavigationBarHidden:YES];
     self.oldRangeSlider.minimumValue = 18;
     self.oldRangeSlider.maximumValue = 60;
     //self.oldRangeSlider.minimumRange = 1;
-    
-    
-    //set values from DB
-    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
-    NSLog(@"Current user filter = %@", userFilter.description);
-    if (userFilter) {
-        self.oldRangeSlider.lowerValue = [userFilter.minAge floatValue];
-        self.oldRangeSlider.upperValue = [userFilter.maxAge floatValue];
-        for (Gender *num in [userFilter.gender allObjects]) {
-            NSLog(@"num = %@ -- %@", num, [num class]);
-            if ([num.genderType intValue] == 2) {
-                [self.womenSw setOn:YES];
-            }
-            if ([num.genderType intValue] == 1) {
-                [self.menSw setOn:YES];
-            }
-        }
-    } else {
-        [self.womenSw setOn:YES];
-        self.oldRangeSlider.lowerValue = 20.0;
-        self.oldRangeSlider.upperValue = 30.0;
-    }
-    [self updateSliderLabels];
-    allCities = [userFilter.city allObjects];
-    [self.townsTableView reloadData];
+    [self updateViewValues];
 }
+
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self unregisterNotification];
+    
+}
+
 #pragma mark -
 #pragma mark controller button tap handler
 - (IBAction) profileButtonTap:(id)sender {
@@ -211,6 +199,48 @@
 - (IBAction)labelSliderChanged:(NMRangeSlider*)sender   {
     [self updateSliderLabels];
 }
+
+#pragma mark - notifications
+
+- (void) registerNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateViewValues) name:kNeedUpdateCurrentUserData object:nil];
+
+}
+
+- (void) unregisterNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateCurrentUserData object:nil];
+}
+
+
+#pragma mark - update view 
+
+- (void) updateViewValues {
+    //set values from DB
+    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
+    NSLog(@"Current user filter = %@", userFilter.description);
+    if (userFilter) {
+        self.oldRangeSlider.lowerValue = [userFilter.minAge floatValue];
+        self.oldRangeSlider.upperValue = [userFilter.maxAge floatValue];
+        for (Gender *num in [userFilter.gender allObjects]) {
+            NSLog(@"num = %@ -- %@", num, [num class]);
+            if ([num.genderType intValue] == 2) {
+                [self.womenSw setOn:YES];
+            }
+            if ([num.genderType intValue] == 1) {
+                [self.menSw setOn:YES];
+            }
+        }
+    } else {
+        [self.womenSw setOn:YES];
+        self.oldRangeSlider.lowerValue = 20.0;
+        self.oldRangeSlider.upperValue = 30.0;
+    }
+    [self updateSliderLabels];
+    allCities = [userFilter.city allObjects];
+    [self.townsTableView reloadData];
+}
+
+
 
 #pragma mark - save filters 
 
