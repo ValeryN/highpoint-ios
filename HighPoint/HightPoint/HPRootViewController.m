@@ -17,6 +17,7 @@
 #import "UIDevice+HighPoint.h"
 #import "UILabel+HighPoint.h"
 #import "DataStorage.h"
+#import "HPChatListViewController.h"
 
 #import "NotificationsConstants.h"
 
@@ -138,6 +139,10 @@
 - (IBAction) bubbleButtonPressedStart: (id) sender
 {
     [self hideNotificationBadge];
+    HPChatListViewController* chatList = [[HPChatListViewController alloc] initWithNibName: @"HPChatListViewController" bundle: nil];
+    _crossDissolveAnimationController.viewForInteraction = chatList.view;
+    [self.navigationController pushViewController:chatList animated:YES];
+    
 }
 
 //==============================================================================

@@ -57,14 +57,18 @@ static DataStorage *dataStorage;
     }
     NSString *cityIds = @"";
     NSArray *citiesArr = [param objectForKey:@"cityIds"];
-    for (int i = 0; i < citiesArr.count; i++) {
-        if ([((City*)[citiesArr objectAtIndex:i]).cityId stringValue].length >0) {
-            cityIds = [[cityIds stringByAppendingString:[((City*)[citiesArr objectAtIndex:i]).cityId stringValue]] stringByAppendingString:@","];
+    
+    if ( [[param objectForKey:@"cityIds"] isKindOfClass: [NSArray class]]) {
+        for (int i = 0; i < citiesArr.count; i++) {
+            if ([((City*)[citiesArr objectAtIndex:i]).cityId stringValue].length >0) {
+                cityIds = [[cityIds stringByAppendingString:[((City*)[citiesArr objectAtIndex:i]).cityId stringValue]] stringByAppendingString:@","];
+            }
+        }
+        if ([cityIds length] > 0) {
+            cityIds = [cityIds substringToIndex:[cityIds length] - 1];
         }
     }
-    if ([cityIds length] > 0) {
-        cityIds = [cityIds substringToIndex:[cityIds length] - 1];
-    }
+    
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:cityIds, @"cityIds",@"",@"countryIds",@"",@"regionIds", nil];
     [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params];
     uf.gender = [NSSet setWithArray:arr];

@@ -191,6 +191,18 @@
 		CDFA89FC196BAC3800D04451 /* HPAddTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA89FA196BAC3800D04451 /* HPAddTownTableViewCell.m */; };
 		CDFA89FD196BAC3800D04451 /* HPAddTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFA89FB196BAC3800D04451 /* HPAddTownTableViewCell.xib */; };
 		CDFA8A00196BB68000D04451 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA89FF196BB67F00D04451 /* City.m */; };
+		CDFA8A06196BDF7C00D04451 /* HPChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A04196BDF7C00D04451 /* HPChatListViewController.xib */; };
+		CDFA8A09196BE4B100D04451 /* HPChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA8A08196BE4B100D04451 /* HPChatListViewController.m */; };
+		CDFA8A0E196BE5E900D04451 /* HPChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A0C196BE5E900D04451 /* HPChatTableViewCell.xib */; };
+		CDFA8A11196BE63200D04451 /* HPChatTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA8A10196BE63200D04451 /* HPChatTableViewCell.m */; };
+		CDFA8A1A196BEA6200D04451 /* Lens Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A12196BEA6200D04451 /* Lens Tap.png */; };
+		CDFA8A1B196BEA6200D04451 /* Lens.png in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A13196BEA6200D04451 /* Lens.png */; };
+		CDFA8A1C196BEA6200D04451 /* Lock Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A14196BEA6200D04451 /* Lock Tap.png */; };
+		CDFA8A1D196BEA6200D04451 /* Notice.png in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A15196BEA6200D04451 /* Notice.png */; };
+		CDFA8A1E196BEA6200D04451 /* Rectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A16196BEA6200D04451 /* Rectangle.png */; };
+		CDFA8A1F196BEA6200D04451 /* Switcher-C.png in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A17196BEA6200D04451 /* Switcher-C.png */; };
+		CDFA8A20196BEA6200D04451 /* Switcher-L.png in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A18196BEA6200D04451 /* Switcher-L.png */; };
+		CDFA8A21196BEA6200D04451 /* Switcher-R.png in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A19196BEA6200D04451 /* Switcher-R.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -453,6 +465,20 @@
 		CDFA89FB196BAC3800D04451 /* HPAddTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAddTownTableViewCell.xib; sourceTree = "<group>"; };
 		CDFA89FE196BB67F00D04451 /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
 		CDFA89FF196BB67F00D04451 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
+		CDFA8A04196BDF7C00D04451 /* HPChatListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatListViewController.xib; sourceTree = "<group>"; };
+		CDFA8A07196BE4B100D04451 /* HPChatListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatListViewController.h; sourceTree = "<group>"; };
+		CDFA8A08196BE4B100D04451 /* HPChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChatListViewController.m; sourceTree = "<group>"; };
+		CDFA8A0C196BE5E900D04451 /* HPChatTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatTableViewCell.xib; sourceTree = "<group>"; };
+		CDFA8A0F196BE63200D04451 /* HPChatTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatTableViewCell.h; sourceTree = "<group>"; };
+		CDFA8A10196BE63200D04451 /* HPChatTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChatTableViewCell.m; sourceTree = "<group>"; };
+		CDFA8A12196BEA6200D04451 /* Lens Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lens Tap.png"; sourceTree = "<group>"; };
+		CDFA8A13196BEA6200D04451 /* Lens.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lens.png; sourceTree = "<group>"; };
+		CDFA8A14196BEA6200D04451 /* Lock Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lock Tap.png"; sourceTree = "<group>"; };
+		CDFA8A15196BEA6200D04451 /* Notice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Notice.png; sourceTree = "<group>"; };
+		CDFA8A16196BEA6200D04451 /* Rectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rectangle.png; sourceTree = "<group>"; };
+		CDFA8A17196BEA6200D04451 /* Switcher-C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Switcher-C.png"; sourceTree = "<group>"; };
+		CDFA8A18196BEA6200D04451 /* Switcher-L.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Switcher-L.png"; sourceTree = "<group>"; };
+		CDFA8A19196BEA6200D04451 /* Switcher-R.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Switcher-R.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -579,6 +605,14 @@
 		3B31864D191A493F0000DD8B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CDFA8A12196BEA6200D04451 /* Lens Tap.png */,
+				CDFA8A13196BEA6200D04451 /* Lens.png */,
+				CDFA8A14196BEA6200D04451 /* Lock Tap.png */,
+				CDFA8A15196BEA6200D04451 /* Notice.png */,
+				CDFA8A16196BEA6200D04451 /* Rectangle.png */,
+				CDFA8A17196BEA6200D04451 /* Switcher-C.png */,
+				CDFA8A18196BEA6200D04451 /* Switcher-L.png */,
+				CDFA8A19196BEA6200D04451 /* Switcher-R.png */,
 				3BB5E86B1936121F00DDF5F9 /* bar_background.png */,
 				3BB5E8691935FD5500DDF5F9 /* Down.png */,
 				3BCB5B08192F946B00E5DCA9 /* Back Tap.png */,
@@ -736,6 +770,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CDFA8A01196BDF2C00D04451 /* HPChatListViewController */,
 				4CBFB5B7195AF458002D7249 /* CardPoint */,
 				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
 				3BDA4C9E19064EC300EF6619 /* HPRootViewController */,
@@ -1017,6 +1052,19 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
+		CDFA8A01196BDF2C00D04451 /* HPChatListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CDFA8A07196BE4B100D04451 /* HPChatListViewController.h */,
+				CDFA8A08196BE4B100D04451 /* HPChatListViewController.m */,
+				CDFA8A04196BDF7C00D04451 /* HPChatListViewController.xib */,
+				CDFA8A0F196BE63200D04451 /* HPChatTableViewCell.h */,
+				CDFA8A10196BE63200D04451 /* HPChatTableViewCell.m */,
+				CDFA8A0C196BE5E900D04451 /* HPChatTableViewCell.xib */,
+			);
+			name = HPChatListViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1104,20 +1152,28 @@
 				3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */,
 				3B298FC2192F476100BEC2AA /* slider-default_trackBackground@2x.png in Resources */,
 				3B31865C191A7A4F0000DD8B /* ParaType - Futura PT Book.otf in Resources */,
+				CDFA8A1F196BEA6200D04451 /* Switcher-C.png in Resources */,
 				3B3170B1191B931300B72AC1 /* Userpic-Maskk_2.png in Resources */,
 				3B6DB49C18FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 				4C91C1EB1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */,
+				CDFA8A21196BEA6200D04451 /* Switcher-R.png in Resources */,
+				CDFA8A20196BEA6200D04451 /* Switcher-L.png in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
 				CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */,
 				3BCB5B0A192F946B00E5DCA9 /* Back Tap.png in Resources */,
 				3B298FD0192F476100BEC2AA /* slider-metal-track@2x.png in Resources */,
+				CDFA8A06196BDF7C00D04451 /* HPChatListViewController.xib in Resources */,
 				3B298FB9192F476100BEC2AA /* slider-default-handle-highlighted.png in Resources */,
 				3B298FBE192F476100BEC2AA /* slider-default-track@2x.png in Resources */,
 				3B318656191A6C6D0000DD8B /* Notice-L.png in Resources */,
+				CDFA8A1D196BEA6200D04451 /* Notice.png in Resources */,
+				CDFA8A1A196BEA6200D04451 /* Lens Tap.png in Resources */,
 				4CA2F9D7193C64B800D7FBFD /* HPUserCardView.xib in Resources */,
+				CDFA8A1E196BEA6200D04451 /* Rectangle.png in Resources */,
 				4CDC98B919519D08006D2F89 /* HPUserCardViewController.xib in Resources */,
 				3B298FC0192F476100BEC2AA /* slider-default-trackCrossedOver.png in Resources */,
 				3BB5E86C1936121F00DDF5F9 /* bar_background.png in Resources */,
+				CDFA8A0E196BE5E900D04451 /* HPChatTableViewCell.xib in Resources */,
 				3B298FBB192F476100BEC2AA /* slider-default-handle.png in Resources */,
 				3B298FC6192F476100BEC2AA /* slider-default7-track@2x.png in Resources */,
 				3B31865E191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf in Resources */,
@@ -1147,11 +1203,13 @@
 				4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,
 				3B298FC9192F476100BEC2AA /* slider-default7-trackCrossedOver.png in Resources */,
 				3B6DB4C518FFC33900C26A50 /* Storyboard_568.storyboard in Resources */,
+				CDFA8A1B196BEA6200D04451 /* Lens.png in Resources */,
 				4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */,
 				4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
 				3B31865D191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf in Resources */,
 				3B3170A7191B7D1500B72AC1 /* Userpic Mask.png in Resources */,
 				4C91C1F319585AC1002B27D4 /* HPUserPointView.xib in Resources */,
+				CDFA8A1C196BEA6200D04451 /* Lock Tap.png in Resources */,
 				3B298FC8192F476100BEC2AA /* slider-default7-trackBackground@2x.png in Resources */,
 				3B298FC1192F476100BEC2AA /* slider-default-trackCrossedOver@2x.png in Resources */,
 			);
@@ -1225,6 +1283,7 @@
 				CD8CF436196A99D2000C7F18 /* UserFilter.m in Sources */,
 				3B39D30D195C3091002520B9 /* UserPoint.m in Sources */,
 				3BDA4C9A19064E5900EF6619 /* UIImageView+WebCache.m in Sources */,
+				CDFA8A11196BE63200D04451 /* HPChatTableViewCell.m in Sources */,
 				4CDC98BD19519EEB006D2F89 /* UIView+HighPoint.m in Sources */,
 				4C91C1E8195812A4002B27D4 /* HPGreenButtonVC.m in Sources */,
 				3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */,
@@ -1250,6 +1309,7 @@
 				3BDA4C9319064E5900EF6619 /* SDWebImageDownloaderOperation.m in Sources */,
 				3B29F8E51922303D00EC6395 /* HPUserCardViewController.m in Sources */,
 				3BDA4C6519064AC900EF6619 /* AFNetworkReachabilityManager.m in Sources */,
+				CDFA8A09196BE4B100D04451 /* HPChatListViewController.m in Sources */,
 				3B39D2FB195C3091002520B9 /* Career.m in Sources */,
 				3BDA4C6319064AC900EF6619 /* AFHTTPRequestOperationManager.m in Sources */,
 				3B39D2F2195C3090002520B9 /* AppSetting.m in Sources */,
