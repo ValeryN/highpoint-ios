@@ -183,9 +183,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     City *city = [self.allCities objectAtIndex:indexPath.row];
-    city = [[DataStorage sharedDataStorage] insertCityObjectToContext:city];
-    [[DataStorage sharedDataStorage] setCityToUserFilter:city];
+    if ([self checkAddedMark:city]) {
+       // [[DataStorage sharedDataStorage] removeCityObjectById:city];
+        [[DataStorage sharedDataStorage] removeCityFromUserFilter:city];
+        
+    } else {
+        city = [[DataStorage sharedDataStorage] insertCityObjectToContext:city];
+        [[DataStorage sharedDataStorage] setCityToUserFilter:city];
+    }
+    [self.townsTableView reloadData];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

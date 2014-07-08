@@ -80,6 +80,33 @@ static DataStorage *dataStorage;
     }
 }
 
+
+- (void) removeCityFromUserFilter :(City *) city {
+    NSArray *fetchedObjects;
+    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"UserFilter"  inManagedObjectContext: self.moc];
+    [fetch setEntity:entityDescription];
+    NSError * error = nil;
+    fetchedObjects = [self.moc executeFetchRequest:fetch error:&error];
+    if([fetchedObjects count] >= 1) {
+        UserFilter *filter = [fetchedObjects objectAtIndex:0];
+        NSMutableArray *cities = [[filter.city allObjects] mutableCopy];
+        for (City *cityObj  in cities) {
+            if ([cityObj.cityId  isEqualToNumber:city.cityId]) {
+                [cities removeObject:cityObj];
+                break;
+            }
+        }
+        filter.city = [NSSet setWithArray:cities];
+        [self saveContext];
+        return;
+    } else {
+        return;
+    }
+}
+
+
+
 - (UserFilter*) getUserFilter {
     NSArray *fetchedObjects;
     NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
@@ -582,6 +609,13 @@ static DataStorage *dataStorage;
         return city;
     } else {
         return cityEnt;
+    }
+}
+
+- (void) removeCityObjectById : (City *)city {
+    City *cityEnt = [self getCityById:city.cityId];
+    if (cityEnt) {
+        [self.moc deleteObject:cityEnt];
     }
 }
 

@@ -42,5 +42,7 @@
 - (City *) createTempCity :(NSDictionary *) param;
 - (City *) getCityById : (NSNumber *) cityId;
 - (City *) insertCityObjectToContext: (City *) city;
+- (void) removeCityObjectById : (City *)city;
+- (void) removeCityFromUserFilter :(City *) city;
 - (void) saveContext;
 @end
