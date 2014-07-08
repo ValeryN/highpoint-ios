@@ -143,10 +143,9 @@
 		4C8096AF193F2E2200E4C174 /* UILabel+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8096AD193F2E2200E4C174 /* UILabel+HighPoint.m */; };
 		4C8096B1193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C8096B0193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf */; };
 		4C8096B2193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C8096B0193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf */; };
+		4C858354196C038600DA87B5 /* HPUserProfileViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C858353196C038600DA87B5 /* HPUserProfileViewController.storyboard */; };
 		4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */; };
 		4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */; };
-		4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */; };
-		4C89BD31193C899400DAE2EE /* HPUserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */; };
 		4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */; };
 		4C89BD35193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */; };
 		4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */; };
@@ -404,8 +403,8 @@
 		4C8096AC193F2E2200E4C174 /* UILabel+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+HighPoint.h"; sourceTree = "<group>"; };
 		4C8096AD193F2E2200E4C174 /* UILabel+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+HighPoint.m"; sourceTree = "<group>"; };
 		4C8096B0193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ParaType - Futura PT Medium.ttf"; sourceTree = "<group>"; };
+		4C858353196C038600DA87B5 /* HPUserProfileViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = HPUserProfileViewController.storyboard; sourceTree = "<group>"; };
 		4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPFilterSettings.xib; sourceTree = "<group>"; };
-		4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserProfile.xib; sourceTree = "<group>"; };
 		4C89BD32193CAAF100DAE2EE /* UINavigationController+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+HighPoint.h"; sourceTree = "<group>"; };
 		4C89BD33193CAAF100DAE2EE /* UINavigationController+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+HighPoint.m"; sourceTree = "<group>"; };
 		4C89BD36193CAE9E00DAE2EE /* HPSelectTown.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSelectTown.xib; sourceTree = "<group>"; };
@@ -630,7 +629,7 @@
 			children = (
 				3B49DE1C1934AAC500C3EF1E /* HPUserProfileViewController.h */,
 				3B49DE1D1934AAC500C3EF1E /* HPUserProfileViewController.m */,
-				4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */,
+				4C858353196C038600DA87B5 /* HPUserProfileViewController.storyboard */,
 			);
 			name = HPUserProfileViewController;
 			sourceTree = "<group>";
@@ -1087,7 +1086,6 @@
 			files = (
 				3BCB5B03192F8B2F00E5DCA9 /* Next.png in Resources */,
 				3B298FBF192F476100BEC2AA /* slider-default-trackBackground.png in Resources */,
-				4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */,
 				3B298FCC192F476100BEC2AA /* slider-metal-handle-highlighted@2x.png in Resources */,
 				3B298FCA192F476100BEC2AA /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */,
@@ -1115,6 +1113,7 @@
 				3B31865E191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf in Resources */,
 				3B3170AF191B91AD00B72AC1 /* pin_popup_blackw@2x.png in Resources */,
 				3B3170B4191BA50600B72AC1 /* Green Button.png in Resources */,
+				4C858354196C038600DA87B5 /* HPUserProfileViewController.storyboard in Resources */,
 				3B3170A4191B7A1D00B72AC1 /* img_sample.png in Resources */,
 				3B318653191A674A0000DD8B /* Notice-C.png in Resources */,
 				3B298FC3192F476100BEC2AA /* slider-default7-handle.png in Resources */,
@@ -1158,7 +1157,6 @@
 				4C89BD2E193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
 				4C8096B2193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */,
 				4C91C1F419585AC1002B27D4 /* HPUserPointView.xib in Resources */,
-				4C89BD31193C899400DAE2EE /* HPUserProfile.xib in Resources */,
 				3B6DB4B918FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 				4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */,
 				4C89BD38193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,

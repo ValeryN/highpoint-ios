@@ -305,8 +305,9 @@
 - (IBAction) infoButtonPressed: (id)sender
 {
     NSLog(@"info button pressed");
-    HPUserProfileViewController* infoVC = [[HPUserProfileViewController alloc] initWithNibName: @"HPUserProfile" bundle: nil];
-    [self.navigationController pushViewController: infoVC animated: YES];
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"HPUserProfileViewController" bundle:nil];
+    HPUserCardViewController *vc = [sb instantiateViewControllerWithIdentifier:@"ProfileVCId"];
+    [self.navigationController pushViewController: vc animated: YES];
 }
 
 //==============================================================================
