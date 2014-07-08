@@ -2,7 +2,7 @@
 //  City.h
 //  HighPoint
 //
-//  Created by Julia Pozdnyakova on 07.07.14.
+//  Created by Julia Pozdnyakova on 08.07.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -18,7 +18,6 @@
 @property (nonatomic, retain) NSString * cityName;
 @property (nonatomic, retain) id cityNameForms;
 @property (nonatomic, retain) NSNumber * cityRegionId;
-@property (nonatomic, retain) NSNumber * temp;
 @property (nonatomic, retain) UserFilter *userfilter;
 
 @end

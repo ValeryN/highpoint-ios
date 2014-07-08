@@ -46,13 +46,13 @@
     [self configureNavButton];
     [self.navigationController setNavigationBarHidden:NO];
     [self registerNotification];
-    [self updateCurrentView];
+    [self addTownsListFromFilter];
+    [self.townsTableView reloadData];
 }
 
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[DataStorage sharedDataStorage] deleteAllTempCities];
     [self unregisterNotification];
 }
 
@@ -89,7 +89,7 @@
 
 #pragma mark - notifications 
 - (void) registerNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateCitiesListView object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView:) name:kNeedUpdateCitiesListView object:nil];
 }
 
 - (void) unregisterNotification {
@@ -98,10 +98,51 @@
 
 #pragma mark - update current view
 
-- (void) updateCurrentView
+- (void) updateCurrentView : (NSNotification *)notification
 {
-    self.allCities = [[[[DataStorage sharedDataStorage] allTempCitiesFetchResultsController] fetchedObjects] mutableCopy];
+    [self.allCities removeAllObjects];
+    [self addTownsListFromFilter];
+    NSArray *sortedCities = [self removeDoubleCityValues: [notification.userInfo objectForKey:@"cities"]];
+    [self.allCities addObjectsFromArray:sortedCities];
     [self.townsTableView reloadData];
+}
+
+#pragma mark - add cities from filter 
+- (void) addTownsListFromFilter {
+    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
+    NSArray *citiesArr = [userFilter.city allObjects];
+    [self.allCities addObjectsFromArray:citiesArr];
+}
+
+#pragma mark - check double
+- (NSArray *) removeDoubleCityValues :(NSArray *) arr {
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    NSMutableArray *original = [arr mutableCopy];
+    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
+    NSArray *citiesArr = [userFilter.city allObjects];
+    for (City *city in original) {
+        for (City *filterCity in citiesArr) {
+            if ([filterCity.cityId isEqualToNumber:city.cityId]) {
+                [result addObject:city];
+                break;
+            }
+        }
+    }
+    [original removeObjectsInArray:result];
+    return original;
+}
+
+#pragma mark - check added mark 
+
+- (BOOL) checkAddedMark :(City *) cityIn {
+    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
+    NSArray *citiesArr = [userFilter.city allObjects];
+    for (City *city in citiesArr) {
+        if ([city.cityId isEqualToNumber:cityIn.cityId]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 
@@ -119,6 +160,7 @@
     }
     City *city = [self.allCities objectAtIndex:indexPath.row];
     [townCell configureCell:city];
+    townCell.isSelectedImgView.hidden = ![self checkAddedMark:city];
     return townCell;
 
 }
@@ -142,7 +184,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     City *city = [self.allCities objectAtIndex:indexPath.row];
-    [[DataStorage sharedDataStorage] setCityNotTemp:city.cityId];
+    city = [[DataStorage sharedDataStorage] insertCityObjectToContext:city];
     [[DataStorage sharedDataStorage] setCityToUserFilter:city];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -159,12 +201,11 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length > 0) {
-        [[DataStorage sharedDataStorage] deleteAllTempCities];
         NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:searchText,@"query",@"20",@"limit",nil];
         [[HPBaseNetworkManager sharedNetworkManager] findGeoLocation:dict];
     } else {
-        [[DataStorage sharedDataStorage] deleteAllTempCities];
         [self.allCities removeAllObjects];
+        [self addTownsListFromFilter];
         [self.townsTableView reloadData];
     }
 }

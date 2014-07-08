@@ -13,6 +13,7 @@
 #import "HPBaseNetworkManager.h"
 #import "Gender.h"
 #import "HPTownTableViewCell.h"
+#import "HPAddTownTableViewCell.h"
 
 @interface HPFilterSettingsViewController ()
 
@@ -127,6 +128,7 @@
     }
     [self updateSliderLabels];
     allCities = [userFilter.city allObjects];
+    [self.townsTableView reloadData];
 }
 #pragma mark -
 #pragma mark controller button tap handler
@@ -220,9 +222,19 @@
     if (self.menSw.isOn) {
         [genderArr addObject:[NSNumber numberWithFloat:1]];
     }
-    //TODO: city ids and view type ?
-    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders",@"", @"cityIds", nil];
-    [[DataStorage sharedDataStorage] deleteUserFilter];
+    //TODO: view type ?
+    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
+    NSArray *citiesArr = [userFilter.city allObjects];
+    NSString *cityIds = @"";
+    for (int i = 0; i < citiesArr.count; i++) {
+        if ([((City*)[citiesArr objectAtIndex:i]).cityId stringValue].length >0) {
+            cityIds = [[cityIds stringByAppendingString:[((City*)[citiesArr objectAtIndex:i]).cityId stringValue]] stringByAppendingString:@","];
+        }
+    }
+    if ([cityIds length] > 0) {
+        cityIds = [cityIds substringToIndex:[cityIds length] - 1];
+    }
+    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders",cityIds, @"cityIds", nil];
     [[DataStorage sharedDataStorage] createUserFilterEntity:filterParams];
     [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
 }
@@ -232,21 +244,36 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *townCellIdentifier = @"PaymentCellIdentif";
-    HPTownTableViewCell *townCell = (HPTownTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
+    static NSString *townAddCellIdentifier = @"addTown";
     
-    if (townCell == nil)
-    {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPTownTableViewCell" owner:self options:nil];
-        townCell = [nib objectAtIndex:0];
+    if (indexPath.row < allCities.count) {
+        HPTownTableViewCell *townCell = (HPTownTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
+        
+        if (townCell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPTownTableViewCell" owner:self options:nil];
+            townCell = [nib objectAtIndex:0];
+        }
+        City *city = [allCities objectAtIndex:indexPath.row];
+        [townCell configureCell:city];
+        return townCell;
+    } else {
+        HPAddTownTableViewCell *addTownCell = (HPAddTownTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townAddCellIdentifier];
+        
+        if (addTownCell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPAddTownTableViewCell" owner:self options:nil];
+            addTownCell = [nib objectAtIndex:0];
+        }
+        return addTownCell;
     }
-    City *city = [allCities objectAtIndex:indexPath.row];
-    [townCell configureCell:city];
-    return townCell;
+    
+    [self saveFilter];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return allCities.count;
+    return allCities.count + 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -262,11 +289,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HPSelectTownViewController *town = [[HPSelectTownViewController alloc] initWithNibName: @"HPSelectTown" bundle: nil];
-    self.savedDelegate = self.navigationController.delegate;
-    self.navigationController.delegate = nil;
     
-    [self.navigationController pushViewController:town animated:YES];
+    if (indexPath.row < allCities.count) {
+        
+    } else {
+        HPSelectTownViewController *town = [[HPSelectTownViewController alloc] initWithNibName: @"HPSelectTown" bundle: nil];
+        self.savedDelegate = self.navigationController.delegate;
+        self.navigationController.delegate = nil;
+        [self.navigationController pushViewController:town animated:YES];
+    }
+    
 
 }
 

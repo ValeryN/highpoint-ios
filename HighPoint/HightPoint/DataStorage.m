@@ -41,7 +41,11 @@ static DataStorage *dataStorage;
 #pragma mark -
 #pragma mark user filter
 - (UserFilter*) createUserFilterEntity:(NSDictionary *)param {
-    UserFilter *uf = (UserFilter*)[NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:self.moc];
+    
+    UserFilter *uf = [self getUserFilter];
+    if (!uf) {
+        uf = (UserFilter*)[NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:self.moc];
+    }
     uf.maxAge = [param objectForKey:@"maxAge"];
     uf.minAge = [param objectForKey:@"minAge"];
     uf.viewType = [param objectForKey:@"viewType"];
@@ -71,9 +75,9 @@ static DataStorage *dataStorage;
         filter.city = cities;
         [self saveContext];
         return;
-    }
-    else
+    } else {
         return;
+    }
 }
 
 - (UserFilter*) getUserFilter {
@@ -83,10 +87,12 @@ static DataStorage *dataStorage;
     [fetch setEntity:entityDescription];
     NSError * error = nil;
     fetchedObjects = [self.moc executeFetchRequest:fetch error:&error];
-    if([fetchedObjects count] == 1)
+    if([fetchedObjects count] >= 1) {
         return [fetchedObjects objectAtIndex:0];
-    else
+    }
+    else {
         return nil;
+    }
 }
 
 - (void) deleteUserFilter {
@@ -545,33 +551,51 @@ static DataStorage *dataStorage;
 
 
 #pragma mark - city
-- (City*) createCity:(NSDictionary *)param : (BOOL) isTemp {
+- (City*) createCity:(NSDictionary *)param {
     City *cityEnt = (City*)[NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:self.moc];
     cityEnt.cityEnName = [param objectForKey:@"enName"];
     cityEnt.cityId = [param objectForKey:@"id"];
     cityEnt.cityName = [param objectForKey:@"name"];
     cityEnt.cityNameForms = [param objectForKey:@"nameForms"];
     cityEnt.cityRegionId = [param objectForKey:@"regionId"];
-    cityEnt.temp = [NSNumber numberWithBool:isTemp];
     [self saveContext];
     return cityEnt;
     
 }
 
+- (City *) createTempCity :(NSDictionary *) param {
+    NSEntityDescription *myCityEntity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:self.moc];
+    City *cityEnt = [[City alloc] initWithEntity:myCityEntity insertIntoManagedObjectContext:nil];
+    cityEnt.cityEnName = [param objectForKey:@"enName"];
+    cityEnt.cityId = [param objectForKey:@"id"];
+    cityEnt.cityName = [param objectForKey:@"name"];
+    cityEnt.cityNameForms = [param objectForKey:@"nameForms"];
+    cityEnt.cityRegionId = [param objectForKey:@"regionId"];
+    return cityEnt;
+}
 
--(NSFetchedResultsController*) allTempCitiesFetchResultsController {
+- (City *) insertCityObjectToContext: (City *) city {
+    City *cityEnt = [self getCityById:city.cityId];
+    if (!cityEnt) {
+        [self.moc insertObject:city];
+        [self saveContext];
+        return city;
+    } else {
+        return cityEnt;
+    }
+}
+
+- (City *) getCityById : (NSNumber *) cityId {
     NSFetchRequest* request = [[NSFetchRequest alloc] init];
 	NSEntityDescription* entity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:self.moc];
 	[request setEntity:entity];
-    
-    
     NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
     NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"cityId" ascending:NO];
     [sortDescriptors addObject:sortDescriptor];
     [request setSortDescriptors:sortDescriptors];
     
     NSMutableString* predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"temp == 1"];
+    [predicateString appendFormat:@"cityId  = %@",cityId];
     
     BOOL predicateError = NO;
     @try {
@@ -591,44 +615,12 @@ static DataStorage *dataStorage;
 	{
 		return nil;
 	}
-    return controller;
-    
-}
-
-- (void) deleteAllTempCities {
-    NSFetchRequest * allCities = [[NSFetchRequest alloc] init];
-    [allCities setEntity:[NSEntityDescription entityForName:@"City" inManagedObjectContext:self.moc]];
-    [allCities setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-    NSError * error = nil;
-    NSArray * cities = [self.moc executeFetchRequest:allCities error:&error];
-    //error handling goes here
-    NSLog(@"cities count = %d", cities.count);
-    for (City * city in cities) {
-        if ([city.temp boolValue]) {
-            NSLog(@"delete city id = %@", city.cityId);
-            [self.moc deleteObject:city];
-        }
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
     }
-    [self saveContext];
 }
-
-- (void) setCityNotTemp : (NSNumber *) cityId {
-    
-    NSError *error = nil;
-    City *city = nil;
-    NSFetchRequest * request = [[NSFetchRequest alloc] init];
-    [request setEntity:[NSEntityDescription entityForName:@"City" inManagedObjectContext:self.moc]];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"cityId == %@", cityId]];
-    
-    city = [[self.moc executeFetchRequest:request error:&error] lastObject];
-    if (error || !city) {
-        NSLog(@"error - no object");
-        return;
-    }
-    city.temp = [NSNumber numberWithBool:NO];
-    [self saveContext];
-}
-
 
 #pragma mark - save context
 

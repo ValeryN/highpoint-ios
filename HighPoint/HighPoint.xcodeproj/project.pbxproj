@@ -186,9 +186,11 @@
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
 		CD1B0F4B19669D57007F4FCA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1B0F4A19669D57007F4FCA /* User.m */; };
 		CD8CF436196A99D2000C7F18 /* UserFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8CF435196A99D2000C7F18 /* UserFilter.m */; };
-		CD8CF43F196AA463000C7F18 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8CF43E196AA463000C7F18 /* City.m */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
+		CDFA89FC196BAC3800D04451 /* HPAddTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA89FA196BAC3800D04451 /* HPAddTownTableViewCell.m */; };
+		CDFA89FD196BAC3800D04451 /* HPAddTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFA89FB196BAC3800D04451 /* HPAddTownTableViewCell.xib */; };
+		CDFA8A00196BB68000D04451 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA89FF196BB67F00D04451 /* City.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -443,11 +445,14 @@
 		CD1B0F4A19669D57007F4FCA /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		CD8CF434196A99D2000C7F18 /* UserFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFilter.h; sourceTree = "<group>"; };
 		CD8CF435196A99D2000C7F18 /* UserFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFilter.m; sourceTree = "<group>"; };
-		CD8CF43D196AA463000C7F18 /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
-		CD8CF43E196AA463000C7F18 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
+		CDFA89F9196BAC3800D04451 /* HPAddTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAddTownTableViewCell.h; sourceTree = "<group>"; };
+		CDFA89FA196BAC3800D04451 /* HPAddTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddTownTableViewCell.m; sourceTree = "<group>"; };
+		CDFA89FB196BAC3800D04451 /* HPAddTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAddTownTableViewCell.xib; sourceTree = "<group>"; };
+		CDFA89FE196BB67F00D04451 /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
+		CDFA89FF196BB67F00D04451 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -804,6 +809,9 @@
 				3BD12E58192DFE380026BA11 /* HPFilterSettingsViewController.h */,
 				3BD12E59192DFE380026BA11 /* HPFilterSettingsViewController.m */,
 				4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */,
+				CDFA89F9196BAC3800D04451 /* HPAddTownTableViewCell.h */,
+				CDFA89FA196BAC3800D04451 /* HPAddTownTableViewCell.m */,
+				CDFA89FB196BAC3800D04451 /* HPAddTownTableViewCell.xib */,
 			);
 			name = HPFilterSettingsViewController;
 			sourceTree = "<group>";
@@ -851,8 +859,8 @@
 				3B39D2F4195C3091002520B9 /* MaxEntertainmentPrice.m */,
 				3B39D2F0195C3090002520B9 /* AppSetting.h */,
 				3B39D2F1195C3090002520B9 /* AppSetting.m */,
-				CD8CF43D196AA463000C7F18 /* City.h */,
-				CD8CF43E196AA463000C7F18 /* City.m */,
+				CDFA89FE196BB67F00D04451 /* City.h */,
+				CDFA89FF196BB67F00D04451 /* City.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -1132,6 +1140,7 @@
 				3B298FC5192F476100BEC2AA /* slider-default7-track.png in Resources */,
 				3B298FCB192F476100BEC2AA /* slider-metal-handle-highlighted.png in Resources */,
 				3BB5E86A1935FD5500DDF5F9 /* Down.png in Resources */,
+				CDFA89FD196BAC3800D04451 /* HPAddTownTableViewCell.xib in Resources */,
 				4CA7B63E195C37B200DC9D52 /* HPAvatarView.xib in Resources */,
 				3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */,
 				3B298FD1192F476100BEC2AA /* slider-metal-trackBackground.png in Resources */,
@@ -1179,6 +1188,7 @@
 				3B6DB4A518FFC24D00C26A50 /* HightPoint.xcdatamodeld in Sources */,
 				3BDA4C9519064E5900EF6619 /* SDWebImagePrefetcher.m in Sources */,
 				3BDA4CA8190660B400EF6619 /* SRWebSocket.m in Sources */,
+				CDFA89FC196BAC3800D04451 /* HPAddTownTableViewCell.m in Sources */,
 				4C8096A9193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				4CA7B63B195C379000DC9D52 /* HPAvatarView.m in Sources */,
 				CD1B0F4B19669D57007F4FCA /* User.m in Sources */,
@@ -1246,8 +1256,8 @@
 				3BDA4C8D19064E5900EF6619 /* MKAnnotationView+WebCache.m in Sources */,
 				4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */,
 				CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */,
+				CDFA8A00196BB68000D04451 /* City.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
-				CD8CF43F196AA463000C7F18 /* City.m in Sources */,
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,
 				3BDA4C9619064E5900EF6619 /* UIButton+WebCache.m in Sources */,
 				3BDA4C9719064E5900EF6619 /* UIImage+GIF.m in Sources */,

@@ -38,9 +38,9 @@
 - (User*) getCurrentUser;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (AppSetting*) getAppSettings;
-- (City*) createCity:(NSDictionary *)param : (BOOL) isTemp;
--(NSFetchedResultsController*) allTempCitiesFetchResultsController;
-- (void) deleteAllTempCities;
-- (void) setCityNotTemp : (NSNumber *) cityId;
+- (City*) createCity:(NSDictionary *)param;
+- (City *) createTempCity :(NSDictionary *) param;
+- (City *) getCityById : (NSNumber *) cityId;
+- (City *) insertCityObjectToContext: (City *) city;
 - (void) saveContext;
 @end

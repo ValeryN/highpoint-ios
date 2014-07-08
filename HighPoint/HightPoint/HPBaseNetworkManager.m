@@ -259,10 +259,14 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 NSArray *cities = [jsonDict objectForKey:@"cities"] ;
+                NSMutableArray *citiesArr = [[NSMutableArray alloc] init];
+                
                 for(NSDictionary *dict in cities) {
-                    [[DataStorage sharedDataStorage] createCity: dict :YES];
+                    City *city = [[DataStorage sharedDataStorage] createTempCity:dict];
+                    [citiesArr addObject:city];
                 }
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCitiesListView object:self userInfo:nil];
+                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCitiesListView object:self userInfo:param];
             } else {
                 NSLog(@"Error, no valid data");
             }

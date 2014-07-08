@@ -36,7 +36,6 @@
         <attribute name="cityName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cityNameForms" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="cityRegionId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="temp" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="userfilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserFilter" inverseName="city" inverseEntity="UserFilter" syncable="YES"/>
     </entity>
     <entity name="Country" representedClassName="Country" syncable="YES">
@@ -117,7 +116,7 @@
         <element name="AppSetting" positionX="-200" positionY="-414" width="128" height="133"/>
         <element name="Avatar" positionX="-209" positionY="-270" width="128" height="223"/>
         <element name="Career" positionX="-144" positionY="56" width="128" height="133"/>
-        <element name="City" positionX="340" positionY="-495" width="128" height="148"/>
+        <element name="City" positionX="340" positionY="-495" width="128" height="135"/>
         <element name="Country" positionX="153" positionY="-486" width="128" height="103"/>
         <element name="Education" positionX="144" positionY="-331" width="128" height="133"/>
         <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
