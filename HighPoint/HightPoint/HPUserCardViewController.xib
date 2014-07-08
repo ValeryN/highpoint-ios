@@ -18,7 +18,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dmE-vu-pcg" userLabel="Carousel - View" customClass="iCarousel">
-                    <rect key="frame" x="28" y="12" width="264" height="416"/>
+                    <rect key="frame" x="28" y="22" width="264" height="416"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -67,7 +67,7 @@
             </subviews>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="dmE-vu-pcg" secondAttribute="bottom" constant="76" id="8F5-bA-Fpa"/>
+                <constraint firstAttribute="bottom" secondItem="dmE-vu-pcg" secondAttribute="bottom" constant="66" id="8F5-bA-Fpa"/>
                 <constraint firstItem="J0f-D7-WJB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="40" id="Hs7-s2-y3A"/>
                 <constraint firstAttribute="bottom" secondItem="J0f-D7-WJB" secondAttribute="bottom" constant="24" id="OJC-Qm-9yz"/>
                 <constraint firstItem="dmE-vu-pcg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="28" id="nRy-Fc-qnz"/>

@@ -58,18 +58,6 @@
 
 - (void) fixUserCardConstraint
 {
-    CGFloat topCarousel = CONSTRAINT_WIDE_TOP_FOR_CAROUSEL;
-    if (![UIDevice hp_isWideScreen])
-        topCarousel = CONSTRAINT_TOP_FOR_CAROUSEL;
-
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: _carouselView
-                                                                 attribute: NSLayoutAttributeTop
-                                                                 relatedBy: NSLayoutRelationEqual
-                                                                    toItem: self.view
-                                                                 attribute: NSLayoutAttributeTop
-                                                                multiplier: 1.0
-                                                                  constant: topCarousel]];
-
     if (![UIDevice hp_isWideScreen])
     {
         
