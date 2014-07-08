@@ -186,9 +186,7 @@
     
     City *city = [self.allCities objectAtIndex:indexPath.row];
     if ([self checkAddedMark:city]) {
-       // [[DataStorage sharedDataStorage] removeCityObjectById:city];
         [[DataStorage sharedDataStorage] removeCityFromUserFilter:city];
-        
     } else {
         city = [[DataStorage sharedDataStorage] insertCityObjectToContext:city];
         [[DataStorage sharedDataStorage] setCityToUserFilter:city];

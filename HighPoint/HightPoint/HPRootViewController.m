@@ -47,6 +47,7 @@
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
 
     
+    
     [self configureNavigationBar];
     [self createSwitch];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
@@ -72,10 +73,12 @@
 //==============================================================================
 - (void) registerNotification {
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserFilterCities:) name:kNeedUpdateFilterCities object:nil];
 }
 //==============================================================================
 - (void) unregisterNotification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateFilterCities object:nil];
 }
 //==============================================================================
 
@@ -155,6 +158,20 @@
     }
     [self.mainListTable reloadData];
 }
+
+
+
+
+#pragma mark - update user filter
+
+-(void) updateUserFilterCities :(NSNotification *) notification {
+    NSArray *cities = [notification.userInfo objectForKey:@"cities"];
+    for (City *city in cities) {
+        [[DataStorage sharedDataStorage] setCityToUserFilter:city];
+    }
+}
+
+
 //==============================================================================
 
 #pragma mark - TableView and DataSource delegate -

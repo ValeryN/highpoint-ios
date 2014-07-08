@@ -8,6 +8,7 @@
 
 #import "DataStorage.h"
 #import "HPAppDelegate.h"
+#import "HPBaseNetworkManager.h"
 
 static DataStorage *dataStorage;
 @implementation DataStorage
@@ -41,7 +42,6 @@ static DataStorage *dataStorage;
 #pragma mark -
 #pragma mark user filter
 - (UserFilter*) createUserFilterEntity:(NSDictionary *)param {
-    
     UserFilter *uf = [self getUserFilter];
     if (!uf) {
         uf = (UserFilter*)[NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:self.moc];
@@ -55,10 +55,21 @@ static DataStorage *dataStorage;
         gender.genderType = p;
         [arr addObject:gender];
     }
+    NSString *cityIds = @"";
+    NSArray *citiesArr = [param objectForKey:@"cityIds"];
+    for (int i = 0; i < citiesArr.count; i++) {
+        if ([((City*)[citiesArr objectAtIndex:i]).cityId stringValue].length >0) {
+            cityIds = [[cityIds stringByAppendingString:[((City*)[citiesArr objectAtIndex:i]).cityId stringValue]] stringByAppendingString:@","];
+        }
+    }
+    if ([cityIds length] > 0) {
+        cityIds = [cityIds substringToIndex:[cityIds length] - 1];
+    }
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:cityIds, @"cityIds",@"",@"countryIds",@"",@"regionIds", nil];
+    [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params];
     uf.gender = [NSSet setWithArray:arr];
     [self saveContext];
     return uf;
-    
 }
 
 - (void) setCityToUserFilter :(City *) city {

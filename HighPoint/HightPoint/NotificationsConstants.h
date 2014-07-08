@@ -14,6 +14,7 @@
 
 static NSString * const kNeedUpdateUsersListViews = @"NeedUpdateUsersListViews";
 static NSString *const kNeedUpdateCitiesListView = @"kNeedUpdateCitiesListView";
+static NSString *const kNeedUpdateFilterCities = @"NeedUpdateFilterCities";
 
 
 
