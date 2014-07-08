@@ -21,7 +21,7 @@
 #define AVATAR_BLUR_RADIUS 40
 
 #define CONSTRAINT_TOP_FOR_HEART 245
-#define CONSTRAINT_TOP_FOR_NAMELABEL 286
+#define CONSTRAINT_TOP_FOR_NAMELABEL 266
 #define CONSTRAINT_WIDTH_FOR_SELF 264
 #define CONSTRAINT_WIDE_HEIGHT_FOR_SELF 416
 #define CONSTRAINT_HEIGHT_FOR_SELF 340
@@ -95,11 +95,13 @@
             if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
                 (consIter.firstItem == _name))
                 consIter.constant = CONSTRAINT_TOP_FOR_NAMELABEL;
+            
             if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
                 (consIter.firstItem == _heartLike) &&
                 (consIter.secondItem == self))
                 consIter.constant = CONSTRAINT_TOP_FOR_HEART;
         }
+        
         cons = _backgroundAvatar.constraints;
         for (NSLayoutConstraint* consIter in cons)
         {
