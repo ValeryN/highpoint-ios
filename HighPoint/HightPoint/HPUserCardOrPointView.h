@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 
 #import "HPUserCardOrPoint.h"
+#import "User.h"
 
 //==============================================================================
 
@@ -19,10 +20,10 @@
     UIView* _childContainerView;
 }
 
-- (id) initWithCardOrPoint: (HPUserCardOrPoint*) cardOrPoint
+- (id) initWithCardOrPoint: (HPUserCardOrPoint*) cardOrPoint user:(User *) user
                   delegate: (NSObject<UserCardOrPointProtocol>*) delegate;
 
-- (void) switchSidesWithCardOrPoint: (HPUserCardOrPoint*) cardOrPoint
+- (void) switchSidesWithCardOrPoint: (HPUserCardOrPoint*) cardOrPoint user: (User *) user
                            delegate: (NSObject<UserCardOrPointProtocol>*) delegate;
 
 @end

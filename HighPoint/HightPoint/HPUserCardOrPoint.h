@@ -12,6 +12,7 @@
 
 #import "HPUserCardView.h"
 #import "HPUserPointView.h"
+#import "User.h"
 
 //==============================================================================
 
@@ -20,8 +21,8 @@
     BOOL _isUserPointView;
 }
 
-- (UIView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate;
-- (UIView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate;
+- (UIView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user;
+- (UIView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user;
 - (BOOL) isUserPoint;
 - (BOOL) switchUserPoint;
 

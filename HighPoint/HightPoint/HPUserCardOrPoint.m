@@ -9,6 +9,7 @@
 //==============================================================================
 
 #import "HPUserCardOrPoint.h"
+#import "UserPoint.h"
 
 //==============================================================================
 
@@ -30,7 +31,7 @@
 
 //==============================================================================
 
-- (UIView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate
+- (UIView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user
 {
     NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPUserPointView" owner: self options: nil];
     if ([nibs[0] isKindOfClass:[HPUserPointView class]] == NO)
@@ -39,6 +40,10 @@
     HPUserPointView* newPoint = (HPUserPointView*)nibs[0];
     newPoint.delegate = delegate;
     newPoint.pointDelegate = delegate;
+    newPoint.name.text = user.name;
+    newPoint.details.text = [NSString stringWithFormat:@"%@ %@", user.dateOfBirth, user.cityId];
+    UserPoint *point = user.point;
+    newPoint.pointText.text = point.pointText;
     [newPoint initObjects];
 
     return newPoint;
@@ -46,7 +51,7 @@
 
 //==============================================================================
 
-- (UIView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate
+- (UIView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user
 {
     NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPUserCardView" owner: self options: nil];
     if ([nibs[0] isKindOfClass:[HPUserCardView class]] == NO)
@@ -54,6 +59,8 @@
     
     HPUserCardView* newCard = (HPUserCardView*)nibs[0];
     newCard.delegate = delegate;
+    newCard.name.text = user.name;
+    newCard.details.text = [NSString stringWithFormat:@"%@ %@", user.dateOfBirth, user.cityId];
     [newCard initObjects];
 
     return newCard;

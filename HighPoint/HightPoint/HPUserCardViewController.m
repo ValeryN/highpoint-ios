@@ -18,6 +18,8 @@
 #import "HPUserCardView.h"
 #import "HPUserCardOrPointView.h"
 #import "UIDevice+HighPoint.h"
+#import "DataStorage.h"
+#import "User.h"
 
 //==============================================================================
 
@@ -41,6 +43,18 @@
     [super viewDidLoad];
     
     [self initObjects];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if (self.onlyWithPoints) {
+        usersArr = [[[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController] fetchedObjects];
+    } else {
+        usersArr = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
+    }
+    [_carouselView reloadData];
+    [_carouselView scrollToItemAtIndex:self.current animated:NO];
 }
 
 //==============================================================================
@@ -177,7 +191,7 @@
                                                                  action: @selector(backbuttonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
-    self.navigationItem.title = @"Октябрина";
+  //  self.navigationItem.title = @"Октябрина";
 }
 
 //==============================================================================
@@ -225,7 +239,7 @@
 
 - (NSUInteger)numberOfItemsInCarousel: (iCarousel*) carousel
 {
-    return ICAROUSEL_ITEMS_COUNT;
+    return usersArr.count;
 }
 
 //==============================================================================
@@ -235,7 +249,8 @@
     NSLog(@"index %i", index);
     if (_cardOrPoint == nil)
         NSAssert(YES, @"no description for carousel item");
-    view = [[HPUserCardOrPointView alloc] initWithCardOrPoint: _cardOrPoint[index]
+    User *user = [usersArr objectAtIndex:index];
+    view = [[HPUserCardOrPointView alloc] initWithCardOrPoint: _cardOrPoint[index] user: user
                                                      delegate: self];
 
     return view;
@@ -330,11 +345,12 @@
     HPUserCardOrPointView* container = (HPUserCardOrPointView*)self.carouselView.currentItemView;
     [_cardOrPoint[_carouselView.currentItemIndex] switchUserPoint];
     
+    User *user = [usersArr objectAtIndex:_carouselView.currentItemIndex];
     [UIView transitionWithView: container
                       duration: FLIP_ANIMATION_SPEED
                        options: UIViewAnimationOptionTransitionFlipFromRight
                     animations: ^{
-                        [container switchSidesWithCardOrPoint: _cardOrPoint[_carouselView.currentItemIndex]
+                        [container switchSidesWithCardOrPoint: _cardOrPoint[_carouselView.currentItemIndex] user:user
                                                      delegate: self];
                     }
                     completion: ^(BOOL finished){

@@ -21,12 +21,16 @@
 @interface HPUserCardViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UserCardOrPointProtocol, GreenButtonProtocol, PointViewProtocol>
 {
     NSMutableArray* _cardOrPoint;
+    NSArray *usersArr;
+    
 }
 
 @property (nonatomic, strong) UIView *sendMessageButton;
 @property (nonatomic, weak) IBOutlet iCarousel* carouselView;
 @property (nonatomic, weak) IBOutlet UIButton* infoButton;
 @property (nonatomic, strong) UIView *notificationView;
+@property (nonatomic, assign) BOOL onlyWithPoints;
+@property (nonatomic, assign) int current;
 
 - (IBAction) slideLeftPressed: (id)sender;
 - (IBAction) slideRightPressed: (id)sender;

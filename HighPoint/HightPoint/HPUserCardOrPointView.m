@@ -11,6 +11,7 @@
 #import "HPUserCardOrPointView.h"
 #import "UIDevice+HighPoint.h"
 
+
 //==============================================================================
 
 #define CONSTRAINT_HEIGHT_FOR_BGIMAGE 340
@@ -23,21 +24,21 @@
 
 //==============================================================================
 
-- (id) initWithCardOrPoint: (HPUserCardOrPoint*) cardOrPoint
+- (id) initWithCardOrPoint: (HPUserCardOrPoint*) cardOrPoint user:(User *) user
                   delegate: (NSObject<UserCardOrPointProtocol>*) delegate
 {
     self = [super init];
     if (self == nil)
         return nil;
 
-    [self switchSidesWithCardOrPoint: cardOrPoint delegate: delegate];
+    [self switchSidesWithCardOrPoint: cardOrPoint user:user delegate: delegate];
 
     return self;
 }
 
 //==============================================================================
 
-- (void) switchSidesWithCardOrPoint: (HPUserCardOrPoint*) cardOrPoint
+- (void) switchSidesWithCardOrPoint: (HPUserCardOrPoint*) cardOrPoint user: (User *) user
                            delegate: (NSObject<UserCardOrPointProtocol>*) delegate
 {
     if (cardOrPoint == nil)
@@ -45,9 +46,9 @@
     
     [_childContainerView removeFromSuperview];
     if ([cardOrPoint isUserPoint])
-        _childContainerView = [cardOrPoint userCardWithDelegate: delegate];
+        _childContainerView = [cardOrPoint userCardWithDelegate: delegate user:user];
     else
-        _childContainerView = [cardOrPoint userPointWithDelegate: delegate];
+        _childContainerView = [cardOrPoint userPointWithDelegate: delegate user:user];
 
     [self fixUserCardConstraint];
 

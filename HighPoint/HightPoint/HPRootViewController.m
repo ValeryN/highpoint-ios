@@ -221,6 +221,8 @@
 - (void) tableView: (UITableView*) tableView didSelectRowAtIndexPath: (NSIndexPath*) indexPath
 {
     HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCardViewController" bundle: nil];
+    card.onlyWithPoints = _bottomSwitch.switchState;
+    card.current = indexPath.row;
     [self.navigationController pushViewController: card animated: YES];
 }
 
