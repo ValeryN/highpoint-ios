@@ -61,6 +61,14 @@
         <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="maxentertainment" inverseEntity="User" syncable="YES"/>
     </entity>
+    <entity name="Message" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="destinationId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="messageBody" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="readAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="sourceId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="MinEntertainmentPrice" representedClassName="MinEntertainmentPrice" syncable="YES">
         <attribute name="amount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
@@ -121,6 +129,7 @@
         <element name="Education" positionX="144" positionY="-331" width="128" height="133"/>
         <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
         <element name="MaxEntertainmentPrice" positionX="27" positionY="-0" width="128" height="88"/>
+        <element name="Message" positionX="466" positionY="-9" width="128" height="133"/>
         <element name="MinEntertainmentPrice" positionX="493" positionY="-153" width="128" height="88"/>
         <element name="Region" positionX="538" positionY="-522" width="128" height="118"/>
         <element name="User" positionX="-36" positionY="-414" width="128" height="343"/>

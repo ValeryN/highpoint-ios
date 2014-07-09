@@ -41,6 +41,8 @@ static NSString * const kNotificationRead = @"notificationRead";
 static NSString * const kAllNotificationRead = @"allNotificationsRead";
 
 static NSString * const kMeUpdate = @"meUpdate";
+static NSString * const kMessage = @"message";
+
 
 
 #endif

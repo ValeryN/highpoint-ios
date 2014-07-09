@@ -503,6 +503,11 @@ static HPBaseNetworkManager *networkManager;
         }
 
     }
+    
+    if ([packet.name isEqualToString:kMessage]) {
+        //TODO: write msgs to DB
+        
+    }
 }
 
 - (void) socketIO:(SocketIO *)socket onError:(NSError *)error
