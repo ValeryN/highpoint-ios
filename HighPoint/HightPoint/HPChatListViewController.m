@@ -49,7 +49,7 @@
     
     UIBarButtonItem* searchButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Lens.png"]
                                                      highlighedImage: [UIImage imageNamed:@"Lens Tap.png"]
-                                                              action: nil];
+                                                              action: @selector(searchTaped:)];
     self.navigationItem.rightBarButtonItem = searchButton;
     
     
@@ -81,6 +81,29 @@
 - (void) backbuttonTaped: (id) sender
 {
     [self.navigationController popViewControllerAnimated: YES];
+}
+
+- (void) searchTaped: (id) sender
+{
+    self.navigationItem.leftBarButtonItem = nil;
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(5, 25, 280, 30)];
+    self.searchBar.showsCancelButton = NO;
+    self.searchBar.translucent = YES;
+    self.searchBar.placeholder = @"Введите имя, возраст или город";
+    [self.searchBar sizeToFit];
+    self.navigationItem.titleView = self.searchBar;
+    [self.searchBar becomeFirstResponder];
+    self.searchBar.delegate = self;
+    UIBarButtonItem* closeButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Close.png"] highlighedImage: [UIImage imageNamed:@"Close Tap.png"] action: @selector(closeSearchTaped:)];
+    self.navigationItem.rightBarButtonItem = closeButton;
+}
+
+
+- (void) closeSearchTaped: (id) sender
+{
+    [self createNavigationItem];
+    [self.searchBar removeFromSuperview];
+    self.searchBar = nil;
 }
 
 
@@ -127,6 +150,15 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return [[UIView alloc] initWithFrame:CGRectZero];
+}
+
+#pragma mark - search bar 
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if (searchText.length > 0) {
+        //search and find users
+    } else {
+        //show all
+    }
 }
 
 
