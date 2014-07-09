@@ -14,16 +14,34 @@
                         <viewControllerLayoutGuide type="bottom" id="f3N-Yz-cDA"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="qph-XZ-eaX">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CR4-yd-xkg">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UhY-zK-6cj" userLabel="iCarousel" customClass="iCarousel">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </scrollView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="OrI-Th-hZs"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="QSd-h6-02O" id="kaD-CQ-lRd"/>
+                                    <outlet property="delegate" destination="QSd-h6-02O" id="iBZ-fa-ibz"/>
+                                </connections>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="UhY-zK-6cj" firstAttribute="top" secondItem="ucq-Yp-Lcw" secondAttribute="bottom" id="84x-j1-ifI"/>
+                            <constraint firstItem="UhY-zK-6cj" firstAttribute="leading" secondItem="qph-XZ-eaX" secondAttribute="leading" id="OZh-bI-i9l"/>
+                            <constraint firstItem="f3N-Yz-cDA" firstAttribute="top" secondItem="UhY-zK-6cj" secondAttribute="bottom" id="awW-rQ-Pha"/>
+                        </constraints>
                     </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="photoScroller" destination="UhY-zK-6cj" id="ZhV-h5-VvZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eXI-Xj-oet" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

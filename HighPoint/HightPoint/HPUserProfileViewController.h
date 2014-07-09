@@ -11,13 +11,13 @@
 #import <UIKit/UIKit.h>
 
 #import "HPGreenButtonVC.h"
+#import "icarousel.h"
 
 //==============================================================================
 
-@interface HPUserProfileViewController : UIViewController<GreenButtonProtocol>
+@interface HPUserProfileViewController : UIViewController<GreenButtonProtocol, iCarouselDataSource, iCarouselDelegate>
 
-@property (weak, nonatomic) IBOutlet UIScrollView* photoScroller;
+@property (weak, nonatomic) IBOutlet iCarousel* photoScroller;
 
-- (IBAction)downButtonTap:(id)sender;
 
 @end

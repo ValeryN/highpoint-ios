@@ -9,12 +9,13 @@
 //==============================================================================
 
 #import "HPUserProfileViewController.h"
-#import "Utils.h"
 #import "UIDevice+HighPoint.h"
 
 //==============================================================================
 
 #define GREEN_BUTTON_BOTTOM 20
+#define PHOTOS_NUMBER 4
+#define SPACE_BETWEEN_PHOTOS 20
 
 //==============================================================================
 
@@ -26,7 +27,41 @@
 {
     [super viewDidLoad];
     
+//    [self addConstraint];
+    
     [self createGreenButton];
+}
+
+//==============================================================================
+
+- (void) addConstraint
+{
+    NSArray* cons = self.view.constraints;
+    for (NSLayoutConstraint* consIter in cons)
+    {
+        NSLog(@"constraint %@", consIter);
+//        if (consIter.firstAttribute == NSLayoutAttributeWidth)
+//            consIter.constant = [UIScreen mainScreen].bounds.size.width;
+//        if (consIter.firstAttribute == NSLayoutAttributeHeight)
+//            consIter.constant = [UIScreen mainScreen].bounds.size.height - 64;
+    }
+
+
+//          [self.view addConstraint: [NSLayoutConstraint constraintWithItem: self.view
+//                                                                 attribute: NSLayoutAttributeTop
+//                                                                 relatedBy: NSLayoutRelationEqual
+//                                                                    toItem: _photoScroller
+//                                                                 attribute: NSLayoutAttributeTop
+//                                                                multiplier: 1.0
+//                                                                  constant: 0]];
+
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.view
+//                                                                 attribute: NSLayoutAttributeHeight
+//                                                                 relatedBy: NSLayoutRelationEqual
+//                                                                    toItem: nil
+//                                                                 attribute: NSLayoutAttributeNotAnAttribute
+//                                                                multiplier: 1.0
+//                                                                  constant: [UIScreen mainScreen].bounds.size.height - 64]];
 }
 
 //==============================================================================
@@ -68,23 +103,6 @@
                                                                  attribute: NSLayoutAttributeNotAnAttribute
                                                                 multiplier: 1.0
                                                                   constant: sendMessage.view.frame.size.height]];
-//
-//    NSArray* cons = self.view.constraints;
-//    for (NSLayoutConstraint* consIter in cons)
-//    {
-//        if ((consIter.firstAttribute == NSLayoutAttributeBottom) &&
-//            (consIter.firstItem == self.view) &&
-//            (consIter.secondItem == _infoButton))
-//            {
-//               [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.view
-//                                                                     attribute: NSLayoutAttributeBottom
-//                                                                     relatedBy: NSLayoutRelationEqual
-//                                                                        toItem: sendMessage.view
-//                                                                     attribute: NSLayoutAttributeBottom
-//                                                                    multiplier: 1.0
-//                                                                      constant: consIter.constant]];
-//            }
-//    }
 }
 
 //==============================================================================
@@ -92,6 +110,64 @@
 - (void) greenButtonPressed: (HPGreenButtonVC*) button
 {
     NSLog(@"Green button pressed");
+}
+
+//==============================================================================
+
+#pragma mark - iCarousel data source -
+
+//==============================================================================
+
+- (NSUInteger)numberOfItemsInCarousel: (iCarousel*) carousel
+{
+    return PHOTOS_NUMBER;
+}
+
+//==============================================================================
+
+- (UIView*)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
+{   
+    NSLog(@"index %i", index);
+    view = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"img_sample"]];
+    CGRect rect = CGRectMake([UIScreen mainScreen].bounds.size.width,
+                                0,
+                                [UIScreen mainScreen].bounds.size.width,
+                                _photoScroller.frame.size.height);
+    view.frame = rect;
+
+    return view;
+}
+
+//==============================================================================
+
+#pragma mark - iCarousel delegate -
+
+//==============================================================================
+
+- (CGFloat)carousel: (iCarousel *)carousel valueForOption: (iCarouselOption)option withDefault:(CGFloat)value
+{
+    switch (option)
+    {
+        case iCarouselOptionFadeMin:
+            return -1;
+        case iCarouselOptionFadeMax:
+            return 1;
+        case iCarouselOptionFadeRange:
+            return 2.0;
+        case iCarouselOptionCount:
+            return 10;
+        case iCarouselOptionSpacing:
+            return value * 1.3;
+        default:
+            return value;
+    }
+}
+
+//==============================================================================
+
+- (CGFloat)carouselItemWidth:(iCarousel*)carousel
+{
+    return 320;
 }
 
 //==============================================================================
