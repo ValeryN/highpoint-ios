@@ -5,7 +5,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPCurrentUserCardViewController"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPCurrentUserCardViewController">
+            <connections>
+                <outlet property="view" destination="ysS-73-XqN" id="wGb-XN-Vwp"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="ysS-73-XqN" userLabel="View" customClass="HPUserCardView">
             <rect key="frame" x="0.0" y="0.0" width="264" height="416"/>
@@ -29,29 +33,6 @@
                     </state>
                     <state key="highlighted" backgroundImage="Point Tap"/>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Erm-ef-mLw" userLabel="Name Label">
-                    <rect key="frame" x="0.0" y="274" width="264" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="264" id="R7N-f7-Ec9"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="24"/>
-                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="99 лет, Когалым" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Siu-fr-IPl" userLabel="Details Label">
-                    <rect key="frame" x="0.0" y="308" width="264" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="264" id="E52-VR-IAp"/>
-                        <constraint firstAttribute="height" constant="21" id="XS9-b9-lx3"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="16"/>
-                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Профиль виден всем" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7HX-9j-pfF">
                     <rect key="frame" x="15" y="254" width="229" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -84,15 +65,25 @@
                     <state key="selected" image="Eye Active.png"/>
                     <state key="highlighted" image="Eye Tap.png"/>
                 </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mOI-v9-l2t">
+                    <rect key="frame" x="20" y="283" width="224" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="99 лет, Когалым" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ghl-eB-HCb">
+                    <rect key="frame" x="20" y="312" width="224" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="Siu-fr-IPl" firstAttribute="leading" secondItem="ysS-73-XqN" secondAttribute="leading" id="1q1-f4-4Gt"/>
                 <constraint firstItem="j7m-sH-dcU" firstAttribute="leading" secondItem="ysS-73-XqN" secondAttribute="leading" id="8b2-Y1-BWk"/>
-                <constraint firstItem="Siu-fr-IPl" firstAttribute="top" secondItem="Erm-ef-mLw" secondAttribute="bottom" constant="6" id="BLB-ur-GhC"/>
                 <constraint firstItem="j7m-sH-dcU" firstAttribute="top" secondItem="ysS-73-XqN" secondAttribute="top" id="h49-09-3CW"/>
-                <constraint firstItem="Erm-ef-mLw" firstAttribute="leading" secondItem="ysS-73-XqN" secondAttribute="leading" id="nF0-rS-E3Y"/>
-                <constraint firstItem="Erm-ef-mLw" firstAttribute="top" secondItem="ysS-73-XqN" secondAttribute="top" constant="352" id="vag-Qt-7pO"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>

@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "iCarousel.h"
 
-@interface HPCurrentUserViewController : UIViewController
+@interface HPCurrentUserViewController : UIViewController <iCarouselDataSource, iCarouselDelegate>
 
 - (IBAction)backButtonTap:(id)sender;
 - (IBAction)bubbleButtonTap:(id)sender;
 
+@property (weak, nonatomic) IBOutlet iCarousel *carousel;
 
 @end

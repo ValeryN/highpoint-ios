@@ -135,7 +135,6 @@
     [self createGreenButtonsConstraint: sendMessage];
 }
 
-//==============================================================================
 
 - (void) createGreenButtonsConstraint: (HPGreenButtonVC*) sendMessage
 {
@@ -156,7 +155,6 @@
                                                                   constant: sendMessage.view.frame.size.height]];
 }
 
-//==============================================================================
 
 - (void) greenButtonPressed: (HPGreenButtonVC*) button
 {
