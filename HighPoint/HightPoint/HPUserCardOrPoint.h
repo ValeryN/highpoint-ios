@@ -13,6 +13,8 @@
 #import "HPUserCardView.h"
 #import "HPUserPointView.h"
 #import "User.h"
+#import "SDWebImageManager.h"
+#import "Avatar.h"
 
 //==============================================================================
 

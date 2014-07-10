@@ -64,7 +64,9 @@
     [self createNavigationItem];
     [self initCarousel];
     
-    [self fixUserCardConstraint];
+    
+    //TODO: need fix
+  //  [self fixUserCardConstraint];
     [self createGreenButton];
 }
 

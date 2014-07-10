@@ -59,6 +59,28 @@
     
     HPUserCardView* newCard = (HPUserCardView*)nibs[0];
     newCard.delegate = delegate;
+    
+    NSLog(@"avatar url = %@", user.avatar.highImageSrc);
+    
+    NSString *avatarUrlStr = user.avatar.highImageSrc.length > 0 ? [user.avatar.highImageSrc stringByAppendingString:@"?size=s640&ext=jpg"] : @"";
+    [SDWebImageDownloader.sharedDownloader downloadImageWithURL:[NSURL URLWithString: avatarUrlStr]
+                                                        options:0
+                                                       progress:^(NSInteger receivedSize, NSInteger expectedSize)
+     {
+         // progression tracking code
+     }
+                                                      completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished)
+     {
+         if (image && finished)
+         {
+             newCard.backgroundAvatar.image = image;
+         } else {
+             //TODO: set placeholder img
+             NSLog(@"error image log = %@", error.description);
+         }
+     }];
+    
+    
     newCard.name.text = user.name;
     newCard.details.text = [NSString stringWithFormat:@"%@ %@", user.dateOfBirth, user.cityId];
     [newCard initObjects];
