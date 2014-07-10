@@ -20,6 +20,7 @@
 #import "UIDevice+HighPoint.h"
 #import "DataStorage.h"
 #import "User.h"
+#import "HPUserInfoViewController.h"
 
 //==============================================================================
 
@@ -333,7 +334,8 @@
 
 - (IBAction) infoButtonPressed: (id)sender
 {
-    NSLog(@"info button pressed");
+    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
+    [self.navigationController pushViewController:uiController animated:YES];
 }
 
 //==============================================================================

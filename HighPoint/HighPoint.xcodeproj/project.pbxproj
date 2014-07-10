@@ -189,6 +189,8 @@
 		CD8CF436196A99D2000C7F18 /* UserFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8CF435196A99D2000C7F18 /* UserFilter.m */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
+		CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */; };
+		CDE0BDC4196E636600CBCF58 /* HPUserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */; };
 		CDFA89FC196BAC3800D04451 /* HPAddTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA89FA196BAC3800D04451 /* HPAddTownTableViewCell.m */; };
 		CDFA89FD196BAC3800D04451 /* HPAddTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFA89FB196BAC3800D04451 /* HPAddTownTableViewCell.xib */; };
 		CDFA8A00196BB68000D04451 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA89FF196BB67F00D04451 /* City.m */; };
@@ -463,6 +465,9 @@
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
+		CDE0BDC0196E636600CBCF58 /* HPUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoViewController.h; sourceTree = "<group>"; };
+		CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoViewController.m; sourceTree = "<group>"; };
+		CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoViewController.xib; sourceTree = "<group>"; };
 		CDFA89F9196BAC3800D04451 /* HPAddTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAddTownTableViewCell.h; sourceTree = "<group>"; };
 		CDFA89FA196BAC3800D04451 /* HPAddTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddTownTableViewCell.m; sourceTree = "<group>"; };
 		CDFA89FB196BAC3800D04451 /* HPAddTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAddTownTableViewCell.xib; sourceTree = "<group>"; };
@@ -773,6 +778,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CDE0BDBF196E632E00CBCF58 /* UserInfoViewController */,
 				CDFA8A01196BDF2C00D04451 /* HPChatListViewController */,
 				4CBFB5B7195AF458002D7249 /* CardPoint */,
 				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
@@ -1066,6 +1072,16 @@
 			path = External/TLSwipeForOptionsCell;
 			sourceTree = "<group>";
 		};
+		CDE0BDBF196E632E00CBCF58 /* UserInfoViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CDE0BDC0196E636600CBCF58 /* HPUserInfoViewController.h */,
+				CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */,
+				CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */,
+			);
+			name = UserInfoViewController;
+			sourceTree = "<group>";
+		};
 		CDFA8A01196BDF2C00D04451 /* HPChatListViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1178,6 +1194,7 @@
 				3B298FD0192F476100BEC2AA /* slider-metal-track@2x.png in Resources */,
 				CDFA8A06196BDF7C00D04451 /* HPChatListViewController.xib in Resources */,
 				3B298FB9192F476100BEC2AA /* slider-default-handle-highlighted.png in Resources */,
+				CDE0BDC4196E636600CBCF58 /* HPUserInfoViewController.xib in Resources */,
 				3B298FBE192F476100BEC2AA /* slider-default-track@2x.png in Resources */,
 				3B318656191A6C6D0000DD8B /* Notice-L.png in Resources */,
 				CDFA8A1D196BEA6200D04451 /* Notice.png in Resources */,
@@ -1270,6 +1287,7 @@
 				4CDC98B619517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
 				3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */,
 				3BB5E8681935F43700DDF5F9 /* ModalAnimation.m in Sources */,
+				CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */,
 				3B3170B7191BA56900B72AC1 /* HPSwitchViewController.m in Sources */,
 				3BDA4C9819064E5900EF6619 /* UIImage+MultiFormat.m in Sources */,
 				3B39D304195C3091002520B9 /* Education.m in Sources */,
