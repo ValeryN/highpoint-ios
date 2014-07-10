@@ -335,6 +335,7 @@
 - (IBAction) infoButtonPressed: (id)sender
 {
     HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
+    uiController.user = [usersArr objectAtIndex:_carouselView.currentItemIndex];
     [self.navigationController pushViewController:uiController animated:YES];
 }
 

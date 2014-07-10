@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
-
-@interface HPUserInfoViewController : UIViewController  {
+@interface HPUserInfoViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     UISegmentedControl *navSegmentedController;
 }
 
-
+@property (weak, nonatomic) IBOutlet UITableView *infoTableView;
+@property (strong, nonatomic) User *user;
 
 @end
