@@ -27,6 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.navigationController setNavigationBarHidden:NO];
     [self createNavigationItem];
     
     self.chatListTableView.delegate = self;

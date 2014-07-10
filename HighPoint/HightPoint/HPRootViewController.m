@@ -18,7 +18,7 @@
 #import "UILabel+HighPoint.h"
 #import "DataStorage.h"
 #import "HPChatListViewController.h"
-
+#import "HPCurrentUserViewController.h"
 #import "NotificationsConstants.h"
 
 
@@ -133,6 +133,8 @@
 - (IBAction) profileButtonPressedStart: (id) sender
 {
     [self showNotificationBadge];
+    HPCurrentUserViewController* cuController = [[HPCurrentUserViewController alloc] initWithNibName: @"HPCurrentUserViewController" bundle: nil];
+    [self.navigationController pushViewController:cuController animated:YES];
 }
 //==============================================================================
 

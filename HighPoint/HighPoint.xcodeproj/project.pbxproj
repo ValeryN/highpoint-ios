@@ -191,6 +191,8 @@
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 		CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */; };
 		CDE0BDC4196E636600CBCF58 /* HPUserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */; };
+		CDE0BDCA196E7FC000CBCF58 /* HPCurrentUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */; };
+		CDE0BDCD196E832E00CBCF58 /* HPCurrentUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */; };
 		CDFA89FC196BAC3800D04451 /* HPAddTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA89FA196BAC3800D04451 /* HPAddTownTableViewCell.m */; };
 		CDFA89FD196BAC3800D04451 /* HPAddTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFA89FB196BAC3800D04451 /* HPAddTownTableViewCell.xib */; };
 		CDFA8A00196BB68000D04451 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA89FF196BB67F00D04451 /* City.m */; };
@@ -468,6 +470,9 @@
 		CDE0BDC0196E636600CBCF58 /* HPUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoViewController.h; sourceTree = "<group>"; };
 		CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoViewController.m; sourceTree = "<group>"; };
 		CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoViewController.xib; sourceTree = "<group>"; };
+		CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCurrentUserViewController.xib; sourceTree = "<group>"; };
+		CDE0BDCB196E832E00CBCF58 /* HPCurrentUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserViewController.h; sourceTree = "<group>"; };
+		CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserViewController.m; sourceTree = "<group>"; };
 		CDFA89F9196BAC3800D04451 /* HPAddTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAddTownTableViewCell.h; sourceTree = "<group>"; };
 		CDFA89FA196BAC3800D04451 /* HPAddTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddTownTableViewCell.m; sourceTree = "<group>"; };
 		CDFA89FB196BAC3800D04451 /* HPAddTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAddTownTableViewCell.xib; sourceTree = "<group>"; };
@@ -778,6 +783,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CDE0BDC5196E7F9900CBCF58 /* CurrentUserController */,
 				CDE0BDBF196E632E00CBCF58 /* UserInfoViewController */,
 				CDFA8A01196BDF2C00D04451 /* HPChatListViewController */,
 				4CBFB5B7195AF458002D7249 /* CardPoint */,
@@ -1082,6 +1088,16 @@
 			name = UserInfoViewController;
 			sourceTree = "<group>";
 		};
+		CDE0BDC5196E7F9900CBCF58 /* CurrentUserController */ = {
+			isa = PBXGroup;
+			children = (
+				CDE0BDCB196E832E00CBCF58 /* HPCurrentUserViewController.h */,
+				CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */,
+				CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */,
+			);
+			name = CurrentUserController;
+			sourceTree = "<group>";
+		};
 		CDFA8A01196BDF2C00D04451 /* HPChatListViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1204,6 +1220,7 @@
 				4CDC98B919519D08006D2F89 /* HPUserCardViewController.xib in Resources */,
 				3B298FC0192F476100BEC2AA /* slider-default-trackCrossedOver.png in Resources */,
 				3BB5E86C1936121F00DDF5F9 /* bar_background.png in Resources */,
+				CDE0BDCA196E7FC000CBCF58 /* HPCurrentUserViewController.xib in Resources */,
 				CDFA8A0E196BE5E900D04451 /* HPChatTableViewCell.xib in Resources */,
 				3B298FBB192F476100BEC2AA /* slider-default-handle.png in Resources */,
 				3B298FC6192F476100BEC2AA /* slider-default7-track@2x.png in Resources */,
@@ -1312,6 +1329,7 @@
 				4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
 				3BDA4C6E19064CD200EF6619 /* HPBaseNetworkManager.m in Sources */,
 				3B39D31C195C3122002520B9 /* SocketIOPacket.m in Sources */,
+				CDE0BDCD196E832E00CBCF58 /* HPCurrentUserViewController.m in Sources */,
 				CD8CF436196A99D2000C7F18 /* UserFilter.m in Sources */,
 				3B39D30D195C3091002520B9 /* UserPoint.m in Sources */,
 				3BDA4C9A19064E5900EF6619 /* UIImageView+WebCache.m in Sources */,
