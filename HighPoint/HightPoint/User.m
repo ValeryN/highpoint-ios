@@ -2,7 +2,7 @@
 //  User.m
 //  HighPoint
 //
-//  Created by Julia Pozdnyakova on 04.07.14.
+//  Created by Julia Pozdnyakova on 11.07.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -31,12 +31,13 @@
 @dynamic nameForms;
 @dynamic userId;
 @dynamic visibility;
+@dynamic age;
 @dynamic avatar;
 @dynamic career;
 @dynamic education;
 @dynamic maxentertainment;
 @dynamic minentertainment;
-@dynamic userfilter;
 @dynamic point;
+@dynamic userfilter;
 
 @end
