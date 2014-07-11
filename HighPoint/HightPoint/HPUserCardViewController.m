@@ -58,6 +58,7 @@
     [_carouselView reloadData];
     [_carouselView scrollToItemAtIndex:self.current animated:NO];
     [self registerNotification];
+    self.navigationItem.title = [Utils getTitleStringForUserFilter];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {

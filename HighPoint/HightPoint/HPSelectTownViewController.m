@@ -95,11 +95,6 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark - scrollview delegate 
-- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
-    [self hideKeyboard];
-}
-
 #pragma mark - notifications 
 - (void) registerNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView:) name:kNeedUpdateCitiesListView object:nil];

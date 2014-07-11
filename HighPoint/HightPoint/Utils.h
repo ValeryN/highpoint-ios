@@ -24,4 +24,5 @@
 + (UIImage *)captureView:(UIView *)view withArea:(CGRect)screenRect;
 + (NSDictionary*) getParameterForPointsRequest:(NSInteger) lastPoint;
 + (NSDictionary*) getParameterForUsersRequest:(NSInteger) lastUser;
++ (NSString *) getTitleStringForUserFilter;
 @end

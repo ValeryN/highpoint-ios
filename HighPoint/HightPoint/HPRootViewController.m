@@ -162,6 +162,7 @@
 - (void) updateCurrentView {
     NSLog(@"switcher state = %d", _bottomSwitch.switchState);
     
+    self.navigationItem.title = [Utils getTitleStringForUserFilter];
     if (_bottomSwitch.switchState) {
         self.allUsers = [[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController];
     } else {

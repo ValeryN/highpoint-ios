@@ -7,6 +7,9 @@
 //
 
 #import "Utils.h"
+#import "DataStorage.h"
+#import "UserFilter.h"
+#import "Gender.h"
 
 @implementation Utils
 + (CGFloat)screenPhysicalSize
@@ -175,5 +178,42 @@
 }
 + (NSDictionary*) getParameterForUsersRequest:(NSInteger) lastUser {
     return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:lastUser], @"afterUserId", @"1", @"includePoints", nil];
+}
+
++ (NSString *) getTitleStringForUserFilter {
+    UserFilter *filter = [[DataStorage sharedDataStorage] getUserFilter];
+    //gender
+    NSString *genders = @"";
+    NSArray *gendersArr = [filter.gender allObjects];
+    if (gendersArr.count == 2 || gendersArr.count == 0) {
+        genders = @"Все люди";
+    } else {
+        if ([((Gender *)[gendersArr objectAtIndex:0]).genderType isEqualToNumber:@1]) {
+            genders = @"Мужчины";
+        } else {
+            genders = @"Девушки";
+        }
+    }
+    
+    NSString *age = @"";
+    if (filter.minAge && filter.maxAge) {
+        if ([filter.minAge integerValue] != [filter.maxAge integerValue]) {
+            age = [NSString stringWithFormat:@"%@-%@", filter.minAge, filter.maxAge];
+        } else {
+            age = [NSString stringWithFormat:@"%@", filter.minAge];
+        }
+    } else {
+        if (filter.minAge) {
+            age = [NSString stringWithFormat:@"%@", filter.minAge];
+        } else if (filter.maxAge) {
+            age = [NSString stringWithFormat:@"%@", filter.maxAge];
+        } else {
+            age = @"";
+        }
+    }
+    
+    NSString *sep = age.length > 0 ? @"," : @"";
+    NSString *town = [filter.city allObjects].count > 0 ? (((City *)[[filter.city allObjects] objectAtIndex:0]).cityName) :@"";
+    return [NSString stringWithFormat:@"%@,%@%@%@", genders, age, sep, town];
 }
 @end
