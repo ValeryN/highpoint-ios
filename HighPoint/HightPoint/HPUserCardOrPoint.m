@@ -41,7 +41,7 @@
     newPoint.delegate = delegate;
     newPoint.pointDelegate = delegate;
     newPoint.name.text = user.name;
-    newPoint.details.text = [NSString stringWithFormat:@"%@ %@", user.dateOfBirth, user.cityId];
+    newPoint.details.text = [NSString stringWithFormat:@"%@ лет, %@", user.age, user.cityId];
     UserPoint *point = user.point;
     newPoint.pointText.text = point.pointText;
     [newPoint.heartLike setSelected:[point.pointLiked boolValue]];
@@ -82,7 +82,7 @@
     
     
     newCard.name.text = user.name;
-    newCard.details.text = [NSString stringWithFormat:@"%@ %@", user.dateOfBirth, user.cityId];
+    newCard.details.text = [NSString stringWithFormat:@"%@ лет, %@", user.age, user.cityId];
     [newCard initObjects];
 
     return newCard;

@@ -47,7 +47,8 @@ static HPMainViewListTableViewCell* _prevCell;
     self.firstLabel.text = user.name;
     
     [self.secondLabel hp_tuneForUserListCellAgeAndCity];
-    self.secondLabel.text = @"99 лет, Когалым";
+    ;
+    self.secondLabel.text = [NSString stringWithFormat:@"%@ лет, %@", user.age, user.cityId];
     
     [self.point hp_tuneForUserListCellPointText];
     

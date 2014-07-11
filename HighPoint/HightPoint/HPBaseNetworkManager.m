@@ -373,11 +373,22 @@ static HPBaseNetworkManager *networkManager;
     [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"POINT LIKE RESP JSON: --> %@", operation.responseString);
         NSLog(@"LIKE STATUS CODE --> %ld", (long)operation.response.statusCode);
-        if (operation.response.statusCode == 200) {
-            [[DataStorage sharedDataStorage] setPointLiked:pointId :YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
-        } else {
-            NSLog(@"Error code != 200");
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if ([jsonDict objectForKey:@"data"]) {
+                    [[DataStorage sharedDataStorage] setPointLiked:pointId :YES];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
@@ -397,13 +408,25 @@ static HPBaseNetworkManager *networkManager;
     [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"POINT UNLIKE RESP JSON: --> %@", operation.responseString);
         NSLog(@"UNLIKE HEADER --> %@", operation.description);
-        if (operation.response.statusCode == 200) {
-            [[DataStorage sharedDataStorage] setPointLiked:pointId :NO];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
-        } else {
-            NSLog(@"Error code != 200");
-        }
         
+        
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if ([jsonDict objectForKey:@"data"]) {
+                    [[DataStorage sharedDataStorage] setPointLiked:pointId :NO];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];

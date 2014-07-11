@@ -205,6 +205,8 @@ static DataStorage *dataStorage;
             user.avatar = [self createAvatarEntity:[param objectForKey:@"avatar"]];
             user.avatar.user = user;
         }
+        if([param objectForKey:@"age"])
+            user.age = [param objectForKey:@"age"];
         if([[param objectForKey:@"education"] isKindOfClass:[NSDictionary class]]) {
             
             if(![[param objectForKey:@"education"] isKindOfClass:[NSNull class]]) {
@@ -586,6 +588,23 @@ static DataStorage *dataStorage;
     NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
     [sortDescriptors addObject:sortDescriptor];
     [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"isCurrentUser != 1"];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    
     NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError* error=nil;
 	if (![controller performFetch:&error])
@@ -606,7 +625,7 @@ static DataStorage *dataStorage;
     [request setSortDescriptors:sortDescriptors];
     
     NSMutableString* predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"point.@count == 1"];
+    [predicateString appendFormat:@"point.@count == 1 AND isCurrentUser != 1"];
     
     BOOL predicateError = NO;
     @try {
