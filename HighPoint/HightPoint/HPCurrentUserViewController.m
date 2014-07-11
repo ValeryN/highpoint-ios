@@ -10,12 +10,15 @@
 #import "HPChatListViewController.h"
 #import "HPCurrentUserPointViewController.h"
 #import "HPCurrentUserCardViewController.h"
+#import "HPConciergeViewController.h"
 
 @interface HPCurrentUserViewController ()
 
 @end
 
-@implementation HPCurrentUserViewController
+@implementation HPCurrentUserViewController {
+    HPCurrentUserPointViewController *userPointController;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -69,12 +72,16 @@
 {
     
     if (index == 0) {
-        view = [[HPCurrentUserPointViewController alloc] initWithNibName:@"HPCurrentUserPointViewController" bundle:nil].view;
+        userPointController = [[HPCurrentUserPointViewController alloc] initWithNibName:@"HPCurrentUserPointViewController" bundle:nil];
+        view = userPointController.view;
     }
-    if (index == 1 || index == 2) {
-        view = [[HPCurrentUserCardViewController alloc] initWithNibName:@"HPCurrentUserCardViewController" bundle:nil].view;
+    if (index == 1) {
+        view = [[HPConciergeViewController alloc] initWithNibName:@"HPConciergeViewController" bundle:nil].view;
     }
-    
+    if (index == 2) {
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 264, 416)];
+        view.backgroundColor = [UIColor whiteColor];
+    }
     CGRect rect = CGRectMake(14, 0, [UIScreen mainScreen].bounds.size.width - 30, 380);
     view.frame = rect;
     return view;

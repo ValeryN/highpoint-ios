@@ -7,6 +7,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPCurrentUserPointViewController">
             <connections>
+                <outlet property="avatar" destination="QJm-VM-1d2" id="MXH-rp-Rdd"/>
+                <outlet property="bgAvatarImageView" destination="nKo-Nt-S57" id="dKn-de-P7v"/>
+                <outlet property="pointInfoLabel" destination="Lwx-HN-IMD" id="Nqb-dW-I7p"/>
+                <outlet property="pointLabel" destination="XPW-5N-S3Q" id="QC6-sr-1c9"/>
+                <outlet property="pointTextView" destination="1Wy-mf-TZl" id="wB7-zu-mhZ"/>
+                <outlet property="userProfileBtn" destination="ZrQ-Ty-pzI" id="Brw-im-0rv"/>
                 <outlet property="view" destination="hb9-jS-mfW" id="OLe-Df-nmh"/>
             </connections>
         </placeholder>
@@ -45,6 +51,9 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="highlighted" backgroundImage="User Tap"/>
+                    <connections>
+                        <action selector="userProfileBtnTap:" destination="-1" eventType="touchUpInside" id="ZQc-Q6-XYh"/>
+                    </connections>
                 </button>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1Wy-mf-TZl" userLabel="Point text - Text View">
                     <rect key="frame" x="16" y="176" width="232" height="104"/>

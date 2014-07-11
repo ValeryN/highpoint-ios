@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "iCarousel.h"
+#import "UserCardOrPointProtocol.h"
 
-@interface HPCurrentUserViewController : UIViewController <iCarouselDataSource, iCarouselDelegate>
+@interface HPCurrentUserViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UserCardOrPointProtocol>
 
 - (IBAction)backButtonTap:(id)sender;
 - (IBAction)bubbleButtonTap:(id)sender;

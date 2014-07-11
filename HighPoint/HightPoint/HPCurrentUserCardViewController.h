@@ -10,4 +10,7 @@
 
 @interface HPCurrentUserCardViewController : UIViewController
 
+
+
+
 @end
