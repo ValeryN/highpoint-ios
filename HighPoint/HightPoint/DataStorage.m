@@ -500,6 +500,47 @@ static DataStorage *dataStorage;
         return [[controller fetchedObjects] objectAtIndex:0];
     else return nil;
 }
+
+
+- (void) setPointLiked : (NSNumber *) pointId : (BOOL) isLiked {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"UserPoint" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"pointId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"pointId  = %d",[pointId intValue]];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        UserPoint *point =[[controller fetchedObjects] objectAtIndex:0];
+        point.pointLiked = [NSNumber numberWithBool:isLiked];
+        [self saveContext];
+        return;
+    } else {
+        return;
+    }
+}
 #pragma mark -
 #pragma mark application settings entity
 - (void) createApplicationSettingEntity:(NSDictionary *)param

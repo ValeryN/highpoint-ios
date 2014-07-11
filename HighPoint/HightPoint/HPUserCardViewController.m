@@ -21,7 +21,8 @@
 #import "DataStorage.h"
 #import "User.h"
 #import "HPUserInfoViewController.h"
-
+#import "HPBaseNetworkManager.h"
+#import "NotificationsConstants.h"
 //==============================================================================
 
 #define ICAROUSEL_ITEMS_COUNT 50
@@ -56,9 +57,31 @@
     }
     [_carouselView reloadData];
     [_carouselView scrollToItemAtIndex:self.current animated:NO];
+    [self registerNotification];
 }
 
-//==============================================================================
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self unregisterNotification];
+}
+
+
+
+#pragma mark - notifications
+- (void) registerNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(needUpdatePointLike) name:kNeedUpdatePointLike object:nil];
+}
+
+- (void) unregisterNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdatePointLike object:nil];
+}
+
+- (void) needUpdatePointLike {
+    [self.carouselView reloadData];
+}
+
+
+#pragma mark - init objects
 
 - (void) initObjects
 {
@@ -366,6 +389,18 @@
 
 - (void) heartTapped
 {
+    UserPoint *point = ((User *)[usersArr objectAtIndex:self.carouselView.currentItemIndex]).point;
+    if ([point.pointLiked boolValue]) {
+        //unlike request
+        [[HPBaseNetworkManager sharedNetworkManager] makePointUnLikeRequest:point.pointId];
+    } else {
+        //like request
+        [[HPBaseNetworkManager sharedNetworkManager] makePointLikeRequest:point.pointId];
+    }
+    
+    
+    
+    
     NSLog(@"heart tapped");
 }
 

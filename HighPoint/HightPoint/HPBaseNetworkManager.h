@@ -24,8 +24,8 @@
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param;
 //- (void) getUsersListRequest:(NSDictionary*) param;
 //- (void) getPointsListRequest:(NSDictionary*) param;
-- (void) makePointLikeRequest:(NSString*) pointId;
-- (void) makePointUnLikeRequest:(NSString*) pointId;
+- (void) makePointLikeRequest:(NSNumber*) pointId;
+- (void) makePointUnLikeRequest:(NSNumber*) pointId;
 - (void) getApplicationSettingsRequest;
 - (void) getCurrentUserRequest;
 - (void) getUsersRequest:(NSInteger) lastUser;

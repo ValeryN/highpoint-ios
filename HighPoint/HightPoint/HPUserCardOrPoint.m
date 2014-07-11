@@ -44,8 +44,8 @@
     newPoint.details.text = [NSString stringWithFormat:@"%@ %@", user.dateOfBirth, user.cityId];
     UserPoint *point = user.point;
     newPoint.pointText.text = point.pointText;
+    [newPoint.heartLike setSelected:[point.pointLiked boolValue]];
     [newPoint initObjects];
-
     return newPoint;
 }
 

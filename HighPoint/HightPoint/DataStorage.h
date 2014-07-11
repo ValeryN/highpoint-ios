@@ -38,6 +38,7 @@
 - (User*) getCurrentUser;
 - (void) deleteCurrentUser;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
+- (void) setPointLiked : (NSNumber *) pointId : (BOOL) isLiked;
 - (AppSetting*) getAppSettings;
 - (City*) createCity:(NSDictionary *)param;
 - (City *) createTempCity :(NSDictionary *) param;

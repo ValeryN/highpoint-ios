@@ -30,6 +30,7 @@
                     <state key="normal" backgroundImage="Heart">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <state key="selected" backgroundImage="Heart Tap"/>
                     <state key="highlighted" backgroundImage="Heart Tap"/>
                     <connections>
                         <action selector="heartButtonPressed:" destination="i5M-Pr-FkT" eventType="touchUpInside" id="2Km-fn-Zja"/>
