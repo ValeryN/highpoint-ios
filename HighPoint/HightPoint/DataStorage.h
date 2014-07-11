@@ -45,7 +45,7 @@
 - (City *) getCityById : (NSNumber *) cityId;
 - (City *) insertCityObjectToContext: (City *) city;
 - (void) removeCityObjectById : (City *)city;
-- (void) removeCityFromUserFilter :(City *) city;
+- (void) removeCitiesFromUserFilter;
 - (void) deleteAllCities;
 - (void) saveContext;
 @end

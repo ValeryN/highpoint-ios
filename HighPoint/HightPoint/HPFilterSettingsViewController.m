@@ -13,7 +13,6 @@
 #import "HPBaseNetworkManager.h"
 #import "Gender.h"
 #import "HPTownTableViewCell.h"
-#import "HPAddTownTableViewCell.h"
 #import "NotificationsConstants.h"
 
 @interface HPFilterSettingsViewController ()
@@ -274,36 +273,21 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *townCellIdentifier = @"PaymentCellIdentif";
-    static NSString *townAddCellIdentifier = @"addTown";
+    HPTownTableViewCell *townCell = (HPTownTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
     
-    if (indexPath.row < allCities.count) {
-        HPTownTableViewCell *townCell = (HPTownTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
-        
-        if (townCell == nil)
-        {
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPTownTableViewCell" owner:self options:nil];
-            townCell = [nib objectAtIndex:0];
-        }
-        City *city = [allCities objectAtIndex:indexPath.row];
-        [townCell configureCell:city];
-        return townCell;
-    } else {
-        HPAddTownTableViewCell *addTownCell = (HPAddTownTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townAddCellIdentifier];
-        
-        if (addTownCell == nil)
-        {
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPAddTownTableViewCell" owner:self options:nil];
-            addTownCell = [nib objectAtIndex:0];
-        }
-        return addTownCell;
+    if (townCell == nil)
+    {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPTownTableViewCell" owner:self options:nil];
+        townCell = [nib objectAtIndex:0];
     }
-    
-    [self saveFilter];
+    City *city = [allCities objectAtIndex:indexPath.row];
+    [townCell configureCell:city];
+    return townCell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return allCities.count + 1;
+    return 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -319,17 +303,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    if (indexPath.row < allCities.count) {
-        
-    } else {
-        HPSelectTownViewController *town = [[HPSelectTownViewController alloc] initWithNibName: @"HPSelectTown" bundle: nil];
-        self.savedDelegate = self.navigationController.delegate;
-        self.navigationController.delegate = nil;
-        [self.navigationController pushViewController:town animated:YES];
-    }
-    
-
+    HPSelectTownViewController *town = [[HPSelectTownViewController alloc] initWithNibName: @"HPSelectTown" bundle: nil];
+    self.savedDelegate = self.navigationController.delegate;
+    self.navigationController.delegate = nil;
+    [self.navigationController pushViewController:town animated:YES];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {

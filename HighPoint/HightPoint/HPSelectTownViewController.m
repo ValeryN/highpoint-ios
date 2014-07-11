@@ -38,6 +38,10 @@
     self.townsTableView.backgroundColor = [UIColor clearColor];
     self.townSearchBar.delegate = self;
     self.allCities = [[NSMutableArray alloc] init];
+    
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    [self.townsTableView addGestureRecognizer:gestureRecognizer];
+    gestureRecognizer.cancelsTouchesInView = NO;
     // Do any additional setup after loading the view.
 }
 - (void) viewWillAppear:(BOOL)animated {
@@ -86,6 +90,15 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - hide keyboard
+- (void) hideKeyboard {
+    [self.view endEditing:YES];
+}
+
+#pragma mark - scrollview delegate 
+- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
+    [self hideKeyboard];
+}
 
 #pragma mark - notifications 
 - (void) registerNotification {
@@ -183,16 +196,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     City *city = [self.allCities objectAtIndex:indexPath.row];
-    if ([self checkAddedMark:city]) {
-        [[DataStorage sharedDataStorage] removeCityFromUserFilter:city];
-    } else {
-        city = [[DataStorage sharedDataStorage] insertCityObjectToContext:city];
-        [[DataStorage sharedDataStorage] setCityToUserFilter:city];
-    }
-    [self.townsTableView reloadData];
+    [[DataStorage sharedDataStorage] removeCitiesFromUserFilter];
+    city = [[DataStorage sharedDataStorage] insertCityObjectToContext:city];
+    [[DataStorage sharedDataStorage] setCityToUserFilter:city];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {

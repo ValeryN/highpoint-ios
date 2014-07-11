@@ -95,7 +95,7 @@ static DataStorage *dataStorage;
 }
 
 
-- (void) removeCityFromUserFilter :(City *) city {
+- (void) removeCitiesFromUserFilter {
     NSArray *fetchedObjects;
     NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"UserFilter"  inManagedObjectContext: self.moc];
@@ -104,14 +104,7 @@ static DataStorage *dataStorage;
     fetchedObjects = [self.moc executeFetchRequest:fetch error:&error];
     if([fetchedObjects count] >= 1) {
         UserFilter *filter = [fetchedObjects objectAtIndex:0];
-        NSMutableArray *cities = [[filter.city allObjects] mutableCopy];
-        for (City *cityObj  in cities) {
-            if ([cityObj.cityId  isEqualToNumber:city.cityId]) {
-                [cities removeObject:cityObj];
-                break;
-            }
-        }
-        filter.city = [NSSet setWithArray:cities];
+        filter.city = [[NSSet alloc] init];
         [self saveContext];
         return;
     } else {

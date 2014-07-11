@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPSelectTownViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+@interface HPSelectTownViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIGestureRecognizerDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UITableView *townsTableView;
