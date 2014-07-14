@@ -20,44 +20,6 @@
                         <constraint firstAttribute="width" constant="264" id="obX-l1-7xU"/>
                     </constraints>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nXb-Mf-1zp" userLabel="Like - Button">
-                    <rect key="frame" x="120" y="305" width="24" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="87y-sK-sE4"/>
-                        <constraint firstAttribute="width" constant="24" id="K85-s5-3QX"/>
-                    </constraints>
-                    <state key="normal" backgroundImage="Heart">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="selected" backgroundImage="Heart Tap"/>
-                    <state key="highlighted" backgroundImage="Heart Tap"/>
-                </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kfj-bg-KUn" userLabel="Name - Label">
-                    <rect key="frame" x="0.0" y="352" width="264" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="264" id="h76-fV-ih0"/>
-                        <constraint firstAttribute="height" constant="32" id="hmO-xP-zWa"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99 лет, Когалым" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FS8-6E-z1R" userLabel="City - Label">
-                    <rect key="frame" x="0.0" y="390" width="264" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="21" id="Oag-FR-Giy"/>
-                        <constraint firstAttribute="width" constant="264" id="nTz-kb-qEh"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FRP-gv-ey5" userLabel="Avatar - View">
                     <rect key="frame" x="88" y="68" width="88" height="88"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -96,21 +58,29 @@
                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Поинт" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m3I-aD-GUu">
+                    <rect key="frame" x="26" y="17" width="212" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Активен 6 часов" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w4R-zz-pI4">
+                    <rect key="frame" x="12" y="314" width="241" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="FRP-gv-ey5" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" constant="88" id="1Mm-Bd-6KI"/>
-                <constraint firstItem="FS8-6E-z1R" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" id="1hs-Ib-vQP"/>
-                <constraint firstItem="Kfj-bg-KUn" firstAttribute="top" secondItem="9QB-AE-kLq" secondAttribute="top" constant="352" id="2nJ-7a-2K1"/>
-                <constraint firstItem="nXb-Mf-1zp" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" constant="120" id="5Bx-Ds-C2w"/>
                 <constraint firstItem="jSY-lt-jit" firstAttribute="top" secondItem="9QB-AE-kLq" secondAttribute="top" id="5fS-1g-UCI"/>
                 <constraint firstItem="jSY-lt-jit" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" id="7Vh-wR-w1J"/>
                 <constraint firstItem="T04-Jy-nkb" firstAttribute="top" secondItem="9QB-AE-kLq" secondAttribute="top" constant="12" id="9wg-5G-ia4"/>
                 <constraint firstItem="axg-V0-X5h" firstAttribute="top" secondItem="FRP-gv-ey5" secondAttribute="bottom" constant="20" id="OZA-ve-6ZG"/>
-                <constraint firstItem="FS8-6E-z1R" firstAttribute="top" secondItem="Kfj-bg-KUn" secondAttribute="bottom" constant="6" id="RgH-fu-FnG"/>
                 <constraint firstItem="T04-Jy-nkb" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" constant="220" id="dAM-hG-5gu"/>
-                <constraint firstItem="Kfj-bg-KUn" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" id="hLn-fF-LJl"/>
-                <constraint firstItem="nXb-Mf-1zp" firstAttribute="top" secondItem="9QB-AE-kLq" secondAttribute="top" constant="305" id="jIX-oN-tTV"/>
                 <constraint firstItem="FRP-gv-ey5" firstAttribute="top" secondItem="9QB-AE-kLq" secondAttribute="top" constant="68" id="nYs-rz-743"/>
                 <constraint firstItem="axg-V0-X5h" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" constant="16" id="zzB-SO-8Kd"/>
             </constraints>
@@ -118,8 +88,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Heart" width="24" height="20"/>
-        <image name="Heart Tap" width="24" height="20"/>
         <image name="User" width="32" height="32"/>
         <image name="User Tap" width="32" height="32"/>
         <image name="img_sample.png" width="650" height="923"/>

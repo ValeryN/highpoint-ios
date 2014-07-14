@@ -32,53 +32,66 @@
                         <action selector="pointBtnTap:" destination="yAe-kx-a7h" eventType="touchUpInside" id="P6I-hH-HfS"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 / 12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fx9-fv-oec" userLabel="Photo index - Label">
-                    <rect key="frame" x="12" y="319" width="44" height="21"/>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3G-Sh-g0b">
+                    <rect key="frame" x="20" y="368" width="35" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" backgroundImage="Eye">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4i4-q3-fTU">
+                    <rect key="frame" x="115" y="368" width="35" height="35"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" backgroundImage="Lock">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected" backgroundImage="Lock Active.png"/>
+                    <state key="highlighted" backgroundImage="Lock Tap.png"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j6g-Ir-XZG">
+                    <rect key="frame" x="209" y="368" width="35" height="35"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" backgroundImage="Eye"/>
+                    <state key="selected" backgroundImage="Eye Active.png"/>
+                    <state key="highlighted" backgroundImage="Eye Tap.png"/>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l88-ia-VTe">
+                    <rect key="frame" x="27" y="271" width="210" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNA-1V-T8i" userLabel="Name Label">
-                    <rect key="frame" x="0.0" y="352" width="264" height="32"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="30 лет, Москва" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9tI-2J-neg">
+                    <rect key="frame" x="20" y="306" width="224" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="264" id="UDa-e4-Tg8"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="24"/>
-                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99 лет, Когалым" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4az-fO-9q0" userLabel="Details Label">
-                    <rect key="frame" x="0.0" y="390" width="264" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Профиль виден всем" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i41-oS-GbK">
+                    <rect key="frame" x="46" y="242" width="172" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="21" id="j9Z-Pq-op3"/>
-                        <constraint firstAttribute="width" constant="264" id="qVF-GZ-8PC"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="16"/>
-                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="4az-fO-9q0" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" id="CN4-vy-DgH"/>
-                <constraint firstItem="Fx9-fv-oec" firstAttribute="top" secondItem="yAe-kx-a7h" secondAttribute="top" constant="319" id="DHv-dz-DV9"/>
-                <constraint firstItem="hNA-1V-T8i" firstAttribute="top" secondItem="yAe-kx-a7h" secondAttribute="top" constant="352" id="MI8-5C-Y6b"/>
-                <constraint firstItem="4az-fO-9q0" firstAttribute="top" secondItem="hNA-1V-T8i" secondAttribute="bottom" constant="6" id="O5R-4Q-KwV"/>
                 <constraint firstItem="AHz-RI-r0T" firstAttribute="top" secondItem="yAe-kx-a7h" secondAttribute="top" id="T0J-Zn-phA"/>
-                <constraint firstItem="Fx9-fv-oec" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" constant="12" id="mBV-Lt-9C4"/>
-                <constraint firstItem="hNA-1V-T8i" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" id="qcM-Vo-vqt"/>
                 <constraint firstItem="AHz-RI-r0T" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" id="uow-3p-cCp"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
     <resources>
+        <image name="Eye" width="650" height="923"/>
+        <image name="Eye Active.png" width="64" height="65"/>
+        <image name="Eye Tap.png" width="64" height="64"/>
+        <image name="Lock" width="650" height="923"/>
+        <image name="Lock Active.png" width="64" height="64"/>
+        <image name="Lock Tap.png" width="64" height="64"/>
         <image name="Point" width="32" height="32"/>
         <image name="Point Tap" width="32" height="32"/>
         <image name="img_sample.png" width="650" height="923"/>
