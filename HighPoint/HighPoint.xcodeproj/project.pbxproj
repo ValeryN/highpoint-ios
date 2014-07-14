@@ -191,6 +191,7 @@
 		CD7C99541973A68700F1AAAB /* HPCurrentUserCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7C99531973A68700F1AAAB /* HPCurrentUserCardView.xib */; };
 		CD7C995F1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7C995D1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib */; };
 		CD7C99621973C10500F1AAAB /* HPAddPhotoMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C99611973C10500F1AAAB /* HPAddPhotoMenuViewController.m */; };
+		CD7C99641973E40F00F1AAAB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD7C99631973E40F00F1AAAB /* MobileCoreServices.framework */; };
 		CD8CF436196A99D2000C7F18 /* UserFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8CF435196A99D2000C7F18 /* UserFilter.m */; };
 		CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EE2196FB2910032210F /* HPConciergeViewController.m */; };
 		CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */; };
@@ -483,6 +484,7 @@
 		CD7C995D1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAddPhotoMenuViewController.xib; sourceTree = "<group>"; };
 		CD7C99601973C10500F1AAAB /* HPAddPhotoMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAddPhotoMenuViewController.h; sourceTree = "<group>"; };
 		CD7C99611973C10500F1AAAB /* HPAddPhotoMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddPhotoMenuViewController.m; sourceTree = "<group>"; };
+		CD7C99631973E40F00F1AAAB /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		CD8CF434196A99D2000C7F18 /* UserFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFilter.h; sourceTree = "<group>"; };
 		CD8CF435196A99D2000C7F18 /* UserFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFilter.m; sourceTree = "<group>"; };
 		CDA22EE1196FB2910032210F /* HPConciergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConciergeViewController.h; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD7C99641973E40F00F1AAAB /* MobileCoreServices.framework in Frameworks */,
 				3BDA4CAE1906628200EF6619 /* Security.framework in Frameworks */,
 				3BDA4CAC1906627000EF6619 /* libicucore.dylib in Frameworks */,
 				3BDA4CAA1906623E00EF6619 /* CFNetwork.framework in Frameworks */,
@@ -748,6 +751,7 @@
 		3B6DB48E18FFC24C00C26A50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CD7C99631973E40F00F1AAAB /* MobileCoreServices.framework */,
 				3BDA4CAD1906628200EF6619 /* Security.framework */,
 				3BDA4CAB1906627000EF6619 /* libicucore.dylib */,
 				3BDA4CA91906623E00EF6619 /* CFNetwork.framework */,

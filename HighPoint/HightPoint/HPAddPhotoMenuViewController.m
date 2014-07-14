@@ -7,12 +7,18 @@
 //
 
 #import "HPAddPhotoMenuViewController.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "AssetsLibrary/AssetsLibrary.h"
+
 
 @interface HPAddPhotoMenuViewController ()
 
 @end
 
 @implementation HPAddPhotoMenuViewController
+{
+    BOOL isCamera;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +33,7 @@
 {
     [super viewDidLoad];
    // [self setupBackgroundTap];
+    isCamera = NO;
     [self createGreenButton];
 }
 
@@ -127,9 +134,11 @@
 - (void) greenButtonPressed: (HPGreenButtonVC*) button
 {
     if (button.tag == 0) {
+        isCamera = NO;
         [self showPhotoPickerController];
     } else {
-        //get camera
+        isCamera = YES;
+        [self showCameraControl];
     }
     
 }
@@ -146,13 +155,107 @@
     
 }
 
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
-    NSURL *path = [info valueForKey:UIImagePickerControllerReferenceURL];
-    [picker dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"image path = %@", path);
-    }];
+    if (isCamera) {
+        UIImage *viewImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+        // Request to save the image to camera roll
+        [library writeImageToSavedPhotosAlbum:[viewImage CGImage] orientation:(ALAssetOrientation)[viewImage imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
+            if (error) {
+                NSLog(@"error");
+            } else {
+                NSLog(@"url %@", assetURL);
+            }  
+        }];
+        
+        [picker dismissModalViewControllerAnimated:YES];
+        
+    } else {
+        UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+        NSURL *path = [info valueForKey:UIImagePickerControllerReferenceURL];
+        [picker dismissViewControllerAnimated:YES completion:^{
+            NSLog(@"image path = %@", path);
+        }];
+    }
+    isCamera = NO;
+}
+
+#pragma mark - photo save utils
+- (NSString *)documentsPath:(NSString *)fileName {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    return [documentsDirectory stringByAppendingPathComponent:fileName];
+}
+
+- (NSString *)getPresentDateTime{
+    NSDateFormatter *dateTimeFormat = [[NSDateFormatter alloc] init];
+    [dateTimeFormat setDateFormat:@"dd-MM-yyyy HH:mm:ss"];
+    NSDate *now = [[NSDate alloc] init];
+    NSString *theDateTime = [dateTimeFormat stringFromDate:now];
+    dateTimeFormat = nil;
+    now = nil;
+    return theDateTime;
+}
+
+
+#pragma mark - load camera
+
+- (void) showCameraControl {
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        NSArray *media = [UIImagePickerController
+                          availableMediaTypesForSourceType: UIImagePickerControllerSourceTypeCamera];
+        
+        if ([media containsObject:(NSString*)kUTTypeImage] == YES) {
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            //picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+            [picker setMediaTypes:[NSArray arrayWithObject:(NSString *)kUTTypeImage]];
+            
+            picker.delegate = self;
+            [self presentModalViewController:picker animated:YES];
+            //[picker release];
+            
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsupported!"
+                                                            message:@"Camera does not support photo capturing."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+        
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unavailable!"
+                                                        message:@"This device does not have a camera."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
+
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    UIAlertView *alert;
+    //NSLog(@"Image:%@", image);
+    if (error) {
+        alert = [[UIAlertView alloc] initWithTitle:@"Error!"
+                                           message:[error localizedDescription]
+                                          delegate:nil
+                                 cancelButtonTitle:@"OK"
+                                 otherButtonTitles:nil];
+        [alert show];
+    } 
+    
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissModalViewControllerAnimated:YES];
 }
 
 @end
