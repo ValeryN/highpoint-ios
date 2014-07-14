@@ -9,6 +9,7 @@
 #import "HPAddPhotoMenuViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "AssetsLibrary/AssetsLibrary.h"
+#import "UIButton+HighPoint.h"
 
 
 @interface HPAddPhotoMenuViewController ()
@@ -34,18 +35,31 @@
     [super viewDidLoad];
    // [self setupBackgroundTap];
     isCamera = NO;
+    [self setBgBlur];
     [self createGreenButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-   
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - blur for bg
+
+- (void) setBgBlur {
+    self.view.opaque = NO;
+    self.view.backgroundColor = [UIColor clearColor];
+    UIToolbar *fakeToolbar = [[UIToolbar alloc] initWithFrame:self.view.bounds];
+    fakeToolbar.alpha = 0.9;
+    fakeToolbar.autoresizingMask = self.view.autoresizingMask;
+    fakeToolbar.barTintColor = [UIColor clearColor];
+    [self.view insertSubview:fakeToolbar atIndex:0];
 }
 
 
@@ -108,6 +122,7 @@
     
     
     self.cancelBtn.titleLabel.text = NSLocalizedString(@"CANCEL_BTN",nil);
+    [self.cancelBtn hp_tuneFontForGreenButton];
 }
 
 
