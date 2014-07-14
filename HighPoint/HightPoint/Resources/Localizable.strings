@@ -7,3 +7,9 @@
 */
 
 
+
+
+// ADD PHOTO SCREEN
+"GET_FROM_PHOTO_LIBRARY_BTN" = "Выбрать из альбома";
+"TAKE_PHOTO_BTN" = "Сделать фотографию";
+"CANCEL_BTN" = "Отменить";

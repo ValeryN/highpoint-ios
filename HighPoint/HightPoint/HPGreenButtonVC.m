@@ -13,16 +13,29 @@
 
 //==============================================================================
 
-@implementation HPGreenButtonVC
+@implementation HPGreenButtonVC {
+    NSString *titleText;
+}
 
-//==============================================================================
+
 
 - (void)viewDidLoad
 {
     [self initObjects];
+    [self.button setTitle: titleText forState: UIControlStateNormal];
+    [self.button setTitle: titleText forState: UIControlStateHighlighted];
+    [self.button setTitle: titleText forState: UIControlStateSelected];
 }
 
-//==============================================================================
+- (id)initWithNibNameAndTitle:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil title:(NSString *) title
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        titleText = title;
+    }
+    return self;
+}
+
 
 - (void) initObjects
 {

@@ -8,6 +8,7 @@
 
 #import "HPUserInfoViewController.h"
 #import "HPTownTableViewCell.h"
+#import "HPAddPhotoMenuViewController.h"
 
 
 #define GREEN_BUTTON_BOTTOM 20
@@ -16,6 +17,9 @@
 
 
 @interface HPUserInfoViewController ()
+{
+    HPAddPhotoMenuViewController *addPhotoViewController;
+}
 
 @end
 
@@ -43,6 +47,11 @@
     self.carousel.dataSource = self;
     self.carousel.delegate = self;
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -161,6 +170,21 @@
     NSLog(@"Green button pressed");
 }
 
+
+#pragma mark - add photo 
+
+
+- (IBAction)addPhotoBtnTap:(id)sender {
+    [self addPhotoMenuShow];
+}
+
+
+- (void) addPhotoMenuShow {
+    if (!addPhotoViewController) {
+        addPhotoViewController = [[HPAddPhotoMenuViewController alloc] initWithNibName: @"HPAddPhotoMenuViewController" bundle: nil];
+    }
+    [[[[[UIApplication sharedApplication]delegate] window] rootViewController].view addSubview:addPhotoViewController.view];
+}
 
 #pragma mark - table view
 

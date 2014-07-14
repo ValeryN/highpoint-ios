@@ -12,6 +12,7 @@
 #import "HPCurrentUserCardView.h"
 #import "HPConciergeViewController.h"
 #import "HPCurrentUserCardOrPointView.h"
+#import "HPUserInfoViewController.h"
 
 #define FLIP_ANIMATION_SPEED 0.5
 
@@ -135,5 +136,13 @@
                     }
                     completion: ^(BOOL finished){
                     }];}
+
+
+#pragma mark - user info
+
+- (IBAction)bottomTap:(id)sender {
+    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
+    [self.navigationController pushViewController:uiController animated:YES];
+}
 
 @end

@@ -34,7 +34,12 @@
 @property (nonatomic, weak) IBOutlet UIImageView* centerPartPressed;
 @property (nonatomic, weak) IBOutlet UIImageView* leftPartPressed;
 
+@property (nonatomic, assign) int tag;
+
 @property (nonatomic, weak) NSObject<GreenButtonProtocol>* delegate;
+
+
+- (id)initWithNibNameAndTitle:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil title :(NSString *) title;
 
 - (IBAction) touchUpInside:(id)sender;
 - (IBAction) touchDown:(id)sender;

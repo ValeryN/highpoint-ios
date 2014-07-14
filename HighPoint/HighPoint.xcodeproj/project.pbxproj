@@ -189,6 +189,8 @@
 		CD7C99501973A38900F1AAAB /* HPCurrentUserCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C994F1973A38900F1AAAB /* HPCurrentUserCardView.m */; };
 		CD7C99521973A63700F1AAAB /* HPCurrentUserPointView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7C99511973A63700F1AAAB /* HPCurrentUserPointView.xib */; };
 		CD7C99541973A68700F1AAAB /* HPCurrentUserCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7C99531973A68700F1AAAB /* HPCurrentUserCardView.xib */; };
+		CD7C995F1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7C995D1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib */; };
+		CD7C99621973C10500F1AAAB /* HPAddPhotoMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C99611973C10500F1AAAB /* HPAddPhotoMenuViewController.m */; };
 		CD8CF436196A99D2000C7F18 /* UserFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8CF435196A99D2000C7F18 /* UserFilter.m */; };
 		CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EE2196FB2910032210F /* HPConciergeViewController.m */; };
 		CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */; };
@@ -478,6 +480,9 @@
 		CD7C994F1973A38900F1AAAB /* HPCurrentUserCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserCardView.m; sourceTree = "<group>"; };
 		CD7C99511973A63700F1AAAB /* HPCurrentUserPointView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCurrentUserPointView.xib; sourceTree = "<group>"; };
 		CD7C99531973A68700F1AAAB /* HPCurrentUserCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCurrentUserCardView.xib; sourceTree = "<group>"; };
+		CD7C995D1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAddPhotoMenuViewController.xib; sourceTree = "<group>"; };
+		CD7C99601973C10500F1AAAB /* HPAddPhotoMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAddPhotoMenuViewController.h; sourceTree = "<group>"; };
+		CD7C99611973C10500F1AAAB /* HPAddPhotoMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddPhotoMenuViewController.m; sourceTree = "<group>"; };
 		CD8CF434196A99D2000C7F18 /* UserFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFilter.h; sourceTree = "<group>"; };
 		CD8CF435196A99D2000C7F18 /* UserFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFilter.m; sourceTree = "<group>"; };
 		CDA22EE1196FB2910032210F /* HPConciergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConciergeViewController.h; sourceTree = "<group>"; };
@@ -817,6 +822,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */,
 				CDA22EE0196FB22A0032210F /* ConciergeViewController */,
 				CDE0BDCE196E86F000CBCF58 /* CurrentUserCardPoint */,
 				CDE0BDC5196E7F9900CBCF58 /* CurrentUserController */,
@@ -1111,6 +1117,16 @@
 			path = External/TLSwipeForOptionsCell;
 			sourceTree = "<group>";
 		};
+		CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */ = {
+			isa = PBXGroup;
+			children = (
+				CD7C99601973C10500F1AAAB /* HPAddPhotoMenuViewController.h */,
+				CD7C99611973C10500F1AAAB /* HPAddPhotoMenuViewController.m */,
+				CD7C995D1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib */,
+			);
+			name = AddPhotoMenuView;
+			sourceTree = "<group>";
+		};
 		CDA22EE0196FB22A0032210F /* ConciergeViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1272,6 +1288,7 @@
 				3B3170B1191B931300B72AC1 /* Userpic-Maskk_2.png in Resources */,
 				3B6DB49C18FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 				4C91C1EB1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */,
+				CD7C995F1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib in Resources */,
 				CDFA8A21196BEA6200D04451 /* Switcher-R.png in Resources */,
 				CDFA8A20196BEA6200D04451 /* Switcher-L.png in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
@@ -1366,6 +1383,7 @@
 			files = (
 				3BDA4C9219064E5900EF6619 /* SDWebImageDownloader.m in Sources */,
 				3BDA4C6719064AC900EF6619 /* AFURLConnectionOperation.m in Sources */,
+				CD7C99621973C10500F1AAAB /* HPAddPhotoMenuViewController.m in Sources */,
 				3B39D307195C3091002520B9 /* Avatar.m in Sources */,
 				3B6DB4A518FFC24D00C26A50 /* HightPoint.xcdatamodeld in Sources */,
 				3BDA4C9519064E5900EF6619 /* SDWebImagePrefetcher.m in Sources */,

@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *infoTableView;
 @property (weak, nonatomic) IBOutlet iCarousel *carousel;
 
+
 @property (strong, nonatomic) User *user;
 
 @end
