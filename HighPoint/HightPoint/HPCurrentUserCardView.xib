@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="yAe-kx-a7h" userLabel="View" customClass="HPCurrentUserCardView">
+            <rect key="frame" x="0.0" y="0.0" width="264" height="416"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_sample.png" translatesAutoresizingMaskIntoConstraints="NO" id="AHz-RI-r0T" userLabel="mybackground">
+                    <rect key="frame" x="0.0" y="0.0" width="264" height="352"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="352" id="EIH-1C-0rC"/>
+                        <constraint firstAttribute="width" constant="264" id="ln2-kB-mvF"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9wZ-ml-Sfg" userLabel="Show Point - Button">
+                    <rect key="frame" x="220" y="12" width="32" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <state key="normal" backgroundImage="Point">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="Point Tap"/>
+                    <connections>
+                        <action selector="pointBtnTap:" destination="yAe-kx-a7h" eventType="touchUpInside" id="P6I-hH-HfS"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 / 12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fx9-fv-oec" userLabel="Photo index - Label">
+                    <rect key="frame" x="12" y="319" width="44" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNA-1V-T8i" userLabel="Name Label">
+                    <rect key="frame" x="0.0" y="352" width="264" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="264" id="UDa-e4-Tg8"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="24"/>
+                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99 лет, Когалым" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4az-fO-9q0" userLabel="Details Label">
+                    <rect key="frame" x="0.0" y="390" width="264" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="j9Z-Pq-op3"/>
+                        <constraint firstAttribute="width" constant="264" id="qVF-GZ-8PC"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="16"/>
+                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="4az-fO-9q0" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" id="CN4-vy-DgH"/>
+                <constraint firstItem="Fx9-fv-oec" firstAttribute="top" secondItem="yAe-kx-a7h" secondAttribute="top" constant="319" id="DHv-dz-DV9"/>
+                <constraint firstItem="hNA-1V-T8i" firstAttribute="top" secondItem="yAe-kx-a7h" secondAttribute="top" constant="352" id="MI8-5C-Y6b"/>
+                <constraint firstItem="4az-fO-9q0" firstAttribute="top" secondItem="hNA-1V-T8i" secondAttribute="bottom" constant="6" id="O5R-4Q-KwV"/>
+                <constraint firstItem="AHz-RI-r0T" firstAttribute="top" secondItem="yAe-kx-a7h" secondAttribute="top" id="T0J-Zn-phA"/>
+                <constraint firstItem="Fx9-fv-oec" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" constant="12" id="mBV-Lt-9C4"/>
+                <constraint firstItem="hNA-1V-T8i" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" id="qcM-Vo-vqt"/>
+                <constraint firstItem="AHz-RI-r0T" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" id="uow-3p-cCp"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Point" width="32" height="32"/>
+        <image name="Point Tap" width="32" height="32"/>
+        <image name="img_sample.png" width="650" height="923"/>
+    </resources>
+</document>

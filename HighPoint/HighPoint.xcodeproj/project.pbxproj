@@ -185,21 +185,23 @@
 		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
 		CD68A9C4196D0DE80090D6D1 /* TLSwipeForOptionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD68A9C2196D0DE80090D6D1 /* TLSwipeForOptionsCell.m */; };
+		CD7C994D1973A2DF00F1AAAB /* HPCurrentUserPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C994C1973A2DF00F1AAAB /* HPCurrentUserPointView.m */; };
+		CD7C99501973A38900F1AAAB /* HPCurrentUserCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C994F1973A38900F1AAAB /* HPCurrentUserCardView.m */; };
+		CD7C99521973A63700F1AAAB /* HPCurrentUserPointView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7C99511973A63700F1AAAB /* HPCurrentUserPointView.xib */; };
+		CD7C99541973A68700F1AAAB /* HPCurrentUserCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7C99531973A68700F1AAAB /* HPCurrentUserCardView.xib */; };
 		CD8CF436196A99D2000C7F18 /* UserFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8CF435196A99D2000C7F18 /* UserFilter.m */; };
 		CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EE2196FB2910032210F /* HPConciergeViewController.m */; };
 		CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */; };
 		CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE7196FC7E40032210F /* Localizable.strings */; };
 		CDA22EEB196FDDD80032210F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EEA196FDDD80032210F /* User.m */; };
+		CDA22EEE197000E60032210F /* HPCurrentUserCardOrPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EED197000E60032210F /* HPCurrentUserCardOrPointView.m */; };
+		CDA22EF1197002D50032210F /* HPCurrentUserCardOrPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EF0197002D50032210F /* HPCurrentUserCardOrPoint.m */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 		CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */; };
 		CDE0BDC4196E636600CBCF58 /* HPUserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */; };
 		CDE0BDCA196E7FC000CBCF58 /* HPCurrentUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */; };
 		CDE0BDCD196E832E00CBCF58 /* HPCurrentUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */; };
-		CDE0BDD2196E871300CBCF58 /* HPCurrentUserPointViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDD0196E871300CBCF58 /* HPCurrentUserPointViewController.m */; };
-		CDE0BDD3196E871300CBCF58 /* HPCurrentUserPointViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDD1196E871300CBCF58 /* HPCurrentUserPointViewController.xib */; };
-		CDF97454196E8A980064ED04 /* HPCurrentUserCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF97452196E8A980064ED04 /* HPCurrentUserCardViewController.m */; };
-		CDF97455196E8A980064ED04 /* HPCurrentUserCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDF97453196E8A980064ED04 /* HPCurrentUserCardViewController.xib */; };
 		CDF9745B196E8C4C0064ED04 /* Eye Active.png in Resources */ = {isa = PBXBuildFile; fileRef = CDF97456196E8C4C0064ED04 /* Eye Active.png */; };
 		CDF9745C196E8C4C0064ED04 /* Eye Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CDF97457196E8C4C0064ED04 /* Eye Tap.png */; };
 		CDF9745D196E8C4C0064ED04 /* Eye.png in Resources */ = {isa = PBXBuildFile; fileRef = CDF97458196E8C4C0064ED04 /* Eye.png */; };
@@ -470,6 +472,12 @@
 		CD183C36196418D0002AC98D /* UserTokenUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTokenUtils.m; sourceTree = "<group>"; };
 		CD68A9C1196D0DE80090D6D1 /* TLSwipeForOptionsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLSwipeForOptionsCell.h; sourceTree = "<group>"; };
 		CD68A9C2196D0DE80090D6D1 /* TLSwipeForOptionsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLSwipeForOptionsCell.m; sourceTree = "<group>"; };
+		CD7C994B1973A2DF00F1AAAB /* HPCurrentUserPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserPointView.h; sourceTree = "<group>"; };
+		CD7C994C1973A2DF00F1AAAB /* HPCurrentUserPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserPointView.m; sourceTree = "<group>"; };
+		CD7C994E1973A38900F1AAAB /* HPCurrentUserCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserCardView.h; sourceTree = "<group>"; };
+		CD7C994F1973A38900F1AAAB /* HPCurrentUserCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserCardView.m; sourceTree = "<group>"; };
+		CD7C99511973A63700F1AAAB /* HPCurrentUserPointView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCurrentUserPointView.xib; sourceTree = "<group>"; };
+		CD7C99531973A68700F1AAAB /* HPCurrentUserCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCurrentUserCardView.xib; sourceTree = "<group>"; };
 		CD8CF434196A99D2000C7F18 /* UserFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFilter.h; sourceTree = "<group>"; };
 		CD8CF435196A99D2000C7F18 /* UserFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFilter.m; sourceTree = "<group>"; };
 		CDA22EE1196FB2910032210F /* HPConciergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConciergeViewController.h; sourceTree = "<group>"; };
@@ -478,6 +486,10 @@
 		CDA22EE7196FC7E40032210F /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		CDA22EE9196FDDD80032210F /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		CDA22EEA196FDDD80032210F /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		CDA22EEC197000E60032210F /* HPCurrentUserCardOrPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserCardOrPointView.h; sourceTree = "<group>"; };
+		CDA22EED197000E60032210F /* HPCurrentUserCardOrPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserCardOrPointView.m; sourceTree = "<group>"; };
+		CDA22EEF197002D50032210F /* HPCurrentUserCardOrPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserCardOrPoint.h; sourceTree = "<group>"; };
+		CDA22EF0197002D50032210F /* HPCurrentUserCardOrPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserCardOrPoint.m; sourceTree = "<group>"; };
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
@@ -487,12 +499,6 @@
 		CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCurrentUserViewController.xib; sourceTree = "<group>"; };
 		CDE0BDCB196E832E00CBCF58 /* HPCurrentUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserViewController.h; sourceTree = "<group>"; };
 		CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserViewController.m; sourceTree = "<group>"; };
-		CDE0BDCF196E871300CBCF58 /* HPCurrentUserPointViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserPointViewController.h; sourceTree = "<group>"; };
-		CDE0BDD0196E871300CBCF58 /* HPCurrentUserPointViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserPointViewController.m; sourceTree = "<group>"; };
-		CDE0BDD1196E871300CBCF58 /* HPCurrentUserPointViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCurrentUserPointViewController.xib; sourceTree = "<group>"; };
-		CDF97451196E8A980064ED04 /* HPCurrentUserCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserCardViewController.h; sourceTree = "<group>"; };
-		CDF97452196E8A980064ED04 /* HPCurrentUserCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserCardViewController.m; sourceTree = "<group>"; };
-		CDF97453196E8A980064ED04 /* HPCurrentUserCardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCurrentUserCardViewController.xib; sourceTree = "<group>"; };
 		CDF97456196E8C4C0064ED04 /* Eye Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Eye Active.png"; sourceTree = "<group>"; };
 		CDF97457196E8C4C0064ED04 /* Eye Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Eye Tap.png"; sourceTree = "<group>"; };
 		CDF97458196E8C4C0064ED04 /* Eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Eye.png; sourceTree = "<group>"; };
@@ -1139,6 +1145,10 @@
 				CDE0BDCB196E832E00CBCF58 /* HPCurrentUserViewController.h */,
 				CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */,
 				CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */,
+				CDA22EEC197000E60032210F /* HPCurrentUserCardOrPointView.h */,
+				CDA22EED197000E60032210F /* HPCurrentUserCardOrPointView.m */,
+				CDA22EEF197002D50032210F /* HPCurrentUserCardOrPoint.h */,
+				CDA22EF0197002D50032210F /* HPCurrentUserCardOrPoint.m */,
 			);
 			name = CurrentUserController;
 			sourceTree = "<group>";
@@ -1146,12 +1156,12 @@
 		CDE0BDCE196E86F000CBCF58 /* CurrentUserCardPoint */ = {
 			isa = PBXGroup;
 			children = (
-				CDE0BDCF196E871300CBCF58 /* HPCurrentUserPointViewController.h */,
-				CDE0BDD0196E871300CBCF58 /* HPCurrentUserPointViewController.m */,
-				CDE0BDD1196E871300CBCF58 /* HPCurrentUserPointViewController.xib */,
-				CDF97451196E8A980064ED04 /* HPCurrentUserCardViewController.h */,
-				CDF97452196E8A980064ED04 /* HPCurrentUserCardViewController.m */,
-				CDF97453196E8A980064ED04 /* HPCurrentUserCardViewController.xib */,
+				CD7C994B1973A2DF00F1AAAB /* HPCurrentUserPointView.h */,
+				CD7C994C1973A2DF00F1AAAB /* HPCurrentUserPointView.m */,
+				CD7C99511973A63700F1AAAB /* HPCurrentUserPointView.xib */,
+				CD7C994E1973A38900F1AAAB /* HPCurrentUserCardView.h */,
+				CD7C994F1973A38900F1AAAB /* HPCurrentUserCardView.m */,
+				CD7C99531973A68700F1AAAB /* HPCurrentUserCardView.xib */,
 			);
 			name = CurrentUserCardPoint;
 			sourceTree = "<group>";
@@ -1263,9 +1273,9 @@
 				3B6DB49C18FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 				4C91C1EB1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */,
 				CDFA8A21196BEA6200D04451 /* Switcher-R.png in Resources */,
-				CDE0BDD3196E871300CBCF58 /* HPCurrentUserPointViewController.xib in Resources */,
 				CDFA8A20196BEA6200D04451 /* Switcher-L.png in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
+				CD7C99541973A68700F1AAAB /* HPCurrentUserCardView.xib in Resources */,
 				CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */,
 				3BCB5B0A192F946B00E5DCA9 /* Back Tap.png in Resources */,
 				3B298FD0192F476100BEC2AA /* slider-metal-track@2x.png in Resources */,
@@ -1288,6 +1298,7 @@
 				3B31865E191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf in Resources */,
 				CDF9745C196E8C4C0064ED04 /* Eye Tap.png in Resources */,
 				3B3170AF191B91AD00B72AC1 /* pin_popup_blackw@2x.png in Resources */,
+				CD7C99521973A63700F1AAAB /* HPCurrentUserPointView.xib in Resources */,
 				3B3170B4191BA50600B72AC1 /* Green Button.png in Resources */,
 				CDF9745E196E8C4C0064ED04 /* Lock Active.png in Resources */,
 				3B3170A4191B7A1D00B72AC1 /* img_sample.png in Resources */,
@@ -1295,7 +1306,6 @@
 				3B298FC3192F476100BEC2AA /* slider-default7-handle.png in Resources */,
 				3B298FCD192F476100BEC2AA /* slider-metal-handle.png in Resources */,
 				3B298FCE192F476100BEC2AA /* slider-metal-handle@2x.png in Resources */,
-				CDF97455196E8A980064ED04 /* HPCurrentUserCardViewController.xib in Resources */,
 				3B318657191A6C6D0000DD8B /* Notice-R.png in Resources */,
 				3B298FD2192F476100BEC2AA /* slider-metal-trackBackground@2x.png in Resources */,
 				CDF9745F196E8C4C0064ED04 /* Lock.png in Resources */,
@@ -1365,6 +1375,7 @@
 				3B6DB4A218FFC24D00C26A50 /* HPAppDelegate.m in Sources */,
 				3B39D31D195C3122002520B9 /* SocketIOTransportWebsocket.m in Sources */,
 				CDA22EEB196FDDD80032210F /* User.m in Sources */,
+				CD7C99501973A38900F1AAAB /* HPCurrentUserCardView.m in Sources */,
 				4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
 				4CDC98B619517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
 				3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */,
@@ -1400,6 +1411,7 @@
 				3B39D30D195C3091002520B9 /* UserPoint.m in Sources */,
 				3BDA4C9A19064E5900EF6619 /* UIImageView+WebCache.m in Sources */,
 				CDFA8A11196BE63200D04451 /* HPChatTableViewCell.m in Sources */,
+				CDA22EEE197000E60032210F /* HPCurrentUserCardOrPointView.m in Sources */,
 				4CDC98BD19519EEB006D2F89 /* UIView+HighPoint.m in Sources */,
 				4C91C1E8195812A4002B27D4 /* HPGreenButtonVC.m in Sources */,
 				3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */,
@@ -1425,15 +1437,15 @@
 				3BDA4C9319064E5900EF6619 /* SDWebImageDownloaderOperation.m in Sources */,
 				3B29F8E51922303D00EC6395 /* HPUserCardViewController.m in Sources */,
 				3BDA4C6519064AC900EF6619 /* AFNetworkReachabilityManager.m in Sources */,
+				CDA22EF1197002D50032210F /* HPCurrentUserCardOrPoint.m in Sources */,
 				CDFA8A09196BE4B100D04451 /* HPChatListViewController.m in Sources */,
-				CDE0BDD2196E871300CBCF58 /* HPCurrentUserPointViewController.m in Sources */,
 				3B39D2FB195C3091002520B9 /* Career.m in Sources */,
 				3BDA4C6319064AC900EF6619 /* AFHTTPRequestOperationManager.m in Sources */,
 				3B39D2F2195C3090002520B9 /* AppSetting.m in Sources */,
+				CD7C994D1973A2DF00F1AAAB /* HPCurrentUserPointView.m in Sources */,
 				3BDA4C8D19064E5900EF6619 /* MKAnnotationView+WebCache.m in Sources */,
 				4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */,
 				CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */,
-				CDF97454196E8A980064ED04 /* HPCurrentUserCardViewController.m in Sources */,
 				CDFA8A00196BB68000D04451 /* City.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,

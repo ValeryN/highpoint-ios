@@ -8,16 +8,20 @@
 
 #import "HPCurrentUserViewController.h"
 #import "HPChatListViewController.h"
-#import "HPCurrentUserPointViewController.h"
-#import "HPCurrentUserCardViewController.h"
+#import "HPCurrentUserPointView.h"
+#import "HPCurrentUserCardView.h"
 #import "HPConciergeViewController.h"
+#import "HPCurrentUserCardOrPointView.h"
+
+#define FLIP_ANIMATION_SPEED 0.5
 
 @interface HPCurrentUserViewController ()
 
 @end
 
 @implementation HPCurrentUserViewController {
-    HPCurrentUserPointViewController *userPointController;
+    HPCurrentUserPointView *userPointView;
+    HPCurrentUserCardOrPoint *currentUserCardOrPoint;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -34,7 +38,7 @@
     [super viewDidLoad];
     self.carousel.dataSource = self;
     self.carousel.delegate = self;
-    
+    currentUserCardOrPoint = [HPCurrentUserCardOrPoint new];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -72,8 +76,7 @@
 {
     
     if (index == 0) {
-        userPointController = [[HPCurrentUserPointViewController alloc] initWithNibName:@"HPCurrentUserPointViewController" bundle:nil];
-        view = userPointController.view;
+        view = [[HPCurrentUserCardOrPointView alloc] initWithCardOrPoint: currentUserCardOrPoint delegate: self];
     }
     if (index == 1) {
         view = [[HPConciergeViewController alloc] initWithNibName:@"HPConciergeViewController" bundle:nil].view;
@@ -112,5 +115,25 @@
 {
     return 320;
 }
+
+#pragma mark - User card delegate -
+
+
+- (void) switchButtonPressed
+{
+    NSLog(@"switch press");
+
+    HPCurrentUserCardOrPointView* container = (HPCurrentUserCardOrPointView*)self.carousel.currentItemView;
+    [currentUserCardOrPoint switchUserPoint];
+
+    [UIView transitionWithView: container
+                      duration: FLIP_ANIMATION_SPEED
+                       options: UIViewAnimationOptionTransitionFlipFromRight
+                    animations: ^{
+                        [container switchSidesWithCardOrPoint: currentUserCardOrPoint
+                                                     delegate: self];
+                    }
+                    completion: ^(BOOL finished){
+                    }];}
 
 @end
