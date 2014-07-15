@@ -21,5 +21,7 @@
 - (void) hp_tuneForUserCardName;
 - (void) hp_tuneForUserCardDetails;
 - (void) hp_tuneForUserCardPhotoIndex;
+- (void) hp_tuneForSymbolCounterWhite;
+- (void) hp_tuneForSymbolCounterRed;
 
 @end

@@ -10,7 +10,7 @@
 #import "UserCardOrPointProtocol.h"
 #import "HPAvatarView.h"
 
-@interface HPCurrentUserPointView : UIView
+@interface HPCurrentUserPointView : UIView <UIGestureRecognizerDelegate, UITextViewDelegate>
 
 @property (nonatomic, weak) NSObject<UserCardOrPointProtocol>* delegate;
 

@@ -10,9 +10,11 @@
 #import "UIImage+HighPoint.h"
 #import "UIView+HighPoint.h"
 #import "UITextView+HightPoint.h"
+#import "UILabel+HighPoint.h"
 
 #define USERPOINT_ROUND_RADIUS 5
 #define AVATAR_BLUR_RADIUS 40
+#define POINT_LENGTH 140
 
 
 @implementation HPCurrentUserPointView
@@ -23,22 +25,82 @@
     if (self) {
         // Initialization code
     }
+    
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+
+#pragma mark - image view tap
+
+-(void) setImageViewBgTap {
+    self.bgAvatarImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]
+                                     initWithTarget:self action:@selector(handlePinch:)];
+    tgr.delegate = self;
+    [self.bgAvatarImageView addGestureRecognizer:tgr];
 }
-*/
+
+
+- (void)handlePinch:(UIPinchGestureRecognizer *)pinchGestureRecognizer
+{
+    [self endEditing:YES];
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+            animations:^{
+                self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + 110, self.frame.size.width, self.frame.size.height);
+            }
+            completion:^(BOOL finished){
+            }];
+}
+
+#pragma mark - textview editing
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    self.pointInfoLabel.hidden = NO;
+    [self setSymbolsCounter];
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+           animations:^{
+               self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 110, self.frame.size.width, self.frame.size.height);
+           }
+            completion:^(BOOL finished){
+            }];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    self.pointInfoLabel.hidden = YES;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    [self setSymbolsCounter];
+    return YES;
+}
+
+#pragma mark - symbols counter
+
+- (void) setSymbolsCounter {
+    
+    signed int symbCount = POINT_LENGTH - self.pointTextView.text.length;
+    self.pointInfoLabel.text = [NSString stringWithFormat:@"%d", symbCount];
+    if(symbCount <=10) {
+        [self.pointInfoLabel hp_tuneForSymbolCounterRed];
+    } else {
+        [self.pointInfoLabel hp_tuneForSymbolCounterWhite];
+    }
+}
+
+#pragma mark - init objects
 
 - (void) initObjects
 {
+    [self setImageViewBgTap];
     [self.bgAvatarImageView hp_roundViewWithRadius: USERPOINT_ROUND_RADIUS];
     [self.pointTextView hp_tuneForUserPoint];
+    
+    self.pointTextView.delegate = self;
+    [self setPointText];
+    
+}
+
+- (void) setPointText {
+    self.pointTextView.text = NSLocalizedString(@"EMPTY_POINT_TEXT", nil);
 }
 
 - (void) setCropedAvatar :(UIImage *)image {
