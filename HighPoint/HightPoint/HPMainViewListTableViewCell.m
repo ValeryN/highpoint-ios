@@ -69,7 +69,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
 - (void) createAvatar
 {
-    _avatar = [HPAvatarView createAvatar];
+    _avatar = [HPAvatarView createAvatar: [UIImage imageNamed: @"img_sample1"]];
     [_mainInfoGroup addSubview: _avatar];
     _avatar.translatesAutoresizingMaskIntoConstraints = NO;
 

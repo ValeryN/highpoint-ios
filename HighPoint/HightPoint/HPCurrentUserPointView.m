@@ -9,7 +9,7 @@
 #import "HPCurrentUserPointView.h"
 #import "UIImage+HighPoint.h"
 #import "UIView+HighPoint.h"
-
+#import "UITextView+HightPoint.h"
 
 #define USERPOINT_ROUND_RADIUS 5
 #define AVATAR_BLUR_RADIUS 40
@@ -38,10 +38,11 @@
 - (void) initObjects
 {
     [self.bgAvatarImageView hp_roundViewWithRadius: USERPOINT_ROUND_RADIUS];
+    [self.pointTextView hp_tuneForUserPoint];
 }
 
 - (void) setCropedAvatar :(UIImage *)image {
-    _avatar = [HPAvatarView createAvatar];
+    _avatar = [HPAvatarView createAvatar: image];
     [_avatarView addSubview: _avatar];
     [self fixAvatarConstraint];
 }

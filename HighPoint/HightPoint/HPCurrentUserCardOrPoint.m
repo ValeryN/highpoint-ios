@@ -58,7 +58,7 @@
          }
          [newPoint setBlurForAvatar];
      }];
-    
+    [newPoint initObjects];
     return newPoint;
 }
 
@@ -97,7 +97,7 @@
     
     newCard.nameLabel.text = user.name;
     newCard.ageAndCitylabel.text = [NSString stringWithFormat:@"%@, %@", user.age, user.cityId];
-  //  [newCard initObjects];
+    [newCard initObjects];
     
     return newCard;
 }

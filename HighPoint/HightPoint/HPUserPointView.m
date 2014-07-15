@@ -54,7 +54,7 @@
     [_details hp_tuneForUserCardDetails];
     [_name hp_tuneForUserCardName];
     
-    _avatar = [HPAvatarView createAvatar];
+    _avatar = [HPAvatarView createAvatar:[UIImage imageNamed: @"img_sample1"]];
     [_avatarGroup addSubview: _avatar];
 
     [self fixAvatarConstraint];

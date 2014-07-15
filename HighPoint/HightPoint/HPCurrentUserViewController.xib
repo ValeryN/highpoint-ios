@@ -38,8 +38,8 @@
                         <action selector="bubbleButtonTap:" destination="-1" eventType="touchUpInside" id="75t-lW-2a0"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7W0-1W-x4E" userLabel="Carousel - View" customClass="iCarousel">
-                    <rect key="frame" x="28" y="75" width="264" height="369"/>
+                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7W0-1W-x4E" userLabel="Carousel - View" customClass="iCarousel">
+                    <rect key="frame" x="28" y="76" width="264" height="416"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>

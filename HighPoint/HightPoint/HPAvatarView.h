@@ -14,12 +14,12 @@
 
 @interface HPAvatarView : UIView
 
-+ (HPAvatarView*) createAvatar;
++ (HPAvatarView*) createAvatar :(UIImage *) image;
 
 @property (nonatomic, weak) IBOutlet UIImageView* avatar;
 @property (nonatomic, weak) IBOutlet UIImageView* avatarBorder;
 
-- (void) initObjects;
+- (void) initObjects : (UIImage *) image;
 - (void) makeOnline;
 - (void) makeOffline;
 - (void) privacyLevel;

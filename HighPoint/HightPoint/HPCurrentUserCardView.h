@@ -22,4 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *visibilityInfoLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarBgImageView;
 
+
+- (void) initObjects;
+
 @end

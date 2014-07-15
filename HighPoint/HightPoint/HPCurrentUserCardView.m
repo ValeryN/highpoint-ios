@@ -8,8 +8,9 @@
 
 #import "HPCurrentUserCardView.h"
 #import "User.h"
+#import "UIView+HighPoint.h"
 
-
+#define USERCARD_ROUND_RADIUS 5
 
 @implementation HPCurrentUserCardView {
     User *currentUser;
@@ -24,14 +25,11 @@
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+
+- (void) initObjects
 {
-    // Drawing code
+    [self.avatarBgImageView hp_roundViewWithRadius: USERCARD_ROUND_RADIUS];
 }
-*/
 
 
 - (IBAction)pointBtnTap:(id)sender {
