@@ -199,6 +199,9 @@
 		CDA22EEB196FDDD80032210F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EEA196FDDD80032210F /* User.m */; };
 		CDA22EEE197000E60032210F /* HPCurrentUserCardOrPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EED197000E60032210F /* HPCurrentUserCardOrPointView.m */; };
 		CDA22EF1197002D50032210F /* HPCurrentUserCardOrPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EF0197002D50032210F /* HPCurrentUserCardOrPoint.m */; };
+		CDA27BE71974ED96007D6BC1 /* green_btn_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA27BE51974ED96007D6BC1 /* green_btn_pressed.png */; };
+		CDA27BE81974ED96007D6BC1 /* green_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA27BE61974ED96007D6BC1 /* green_btn.png */; };
+		CDA27BEB1974EE06007D6BC1 /* add_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA27BEA1974EE06007D6BC1 /* add_photo.png */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 		CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */; };
@@ -497,6 +500,9 @@
 		CDA22EED197000E60032210F /* HPCurrentUserCardOrPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserCardOrPointView.m; sourceTree = "<group>"; };
 		CDA22EEF197002D50032210F /* HPCurrentUserCardOrPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserCardOrPoint.h; sourceTree = "<group>"; };
 		CDA22EF0197002D50032210F /* HPCurrentUserCardOrPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserCardOrPoint.m; sourceTree = "<group>"; };
+		CDA27BE51974ED96007D6BC1 /* green_btn_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_btn_pressed.png; sourceTree = "<group>"; };
+		CDA27BE61974ED96007D6BC1 /* green_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_btn.png; sourceTree = "<group>"; };
+		CDA27BEA1974EE06007D6BC1 /* add_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_photo.png; sourceTree = "<group>"; };
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
@@ -655,6 +661,9 @@
 		3B31864D191A493F0000DD8B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CDA27BE91974EE06007D6BC1 /* debug */,
+				CDA27BE51974ED96007D6BC1 /* green_btn_pressed.png */,
+				CDA27BE61974ED96007D6BC1 /* green_btn.png */,
 				CDF97456196E8C4C0064ED04 /* Eye Active.png */,
 				CDF97457196E8C4C0064ED04 /* Eye Tap.png */,
 				CDF97458196E8C4C0064ED04 /* Eye.png */,
@@ -1149,6 +1158,14 @@
 			name = Localization;
 			sourceTree = "<group>";
 		};
+		CDA27BE91974EE06007D6BC1 /* debug */ = {
+			isa = PBXGroup;
+			children = (
+				CDA27BEA1974EE06007D6BC1 /* add_photo.png */,
+			);
+			path = debug;
+			sourceTree = "<group>";
+		};
 		CDE0BDBF196E632E00CBCF58 /* UserInfoViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1280,9 +1297,11 @@
 				CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */,
 				3B298FBF192F476100BEC2AA /* slider-default-trackBackground.png in Resources */,
 				4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */,
+				CDA27BE71974ED96007D6BC1 /* green_btn_pressed.png in Resources */,
 				3B298FCC192F476100BEC2AA /* slider-metal-handle-highlighted@2x.png in Resources */,
 				3B298FCA192F476100BEC2AA /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */,
+				CDA27BEB1974EE06007D6BC1 /* add_photo.png in Resources */,
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
 				3B298FC7192F476100BEC2AA /* slider-default7-trackBackground.png in Resources */,
 				3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */,
@@ -1334,6 +1353,7 @@
 				3B3170AD191B88E000B72AC1 /* Userpic-Mask.png in Resources */,
 				4C8096B1193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */,
 				3B6DB4A718FFC24D00C26A50 /* Images.xcassets in Resources */,
+				CDA27BE81974ED96007D6BC1 /* green_btn.png in Resources */,
 				3B298FBD192F476100BEC2AA /* slider-default-track.png in Resources */,
 				3B298FBA192F476100BEC2AA /* slider-default-handle-highlighted@2x.png in Resources */,
 				CDF9745D196E8C4C0064ED04 /* Eye.png in Resources */,

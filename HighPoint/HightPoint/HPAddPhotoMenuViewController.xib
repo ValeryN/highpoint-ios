@@ -9,6 +9,8 @@
             <connections>
                 <outlet property="bgImageView" destination="UNh-hv-VSy" id="3IG-O7-nwe"/>
                 <outlet property="cancelBtn" destination="cDt-PG-Og7" id="EwL-uG-ubS"/>
+                <outlet property="pickPhoto" destination="Af8-xd-B7U" id="5YT-mt-mRh"/>
+                <outlet property="takePhoto" destination="bds-bs-jeY" id="wjQ-Bc-qcf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,14 +19,17 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" alpha="0.5499999999999996" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UNh-hv-VSy">
+                <imageView userInteractionEnabled="NO" alpha="0.5499999999999996" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UNh-hv-VSy">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cDt-PG-Og7">
-                    <rect key="frame" x="86" y="503" width="148" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cDt-PG-Og7">
+                    <rect key="frame" x="86" y="510" width="148" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="0xg-BA-3iF"/>
+                    </constraints>
                     <state key="normal" title="Отменить">
                         <color key="titleColor" red="0.31372549019607843" green="0.8901960784313725" blue="0.76078431372549016" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -33,10 +38,59 @@
                         <action selector="cancelBtnTap:" destination="-1" eventType="touchUpInside" id="Nh3-hN-ndZ"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bds-bs-jeY">
+                    <rect key="frame" x="63" y="328" width="195" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="195" id="fxO-0Y-umb"/>
+                        <constraint firstAttribute="height" constant="32" id="yFF-eJ-Pnz"/>
+                    </constraints>
+                    <state key="normal" title="Сделать фотографию" backgroundImage="green_btn.png">
+                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="green_btn_pressed.png"/>
+                    <connections>
+                        <action selector="takePhotoBtnTap:" destination="-1" eventType="touchUpInside" id="l51-Wg-Ab5"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Af8-xd-B7U">
+                    <rect key="frame" x="63" y="375" width="195" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="MUS-pJ-ou7"/>
+                        <constraint firstAttribute="width" constant="195" id="Op8-M1-xEX"/>
+                    </constraints>
+                    <state key="normal" title="Выбрать из альбома" backgroundImage="green_btn.png">
+                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="green_btn_pressed.png"/>
+                    <connections>
+                        <action selector="takeFromPhotoGalleryTap:" destination="-1" eventType="touchUpInside" id="pf4-yR-bzI"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="UNh-hv-VSy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Ib4-cZ-FDa"/>
+                <constraint firstItem="UNh-hv-VSy" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="NJz-UY-5Ww"/>
+                <constraint firstItem="cDt-PG-Og7" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="86" id="Nfu-IM-jXG"/>
+                <constraint firstItem="Af8-xd-B7U" firstAttribute="top" secondItem="bds-bs-jeY" secondAttribute="bottom" constant="15" id="Rd4-wx-4G8"/>
+                <constraint firstItem="bds-bs-jeY" firstAttribute="centerX" secondItem="cDt-PG-Og7" secondAttribute="centerX" id="Sbg-ce-VeK"/>
+                <constraint firstItem="bds-bs-jeY" firstAttribute="centerX" secondItem="UNh-hv-VSy" secondAttribute="centerX" id="asE-0U-gGJ"/>
+                <constraint firstItem="bds-bs-jeY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="co2-dE-t6q"/>
+                <constraint firstAttribute="bottom" secondItem="UNh-hv-VSy" secondAttribute="bottom" id="ho4-oV-XuO"/>
+                <constraint firstAttribute="bottom" secondItem="cDt-PG-Og7" secondAttribute="bottom" constant="28" id="s9l-Jb-QjH"/>
+                <constraint firstItem="bds-bs-jeY" firstAttribute="leading" secondItem="Af8-xd-B7U" secondAttribute="leading" id="sfq-Vt-H4S"/>
+                <constraint firstAttribute="bottom" secondItem="bds-bs-jeY" secondAttribute="bottom" constant="208" id="ua0-Wj-qhR"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <resources>
+        <image name="green_btn.png" width="315" height="64"/>
+        <image name="green_btn_pressed.png" width="315" height="64"/>
+    </resources>
 </document>

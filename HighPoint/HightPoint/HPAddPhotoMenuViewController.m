@@ -33,7 +33,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-   // [self setupBackgroundTap];
     isCamera = NO;
     [self setBgBlur];
     [self createGreenButton];
@@ -63,21 +62,6 @@
 }
 
 
-#pragma mark - background tap
-- (void) setupBackgroundTap {
-    self.bgImageView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]
-                                     initWithTarget:self action:@selector(handleTap:)];
-    tgr.delegate = self;
-    [self.bgImageView addGestureRecognizer:tgr];
-}
-
-- (void)handleTap:(UIPinchGestureRecognizer *)pinchGestureRecognizer
-{
-    [self hideView];
-}
-
-
 - (void) hideView {
     [self.view removeFromSuperview];
 }
@@ -91,72 +75,22 @@
 #pragma mark - setup green buttons
 - (void) createGreenButton
 {
-    HPGreenButtonVC* pickFromPhohtoAlb = [[HPGreenButtonVC alloc] initWithNibNameAndTitle: @"HPGreenButtonVC" bundle: nil  title: NSLocalizedString(@"GET_FROM_PHOTO_LIBRARY_BTN", nil)];
-    pickFromPhohtoAlb.tag = 0;
-    pickFromPhohtoAlb.view.translatesAutoresizingMaskIntoConstraints = NO;
-    pickFromPhohtoAlb.delegate = self;
-    
-    CGRect rect = pickFromPhohtoAlb.view.frame;
-    CGRect bounds = [UIScreen mainScreen].bounds;
-    rect.origin.x = (bounds.size.width - rect.size.width) / 2.0f ;
-    rect.origin.y = bounds.size.height - rect.size.height - 150;
-    pickFromPhohtoAlb.view.frame = rect;
-    [self addChildViewController: pickFromPhohtoAlb];
-    [self.view addSubview: pickFromPhohtoAlb.view];
-    [self createGreenButtonsConstraint: pickFromPhohtoAlb];
-    
-    
-    HPGreenButtonVC* getFromCamera = [[HPGreenButtonVC alloc] initWithNibNameAndTitle: @"HPGreenButtonVC" bundle: nil  title: NSLocalizedString(@"TAKE_PHOTO_BTN", nil)];
-    
-    getFromCamera.view.translatesAutoresizingMaskIntoConstraints = NO;
-    getFromCamera.delegate = self;
-    getFromCamera.tag = 1;
-    rect = getFromCamera.view.frame;
-    bounds = [UIScreen mainScreen].bounds;
-    rect.origin.x = (bounds.size.width - rect.size.width) / 2.0f ;
-    rect.origin.y = bounds.size.height - rect.size.height - 200;
-    getFromCamera.view.frame = rect;
-    [self addChildViewController: getFromCamera];
-    [self.view addSubview: getFromCamera.view];
-    [self createGreenButtonsConstraint: getFromCamera];
-    
-    
+    [self.takePhoto hp_tuneFontForGreenButton];
+    [self.pickPhoto hp_tuneFontForGreenButton];
     self.cancelBtn.titleLabel.text = NSLocalizedString(@"CANCEL_BTN",nil);
     [self.cancelBtn hp_tuneFontForGreenButton];
 }
 
-
-- (void) createGreenButtonsConstraint: (HPGreenButtonVC*) sendMessage
-{
-    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
-                                                                 attribute: NSLayoutAttributeWidth
-                                                                 relatedBy: NSLayoutRelationEqual
-                                                                    toItem: nil
-                                                                 attribute: NSLayoutAttributeNotAnAttribute
-                                                                multiplier: 1.0
-                                                                  constant: sendMessage.view.frame.size.width]];
-    
-    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
-                                                                 attribute: NSLayoutAttributeHeight
-                                                                 relatedBy: NSLayoutRelationEqual
-                                                                    toItem: nil
-                                                                 attribute: NSLayoutAttributeNotAnAttribute
-                                                                multiplier: 1.0
-                                                                  constant: sendMessage.view.frame.size.height]];
+- (IBAction)takePhotoBtnTap:(id)sender {
+     isCamera = YES;
+    [self showCameraControl];
 }
 
-
-- (void) greenButtonPressed: (HPGreenButtonVC*) button
-{
-    if (button.tag == 0) {
-        isCamera = NO;
-        [self showPhotoPickerController];
-    } else {
-        isCamera = YES;
-        [self showCameraControl];
-    }
-    
+- (IBAction)takeFromPhotoGalleryTap:(id)sender {
+    isCamera = NO;
+    [self showPhotoPickerController];
 }
+
 
 #pragma mark - image picker
 
