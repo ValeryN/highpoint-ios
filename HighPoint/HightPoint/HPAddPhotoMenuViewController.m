@@ -76,7 +76,9 @@
 - (void) createGreenButton
 {
     [self.takePhoto hp_tuneFontForGreenButton];
+    self.takePhoto.titleLabel.text = NSLocalizedString(@"TAKE_PHOTO_BTN", nil);
     [self.pickPhoto hp_tuneFontForGreenButton];
+    self.pickPhoto.titleLabel.text = NSLocalizedString(@"GET_FROM_PHOTO_LIBRARY_BTN", nil);
     self.cancelBtn.titleLabel.text = NSLocalizedString(@"CANCEL_BTN",nil);
     [self.cancelBtn hp_tuneFontForGreenButton];
 }
