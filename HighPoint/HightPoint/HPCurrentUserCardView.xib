@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="264" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_sample.png" translatesAutoresizingMaskIntoConstraints="NO" id="AHz-RI-r0T" userLabel="mybackground">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AHz-RI-r0T" userLabel="mybackground">
                     <rect key="frame" x="0.0" y="0.0" width="264" height="352"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -69,10 +69,17 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Профиль виден всем" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i41-oS-GbK">
-                    <rect key="frame" x="46" y="242" width="172" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Профиль виден всем" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i41-oS-GbK">
+                    <rect key="frame" x="20" y="242" width="224" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Никто не увидит ваше имя и фотографии без вашего согласия" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="224" translatesAutoresizingMaskIntoConstraints="NO" id="9Gt-MZ-7Xt">
+                    <rect key="frame" x="20" y="271" width="224" height="71"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -83,6 +90,16 @@
                 <constraint firstItem="AHz-RI-r0T" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" id="uow-3p-cCp"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="ageAndCitylabel" destination="9tI-2J-neg" id="ZCE-W6-gCG"/>
+                <outlet property="avatarBgImageView" destination="AHz-RI-r0T" id="EZm-Gn-QVL"/>
+                <outlet property="invisibleBtn" destination="j6g-Ir-XZG" id="sUa-G8-dc3"/>
+                <outlet property="lockBtn" destination="4i4-q3-fTU" id="3rG-Ri-nX0"/>
+                <outlet property="nameLabel" destination="l88-ia-VTe" id="b9g-ur-VHA"/>
+                <outlet property="visibilityInfoLabel" destination="9Gt-MZ-7Xt" id="sgo-vn-HTd"/>
+                <outlet property="visibilityLabel" destination="i41-oS-GbK" id="RxK-wW-BaO"/>
+                <outlet property="visibleBtn" destination="z3G-Sh-g0b" id="6ln-LF-F9x"/>
+            </connections>
         </view>
     </objects>
     <resources>
@@ -94,6 +111,5 @@
         <image name="Lock Tap.png" width="64" height="64"/>
         <image name="Point" width="32" height="32"/>
         <image name="Point Tap" width="32" height="32"/>
-        <image name="img_sample.png" width="650" height="923"/>
     </resources>
 </document>

@@ -13,6 +13,7 @@
 #import "HPConciergeViewController.h"
 #import "HPCurrentUserCardOrPointView.h"
 #import "HPUserInfoViewController.h"
+#import "DataStorage.h"
 
 #define FLIP_ANIMATION_SPEED 0.5
 
@@ -23,6 +24,7 @@
 @implementation HPCurrentUserViewController {
     HPCurrentUserPointView *userPointView;
     HPCurrentUserCardOrPoint *currentUserCardOrPoint;
+    User *currentUser;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -46,6 +48,7 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
+    currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,7 +80,7 @@
 {
     
     if (index == 0) {
-        view = [[HPCurrentUserCardOrPointView alloc] initWithCardOrPoint: currentUserCardOrPoint delegate: self];
+        view = [[HPCurrentUserCardOrPointView alloc] initWithCardOrPoint: currentUserCardOrPoint delegate: self user:currentUser];
     }
     if (index == 1) {
         view = [[HPConciergeViewController alloc] initWithNibName:@"HPConciergeViewController" bundle:nil].view;
@@ -132,7 +135,7 @@
                        options: UIViewAnimationOptionTransitionFlipFromRight
                     animations: ^{
                         [container switchSidesWithCardOrPoint: currentUserCardOrPoint
-                                                     delegate: self];
+                                                     delegate: self user:currentUser];
                     }
                     completion: ^(BOOL finished){
                     }];}

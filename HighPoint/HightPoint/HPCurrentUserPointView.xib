@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="264" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_sample.png" translatesAutoresizingMaskIntoConstraints="NO" id="jSY-lt-jit">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jSY-lt-jit">
                     <rect key="frame" x="0.0" y="0.0" width="264" height="352"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -85,11 +85,17 @@
                 <constraint firstItem="axg-V0-X5h" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" constant="16" id="zzB-SO-8Kd"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="avatarView" destination="FRP-gv-ey5" id="alu-ik-9zE"/>
+                <outlet property="bgAvatarImageView" destination="jSY-lt-jit" id="9VY-RZ-WYk"/>
+                <outlet property="pointInfoLabel" destination="w4R-zz-pI4" id="D4v-jk-XWl"/>
+                <outlet property="pointLabel" destination="m3I-aD-GUu" id="pef-Cp-Ne3"/>
+                <outlet property="pointTextView" destination="axg-V0-X5h" id="cQA-Mi-q0S"/>
+            </connections>
         </view>
     </objects>
     <resources>
         <image name="User" width="32" height="32"/>
         <image name="User Tap" width="32" height="32"/>
-        <image name="img_sample.png" width="650" height="923"/>
     </resources>
 </document>

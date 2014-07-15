@@ -7,8 +7,13 @@
 //
 
 #import "HPCurrentUserCardView.h"
+#import "User.h"
 
-@implementation HPCurrentUserCardView
+
+
+@implementation HPCurrentUserCardView {
+    User *currentUser;
+}
 
 - (id)initWithFrame:(CGRect)frame
 {

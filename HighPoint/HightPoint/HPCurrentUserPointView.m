@@ -7,6 +7,13 @@
 //
 
 #import "HPCurrentUserPointView.h"
+#import "UIImage+HighPoint.h"
+#import "UIView+HighPoint.h"
+
+
+#define USERPOINT_ROUND_RADIUS 5
+#define AVATAR_BLUR_RADIUS 40
+
 
 @implementation HPCurrentUserPointView
 
@@ -27,6 +34,44 @@
     // Drawing code
 }
 */
+
+- (void) initObjects
+{
+    [self.bgAvatarImageView hp_roundViewWithRadius: USERPOINT_ROUND_RADIUS];
+}
+
+- (void) setCropedAvatar :(UIImage *)image {
+    _avatar = [HPAvatarView createAvatar];
+    [_avatarView addSubview: _avatar];
+    [self fixAvatarConstraint];
+}
+
+- (void) setBlurForAvatar {
+    self.bgAvatarImageView.image = [self.bgAvatarImageView.image hp_imageWithGaussianBlur: AVATAR_BLUR_RADIUS];
+}
+
+
+
+- (void) fixAvatarConstraint
+{
+    _avatar.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [_avatar addConstraint:[NSLayoutConstraint constraintWithItem: _avatar
+                                                        attribute: NSLayoutAttributeWidth
+                                                        relatedBy: NSLayoutRelationEqual
+                                                           toItem: nil
+                                                        attribute: NSLayoutAttributeNotAnAttribute
+                                                       multiplier: 1.0
+                                                         constant: _avatar.frame.size.width]];
+    
+    [_avatar addConstraint:[NSLayoutConstraint constraintWithItem: _avatar
+                                                        attribute: NSLayoutAttributeHeight
+                                                        relatedBy: NSLayoutRelationEqual
+                                                           toItem: nil
+                                                        attribute: NSLayoutAttributeNotAnAttribute
+                                                       multiplier: 1.0
+                                                         constant: _avatar.frame.size.height]];
+}
 
 
 - (IBAction)profileBtnTap:(id)sender {

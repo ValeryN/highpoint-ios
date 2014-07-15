@@ -13,3 +13,11 @@
 "GET_FROM_PHOTO_LIBRARY_BTN" = "Выбрать из альбома";
 "TAKE_PHOTO_BTN" = "Сделать фотографию";
 "CANCEL_BTN" = "Отменить";
+
+
+//CURRENT USER CARD SCREEN
+"YOUR_PROFILE_VISIBLE" = "Профиль виден всем";
+"YOUR_PROFILE_LOCKED" = "Профиль скрыт";
+"YOUR_PROFILE_LOCKED_INFO" = "Никто не увидит ваше имя\rи фотографии без вашего\rсогласия";
+"YOUR_PROFILE_INVISIBLE" = "Вы невидимы";
+"YOUR_PROFILE_INVISIBLE_INFO" = "Если ваш поинт не опубликован,\r вас никто не увидит, информация\rо вас недоступна";

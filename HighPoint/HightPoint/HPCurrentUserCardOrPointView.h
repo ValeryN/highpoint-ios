@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HPCurrentUserCardOrPoint.h"
 #import "UserCardOrPointProtocol.h"
+#import "User.h"
 
 @interface HPCurrentUserCardOrPointView : UIView
 {
@@ -16,10 +17,10 @@
 }
 
 - (id) initWithCardOrPoint: (HPCurrentUserCardOrPoint*) cardOrPoint
-                  delegate: (NSObject<UserCardOrPointProtocol>*) delegate;
+                  delegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user;
 
 - (void) switchSidesWithCardOrPoint: (HPCurrentUserCardOrPoint*) cardOrPoint
-                           delegate: (NSObject<UserCardOrPointProtocol>*) delegate;
+                           delegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user;
 
 
 @end

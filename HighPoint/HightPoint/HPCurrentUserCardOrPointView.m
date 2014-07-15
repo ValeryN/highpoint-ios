@@ -11,13 +11,13 @@
 @implementation HPCurrentUserCardOrPointView
 
 - (id) initWithCardOrPoint: (HPCurrentUserCardOrPoint*) cardOrPoint
-                  delegate: (NSObject<UserCardOrPointProtocol>*) delegate
+                  delegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user
 {
     self = [super init];
     if (self == nil)
         return nil;
     
-    [self switchSidesWithCardOrPoint: cardOrPoint delegate: delegate];
+    [self switchSidesWithCardOrPoint: cardOrPoint delegate: delegate user: (User*) user];
     
     return self;
 }
@@ -25,16 +25,16 @@
 //==============================================================================
 
 - (void) switchSidesWithCardOrPoint: (HPCurrentUserCardOrPoint*) cardOrPoint
-                           delegate: (NSObject<UserCardOrPointProtocol>*) delegate
+                           delegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user
 {
     if (cardOrPoint == nil)
         return;
     
     [_childContainerView removeFromSuperview];
     if (![cardOrPoint isUserPoint])
-        _childContainerView = [cardOrPoint userCardWithDelegate: delegate];
+        _childContainerView = [cardOrPoint userCardWithDelegate: delegate user:user];
     else
-        _childContainerView = [cardOrPoint userPointWithDelegate: delegate];
+        _childContainerView = [cardOrPoint userPointWithDelegate: delegate user:user];
     [self addSubview: _childContainerView];
 }
 
