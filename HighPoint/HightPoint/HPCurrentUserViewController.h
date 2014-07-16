@@ -22,4 +22,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *personalDataLabel;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
 
+- (void) configurePublishPointNavigationItem;
+
 @end

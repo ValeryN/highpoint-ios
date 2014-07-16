@@ -16,6 +16,7 @@
 #import "DataStorage.h"
 #import "UILabel+HighPoint.h"
 #import "UIDevice+HighPoint.h"
+#import "UIButton+HighPoint.h"
 
 #define FLIP_ANIMATION_SPEED 0.5
 #define CONSTRAINT_TOP_FOR_CAROUSEL 76
@@ -64,6 +65,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - button handlers
 
 - (IBAction)backButtonTap:(id)sender {
     [self.navigationController popViewControllerAnimated: YES];
@@ -74,6 +76,78 @@
     [self.navigationController pushViewController:chatList animated:YES];
 }
 
+-(void) cancelTaped {
+    NSLog(@"cancel tap");
+    [self hideNavigationItem];
+}
+
+-(void) doneTaped {
+    
+    NSLog(@"done tap");
+}
+
+-(void) shareTaped {
+    NSLog(@"share tap");
+}
+
+
+
+#pragma mark - navigation item configure
+
+- (void) showNavigationItem {
+    [self.navigationController setNavigationBarHidden:NO];
+}
+
+- (void) hideNavigationItem {
+    [self.navigationController setNavigationBarHidden:YES];
+}
+
+- (void) configurePublishPointNavigationItem
+{
+    UIButton *doneBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    doneBtn.exclusiveTouch = YES;
+    [doneBtn setFrame:CGRectMake(0, 0, 50, 30)];
+    [doneBtn addTarget:self action:@selector(doneTaped) forControlEvents:UIControlEventTouchUpInside];
+    [doneBtn setTitle:NSLocalizedString(@"DONE_BTN", nil) forState: UIControlStateNormal];
+    [doneBtn setTitle:NSLocalizedString(@"DONE_BTN", nil) forState: UIControlStateHighlighted];
+    [doneBtn hp_tuneFontForGreenButton];
+    UIBarButtonItem *itemDone = [[UIBarButtonItem alloc]initWithCustomView:doneBtn];
+    self.navigationItem.rightBarButtonItem = itemDone;
+
+    UIButton *cancelBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    cancelBtn.exclusiveTouch = YES;
+    [cancelBtn setFrame:CGRectMake(0, 0, 80, 30)];
+    [cancelBtn addTarget:self action:@selector(cancelTaped) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState: UIControlStateNormal];
+    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState: UIControlStateHighlighted];
+    [cancelBtn hp_tuneFontForGreenButton];
+    UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc]initWithCustomView:cancelBtn];
+    self.navigationItem.leftBarButtonItem = itemCancel;
+}
+
+
+- (void) configureSendPointNavigationItem
+{
+    UIButton *doneBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    doneBtn.exclusiveTouch = YES;
+    [doneBtn setFrame:CGRectMake(0, 0, 80, 30)];
+    [doneBtn addTarget:self action:@selector(shareTaped) forControlEvents:UIControlEventTouchUpInside];
+    [doneBtn setTitle:NSLocalizedString(@"PUBLISH_BTN", nil) forState: UIControlStateNormal];
+    [doneBtn setTitle:NSLocalizedString(@"PUBLISH_BTN", nil) forState: UIControlStateHighlighted];
+    [doneBtn hp_tuneFontForGreenButton];
+    UIBarButtonItem *itemDone = [[UIBarButtonItem alloc]initWithCustomView:doneBtn];
+    self.navigationItem.rightBarButtonItem = itemDone;
+    
+    UIButton *cancelBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    cancelBtn.exclusiveTouch = YES;
+    [cancelBtn setFrame:CGRectMake(0, 0, 80, 30)];
+    [cancelBtn addTarget:self action:@selector(cancelTaped) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState: UIControlStateNormal];
+    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState: UIControlStateHighlighted];
+    [cancelBtn hp_tuneFontForGreenButton];
+    UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc]initWithCustomView:cancelBtn];
+    self.navigationItem.leftBarButtonItem = itemCancel;
+}
 
 
 #pragma mark - constraint

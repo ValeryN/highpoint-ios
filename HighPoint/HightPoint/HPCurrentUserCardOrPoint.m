@@ -12,7 +12,10 @@
 #import "SDWebImageManager.h"
 #import "Avatar.h"
 
-@implementation HPCurrentUserCardOrPoint
+@implementation HPCurrentUserCardOrPoint {
+    HPCurrentUserPointView* newPoint;
+    HPCurrentUserCardView* newCard;
+}
 
 - (id) init
 {
@@ -26,6 +29,7 @@
     return self;
 }
 
+#pragma mark - init sides
 
 - (UIView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user
 {
@@ -33,7 +37,7 @@
     if ([nibs[0] isKindOfClass:[HPCurrentUserPointView class]] == NO)
         return nil;
     
-    HPCurrentUserPointView* newPoint = (HPCurrentUserPointView*)nibs[0];
+    newPoint = (HPCurrentUserPointView*)nibs[0];
     newPoint.delegate = delegate;
     
     
@@ -70,7 +74,7 @@
     if ([nibs[0] isKindOfClass:[HPCurrentUserCardView class]] == NO)
         return nil;
     
-    HPCurrentUserCardView* newCard = (HPCurrentUserCardView*)nibs[0];
+    newCard = (HPCurrentUserCardView*)nibs[0];
     newCard.delegate = delegate;
     
     NSString *avatarUrlStr = user.avatar.highImageSrc.length > 0 ? [user.avatar.highImageSrc stringByAppendingString:@"?size=s640&ext=jpg"] : @"";
@@ -140,6 +144,11 @@
     }
 }
 
+
+#pragma mark - add modal views
+- (void) addPointInfoView: (NSObject<UserCardOrPointProtocol>*) delegate {
+    [newPoint addSubview:newPoint.pointOptionsView];
+}
 
 
 - (BOOL) switchUserPoint

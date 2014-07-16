@@ -12,6 +12,7 @@
 #import "UITextView+HightPoint.h"
 #import "UILabel+HighPoint.h"
 #import "UIDevice+HighPoint.h"
+#import "UIButton+HighPoint.h"
 
 #define USERPOINT_ROUND_RADIUS 5
 #define AVATAR_BLUR_RADIUS 40
@@ -102,7 +103,7 @@
     [self setImageViewBgTap];
     [self.bgAvatarImageView hp_roundViewWithRadius: USERPOINT_ROUND_RADIUS];
     [self.pointTextView hp_tuneForUserPoint];
-    
+    [self.publishPointBtn hp_tuneFontForGreenButton];
     self.pointTextView.delegate = self;
     [self setPointText];
     [self fixSelfConstraint];
@@ -186,6 +187,7 @@
     }
 }
 
+#pragma mark - button handlers
 
 - (IBAction)profileBtnTap:(id)sender {
     NSLog(@"profile tap");
@@ -194,5 +196,13 @@
     [_delegate switchButtonPressed];
 }
 
+- (IBAction)publishBtnTap:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(configurePublishPointNavigationItem)]) {
+        [self.delegate configurePublishPointNavigationItem];
+    }
+    if ([self.delegate respondsToSelector:@selector(showNavigationItem)]) {
+        [self.delegate showNavigationItem];
+    }
+}
 
 @end

@@ -22,5 +22,7 @@
 - (void) switchSidesWithCardOrPoint: (HPCurrentUserCardOrPoint*) cardOrPoint
                            delegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user;
 
+- (void) addPointOptionsViewToCard : (HPCurrentUserCardOrPoint*) cardOrPoint
+                           delegate: (NSObject<UserCardOrPointProtocol>*) delegate;
 
 @end

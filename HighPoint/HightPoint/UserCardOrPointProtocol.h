@@ -15,5 +15,9 @@
 @protocol UserCardOrPointProtocol
 
 - (void) switchButtonPressed;
+- (void) configurePublishPointNavigationItem;
+- (void) showNavigationItem;
+- (void) hideNavigationItem;
+- (void) configurePublishPointNavigationItem;
 
 @end

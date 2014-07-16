@@ -29,7 +29,6 @@
     return self;
 }
 
-//==============================================================================
 
 - (void) switchSidesWithCardOrPoint: (HPCurrentUserCardOrPoint*) cardOrPoint
                            delegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user
@@ -47,6 +46,15 @@
     [self fixFrame];
 }
 
+#pragma mark - modal views
+- (void) addPointOptionsViewToCard : (HPCurrentUserCardOrPoint*) cardOrPoint
+                           delegate: (NSObject<UserCardOrPointProtocol>*) delegate
+{
+    [cardOrPoint addPointInfoView:delegate];
+}
+
+
+#pragma mark - constrains
 
 - (void) fixFrame
 {
@@ -62,7 +70,6 @@
     self.frame = rect;
 }
 
-//==============================================================================
 
 - (void) fixUserCardConstraint
 {

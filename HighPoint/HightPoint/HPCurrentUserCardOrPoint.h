@@ -21,5 +21,7 @@
 - (BOOL) switchUserPoint;
 
 
+- (void) addPointInfoView: (NSObject<UserCardOrPointProtocol>*) delegate;
+
 
 @end
