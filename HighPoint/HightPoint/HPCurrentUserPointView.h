@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *pointTextView;
 @property (weak, nonatomic) IBOutlet UILabel *pointInfoLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *bgAvatarImageView;
+@property (weak, nonatomic) IBOutlet UIButton *publishPointBtn;
 
 - (void) initObjects;
 - (void) setBlurForAvatar;

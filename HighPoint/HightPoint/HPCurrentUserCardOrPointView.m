@@ -7,6 +7,13 @@
 //
 
 #import "HPCurrentUserCardOrPointView.h"
+#import "UIDevice+HighPoint.h"
+#import "HPCurrentUserCardView.h"
+#import "HPCurrentUserPointView.h"
+
+#define CONSTRAINT_HEIGHT_FOR_BGIMAGE 340
+#define CONSTRAINT_TOP_FOR_AVATAR 68
+#define CONSTRAINT_TOP_FOR_AVATAR_GROUP 28
 
 @implementation HPCurrentUserCardOrPointView
 
@@ -35,8 +42,56 @@
         _childContainerView = [cardOrPoint userCardWithDelegate: delegate user:user];
     else
         _childContainerView = [cardOrPoint userPointWithDelegate: delegate user:user];
+    [self fixUserCardConstraint];
     [self addSubview: _childContainerView];
+    [self fixFrame];
 }
 
+
+- (void) fixFrame
+{
+    CGRect rect = _childContainerView.frame;
+    rect.origin.x = 0;
+    rect.origin.y = 0;
+    if (![UIDevice hp_isWideScreen])
+        rect.size.height = CONSTRAINT_HEIGHT_FOR_BGIMAGE;
+    _childContainerView.frame = rect;
+    
+    rect = self.frame;
+    rect.size = _childContainerView.frame.size;
+    self.frame = rect;
+}
+
+//==============================================================================
+
+- (void) fixUserCardConstraint
+{
+    if (![UIDevice hp_isWideScreen])
+    {
+        if ([_childContainerView isKindOfClass:[HPCurrentUserCardView class]])
+        {
+            HPCurrentUserCardView* v = (HPCurrentUserCardView*)_childContainerView;
+            NSArray* cons = v.avatarBgImageView.constraints;
+            for (NSLayoutConstraint* consIter in cons)
+            {
+                if (consIter.firstAttribute == NSLayoutAttributeHeight)
+                    consIter.constant = CONSTRAINT_HEIGHT_FOR_BGIMAGE;
+            }
+        }
+        if ([_childContainerView isKindOfClass:[HPCurrentUserPointView class]])
+        {
+            HPCurrentUserPointView* v = (HPCurrentUserPointView*)_childContainerView;
+            NSArray* cons = v.constraints;
+            for (NSLayoutConstraint* consIter in cons)
+            {
+                if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                    (consIter.firstItem == v.avatar) &&
+                    (consIter.secondItem == v)
+                    )
+                    consIter.constant = CONSTRAINT_TOP_FOR_AVATAR_GROUP;
+            }
+        }
+    }
+}
 
 @end

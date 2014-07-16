@@ -17,4 +17,9 @@
 
 @property (weak, nonatomic) IBOutlet iCarousel *carousel;
 
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet UIImageView *personalDataDownImgView;
+@property (weak, nonatomic) IBOutlet UILabel *personalDataLabel;
+@property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
+
 @end

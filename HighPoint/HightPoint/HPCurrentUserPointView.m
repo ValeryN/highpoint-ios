@@ -11,11 +11,18 @@
 #import "UIView+HighPoint.h"
 #import "UITextView+HightPoint.h"
 #import "UILabel+HighPoint.h"
+#import "UIDevice+HighPoint.h"
 
 #define USERPOINT_ROUND_RADIUS 5
 #define AVATAR_BLUR_RADIUS 40
 #define POINT_LENGTH 140
 
+
+#define CONSTRAINT_TOP_FOR_HEART 245
+#define CONSTRAINT_TOP_FOR_NAMELABEL 286
+#define CONSTRAINT_WIDTH_FOR_SELF 264
+#define CONSTRAINT_WIDE_HEIGHT_FOR_SELF 416
+#define CONSTRAINT_HEIGHT_FOR_SELF 340
 
 @implementation HPCurrentUserPointView
 
@@ -33,7 +40,7 @@
 #pragma mark - image view tap
 
 -(void) setImageViewBgTap {
-    self.bgAvatarImageView.userInteractionEnabled = YES;
+    
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]
                                      initWithTarget:self action:@selector(handlePinch:)];
     tgr.delegate = self;
@@ -54,6 +61,7 @@
 
 #pragma mark - textview editing
 - (void)textViewDidBeginEditing:(UITextView *)textView {
+    self.bgAvatarImageView.userInteractionEnabled = YES;
     self.pointInfoLabel.hidden = NO;
     [self setSymbolsCounter];
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
@@ -65,6 +73,7 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
+    self.bgAvatarImageView.userInteractionEnabled = NO;
     self.pointInfoLabel.hidden = YES;
 }
 
@@ -96,6 +105,7 @@
     
     self.pointTextView.delegate = self;
     [self setPointText];
+    [self fixSelfConstraint];
     
 }
 
@@ -114,6 +124,7 @@
 }
 
 
+#pragma mark - constraint
 
 - (void) fixAvatarConstraint
 {
@@ -134,6 +145,45 @@
                                                         attribute: NSLayoutAttributeNotAnAttribute
                                                        multiplier: 1.0
                                                          constant: _avatar.frame.size.height]];
+}
+
+
+- (void) fixSelfConstraint
+{
+    CGFloat height = CONSTRAINT_WIDE_HEIGHT_FOR_SELF;
+    if (![UIDevice hp_isWideScreen])
+        height = CONSTRAINT_HEIGHT_FOR_SELF;
+    
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addConstraint:[NSLayoutConstraint constraintWithItem: self
+                                                     attribute: NSLayoutAttributeWidth
+                                                     relatedBy: NSLayoutRelationEqual
+                                                        toItem: nil
+                                                     attribute: NSLayoutAttributeNotAnAttribute
+                                                    multiplier: 1.0
+                                                      constant: CONSTRAINT_WIDTH_FOR_SELF]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem: self
+                                                     attribute: NSLayoutAttributeHeight
+                                                     relatedBy: NSLayoutRelationEqual
+                                                        toItem: nil
+                                                     attribute: NSLayoutAttributeNotAnAttribute
+                                                    multiplier: 1.0
+                                                      constant: height]];
+    if (![UIDevice hp_isWideScreen])
+    {
+        NSArray* cons = self.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.publishPointBtn))
+                consIter.constant = CONSTRAINT_TOP_FOR_NAMELABEL;
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.pointInfoLabel) &&
+                (consIter.secondItem == self))
+                consIter.constant = CONSTRAINT_TOP_FOR_HEART;
+        }
+    }
 }
 
 

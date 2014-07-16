@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="264" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jSY-lt-jit">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jSY-lt-jit">
                     <rect key="frame" x="0.0" y="0.0" width="264" height="352"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -20,7 +20,7 @@
                         <constraint firstAttribute="width" constant="264" id="obX-l1-7xU"/>
                     </constraints>
                 </imageView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FRP-gv-ey5" userLabel="Avatar - View">
+                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FRP-gv-ey5" userLabel="Avatar - View">
                     <rect key="frame" x="88" y="68" width="88" height="88"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -29,7 +29,7 @@
                         <constraint firstAttribute="width" constant="88" id="FeD-oM-CAP"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T04-Jy-nkb" userLabel="Show usercard - Button">
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T04-Jy-nkb" userLabel="Show usercard - Button">
                     <rect key="frame" x="220" y="12" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -45,7 +45,7 @@
                         <action selector="profileBtnTap:" destination="9QB-AE-kLq" eventType="touchUpInside" id="ega-Uy-eO1"/>
                     </connections>
                 </button>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="axg-V0-X5h" userLabel="Point text - Text View">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="axg-V0-X5h" userLabel="Point text - Text View">
                     <rect key="frame" x="16" y="176" width="232" height="104"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -84,16 +84,6 @@
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="FRP-gv-ey5" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" constant="88" id="1Mm-Bd-6KI"/>
-                <constraint firstItem="jSY-lt-jit" firstAttribute="top" secondItem="9QB-AE-kLq" secondAttribute="top" id="5fS-1g-UCI"/>
-                <constraint firstItem="jSY-lt-jit" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" id="7Vh-wR-w1J"/>
-                <constraint firstItem="T04-Jy-nkb" firstAttribute="top" secondItem="9QB-AE-kLq" secondAttribute="top" constant="12" id="9wg-5G-ia4"/>
-                <constraint firstItem="axg-V0-X5h" firstAttribute="top" secondItem="FRP-gv-ey5" secondAttribute="bottom" constant="20" id="OZA-ve-6ZG"/>
-                <constraint firstItem="T04-Jy-nkb" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" constant="220" id="dAM-hG-5gu"/>
-                <constraint firstItem="FRP-gv-ey5" firstAttribute="top" secondItem="9QB-AE-kLq" secondAttribute="top" constant="68" id="nYs-rz-743"/>
-                <constraint firstItem="axg-V0-X5h" firstAttribute="leading" secondItem="9QB-AE-kLq" secondAttribute="leading" constant="16" id="zzB-SO-8Kd"/>
-            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="avatarView" destination="FRP-gv-ey5" id="alu-ik-9zE"/>
@@ -101,6 +91,7 @@
                 <outlet property="pointInfoLabel" destination="w4R-zz-pI4" id="D4v-jk-XWl"/>
                 <outlet property="pointLabel" destination="m3I-aD-GUu" id="pef-Cp-Ne3"/>
                 <outlet property="pointTextView" destination="axg-V0-X5h" id="cQA-Mi-q0S"/>
+                <outlet property="publishPointBtn" destination="K5U-Rm-2Pe" id="XhC-8Q-RBQ"/>
             </connections>
         </view>
     </objects>

@@ -14,8 +14,13 @@
 #import "HPCurrentUserCardOrPointView.h"
 #import "HPUserInfoViewController.h"
 #import "DataStorage.h"
+#import "UILabel+HighPoint.h"
+#import "UIDevice+HighPoint.h"
 
 #define FLIP_ANIMATION_SPEED 0.5
+#define CONSTRAINT_TOP_FOR_CAROUSEL 76
+#define CONSTRAINT_WIDE_TOP_FOR_CAROUSEL 80
+#define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
 
 @interface HPCurrentUserViewController ()
 
@@ -41,7 +46,9 @@
     [super viewDidLoad];
     self.carousel.dataSource = self;
     self.carousel.delegate = self;
+    [self fixUserCardConstraint];
     currentUserCardOrPoint = [HPCurrentUserCardOrPoint new];
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -69,6 +76,42 @@
 
 
 
+#pragma mark - constraint
+- (void) fixUserCardConstraint
+{
+    CGFloat topCarousel = CONSTRAINT_WIDE_TOP_FOR_CAROUSEL;
+    if (![UIDevice hp_isWideScreen])
+        topCarousel = CONSTRAINT_TOP_FOR_CAROUSEL;
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.carousel
+                                                          attribute: NSLayoutAttributeTop
+                                                          relatedBy: NSLayoutRelationEqual
+                                                             toItem: self.view
+                                                          attribute: NSLayoutAttributeTop
+                                                         multiplier: 1.0
+                                                           constant: topCarousel]];
+    
+    if (![UIDevice hp_isWideScreen])
+    {
+        
+        NSArray* cons = self.carousel.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeHeight) &&
+                (consIter.firstItem == self.carousel))
+                consIter.constant = CONSTRAINT_HEIGHT_FOR_CAROUSEL;
+        }
+    }
+}
+
+
+#pragma mark - bottom btn
+- (void) showUserAlbumAndInfo {
+    self.personalDataLabel.text = NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
+    [self.personalDataLabel hp_tuneForUserCardDetails];
+}
+
+
 #pragma mark - iCarousel data source -
 
 - (NSUInteger)numberOfItemsInCarousel: (iCarousel*) carousel
@@ -89,8 +132,7 @@
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 264, 416)];
         view.backgroundColor = [UIColor whiteColor];
     }
-    CGRect rect = CGRectMake(14, 0, [UIScreen mainScreen].bounds.size.width - 30, 380);
-    view.frame = rect;
+    
     return view;
 }
 
@@ -120,8 +162,7 @@
     return 320;
 }
 
-#pragma mark - User card delegate -
-
+#pragma mark - User card delegate
 
 - (void) switchButtonPressed
 {
