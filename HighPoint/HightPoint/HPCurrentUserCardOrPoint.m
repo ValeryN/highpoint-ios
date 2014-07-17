@@ -11,6 +11,12 @@
 #import "HPCurrentUserCardView.h"
 #import "SDWebImageManager.h"
 #import "Avatar.h"
+#import "UIImage+HighPoint.h"
+
+
+
+#define AVATAR_BLUR_RADIUS 40.0
+
 
 @implementation HPCurrentUserCardOrPoint 
 - (id) init
@@ -84,14 +90,13 @@
      {
          if (image && finished)
          {
+             
              self.cardView.avatarBgImageView.image = image;
          } else {
              //TODO: set placeholder img
              NSLog(@"error image log = %@", error.description);
          }
      }];
-    
-    
     [self setVisibility:user card:self.cardView];
     
     self.cardView.nameLabel.text = user.name;
@@ -118,6 +123,7 @@
     if ([user.visibility intValue] == 2) {
         cardView.visibilityLabel.text = NSLocalizedString(@"YOUR_PROFILE_INVISIBLE", nil);
         cardView.visibilityInfoLabel.text = NSLocalizedString(@"YOUR_PROFILE_INVISIBLE_INFO", nil);
+        
         cardView.visibilityInfoLabel.hidden = NO;
         cardView.nameLabel.hidden = YES;
         cardView.ageAndCitylabel.hidden = YES;
@@ -129,6 +135,7 @@
     if ([user.visibility intValue] == 3) {
         cardView.visibilityLabel.text = NSLocalizedString(@"YOUR_PROFILE_LOCKED", nil);
         cardView.visibilityInfoLabel.text = NSLocalizedString(@"YOUR_PROFILE_LOCKED_INFO", nil);
+        
         cardView.visibilityInfoLabel.hidden = NO;
         cardView.nameLabel.hidden = YES;
         cardView.ageAndCitylabel.hidden = YES;

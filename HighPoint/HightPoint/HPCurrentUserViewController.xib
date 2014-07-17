@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgP-fK-1cS">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgP-fK-1cS">
                     <rect key="frame" x="10" y="30" width="25" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="25" id="aR0-rA-iZg"/>
@@ -33,7 +33,7 @@
                         <action selector="backButtonTap:" destination="-1" eventType="touchUpInside" id="iju-xt-g5L"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zev-Cf-cbc">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zev-Cf-cbc">
                     <rect key="frame" x="280" y="30" width="25" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="25" id="4MR-rm-L8d"/>
@@ -57,7 +57,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Down.png" translatesAutoresizingMaskIntoConstraints="NO" id="hnu-0j-wNf">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Down.png" translatesAutoresizingMaskIntoConstraints="NO" id="hnu-0j-wNf">
                             <rect key="frame" x="278" y="20" width="26" height="12"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="26" id="1KW-53-M2f"/>
@@ -70,7 +70,7 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zdm-CF-rcl">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zdm-CF-rcl">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="320" id="57j-Yq-6Rc"/>
@@ -87,11 +87,11 @@
                     <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="lDF-B1-aSM" firstAttribute="leading" secondItem="X8f-rp-0ds" secondAttribute="leading" constant="10" id="4AY-eZ-869"/>
-                        <constraint firstItem="lDF-B1-aSM" firstAttribute="centerY" secondItem="hnu-0j-wNf" secondAttribute="centerY" id="8kE-KS-kRL"/>
+                        <constraint firstItem="lDF-B1-aSM" firstAttribute="centerY" secondItem="hnu-0j-wNf" secondAttribute="centerY" constant="-1.5" id="8kE-KS-kRL"/>
                         <constraint firstItem="zdm-CF-rcl" firstAttribute="leading" secondItem="X8f-rp-0ds" secondAttribute="leading" id="J7I-Et-mzG"/>
                         <constraint firstItem="zdm-CF-rcl" firstAttribute="centerY" secondItem="lDF-B1-aSM" secondAttribute="centerY" id="Spl-07-TXV"/>
                         <constraint firstAttribute="bottom" secondItem="hnu-0j-wNf" secondAttribute="bottom" constant="16" id="i69-ve-jfZ"/>
-                        <constraint firstAttribute="trailing" secondItem="hnu-0j-wNf" secondAttribute="trailing" constant="10" id="wmM-nM-OeF"/>
+                        <constraint firstAttribute="trailing" secondItem="hnu-0j-wNf" secondAttribute="trailing" constant="16" id="wmM-nM-OeF"/>
                     </constraints>
                 </view>
             </subviews>

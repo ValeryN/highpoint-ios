@@ -123,10 +123,12 @@
 
 - (void) showNavigationItem {
     [self.navigationController setNavigationBarHidden:NO];
+    [self.carousel setScrollEnabled:NO];
 }
 
 - (void) hideNavigationItem {
     [self.navigationController setNavigationBarHidden:YES];
+    [self.carousel setScrollEnabled:YES];
 }
 
 - (void) configurePublishPointNavigationItem

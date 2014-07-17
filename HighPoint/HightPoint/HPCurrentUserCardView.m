@@ -41,6 +41,7 @@
     [self.nameLabel hp_tuneForUserCardName];
     [self.ageAndCitylabel hp_tuneForUserCardDetails];
     [self.visibilityLabel hp_tuneForUserVisibilityText];
+    [self.visibilityInfoLabel hp_tuneForUserCardDetails];
 }
 
 - (void) fixUserCardConstraint
