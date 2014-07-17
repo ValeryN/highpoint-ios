@@ -19,5 +19,6 @@
 - (void) showNavigationItem;
 - (void) hideNavigationItem;
 - (void) configurePublishPointNavigationItem;
+- (void) configureSendPointNavigationItem;
 
 @end

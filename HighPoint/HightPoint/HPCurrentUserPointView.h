@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *pointInfoLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *bgAvatarImageView;
 @property (weak, nonatomic) IBOutlet UIButton *publishPointBtn;
+@property (weak, nonatomic) IBOutlet UIButton *deletePointBtn;
 
 //add point
 @property (weak, nonatomic) IBOutlet UIView *pointOptionsView;

@@ -30,6 +30,7 @@
 @implementation HPCurrentUserViewController {
     HPCurrentUserPointView *userPointView;
     HPCurrentUserCardOrPoint *currentUserCardOrPoint;
+    HPCurrentUserCardOrPointView *currentUserCardOrPointView;
     User *currentUser;
 }
 
@@ -77,12 +78,20 @@
 }
 
 -(void) cancelTaped {
-    NSLog(@"cancel tap");
+    [currentUserCardOrPoint.pointView endEditing:YES];
+    
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         currentUserCardOrPoint.pointView.frame = CGRectMake(currentUserCardOrPoint.pointView.frame.origin.x, currentUserCardOrPoint.pointView.frame.origin.y + 110,currentUserCardOrPoint.pointView.frame.size.width, currentUserCardOrPoint.pointView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                     }];
     [self hideNavigationItem];
 }
 
 -(void) doneTaped {
-    
+    [self.view endEditing:YES];
+    [currentUserCardOrPointView addPointOptionsViewToCard:currentUserCardOrPoint delegate:self];
     NSLog(@"done tap");
 }
 
@@ -130,7 +139,7 @@
 {
     UIButton *doneBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     doneBtn.exclusiveTouch = YES;
-    [doneBtn setFrame:CGRectMake(0, 0, 80, 30)];
+    [doneBtn setFrame:CGRectMake(0, 0, 120, 30)];
     [doneBtn addTarget:self action:@selector(shareTaped) forControlEvents:UIControlEventTouchUpInside];
     [doneBtn setTitle:NSLocalizedString(@"PUBLISH_BTN", nil) forState: UIControlStateNormal];
     [doneBtn setTitle:NSLocalizedString(@"PUBLISH_BTN", nil) forState: UIControlStateHighlighted];
@@ -197,7 +206,9 @@
 {
     
     if (index == 0) {
-        view = [[HPCurrentUserCardOrPointView alloc] initWithCardOrPoint: currentUserCardOrPoint delegate: self user:currentUser];
+        
+        currentUserCardOrPointView = [[HPCurrentUserCardOrPointView alloc] initWithCardOrPoint: currentUserCardOrPoint delegate: self user:currentUser];
+        view = currentUserCardOrPointView;
     }
     if (index == 1) {
         view = [[HPConciergeViewController alloc] initWithNibName:@"HPConciergeViewController" bundle:nil].view;
@@ -245,6 +256,7 @@
     HPCurrentUserCardOrPointView* container = (HPCurrentUserCardOrPointView*)self.carousel.currentItemView;
     [currentUserCardOrPoint switchUserPoint];
 
+    NSLog(@"container view = %f %f %f %f", container.frame.origin.x,container.frame.origin.y, container.frame.size.width, container.frame.size.height);
     [UIView transitionWithView: container
                       duration: FLIP_ANIMATION_SPEED
                        options: UIViewAnimationOptionTransitionFlipFromRight

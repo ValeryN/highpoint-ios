@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="264" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AHz-RI-r0T" userLabel="mybackground">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_sample.png" translatesAutoresizingMaskIntoConstraints="NO" id="AHz-RI-r0T" userLabel="mybackground">
                     <rect key="frame" x="0.0" y="0.0" width="264" height="352"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -111,5 +111,6 @@
         <image name="Lock Tap.png" width="64" height="64"/>
         <image name="Point" width="32" height="32"/>
         <image name="Point Tap" width="32" height="32"/>
+        <image name="img_sample.png" width="650" height="923"/>
     </resources>
 </document>

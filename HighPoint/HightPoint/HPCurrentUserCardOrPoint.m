@@ -12,11 +12,7 @@
 #import "SDWebImageManager.h"
 #import "Avatar.h"
 
-@implementation HPCurrentUserCardOrPoint {
-    HPCurrentUserPointView* newPoint;
-    HPCurrentUserCardView* newCard;
-}
-
+@implementation HPCurrentUserCardOrPoint 
 - (id) init
 {
     self = [super init];
@@ -37,8 +33,8 @@
     if ([nibs[0] isKindOfClass:[HPCurrentUserPointView class]] == NO)
         return nil;
     
-    newPoint = (HPCurrentUserPointView*)nibs[0];
-    newPoint.delegate = delegate;
+    self.pointView = (HPCurrentUserPointView*)nibs[0];
+    self.pointView.delegate = delegate;
     
     
     
@@ -54,16 +50,16 @@
      {
          if (image && finished)
          {
-             newPoint.bgAvatarImageView.image = image;
-             [newPoint setCropedAvatar:image];
+             self.pointView.bgAvatarImageView.image = image;
+             [self.pointView setCropedAvatar:image];
          } else {
              //TODO: set placeholder img
              NSLog(@"error image log = %@", error.description);
          }
-         [newPoint setBlurForAvatar];
+         [self.pointView setBlurForAvatar];
      }];
-    [newPoint initObjects];
-    return newPoint;
+    [self.pointView initObjects];
+    return self.pointView;
 }
 
 
@@ -73,12 +69,11 @@
     NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPCurrentUserCardView" owner: self options: nil];
     if ([nibs[0] isKindOfClass:[HPCurrentUserCardView class]] == NO)
         return nil;
-    
-    newCard = (HPCurrentUserCardView*)nibs[0];
-    newCard.delegate = delegate;
+    self.cardView = (HPCurrentUserCardView*)nibs[0];
+    self.cardView.delegate = delegate;
     
     NSString *avatarUrlStr = user.avatar.highImageSrc.length > 0 ? [user.avatar.highImageSrc stringByAppendingString:@"?size=s640&ext=jpg"] : @"";
-    
+    NSLog(@"current avatar = %@", avatarUrlStr);
     [SDWebImageDownloader.sharedDownloader downloadImageWithURL:[NSURL URLWithString: avatarUrlStr]
                                                         options:0
                                                        progress:^(NSInteger receivedSize, NSInteger expectedSize)
@@ -89,7 +84,7 @@
      {
          if (image && finished)
          {
-             newCard.avatarBgImageView.image = image;
+             self.cardView.avatarBgImageView.image = image;
          } else {
              //TODO: set placeholder img
              NSLog(@"error image log = %@", error.description);
@@ -97,13 +92,13 @@
      }];
     
     
-    [self setVisibility:user card:newCard];
+    [self setVisibility:user card:self.cardView];
     
-    newCard.nameLabel.text = user.name;
-    newCard.ageAndCitylabel.text = [NSString stringWithFormat:@"%@, %@", user.age, user.cityId];
-    [newCard initObjects];
+    self.cardView.nameLabel.text = user.name;
+    self.cardView.ageAndCitylabel.text = [NSString stringWithFormat:@"%@, %@", user.age, user.cityId];
+    [self.cardView initObjects];
     
-    return newCard;
+    return self.cardView;
 }
 
 
@@ -147,7 +142,18 @@
 
 #pragma mark - add modal views
 - (void) addPointInfoView: (NSObject<UserCardOrPointProtocol>*) delegate {
-    [newPoint addSubview:newPoint.pointOptionsView];
+    self.pointView.publishPointBtn.hidden = YES;
+    self.pointView.pointOptionsView.hidden = NO;
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.pointView.frame = CGRectMake(self.pointView.frame.origin.x, self.pointView.frame.origin.y - 70, self.pointView.frame.size.width, self.pointView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         NSLog(@"point info added");
+                         if ([delegate respondsToSelector:@selector(configureSendPointNavigationItem)]) {
+                             [delegate configureSendPointNavigationItem];
+                         }
+                     }];
 }
 
 

@@ -43,14 +43,17 @@
 -(void) setImageViewBgTap {
     
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]
-                                     initWithTarget:self action:@selector(handlePinch:)];
+                                     initWithTarget:self action:@selector(handleTap:)];
     tgr.delegate = self;
     [self.bgAvatarImageView addGestureRecognizer:tgr];
 }
 
 
-- (void)handlePinch:(UIPinchGestureRecognizer *)pinchGestureRecognizer
+- (void)handleTap:(UITapGestureRecognizer *)tapGestureRecognizer
 {
+    if ([self.delegate respondsToSelector:@selector(hideNavigationItem)]) {
+        [self.delegate hideNavigationItem];
+    }
     [self endEditing:YES];
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
             animations:^{
@@ -62,15 +65,15 @@
 
 #pragma mark - textview editing
 - (void)textViewDidBeginEditing:(UITextView *)textView {
-    self.bgAvatarImageView.userInteractionEnabled = YES;
-    self.pointInfoLabel.hidden = NO;
-    [self setSymbolsCounter];
-    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
-           animations:^{
-               self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 110, self.frame.size.width, self.frame.size.height);
-           }
-            completion:^(BOOL finished){
-            }];
+//    self.bgAvatarImageView.userInteractionEnabled = YES;
+//    self.pointInfoLabel.hidden = NO;
+//    [self setSymbolsCounter];
+//    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+//           animations:^{
+//               self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 110, self.frame.size.width, self.frame.size.height);
+//           }
+//            completion:^(BOOL finished){
+//            }];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
@@ -104,6 +107,12 @@
     [self.bgAvatarImageView hp_roundViewWithRadius: USERPOINT_ROUND_RADIUS];
     [self.pointTextView hp_tuneForUserPoint];
     [self.publishPointBtn hp_tuneFontForGreenButton];
+    [self.deletePointBtn hp_tuneFontForGreenButton];
+    [self.sharePointBtn hp_tuneFontForGreenButton];
+    [self.deletePointModalBtn hp_tuneFontForGreenButton];
+    [self.cancelDeleteModalBtn hp_tuneFontForGreenButton];
+    [self.deletePointInfoLabel hp_tuneForDeletePointInfo];
+    [self.pointTimeInfo hp_tuneForUserCardDetails];
     self.pointTextView.delegate = self;
     [self setPointText];
     [self fixSelfConstraint];
@@ -197,6 +206,17 @@
 }
 
 - (IBAction)publishBtnTap:(id)sender {
+    self.bgAvatarImageView.userInteractionEnabled = YES;
+    [self.pointTextView becomeFirstResponder];
+    self.pointInfoLabel.hidden = NO;
+    [self setSymbolsCounter];
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+            animations:^{
+                self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 110, self.frame.size.width, self.frame.size.height);
+            }
+               completion:^(BOOL finished){
+    }];
+
     if ([self.delegate respondsToSelector:@selector(configurePublishPointNavigationItem)]) {
         [self.delegate configurePublishPointNavigationItem];
     }
@@ -204,5 +224,18 @@
         [self.delegate showNavigationItem];
     }
 }
+
+- (IBAction)deletePointTap:(id)sender {
+    self.deletePointBtn.hidden = YES;
+    self.deletePointView.hidden = NO;
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 200, self.frame.size.width, self.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         NSLog(@"point deleted");
+                     }];
+}
+
 
 @end
