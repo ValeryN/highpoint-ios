@@ -21,4 +21,7 @@
 - (void) configurePublishPointNavigationItem;
 - (void) configureSendPointNavigationItem;
 
+- (void) hideBottomBar;
+- (void) showBottomBar;
+
 @end

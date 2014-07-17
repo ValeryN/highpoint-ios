@@ -146,7 +146,7 @@
     self.pointView.pointOptionsView.hidden = NO;
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         self.pointView.frame = CGRectMake(self.pointView.frame.origin.x, self.pointView.frame.origin.y - 70, self.pointView.frame.size.width, self.pointView.frame.size.height);
+                         self.pointView.frame = CGRectMake(self.pointView.frame.origin.x, self.pointView.frame.origin.y - 35, self.pointView.frame.size.width, self.pointView.frame.size.height);
                      }
                      completion:^(BOOL finished){
                          NSLog(@"point info added");

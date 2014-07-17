@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="264" height="602"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="img_sample.png" translatesAutoresizingMaskIntoConstraints="NO" id="jSY-lt-jit">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jSY-lt-jit">
                     <rect key="frame" x="0.0" y="0.0" width="264" height="352"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -186,6 +186,5 @@
         <image name="User Tap" width="32" height="32"/>
         <image name="green_btn.png" width="315" height="64"/>
         <image name="green_btn_pressed.png" width="315" height="64"/>
-        <image name="img_sample.png" width="650" height="923"/>
     </resources>
 </document>

@@ -80,11 +80,15 @@
 -(void) cancelTaped {
     [currentUserCardOrPoint.pointView endEditing:YES];
     
+    float deltaY = (currentUserCardOrPoint.pointView.pointOptionsView.hidden) ? 110 : 145;
+    currentUserCardOrPoint.pointView.pointOptionsView.hidden = YES;
+    currentUserCardOrPoint.pointView.publishPointBtn.hidden = NO;
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         currentUserCardOrPoint.pointView.frame = CGRectMake(currentUserCardOrPoint.pointView.frame.origin.x, currentUserCardOrPoint.pointView.frame.origin.y + 110,currentUserCardOrPoint.pointView.frame.size.width, currentUserCardOrPoint.pointView.frame.size.height);
+                         currentUserCardOrPoint.pointView.frame = CGRectMake(currentUserCardOrPoint.pointView.frame.origin.x, currentUserCardOrPoint.pointView.frame.origin.y + deltaY,currentUserCardOrPoint.pointView.frame.size.width, currentUserCardOrPoint.pointView.frame.size.height);
                      }
                      completion:^(BOOL finished){
+                         [self showBottomBar];
                      }];
     [self hideNavigationItem];
 }
@@ -92,10 +96,24 @@
 -(void) doneTaped {
     [self.view endEditing:YES];
     [currentUserCardOrPointView addPointOptionsViewToCard:currentUserCardOrPoint delegate:self];
-    NSLog(@"done tap");
 }
 
 -(void) shareTaped {
+    [currentUserCardOrPoint.pointView endEditing:YES];
+    
+    float deltaY = (currentUserCardOrPoint.pointView.pointOptionsView.hidden) ? 110 : 145;
+    currentUserCardOrPoint.pointView.pointOptionsView.hidden = YES;
+    currentUserCardOrPoint.pointView.publishPointBtn.hidden = YES;
+    currentUserCardOrPoint.pointView.deletePointBtn.hidden = NO;
+    
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         currentUserCardOrPoint.pointView.frame = CGRectMake(currentUserCardOrPoint.pointView.frame.origin.x, currentUserCardOrPoint.pointView.frame.origin.y + deltaY,currentUserCardOrPoint.pointView.frame.size.width, currentUserCardOrPoint.pointView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         [self showBottomBar];
+                     }];
+    [self hideNavigationItem];
     NSLog(@"share tap");
 }
 
@@ -158,6 +176,16 @@
     self.navigationItem.leftBarButtonItem = itemCancel;
 }
 
+#pragma mark - bottom bar configure
+
+- (void) hideBottomBar {
+    self.bottomView.hidden = YES;
+}
+
+- (void) showBottomBar {
+    self.bottomView.hidden = NO;
+}
+
 
 #pragma mark - constraint
 - (void) fixUserCardConstraint
@@ -191,7 +219,7 @@
 #pragma mark - bottom btn
 - (void) showUserAlbumAndInfo {
     self.personalDataLabel.text = NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
-    [self.personalDataLabel hp_tuneForUserCardDetails];
+    [self.personalDataLabel hp_tuneForUserListCellPointText];
 }
 
 
@@ -251,12 +279,8 @@
 
 - (void) switchButtonPressed
 {
-    NSLog(@"switch press");
-
     HPCurrentUserCardOrPointView* container = (HPCurrentUserCardOrPointView*)self.carousel.currentItemView;
     [currentUserCardOrPoint switchUserPoint];
-
-    NSLog(@"container view = %f %f %f %f", container.frame.origin.x,container.frame.origin.y, container.frame.size.width, container.frame.size.height);
     [UIView transitionWithView: container
                       duration: FLIP_ANIMATION_SPEED
                        options: UIViewAnimationOptionTransitionFlipFromRight

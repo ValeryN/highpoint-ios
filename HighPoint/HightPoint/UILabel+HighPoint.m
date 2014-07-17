@@ -31,6 +31,10 @@
     self.font = [UIFont fontWithName: @"FuturaPT-Medium" size: 15.0];
 }
 
+- (void) hp_tuneForUserVisibilityText
+{
+    self.font = [UIFont fontWithName: @"FuturaPT-Medium" size: 17.0];
+}
 
 - (void) hp_tuneForUserListCellAnonymous
 {
@@ -88,4 +92,5 @@
                                       blue: 112.0 / 255.0
                                      alpha: 1.0];
 }
+
 @end

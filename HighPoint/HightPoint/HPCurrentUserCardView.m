@@ -10,6 +10,7 @@
 #import "User.h"
 #import "UIView+HighPoint.h"
 #import "UIDevice+HighPoint.h"
+#import "UILabel+HighPoint.h"
 
 #define USERCARD_ROUND_RADIUS 5
 #define PHOTO_INDEX_ROUND_RADIUS 5
@@ -37,6 +38,9 @@
 {
     [self.avatarBgImageView hp_roundViewWithRadius: USERCARD_ROUND_RADIUS];
     [self fixUserCardConstraint];
+    [self.nameLabel hp_tuneForUserCardName];
+    [self.ageAndCitylabel hp_tuneForUserCardDetails];
+    [self.visibilityLabel hp_tuneForUserVisibilityText];
 }
 
 - (void) fixUserCardConstraint

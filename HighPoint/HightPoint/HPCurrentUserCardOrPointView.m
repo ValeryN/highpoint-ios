@@ -38,16 +38,13 @@
     
     [_childContainerView removeFromSuperview];
     if (![cardOrPoint isUserPoint]) {
+        self.frame =CGRectMake(self.frame.origin.x, _childContainerView.frame.origin.y, self.frame.size.width, 416);
         _childContainerView = [cardOrPoint userCardWithDelegate: delegate user:user];
-        self.frame =CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, 602);
-        NSLog(@"child container card = %f %f %f %f", _childContainerView.frame.origin.x, _childContainerView.frame.origin.y, _childContainerView.frame.size.width, _childContainerView.frame.size.height);
-
     } else {
+        self.frame =CGRectMake(self.frame.origin.x, _childContainerView.frame.origin.y, self.frame.size.width, 602);
         _childContainerView = [cardOrPoint userPointWithDelegate: delegate user:user];
-        self.frame =CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, 416);
-        NSLog(@"child container point = %f %f %f %f", _childContainerView.frame.origin.x, _childContainerView.frame.origin.y, _childContainerView.frame.size.width, _childContainerView.frame.size.height);
+        _childContainerView.frame = CGRectMake(_childContainerView.frame.origin.x, _childContainerView.frame.origin.y, _childContainerView.frame.size.width, _childContainerView.frame.size.height + 251);
     }
-    _childContainerView.backgroundColor = [UIColor redColor];
     [self fixUserCardConstraint];
     [self addSubview: _childContainerView];
     [self fixFrame];

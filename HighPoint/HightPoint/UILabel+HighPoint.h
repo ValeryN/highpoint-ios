@@ -24,5 +24,6 @@
 - (void) hp_tuneForSymbolCounterWhite;
 - (void) hp_tuneForSymbolCounterRed;
 - (void) hp_tuneForDeletePointInfo;
+- (void) hp_tuneForUserVisibilityText;
 
 @end

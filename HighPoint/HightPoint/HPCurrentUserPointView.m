@@ -208,6 +208,9 @@
 - (IBAction)publishBtnTap:(id)sender {
     self.bgAvatarImageView.userInteractionEnabled = YES;
     [self.pointTextView becomeFirstResponder];
+    if ([self.delegate respondsToSelector:@selector(hideBottomBar)]) {
+        [self.delegate hideBottomBar];
+    }
     self.pointInfoLabel.hidden = NO;
     [self setSymbolsCounter];
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
@@ -227,10 +230,13 @@
 
 - (IBAction)deletePointTap:(id)sender {
     self.deletePointBtn.hidden = YES;
+    if ([self.delegate respondsToSelector:@selector(hideBottomBar)]) {
+        [self.delegate hideBottomBar];
+    }
     self.deletePointView.hidden = NO;
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 200, self.frame.size.width, self.frame.size.height);
+                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 110, self.frame.size.width, self.frame.size.height);
                      }
                      completion:^(BOOL finished){
                          NSLog(@"point deleted");
