@@ -284,6 +284,9 @@ static HPBaseNetworkManager *networkManager;
         
     }];
 }
+
+#pragma mark - application settings
+
 - (void) getApplicationSettingsRequest {
     ///v201405/settings
     NSString *url = nil;
@@ -312,12 +315,8 @@ static HPBaseNetworkManager *networkManager;
     }];
 }
 
-//- (void) getUserInfoRequest:(NSDictionary*) param {
-//   
-//}
-//- (void) getCurrentUserSettingsRequest:(NSDictionary*) param {
-//    
-//}
+#pragma mark - user filter
+
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param {
     ///v201405/me/filter
     NSString *url = nil;
@@ -352,15 +351,44 @@ static HPBaseNetworkManager *networkManager;
     
 }
 
-//- (void) getUsersListRequest:(NSDictionary*) param {
-//    
-//}
+#pragma mark - career
+
+- (void) addCareerItemRequest:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kCareerRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"ADD CAREER ITEM: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if ([jsonDict objectForKey:@"data"]) {
+                    [[DataStorage sharedDataStorage] addCareerEntityForUser:[jsonDict objectForKey:@"data"]];
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+    
+}
 
 
-//- (void) getPointsListRequest:(NSDictionary*) param {
-//    
-//}
 
+#pragma mark - point like/unlike
 
 - (void) makePointLikeRequest:(NSNumber*) pointId {
     ///v201405/points/<id>/like
@@ -434,6 +462,8 @@ static HPBaseNetworkManager *networkManager;
         
     }];
 }
+
+
 # pragma mark -
 # pragma mark socket io methods
 //param - dict with keys host, port, user

@@ -166,6 +166,18 @@ static DataStorage *dataStorage;
     return car;
 }
 
+
+- (void) addCareerEntityForUser :(NSDictionary *) param {
+    Career *ca = [self createCareerEntity: param];
+    User *currentUser = [self getCurrentUser];
+    NSMutableArray *careerItems = [[currentUser.career allObjects] mutableCopy];
+    if (careerItems != nil) {
+        [careerItems addObject:ca];
+    }
+    currentUser.career = [NSSet setWithArray:careerItems];
+    [self saveContext];
+}
+
 #pragma mark -
 #pragma mark avatar entity
 - (Avatar*) createAvatarEntity:(NSDictionary *)param {

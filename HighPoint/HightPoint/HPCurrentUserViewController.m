@@ -17,6 +17,7 @@
 #import "UILabel+HighPoint.h"
 #import "UIDevice+HighPoint.h"
 #import "UIButton+HighPoint.h"
+#import "HPBaseNetworkManager.h"
 
 #define FLIP_ANIMATION_SPEED 0.5
 #define CONSTRAINT_TOP_FOR_CAROUSEL 76
@@ -50,14 +51,17 @@
     self.carousel.delegate = self;
     [self fixUserCardConstraint];
     currentUserCardOrPoint = [HPCurrentUserCardOrPoint new];
-    
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
     currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+    
+//    User * user = [[DataStorage sharedDataStorage] getCurrentUser];
+//    NSLog(@"current user career and edu= %@ ----  %@", user.career, user.education);
+//    NSLog(@"cureer = %lu", (unsigned long)[user.career allObjects].count);
+//    NSLog(@"cureer = %lu", (unsigned long)[user.education allObjects].count);
 }
 
 - (void)didReceiveMemoryWarning

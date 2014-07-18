@@ -29,6 +29,8 @@ static NSString * const kRegistrationRequest = @"/v201405/signup";
 static NSString * const kSigninRequest = @"/v201405/signin";
 static NSString * const kPointsLikeRequest = @"/v201405/points/%@/like";
 static NSString * const kPointsUnlikeRequest = @"/v201405/points/%@/unlike";
+static NSString * const kCareerRequest = @"/v201405/me/career";
+
 
 //socket io constants
 static NSString * const kSendMessage = @"sendMessage";

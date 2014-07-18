@@ -37,6 +37,7 @@
 -(NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
 - (void) deleteCurrentUser;
+- (void) addCareerEntityForUser :(NSDictionary *) param;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (void) setPointLiked : (NSNumber *) pointId : (BOOL) isLiked;
 - (AppSetting*) getAppSettings;
