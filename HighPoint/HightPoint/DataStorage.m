@@ -154,6 +154,29 @@ static DataStorage *dataStorage;
     return edu;
 }
 
+
+#pragma mark - language
+- (Language *) createLanguageEntity:(NSDictionary *)param {
+    Language *lan = (Language*)[NSEntityDescription insertNewObjectForEntityForName:@"Language" inManagedObjectContext:self.moc];
+    lan.id_ = [param objectForKey:@"id"];
+    lan.name = [param objectForKey:@"name"];
+    return lan;
+}
+
+- (void) addLanguageEntityForUser :(NSDictionary *) param {
+    Language *lan = [self createLanguageEntity: param];
+    User *currentUser = [self getCurrentUser];
+    
+    NSMutableArray *languages = [[currentUser.language allObjects] mutableCopy];
+    if (languages != nil) {
+        [languages addObject:lan];
+    } else {
+        languages = [[NSMutableArray alloc] init];
+    }
+    currentUser.language = [NSSet setWithArray:languages];
+    [self saveContext];
+}
+
 #pragma mark -
 #pragma mark career entity
 - (Career*) createCareerEntity:(NSDictionary *)param {
@@ -173,6 +196,8 @@ static DataStorage *dataStorage;
     NSMutableArray *careerItems = [[currentUser.career allObjects] mutableCopy];
     if (careerItems != nil) {
         [careerItems addObject:ca];
+    } else {
+        careerItems = [[NSMutableArray alloc] init];
     }
     currentUser.career = [NSSet setWithArray:careerItems];
     [self saveContext];

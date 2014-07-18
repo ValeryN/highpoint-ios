@@ -351,6 +351,45 @@ static HPBaseNetworkManager *networkManager;
     
 }
 
+#pragma mark - languages
+
+- (void) addLanguageRequest:(NSString*) langName {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kLanguagesRequest];
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:langName, @"name", nil];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"ADD LANGUAGE: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if ([jsonDict objectForKey:@"data"]) {
+                    [[DataStorage sharedDataStorage] addLanguageEntityForUser:[jsonDict objectForKey:@"data"]];
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+    
+}
+
+
+
+
 #pragma mark - career
 
 - (void) addCareerItemRequest:(NSDictionary*) param {
@@ -393,7 +432,6 @@ static HPBaseNetworkManager *networkManager;
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    //manager.requestSerializer.HTTPMethodsEncodingParametersInURI = [NSSet setWithArray:@[@"POST", @"GET", @"HEAD", whatever other http methods you need here....]];
     [manager DELETE:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"DELETE CAREER ITEMS: --> %@", operation.responseString);
         NSError *error = nil;

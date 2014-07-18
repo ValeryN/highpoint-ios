@@ -18,6 +18,7 @@
 #import "Avatar.h"
 #import "UserPoint.h"
 #import "City.h"
+#import "Language.h"
 
 @interface DataStorage : NSObject
 @property (nonatomic, strong) NSManagedObjectContext *moc;
@@ -37,6 +38,8 @@
 -(NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
 - (void) deleteCurrentUser;
+- (Language *) createLanguageEntity:(NSDictionary *)param;
+- (void) addLanguageEntityForUser :(NSDictionary *) param;
 - (void) addCareerEntityForUser :(NSDictionary *) param;
 - (void) deleteCareerEntityFromUser :(NSArray *) ids;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;

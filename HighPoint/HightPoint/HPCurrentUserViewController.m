@@ -52,7 +52,7 @@
     [self fixUserCardConstraint];
     currentUserCardOrPoint = [HPCurrentUserCardOrPoint new];
     
-    [[HPBaseNetworkManager sharedNetworkManager] deleteCareerItemRequest:@"1,2,3,4,5"];
+    [[HPBaseNetworkManager sharedNetworkManager] addLanguageRequest:@"русский"];
     
     // Do any additional setup after loading the view from its nib.
 }
@@ -63,9 +63,7 @@
     currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
     
     User * user = [[DataStorage sharedDataStorage] getCurrentUser];
-    NSLog(@"current user career and edu= %@ ----  %@", user.career, user.education);
-    NSLog(@"cureer = %lu", (unsigned long)[user.career allObjects].count);
-    NSLog(@"cureer = %lu", (unsigned long)[user.education allObjects].count);
+    NSLog(@"languages count = %lu", (unsigned long)[user.language allObjects].count);
 }
 
 - (void)didReceiveMemoryWarning

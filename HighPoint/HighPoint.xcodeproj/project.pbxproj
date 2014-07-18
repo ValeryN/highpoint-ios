@@ -184,6 +184,7 @@
 		4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
+		CD55FD1119792025003EE9E9 /* Language.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1019792025003EE9E9 /* Language.m */; };
 		CD68A9C4196D0DE80090D6D1 /* TLSwipeForOptionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD68A9C2196D0DE80090D6D1 /* TLSwipeForOptionsCell.m */; };
 		CD7C994D1973A2DF00F1AAAB /* HPCurrentUserPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C994C1973A2DF00F1AAAB /* HPCurrentUserPointView.m */; };
 		CD7C99501973A38900F1AAAB /* HPCurrentUserCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C994F1973A38900F1AAAB /* HPCurrentUserCardView.m */; };
@@ -481,6 +482,8 @@
 		4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPMainViewListTableViewCell+HighPoint.m"; sourceTree = "<group>"; };
 		CD183C35196418D0002AC98D /* UserTokenUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTokenUtils.h; sourceTree = "<group>"; };
 		CD183C36196418D0002AC98D /* UserTokenUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTokenUtils.m; sourceTree = "<group>"; };
+		CD55FD0F19792025003EE9E9 /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
+		CD55FD1019792025003EE9E9 /* Language.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Language.m; sourceTree = "<group>"; };
 		CD68A9C1196D0DE80090D6D1 /* TLSwipeForOptionsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLSwipeForOptionsCell.h; sourceTree = "<group>"; };
 		CD68A9C2196D0DE80090D6D1 /* TLSwipeForOptionsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLSwipeForOptionsCell.m; sourceTree = "<group>"; };
 		CD7C994B1973A2DF00F1AAAB /* HPCurrentUserPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserPointView.h; sourceTree = "<group>"; };
@@ -977,6 +980,8 @@
 				3B39D2F1195C3090002520B9 /* AppSetting.m */,
 				CDFA89FE196BB67F00D04451 /* City.h */,
 				CDFA89FF196BB67F00D04451 /* City.m */,
+				CD55FD0F19792025003EE9E9 /* Language.h */,
+				CD55FD1019792025003EE9E9 /* Language.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -1480,6 +1485,7 @@
 				3BDA4C6A19064AC900EF6619 /* AFURLSessionManager.m in Sources */,
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
 				4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
+				CD55FD1119792025003EE9E9 /* Language.m in Sources */,
 				4C91C1F119585AC1002B27D4 /* HPUserPointView.m in Sources */,
 				3BDA4C8E19064E5900EF6619 /* NSData+ImageContentType.m in Sources */,
 				3B39D301195C3091002520B9 /* Gender.m in Sources */,

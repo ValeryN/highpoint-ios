@@ -2,17 +2,18 @@
 //  User.h
 //  HighPoint
 //
-//  Created by Julia Pozdnyakova on 11.07.14.
+//  Created by Julia Pozdnyakova on 18.07.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Avatar, Career, Education, MaxEntertainmentPrice, MinEntertainmentPrice, UserFilter, UserPoint;
+@class Avatar, Career, Education, Language, MaxEntertainmentPrice, MinEntertainmentPrice, UserFilter, UserPoint;
 
 @interface User : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * age;
 @property (nonatomic, retain) NSNumber * cityId;
 @property (nonatomic, retain) NSString * createdAt;
 @property (nonatomic, retain) NSString * dateOfBirth;
@@ -26,7 +27,6 @@
 @property (nonatomic, retain) NSString * nameForms;
 @property (nonatomic, retain) NSNumber * userId;
 @property (nonatomic, retain) NSNumber * visibility;
-@property (nonatomic, retain) NSNumber * age;
 @property (nonatomic, retain) Avatar *avatar;
 @property (nonatomic, retain) NSSet *career;
 @property (nonatomic, retain) NSSet *education;
@@ -34,6 +34,7 @@
 @property (nonatomic, retain) MinEntertainmentPrice *minentertainment;
 @property (nonatomic, retain) UserPoint *point;
 @property (nonatomic, retain) UserFilter *userfilter;
+@property (nonatomic, retain) NSSet *language;
 @end
 
 @interface User (CoreDataGeneratedAccessors)
@@ -47,5 +48,10 @@
 - (void)removeEducationObject:(Education *)value;
 - (void)addEducation:(NSSet *)values;
 - (void)removeEducation:(NSSet *)values;
+
+- (void)addLanguageObject:(Language *)value;
+- (void)removeLanguageObject:(Language *)value;
+- (void)addLanguage:(NSSet *)values;
+- (void)removeLanguage:(NSSet *)values;
 
 @end
