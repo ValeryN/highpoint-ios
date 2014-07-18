@@ -155,6 +155,20 @@ static DataStorage *dataStorage;
 }
 
 
+- (void) addLEducationEntityForUser :(NSDictionary *) param {
+    Education *ed = [self createEducationEntity: param];
+    User *currentUser = [self getCurrentUser];
+    
+    NSMutableArray *education = [[currentUser.education allObjects] mutableCopy];
+    if (education != nil) {
+        [education addObject:ed];
+    } else {
+        education = [[NSMutableArray alloc] init];
+    }
+    currentUser.education = [NSSet setWithArray:education];
+    [self saveContext];
+}
+
 #pragma mark - places
 
 - (Language *) createLanguageEntity:(NSDictionary *)param {

@@ -32,7 +32,7 @@
         <relationship name="company" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Company" inverseName="career" inverseEntity="Company" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="career" inverseEntity="User" syncable="YES"/>
     </entity>
-    <entity name="CareerPost" syncable="YES">
+    <entity name="CareerPost" representedClassName="CareerPost" syncable="YES">
         <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="career" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Career" inverseName="careerpost" inverseEntity="Career" syncable="YES"/>
@@ -45,7 +45,7 @@
         <attribute name="cityRegionId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="userfilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserFilter" inverseName="city" inverseEntity="UserFilter" syncable="YES"/>
     </entity>
-    <entity name="Company" syncable="YES">
+    <entity name="Company" representedClassName="Company" syncable="YES">
         <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="career" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Career" inverseName="company" inverseEntity="Career" syncable="YES"/>
@@ -106,12 +106,12 @@
         <attribute name="regionName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="regionNameForms" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="School" syncable="YES">
+    <entity name="School" representedClassName="School" syncable="YES">
         <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="education" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Education" inverseName="school" inverseEntity="Education" syncable="YES"/>
     </entity>
-    <entity name="Speciality" syncable="YES">
+    <entity name="Speciality" representedClassName="Speciality" syncable="YES">
         <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="education" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Education" inverseName="speciality" inverseEntity="Education" syncable="YES"/>
