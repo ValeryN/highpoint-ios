@@ -19,6 +19,7 @@
 #import "UserPoint.h"
 #import "City.h"
 #import "Language.h"
+#import "Place.h"
 
 @interface DataStorage : NSObject
 @property (nonatomic, strong) NSManagedObjectContext *moc;
@@ -38,6 +39,8 @@
 -(NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
 - (void) deleteCurrentUser;
+- (Place *) createPlaceEntity:(NSDictionary *)param;
+- (void) addLPlaceEntityForUser :(NSDictionary *) param;
 - (Language *) createLanguageEntity:(NSDictionary *)param;
 - (void) addLanguageEntityForUser :(NSDictionary *) param;
 - (void) addCareerEntityForUser :(NSDictionary *) param;

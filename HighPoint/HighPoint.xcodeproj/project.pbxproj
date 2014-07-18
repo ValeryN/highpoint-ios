@@ -185,6 +185,8 @@
 		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
 		CD55FD1119792025003EE9E9 /* Language.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1019792025003EE9E9 /* Language.m */; };
+		CD55FD17197925E3003EE9E9 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD16197925E3003EE9E9 /* Place.m */; };
+		CD55FD1D19792610003EE9E9 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1C19792610003EE9E9 /* User.m */; };
 		CD68A9C4196D0DE80090D6D1 /* TLSwipeForOptionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD68A9C2196D0DE80090D6D1 /* TLSwipeForOptionsCell.m */; };
 		CD7C994D1973A2DF00F1AAAB /* HPCurrentUserPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C994C1973A2DF00F1AAAB /* HPCurrentUserPointView.m */; };
 		CD7C99501973A38900F1AAAB /* HPCurrentUserCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C994F1973A38900F1AAAB /* HPCurrentUserCardView.m */; };
@@ -200,7 +202,6 @@
 		CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EE2196FB2910032210F /* HPConciergeViewController.m */; };
 		CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */; };
 		CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE7196FC7E40032210F /* Localizable.strings */; };
-		CDA22EEB196FDDD80032210F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EEA196FDDD80032210F /* User.m */; };
 		CDA22EEE197000E60032210F /* HPCurrentUserCardOrPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EED197000E60032210F /* HPCurrentUserCardOrPointView.m */; };
 		CDA22EF1197002D50032210F /* HPCurrentUserCardOrPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EF0197002D50032210F /* HPCurrentUserCardOrPoint.m */; };
 		CDA27BE71974ED96007D6BC1 /* green_btn_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA27BE51974ED96007D6BC1 /* green_btn_pressed.png */; };
@@ -484,6 +485,10 @@
 		CD183C36196418D0002AC98D /* UserTokenUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTokenUtils.m; sourceTree = "<group>"; };
 		CD55FD0F19792025003EE9E9 /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
 		CD55FD1019792025003EE9E9 /* Language.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Language.m; sourceTree = "<group>"; };
+		CD55FD15197925E3003EE9E9 /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
+		CD55FD16197925E3003EE9E9 /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
+		CD55FD1B19792610003EE9E9 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = ../User.h; sourceTree = "<group>"; };
+		CD55FD1C19792610003EE9E9 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = ../User.m; sourceTree = "<group>"; };
 		CD68A9C1196D0DE80090D6D1 /* TLSwipeForOptionsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLSwipeForOptionsCell.h; sourceTree = "<group>"; };
 		CD68A9C2196D0DE80090D6D1 /* TLSwipeForOptionsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLSwipeForOptionsCell.m; sourceTree = "<group>"; };
 		CD7C994B1973A2DF00F1AAAB /* HPCurrentUserPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserPointView.h; sourceTree = "<group>"; };
@@ -505,8 +510,6 @@
 		CDA22EE2196FB2910032210F /* HPConciergeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPConciergeViewController.m; sourceTree = "<group>"; };
 		CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPConciergeViewController.xib; sourceTree = "<group>"; };
 		CDA22EE7196FC7E40032210F /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		CDA22EE9196FDDD80032210F /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		CDA22EEA196FDDD80032210F /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		CDA22EEC197000E60032210F /* HPCurrentUserCardOrPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserCardOrPointView.h; sourceTree = "<group>"; };
 		CDA22EED197000E60032210F /* HPCurrentUserCardOrPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserCardOrPointView.m; sourceTree = "<group>"; };
 		CDA22EEF197002D50032210F /* HPCurrentUserCardOrPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserCardOrPoint.h; sourceTree = "<group>"; };
@@ -956,8 +959,6 @@
 			children = (
 				CD8CF434196A99D2000C7F18 /* UserFilter.h */,
 				CD8CF435196A99D2000C7F18 /* UserFilter.m */,
-				CDA22EE9196FDDD80032210F /* User.h */,
-				CDA22EEA196FDDD80032210F /* User.m */,
 				3B39D326195C5B5C002520B9 /* Region.h */,
 				3B39D327195C5B5C002520B9 /* Region.m */,
 				3B39D320195C5B33002520B9 /* Country.h */,
@@ -982,6 +983,10 @@
 				CDFA89FF196BB67F00D04451 /* City.m */,
 				CD55FD0F19792025003EE9E9 /* Language.h */,
 				CD55FD1019792025003EE9E9 /* Language.m */,
+				CD55FD15197925E3003EE9E9 /* Place.h */,
+				CD55FD16197925E3003EE9E9 /* Place.m */,
+				CD55FD1B19792610003EE9E9 /* User.h */,
+				CD55FD1C19792610003EE9E9 /* User.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -1441,10 +1446,10 @@
 				4CA7B63B195C379000DC9D52 /* HPAvatarView.m in Sources */,
 				3B6DB4A218FFC24D00C26A50 /* HPAppDelegate.m in Sources */,
 				3B39D31D195C3122002520B9 /* SocketIOTransportWebsocket.m in Sources */,
-				CDA22EEB196FDDD80032210F /* User.m in Sources */,
 				CD7C99501973A38900F1AAAB /* HPCurrentUserCardView.m in Sources */,
 				4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
 				4CDC98B619517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
+				CD55FD17197925E3003EE9E9 /* Place.m in Sources */,
 				3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */,
 				3BB5E8681935F43700DDF5F9 /* ModalAnimation.m in Sources */,
 				CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */,
@@ -1461,6 +1466,7 @@
 				3BD12E5A192DFE380026BA11 /* HPFilterSettingsViewController.m in Sources */,
 				CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */,
 				3BA3840B1924D58A00EFC749 /* CrossDissolveAnimation.m in Sources */,
+				CD55FD1D19792610003EE9E9 /* User.m in Sources */,
 				3B49DE211934CEF000C3EF1E /* HPSlideUpAnimation.m in Sources */,
 				CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */,
 				3B39D328195C5B5C002520B9 /* Region.m in Sources */,

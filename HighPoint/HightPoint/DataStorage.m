@@ -155,7 +155,8 @@ static DataStorage *dataStorage;
 }
 
 
-#pragma mark - language
+#pragma mark - places
+
 - (Language *) createLanguageEntity:(NSDictionary *)param {
     Language *lan = (Language*)[NSEntityDescription insertNewObjectForEntityForName:@"Language" inManagedObjectContext:self.moc];
     lan.id_ = [param objectForKey:@"id"];
@@ -174,6 +175,31 @@ static DataStorage *dataStorage;
         languages = [[NSMutableArray alloc] init];
     }
     currentUser.language = [NSSet setWithArray:languages];
+    [self saveContext];
+}
+
+
+
+#pragma mark - language
+- (Place *) createPlaceEntity:(NSDictionary *)param {
+    Place *pl = (Place*)[NSEntityDescription insertNewObjectForEntityForName:@"Place" inManagedObjectContext:self.moc];
+    pl.id_ = [param objectForKey:@"id"];
+    pl.cityId = [param objectForKey:@"cityId"];
+    pl.name = [param objectForKey:@"name"];
+    return pl;
+}
+
+- (void) addLPlaceEntityForUser :(NSDictionary *) param {
+    Place *pl = [self createPlaceEntity: param];
+    User *currentUser = [self getCurrentUser];
+    
+    NSMutableArray *places = [[currentUser.place allObjects] mutableCopy];
+    if (places != nil) {
+        [places addObject:pl];
+    } else {
+        places = [[NSMutableArray alloc] init];
+    }
+    currentUser.place = [NSSet setWithArray:places];
     [self saveContext];
 }
 

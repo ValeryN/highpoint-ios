@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Avatar, Career, Education, Language, MaxEntertainmentPrice, MinEntertainmentPrice, UserFilter, UserPoint;
+@class Avatar, Career, Education, Language, MaxEntertainmentPrice, MinEntertainmentPrice, Place, UserFilter, UserPoint;
 
 @interface User : NSManagedObject
 
@@ -35,6 +35,7 @@
 @property (nonatomic, retain) UserPoint *point;
 @property (nonatomic, retain) UserFilter *userfilter;
 @property (nonatomic, retain) NSSet *language;
+@property (nonatomic, retain) NSSet *place;
 @end
 
 @interface User (CoreDataGeneratedAccessors)
@@ -53,5 +54,10 @@
 - (void)removeLanguageObject:(Language *)value;
 - (void)addLanguage:(NSSet *)values;
 - (void)removeLanguage:(NSSet *)values;
+
+- (void)addPlaceObject:(Place *)value;
+- (void)removePlaceObject:(Place *)value;
+- (void)addPlace:(NSSet *)values;
+- (void)removePlace:(NSSet *)values;
 
 @end

@@ -52,7 +52,8 @@
     [self fixUserCardConstraint];
     currentUserCardOrPoint = [HPCurrentUserCardOrPoint new];
     
-    [[HPBaseNetworkManager sharedNetworkManager] addLanguageRequest:@"русский"];
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys: @"1", @"cityId", @"place1", @"name", nil];
+    [[HPBaseNetworkManager sharedNetworkManager] addPlaceRequest:dict];
     
     // Do any additional setup after loading the view from its nib.
 }
@@ -63,7 +64,7 @@
     currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
     
     User * user = [[DataStorage sharedDataStorage] getCurrentUser];
-    NSLog(@"languages count = %lu", (unsigned long)[user.language allObjects].count);
+    NSLog(@"places count = %lu", (unsigned long)[user.place allObjects].count);
 }
 
 - (void)didReceiveMemoryWarning

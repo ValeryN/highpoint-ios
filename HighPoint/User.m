@@ -13,6 +13,7 @@
 #import "Language.h"
 #import "MaxEntertainmentPrice.h"
 #import "MinEntertainmentPrice.h"
+#import "Place.h"
 #import "UserFilter.h"
 #import "UserPoint.h"
 
@@ -41,5 +42,6 @@
 @dynamic point;
 @dynamic userfilter;
 @dynamic language;
+@dynamic place;
 
 @end
