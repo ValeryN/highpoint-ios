@@ -38,6 +38,7 @@
 - (User*) getCurrentUser;
 - (void) deleteCurrentUser;
 - (void) addCareerEntityForUser :(NSDictionary *) param;
+- (void) deleteCareerEntityFromUser :(NSArray *) ids;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (void) setPointLiked : (NSNumber *) pointId : (BOOL) isLiked;
 - (AppSetting*) getAppSettings;

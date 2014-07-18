@@ -178,6 +178,26 @@ static DataStorage *dataStorage;
     [self saveContext];
 }
 
+- (void) deleteCareerEntityFromUser :(NSArray *) ids {
+    
+    User *currentUser = [self getCurrentUser];
+    NSMutableArray *careerItems = [[currentUser.career allObjects] mutableCopy];
+    NSMutableArray *discardedItems = [NSMutableArray array];
+    Career *item;
+    for (item in careerItems) {
+        for (int i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+                [discardedItems addObject:item];
+            }
+        }
+    }
+    
+    [careerItems removeObjectsInArray:discardedItems];
+    
+    currentUser.career = [NSSet setWithArray:careerItems];
+    [self saveContext];
+}
+
 #pragma mark -
 #pragma mark avatar entity
 - (Avatar*) createAvatarEntity:(NSDictionary *)param {

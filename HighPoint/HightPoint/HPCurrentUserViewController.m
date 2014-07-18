@@ -51,6 +51,10 @@
     self.carousel.delegate = self;
     [self fixUserCardConstraint];
     currentUserCardOrPoint = [HPCurrentUserCardOrPoint new];
+    
+    [[HPBaseNetworkManager sharedNetworkManager] deleteCareerItemRequest:@"1,2,3,4,5"];
+    
+    // Do any additional setup after loading the view from its nib.
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -58,10 +62,10 @@
     [self.navigationController setNavigationBarHidden:YES];
     currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
     
-//    User * user = [[DataStorage sharedDataStorage] getCurrentUser];
-//    NSLog(@"current user career and edu= %@ ----  %@", user.career, user.education);
-//    NSLog(@"cureer = %lu", (unsigned long)[user.career allObjects].count);
-//    NSLog(@"cureer = %lu", (unsigned long)[user.education allObjects].count);
+    User * user = [[DataStorage sharedDataStorage] getCurrentUser];
+    NSLog(@"current user career and edu= %@ ----  %@", user.career, user.education);
+    NSLog(@"cureer = %lu", (unsigned long)[user.career allObjects].count);
+    NSLog(@"cureer = %lu", (unsigned long)[user.education allObjects].count);
 }
 
 - (void)didReceiveMemoryWarning

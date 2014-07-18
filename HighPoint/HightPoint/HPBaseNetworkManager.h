@@ -29,6 +29,7 @@
 - (void) getApplicationSettingsRequest;
 - (void) getCurrentUserRequest;
 - (void) addCareerItemRequest:(NSDictionary*) param;
+- (void) deleteCareerItemRequest:(NSString*) ids;
 - (void) getUsersRequest:(NSInteger) lastUser;
 - (void) getPointsRequest:(NSInteger) lastPoint;
 //- (User*) getCurrentUser;
