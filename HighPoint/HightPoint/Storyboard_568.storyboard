@@ -232,7 +232,7 @@
         <image name="Bubble" width="26" height="25"/>
         <image name="Bubble Tap" width="26" height="25"/>
         <image name="Lens" width="24" height="24"/>
-        <image name="Point Notice.png" width="650" height="923"/>
+        <image name="Point Notice.png" width="46" height="48"/>
         <image name="Profile" width="26" height="26"/>
         <image name="Profile Tap.png" width="193" height="32"/>
     </resources>

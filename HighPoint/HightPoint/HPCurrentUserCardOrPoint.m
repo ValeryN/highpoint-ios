@@ -116,7 +116,6 @@
     }
 }
 
-
 - (void) setVisibility :(User *) user card: (HPCurrentUserCardView *)cardView{
     NSLog(@"visibility = %@",user.visibility);
     if ([user.visibility intValue] == 1) {

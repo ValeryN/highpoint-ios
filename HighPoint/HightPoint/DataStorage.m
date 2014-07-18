@@ -153,6 +153,19 @@ static DataStorage *dataStorage;
     edu.toYear = [param objectForKey:@"toYear"];
     return edu;
 }
+
+#pragma mark -
+#pragma mark career entity
+- (Career*) createCareerEntity:(NSDictionary *)param {
+    Career *car = (Career*)[NSEntityDescription insertNewObjectForEntityForName:@"Career" inManagedObjectContext:self.moc];
+    car.id_ = [param objectForKey:@"id"];
+    car.fromYear = [param objectForKey:@"fromYear"];
+    car.companyId = [param objectForKey:@"companyId"];
+    car.postId = [param objectForKey:@"postId"];
+    car.toYear = [param objectForKey:@"toYear"];
+    return car;
+}
+
 #pragma mark -
 #pragma mark avatar entity
 - (Avatar*) createAvatarEntity:(NSDictionary *)param {
@@ -217,6 +230,26 @@ static DataStorage *dataStorage;
             }
             user.education = [NSSet setWithArray:entArray];
         }
+        
+        if([[param objectForKey:@"career"] isKindOfClass:[NSDictionary class]]) {
+            
+            if(![[param objectForKey:@"career"] isKindOfClass:[NSNull class]]) {
+                Career *ca = [self createCareerEntity: [param objectForKey:@"career"]];
+                ca.user = user;
+                user.career = [NSSet setWithArray:[NSArray arrayWithObjects:ca, nil]];
+            }
+            
+        } else if ([[param objectForKey:@"career"] isKindOfClass:[NSArray class]]) {
+            NSMutableArray *entArray = [NSMutableArray new];
+            for(NSDictionary *t in [param objectForKey:@"career"]) {
+                Career *ca = [self createCareerEntity:t];
+                ca.user = user;
+                [entArray addObject:[self createCareerEntity:t]];
+            }
+            user.career = [NSSet setWithArray:entArray];
+        }
+        
+        
         NSArray *cityIds;
         NSMutableString *par;
         if(![[param objectForKey:@"favoriteCityIds"] isKindOfClass:[NSNull class]]) {
