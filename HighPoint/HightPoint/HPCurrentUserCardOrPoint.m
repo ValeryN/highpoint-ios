@@ -15,6 +15,7 @@
 
 
 
+
 #define AVATAR_BLUR_RADIUS 40.0
 
 
@@ -92,6 +93,7 @@
          {
              
              self.cardView.avatarBgImageView.image = image;
+             [self setAvatarVisibilityBlur:user card:self.cardView];
          } else {
              //TODO: set placeholder img
              NSLog(@"error image log = %@", error.description);
@@ -106,8 +108,14 @@
     return self.cardView;
 }
 
-
 #pragma mark - set visibility
+
+- (void) setAvatarVisibilityBlur :(User *) user card: (HPCurrentUserCardView *)cardView {
+    if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
+        cardView.avatarBgImageView.image = [cardView.avatarBgImageView.image hp_imageWithGaussianBlur: AVATAR_BLUR_RADIUS];
+    }
+}
+
 
 - (void) setVisibility :(User *) user card: (HPCurrentUserCardView *)cardView{
     NSLog(@"visibility = %@",user.visibility);
@@ -177,7 +185,6 @@
     return _isUserPointView;
 }
 
-//==============================================================================
 
 
 @end
