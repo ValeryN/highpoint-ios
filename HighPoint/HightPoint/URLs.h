@@ -9,6 +9,6 @@
 #ifndef HighPoint_URLs_h
 #define HighPoint_URLs_h
 
-static NSString * const kAPIBaseURLString = @"http://192.168.0.63:3002";
+static NSString * const kAPIBaseURLString = @"http://localhost:3002";
 
 #endif
