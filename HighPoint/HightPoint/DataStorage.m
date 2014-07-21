@@ -217,6 +217,25 @@ static DataStorage *dataStorage;
     [self saveContext];
 }
 
+
+- (void) deleteLanguageEntityFromUser :(NSArray *) ids {
+    User *currentUser = [self getCurrentUser];
+    NSMutableArray *languageItems = [[currentUser.language allObjects] mutableCopy];
+    NSMutableArray *discardedItems = [NSMutableArray array];
+    Language *item;
+    for (item in languageItems) {
+        for (int i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+                [discardedItems addObject:item];
+            }
+        }
+    }
+    [languageItems removeObjectsInArray:discardedItems];
+    currentUser.language = [NSSet setWithArray:languageItems];
+    [self saveContext];
+}
+
+
 #pragma mark -
 #pragma mark career entity
 - (Career*) createCareerEntity:(NSDictionary *)param {
@@ -244,7 +263,6 @@ static DataStorage *dataStorage;
 }
 
 - (void) deleteCareerEntityFromUser :(NSArray *) ids {
-    
     User *currentUser = [self getCurrentUser];
     NSMutableArray *careerItems = [[currentUser.career allObjects] mutableCopy];
     NSMutableArray *discardedItems = [NSMutableArray array];
@@ -256,9 +274,7 @@ static DataStorage *dataStorage;
             }
         }
     }
-    
     [careerItems removeObjectsInArray:discardedItems];
-    
     currentUser.career = [NSSet setWithArray:careerItems];
     [self saveContext];
 }
@@ -345,7 +361,22 @@ static DataStorage *dataStorage;
             }
             user.career = [NSSet setWithArray:entArray];
         }
-        
+
+        if([[param objectForKey:@"languageIds"] isKindOfClass:[NSDictionary class]]) {
+            if(![[param objectForKey:@"languageIds"] isKindOfClass:[NSNull class]]) {
+                Language *lan = [self createLanguageEntity: [param objectForKey:@"language"]];
+                lan.user = user;
+                user.language = [NSSet setWithArray:[NSArray arrayWithObjects:lan, nil]];
+            }
+        } else if ([[param objectForKey:@"languageIds"] isKindOfClass:[NSArray class]]) {
+            NSMutableArray *entArray = [NSMutableArray new];
+            for(NSDictionary *t in [param objectForKey:@"career"]) {
+                Language *lan = [self createLanguageEntity:t];
+                lan.user = user;
+                [entArray addObject:[self createLanguageEntity:t]];
+            }
+            user.language = [NSSet setWithArray:entArray];
+        }
         
         NSArray *cityIds;
         NSMutableString *par;

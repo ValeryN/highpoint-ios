@@ -31,6 +31,7 @@
 - (void) addEducationRequest:(NSDictionary*) param;
 - (void) addPlaceRequest:(NSDictionary*) param;
 - (void) addLanguageRequest:(NSString*) langName;
+- (void) deleteLanguageItemRequest:(NSString*) ids;
 - (void) addCareerItemRequest:(NSDictionary*) param;
 - (void) deleteCareerItemRequest:(NSString*) ids;
 - (void) getUsersRequest:(NSInteger) lastUser;

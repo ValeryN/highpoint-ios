@@ -45,6 +45,7 @@
 - (void) addLEducationEntityForUser :(NSDictionary *) param;
 - (Language *) createLanguageEntity:(NSDictionary *)param;
 - (void) addLanguageEntityForUser :(NSDictionary *) param;
+- (void) deleteLanguageEntityFromUser :(NSArray *) ids;
 - (void) addCareerEntityForUser :(NSDictionary *) param;
 - (void) deleteCareerEntityFromUser :(NSArray *) ids;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
