@@ -41,6 +41,7 @@
 - (void) deleteCurrentUser;
 - (Place *) createPlaceEntity:(NSDictionary *)param;
 - (void) addLPlaceEntityForUser :(NSDictionary *) param;
+- (void) deletePlaceEntityFromUser :(NSArray *) id;
 - (Education*) createEducationEntity:(NSDictionary *)param;
 - (void) addLEducationEntityForUser :(NSDictionary *) param;
 - (Language *) createLanguageEntity:(NSDictionary *)param;

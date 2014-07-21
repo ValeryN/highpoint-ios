@@ -169,7 +169,7 @@ static DataStorage *dataStorage;
     [self saveContext];
 }
 
-#pragma mark - places
+#pragma mark - language
 
 - (Language *) createLanguageEntity:(NSDictionary *)param {
     Language *lan = (Language*)[NSEntityDescription insertNewObjectForEntityForName:@"Language" inManagedObjectContext:self.moc];
@@ -193,8 +193,24 @@ static DataStorage *dataStorage;
 }
 
 
+- (void) deleteLanguageEntityFromUser :(NSArray *) ids {
+    User *currentUser = [self getCurrentUser];
+    NSMutableArray *languageItems = [[currentUser.language allObjects] mutableCopy];
+    NSMutableArray *discardedItems = [NSMutableArray array];
+    Language *item;
+    for (item in languageItems) {
+        for (int i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+                [discardedItems addObject:item];
+            }
+        }
+    }
+    [languageItems removeObjectsInArray:discardedItems];
+    currentUser.language = [NSSet setWithArray:languageItems];
+    [self saveContext];
+}
 
-#pragma mark - language
+#pragma mark - place
 - (Place *) createPlaceEntity:(NSDictionary *)param {
     Place *pl = (Place*)[NSEntityDescription insertNewObjectForEntityForName:@"Place" inManagedObjectContext:self.moc];
     pl.id_ = [param objectForKey:@"id"];
@@ -217,23 +233,24 @@ static DataStorage *dataStorage;
     [self saveContext];
 }
 
-
-- (void) deleteLanguageEntityFromUser :(NSArray *) ids {
+- (void) deletePlaceEntityFromUser :(NSArray *) ids {
     User *currentUser = [self getCurrentUser];
-    NSMutableArray *languageItems = [[currentUser.language allObjects] mutableCopy];
+    NSMutableArray *placesItems = [[currentUser.place allObjects] mutableCopy];
     NSMutableArray *discardedItems = [NSMutableArray array];
-    Language *item;
-    for (item in languageItems) {
+    Place *item;
+    for (item in placesItems) {
         for (int i = 0; i < ids.count; i++) {
             if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
                 [discardedItems addObject:item];
             }
         }
     }
-    [languageItems removeObjectsInArray:discardedItems];
-    currentUser.language = [NSSet setWithArray:languageItems];
+    [placesItems removeObjectsInArray:discardedItems];
+    currentUser.place = [NSSet setWithArray:placesItems];
     [self saveContext];
 }
+
+
 
 
 #pragma mark -

@@ -53,11 +53,11 @@
     [self fixUserCardConstraint];
     currentUserCardOrPoint = [HPCurrentUserCardOrPoint new];
     
-//    
-//    User * user = [[DataStorage sharedDataStorage] getCurrentUser];
-//    NSLog(@" prev current user career and edu= %@ ----  %@", user.career, user.education);
-//    NSLog(@" prev cureer = %lu", (unsigned long)[user.language allObjects].count);
-//    [[HPBaseNetworkManager sharedNetworkManager] deleteLanguageItemRequest:@"1,2"];
+    
+    User * user = [[DataStorage sharedDataStorage] getCurrentUser];
+    NSLog(@" prev current user career and edu= %@ ----  %@", user.career, user.education);
+    NSLog(@" prev cureer = %lu", (unsigned long)[user.language allObjects].count);
+    [[HPBaseNetworkManager sharedNetworkManager] deletePlaceItemRequest:@"1,2"];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
