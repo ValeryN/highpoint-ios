@@ -7,7 +7,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPCurrentUserViewController">
             <connections>
+                <outlet property="bottomBtn" destination="zdm-CF-rcl" id="ebG-Ht-Qvl"/>
+                <outlet property="bottomView" destination="X8f-rp-0ds" id="ppn-lR-UtT"/>
                 <outlet property="carousel" destination="7W0-1W-x4E" id="c8I-WI-lt9"/>
+                <outlet property="personalDataDownImgView" destination="hnu-0j-wNf" id="SpQ-Yq-6LO"/>
+                <outlet property="personalDataLabel" destination="lDF-B1-aSM" id="LSz-Ub-Sse"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -16,9 +20,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgP-fK-1cS">
-                    <rect key="frame" x="20" y="31" width="24" height="24"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgP-fK-1cS">
+                    <rect key="frame" x="10" y="30" width="25" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="25" id="aR0-rA-iZg"/>
+                    </constraints>
                     <state key="normal" image="Close">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -27,9 +33,11 @@
                         <action selector="backButtonTap:" destination="-1" eventType="touchUpInside" id="iju-xt-g5L"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zev-Cf-cbc">
-                    <rect key="frame" x="279" y="31" width="26" height="25"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zev-Cf-cbc">
+                    <rect key="frame" x="280" y="30" width="25" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="25" id="4MR-rm-L8d"/>
+                    </constraints>
                     <state key="normal" image="Bubble">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -38,28 +46,36 @@
                         <action selector="bubbleButtonTap:" destination="-1" eventType="touchUpInside" id="75t-lW-2a0"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7W0-1W-x4E" userLabel="Carousel - View" customClass="iCarousel">
-                    <rect key="frame" x="28" y="76" width="264" height="416"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <view contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="7W0-1W-x4E" userLabel="Carousel - View" customClass="iCarousel">
+                    <rect key="frame" x="1" y="76" width="318" height="436"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="416" id="3Yv-mf-Qwa"/>
-                        <constraint firstAttribute="width" constant="264" id="gTK-ee-Xhr"/>
-                    </constraints>
                 </view>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X8f-rp-0ds">
-                    <rect key="frame" x="0.0" y="510" width="320" height="58"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X8f-rp-0ds">
+                    <rect key="frame" x="0.0" y="518" width="320" height="48"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ваш фотоальбом и личные данные" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDF-B1-aSM">
-                            <rect key="frame" x="9" y="17" width="249" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <view alpha="0.14999999999999969" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBB-5X-610">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Down.png" translatesAutoresizingMaskIntoConstraints="NO" id="hnu-0j-wNf">
+                            <rect key="frame" x="278" y="20" width="26" height="12"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="26" id="1KW-53-M2f"/>
+                                <constraint firstAttribute="height" constant="12" id="QHG-c5-xnD"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ваш фотоальбом и личные данные" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDF-B1-aSM">
+                            <rect key="frame" x="10" y="16" width="237" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zdm-CF-rcl">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zdm-CF-rcl">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="48"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="320" id="57j-Yq-6Rc"/>
+                                <constraint firstAttribute="height" constant="48" id="iXx-E6-lLr"/>
+                            </constraints>
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -68,10 +84,35 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="lDF-B1-aSM" firstAttribute="leading" secondItem="X8f-rp-0ds" secondAttribute="leading" constant="10" id="4AY-eZ-869"/>
+                        <constraint firstItem="lDF-B1-aSM" firstAttribute="centerY" secondItem="hnu-0j-wNf" secondAttribute="centerY" constant="-1.5" id="8kE-KS-kRL"/>
+                        <constraint firstItem="zdm-CF-rcl" firstAttribute="leading" secondItem="X8f-rp-0ds" secondAttribute="leading" id="J7I-Et-mzG"/>
+                        <constraint firstItem="zdm-CF-rcl" firstAttribute="centerY" secondItem="lDF-B1-aSM" secondAttribute="centerY" id="Spl-07-TXV"/>
+                        <constraint firstAttribute="bottom" secondItem="hnu-0j-wNf" secondAttribute="bottom" constant="16" id="i69-ve-jfZ"/>
+                        <constraint firstAttribute="trailing" secondItem="hnu-0j-wNf" secondAttribute="trailing" constant="16" id="wmM-nM-OeF"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="X8f-rp-0ds" secondAttribute="bottom" constant="2" id="4Ko-oz-E27"/>
+                <constraint firstItem="zev-Cf-cbc" firstAttribute="top" secondItem="vgP-fK-1cS" secondAttribute="top" id="9g2-lm-7BS"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="X8f-rp-0ds" secondAttribute="bottom" constant="2" id="C6M-6z-wc3"/>
+                <constraint firstItem="7W0-1W-x4E" firstAttribute="top" secondItem="zev-Cf-cbc" secondAttribute="bottom" constant="21" id="DHc-eM-cmR"/>
+                <constraint firstItem="7W0-1W-x4E" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="76" id="KxX-Hi-HUC"/>
+                <constraint firstItem="X8f-rp-0ds" firstAttribute="top" secondItem="7W0-1W-x4E" secondAttribute="bottom" constant="6" id="Mp8-Rk-Lff"/>
+                <constraint firstItem="X8f-rp-0ds" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Wi2-vz-ShB"/>
+                <constraint firstItem="X8f-rp-0ds" firstAttribute="top" secondItem="7W0-1W-x4E" secondAttribute="bottom" constant="6" id="YiV-PS-jEM"/>
+                <constraint firstItem="X8f-rp-0ds" firstAttribute="centerX" secondItem="7W0-1W-x4E" secondAttribute="centerX" id="Z5b-Ba-WIc"/>
+                <constraint firstAttribute="trailing" secondItem="zev-Cf-cbc" secondAttribute="trailing" constant="15" id="gpS-ki-Wrt"/>
+                <constraint firstItem="zev-Cf-cbc" firstAttribute="bottom" secondItem="vgP-fK-1cS" secondAttribute="bottom" id="jkk-1C-hKH"/>
+                <constraint firstItem="7W0-1W-x4E" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="1" id="lVc-Fp-Tq8"/>
+                <constraint firstAttribute="trailing" secondItem="X8f-rp-0ds" secondAttribute="trailing" id="qRs-qo-9cm"/>
+                <constraint firstItem="X8f-rp-0ds" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="518" id="ujZ-VY-sb4"/>
+                <constraint firstItem="vgP-fK-1cS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="v39-pQ-9zj"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
@@ -81,5 +122,6 @@
         <image name="Bubble Tap" width="26" height="25"/>
         <image name="Close" width="24" height="24"/>
         <image name="Close Tap" width="24" height="24"/>
+        <image name="Down.png" width="46" height="24"/>
     </resources>
 </document>

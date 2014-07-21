@@ -2,7 +2,7 @@
 //  Education.h
 //  HighPoint
 //
-//  Created by Andrey Anisimov on 26.06.14.
+//  Created by Julia Pozdnyakova on 18.07.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -18,6 +18,8 @@
 @property (nonatomic, retain) NSNumber * schoolId;
 @property (nonatomic, retain) NSNumber * specialityId;
 @property (nonatomic, retain) NSNumber * toYear;
+@property (nonatomic, retain) NSManagedObject *school;
+@property (nonatomic, retain) NSManagedObject *speciality;
 @property (nonatomic, retain) User *user;
 
 @end

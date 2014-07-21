@@ -20,6 +20,9 @@
 #import "HPChatListViewController.h"
 #import "HPCurrentUserViewController.h"
 #import "NotificationsConstants.h"
+#import "User.h"
+#import "Career.h"
+#import "Education.h"
 
 
 //==============================================================================
@@ -47,6 +50,12 @@
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
 
+    User * user = [[DataStorage sharedDataStorage] getCurrentUser];
+    NSLog(@"current user career and edu= %@ ----  %@", user.career, user.education);
+    NSLog(@"cureer = %lu", (unsigned long)[user.career allObjects].count);
+    NSLog(@"cureer = %lu", (unsigned long)[user.education allObjects].count);
+    
+    
     //socket init
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"localhost",@"host", @"3002",@"port", nil];
     [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
@@ -117,7 +126,7 @@
 
 - (void) configureNavigationBar
 {
-    [self.navigationController hp_configureNavigationBarForUserList];
+    [self.navigationController hp_configureNavigationBar];
     self.navigationController.delegate = self;
 
     self.notificationView = [Utils getNotificationViewForText: @"8"];

@@ -9,17 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "UserCardOrPointProtocol.h"
 #import "User.h"
+#import "HPCurrentUserCardView.h"
+#import "HPCurrentUserPointView.h"
 
 @interface HPCurrentUserCardOrPoint : NSObject
 {
     BOOL _isUserPointView;
 }
 
+@property (strong, nonatomic) HPCurrentUserPointView* pointView;
+@property (strong, nonatomic) HPCurrentUserCardView* cardView;
+
+
 - (UIView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user;
 - (UIView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user;
 - (BOOL) isUserPoint;
 - (BOOL) switchUserPoint;
 
+
+- (void) addPointInfoView: (NSObject<UserCardOrPointProtocol>*) delegate;
 
 
 @end

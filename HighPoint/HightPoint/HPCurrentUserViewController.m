@@ -14,8 +14,16 @@
 #import "HPCurrentUserCardOrPointView.h"
 #import "HPUserInfoViewController.h"
 #import "DataStorage.h"
+#import "UILabel+HighPoint.h"
+#import "UIDevice+HighPoint.h"
+#import "UIButton+HighPoint.h"
+#import "HPBaseNetworkManager.h"
+#import "HPPointLikesViewController.h"
 
 #define FLIP_ANIMATION_SPEED 0.5
+#define CONSTRAINT_TOP_FOR_CAROUSEL 76
+#define CONSTRAINT_WIDE_TOP_FOR_CAROUSEL 80
+#define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
 
 @interface HPCurrentUserViewController ()
 
@@ -24,6 +32,7 @@
 @implementation HPCurrentUserViewController {
     HPCurrentUserPointView *userPointView;
     HPCurrentUserCardOrPoint *currentUserCardOrPoint;
+    HPCurrentUserCardOrPointView *currentUserCardOrPointView;
     User *currentUser;
 }
 
@@ -41,8 +50,8 @@
     [super viewDidLoad];
     self.carousel.dataSource = self;
     self.carousel.delegate = self;
+    [self fixUserCardConstraint];
     currentUserCardOrPoint = [HPCurrentUserCardOrPoint new];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -57,6 +66,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - button handlers
 
 - (IBAction)backButtonTap:(id)sender {
     [self.navigationController popViewControllerAnimated: YES];
@@ -67,6 +77,152 @@
     [self.navigationController pushViewController:chatList animated:YES];
 }
 
+-(void) cancelTaped {
+    [currentUserCardOrPoint.pointView endEditing:YES];
+    
+    float deltaY = (currentUserCardOrPoint.pointView.pointOptionsView.hidden) ? 110 : 145;
+    currentUserCardOrPoint.pointView.pointOptionsView.hidden = YES;
+    currentUserCardOrPoint.pointView.publishPointBtn.hidden = NO;
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         currentUserCardOrPoint.pointView.frame = CGRectMake(currentUserCardOrPoint.pointView.frame.origin.x, currentUserCardOrPoint.pointView.frame.origin.y + deltaY,currentUserCardOrPoint.pointView.frame.size.width, currentUserCardOrPoint.pointView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         [self showBottomBar];
+                     }];
+    [self hideNavigationItem];
+}
+
+-(void) doneTaped {
+    [self.view endEditing:YES];
+    [currentUserCardOrPointView addPointOptionsViewToCard:currentUserCardOrPoint delegate:self];
+}
+
+-(void) shareTaped {
+    [currentUserCardOrPoint.pointView endEditing:YES];
+    
+    float deltaY = (currentUserCardOrPoint.pointView.pointOptionsView.hidden) ? 110 : 145;
+    currentUserCardOrPoint.pointView.pointOptionsView.hidden = YES;
+    currentUserCardOrPoint.pointView.publishPointBtn.hidden = YES;
+    currentUserCardOrPoint.pointView.deletePointBtn.hidden = NO;
+    
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         currentUserCardOrPoint.pointView.frame = CGRectMake(currentUserCardOrPoint.pointView.frame.origin.x, currentUserCardOrPoint.pointView.frame.origin.y + deltaY,currentUserCardOrPoint.pointView.frame.size.width, currentUserCardOrPoint.pointView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         [self showBottomBar];
+                     }];
+    [self hideNavigationItem];
+    NSLog(@"share tap");
+}
+
+
+
+#pragma mark - navigation item configure
+
+- (void) showNavigationItem {
+    [self.navigationController setNavigationBarHidden:NO];
+    [self.carousel setScrollEnabled:NO];
+}
+
+- (void) hideNavigationItem {
+    [self.navigationController setNavigationBarHidden:YES];
+    [self.carousel setScrollEnabled:YES];
+}
+
+- (void) configurePublishPointNavigationItem
+{
+    UIButton *doneBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    doneBtn.exclusiveTouch = YES;
+    [doneBtn setFrame:CGRectMake(0, 0, 50, 30)];
+    [doneBtn addTarget:self action:@selector(doneTaped) forControlEvents:UIControlEventTouchUpInside];
+    [doneBtn setTitle:NSLocalizedString(@"DONE_BTN", nil) forState: UIControlStateNormal];
+    [doneBtn setTitle:NSLocalizedString(@"DONE_BTN", nil) forState: UIControlStateHighlighted];
+    [doneBtn hp_tuneFontForGreenButton];
+    UIBarButtonItem *itemDone = [[UIBarButtonItem alloc]initWithCustomView:doneBtn];
+    self.navigationItem.rightBarButtonItem = itemDone;
+
+    UIButton *cancelBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    cancelBtn.exclusiveTouch = YES;
+    [cancelBtn setFrame:CGRectMake(0, 0, 80, 30)];
+    [cancelBtn addTarget:self action:@selector(cancelTaped) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState: UIControlStateNormal];
+    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState: UIControlStateHighlighted];
+    [cancelBtn hp_tuneFontForGreenButton];
+    UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc]initWithCustomView:cancelBtn];
+    self.navigationItem.leftBarButtonItem = itemCancel;
+}
+
+
+- (void) configureSendPointNavigationItem
+{
+    UIButton *doneBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    doneBtn.exclusiveTouch = YES;
+    [doneBtn setFrame:CGRectMake(0, 0, 120, 30)];
+    [doneBtn addTarget:self action:@selector(shareTaped) forControlEvents:UIControlEventTouchUpInside];
+    [doneBtn setTitle:NSLocalizedString(@"PUBLISH_BTN", nil) forState: UIControlStateNormal];
+    [doneBtn setTitle:NSLocalizedString(@"PUBLISH_BTN", nil) forState: UIControlStateHighlighted];
+    [doneBtn hp_tuneFontForGreenButton];
+    UIBarButtonItem *itemDone = [[UIBarButtonItem alloc]initWithCustomView:doneBtn];
+    self.navigationItem.rightBarButtonItem = itemDone;
+    
+    UIButton *cancelBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    cancelBtn.exclusiveTouch = YES;
+    [cancelBtn setFrame:CGRectMake(0, 0, 80, 30)];
+    [cancelBtn addTarget:self action:@selector(cancelTaped) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState: UIControlStateNormal];
+    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState: UIControlStateHighlighted];
+    [cancelBtn hp_tuneFontForGreenButton];
+    UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc]initWithCustomView:cancelBtn];
+    self.navigationItem.leftBarButtonItem = itemCancel;
+}
+
+#pragma mark - bottom bar configure
+
+- (void) hideBottomBar {
+    self.bottomView.hidden = YES;
+}
+
+- (void) showBottomBar {
+    self.bottomView.hidden = NO;
+}
+
+
+#pragma mark - constraint
+- (void) fixUserCardConstraint
+{
+    CGFloat topCarousel = CONSTRAINT_WIDE_TOP_FOR_CAROUSEL;
+    if (![UIDevice hp_isWideScreen])
+        topCarousel = CONSTRAINT_TOP_FOR_CAROUSEL;
+    
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.carousel
+//                                                          attribute: NSLayoutAttributeTop
+//                                                          relatedBy: NSLayoutRelationEqual
+//                                                             toItem: self.view
+//                                                          attribute: NSLayoutAttributeTop
+//                                                         multiplier: 1.0
+//                                                           constant: topCarousel]];
+    
+    if (![UIDevice hp_isWideScreen])
+    {
+        
+        NSArray* cons = self.carousel.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeHeight) &&
+                (consIter.firstItem == self.carousel))
+                consIter.constant = CONSTRAINT_HEIGHT_FOR_CAROUSEL;
+        }
+    }
+}
+
+
+#pragma mark - bottom btn
+- (void) showUserAlbumAndInfo {
+    self.personalDataLabel.text = NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
+    [self.personalDataLabel hp_tuneForUserListCellPointText];
+}
 
 
 #pragma mark - iCarousel data source -
@@ -80,7 +236,9 @@
 {
     
     if (index == 0) {
-        view = [[HPCurrentUserCardOrPointView alloc] initWithCardOrPoint: currentUserCardOrPoint delegate: self user:currentUser];
+        
+        currentUserCardOrPointView = [[HPCurrentUserCardOrPointView alloc] initWithCardOrPoint: currentUserCardOrPoint delegate: self user:currentUser];
+        view = currentUserCardOrPointView;
     }
     if (index == 1) {
         view = [[HPConciergeViewController alloc] initWithNibName:@"HPConciergeViewController" bundle:nil].view;
@@ -89,8 +247,7 @@
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 264, 416)];
         view.backgroundColor = [UIColor whiteColor];
     }
-    CGRect rect = CGRectMake(14, 0, [UIScreen mainScreen].bounds.size.width - 30, 380);
-    view.frame = rect;
+    
     return view;
 }
 
@@ -120,16 +277,12 @@
     return 320;
 }
 
-#pragma mark - User card delegate -
-
+#pragma mark - User card delegate
 
 - (void) switchButtonPressed
 {
-    NSLog(@"switch press");
-
     HPCurrentUserCardOrPointView* container = (HPCurrentUserCardOrPointView*)self.carousel.currentItemView;
     [currentUserCardOrPoint switchUserPoint];
-
     [UIView transitionWithView: container
                       duration: FLIP_ANIMATION_SPEED
                        options: UIViewAnimationOptionTransitionFlipFromRight
@@ -144,8 +297,13 @@
 #pragma mark - user info
 
 - (IBAction)bottomTap:(id)sender {
-    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
-    [self.navigationController pushViewController:uiController animated:YES];
+    if ([currentUserCardOrPoint isUserPoint]) {
+        HPPointLikesViewController* plController = [[HPPointLikesViewController alloc] initWithNibName: @"HPPointLikesViewController" bundle: nil];
+        [self.navigationController pushViewController:plController animated:YES];
+    } else {
+        HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
+        [self.navigationController pushViewController:uiController animated:YES];
+    }
 }
 
 @end

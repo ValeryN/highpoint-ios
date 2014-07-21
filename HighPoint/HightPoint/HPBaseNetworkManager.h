@@ -28,6 +28,11 @@
 - (void) makePointUnLikeRequest:(NSNumber*) pointId;
 - (void) getApplicationSettingsRequest;
 - (void) getCurrentUserRequest;
+- (void) addEducationRequest:(NSDictionary*) param;
+- (void) addPlaceRequest:(NSDictionary*) param;
+- (void) addLanguageRequest:(NSString*) langName;
+- (void) addCareerItemRequest:(NSDictionary*) param;
+- (void) deleteCareerItemRequest:(NSString*) ids;
 - (void) getUsersRequest:(NSInteger) lastUser;
 - (void) getPointsRequest:(NSInteger) lastPoint;
 //- (User*) getCurrentUser;

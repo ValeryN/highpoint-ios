@@ -21,6 +21,23 @@
 @property (weak, nonatomic) IBOutlet UITextView *pointTextView;
 @property (weak, nonatomic) IBOutlet UILabel *pointInfoLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *bgAvatarImageView;
+@property (weak, nonatomic) IBOutlet UIButton *publishPointBtn;
+@property (weak, nonatomic) IBOutlet UIButton *deletePointBtn;
+
+//add point
+@property (weak, nonatomic) IBOutlet UIView *pointOptionsView;
+@property (weak, nonatomic) IBOutlet UISlider *pointTimeSlider;
+@property (weak, nonatomic) IBOutlet UILabel *pointTimeInfo;
+@property (weak, nonatomic) IBOutlet UIButton *sharePointBtn;
+
+//delete point
+@property (weak, nonatomic) IBOutlet UIView *deletePointView;
+@property (weak, nonatomic) IBOutlet UILabel *deletePointInfoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *deletePointModalBtn;
+@property (weak, nonatomic) IBOutlet UIButton *cancelDeleteModalBtn;
+
+
+
 
 - (void) initObjects;
 - (void) setBlurForAvatar;

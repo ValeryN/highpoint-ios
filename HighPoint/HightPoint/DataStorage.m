@@ -153,6 +153,116 @@ static DataStorage *dataStorage;
     edu.toYear = [param objectForKey:@"toYear"];
     return edu;
 }
+
+
+- (void) addLEducationEntityForUser :(NSDictionary *) param {
+    Education *ed = [self createEducationEntity: param];
+    User *currentUser = [self getCurrentUser];
+    
+    NSMutableArray *education = [[currentUser.education allObjects] mutableCopy];
+    if (education != nil) {
+        [education addObject:ed];
+    } else {
+        education = [[NSMutableArray alloc] init];
+    }
+    currentUser.education = [NSSet setWithArray:education];
+    [self saveContext];
+}
+
+#pragma mark - places
+
+- (Language *) createLanguageEntity:(NSDictionary *)param {
+    Language *lan = (Language*)[NSEntityDescription insertNewObjectForEntityForName:@"Language" inManagedObjectContext:self.moc];
+    lan.id_ = [param objectForKey:@"id"];
+    lan.name = [param objectForKey:@"name"];
+    return lan;
+}
+
+- (void) addLanguageEntityForUser :(NSDictionary *) param {
+    Language *lan = [self createLanguageEntity: param];
+    User *currentUser = [self getCurrentUser];
+    
+    NSMutableArray *languages = [[currentUser.language allObjects] mutableCopy];
+    if (languages != nil) {
+        [languages addObject:lan];
+    } else {
+        languages = [[NSMutableArray alloc] init];
+    }
+    currentUser.language = [NSSet setWithArray:languages];
+    [self saveContext];
+}
+
+
+
+#pragma mark - language
+- (Place *) createPlaceEntity:(NSDictionary *)param {
+    Place *pl = (Place*)[NSEntityDescription insertNewObjectForEntityForName:@"Place" inManagedObjectContext:self.moc];
+    pl.id_ = [param objectForKey:@"id"];
+    pl.cityId = [param objectForKey:@"cityId"];
+    pl.name = [param objectForKey:@"name"];
+    return pl;
+}
+
+- (void) addLPlaceEntityForUser :(NSDictionary *) param {
+    Place *pl = [self createPlaceEntity: param];
+    User *currentUser = [self getCurrentUser];
+    
+    NSMutableArray *places = [[currentUser.place allObjects] mutableCopy];
+    if (places != nil) {
+        [places addObject:pl];
+    } else {
+        places = [[NSMutableArray alloc] init];
+    }
+    currentUser.place = [NSSet setWithArray:places];
+    [self saveContext];
+}
+
+#pragma mark -
+#pragma mark career entity
+- (Career*) createCareerEntity:(NSDictionary *)param {
+    Career *car = (Career*)[NSEntityDescription insertNewObjectForEntityForName:@"Career" inManagedObjectContext:self.moc];
+    car.id_ = [param objectForKey:@"id"];
+    car.fromYear = [param objectForKey:@"fromYear"];
+    car.companyId = [param objectForKey:@"companyId"];
+    car.postId = [param objectForKey:@"postId"];
+    car.toYear = [param objectForKey:@"toYear"];
+    return car;
+}
+
+
+- (void) addCareerEntityForUser :(NSDictionary *) param {
+    Career *ca = [self createCareerEntity: param];
+    User *currentUser = [self getCurrentUser];
+    NSMutableArray *careerItems = [[currentUser.career allObjects] mutableCopy];
+    if (careerItems != nil) {
+        [careerItems addObject:ca];
+    } else {
+        careerItems = [[NSMutableArray alloc] init];
+    }
+    currentUser.career = [NSSet setWithArray:careerItems];
+    [self saveContext];
+}
+
+- (void) deleteCareerEntityFromUser :(NSArray *) ids {
+    
+    User *currentUser = [self getCurrentUser];
+    NSMutableArray *careerItems = [[currentUser.career allObjects] mutableCopy];
+    NSMutableArray *discardedItems = [NSMutableArray array];
+    Career *item;
+    for (item in careerItems) {
+        for (int i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+                [discardedItems addObject:item];
+            }
+        }
+    }
+    
+    [careerItems removeObjectsInArray:discardedItems];
+    
+    currentUser.career = [NSSet setWithArray:careerItems];
+    [self saveContext];
+}
+
 #pragma mark -
 #pragma mark avatar entity
 - (Avatar*) createAvatarEntity:(NSDictionary *)param {
@@ -217,6 +327,26 @@ static DataStorage *dataStorage;
             }
             user.education = [NSSet setWithArray:entArray];
         }
+        
+        if([[param objectForKey:@"career"] isKindOfClass:[NSDictionary class]]) {
+            
+            if(![[param objectForKey:@"career"] isKindOfClass:[NSNull class]]) {
+                Career *ca = [self createCareerEntity: [param objectForKey:@"career"]];
+                ca.user = user;
+                user.career = [NSSet setWithArray:[NSArray arrayWithObjects:ca, nil]];
+            }
+            
+        } else if ([[param objectForKey:@"career"] isKindOfClass:[NSArray class]]) {
+            NSMutableArray *entArray = [NSMutableArray new];
+            for(NSDictionary *t in [param objectForKey:@"career"]) {
+                Career *ca = [self createCareerEntity:t];
+                ca.user = user;
+                [entArray addObject:[self createCareerEntity:t]];
+            }
+            user.career = [NSSet setWithArray:entArray];
+        }
+        
+        
         NSArray *cityIds;
         NSMutableString *par;
         if(![[param objectForKey:@"favoriteCityIds"] isKindOfClass:[NSNull class]]) {

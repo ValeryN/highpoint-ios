@@ -32,45 +32,59 @@
                         <action selector="pointBtnTap:" destination="yAe-kx-a7h" eventType="touchUpInside" id="P6I-hH-HfS"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3G-Sh-g0b">
-                    <rect key="frame" x="20" y="368" width="35" height="35"/>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3G-Sh-g0b">
+                    <rect key="frame" x="38" y="381" width="35" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="JSZ-tb-FCI"/>
+                        <constraint firstAttribute="width" constant="35" id="Y5x-xR-WrX"/>
+                    </constraints>
                     <state key="normal" backgroundImage="Eye">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <state key="selected" backgroundImage="Eye Active.png"/>
+                    <state key="highlighted" backgroundImage="Eye Tap.png"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4i4-q3-fTU">
-                    <rect key="frame" x="115" y="368" width="35" height="35"/>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4i4-q3-fTU">
+                    <rect key="frame" x="115" y="380" width="35" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="3qf-Fm-DXC"/>
+                        <constraint firstAttribute="width" constant="35" id="APW-yw-tj7"/>
+                    </constraints>
                     <state key="normal" backgroundImage="Lock">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="selected" backgroundImage="Lock Active.png"/>
                     <state key="highlighted" backgroundImage="Lock Tap.png"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j6g-Ir-XZG">
-                    <rect key="frame" x="209" y="368" width="35" height="35"/>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j6g-Ir-XZG">
+                    <rect key="frame" x="195" y="380" width="35" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="LOl-KI-OyB"/>
+                        <constraint firstAttribute="width" constant="35" id="h8u-15-4M7"/>
+                    </constraints>
                     <state key="normal" backgroundImage="Eye"/>
                     <state key="selected" backgroundImage="Eye Active.png"/>
                     <state key="highlighted" backgroundImage="Eye Tap.png"/>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Октябрина" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l88-ia-VTe">
-                    <rect key="frame" x="27" y="271" width="210" height="21"/>
+                    <rect key="frame" x="0.0" y="287" width="262" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="30 лет, Москва" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9tI-2J-neg">
-                    <rect key="frame" x="20" y="306" width="224" height="21"/>
+                    <rect key="frame" x="20" y="310" width="224" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Профиль виден всем" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i41-oS-GbK">
-                    <rect key="frame" x="20" y="242" width="224" height="21"/>
+                    <rect key="frame" x="20" y="245" width="224" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -87,6 +101,10 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="AHz-RI-r0T" firstAttribute="top" secondItem="yAe-kx-a7h" secondAttribute="top" id="T0J-Zn-phA"/>
+                <constraint firstItem="j6g-Ir-XZG" firstAttribute="leading" secondItem="4i4-q3-fTU" secondAttribute="trailing" constant="45" id="Ups-b5-GS6"/>
+                <constraint firstItem="4i4-q3-fTU" firstAttribute="leading" secondItem="z3G-Sh-g0b" secondAttribute="trailing" constant="42" id="be6-XI-aUF"/>
+                <constraint firstItem="z3G-Sh-g0b" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" constant="38" id="id1-ee-lNc"/>
+                <constraint firstAttribute="trailing" secondItem="j6g-Ir-XZG" secondAttribute="trailing" constant="34" id="leJ-zU-2VC"/>
                 <constraint firstItem="AHz-RI-r0T" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" id="uow-3p-cCp"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
