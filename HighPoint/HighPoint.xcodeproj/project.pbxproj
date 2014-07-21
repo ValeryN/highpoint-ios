@@ -192,6 +192,10 @@
 		CD55FD2C19792C30003EE9E9 /* Speciality.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD2B19792C30003EE9E9 /* Speciality.m */; };
 		CD55FD2F19792C30003EE9E9 /* Career.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD2E19792C30003EE9E9 /* Career.m */; };
 		CD68A9C4196D0DE80090D6D1 /* TLSwipeForOptionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD68A9C2196D0DE80090D6D1 /* TLSwipeForOptionsCell.m */; };
+		CD6D7A8C197CDA6D0002E8A0 /* HPPointLikesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6D7A8A197CDA6D0002E8A0 /* HPPointLikesViewController.m */; };
+		CD6D7A8D197CDA6D0002E8A0 /* HPPointLikesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD6D7A8B197CDA6D0002E8A0 /* HPPointLikesViewController.xib */; };
+		CD6D7A90197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6D7A8F197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m */; };
+		CD6D7A92197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD6D7A91197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib */; };
 		CD7C994D1973A2DF00F1AAAB /* HPCurrentUserPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C994C1973A2DF00F1AAAB /* HPCurrentUserPointView.m */; };
 		CD7C99501973A38900F1AAAB /* HPCurrentUserCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C994F1973A38900F1AAAB /* HPCurrentUserCardView.m */; };
 		CD7C99521973A63700F1AAAB /* HPCurrentUserPointView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7C99511973A63700F1AAAB /* HPCurrentUserPointView.xib */; };
@@ -503,6 +507,12 @@
 		CD55FD2E19792C30003EE9E9 /* Career.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Career.m; sourceTree = "<group>"; };
 		CD68A9C1196D0DE80090D6D1 /* TLSwipeForOptionsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLSwipeForOptionsCell.h; sourceTree = "<group>"; };
 		CD68A9C2196D0DE80090D6D1 /* TLSwipeForOptionsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLSwipeForOptionsCell.m; sourceTree = "<group>"; };
+		CD6D7A89197CDA6D0002E8A0 /* HPPointLikesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPPointLikesViewController.h; sourceTree = "<group>"; };
+		CD6D7A8A197CDA6D0002E8A0 /* HPPointLikesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPPointLikesViewController.m; sourceTree = "<group>"; };
+		CD6D7A8B197CDA6D0002E8A0 /* HPPointLikesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPPointLikesViewController.xib; sourceTree = "<group>"; };
+		CD6D7A8E197CE3190002E8A0 /* HPPointLikeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPPointLikeCollectionViewCell.h; sourceTree = "<group>"; };
+		CD6D7A8F197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPPointLikeCollectionViewCell.m; sourceTree = "<group>"; };
+		CD6D7A91197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPPointLikeCollectionViewCell.xib; sourceTree = "<group>"; };
 		CD7C994B1973A2DF00F1AAAB /* HPCurrentUserPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserPointView.h; sourceTree = "<group>"; };
 		CD7C994C1973A2DF00F1AAAB /* HPCurrentUserPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserPointView.m; sourceTree = "<group>"; };
 		CD7C994E1973A38900F1AAAB /* HPCurrentUserCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserCardView.h; sourceTree = "<group>"; };
@@ -866,6 +876,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */,
 				CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */,
 				CDA22EE0196FB22A0032210F /* ConciergeViewController */,
 				CDE0BDCE196E86F000CBCF58 /* CurrentUserCardPoint */,
@@ -1173,6 +1184,19 @@
 			path = External/TLSwipeForOptionsCell;
 			sourceTree = "<group>";
 		};
+		CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CD6D7A89197CDA6D0002E8A0 /* HPPointLikesViewController.h */,
+				CD6D7A8A197CDA6D0002E8A0 /* HPPointLikesViewController.m */,
+				CD6D7A8B197CDA6D0002E8A0 /* HPPointLikesViewController.xib */,
+				CD6D7A8E197CE3190002E8A0 /* HPPointLikeCollectionViewCell.h */,
+				CD6D7A8F197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m */,
+				CD6D7A91197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib */,
+			);
+			name = PointLikesViewController;
+			sourceTree = "<group>";
+		};
 		CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1359,6 +1383,7 @@
 				4C91C1EB1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */,
 				CD7C995F1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib in Resources */,
 				CDFA8A21196BEA6200D04451 /* Switcher-R.png in Resources */,
+				CD6D7A8D197CDA6D0002E8A0 /* HPPointLikesViewController.xib in Resources */,
 				CDFA8A20196BEA6200D04451 /* Switcher-L.png in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
 				CD7C99541973A68700F1AAAB /* HPCurrentUserCardView.xib in Resources */,
@@ -1392,6 +1417,7 @@
 				3B3170A4191B7A1D00B72AC1 /* img_sample.png in Resources */,
 				3B318653191A674A0000DD8B /* Notice-C.png in Resources */,
 				3B298FC3192F476100BEC2AA /* slider-default7-handle.png in Resources */,
+				CD6D7A92197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib in Resources */,
 				3B298FCD192F476100BEC2AA /* slider-metal-handle.png in Resources */,
 				3B298FCE192F476100BEC2AA /* slider-metal-handle@2x.png in Resources */,
 				3B318657191A6C6D0000DD8B /* Notice-R.png in Resources */,
@@ -1491,6 +1517,7 @@
 				CD55FD1D19792610003EE9E9 /* User.m in Sources */,
 				3B49DE211934CEF000C3EF1E /* HPSlideUpAnimation.m in Sources */,
 				CD55FD2619792C30003EE9E9 /* Education.m in Sources */,
+				CD6D7A8C197CDA6D0002E8A0 /* HPPointLikesViewController.m in Sources */,
 				CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */,
 				3B39D328195C5B5C002520B9 /* Region.m in Sources */,
 				4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */,
@@ -1544,6 +1571,7 @@
 				3BDA4C8D19064E5900EF6619 /* MKAnnotationView+WebCache.m in Sources */,
 				4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */,
 				CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */,
+				CD6D7A90197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m in Sources */,
 				CDFA8A00196BB68000D04451 /* City.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,

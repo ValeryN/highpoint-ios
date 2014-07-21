@@ -15,11 +15,11 @@
 
 #define ANIMATION_SPEED 0.5
 
-//==============================================================================
+
 
 @implementation UINavigationController (HighPoint)
 
-//==============================================================================
+
 
 - (void) hp_presentViewController: (UIViewController*) vc
 {
@@ -31,7 +31,7 @@
     [self pushViewController: vc animated: NO];
 }
 
-//==============================================================================
+
 
 - (void) hp_popViewController
 {
@@ -41,7 +41,7 @@
     [self popViewControllerAnimated: NO];
 }
 
-//==============================================================================
+
 
 - (CATransition*) createTransition
 {
@@ -54,9 +54,9 @@
     return transition;
 }
 
-//==============================================================================
 
-- (void) hp_configureNavigationBarForUserList
+
+- (void) hp_configureNavigationBar
 {
     UIColor* color = [UIColor colorWithRed: 230.0 / 255.0
                             green: 236.0 / 255.0
@@ -70,6 +70,6 @@
                                                             }];
 }
 
-//==============================================================================
+
 
 @end

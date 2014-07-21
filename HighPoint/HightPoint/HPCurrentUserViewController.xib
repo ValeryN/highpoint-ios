@@ -51,7 +51,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X8f-rp-0ds">
-                    <rect key="frame" x="0.0" y="520" width="320" height="48"/>
+                    <rect key="frame" x="0.0" y="518" width="320" height="48"/>
                     <subviews>
                         <view alpha="0.14999999999999969" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBB-5X-610">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
@@ -64,8 +64,8 @@
                                 <constraint firstAttribute="height" constant="12" id="QHG-c5-xnD"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Ваш фотоальбом и личные данные" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDF-B1-aSM">
-                            <rect key="frame" x="10" y="16" width="245" height="17"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ваш фотоальбом и личные данные" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDF-B1-aSM">
+                            <rect key="frame" x="10" y="16" width="237" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -97,19 +97,20 @@
             </subviews>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="X8f-rp-0ds" secondAttribute="bottom" id="4Ko-oz-E27"/>
+                <constraint firstAttribute="bottom" secondItem="X8f-rp-0ds" secondAttribute="bottom" constant="2" id="4Ko-oz-E27"/>
                 <constraint firstItem="zev-Cf-cbc" firstAttribute="top" secondItem="vgP-fK-1cS" secondAttribute="top" id="9g2-lm-7BS"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="X8f-rp-0ds" secondAttribute="bottom" constant="2" id="C6M-6z-wc3"/>
                 <constraint firstItem="7W0-1W-x4E" firstAttribute="top" secondItem="zev-Cf-cbc" secondAttribute="bottom" constant="21" id="DHc-eM-cmR"/>
                 <constraint firstItem="7W0-1W-x4E" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="76" id="KxX-Hi-HUC"/>
-                <constraint firstItem="X8f-rp-0ds" firstAttribute="top" secondItem="7W0-1W-x4E" secondAttribute="bottom" constant="8" id="Mp8-Rk-Lff"/>
+                <constraint firstItem="X8f-rp-0ds" firstAttribute="top" secondItem="7W0-1W-x4E" secondAttribute="bottom" constant="6" id="Mp8-Rk-Lff"/>
                 <constraint firstItem="X8f-rp-0ds" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Wi2-vz-ShB"/>
-                <constraint firstItem="X8f-rp-0ds" firstAttribute="top" secondItem="7W0-1W-x4E" secondAttribute="bottom" constant="8" symbolic="YES" id="YiV-PS-jEM"/>
+                <constraint firstItem="X8f-rp-0ds" firstAttribute="top" secondItem="7W0-1W-x4E" secondAttribute="bottom" constant="6" id="YiV-PS-jEM"/>
                 <constraint firstItem="X8f-rp-0ds" firstAttribute="centerX" secondItem="7W0-1W-x4E" secondAttribute="centerX" id="Z5b-Ba-WIc"/>
                 <constraint firstAttribute="trailing" secondItem="zev-Cf-cbc" secondAttribute="trailing" constant="15" id="gpS-ki-Wrt"/>
                 <constraint firstItem="zev-Cf-cbc" firstAttribute="bottom" secondItem="vgP-fK-1cS" secondAttribute="bottom" id="jkk-1C-hKH"/>
                 <constraint firstItem="7W0-1W-x4E" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="1" id="lVc-Fp-Tq8"/>
                 <constraint firstAttribute="trailing" secondItem="X8f-rp-0ds" secondAttribute="trailing" id="qRs-qo-9cm"/>
-                <constraint firstItem="X8f-rp-0ds" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="520" id="ujZ-VY-sb4"/>
+                <constraint firstItem="X8f-rp-0ds" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="518" id="ujZ-VY-sb4"/>
                 <constraint firstItem="vgP-fK-1cS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="v39-pQ-9zj"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

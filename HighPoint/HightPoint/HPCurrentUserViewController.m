@@ -18,6 +18,7 @@
 #import "UIDevice+HighPoint.h"
 #import "UIButton+HighPoint.h"
 #import "HPBaseNetworkManager.h"
+#import "HPPointLikesViewController.h"
 
 #define FLIP_ANIMATION_SPEED 0.5
 #define CONSTRAINT_TOP_FOR_CAROUSEL 76
@@ -296,8 +297,13 @@
 #pragma mark - user info
 
 - (IBAction)bottomTap:(id)sender {
-    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
-    [self.navigationController pushViewController:uiController animated:YES];
+    if ([currentUserCardOrPoint isUserPoint]) {
+        HPPointLikesViewController* plController = [[HPPointLikesViewController alloc] initWithNibName: @"HPPointLikesViewController" bundle: nil];
+        [self.navigationController pushViewController:plController animated:YES];
+    } else {
+        HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
+        [self.navigationController pushViewController:uiController animated:YES];
+    }
 }
 
 @end

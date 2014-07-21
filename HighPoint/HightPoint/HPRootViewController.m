@@ -126,7 +126,7 @@
 
 - (void) configureNavigationBar
 {
-    [self.navigationController hp_configureNavigationBarForUserList];
+    [self.navigationController hp_configureNavigationBar];
     self.navigationController.delegate = self;
 
     self.notificationView = [Utils getNotificationViewForText: @"8"];
