@@ -169,6 +169,24 @@ static DataStorage *dataStorage;
     [self saveContext];
 }
 
+
+- (void) deleteEducationEntityFromUser :(NSArray *) ids {
+    User *currentUser = [self getCurrentUser];
+    NSMutableArray *educationItems = [[currentUser.education allObjects] mutableCopy];
+    NSMutableArray *discardedItems = [NSMutableArray array];
+    Education *item;
+    for (item in educationItems) {
+        for (int i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+                [discardedItems addObject:item];
+            }
+        }
+    }
+    [educationItems removeObjectsInArray:discardedItems];
+    currentUser.education = [NSSet setWithArray:educationItems];
+    [self saveContext];
+}
+
 #pragma mark - language
 
 - (Language *) createLanguageEntity:(NSDictionary *)param {

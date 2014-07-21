@@ -29,6 +29,7 @@
 - (void) getApplicationSettingsRequest;
 - (void) getCurrentUserRequest;
 - (void) addEducationRequest:(NSDictionary*) param;
+- (void) deleteEducationItemRequest:(NSString*) ids;
 - (void) addPlaceRequest:(NSDictionary*) param;
 - (void) deletePlaceItemRequest:(NSString*) ids;
 - (void) addLanguageRequest:(NSString*) langName;
