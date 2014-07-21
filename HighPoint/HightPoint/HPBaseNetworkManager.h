@@ -18,12 +18,8 @@
 - (void) sendMessage:(NSDictionary*) param;
 - (void) makeAutorizationRequest:(NSDictionary*) param;
 - (void) makeRegistrationRequest:(NSDictionary*) param;
-//- (void) getApplicationSettingsRequest:(NSDictionary*) param;
-//- (void) getUserInfoRequest:(NSDictionary*) param;
-//- (void) getCurrentUserSettingsRequest:(NSDictionary*) param;
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param;
-//- (void) getUsersListRequest:(NSDictionary*) param;
-//- (void) getPointsListRequest:(NSDictionary*) param;
+- (void) makeReferenceRequest:(NSDictionary*) param;
 - (void) makePointLikeRequest:(NSNumber*) pointId;
 - (void) makePointUnLikeRequest:(NSNumber*) pointId;
 - (void) getApplicationSettingsRequest;
@@ -38,7 +34,6 @@
 - (void) deleteCareerItemRequest:(NSString*) ids;
 - (void) getUsersRequest:(NSInteger) lastUser;
 - (void) getPointsRequest:(NSInteger) lastPoint;
-//- (User*) getCurrentUser;
 - (void) getGeoLocation:(NSDictionary*) param;
 - (void) findGeoLocation:(NSDictionary*) param;
 

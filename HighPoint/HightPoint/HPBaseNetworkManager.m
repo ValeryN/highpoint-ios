@@ -351,6 +351,55 @@ static HPBaseNetworkManager *networkManager;
     
 }
 
+
+#pragma mark - reference
+
+- (void) makeReferenceRequest:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kReferenceRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"REFERENCE REQUEST -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                
+                
+//                NSArray *cities = [jsonDict objectForKey:@"cities"] ;
+//                NSMutableArray *citiesArr = [[NSMutableArray alloc] init];
+//                
+//                for(NSDictionary *dict in cities) {
+//                    City *city = [[DataStorage sharedDataStorage] createCity:dict];
+//                    [citiesArr addObject:city];
+//                }
+//                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
+//                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
+                
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+}
+
+
+
+
 #pragma mark - education
 
 - (void) addEducationRequest:(NSDictionary*) param {

@@ -17,6 +17,8 @@ static float const mainScreenSwitchToBottom_480 = 16.0;
 static float const mainScreenSwitchToLeft = 64;
 static float const mainScreenSwitchWidth = 193;
 static float const timeLabelWidth = 100;
+
+
 //http request constants
 static NSString * const kApplicationSettingsRequest = @"/v201405/settings";
 static NSString * const kCurrentUserRequest = @"/v201405/me";
@@ -33,7 +35,7 @@ static NSString * const kCareerRequest = @"/v201405/me/career";
 static NSString * const kLanguagesRequest = @"/v201405/me/languages";
 static NSString * const kPlasesRequest = @"/v201405/me/places";
 static NSString * const kEducationRequest = @"/v201405/me/education";
-
+static NSString * const kReferenceRequest = @"/v201405/reference";
 
 //socket io constants
 static NSString * const kSendMessage = @"sendMessage";

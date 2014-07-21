@@ -494,6 +494,8 @@ static DataStorage *dataStorage;
         NSLog(@"saved point text %@", user.point.pointText);
         [self saveContext];
     }
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:@"1,2",@"careerPostIds",@"1,2",@"companyIds",@"1,2",@"languageIds",@"1,2", @"placeIds",@"1,2", @"schoolIds",@"1,2", @"specialityIds",nil];
+    [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:params];
 }
 - (User*) getCurrentUser {
     NSFetchRequest* request = [[NSFetchRequest alloc] init];
