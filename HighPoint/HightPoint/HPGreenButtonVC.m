@@ -21,10 +21,8 @@
 
 - (void)viewDidLoad
 {
-    [self initObjects];
-    [self.button setTitle: titleText forState: UIControlStateNormal];
-    [self.button setTitle: titleText forState: UIControlStateHighlighted];
-    [self.button setTitle: titleText forState: UIControlStateSelected];
+    //[self initObjects];
+    
 }
 
 - (id)initWithNibNameAndTitle:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil title:(NSString *) title
@@ -37,7 +35,7 @@
 }
 
 
-- (void) initObjects
+- (void) initObjects:(NSString*) buttonTitle
 {
     UIImage *image = [UIImage imageNamed: @"Green-Button-C"];
     UIImage *resizableImage = [image resizableImageWithCapInsets: UIEdgeInsetsMake(0, image.size.width, image.size.height, image.size.width)];
@@ -48,6 +46,11 @@
     _centerPartPressed.image = resizableImage;
     
     [_button hp_tuneFontForGreenButton];
+    
+    self.button.titleLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18];
+    [self.button setTitle: buttonTitle forState: UIControlStateNormal];
+    [self.button setTitle: buttonTitle forState: UIControlStateHighlighted];
+    [self.button setTitle: buttonTitle forState: UIControlStateSelected];
 }
 
 //==============================================================================

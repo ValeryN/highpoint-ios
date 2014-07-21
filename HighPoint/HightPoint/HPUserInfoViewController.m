@@ -9,7 +9,9 @@
 #import "HPUserInfoViewController.h"
 #import "HPTownTableViewCell.h"
 #import "HPAddPhotoMenuViewController.h"
-
+#import "Utils.h"
+#import "MaxEntertainmentPrice.h"
+#import "MinEntertainmentPrice.h"
 
 #define GREEN_BUTTON_BOTTOM 20
 #define PHOTOS_NUMBER 4
@@ -37,6 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self createSegmentedController];
     [self createNavigationItem];
     [self createGreenButton];
@@ -46,12 +49,19 @@
     
     self.carousel.dataSource = self;
     self.carousel.delegate = self;
+    
+    self.topBarView.translatesAutoresizingMaskIntoConstraints = YES;
+    self.infoTableView.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
     // Do any additional setup after loading the view from its nib.
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:YES];
+    [self createPhotoCountView];
+    //self.view.backgroundColor = [UIColor greenColor];
+    //self.carousel.hidden = YES;
+    //self.infoTableView.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,31 +74,35 @@
 
 - (void) createSegmentedController
 {
-    if (!navSegmentedController)
-    {
-        navSegmentedController = [[UISegmentedControl alloc]initWithItems:@[@"Фотоальбом",@"Информация"]];
-        [navSegmentedController setSegmentedControlStyle:UISegmentedControlStyleBar];
-        [navSegmentedController sizeToFit];
-        [navSegmentedController addTarget:self action:@selector(segmentedControlValueDidChange:) forControlEvents:UIControlEventValueChanged];
-        [navSegmentedController setSelectedSegmentIndex:0];
-        self.infoTableView.hidden = YES;
-        self.navigationItem.titleView = navSegmentedController;
-    }
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [UIFont fontWithName:@"FuturaPT-Light" size:15], UITextAttributeFont,
+                                [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0], UITextAttributeTextColor, nil];
+    
+    NSDictionary *highlightedAttributes = [NSDictionary
+                                           dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"FuturaPT-Light" size:15], UITextAttributeFont, [UIColor colorWithRed:80.0/255.0 green:226.0/255.0 blue:193.0/255.0 alpha:1.0], UITextAttributeTextColor, nil];
+    
+    [self.navSegmentedController setTitleTextAttributes:highlightedAttributes  forState:UIControlStateNormal];
+    [self.navSegmentedController setTitleTextAttributes: attributes forState:UIControlStateSelected];
+    
 }
 
--(void)segmentedControlValueDidChange:(UISegmentedControl *)segment
+-(IBAction)segmentedControlValueDidChange:(UISegmentedControl *)segment
 {
     switch (segment.selectedSegmentIndex) {
         case 0:{
             //open photo
             self.infoTableView.hidden = YES;
             self.carousel.hidden = NO;
-            
+            self.photoCountView.hidden = NO;
+            [self createGreenButton];
             break;}
         case 1:{
             //open info
             self.infoTableView.hidden = NO;
             self.carousel.hidden = YES;
+            self.photoCountView.hidden = YES;
+            NSLog(@"%@", self.user);
+            [self removeGreenButton];
             break;}
     }
 }
@@ -118,51 +132,160 @@
     
     return newbuttonItem;
 }
-
-- (void) backbuttonTaped: (id) sender
+- (void) createPhotoCountView {
+    self.photoCountView.backgroundColor = [UIColor clearColor];
+    self.photoCountView.translatesAutoresizingMaskIntoConstraints = YES;
+    UIView *temp = [Utils getFhotoCountViewForText:@"1/1"];
+    CGRect fr = self.photoCountView.frame;
+    fr.size.width = temp.frame.size.width;
+    fr.size.height = temp.frame.size.height;
+    self.photoCountView.frame = fr;
+    [self.photoCountView addSubview:temp];
+    
+    //self.photoCountView.hidden = YES;
+}
+- (IBAction) backbuttonTaped: (id) sender
 {
-    [self.navigationController popViewControllerAnimated: YES];
+    if([self.delegate respondsToSelector:@selector(profileWillBeHidden)]) {
+        [self.delegate profileWillBeHidden];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
-#pragma mark - green button 
+#pragma mark - green button
+- (void) removeGreenButton {
+    [self.sendMessage.view removeFromSuperview];
+    [self.sendMessage removeFromParentViewController];
+    self.sendMessage = nil;
+}
 - (void) createGreenButton
 {
-    HPGreenButtonVC* sendMessage = [[HPGreenButtonVC alloc] initWithNibName: @"HPGreenButtonVC" bundle: nil];
-    sendMessage.view.translatesAutoresizingMaskIntoConstraints = NO;
-    sendMessage.delegate = self;
-    
-    CGRect rect = sendMessage.view.frame;
-    CGRect bounds = [UIScreen mainScreen].bounds;
-    rect.origin.x = (bounds.size.width - rect.size.width) / 2.0f;
-    rect.origin.y = bounds.size.height - rect.size.height - GREEN_BUTTON_BOTTOM;
-    sendMessage.view.frame = rect;
-    
-    [self addChildViewController: sendMessage];
-    [self.view addSubview: sendMessage.view];
-    
-    [self createGreenButtonsConstraint: sendMessage];
+    if(!self.sendMessage) {
+        self.sendMessage = [[HPGreenButtonVC alloc] initWithNibName: @"HPGreenButtonVC" bundle: nil];
+        self.sendMessage.view.translatesAutoresizingMaskIntoConstraints = YES;
+        self.sendMessage.delegate = self;
+        [self.sendMessage initObjects:@"Написать ей"];
+        CGRect rect = self.sendMessage.view.frame;
+        CGRect bounds = [UIScreen mainScreen].bounds;
+        rect.origin.x = (bounds.size.width - rect.size.width) / 2.0f;
+        rect.origin.y = bounds.size.height - rect.size.height - GREEN_BUTTON_BOTTOM;
+        self.sendMessage.view.frame = rect;
+        [self addChildViewController: self.sendMessage];
+        [self.view addSubview: self.sendMessage.view];
+        [self.sendMessage didMoveToParentViewController:self];
+        [self createGreenButtonsConstraint];
+    }
 }
-
-
-- (void) createGreenButtonsConstraint: (HPGreenButtonVC*) sendMessage
+- (void) createGreenButtonsConstraint
 {
-    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
+    [self.sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: self.sendMessage.view
                                                                  attribute: NSLayoutAttributeWidth
                                                                  relatedBy: NSLayoutRelationEqual
                                                                     toItem: nil
                                                                  attribute: NSLayoutAttributeNotAnAttribute
                                                                 multiplier: 1.0
-                                                                  constant: sendMessage.view.frame.size.width]];
+                                                                  constant: self.sendMessage.view.frame.size.width]];
     
-    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
+    [self.sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: self.sendMessage.view
                                                                  attribute: NSLayoutAttributeHeight
                                                                  relatedBy: NSLayoutRelationEqual
                                                                     toItem: nil
                                                                  attribute: NSLayoutAttributeNotAnAttribute
                                                                 multiplier: 1.0
-                                                                  constant: sendMessage.view.frame.size.height]];
+                                                                  constant: self.sendMessage.view.frame.size.height]];
 }
+#pragma mark - component animation
+
+- (void) moveGreenButtonDown
+{
+    if(self.sendMessage) {
+        [UIView animateWithDuration: 0.5
+                              delay: 0
+                            options: UIViewAnimationOptionCurveLinear
+                         animations: ^
+         {
+             CGRect rect = self.sendMessage.view.frame;
+             rect.origin.y = rect.origin.y + 100;
+             self.sendMessage.view.frame = rect;
+         }
+                         completion: ^(BOOL finished)
+         {
+         }];
+    }
+}
+
+//==============================================================================
+
+- (void) moveGreenButtonUp
+{
+    if(self.sendMessage) {
+        [UIView animateWithDuration: 0.5
+                              delay: 0
+                            options: UIViewAnimationOptionCurveLinear
+                         animations: ^
+         {
+             CGRect rect = self.sendMessage.view.frame;
+             rect.origin.y = rect.origin.y - 100;
+             self.sendMessage.view.frame = rect;
+         }
+                         completion: ^(BOOL finished)
+         {
+         }];
+    }
+}
+- (void) movePhotoViewToLeft
+{
+    if(self.photoCountView) {
+        [UIView animateWithDuration: 0.5
+                              delay: 0
+                            options: UIViewAnimationOptionCurveLinear
+                         animations: ^
+         {
+             CGRect rect = self.photoCountView.frame;
+             rect.origin.x = rect.origin.x - 150;
+             self.photoCountView.frame = rect;
+         }
+                         completion: ^(BOOL finished)
+         {
+         }];
+    }
+}
+
+//==============================================================================
+
+- (void) movePhotoViewToRight
+{
+    if(self.photoCountView) {
+        [UIView animateWithDuration: 0.5
+                              delay: 0
+                            options: UIViewAnimationOptionCurveLinear
+                         animations: ^
+         {
+             CGRect rect = self.photoCountView.frame;
+             rect.origin.x = rect.origin.x + 150;
+             self.photoCountView.frame = rect;
+         }
+                         completion: ^(BOOL finished)
+         {
+         }];
+    }
+}
+- (void) hideTopBar {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.topBarView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+- (void) showTopBar {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.topBarView.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+//==============================================================================
 
 
 - (void) greenButtonPressed: (HPGreenButtonVC*) button
@@ -191,21 +314,33 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *townCellIdentifier = @"PaymentCellIdentif";
-    HPTownTableViewCell *townCell = (HPTownTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
-    
-    if (townCell == nil)
-    {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPTownTableViewCell" owner:self options:nil];
-        townCell = [nib objectAtIndex:0];
+    UITableViewCell *townCell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
+    if (townCell == nil) {
+        townCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:townCellIdentifier];
     }
-    townCell.townNameLabel.text = self.user.name;
-    return townCell;
+    townCell.contentView.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
+    if(indexPath.row == 0) {
+        return [self configureFirstCell:townCell];
+    }
+    else if (indexPath.row == 1) {
+        return [self configureSecondCell:townCell];
+    }
+    else if (indexPath.row == 2) {
+        return [self configureThirdCell:townCell];
+    }
+    else if (indexPath.row == 3) {
+        return [self configureFourCell:townCell];
+    }
+    else if (indexPath.row == 4) {
+        return [self configureFifthCell:townCell];
+    }
+    else return townCell;
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return 5;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -216,8 +351,77 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    if(indexPath.row == 0) {
+        return [self getFirstRowHeight];
+    }
+    else if(indexPath.row == 1) {
+        return [self getSecondRowHeight];
+    }
+    else if(indexPath.row == 2) {
+        return [self getThirdRowHeight];
+    }
+    else if(indexPath.row == 4) {
+        return [self getFourRowHeight];
+    }
+    else if(indexPath.row == 5) {
+        return [self getFifthRowHeight];
+    }
+    else return 100;
 }
+- (UITableViewCell*) configureFirstCell:(UITableViewCell*) cell {
+    
+    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 13, cell.contentView.frame.size.width - 26, cell.contentView.frame.size.height)];
+    textLabel.backgroundColor = [UIColor clearColor];
+    textLabel.numberOfLines = 0;
+    textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
+    textLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
+    textLabel.textAlignment = NSTextAlignmentLeft;
+    [cell.contentView addSubview:textLabel];
+    NSMutableString *text;
+    if([self.user.gender intValue] == 2) {
+        text = [NSMutableString stringWithString:@"Привыкла"];
+    } else {
+        text = [NSMutableString stringWithString:@"Привык"];
+    }
+    [text appendFormat:@" тратить на развлечения от $%d до $%d за вечер",[self.user.minentertainment.amount intValue],  [self.user.maxentertainment.amount intValue] ] ;//[Utils currencyConverter: self.user.minentertainment.currency]
+    textLabel.text = text;
+    [cell addSubview:textLabel];
+    return cell;
+}
+- (UITableViewCell*) configureSecondCell:(UITableViewCell*) cell {
+    UIView *t = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50.0, 40.0)];
+    t.backgroundColor = [UIColor whiteColor];
+    [cell.contentView addSubview:t];
+    
+    //textLabel.text = text;
+    return cell;
+    
+}
+- (UITableViewCell*) configureThirdCell:(UITableViewCell*) cell {
+    return cell;
+}
+- (UITableViewCell*) configureFourCell:(UITableViewCell*) cell {
+    return cell;
+}
+- (UITableViewCell*) configureFifthCell:(UITableViewCell*) cell {
+    return cell;
+}
+- (CGFloat) getFirstRowHeight {
+    return 100.0;
+}
+- (CGFloat) getSecondRowHeight {
+    return 100.0;
+}
+- (CGFloat) getThirdRowHeight {
+    return 100.0;
+}
+- (CGFloat) getFourRowHeight {
+    return 100.0;
+}
+- (CGFloat) getFifthRowHeight {
+    return 100.0;
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -247,6 +451,31 @@
     CGRect rect = CGRectMake([UIScreen mainScreen].bounds.size.width, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     view.frame = rect;
     return view;
+}
+- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index{
+    self.tapState = !self.tapState;
+    if(self.tapState) {
+        [self moveGreenButtonDown];
+        [self movePhotoViewToLeft];
+        [self hideTopBar];
+    } else {
+        [self moveGreenButtonUp];
+        [self movePhotoViewToRight];
+        [self showTopBar];
+    }
+    
+    
+}
+- (UITapGestureRecognizer*) addTapGesture
+{
+    UITapGestureRecognizer *tapGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+    tapGest.cancelsTouchesInView = NO;
+    tapGest.numberOfTouchesRequired = 1;
+    [tapGest setDelegate:self];
+    return tapGest;
+}
+- (void)tapGesture:(UIPanGestureRecognizer *)recognizer {
+    [self moveGreenButtonDown];
 }
 
 #pragma mark - iCarousel delegate -

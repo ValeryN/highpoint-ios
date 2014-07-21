@@ -25,4 +25,6 @@
 + (NSDictionary*) getParameterForPointsRequest:(NSInteger) lastPoint;
 + (NSDictionary*) getParameterForUsersRequest:(NSInteger) lastUser;
 + (NSString *) getTitleStringForUserFilter;
++ (UIView*) getFhotoCountViewForText:(NSString*) text;
++ (NSString*) currencyConverter:(NSString*) currency;
 @end

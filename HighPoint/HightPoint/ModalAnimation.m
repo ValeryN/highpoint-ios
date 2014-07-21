@@ -35,7 +35,7 @@
             //The modal view itself
             UIView *modalView = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey].view;
             //Using autolayout to position the modal view
-            modalView.translatesAutoresizingMaskIntoConstraints = NO;
+            modalView.translatesAutoresizingMaskIntoConstraints = YES;
             [containerView addSubview:modalView];
 
             //Move off of the screen so we can slide it up

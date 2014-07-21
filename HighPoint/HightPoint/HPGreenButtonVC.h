@@ -43,5 +43,6 @@
 
 - (IBAction) touchUpInside:(id)sender;
 - (IBAction) touchDown:(id)sender;
+- (void) initObjects:(NSString*) buttonTitle;
 
 @end

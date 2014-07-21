@@ -129,6 +129,11 @@
 		3BDA4CAA1906623E00EF6619 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDA4CA91906623E00EF6619 /* CFNetwork.framework */; };
 		3BDA4CAC1906627000EF6619 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDA4CAB1906627000EF6619 /* libicucore.dylib */; };
 		3BDA4CAE1906628200EF6619 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDA4CAD1906628200EF6619 /* Security.framework */; };
+		3BE83C07197902950043E03E /* Photos_C.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE83C04197902950043E03E /* Photos_C.png */; };
+		3BE83C08197902950043E03E /* Photos_R.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE83C05197902950043E03E /* Photos_R.png */; };
+		3BE83C09197902950043E03E /* Photos_Camera_L.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE83C06197902950043E03E /* Photos_Camera_L.png */; };
+		3BE83C1519796B2A0043E03E /* HEBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE83C1219796B2A0043E03E /* HEBubbleView.m */; };
+		3BE83C1619796B2A0043E03E /* HEBubbleViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE83C1419796B2A0043E03E /* HEBubbleViewItem.m */; };
 		4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1A488319629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FE935196427220016DED5 /* UIImage+StackBlur.m */; };
@@ -428,6 +433,13 @@
 		3BDA4CA91906623E00EF6619 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3BDA4CAB1906627000EF6619 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		3BDA4CAD1906628200EF6619 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		3BE83C04197902950043E03E /* Photos_C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Photos_C.png; sourceTree = "<group>"; };
+		3BE83C05197902950043E03E /* Photos_R.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Photos_R.png; sourceTree = "<group>"; };
+		3BE83C06197902950043E03E /* Photos_Camera_L.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Photos_Camera_L.png; sourceTree = "<group>"; };
+		3BE83C1119796B2A0043E03E /* HEBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEBubbleView.h; sourceTree = "<group>"; };
+		3BE83C1219796B2A0043E03E /* HEBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEBubbleView.m; sourceTree = "<group>"; };
+		3BE83C1319796B2A0043E03E /* HEBubbleViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEBubbleViewItem.h; sourceTree = "<group>"; };
+		3BE83C1419796B2A0043E03E /* HEBubbleViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEBubbleViewItem.m; sourceTree = "<group>"; };
 		4C1A488019629A7C00DD36F9 /* UITextView+HightPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+HightPoint.h"; sourceTree = "<group>"; };
 		4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HightPoint.m"; sourceTree = "<group>"; };
 		4C1FE934196427220016DED5 /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+StackBlur.h"; sourceTree = "<group>"; };
@@ -661,6 +673,9 @@
 		3B31864D191A493F0000DD8B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3BE83C04197902950043E03E /* Photos_C.png */,
+				3BE83C05197902950043E03E /* Photos_R.png */,
+				3BE83C06197902950043E03E /* Photos_Camera_L.png */,
 				CDA27BE91974EE06007D6BC1 /* debug */,
 				CDA27BE51974ED96007D6BC1 /* green_btn_pressed.png */,
 				CDA27BE61974ED96007D6BC1 /* green_btn.png */,
@@ -864,6 +879,7 @@
 		3B77908219001DA100EE0D15 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				3BE83C1019796B2A0043E03E /* HeBubbleView */,
 				CD68A9BE196D0DE80090D6D1 /* TLSwipeForOptionsCell */,
 				3B39D30E195C3122002520B9 /* SocketIO */,
 				3B298FB7192F476100BEC2AA /* NMRangeSlider.h */,
@@ -1062,6 +1078,18 @@
 			);
 			name = SocketRocket;
 			path = External/SocketRocket;
+			sourceTree = "<group>";
+		};
+		3BE83C1019796B2A0043E03E /* HeBubbleView */ = {
+			isa = PBXGroup;
+			children = (
+				3BE83C1119796B2A0043E03E /* HEBubbleView.h */,
+				3BE83C1219796B2A0043E03E /* HEBubbleView.m */,
+				3BE83C1319796B2A0043E03E /* HEBubbleViewItem.h */,
+				3BE83C1419796B2A0043E03E /* HEBubbleViewItem.m */,
+			);
+			name = HeBubbleView;
+			path = External/HeBubbleView;
 			sourceTree = "<group>";
 		};
 		4C91C1E9195812AD002B27D4 /* Controls */ = {
@@ -1298,6 +1326,7 @@
 				3B298FBF192F476100BEC2AA /* slider-default-trackBackground.png in Resources */,
 				4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */,
 				CDA27BE71974ED96007D6BC1 /* green_btn_pressed.png in Resources */,
+				3BE83C09197902950043E03E /* Photos_Camera_L.png in Resources */,
 				3B298FCC192F476100BEC2AA /* slider-metal-handle-highlighted@2x.png in Resources */,
 				3B298FCA192F476100BEC2AA /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */,
@@ -1314,6 +1343,7 @@
 				CD7C995F1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib in Resources */,
 				CDFA8A21196BEA6200D04451 /* Switcher-R.png in Resources */,
 				CDFA8A20196BEA6200D04451 /* Switcher-L.png in Resources */,
+				3BE83C08197902950043E03E /* Photos_R.png in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
 				CD7C99541973A68700F1AAAB /* HPCurrentUserCardView.xib in Resources */,
 				CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */,
@@ -1344,6 +1374,7 @@
 				3B3170A4191B7A1D00B72AC1 /* img_sample.png in Resources */,
 				3B318653191A674A0000DD8B /* Notice-C.png in Resources */,
 				3B298FC3192F476100BEC2AA /* slider-default7-handle.png in Resources */,
+				3BE83C07197902950043E03E /* Photos_C.png in Resources */,
 				3B298FCD192F476100BEC2AA /* slider-metal-handle.png in Resources */,
 				3B298FCE192F476100BEC2AA /* slider-metal-handle@2x.png in Resources */,
 				3B318657191A6C6D0000DD8B /* Notice-R.png in Resources */,
@@ -1410,6 +1441,7 @@
 				CD7C99621973C10500F1AAAB /* HPAddPhotoMenuViewController.m in Sources */,
 				3B39D307195C3091002520B9 /* Avatar.m in Sources */,
 				3B6DB4A518FFC24D00C26A50 /* HightPoint.xcdatamodeld in Sources */,
+				3BE83C1619796B2A0043E03E /* HEBubbleViewItem.m in Sources */,
 				3BDA4C9519064E5900EF6619 /* SDWebImagePrefetcher.m in Sources */,
 				3BDA4CA8190660B400EF6619 /* SRWebSocket.m in Sources */,
 				4C8096A9193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
@@ -1418,6 +1450,7 @@
 				3B39D31D195C3122002520B9 /* SocketIOTransportWebsocket.m in Sources */,
 				CDA22EEB196FDDD80032210F /* User.m in Sources */,
 				CD7C99501973A38900F1AAAB /* HPCurrentUserCardView.m in Sources */,
+				3BE83C1519796B2A0043E03E /* HEBubbleView.m in Sources */,
 				4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
 				4CDC98B619517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
 				3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */,

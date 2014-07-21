@@ -20,9 +20,10 @@
 #import "UIDevice+HighPoint.h"
 #import "DataStorage.h"
 #import "User.h"
-#import "HPUserInfoViewController.h"
+
 #import "HPBaseNetworkManager.h"
 #import "NotificationsConstants.h"
+#import "ModalAnimation.h"
 //==============================================================================
 
 #define ICAROUSEL_ITEMS_COUNT 50
@@ -59,6 +60,7 @@
     [_carouselView scrollToItemAtIndex:self.current animated:NO];
     [self registerNotification];
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
+    _modalAnimationController = [[ModalAnimation alloc] init];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -67,6 +69,129 @@
 }
 
 
+#pragma mark - Transitioning Delegate (Modal)
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    _modalAnimationController.type = AnimationTypePresent;
+    return _modalAnimationController;
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    _modalAnimationController.type = AnimationTypeDismiss;
+    return _modalAnimationController;
+}
+- (void)profileWillBeHidden {
+    [self animationViewsDown];
+}
+- (void) animationViewsUp {
+    UIImage *captureImg = [Utils captureView:self.carouselView.currentItemView withArea:CGRectMake(0, 0, self.carouselView.currentItemView.frame.size.width, self.carouselView.currentItemView.frame.size.height)];
+    
+    //need get cell from left and right
+    UIView* leftView;
+    UIView* rightView;
+    
+    NSLog(@"%d",self.carouselView.currentItemIndex);
+    NSLog(@"%d",self.carouselView.numberOfItems);
+    
+    if(self.carouselView.currentItemIndex > 0 && self.carouselView.currentItemIndex < self.carouselView.numberOfItems && self.carouselView.currentItemIndex != self.carouselView.numberOfItems - 1) {
+        leftView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex-1];
+        rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex+1];
+    } else if(self.carouselView.currentItemIndex == 0) {
+        leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 1];
+        rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex+1];
+    } else if(self.carouselView.currentItemIndex == self.carouselView.numberOfItems - 1) {
+        leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 2];
+        rightView = [self.carouselView itemViewAtIndex: 0];
+    }
+    
+    UIImage *captureImgLeft = [Utils captureView:leftView withArea:CGRectMake(0, 0, leftView.frame.size.width, leftView.frame.size.height)];
+    UIImage *captureImgRight = [Utils captureView:rightView withArea:CGRectMake(0, 0, rightView.frame.size.width, rightView.frame.size.height)];
+    
+    self.captView = [[UIImageView alloc] initWithImage:captureImg];
+    self.captViewLeft = [[UIImageView alloc] initWithImage:captureImgLeft];
+    self.captViewRight = [[UIImageView alloc] initWithImage:captureImgRight];
+    
+    CGRect result = [self.view convertRect:self.carouselView.currentItemView.frame fromView:self.carouselView.currentItemView];
+    CGRect resultLeft = [self.view convertRect:leftView.frame fromView:leftView];
+    CGRect resultRight = [self.view convertRect:rightView.frame fromView:rightView];
+    self.captView.frame = result;
+    self.captViewLeft.frame = resultLeft;
+    self.captViewRight.frame = resultRight;
+    self.carouselView.hidden = YES;
+    [self.view addSubview:self.captView];
+    [self.view addSubview:self.captViewLeft];
+    [self.view addSubview:self.captViewRight];
+    
+    CGRect originalFrame = self.captViewLeft.frame;
+    self.captViewLeft.layer.anchorPoint = CGPointMake(0.0, 1.0);
+    self.captViewLeft.frame = originalFrame;
+    
+    originalFrame = self.captViewRight.frame;
+    self.captViewRight.layer.anchorPoint = CGPointMake(1.0, 1.0);
+    self.captViewRight.frame = originalFrame;
+    
+    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
+        
+        self.captView.frame = CGRectMake(self.captView.frame.origin.x, self.captView.frame.origin.y - 450.0, self.captView.frame.size.width, self.captView.frame.size.height);
+        self.captViewLeft.transform = CGAffineTransformMakeRotation(M_PI * 1.5);
+        self.captViewRight.transform = CGAffineTransformMakeRotation(M_PI * -1.5);
+        
+    } completion:^(BOOL finished) {
+    }];
+    
+    
+    /*
+     
+     [UIView animateKeyframesWithDuration:1.7 delay:0.0 options:0 animations:^{
+     [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.15 animations:^{
+     //90 degrees (clockwise)
+     
+     }];
+     
+     } completion:^(BOOL finished) {
+     
+     }];
+     */
+    //UIStoryboard *storyBoard;
+    //self.view.userInteractionEnabled = NO;
+    //storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
+    //HPUserProfileViewController *modal = [storyBoard instantiateViewControllerWithIdentifier:@"HPUserProfileViewController"];
+    //modal.delegate = self;
+    //modal.transitioningDelegate = self;
+    //modal.modalPresentationStyle = UIModalPresentationCustom;
+    //[self presentViewController:modal animated:YES completion:nil];
+    
+    
+    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
+    uiController.user = [usersArr objectAtIndex:_carouselView.currentItemIndex];
+    uiController.delegate = self;
+    uiController.transitioningDelegate = self;
+    uiController.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:uiController animated:YES completion:nil];
+    
+    //[self.navigationController pushViewController:uiController animated:YES];
+}
+- (void) animationViewsDown {
+    
+    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
+        
+        self.captView.frame = CGRectMake(self.captView.frame.origin.x, self.captView.frame.origin.y + 450.0, self.captView.frame.size.width, self.captView.frame.size.height);
+        self.captViewLeft.transform = CGAffineTransformIdentity;
+        self.captViewRight.transform = CGAffineTransformIdentity;
+        
+    } completion:^(BOOL finished) {
+        NSLog(@"end animation1");
+        [self.captView removeFromSuperview];
+        [self.captViewLeft removeFromSuperview];
+        [self.captViewRight removeFromSuperview];
+        self.captView = nil;
+        self.captViewLeft  = nil;
+        self.captViewRight =  nil;
+        self.carouselView.hidden = NO;
+        NSLog(@"end animation2");
+        
+    }];
+    
+}
 
 #pragma mark - notifications
 - (void) registerNotification {
@@ -137,7 +262,7 @@
     HPGreenButtonVC* sendMessage = [[HPGreenButtonVC alloc] initWithNibName: @"HPGreenButtonVC" bundle: nil];
     sendMessage.view.translatesAutoresizingMaskIntoConstraints = NO;
     sendMessage.delegate = self;
-
+    [sendMessage initObjects:@""];
     CGRect rect = sendMessage.view.frame;
     rect.origin.x = _infoButton.frame.origin.x + _infoButton.frame.size.width + SPACE_BETWEEN_GREENBUTTON_AND_INFO;
     rect.origin.y = _infoButton.frame.origin.y;
@@ -358,9 +483,7 @@
 
 - (IBAction) infoButtonPressed: (id)sender
 {
-    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
-    uiController.user = [usersArr objectAtIndex:_carouselView.currentItemIndex];
-    [self.navigationController pushViewController:uiController animated:YES];
+    [self animationViewsUp];
 }
 
 //==============================================================================

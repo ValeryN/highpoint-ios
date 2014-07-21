@@ -147,7 +147,55 @@
     fr.origin.y = -6;
     notView.frame = fr;
     return notView;
+}
++ (UIView*) getFhotoCountViewForText:(NSString*) text {
+    CGFloat width;
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
+    {
+        width = [text sizeWithFont:[UIFont fontWithName:@"FuturaPT-Book" size:16.0 ]].width;
+    }
+    else
+    {
+        width = ceil([text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"FuturaPT-Book" size:16.0]}].width);
+    }
+    UIImage *imgC = [[UIImage imageNamed:@"Photos_C"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 1, 0)];
+    UIImage *imgL= [UIImage imageNamed:@"Photos_Camera_L"];
+    UIImage *imgR= [UIImage imageNamed:@"Photos_R"];
     
+    UIImageView *viewCenter = [[UIImageView alloc] initWithImage:imgC];
+    UIImageView *viewLeft = [[UIImageView alloc] initWithImage:imgL];
+    viewLeft.frame = CGRectMake(0, 0, viewLeft.frame.size.width, viewLeft.frame.size.height);
+    UIImageView *viewRight = [[UIImageView alloc] initWithImage:imgR];
+    
+    viewCenter.frame = CGRectMake(viewLeft.frame.size.width, 0, width  ,viewCenter.frame.size.height);
+    
+    viewRight.frame = CGRectMake(viewLeft.frame.size.width + viewCenter.frame.size.width, 0, viewRight.frame.size.width,viewCenter.frame.size.height);
+    UIView *notView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewLeft.frame.size.width + viewCenter.frame.size.width + viewRight.frame.size.width, viewCenter.frame.size.height)];
+    notView.backgroundColor = [UIColor clearColor];
+    [notView addSubview:viewLeft];
+    [notView addSubview:viewCenter];
+    [notView addSubview:viewRight];
+    
+    
+    
+    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(28, 3.5, width, 16.0)];
+    textLabel.backgroundColor = [UIColor clearColor];
+    textLabel.text = text;
+    textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
+    textLabel.textColor = [UIColor whiteColor];
+    textLabel.textAlignment = NSTextAlignmentCenter;
+    [notView addSubview:textLabel];
+    
+    //CGRect fr = notView.frame;
+    //fr.origin.x = 30 - notView.frame.size.width;
+    //fr.origin.y = -6;
+    //notView.frame = fr;
+    return notView;
+}
++ (NSString*) currencyConverter:(NSString*) currency {
+    if([currency isEqualToString:@"usd"]) {
+        return @"долларов";
+    } else return @"";
 }
 + (void) configureNavigationBar:(UINavigationController*) controller {
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
