@@ -35,11 +35,7 @@
 
 @implementation HPRootViewController
 
-//==============================================================================
-
 #pragma mark - controller view delegate -
-
-//==============================================================================
 
 - (void)viewDidLoad
 {
@@ -50,12 +46,6 @@
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
 
-    User * user = [[DataStorage sharedDataStorage] getCurrentUser];
-    NSLog(@"current user career and edu= %@ ----  %@", user.career, user.education);
-    NSLog(@"cureer = %lu", (unsigned long)[user.career allObjects].count);
-    NSLog(@"cureer = %lu", (unsigned long)[user.education allObjects].count);
-    
-    
     //socket init
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"localhost",@"host", @"3002",@"port", nil];
     [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
@@ -67,7 +57,6 @@
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
 }
 
-//==============================================================================
 
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -77,27 +66,27 @@
     [self registerNotification];
     [self updateCurrentView];
     
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"диз",@"query", @"20", @"limit", nil];
+    [[HPBaseNetworkManager sharedNetworkManager] findPostsRequest:param];
+    
 }
 
-//==============================================================================
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self unregisterNotification];
 }
-//==============================================================================
+
+
 - (void) registerNotification {
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserFilterCities:) name:kNeedUpdateFilterCities object:nil];
 }
-//==============================================================================
+
+
 - (void) unregisterNotification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateFilterCities object:nil];
 }
-//==============================================================================
-
-
-//==============================================================================
 
 
 - (void) createSwitch
@@ -118,11 +107,7 @@
     }
 }
 
-//==============================================================================
-
 #pragma mark - Configure Navigation bar method -
-
-//==============================================================================
 
 - (void) configureNavigationBar
 {
@@ -133,11 +118,8 @@
     [_chatsListButton addSubview: _notificationView];
 }
 
-//==============================================================================
-
 #pragma mark - Navigation bar button tap handler -
 
-//==============================================================================
 
 - (IBAction) profileButtonPressedStart: (id) sender
 {
@@ -145,7 +127,7 @@
     HPCurrentUserViewController* cuController = [[HPCurrentUserViewController alloc] initWithNibName: @"HPCurrentUserViewController" bundle: nil];
     [self.navigationController pushViewController:cuController animated:YES];
 }
-//==============================================================================
+
 
 - (IBAction) bubbleButtonPressedStart: (id) sender
 {
@@ -156,11 +138,9 @@
     
 }
 
-//==============================================================================
 
 #pragma mark - filter button tap handler -
 
-//==============================================================================
 
 - (IBAction) filterButtonTap: (id)sender
 {
@@ -193,25 +173,19 @@
 }
 
 
-//==============================================================================
-
 #pragma mark - TableView and DataSource delegate -
 
-//==============================================================================
 
 - (NSInteger) numberOfSectionsInTableView: (UITableView*) tableView
 {
     return 1;
 }
 
-//==============================================================================
-
 - (NSInteger) tableView: (UITableView*) tableView numberOfRowsInSection: (NSInteger) section
 {
     return [[self.allUsers fetchedObjects] count];
 }
 
-//==============================================================================
 
 - (UITableViewCell*) tableView: (UITableView*) tableView cellForRowAtIndexPath: (NSIndexPath*) indexPath
 {
@@ -227,8 +201,6 @@
     return mCell;
 }
 
-//==============================================================================
-
 
 - (void) tableView: (UITableView*) tableView didSelectRowAtIndexPath: (NSIndexPath*) indexPath
 {
@@ -238,11 +210,8 @@
     [self.navigationController pushViewController: card animated: YES];
 }
 
-//==============================================================================
 
 #pragma mark - Notification view hide/show method -
-
-//==============================================================================
 
 - (void) hideNotificationBadge
 {
@@ -258,7 +227,6 @@
 
 }
 
-//==============================================================================
 
 - (void) showNotificationBadge
 {
@@ -273,11 +241,9 @@
                     }];
 }
 
-//==============================================================================
 
 #pragma mark - HPSwitch Delegate -
 
-//==============================================================================
 
 - (void) switchedToLeft
 {
@@ -286,7 +252,6 @@
     NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
 
-//==============================================================================
 
 - (void) switchedToRight
 {
@@ -295,25 +260,21 @@
     NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
 
-//==============================================================================
 
 #pragma mark - scroll delegate -
 
-//==============================================================================
 
 - (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [HPMainViewListTableViewCell makeCellReleased];
 }
 
-//==============================================================================
 
 - (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     [HPMainViewListTableViewCell makeCellReleased];
 }
 
-//==============================================================================
 
 - (void) scrollViewWillEndDragging: (UIScrollView*) scrollView
                       withVelocity: (CGPoint)velocity
@@ -336,11 +297,8 @@
     }
 }
 
-//==============================================================================
 
 #pragma mark - filter animation -
-
-//==============================================================================
 
 - (void) hideFilters
 {
@@ -358,7 +316,7 @@
      }];
 }
 
-//==============================================================================
+
 
 - (void) showFilters
 {
@@ -376,20 +334,17 @@
      }];
 }
 
-//==============================================================================
 
 - (CGFloat) topFilterBorder
 {
     return self.view.frame.size.height - _filterGroupView.frame.size.height;
 }
 
-//==============================================================================
 
 - (CGFloat) bottomFilterBorder
 {
     return self.view.frame.size.height;
 }
 
-//==============================================================================
 
 @end

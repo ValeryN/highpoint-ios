@@ -314,6 +314,96 @@ static DataStorage *dataStorage;
     [self saveContext];
 }
 
+
+
+#pragma mark - career-post
+
+- (CareerPost*) createCareerPost :(NSDictionary *)param {
+    CareerPost *postEnt = (CareerPost*)[NSEntityDescription insertNewObjectForEntityForName:@"CareerPost" inManagedObjectContext:self.moc];
+    postEnt.name = [param objectForKey:@"name"];
+    postEnt.id_ = [param objectForKey:@"id"];
+    [self saveContext];
+    return postEnt;
+}
+
+- (CareerPost *) createTempCareerPost :(NSDictionary *) param {
+    NSEntityDescription *myCareerPostEntity = [NSEntityDescription entityForName:@"CareerPost" inManagedObjectContext:self.moc];
+    CareerPost *postEnt = [[CareerPost alloc] initWithEntity:myCareerPostEntity insertIntoManagedObjectContext:nil];
+    postEnt.id_ = [param objectForKey:@"id"];
+    postEnt.name = [param objectForKey:@"name"];
+    return postEnt;
+}
+
+- (CareerPost *) insertCareerPostObjectToContext: (CareerPost *) cPost {
+    CareerPost *postEnt = [self getCareerPostById:cPost.id_];
+    if (!postEnt) {
+        [self.moc insertObject:cPost];
+        [self saveContext];
+        return cPost;
+    } else {
+        return postEnt;
+    }
+}
+
+- (void) removeCareerPostObjectById : (CareerPost *)cPost {
+    CareerPost *postEnt = [self getCareerPostById:cPost.id_];
+    if (postEnt) {
+        [self.moc deleteObject:postEnt];
+    }
+}
+
+- (CareerPost *) getCareerPostById : (NSNumber *) postId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"CareerPost" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %@",postId];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
+
+- (void) deleteAllCareerPosts {
+    NSFetchRequest * allCareerPosts = [[NSFetchRequest alloc] init];
+    [allCareerPosts setEntity:[NSEntityDescription entityForName:@"CareerPost" inManagedObjectContext:self.moc]];
+    [allCareerPosts setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * cPosts = [self.moc executeFetchRequest:allCareerPosts error:&error];
+    //error handling goes here
+    for (CareerPost * post in cPosts) {
+        [self.moc deleteObject:post];
+    }
+}
+
+
+
 #pragma mark -
 #pragma mark avatar entity
 - (Avatar*) createAvatarEntity:(NSDictionary *)param {
@@ -494,8 +584,8 @@ static DataStorage *dataStorage;
         NSLog(@"saved point text %@", user.point.pointText);
         [self saveContext];
     }
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:@"1,2",@"careerPostIds",@"1,2",@"companyIds",@"1,2",@"languageIds",@"1,2", @"placeIds",@"1,2", @"schoolIds",@"1,2", @"specialityIds",nil];
-    [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:params];
+//    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:@"1,2",@"careerPostIds",@"1,2",@"companyIds",@"1,2",@"languageIds",@"1,2", @"placeIds",@"1,2", @"schoolIds",@"1,2", @"specialityIds",nil];
+//    [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:params];
 }
 - (User*) getCurrentUser {
     NSFetchRequest* request = [[NSFetchRequest alloc] init];

@@ -20,6 +20,7 @@
 #import "City.h"
 #import "Language.h"
 #import "Place.h"
+#import "CareerPost.h"
 
 @interface DataStorage : NSObject
 @property (nonatomic, strong) NSManagedObjectContext *moc;
@@ -48,6 +49,8 @@
 - (Language *) createLanguageEntity:(NSDictionary *)param;
 - (void) addLanguageEntityForUser :(NSDictionary *) param;
 - (void) deleteLanguageEntityFromUser :(NSArray *) ids;
+- (CareerPost*) createCareerPost :(NSDictionary *)param;
+- (CareerPost *) createTempCareerPost :(NSDictionary *) param;
 - (void) addCareerEntityForUser :(NSDictionary *) param;
 - (void) deleteCareerEntityFromUser :(NSArray *) ids;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
