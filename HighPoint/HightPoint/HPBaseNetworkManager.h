@@ -27,6 +27,7 @@
 - (void) addEducationRequest:(NSDictionary*) param;
 - (void) deleteEducationItemRequest:(NSString*) ids;
 - (void) findSchoolsRequest:(NSDictionary*) param;
+- (void) findSpecialitiesRequest:(NSDictionary*) param;
 - (void) addPlaceRequest:(NSDictionary*) param;
 - (void) deletePlaceItemRequest:(NSString*) ids;
 - (void) findPlacesRequest:(NSDictionary*) param;

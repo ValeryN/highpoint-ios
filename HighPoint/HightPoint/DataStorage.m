@@ -389,6 +389,90 @@ static DataStorage *dataStorage;
     }
 }
 
+#pragma mark - specialities
+
+- (Speciality *) createSpecialityEntity:(NSDictionary *)param {
+    Speciality *sp = (Speciality*)[NSEntityDescription insertNewObjectForEntityForName:@"Speciality" inManagedObjectContext:self.moc];
+    sp.id_ = [param objectForKey:@"id"];
+    sp.name = [param objectForKey:@"name"];
+    return sp;
+}
+
+- (Speciality *) createTempSpeciality :(NSDictionary *) param {
+    NSEntityDescription *mySchEntity = [NSEntityDescription entityForName:@"Speciality" inManagedObjectContext:self.moc];
+    Speciality *spEnt = [[Speciality alloc] initWithEntity:mySchEntity insertIntoManagedObjectContext:nil];
+    spEnt.id_ = [param objectForKey:@"id"];
+    spEnt.name = [param objectForKey:@"name"];
+    return spEnt;
+}
+
+- (Speciality *) insertSpecialityObjectToContext: (Speciality *) speciality {
+    Speciality *spEnt = [self getSpecialityById:speciality.id_];
+    if (!spEnt) {
+        [self.moc insertObject:speciality];
+        [self saveContext];
+        return speciality;
+    } else {
+        return spEnt;
+    }
+}
+
+- (void) removeSpecialityObjectById : (Speciality *) speciality {
+    Speciality *spEnt = [self getSpecialityById:speciality.id_];
+    if (spEnt) {
+        [self.moc deleteObject:spEnt];
+    }
+}
+
+- (Speciality *) getSpecialityById : (NSNumber *) specId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Speciality" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %@", specId];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
+- (void) deleteAllSpeciality {
+    NSFetchRequest * allSpec = [[NSFetchRequest alloc] init];
+    [allSpec setEntity:[NSEntityDescription entityForName:@"Speciality" inManagedObjectContext:self.moc]];
+    [allSpec setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * specialities = [self.moc executeFetchRequest:allSpec error:&error];
+    //error handling goes here
+    for (Speciality *sp in specialities) {
+        [self.moc deleteObject:sp];
+    }
+}
+
 
 #pragma mark - place
 - (Place *) createPlaceEntity:(NSDictionary *)param {

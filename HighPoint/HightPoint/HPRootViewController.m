@@ -66,8 +66,8 @@
     [self registerNotification];
     [self updateCurrentView];
     
-//    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"моск",@"query", @"20", @"limit", nil];
-//    [[HPBaseNetworkManager sharedNetworkManager] findSchoolsRequest:param];
+//    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"инж",@"query", @"20", @"limit", nil];
+//    [[HPBaseNetworkManager sharedNetworkManager] findSpecialitiesRequest:param];
     
 }
 

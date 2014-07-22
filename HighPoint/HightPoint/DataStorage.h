@@ -23,6 +23,8 @@
 #import "CareerPost.h"
 #import "Company.h"
 #import "School.h"
+#import "Speciality.h"
+
 
 @interface DataStorage : NSObject
 @property (nonatomic, strong) NSManagedObjectContext *moc;
@@ -44,6 +46,8 @@
 - (void) deleteCurrentUser;
 - (School *) createSchoolEntity:(NSDictionary *)param;
 - (School *) createTempSchool :(NSDictionary *) param;
+- (Speciality *) createSpecialityEntity:(NSDictionary *)param;
+- (Speciality *) createTempSpeciality :(NSDictionary *) param;
 - (Place *) createPlaceEntity:(NSDictionary *)param;
 - (void) addLPlaceEntityForUser :(NSDictionary *) param;
 - (void) deletePlaceEntityFromUser :(NSArray *) id;
