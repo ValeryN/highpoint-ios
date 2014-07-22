@@ -30,5 +30,6 @@
 - (void) hp_tuneForUserNameInContactList;
 - (void) hp_tuneForUserDetailsInContactList;
 - (void) hp_tuneForMessageInContactList;
+- (void) hp_tuneForMessageCountInContactList;
 
 @end

@@ -58,10 +58,23 @@
                             <constraint firstAttribute="trailing" secondItem="C7D-u7-kB5" secondAttribute="trailing" constant="7" id="yPC-Wn-5Eg"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zvd-Cl-C1J">
-                        <rect key="frame" x="94" y="7" width="20" height="20"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zvd-Cl-C1J">
+                        <rect key="frame" x="82" y="10" width="25" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="1" green="0.25098039220000001" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BXG-3j-9s4">
+                                <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.87058823529999996" green="0.38431372549999998" blue="0.38431372549999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="6xq-ek-Q4t"/>
+                            <constraint firstAttribute="width" constant="25" id="9Yc-g8-TyE"/>
+                        </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Vd-K8-bC9">
                         <rect key="frame" x="12" y="8" width="88" height="88"/>
@@ -108,6 +121,8 @@
                     <constraint firstAttribute="bottom" secondItem="4Vd-K8-bC9" secondAttribute="bottom" constant="7" id="SRR-9E-KMy"/>
                     <constraint firstItem="4Vd-K8-bC9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="c5t-JI-MAd"/>
                     <constraint firstItem="4Vd-K8-bC9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="f6o-xi-aSi"/>
+                    <constraint firstAttribute="trailing" secondItem="zvd-Cl-C1J" secondAttribute="trailing" constant="213" id="hOE-RR-QvR"/>
+                    <constraint firstAttribute="bottom" secondItem="zvd-Cl-C1J" secondAttribute="bottom" constant="68" id="jia-ag-qgg"/>
                     <constraint firstItem="cas-g0-cf7" firstAttribute="leading" secondItem="4Vd-K8-bC9" secondAttribute="trailing" id="u94-QT-3fz"/>
                 </constraints>
             </tableViewCellContentView>
@@ -116,6 +131,7 @@
                 <outlet property="avatarView" destination="4Vd-K8-bC9" id="Sx3-Vq-hWW"/>
                 <outlet property="currentMsgLabel" destination="aN5-X3-CGm" id="dHo-5O-Xb0"/>
                 <outlet property="currentUserMsgLabel" destination="IRN-nc-jqi" id="Gac-JJ-fJr"/>
+                <outlet property="msgCountLabel" destination="BXG-3j-9s4" id="hSU-dM-o0c"/>
                 <outlet property="msgCountView" destination="zvd-Cl-C1J" id="XzZ-eP-jL3"/>
                 <outlet property="msgFromMyself" destination="M9v-N7-alT" id="5Kr-y2-TpD"/>
                 <outlet property="msgToYouView" destination="cas-g0-cf7" id="yl8-6H-uxl"/>

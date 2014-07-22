@@ -124,6 +124,11 @@
     if (indexPath.row == 3) {
         [chatCell.avatar privacyLevel];
     }
+    if(indexPath.row %3) {
+        chatCell.msgCountView.hidden = YES;
+    } else {
+        chatCell.msgCountView.hidden = NO;
+    }
     return chatCell;
     
 }

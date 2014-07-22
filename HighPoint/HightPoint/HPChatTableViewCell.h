@@ -33,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *currentMsgLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *msgCountView;
+@property (weak, nonatomic) IBOutlet UILabel *msgCountLabel;
 
 @property (nonatomic, weak) HPAvatarLittleView* myAvatar;
 @property (weak, nonatomic) IBOutlet UIView *msgFromMyself;
