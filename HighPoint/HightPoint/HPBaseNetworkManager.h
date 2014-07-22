@@ -28,6 +28,7 @@
 - (void) deleteEducationItemRequest:(NSString*) ids;
 - (void) addPlaceRequest:(NSDictionary*) param;
 - (void) deletePlaceItemRequest:(NSString*) ids;
+- (void) findPlacesRequest:(NSDictionary*) param;
 - (void) addLanguageRequest:(NSString*) langName;
 - (void) deleteLanguageItemRequest:(NSString*) ids;
 - (void) findLanguagesRequest:(NSDictionary*) param;

@@ -345,8 +345,82 @@ static DataStorage *dataStorage;
     [self saveContext];
 }
 
+- (Place *) createTempPlace :(NSDictionary *) param {
+    NSEntityDescription *myPlaceEntity = [NSEntityDescription entityForName:@"Place" inManagedObjectContext:self.moc];
+    Place *placeEnt = [[Place alloc] initWithEntity:myPlaceEntity insertIntoManagedObjectContext:nil];
+    placeEnt.id_ = [param objectForKey:@"id"];
+    placeEnt.cityId = [param objectForKey:@"cityId"];
+    placeEnt.name = [param objectForKey:@"name"];
+    return placeEnt;
+}
+
+- (Place *) insertPlaceObjectToContext: (Place *) place {
+    Place *placeEnt = [self getPlaceById:place.id_];
+    if (!placeEnt) {
+        [self.moc insertObject:place];
+        [self saveContext];
+        return place;
+    } else {
+        return placeEnt;
+    }
+}
+
+- (void) removePlaceObjectById : (Place *) place {
+    Place *plEnt = [self getPlaceById:place.id_];
+    if (plEnt) {
+        [self.moc deleteObject:plEnt];
+    }
+}
+
+- (Place *) getPlaceById : (NSNumber *) postId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Place" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %@",postId];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
 
 
+- (void) deleteAllPlaces {
+    NSFetchRequest * allPlaces = [[NSFetchRequest alloc] init];
+    [allPlaces setEntity:[NSEntityDescription entityForName:@"Place" inManagedObjectContext:self.moc]];
+    [allPlaces setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * places = [self.moc executeFetchRequest:allPlaces error:&error];
+    //error handling goes here
+    for (Place *place in places) {
+        [self.moc deleteObject:place];
+    }
+}
 
 #pragma mark -
 #pragma mark career entity

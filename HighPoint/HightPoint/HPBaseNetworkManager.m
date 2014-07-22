@@ -545,6 +545,43 @@ static HPBaseNetworkManager *networkManager;
     
 }
 
+- (void) findPlacesRequest:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kPlacesFindRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"FIND PLACES -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSArray *places = [jsonDict objectForKey:@"data"] ;
+                NSMutableArray *placesArr = [[NSMutableArray alloc] init];
+                for(NSDictionary *dict in places) {
+                    Place *place = [[DataStorage sharedDataStorage] createTempPlace:dict];
+                    [placesArr addObject:place];
+                }
+                //TODO: send
+                //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
+                //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
+                
+            }
+            else NSLog(@"Error, no valid data");
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+}
+
 
 #pragma mark - languages
 
