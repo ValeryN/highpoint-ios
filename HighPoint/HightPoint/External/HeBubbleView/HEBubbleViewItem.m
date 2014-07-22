@@ -20,7 +20,7 @@
 #define DEFAULT_BORDER_COLOR UIColorFromRGB(0,140,180,255)
 #define DEFAULT_SELECTED_BORDER_COLOR UIColorFromRGB(255,255,255,255)
 
-#define DEFAULT_BORDER_WIDTH 2.0;
+#define DEFAULT_BORDER_WIDTH 1.0;
 #define DEFAULT_FONT [UIFont fontWithName:@"Helvetica-Bold" size:14]
 
 #define ITEM_TEXTLABELPADDING_LEFT_AND_RIGHT 10.0;
@@ -81,7 +81,7 @@ static UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, N
         reuseIdentifier = reuseIdentifierIN;
         
         textLabel = [[UILabel alloc] initWithFrame:self.bounds];
-        textLabel.font = DEFAULT_FONT;
+        textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
         
         self.textLabel.backgroundColor = [UIColor clearColor];
         
@@ -125,7 +125,7 @@ static UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, N
     self.textLabel.frame = CGRectMake(bubbleTextLabelPadding, self.bounds.origin.y, self.bounds.size.width-2*bubbleTextLabelPadding, self.bounds.size.height);
     
     self.layer.masksToBounds = YES;
-    self.layer.cornerRadius = self.bounds.size.height/2;
+    self.layer.cornerRadius = 4;//self.bounds.size.height/2;
     self.layer.borderWidth = DEFAULT_BORDER_WIDTH;
     self.layer.borderColor = [unselectedBorderColor CGColor];
     

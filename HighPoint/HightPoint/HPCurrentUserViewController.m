@@ -301,8 +301,8 @@
         HPPointLikesViewController* plController = [[HPPointLikesViewController alloc] initWithNibName: @"HPPointLikesViewController" bundle: nil];
         [self.navigationController pushViewController:plController animated:YES];
     } else {
-        HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
-        [self.navigationController pushViewController:uiController animated:YES];
+        //HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
+        //[self.navigationController pushViewController:uiController animated:YES];
     }
 }
 

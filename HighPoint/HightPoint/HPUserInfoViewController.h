@@ -10,12 +10,14 @@
 #import "User.h"
 #import "iCarousel.h"
 #import "HPGreenButtonVC.h"
+#import "HEBubbleView.h"
+#import "HEBubbleViewItem.h"
 
 @protocol  HPUserInfoViewControllerDelegate <NSObject>
 - (void)profileWillBeHidden;
 @end
 
-@interface HPUserInfoViewController : UIViewController <GreenButtonProtocol, UITableViewDelegate, UITableViewDataSource, iCarouselDelegate, iCarouselDataSource, UIGestureRecognizerDelegate> {
+@interface HPUserInfoViewController : UIViewController <GreenButtonProtocol, UITableViewDelegate, UITableViewDataSource, iCarouselDelegate, iCarouselDataSource, UIGestureRecognizerDelegate, HEBubbleViewDataSource, HEBubbleViewDelegate> {
     
 }
 
@@ -30,6 +32,10 @@
 @property (strong, nonatomic) User *user;
 @property (nonatomic, strong) HPGreenButtonVC* sendMessage;
 @property(nonatomic, strong) UITapGestureRecognizer *tapGesture;
+@property(nonatomic, strong) NSArray *userDataSource;
+@property(nonatomic, strong) NSDictionary *placeCityDataSource;
+@property(nonatomic, strong) NSArray *educationDataSource;
+@property(nonatomic, strong) NSArray *carrierDataSource;
 @property(nonatomic, assign) BOOL tapState;
 - (IBAction)segmentedControlValueDidChange:(id)sender;
 - (IBAction) backbuttonTaped: (id) sender;

@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgP-fK-1cS">
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgP-fK-1cS">
                     <rect key="frame" x="10" y="30" width="25" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="25" id="aR0-rA-iZg"/>
@@ -33,7 +33,7 @@
                         <action selector="backButtonTap:" destination="-1" eventType="touchUpInside" id="iju-xt-g5L"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zev-Cf-cbc">
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zev-Cf-cbc">
                     <rect key="frame" x="280" y="30" width="25" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="25" id="4MR-rm-L8d"/>

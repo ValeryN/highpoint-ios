@@ -57,7 +57,7 @@
     
     
     //socket init
-    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"localhost",@"host", @"3002",@"port", nil];
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"192.168.0.166",@"host", @"3002",@"port", nil];
     [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
 
     //
