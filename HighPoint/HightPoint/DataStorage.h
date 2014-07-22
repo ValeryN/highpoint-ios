@@ -21,6 +21,7 @@
 #import "Language.h"
 #import "Place.h"
 #import "CareerPost.h"
+#import "Company.h"
 
 @interface DataStorage : NSObject
 @property (nonatomic, strong) NSManagedObjectContext *moc;
@@ -53,6 +54,8 @@
 - (CareerPost *) createTempCareerPost :(NSDictionary *) param;
 - (void) addCareerEntityForUser :(NSDictionary *) param;
 - (void) deleteCareerEntityFromUser :(NSArray *) ids;
+- (Company*) createCompany :(NSDictionary *)param;
+- (Company *) createTempCompany :(NSDictionary *) param;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (void) setPointLiked : (NSNumber *) pointId : (BOOL) isLiked;
 - (AppSetting*) getAppSettings;

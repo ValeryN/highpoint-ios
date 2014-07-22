@@ -66,8 +66,8 @@
     [self registerNotification];
     [self updateCurrentView];
     
-    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"диз",@"query", @"20", @"limit", nil];
-    [[HPBaseNetworkManager sharedNetworkManager] findPostsRequest:param];
+//    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"янд",@"query", @"20", @"limit", nil];
+//    [[HPBaseNetworkManager sharedNetworkManager] findCompaniesRequest:param];
     
 }
 

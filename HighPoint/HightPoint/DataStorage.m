@@ -403,6 +403,91 @@ static DataStorage *dataStorage;
 }
 
 
+#pragma mark - company
+
+- (Company*) createCompany :(NSDictionary *)param {
+    Company *companyEnt = (Company*)[NSEntityDescription insertNewObjectForEntityForName:@"Company" inManagedObjectContext:self.moc];
+    companyEnt.name = [param objectForKey:@"name"];
+    companyEnt.id_ = [param objectForKey:@"id"];
+    [self saveContext];
+    return companyEnt;
+}
+
+- (Company *) createTempCompany :(NSDictionary *) param {
+    NSEntityDescription *myCompanyEntity = [NSEntityDescription entityForName:@"Company" inManagedObjectContext:self.moc];
+    Company *companyEnt = [[Company alloc] initWithEntity:myCompanyEntity insertIntoManagedObjectContext:nil];
+    companyEnt.id_ = [param objectForKey:@"id"];
+    companyEnt.name = [param objectForKey:@"name"];
+    return companyEnt;
+}
+
+- (Company *) insertCompanyObjectToContext: (Company *) company {
+    Company *companyEnt = [self getCompanyById:company.id_];
+    if (!companyEnt) {
+        [self.moc insertObject:company];
+        [self saveContext];
+        return company;
+    } else {
+        return companyEnt;
+    }
+}
+
+- (void) removeCompanyObjectById : (Company *)company {
+    Company *companyEnt = [self getCompanyById:company.id_];
+    if (companyEnt) {
+        [self.moc deleteObject:companyEnt];
+    }
+}
+
+- (Company *) getCompanyById : (NSNumber *) companyId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Company" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %@",companyId];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
+- (void) deleteCompanyPosts {
+    NSFetchRequest * allCompanies = [[NSFetchRequest alloc] init];
+    [allCompanies setEntity:[NSEntityDescription entityForName:@"Company" inManagedObjectContext:self.moc]];
+    [allCompanies setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * companies = [self.moc executeFetchRequest:allCompanies error:&error];
+    //error handling goes here
+    for (Company * comp in companies) {
+        [self.moc deleteObject:comp];
+    }
+}
+
 
 #pragma mark -
 #pragma mark avatar entity

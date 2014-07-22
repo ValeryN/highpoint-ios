@@ -37,6 +37,7 @@ static NSString * const kPlasesRequest = @"/v201405/me/places";
 static NSString * const kEducationRequest = @"/v201405/me/education";
 static NSString * const kReferenceRequest = @"/v201405/reference";
 static NSString * const kPostsFindRequest = @"/v201405/reference/career-posts/find";
+static NSString * const kCompaniesFindRequest = @"/v201405/reference/companies/find";
 
 //socket io constants
 static NSString * const kSendMessage = @"sendMessage";
