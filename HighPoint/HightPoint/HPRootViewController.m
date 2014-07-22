@@ -65,9 +65,9 @@
     [self.navigationController setNavigationBarHidden:NO];
     [self registerNotification];
     [self updateCurrentView];
-//    
-//    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"парк",@"query", @"20", @"limit", nil];
-//    [[HPBaseNetworkManager sharedNetworkManager] findPlacesRequest:param];
+    
+//    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"моск",@"query", @"20", @"limit", nil];
+//    [[HPBaseNetworkManager sharedNetworkManager] findSchoolsRequest:param];
     
 }
 

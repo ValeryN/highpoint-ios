@@ -40,6 +40,8 @@ static NSString * const kPostsFindRequest = @"/v201405/reference/career-posts/fi
 static NSString * const kCompaniesFindRequest = @"/v201405/reference/companies/find";
 static NSString * const kLanguagesFindRequest = @"/v201405/reference/languages/find";
 static NSString * const kPlacesFindRequest = @"/v201405/reference/places/find";
+static NSString * const kSchoolsFindRequest = @"/v201405/reference/schools/find";
+
 
 //socket io constants
 static NSString * const kSendMessage = @"sendMessage";
@@ -52,7 +54,6 @@ static NSString * const kNotificationRead = @"notificationRead";
 static NSString * const kAllNotificationRead = @"allNotificationsRead";
 static NSString * const kMeUpdate = @"meUpdate";
 static NSString * const kMessage = @"message";
-
 
 
 #endif
