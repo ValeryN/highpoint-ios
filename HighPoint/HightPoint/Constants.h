@@ -8,6 +8,7 @@
 
 #ifndef HightPoint_Constants_h
 #define HightPoint_Constants_h
+
 static float const iPhone5ScreenHight = 568.0;
 static float const iPhone4ScreenHight = 480.0;
 static float const iPhoneScreenWidth = 320.0;
@@ -17,7 +18,6 @@ static float const mainScreenSwitchToBottom_480 = 16.0;
 static float const mainScreenSwitchToLeft = 64;
 static float const mainScreenSwitchWidth = 193;
 static float const timeLabelWidth = 100;
-
 
 //http request constants
 static NSString * const kApplicationSettingsRequest = @"/v201405/settings";
@@ -38,6 +38,7 @@ static NSString * const kEducationRequest = @"/v201405/me/education";
 static NSString * const kReferenceRequest = @"/v201405/reference";
 static NSString * const kPostsFindRequest = @"/v201405/reference/career-posts/find";
 static NSString * const kCompaniesFindRequest = @"/v201405/reference/companies/find";
+static NSString * const kLanguagesFindRequest = @"/v201405/reference/languages/find";
 
 //socket io constants
 static NSString * const kSendMessage = @"sendMessage";
@@ -48,7 +49,6 @@ static NSString * const kTypingFinish = @"typingFinish";
 static NSString * const kTypingStart = @"typingStart";
 static NSString * const kNotificationRead = @"notificationRead";
 static NSString * const kAllNotificationRead = @"allNotificationsRead";
-
 static NSString * const kMeUpdate = @"meUpdate";
 static NSString * const kMessage = @"message";
 

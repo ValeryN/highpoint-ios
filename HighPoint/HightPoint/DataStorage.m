@@ -228,6 +228,83 @@ static DataStorage *dataStorage;
     [self saveContext];
 }
 
+- (Language *) createTempLanguage :(NSDictionary *) param {
+    NSEntityDescription *myLanguageEntity = [NSEntityDescription entityForName:@"Language" inManagedObjectContext:self.moc];
+    Language *lanEnt = [[Language alloc] initWithEntity:myLanguageEntity insertIntoManagedObjectContext:nil];
+    lanEnt.id_ = [param objectForKey:@"id"];
+    lanEnt.name = [param objectForKey:@"name"];
+    return lanEnt;
+}
+
+- (Language *) insertLanguageObjectToContext: (Language *) language {
+    Language *lanEnt = [self getLanguageById:language.id_];
+    if (!lanEnt) {
+        [self.moc insertObject:language];
+        [self saveContext];
+        return language;
+    } else {
+        return lanEnt;
+    }
+}
+
+- (void) removeLanguageObjectById : (Language *)language {
+    Language *lanEnt = [self getLanguageById:language.id_];
+    if (lanEnt) {
+        [self.moc deleteObject:lanEnt];
+    }
+}
+
+- (Language *) getLanguageById : (NSNumber *) postId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Language" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %@",postId];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
+
+- (void) deleteAllLanguages {
+    NSFetchRequest * allLanguages = [[NSFetchRequest alloc] init];
+    [allLanguages setEntity:[NSEntityDescription entityForName:@"Language" inManagedObjectContext:self.moc]];
+    [allLanguages setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * languages = [self.moc executeFetchRequest:allLanguages error:&error];
+    //error handling goes here
+    for (Language *language in languages) {
+        [self.moc deleteObject:language];
+    }
+}
+
+
 #pragma mark - place
 - (Place *) createPlaceEntity:(NSDictionary *)param {
     Place *pl = (Place*)[NSEntityDescription insertNewObjectForEntityForName:@"Place" inManagedObjectContext:self.moc];

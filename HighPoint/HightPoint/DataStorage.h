@@ -50,6 +50,7 @@
 - (Language *) createLanguageEntity:(NSDictionary *)param;
 - (void) addLanguageEntityForUser :(NSDictionary *) param;
 - (void) deleteLanguageEntityFromUser :(NSArray *) ids;
+- (Language *) createTempLanguage :(NSDictionary *) param;
 - (CareerPost*) createCareerPost :(NSDictionary *)param;
 - (CareerPost *) createTempCareerPost :(NSDictionary *) param;
 - (void) addCareerEntityForUser :(NSDictionary *) param;

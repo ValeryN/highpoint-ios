@@ -30,6 +30,7 @@
 - (void) deletePlaceItemRequest:(NSString*) ids;
 - (void) addLanguageRequest:(NSString*) langName;
 - (void) deleteLanguageItemRequest:(NSString*) ids;
+- (void) findLanguagesRequest:(NSDictionary*) param;
 - (void) findCompaniesRequest:(NSDictionary*) param;
 - (void) findPostsRequest:(NSDictionary*) param;
 - (void) addCareerItemRequest:(NSDictionary*) param;
