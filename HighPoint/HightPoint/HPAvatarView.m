@@ -77,7 +77,7 @@
 
 - (void) privacyLevel
 {
-    [self blurUserImage:nil];
+    [self blurUserImage:[UIImage imageNamed:@"img_sample1.png"]];
 }
 
 - (void) blurUserImage :(UIImage *) image

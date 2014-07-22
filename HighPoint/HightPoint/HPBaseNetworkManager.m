@@ -16,6 +16,9 @@
 #import "Constants.h"
 #import "NotificationsConstants.h"
 #import "UserTokenUtils.h"
+#import "CareerPost.h"
+#import "Company.h"
+#import "Language.h"
 
 
 
@@ -351,6 +354,55 @@ static HPBaseNetworkManager *networkManager;
     
 }
 
+
+#pragma mark - reference
+
+- (void) makeReferenceRequest:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kReferenceRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"REFERENCE REQUEST -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                
+                
+//                NSArray *cities = [jsonDict objectForKey:@"cities"] ;
+//                NSMutableArray *citiesArr = [[NSMutableArray alloc] init];
+//                
+//                for(NSDictionary *dict in cities) {
+//                    City *city = [[DataStorage sharedDataStorage] createCity:dict];
+//                    [citiesArr addObject:city];
+//                }
+//                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
+//                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
+                
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+}
+
+
+
+
 #pragma mark - education
 
 - (void) addEducationRequest:(NSDictionary*) param {
@@ -386,6 +438,115 @@ static HPBaseNetworkManager *networkManager;
     
 }
 
+
+- (void) deleteEducationItemRequest:(NSString*) ids {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kEducationRequest];
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager DELETE:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"DELETE EDUCATION ITEMS: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if ([jsonDict objectForKey:@"data"]) {
+                    [[DataStorage sharedDataStorage] deleteEducationEntityFromUser:[jsonDict objectForKey:@"data"]];
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+    
+}
+
+
+- (void) findSchoolsRequest:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kSchoolsFindRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"FIND SCHOOLS -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSArray *schools = [jsonDict objectForKey:@"data"] ;
+                NSMutableArray *schoolsArr = [[NSMutableArray alloc] init];
+                for(NSDictionary *dict in schools) {
+                    School *sch = [[DataStorage sharedDataStorage] createTempSchool:dict];
+                    [schoolsArr addObject:sch];
+                }
+                //TODO: send
+                //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
+                //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
+                
+            }
+            else NSLog(@"Error, no valid data");
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+}
+
+- (void) findSpecialitiesRequest:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kSpecialityFindRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"FIND SPECIALITIES -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSArray *specialities = [jsonDict objectForKey:@"data"] ;
+                NSMutableArray *specialitiesArr = [[NSMutableArray alloc] init];
+                for(NSDictionary *dict in specialities) {
+                    Speciality *sp = [[DataStorage sharedDataStorage] createTempSpeciality:dict];
+                    [specialitiesArr addObject:sp];
+                }
+                //TODO: send
+                //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
+                //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
+                
+            }
+            else NSLog(@"Error, no valid data");
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+}
 
 
 #pragma mark - plases
@@ -423,6 +584,77 @@ static HPBaseNetworkManager *networkManager;
 }
 
 
+- (void) deletePlaceItemRequest:(NSString*) ids {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kPlasesRequest];
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager DELETE:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"DELETE PLACES ITEMS: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if ([jsonDict objectForKey:@"data"]) {
+                    [[DataStorage sharedDataStorage] deletePlaceEntityFromUser:[jsonDict objectForKey:@"data"]];
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+    
+}
+
+- (void) findPlacesRequest:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kPlacesFindRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"FIND PLACES -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSArray *places = [jsonDict objectForKey:@"data"] ;
+                NSMutableArray *placesArr = [[NSMutableArray alloc] init];
+                for(NSDictionary *dict in places) {
+                    Place *place = [[DataStorage sharedDataStorage] createTempPlace:dict];
+                    [placesArr addObject:place];
+                }
+                //TODO: send
+                //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
+                //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
+                
+            }
+            else NSLog(@"Error, no valid data");
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+}
+
 
 #pragma mark - languages
 
@@ -459,6 +691,166 @@ static HPBaseNetworkManager *networkManager;
     }];
     
 }
+
+
+
+- (void) deleteLanguageItemRequest:(NSString*) ids {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kLanguagesRequest];
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager DELETE:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"DELETE LANGUAGES ITEMS: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if ([jsonDict objectForKey:@"data"]) {
+                    [[DataStorage sharedDataStorage] deleteLanguageEntityFromUser:[jsonDict objectForKey:@"data"]];
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+    
+}
+
+- (void) findLanguagesRequest:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kLanguagesFindRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"FIND LANGUAGES -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSArray *posts = [jsonDict objectForKey:@"data"] ;
+                NSMutableArray *languagesArr = [[NSMutableArray alloc] init];
+                
+                for(NSDictionary *dict in posts) {
+                    Language *language = [[DataStorage sharedDataStorage] createTempLanguage:dict];
+                    [languagesArr addObject:language];
+                }
+                //TODO: send
+                //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
+                //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
+                
+            }
+            else NSLog(@"Error, no valid data");
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+}
+
+
+#pragma mark companies 
+
+- (void) findCompaniesRequest:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kCompaniesFindRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"FIND COMPANIES -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSArray *posts = [jsonDict objectForKey:@"data"] ;
+                NSMutableArray *companiesArr = [[NSMutableArray alloc] init];
+                
+                for(NSDictionary *dict in posts) {
+                    Company *company = [[DataStorage sharedDataStorage] createTempCompany:dict];
+                    [companiesArr addObject:company];
+                }
+                //TODO: send
+                //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
+                //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
+                
+            }
+            else NSLog(@"Error, no valid data");
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+}
+
+
+
+#pragma mark - carrer post
+
+- (void) findPostsRequest:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [url stringByAppendingString:kPostsFindRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"FIND POSTS -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSArray *posts = [jsonDict objectForKey:@"data"] ;
+                NSMutableArray *postsArr = [[NSMutableArray alloc] init];
+                
+                for(NSDictionary *dict in posts) {
+                    CareerPost *cPost = [[DataStorage sharedDataStorage] createTempCareerPost:dict];
+                    [postsArr addObject:cPost];
+                }
+                //TODO: send
+//                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
+//                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
+                
+            }
+            else NSLog(@"Error, no valid data");
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+}
+
+
+
 
 #pragma mark - career
 

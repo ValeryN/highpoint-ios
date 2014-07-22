@@ -194,6 +194,8 @@
 		4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
+		CD3AF59C197E624600CC8767 /* HPAvatarLittleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3AF59B197E624600CC8767 /* HPAvatarLittleView.m */; };
+		CD3AF59E197E626500CC8767 /* HPAvatarLittleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD3AF59D197E626500CC8767 /* HPAvatarLittleView.xib */; };
 		CD55FD1119792025003EE9E9 /* Language.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1019792025003EE9E9 /* Language.m */; };
 		CD55FD17197925E3003EE9E9 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD16197925E3003EE9E9 /* Place.m */; };
 		CD55FD1D19792610003EE9E9 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1C19792610003EE9E9 /* User.m */; };
@@ -517,6 +519,9 @@
 		4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPMainViewListTableViewCell+HighPoint.m"; sourceTree = "<group>"; };
 		CD183C35196418D0002AC98D /* UserTokenUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTokenUtils.h; sourceTree = "<group>"; };
 		CD183C36196418D0002AC98D /* UserTokenUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTokenUtils.m; sourceTree = "<group>"; };
+		CD3AF59A197E624600CC8767 /* HPAvatarLittleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAvatarLittleView.h; sourceTree = "<group>"; };
+		CD3AF59B197E624600CC8767 /* HPAvatarLittleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAvatarLittleView.m; sourceTree = "<group>"; };
+		CD3AF59D197E626500CC8767 /* HPAvatarLittleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAvatarLittleView.xib; sourceTree = "<group>"; };
 		CD55FD0F19792025003EE9E9 /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
 		CD55FD1019792025003EE9E9 /* Language.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Language.m; sourceTree = "<group>"; };
 		CD55FD15197925E3003EE9E9 /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
@@ -1176,6 +1181,9 @@
 				4CA7B639195C379000DC9D52 /* HPAvatarView.h */,
 				4CA7B63A195C379000DC9D52 /* HPAvatarView.m */,
 				4CA7B63D195C37B200DC9D52 /* HPAvatarView.xib */,
+				CD3AF59A197E624600CC8767 /* HPAvatarLittleView.h */,
+				CD3AF59B197E624600CC8767 /* HPAvatarLittleView.m */,
+				CD3AF59D197E626500CC8767 /* HPAvatarLittleView.xib */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -1490,6 +1498,7 @@
 				3B6DB4A718FFC24D00C26A50 /* Images.xcassets in Resources */,
 				CDA27BE81974ED96007D6BC1 /* green_btn.png in Resources */,
 				3B298FBD192F476100BEC2AA /* slider-default-track.png in Resources */,
+				CD3AF59E197E626500CC8767 /* HPAvatarLittleView.xib in Resources */,
 				3B298FBA192F476100BEC2AA /* slider-default-handle-highlighted@2x.png in Resources */,
 				CDF9745D196E8C4C0064ED04 /* Eye.png in Resources */,
 				3B298FBC192F476100BEC2AA /* slider-default-handle@2x.png in Resources */,
@@ -1634,6 +1643,7 @@
 				CDFA8A09196BE4B100D04451 /* HPChatListViewController.m in Sources */,
 				CD55FD2C19792C30003EE9E9 /* Speciality.m in Sources */,
 				3BDA4C6319064AC900EF6619 /* AFHTTPRequestOperationManager.m in Sources */,
+				CD3AF59C197E624600CC8767 /* HPAvatarLittleView.m in Sources */,
 				3B39D2F2195C3090002520B9 /* AppSetting.m in Sources */,
 				CD7C994D1973A2DF00F1AAAB /* HPCurrentUserPointView.m in Sources */,
 				3BDA4C8D19064E5900EF6619 /* MKAnnotationView+WebCache.m in Sources */,

@@ -20,6 +20,11 @@
 #import "City.h"
 #import "Language.h"
 #import "Place.h"
+#import "CareerPost.h"
+#import "Company.h"
+#import "School.h"
+#import "Speciality.h"
+
 
 @interface DataStorage : NSObject
 @property (nonatomic, strong) NSManagedObjectContext *moc;
@@ -36,17 +41,30 @@
 - (NSFetchedResultsController*) applicationSettingFetchResultsController;
 - (void) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
--(NSFetchedResultsController*) allUsersWithPointFetchResultsController;
+- (NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
 - (void) deleteCurrentUser;
+- (School *) createSchoolEntity:(NSDictionary *)param;
+- (School *) createTempSchool :(NSDictionary *) param;
+- (Speciality *) createSpecialityEntity:(NSDictionary *)param;
+- (Speciality *) createTempSpeciality :(NSDictionary *) param;
 - (Place *) createPlaceEntity:(NSDictionary *)param;
 - (void) addLPlaceEntityForUser :(NSDictionary *) param;
+- (void) deletePlaceEntityFromUser :(NSArray *) id;
+- (Place *) createTempPlace :(NSDictionary *) param;
 - (Education*) createEducationEntity:(NSDictionary *)param;
+- (void) deleteEducationEntityFromUser :(NSArray *) ids;
 - (void) addLEducationEntityForUser :(NSDictionary *) param;
 - (Language *) createLanguageEntity:(NSDictionary *)param;
 - (void) addLanguageEntityForUser :(NSDictionary *) param;
+- (void) deleteLanguageEntityFromUser :(NSArray *) ids;
+- (Language *) createTempLanguage :(NSDictionary *) param;
+- (CareerPost*) createCareerPost :(NSDictionary *)param;
+- (CareerPost *) createTempCareerPost :(NSDictionary *) param;
 - (void) addCareerEntityForUser :(NSDictionary *) param;
 - (void) deleteCareerEntityFromUser :(NSArray *) ids;
+- (Company*) createCompany :(NSDictionary *)param;
+- (Company *) createTempCompany :(NSDictionary *) param;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (void) setPointLiked : (NSNumber *) pointId : (BOOL) isLiked;
 - (AppSetting*) getAppSettings;

@@ -169,7 +169,26 @@ static DataStorage *dataStorage;
     [self saveContext];
 }
 
-#pragma mark - places
+
+- (void) deleteEducationEntityFromUser :(NSArray *) ids {
+    User *currentUser = [self getCurrentUser];
+    NSMutableArray *educationItems = [[currentUser.education allObjects] mutableCopy];
+    NSMutableArray *discardedItems = [NSMutableArray array];
+    Education *item;
+    for (item in educationItems) {
+        for (int i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+                [discardedItems addObject:item];
+            }
+        }
+    }
+    [educationItems removeObjectsInArray:discardedItems];
+    currentUser.education = [NSSet setWithArray:educationItems];
+    [self saveContext];
+}
+
+
+#pragma mark - language
 
 - (Language *) createLanguageEntity:(NSDictionary *)param {
     Language *lan = (Language*)[NSEntityDescription insertNewObjectForEntityForName:@"Language" inManagedObjectContext:self.moc];
@@ -193,8 +212,269 @@ static DataStorage *dataStorage;
 }
 
 
+- (void) deleteLanguageEntityFromUser :(NSArray *) ids {
+    User *currentUser = [self getCurrentUser];
+    NSMutableArray *languageItems = [[currentUser.language allObjects] mutableCopy];
+    NSMutableArray *discardedItems = [NSMutableArray array];
+    Language *item;
+    for (item in languageItems) {
+        for (int i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+                [discardedItems addObject:item];
+            }
+        }
+    }
+    [languageItems removeObjectsInArray:discardedItems];
+    currentUser.language = [NSSet setWithArray:languageItems];
+    [self saveContext];
+}
 
-#pragma mark - language
+- (Language *) createTempLanguage :(NSDictionary *) param {
+    NSEntityDescription *myLanguageEntity = [NSEntityDescription entityForName:@"Language" inManagedObjectContext:self.moc];
+    Language *lanEnt = [[Language alloc] initWithEntity:myLanguageEntity insertIntoManagedObjectContext:nil];
+    lanEnt.id_ = [param objectForKey:@"id"];
+    lanEnt.name = [param objectForKey:@"name"];
+    return lanEnt;
+}
+
+- (Language *) insertLanguageObjectToContext: (Language *) language {
+    Language *lanEnt = [self getLanguageById:language.id_];
+    if (!lanEnt) {
+        [self.moc insertObject:language];
+        [self saveContext];
+        return language;
+    } else {
+        return lanEnt;
+    }
+}
+
+- (void) removeLanguageObjectById : (Language *)language {
+    Language *lanEnt = [self getLanguageById:language.id_];
+    if (lanEnt) {
+        [self.moc deleteObject:lanEnt];
+    }
+}
+
+- (Language *) getLanguageById : (NSNumber *) postId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Language" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %@",postId];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
+
+- (void) deleteAllLanguages {
+    NSFetchRequest * allLanguages = [[NSFetchRequest alloc] init];
+    [allLanguages setEntity:[NSEntityDescription entityForName:@"Language" inManagedObjectContext:self.moc]];
+    [allLanguages setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * languages = [self.moc executeFetchRequest:allLanguages error:&error];
+    //error handling goes here
+    for (Language *language in languages) {
+        [self.moc deleteObject:language];
+    }
+}
+
+#pragma mark - school
+
+- (School *) createSchoolEntity:(NSDictionary *)param {
+    School *sch = (School*)[NSEntityDescription insertNewObjectForEntityForName:@"School" inManagedObjectContext:self.moc];
+    sch.id_ = [param objectForKey:@"id"];
+    sch.name = [param objectForKey:@"name"];
+    return sch;
+}
+
+- (School *) createTempSchool :(NSDictionary *) param {
+    NSEntityDescription *mySchEntity = [NSEntityDescription entityForName:@"School" inManagedObjectContext:self.moc];
+    School *schEnt = [[School alloc] initWithEntity:mySchEntity insertIntoManagedObjectContext:nil];
+    schEnt.id_ = [param objectForKey:@"id"];
+    schEnt.name = [param objectForKey:@"name"];
+    return schEnt;
+}
+
+- (School *) insertSchoolObjectToContext: (School *) school {
+    School *schEnt = [self getSchoolById:school.id_];
+    if (!schEnt) {
+        [self.moc insertObject:school];
+        [self saveContext];
+        return school;
+    } else {
+        return schEnt;
+    }
+}
+
+- (void) removeSchoolObjectById : (School *)school {
+    School *schEnt = [self getSchoolById:school.id_];
+    if (schEnt) {
+        [self.moc deleteObject:schEnt];
+    }
+}
+
+- (School *) getSchoolById : (NSNumber *) schoolId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"School" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %@", schoolId];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
+- (void) deleteAllSchools {
+    NSFetchRequest * allSchools = [[NSFetchRequest alloc] init];
+    [allSchools setEntity:[NSEntityDescription entityForName:@"School" inManagedObjectContext:self.moc]];
+    [allSchools setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * schools = [self.moc executeFetchRequest:allSchools error:&error];
+    //error handling goes here
+    for (School *sch in schools) {
+        [self.moc deleteObject:sch];
+    }
+}
+
+#pragma mark - specialities
+
+- (Speciality *) createSpecialityEntity:(NSDictionary *)param {
+    Speciality *sp = (Speciality*)[NSEntityDescription insertNewObjectForEntityForName:@"Speciality" inManagedObjectContext:self.moc];
+    sp.id_ = [param objectForKey:@"id"];
+    sp.name = [param objectForKey:@"name"];
+    return sp;
+}
+
+- (Speciality *) createTempSpeciality :(NSDictionary *) param {
+    NSEntityDescription *mySchEntity = [NSEntityDescription entityForName:@"Speciality" inManagedObjectContext:self.moc];
+    Speciality *spEnt = [[Speciality alloc] initWithEntity:mySchEntity insertIntoManagedObjectContext:nil];
+    spEnt.id_ = [param objectForKey:@"id"];
+    spEnt.name = [param objectForKey:@"name"];
+    return spEnt;
+}
+
+- (Speciality *) insertSpecialityObjectToContext: (Speciality *) speciality {
+    Speciality *spEnt = [self getSpecialityById:speciality.id_];
+    if (!spEnt) {
+        [self.moc insertObject:speciality];
+        [self saveContext];
+        return speciality;
+    } else {
+        return spEnt;
+    }
+}
+
+- (void) removeSpecialityObjectById : (Speciality *) speciality {
+    Speciality *spEnt = [self getSpecialityById:speciality.id_];
+    if (spEnt) {
+        [self.moc deleteObject:spEnt];
+    }
+}
+
+- (Speciality *) getSpecialityById : (NSNumber *) specId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Speciality" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %@", specId];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
+- (void) deleteAllSpeciality {
+    NSFetchRequest * allSpec = [[NSFetchRequest alloc] init];
+    [allSpec setEntity:[NSEntityDescription entityForName:@"Speciality" inManagedObjectContext:self.moc]];
+    [allSpec setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * specialities = [self.moc executeFetchRequest:allSpec error:&error];
+    //error handling goes here
+    for (Speciality *sp in specialities) {
+        [self.moc deleteObject:sp];
+    }
+}
+
+
+#pragma mark - place
 - (Place *) createPlaceEntity:(NSDictionary *)param {
     Place *pl = (Place*)[NSEntityDescription insertNewObjectForEntityForName:@"Place" inManagedObjectContext:self.moc];
     pl.id_ = [param objectForKey:@"id"];
@@ -215,6 +495,100 @@ static DataStorage *dataStorage;
     }
     currentUser.place = [NSSet setWithArray:places];
     [self saveContext];
+}
+
+- (void) deletePlaceEntityFromUser :(NSArray *) ids {
+    User *currentUser = [self getCurrentUser];
+    NSMutableArray *placesItems = [[currentUser.place allObjects] mutableCopy];
+    NSMutableArray *discardedItems = [NSMutableArray array];
+    Place *item;
+    for (item in placesItems) {
+        for (int i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+                [discardedItems addObject:item];
+            }
+        }
+    }
+    [placesItems removeObjectsInArray:discardedItems];
+    currentUser.place = [NSSet setWithArray:placesItems];
+    [self saveContext];
+}
+
+- (Place *) createTempPlace :(NSDictionary *) param {
+    NSEntityDescription *myPlaceEntity = [NSEntityDescription entityForName:@"Place" inManagedObjectContext:self.moc];
+    Place *placeEnt = [[Place alloc] initWithEntity:myPlaceEntity insertIntoManagedObjectContext:nil];
+    placeEnt.id_ = [param objectForKey:@"id"];
+    placeEnt.cityId = [param objectForKey:@"cityId"];
+    placeEnt.name = [param objectForKey:@"name"];
+    return placeEnt;
+}
+
+- (Place *) insertPlaceObjectToContext: (Place *) place {
+    Place *placeEnt = [self getPlaceById:place.id_];
+    if (!placeEnt) {
+        [self.moc insertObject:place];
+        [self saveContext];
+        return place;
+    } else {
+        return placeEnt;
+    }
+}
+
+- (void) removePlaceObjectById : (Place *) place {
+    Place *plEnt = [self getPlaceById:place.id_];
+    if (plEnt) {
+        [self.moc deleteObject:plEnt];
+    }
+}
+
+- (Place *) getPlaceById : (NSNumber *) postId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Place" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %@",postId];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
+
+- (void) deleteAllPlaces {
+    NSFetchRequest * allPlaces = [[NSFetchRequest alloc] init];
+    [allPlaces setEntity:[NSEntityDescription entityForName:@"Place" inManagedObjectContext:self.moc]];
+    [allPlaces setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * places = [self.moc executeFetchRequest:allPlaces error:&error];
+    //error handling goes here
+    for (Place *place in places) {
+        [self.moc deleteObject:place];
+    }
 }
 
 #pragma mark -
@@ -244,7 +618,6 @@ static DataStorage *dataStorage;
 }
 
 - (void) deleteCareerEntityFromUser :(NSArray *) ids {
-    
     User *currentUser = [self getCurrentUser];
     NSMutableArray *careerItems = [[currentUser.career allObjects] mutableCopy];
     NSMutableArray *discardedItems = [NSMutableArray array];
@@ -256,12 +629,185 @@ static DataStorage *dataStorage;
             }
         }
     }
-    
     [careerItems removeObjectsInArray:discardedItems];
-    
     currentUser.career = [NSSet setWithArray:careerItems];
     [self saveContext];
 }
+
+
+
+#pragma mark - career-post
+
+- (CareerPost*) createCareerPost :(NSDictionary *)param {
+    CareerPost *postEnt = (CareerPost*)[NSEntityDescription insertNewObjectForEntityForName:@"CareerPost" inManagedObjectContext:self.moc];
+    postEnt.name = [param objectForKey:@"name"];
+    postEnt.id_ = [param objectForKey:@"id"];
+    [self saveContext];
+    return postEnt;
+}
+
+- (CareerPost *) createTempCareerPost :(NSDictionary *) param {
+    NSEntityDescription *myCareerPostEntity = [NSEntityDescription entityForName:@"CareerPost" inManagedObjectContext:self.moc];
+    CareerPost *postEnt = [[CareerPost alloc] initWithEntity:myCareerPostEntity insertIntoManagedObjectContext:nil];
+    postEnt.id_ = [param objectForKey:@"id"];
+    postEnt.name = [param objectForKey:@"name"];
+    return postEnt;
+}
+
+- (CareerPost *) insertCareerPostObjectToContext: (CareerPost *) cPost {
+    CareerPost *postEnt = [self getCareerPostById:cPost.id_];
+    if (!postEnt) {
+        [self.moc insertObject:cPost];
+        [self saveContext];
+        return cPost;
+    } else {
+        return postEnt;
+    }
+}
+
+- (void) removeCareerPostObjectById : (CareerPost *)cPost {
+    CareerPost *postEnt = [self getCareerPostById:cPost.id_];
+    if (postEnt) {
+        [self.moc deleteObject:postEnt];
+    }
+}
+
+- (CareerPost *) getCareerPostById : (NSNumber *) postId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"CareerPost" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %@",postId];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
+
+- (void) deleteAllCareerPosts {
+    NSFetchRequest * allCareerPosts = [[NSFetchRequest alloc] init];
+    [allCareerPosts setEntity:[NSEntityDescription entityForName:@"CareerPost" inManagedObjectContext:self.moc]];
+    [allCareerPosts setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * cPosts = [self.moc executeFetchRequest:allCareerPosts error:&error];
+    //error handling goes here
+    for (CareerPost * post in cPosts) {
+        [self.moc deleteObject:post];
+    }
+}
+
+
+#pragma mark - company
+
+- (Company*) createCompany :(NSDictionary *)param {
+    Company *companyEnt = (Company*)[NSEntityDescription insertNewObjectForEntityForName:@"Company" inManagedObjectContext:self.moc];
+    companyEnt.name = [param objectForKey:@"name"];
+    companyEnt.id_ = [param objectForKey:@"id"];
+    [self saveContext];
+    return companyEnt;
+}
+
+- (Company *) createTempCompany :(NSDictionary *) param {
+    NSEntityDescription *myCompanyEntity = [NSEntityDescription entityForName:@"Company" inManagedObjectContext:self.moc];
+    Company *companyEnt = [[Company alloc] initWithEntity:myCompanyEntity insertIntoManagedObjectContext:nil];
+    companyEnt.id_ = [param objectForKey:@"id"];
+    companyEnt.name = [param objectForKey:@"name"];
+    return companyEnt;
+}
+
+- (Company *) insertCompanyObjectToContext: (Company *) company {
+    Company *companyEnt = [self getCompanyById:company.id_];
+    if (!companyEnt) {
+        [self.moc insertObject:company];
+        [self saveContext];
+        return company;
+    } else {
+        return companyEnt;
+    }
+}
+
+- (void) removeCompanyObjectById : (Company *)company {
+    Company *companyEnt = [self getCompanyById:company.id_];
+    if (companyEnt) {
+        [self.moc deleteObject:companyEnt];
+    }
+}
+
+- (Company *) getCompanyById : (NSNumber *) companyId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Company" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %@",companyId];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0) {
+        return [[controller fetchedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
+- (void) deleteCompanyPosts {
+    NSFetchRequest * allCompanies = [[NSFetchRequest alloc] init];
+    [allCompanies setEntity:[NSEntityDescription entityForName:@"Company" inManagedObjectContext:self.moc]];
+    [allCompanies setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    NSError * error = nil;
+    NSArray * companies = [self.moc executeFetchRequest:allCompanies error:&error];
+    //error handling goes here
+    for (Company * comp in companies) {
+        [self.moc deleteObject:comp];
+    }
+}
+
 
 #pragma mark -
 #pragma mark avatar entity
@@ -345,7 +891,22 @@ static DataStorage *dataStorage;
             }
             user.career = [NSSet setWithArray:entArray];
         }
-        
+
+        if([[param objectForKey:@"languageIds"] isKindOfClass:[NSDictionary class]]) {
+            if(![[param objectForKey:@"languageIds"] isKindOfClass:[NSNull class]]) {
+                Language *lan = [self createLanguageEntity: [param objectForKey:@"language"]];
+                lan.user = user;
+                user.language = [NSSet setWithArray:[NSArray arrayWithObjects:lan, nil]];
+            }
+        } else if ([[param objectForKey:@"languageIds"] isKindOfClass:[NSArray class]]) {
+            NSMutableArray *entArray = [NSMutableArray new];
+            for(NSDictionary *t in [param objectForKey:@"career"]) {
+                Language *lan = [self createLanguageEntity:t];
+                lan.user = user;
+                [entArray addObject:[self createLanguageEntity:t]];
+            }
+            user.language = [NSSet setWithArray:entArray];
+        }
         
         NSArray *cityIds;
         NSMutableString *par;
@@ -428,6 +989,8 @@ static DataStorage *dataStorage;
         NSLog(@"saved point text %@", user.point.pointText);
         [self saveContext];
     }
+//    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:@"1,2",@"careerPostIds",@"1,2",@"companyIds",@"1,2",@"languageIds",@"1,2", @"placeIds",@"1,2", @"schoolIds",@"1,2", @"specialityIds",nil];
+//    [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:params];
 }
 - (User*) getCurrentUser {
     NSFetchRequest* request = [[NSFetchRequest alloc] init];

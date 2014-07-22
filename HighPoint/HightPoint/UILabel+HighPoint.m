@@ -93,4 +93,39 @@
                                      alpha: 1.0];
 }
 
+#pragma mark - contact list
+- (void) hp_tuneForUserNameInContactList {
+    self.font = self.font = [UIFont fontWithName: @"FuturaPT-Book" size: 18.0];
+    self.textColor = [UIColor colorWithRed: 230.0 / 255.0
+                                     green: 236.0 / 255.0
+                                      blue: 242.0 / 255.0
+                                     alpha: 1.0];
+}
+
+- (void) hp_tuneForUserDetailsInContactList {
+    self.font = self.font = [UIFont fontWithName: @"FuturaPT-Medium" size: 15.0];
+    self.textColor = [UIColor colorWithRed: 230.0 / 255.0
+                                     green: 236.0 / 255.0
+                                      blue: 242.0 / 255.0
+                                     alpha: 1.0];
+}
+
+- (void) hp_tuneForMessageInContactList
+{
+    self.font = [UIFont fontWithName: @"FuturaPT-Light" size: 16.0];
+    self.textColor = [UIColor colorWithRed: 230.0 / 255.0
+                                     green: 236.0 / 255.0
+                                      blue: 242.0 / 255.0
+                                     alpha: 1.0];
+}
+
+- (void) hp_tuneForMessageCountInContactList
+{
+    self.font = [UIFont fontWithName: @"FuturaPT-Book" size: 16.0];
+    self.textColor = [UIColor colorWithRed: 230.0 / 255.0
+                                     green: 236.0 / 255.0
+                                      blue: 242.0 / 255.0
+                                     alpha: 1.0];
+}
+
 @end
