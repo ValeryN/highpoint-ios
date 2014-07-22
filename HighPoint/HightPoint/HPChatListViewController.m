@@ -120,13 +120,17 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatTableViewCell" owner:self options:nil];
         chatCell = [nib objectAtIndex:0];
     }
+    [chatCell configureCell];
+    if (indexPath.row == 3) {
+        [chatCell.avatar privacyLevel];
+    }
     return chatCell;
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 20;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -137,7 +141,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 95;
+    return 104;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

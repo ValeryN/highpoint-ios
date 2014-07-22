@@ -16,5 +16,7 @@
 
 - (void) hp_tuneFontForSwitch;
 - (void) hp_tuneFontForGreenButton;
+- (void) hp_tuneForDeleteBtnInContactList;
+
 
 @end

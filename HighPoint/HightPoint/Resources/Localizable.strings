@@ -34,3 +34,7 @@
 
 //POINT LIKES SCREEN
 "POINT_LIKES_TITLE" = "Оценили ваш поинт";
+
+
+//CHAT LIST SCREEN
+"DELETE_BTN_TITLE" = "Удалить";

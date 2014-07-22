@@ -7,6 +7,9 @@
 //
 
 #import "HPChatTableViewCell.h"
+#import "UILabel+HighPoint.h"
+#import "UIButton+HighPoint.h"
+
 
 @implementation HPChatTableViewCell
 
@@ -39,49 +42,43 @@
     
     self.scrollView.backgroundColor = [UIColor clearColor];
     
-    // Set up our two buttons
+    // Set up our buttons
     
     UIView *buttonBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self returnCatchWidth], CGRectGetHeight(self.bounds))];
-    buttonBackView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:1.0f];
+    buttonBackView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:102.0/255.0 blue:112.0/255.0 alpha:1.0f];
+    UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    deleteButton.exclusiveTouch = YES;
     
+    [deleteButton setTitle:NSLocalizedString(@"DELETE_BTN_TITLE", nil) forState:UIControlStateNormal];
+    [deleteButton setTitle:NSLocalizedString(@"DELETE_BTN_TITLE", nil) forState:UIControlStateHighlighted];
     
-    
-    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    addButton.exclusiveTouch = YES;
-    addButton.frame = CGRectMake(0, 0, 100, 60);
-    [addButton addTarget:self action:@selector(deleteChat:) forControlEvents:UIControlEventTouchUpInside];
-
-    
-    [buttonBackView addSubview:addButton];
+    deleteButton.frame = CGRectMake(0, 0, [self returnCatchWidth], CGRectGetHeight(self.bounds));
+    [deleteButton addTarget:self action:@selector(deleteChat:) forControlEvents:UIControlEventTouchUpInside];
+    [buttonBackView addSubview:deleteButton];
+    [deleteButton hp_tuneForDeleteBtnInContactList];
     [self.scrollViewButtonView addSubview:buttonBackView];
 
-    
     UIView *scrollViewContentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))];//CGRectGetHeight(self.bounds)
     [self.scrollView addSubview:scrollViewContentView];
     scrollViewContentView.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0f];
     self.scrollViewContentView = scrollViewContentView;
 
     
-    [self.userImageView removeFromSuperview];
-    [self.scrollViewContentView addSubview: self.userImageView];
+    [self.avatarView removeFromSuperview];
+    [self.scrollViewContentView addSubview: self.avatarView];
+    
     [self.msgCountView removeFromSuperview];
     [self.scrollViewContentView addSubview: self.msgCountView];
-    [self.userNameLabel removeFromSuperview];
-    [self.scrollViewContentView addSubview: self.userNameLabel];
-    [self.userAgeAndLocationLabel removeFromSuperview];
-    [self.scrollViewContentView addSubview:self.userAgeAndLocationLabel];
-    [self.currentMsgLabel removeFromSuperview];
-    [self.scrollViewContentView addSubview:self.currentMsgLabel];
-    [self.userAgeAndLocationLabel removeFromSuperview];
-    [self.scrollViewContentView addSubview:self.userAgeAndLocationLabel];
-    [self.currentUserImageView removeFromSuperview];
-    [self.scrollViewContentView addSubview:self.currentUserImageView];
-    [self.currentUserMsgLabel removeFromSuperview];
-    [self.scrollViewContentView addSubview:self.currentUserMsgLabel];
-}
+    
+    [self.msgToYouView removeFromSuperview];
+    [self.scrollViewContentView addSubview: self.msgToYouView];
+    
+    [self.msgFromMyself removeFromSuperview];
+    [self.scrollViewContentView addSubview:self.msgFromMyself];
+    }
 
 - (int) returnCatchWidth {
-    return 95;
+    return 120;
 }
 -(void)prepareForReuse {
     [super prepareForReuse];
@@ -93,5 +90,42 @@
     NSLog(@"delete");
 }
 
+
+- (void) configureCell {
+    [self.userNameLabel hp_tuneForUserNameInContactList];
+    [self.userAgeAndLocationLabel hp_tuneForUserDetailsInContactList];
+    [self.currentMsgLabel hp_tuneForMessageInContactList];
+    [self.currentUserMsgLabel hp_tuneForMessageInContactList];
+    self.avatar = [HPAvatarView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
+    [self.avatarView addSubview: self.avatar];
+    self.currentMsgLabel.hidden = YES;
+    self.myAvatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
+    [self.myAvatarView addSubview: self.myAvatar];
+    [self fixAvatarConstraint];
+    
+}
+
+#pragma mark - constrains
+
+- (void) fixAvatarConstraint
+{
+    self.avatarView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.avatarView addConstraint:[NSLayoutConstraint constraintWithItem: self.avatarView
+                                                                attribute: NSLayoutAttributeWidth
+                                                                relatedBy: NSLayoutRelationEqual
+                                                                   toItem: nil
+                                                                attribute: NSLayoutAttributeNotAnAttribute
+                                                               multiplier: 1.0
+                                                                 constant: self.avatarView.frame.size.width]];
+    
+    [self.avatarView addConstraint:[NSLayoutConstraint constraintWithItem: self.avatarView
+                                                                attribute: NSLayoutAttributeHeight
+                                                                relatedBy: NSLayoutRelationEqual
+                                                                   toItem: nil
+                                                                attribute: NSLayoutAttributeNotAnAttribute
+                                                               multiplier: 1.0
+                                                                 constant: self.avatarView.frame.size.height]];
+}
 
 @end

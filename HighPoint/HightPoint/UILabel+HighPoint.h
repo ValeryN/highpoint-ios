@@ -26,4 +26,9 @@
 - (void) hp_tuneForDeletePointInfo;
 - (void) hp_tuneForUserVisibilityText;
 
+
+- (void) hp_tuneForUserNameInContactList;
+- (void) hp_tuneForUserDetailsInContactList;
+- (void) hp_tuneForMessageInContactList;
+
 @end
