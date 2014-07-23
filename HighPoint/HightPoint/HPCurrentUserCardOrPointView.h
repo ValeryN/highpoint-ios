@@ -12,9 +12,8 @@
 #import "User.h"
 
 @interface HPCurrentUserCardOrPointView : UIView
-{
-    UIView* _childContainerView;
-}
+
+@property (strong, nonatomic) UIView* childContainerView;
 
 - (id) initWithCardOrPoint: (HPCurrentUserCardOrPoint*) cardOrPoint
                   delegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user;

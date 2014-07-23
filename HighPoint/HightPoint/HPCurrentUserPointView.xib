@@ -118,6 +118,9 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted" backgroundImage="green_btn_pressed.png"/>
+                            <connections>
+                                <action selector="deletePointModalTap:" destination="9QB-AE-kLq" eventType="touchUpInside" id="NCl-uD-aGE"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ia-la-fF9">
                             <rect key="frame" x="79" y="197" width="106" height="30"/>
@@ -126,6 +129,9 @@
                                 <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="deleteCancelTap:" destination="9QB-AE-kLq" eventType="touchUpInside" id="aoo-b8-vNO"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -155,6 +161,9 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <state key="highlighted" backgroundImage="green_btn_pressed.png"/>
+                            <connections>
+                                <action selector="sharePointTap:" destination="9QB-AE-kLq" eventType="touchUpInside" id="4eH-gz-8hG"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

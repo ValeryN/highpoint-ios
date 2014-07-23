@@ -81,7 +81,9 @@
 
 -(void) cancelTaped {
     [currentUserCardOrPoint.pointView endEditing:YES];
-    
+    if ((!currentUserCardOrPoint.pointView.pointOptionsView.hidden) || (!currentUserCardOrPoint.pointView.deletePointView.hidden)) {
+        [self minimizeChildContainer];
+    }
     float deltaY = (currentUserCardOrPoint.pointView.pointOptionsView.hidden) ? 110 : 145;
     currentUserCardOrPoint.pointView.pointOptionsView.hidden = YES;
     currentUserCardOrPoint.pointView.publishPointBtn.hidden = NO;
@@ -97,12 +99,13 @@
 
 -(void) doneTaped {
     [self.view endEditing:YES];
+    [self maximizeChildContainer];
     [currentUserCardOrPointView addPointOptionsViewToCard:currentUserCardOrPoint delegate:self];
 }
 
 -(void) shareTaped {
     [currentUserCardOrPoint.pointView endEditing:YES];
-    
+    [self minimizeChildContainer];
     float deltaY = (currentUserCardOrPoint.pointView.pointOptionsView.hidden) ? 110 : 145;
     currentUserCardOrPoint.pointView.pointOptionsView.hidden = YES;
     currentUserCardOrPoint.pointView.publishPointBtn.hidden = YES;
@@ -301,6 +304,32 @@
                     completion: ^(BOOL finished){
                     }];}
 
+
+#pragma mark - child container size
+
+- (void) maximizeChildContainer {
+    NSLog(@"maximize container");
+    HPCurrentUserCardOrPointView* container = (HPCurrentUserCardOrPointView*)self.carousel.currentItemView;
+    [container.childContainerView setFrame:CGRectMake(container.childContainerView.frame.origin.x, container.childContainerView.frame.origin.y, container.childContainerView.frame.size.width,container.childContainerView.frame.size.height + 251)];
+}
+
+- (void) minimizeChildContainer {
+    NSLog(@"maximize container");
+    HPCurrentUserCardOrPointView* container = (HPCurrentUserCardOrPointView*)self.carousel.currentItemView;
+    [container.childContainerView setFrame:CGRectMake(container.childContainerView.frame.origin.x, container.childContainerView.frame.origin.y, container.childContainerView.frame.size.width,container.childContainerView.frame.size.height - 251)];
+}
+
+#pragma mark - top navigation buttons
+
+- (void) showTopNavigationItems {
+    self.closeBtn.hidden = NO;
+    self.bubbleBtn.hidden = NO;
+}
+
+- (void) hideTopNavigationItems {
+    self.closeBtn.hidden = YES;
+    self.bubbleBtn.hidden = YES;
+}
 
 #pragma mark - user info
 

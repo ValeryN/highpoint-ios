@@ -261,6 +261,7 @@
 - (IBAction)publishBtnTap:(id)sender {
     self.bgAvatarImageView.userInteractionEnabled = YES;
     [self.pointTextView becomeFirstResponder];
+    
     if ([self.delegate respondsToSelector:@selector(hideBottomBar)]) {
         [self.delegate hideBottomBar];
     }
@@ -279,12 +280,20 @@
     if ([self.delegate respondsToSelector:@selector(showNavigationItem)]) {
         [self.delegate showNavigationItem];
     }
+    
 }
 
 - (IBAction)deletePointTap:(id)sender {
     self.deletePointBtn.hidden = YES;
+    if ([self.delegate respondsToSelector:@selector(maximizeChildContainer)]) {
+        [self.delegate maximizeChildContainer];
+    }
     if ([self.delegate respondsToSelector:@selector(hideBottomBar)]) {
         [self.delegate hideBottomBar];
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(hideTopNavigationItems)]) {
+        [self.delegate hideTopNavigationItems];
     }
     self.deletePointView.hidden = NO;
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
@@ -295,6 +304,77 @@
                          NSLog(@"point deleted");
                      }];
 }
+- (IBAction)deletePointModalTap:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(minimizeChildContainer)]) {
+        [self.delegate minimizeChildContainer];
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(showTopNavigationItems)]) {
+        [self.delegate showTopNavigationItems];
+    }
+    if ([self.delegate respondsToSelector:@selector(showBottomBar)]) {
+        [self.delegate showBottomBar];
+    }
+    self.deletePointView.hidden = YES;
+    self.deletePointBtn.hidden = YES;
+    self.publishPointBtn.hidden = NO;
+    
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + 110, self.frame.size.width, self.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (IBAction)deleteCancelTap:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(minimizeChildContainer)]) {
+        [self.delegate minimizeChildContainer];
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(showTopNavigationItems)]) {
+        [self.delegate showTopNavigationItems];
+    }
+    self.deletePointView.hidden = YES;
+    self.deletePointBtn.hidden = NO;
+    self.publishPointBtn.hidden = YES;
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + 110, self.frame.size.width, self.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+
+
+- (IBAction)sharePointTap:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(minimizeChildContainer)]) {
+        [self.delegate minimizeChildContainer];
+    }
+    if ([self.delegate respondsToSelector:@selector(showBottomBar)]) {
+        [self.delegate showBottomBar];
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(hideNavigationItem)]) {
+        [self.delegate hideNavigationItem];
+    }
+    
+    self.pointOptionsView.hidden = YES;
+    self.deletePointBtn.hidden = NO;
+    self.publishPointBtn.hidden = YES;
+    
+    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + 145, self.frame.size.width, self.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
 
 
 @end

@@ -9,7 +9,9 @@
             <connections>
                 <outlet property="bottomBtn" destination="zdm-CF-rcl" id="ebG-Ht-Qvl"/>
                 <outlet property="bottomView" destination="X8f-rp-0ds" id="ppn-lR-UtT"/>
+                <outlet property="bubbleBtn" destination="zev-Cf-cbc" id="sUV-Ym-0Of"/>
                 <outlet property="carousel" destination="7W0-1W-x4E" id="c8I-WI-lt9"/>
+                <outlet property="closeBtn" destination="vgP-fK-1cS" id="UmW-NK-QeH"/>
                 <outlet property="personalDataDownImgView" destination="hnu-0j-wNf" id="SpQ-Yq-6LO"/>
                 <outlet property="personalDataLabel" destination="lDF-B1-aSM" id="LSz-Ub-Sse"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
