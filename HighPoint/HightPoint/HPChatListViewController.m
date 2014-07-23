@@ -8,6 +8,9 @@
 
 #import "HPChatListViewController.h"
 #import "HPChatTableViewCell.h"
+#import "UITextField+HighPoint.h"
+
+
 
 @interface HPChatListViewController ()
 
@@ -58,7 +61,7 @@
                                                      highlighedImage: [UIImage imageNamed:@"Close Tap.png"]
                                                               action: @selector(backbuttonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
-    self.navigationItem.title = @"Сообщения";
+    self.navigationItem.title = NSLocalizedString(@"CHAT_LIST_TITLE", nil);
 }
 
 
@@ -86,25 +89,27 @@
 
 - (void) searchTaped: (id) sender
 {
-    self.navigationItem.leftBarButtonItem = nil;
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(5, 25, 280, 30)];
-    self.searchBar.showsCancelButton = NO;
-    self.searchBar.translucent = YES;
-    self.searchBar.placeholder = @"Введите имя, возраст или город";
-    [self.searchBar sizeToFit];
-    self.navigationItem.titleView = self.searchBar;
-    [self.searchBar becomeFirstResponder];
-    self.searchBar.delegate = self;
+    self.navigationItem.title = @"";
+    self.searchTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 25, 270, 30)];
+    [self.searchTextField hp_tuneForSearchTextFieldInContactList :NSLocalizedString(@"SEARCH_FIELD_PLACEHOLDER", nil)];
+    [self.navigationItem.leftBarButtonItem initWithCustomView:self.searchTextField];
+    [self showCoverView];
+    [self.searchTextField becomeFirstResponder];
+    self.searchTextField.delegate = self;
     UIBarButtonItem* closeButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Close.png"] highlighedImage: [UIImage imageNamed:@"Close Tap.png"] action: @selector(closeSearchTaped:)];
     self.navigationItem.rightBarButtonItem = closeButton;
 }
 
-
 - (void) closeSearchTaped: (id) sender
 {
+    [self hideSearchFieldElements];
+}
+
+- (void) hideSearchFieldElements {
     [self createNavigationItem];
-    [self.searchBar removeFromSuperview];
-    self.searchBar = nil;
+    [self hideCoverView];
+    [self.searchTextField removeFromSuperview];
+    self.searchTextField = nil;
 }
 
 
@@ -162,14 +167,40 @@
     return [[UIView alloc] initWithFrame:CGRectZero];
 }
 
-#pragma mark - search bar 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    if (searchText.length > 0) {
-        //search and find users
+#pragma mark - search text field
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField.text.length > 0) {
+        //filter
     } else {
         //show all
     }
+    NSLog(@"changed");
+    return YES;
 }
 
+#pragma mark - cover view
+- (void) showCoverView {
+    if (!self.coverView) {
+        self.coverView = [[UIView alloc] initWithFrame:self.view.frame];
+        self.coverView.backgroundColor = [UIColor colorWithRed: 30.0 / 255.0
+                                                         green: 29.0 / 255.0
+                                                          blue: 48.0 / 255.0
+                                                         alpha: 1.0];
+        self.coverView.alpha = 0.5;
+        UITapGestureRecognizer *singleTap =
+        [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                action:@selector(handleCoverViewTap:)];
+        [self.view addGestureRecognizer:singleTap];
+    }
+    [self.view addSubview:self.coverView];
+}
+
+- (void) hideCoverView {
+    [self.coverView removeFromSuperview];
+}
+
+- (void)handleCoverViewTap:(UITapGestureRecognizer *)recognizer {
+    [self hideSearchFieldElements];
+}
 
 @end

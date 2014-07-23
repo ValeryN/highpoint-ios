@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPChatListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+@interface HPChatListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UITableView *chatListTableView;
-@property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) UITextField *searchTextField;
+@property (strong, nonatomic) UIView *coverView;
 
 @end

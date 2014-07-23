@@ -37,4 +37,6 @@
 
 
 //CHAT LIST SCREEN
+"CHAT_LIST_TITLE" = "Сообщения";
 "DELETE_BTN_TITLE" = "Удалить";
+"SEARCH_FIELD_PLACEHOLDER" = "Введите имя, возраст или город";
