@@ -21,9 +21,11 @@
 #import "HPPointLikesViewController.h"
 
 #define FLIP_ANIMATION_SPEED 0.5
-#define CONSTRAINT_TOP_FOR_CAROUSEL 76
+#define CONSTRAINT_TOP_FOR_CAROUSEL 30
 #define CONSTRAINT_WIDE_TOP_FOR_CAROUSEL 80
 #define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
+#define CONSTRAINT_TOP_FOR_BOTTOM_VIEW 432
+
 
 @interface HPCurrentUserViewController ()
 
@@ -114,7 +116,6 @@
                          [self showBottomBar];
                      }];
     [self hideNavigationItem];
-    NSLog(@"share tap");
 }
 
 
@@ -193,19 +194,27 @@
 - (void) fixUserCardConstraint
 {
     CGFloat topCarousel = CONSTRAINT_WIDE_TOP_FOR_CAROUSEL;
-    if (![UIDevice hp_isWideScreen])
+    if (![UIDevice hp_isWideScreen]) {
         topCarousel = CONSTRAINT_TOP_FOR_CAROUSEL;
-    
-//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.carousel
-//                                                          attribute: NSLayoutAttributeTop
-//                                                          relatedBy: NSLayoutRelationEqual
-//                                                             toItem: self.view
-//                                                          attribute: NSLayoutAttributeTop
-//                                                         multiplier: 1.0
-//                                                           constant: topCarousel]];
+    }
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.carousel
+                                                          attribute: NSLayoutAttributeTop
+                                                          relatedBy: NSLayoutRelationEqual
+                                                             toItem: self.view
+                                                          attribute: NSLayoutAttributeTop
+                                                         multiplier: 1.0
+                                                           constant: topCarousel]];
     
     if (![UIDevice hp_isWideScreen])
     {
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.bottomView
+                                                              attribute: NSLayoutAttributeTop
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: self.view
+                                                              attribute: NSLayoutAttributeTop
+                                                             multiplier: 1.0
+                                                               constant: CONSTRAINT_TOP_FOR_BOTTOM_VIEW]];
         
         NSArray* cons = self.carousel.constraints;
         for (NSLayoutConstraint* consIter in cons)
@@ -247,7 +256,6 @@
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 264, 416)];
         view.backgroundColor = [UIColor whiteColor];
     }
-    
     return view;
 }
 
