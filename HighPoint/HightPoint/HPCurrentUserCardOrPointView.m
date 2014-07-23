@@ -45,7 +45,7 @@
         _childContainerView = [cardOrPoint userPointWithDelegate: delegate user:user];
         _childContainerView.frame = CGRectMake(_childContainerView.frame.origin.x, _childContainerView.frame.origin.y, _childContainerView.frame.size.width, _childContainerView.frame.size.height + 251);
     }
-   // _childContainerView.backgroundColor = [UIColor redColor];
+    //_childContainerView.backgroundColor = [UIColor redColor];
     [self fixUserCardConstraint];
     [self addSubview: _childContainerView];
     [self fixFrame];

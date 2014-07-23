@@ -20,10 +20,18 @@
 
 
 #define CONSTRAINT_TOP_FOR_HEART 245
-#define CONSTRAINT_TOP_FOR_NAMELABEL 286
 #define CONSTRAINT_WIDTH_FOR_SELF 264
 #define CONSTRAINT_WIDE_HEIGHT_FOR_SELF 416
-#define CONSTRAINT_HEIGHT_FOR_SELF 340
+#define CONSTRAINT_HEIGHT_FOR_SELF 345
+
+
+#define CONSTRAINT_HEIGHT_FOR_AVATAR 300
+#define CONSTRAINT_TOP_FOR_LITTLE_AVATAR 45
+#define CONSTRAINT_TOP_FOR_POINT_TEXTVIEW 140
+#define CONSTRAINT_TOP_FOR_POINT_INFOLABEL 250
+#define CONSTRAINT_TOP_FOR_BOTTOM_BUTTOM 310
+#define CONSTRAINT_TOP_FOR_MODAL_BOTTOMVIEWS 300
+
 
 @implementation HPCurrentUserPointView
 
@@ -182,16 +190,61 @@
                                                       constant: height]];
     if (![UIDevice hp_isWideScreen])
     {
+        
+        [self addConstraint:[NSLayoutConstraint constraintWithItem: self.bgAvatarImageView
+                                                         attribute: NSLayoutAttributeHeight
+                                                         relatedBy: NSLayoutRelationEqual
+                                                            toItem: nil
+                                                         attribute: NSLayoutAttributeNotAnAttribute
+                                                        multiplier: 1.0
+                                                          constant: CONSTRAINT_HEIGHT_FOR_AVATAR]];
+        
         NSArray* cons = self.constraints;
         for (NSLayoutConstraint* consIter in cons)
         {
-            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.publishPointBtn))
-                consIter.constant = CONSTRAINT_TOP_FOR_NAMELABEL;
+//            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+//                (consIter.firstItem == self.publishPointBtn))
+//                consIter.constant = CONSTRAINT_TOP_FOR_NAMELABEL;
             if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
                 (consIter.firstItem == self.pointInfoLabel) &&
                 (consIter.secondItem == self))
                 consIter.constant = CONSTRAINT_TOP_FOR_HEART;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.avatarView) &&
+                (consIter.secondItem == self))
+                consIter.constant = CONSTRAINT_TOP_FOR_LITTLE_AVATAR;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.pointTextView) &&
+                (consIter.secondItem == self))
+                consIter.constant = CONSTRAINT_TOP_FOR_POINT_TEXTVIEW;
+
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.pointInfoLabel) &&
+                (consIter.secondItem == self))
+                consIter.constant = CONSTRAINT_TOP_FOR_POINT_INFOLABEL;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.publishPointBtn) &&
+                (consIter.secondItem == self))
+                consIter.constant = CONSTRAINT_TOP_FOR_BOTTOM_BUTTOM;
+
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.deletePointBtn) &&
+                (consIter.secondItem == self))
+                consIter.constant = CONSTRAINT_TOP_FOR_BOTTOM_BUTTOM;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.deletePointView) &&
+                (consIter.secondItem == self))
+                consIter.constant = CONSTRAINT_TOP_FOR_MODAL_BOTTOMVIEWS;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.pointOptionsView) &&
+                (consIter.secondItem == self))
+                consIter.constant = CONSTRAINT_TOP_FOR_MODAL_BOTTOMVIEWS;
+        
         }
     }
 }
