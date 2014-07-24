@@ -38,12 +38,11 @@
     
     [_childContainerView removeFromSuperview];
     if (![cardOrPoint isUserPoint]) {
-        self.frame =CGRectMake(self.frame.origin.x, _childContainerView.frame.origin.y, self.frame.size.width, 416);
+        self.frame =CGRectMake(self.frame.origin.x, _childContainerView.frame.origin.y, self.frame.size.width, self.frame.size.height);
         _childContainerView = [cardOrPoint userCardWithDelegate: delegate user:user];
     } else {
-        self.frame =CGRectMake(self.frame.origin.x, _childContainerView.frame.origin.y, self.frame.size.width, 602);
+        self.frame =CGRectMake(self.frame.origin.x, _childContainerView.frame.origin.y, self.frame.size.width, self.frame.size.height);
         _childContainerView = [cardOrPoint userPointWithDelegate: delegate user:user];
-        _childContainerView.frame = CGRectMake(_childContainerView.frame.origin.x, _childContainerView.frame.origin.y, _childContainerView.frame.size.width, _childContainerView.frame.size.height + 251);
     }
     [self fixUserCardConstraint];
     [self addSubview: _childContainerView];

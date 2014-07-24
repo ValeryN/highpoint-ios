@@ -285,6 +285,11 @@
 
 - (IBAction)deletePointTap:(id)sender {
     self.deletePointBtn.hidden = YES;
+    
+    if ([self.delegate respondsToSelector:@selector(disableCarouselScroll)]) {
+        [self.delegate disableCarouselScroll];
+    }
+    
     if ([self.delegate respondsToSelector:@selector(maximizeChildContainer)]) {
         [self.delegate maximizeChildContainer];
     }
@@ -298,13 +303,18 @@
     self.deletePointView.hidden = NO;
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 110, self.frame.size.width, self.frame.size.height);
+                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 135, self.frame.size.width, self.frame.size.height);
                      }
                      completion:^(BOOL finished){
                          NSLog(@"point deleted");
                      }];
 }
 - (IBAction)deletePointModalTap:(id)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(enableCarouselScroll)]) {
+        [self.delegate enableCarouselScroll];
+    }
+    
     if ([self.delegate respondsToSelector:@selector(minimizeChildContainer)]) {
         [self.delegate minimizeChildContainer];
     }
@@ -321,7 +331,7 @@
     
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + 110, self.frame.size.width, self.frame.size.height);
+                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + 135, self.frame.size.width, self.frame.size.height);
                      }
                      completion:^(BOOL finished){
                          
@@ -329,6 +339,12 @@
 }
 
 - (IBAction)deleteCancelTap:(id)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(enableCarouselScroll)]) {
+        [self.delegate enableCarouselScroll];
+    }
+
+    
     if ([self.delegate respondsToSelector:@selector(minimizeChildContainer)]) {
         [self.delegate minimizeChildContainer];
     }
@@ -336,12 +352,17 @@
     if ([self.delegate respondsToSelector:@selector(showTopNavigationItems)]) {
         [self.delegate showTopNavigationItems];
     }
+    
+    if ([self.delegate respondsToSelector:@selector(showBottomBar)]) {
+        [self.delegate showBottomBar];
+    }
+
     self.deletePointView.hidden = YES;
     self.deletePointBtn.hidden = NO;
     self.publishPointBtn.hidden = YES;
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + 110, self.frame.size.width, self.frame.size.height);
+                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + 135, self.frame.size.width, self.frame.size.height);
                      }
                      completion:^(BOOL finished){
                          

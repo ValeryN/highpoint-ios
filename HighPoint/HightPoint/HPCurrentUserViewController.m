@@ -193,6 +193,16 @@
 }
 
 
+#pragma mark - carousel scroll
+
+-(void) enableCarouselScroll {
+    [self.carousel setScrollEnabled:YES];
+}
+
+-(void) disableCarouselScroll {
+    [self.carousel setScrollEnabled:NO];
+}
+
 #pragma mark - constraint
 - (void) fixUserCardConstraint
 {

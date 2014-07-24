@@ -31,4 +31,8 @@
 - (void) showTopNavigationItems;
 - (void) hideTopNavigationItems;
 
+
+-(void) enableCarouselScroll;
+-(void) disableCarouselScroll;
+
 @end
