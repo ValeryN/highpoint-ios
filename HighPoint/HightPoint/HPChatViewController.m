@@ -8,6 +8,12 @@
 
 #import "HPChatViewController.h"
 #import "UINavigationController+HighPoint.h"
+#import "HPChatMsgTableViewCell.h"
+#import "HPChatOptionsTableViewCell.h"
+
+
+#define KEYBOARD_HEIGHT 216
+#define MSGS_TEST_COUNT 11;
 
 
 @interface HPChatViewController ()
@@ -29,6 +35,9 @@
 {
     [super viewDidLoad];
     [self createNavigationItem];
+    self.msgTextView.delegate = self;
+    self.chatTableView.delegate = self;
+    self.chatTableView.dataSource = self;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -78,6 +87,148 @@
 - (void) backbuttonTaped: (id) sender
 {
     [self.navigationController popViewControllerAnimated: YES];
+}
+
+
+#pragma mark - backgound tap
+- (IBAction)backgroundTap:(id)sender {
+    NSLog(@"bg tap");
+    [self.view endEditing:YES];
+}
+
+#pragma mark - text view
+
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    
+    CGRect frame = self.msgTextView.frame;
+//    CGRect oldFrame = self.msgTextView.frame;
+//    CGRect viewFrame = self.msgBottomView.frame;
+    
+    frame.size.height = self.msgTextView.contentSize.height;
+    if (self.msgTextView.frame.size.height < self.msgTextView.contentSize.height) {
+        NSLog(@"up");
+        frame.origin.y = frame.origin.y - 16;
+    }
+    
+    if ((self.msgTextView.frame.size.height > self.msgTextView.contentSize.height) && (text.length < 1)) {
+        NSLog(@"down");
+        frame.origin.y = frame.origin.y + 16;
+    }
+    
+//    if ((oldFrame.size.height < frame.size.height) && (self.msgTextView.frame.size.height < self.msgTextView.contentSize.height)) {
+//        viewFrame.origin.y = viewFrame.origin.y - 16;
+//        viewFrame.size.height = viewFrame.size.height + 16;
+//        self.msgBottomView.frame = viewFrame;
+//    }
+//    
+//    if ((oldFrame.size.height > frame.size.height) && ((self.msgTextView.frame.size.height > self.msgTextView.contentSize.height) && (text.length < 1))) {
+//        viewFrame.origin.y = viewFrame.origin.y + 16;
+//        viewFrame.size.height = viewFrame.size.height - 16;
+//        self.msgBottomView.frame = viewFrame;
+//    }
+    
+    self.msgTextView.frame = frame;
+    
+    
+    
+    return YES;
+}
+
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+
+    CGRect newFrame = self.msgBottomView.frame;
+    newFrame.origin.y = newFrame.origin.y - KEYBOARD_HEIGHT;
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.msgBottomView.frame = newFrame;
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    CGRect newFrame = self.msgBottomView.frame;
+    newFrame.origin.y = newFrame.origin.y + KEYBOARD_HEIGHT;
+    [UIView animateWithDuration:0.2
+                          delay:0.0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.msgBottomView.frame = newFrame;
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+
+#pragma mark - button handlers
+- (IBAction)addMsgTap:(id)sender {
+    [self.view endEditing:YES];
+    //TODO: send msg
+}
+
+#pragma mark - table view
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row < 10) {
+        static NSString *msgCellIdentifier = @"ChatMsgCell";
+        HPChatMsgTableViewCell *msgCell = (HPChatMsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier];
+        
+        if (msgCell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatMsgTableViewCell" owner:self options:nil];
+            msgCell = [nib objectAtIndex:0];
+        }
+        [msgCell configureSelfWithIncomingMsg];
+        return msgCell;
+    } else {
+        static NSString *msgOptCellIdentifier = @"ChatMsgOptions";
+        HPChatOptionsTableViewCell *msgOptCell = (HPChatOptionsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgOptCellIdentifier];
+        
+        if (msgOptCell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatOptionsTableViewCell" owner:self options:nil];
+            msgOptCell = [nib objectAtIndex:0];
+        }
+        return msgOptCell;
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return MSGS_TEST_COUNT;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row < 10) {
+        return 100;
+    } else {
+        return 32;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [[UIView alloc] initWithFrame:CGRectZero];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 

@@ -9,11 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "HPAvatarLittleView.h"
 
-@interface HPChatViewController : UIViewController
+@interface HPChatViewController : UIViewController <UITextViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
 
 @property (strong, nonatomic) HPAvatarLittleView *avatar;
 @property (strong, nonatomic) UIView *avatarView;
-@property (strong, nonatomic) UITextField *searchTextField;
+
+@property (weak, nonatomic) IBOutlet UITableView *chatTableView;
+
+
+
+//bottom view
+@property (weak, nonatomic) IBOutlet UIView *msgBottomView;
+@property (weak, nonatomic) IBOutlet UIButton *msgAddBtn;
+@property (weak, nonatomic) IBOutlet UITextView *msgTextView;
+
 
 @end
