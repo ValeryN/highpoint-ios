@@ -11,14 +11,10 @@
             <rect key="frame" x="0.0" y="0.0" width="264" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AHz-RI-r0T" userLabel="mybackground">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="img_sample.png" translatesAutoresizingMaskIntoConstraints="NO" id="AHz-RI-r0T" userLabel="mybackground">
                     <rect key="frame" x="0.0" y="0.0" width="264" height="352"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="352" id="EIH-1C-0rC"/>
-                        <constraint firstAttribute="width" constant="264" id="ln2-kB-mvF"/>
-                    </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9wZ-ml-Sfg" userLabel="Show Point - Button">
                     <rect key="frame" x="220" y="12" width="32" height="32"/>
@@ -99,14 +95,6 @@
                 </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="AHz-RI-r0T" firstAttribute="top" secondItem="yAe-kx-a7h" secondAttribute="top" id="T0J-Zn-phA"/>
-                <constraint firstItem="j6g-Ir-XZG" firstAttribute="leading" secondItem="4i4-q3-fTU" secondAttribute="trailing" constant="45" id="Ups-b5-GS6"/>
-                <constraint firstItem="4i4-q3-fTU" firstAttribute="leading" secondItem="z3G-Sh-g0b" secondAttribute="trailing" constant="42" id="be6-XI-aUF"/>
-                <constraint firstItem="z3G-Sh-g0b" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" constant="38" id="id1-ee-lNc"/>
-                <constraint firstAttribute="trailing" secondItem="j6g-Ir-XZG" secondAttribute="trailing" constant="34" id="leJ-zU-2VC"/>
-                <constraint firstItem="AHz-RI-r0T" firstAttribute="leading" secondItem="yAe-kx-a7h" secondAttribute="leading" id="uow-3p-cCp"/>
-            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="ageAndCitylabel" destination="9tI-2J-neg" id="ZCE-W6-gCG"/>
@@ -129,5 +117,6 @@
         <image name="Lock Tap.png" width="64" height="64"/>
         <image name="Point" width="32" height="32"/>
         <image name="Point Tap" width="32" height="32"/>
+        <image name="img_sample.png" width="650" height="923"/>
     </resources>
 </document>

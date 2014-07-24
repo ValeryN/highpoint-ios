@@ -23,9 +23,11 @@
 #import "Utils.h"
 
 #define FLIP_ANIMATION_SPEED 0.5
-#define CONSTRAINT_TOP_FOR_CAROUSEL 76
+#define CONSTRAINT_TOP_FOR_CAROUSEL 30
 #define CONSTRAINT_WIDE_TOP_FOR_CAROUSEL 80
 #define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
+#define CONSTRAINT_TOP_FOR_BOTTOM_VIEW 432
+
 
 @interface HPCurrentUserViewController ()
 
@@ -82,7 +84,9 @@
 
 -(void) cancelTaped {
     [currentUserCardOrPoint.pointView endEditing:YES];
-    
+    if ((!currentUserCardOrPoint.pointView.pointOptionsView.hidden) || (!currentUserCardOrPoint.pointView.deletePointView.hidden)) {
+        [self minimizeChildContainer];
+    }
     float deltaY = (currentUserCardOrPoint.pointView.pointOptionsView.hidden) ? 110 : 145;
     currentUserCardOrPoint.pointView.pointOptionsView.hidden = YES;
     currentUserCardOrPoint.pointView.publishPointBtn.hidden = NO;
@@ -98,12 +102,13 @@
 
 -(void) doneTaped {
     [self.view endEditing:YES];
+    [self maximizeChildContainer];
     [currentUserCardOrPointView addPointOptionsViewToCard:currentUserCardOrPoint delegate:self];
 }
 
 -(void) shareTaped {
     [currentUserCardOrPoint.pointView endEditing:YES];
-    
+    [self minimizeChildContainer];
     float deltaY = (currentUserCardOrPoint.pointView.pointOptionsView.hidden) ? 110 : 145;
     currentUserCardOrPoint.pointView.pointOptionsView.hidden = YES;
     currentUserCardOrPoint.pointView.publishPointBtn.hidden = YES;
@@ -117,7 +122,6 @@
                          [self showBottomBar];
                      }];
     [self hideNavigationItem];
-    NSLog(@"share tap");
 }
 
 
@@ -192,13 +196,25 @@
 }
 
 
+#pragma mark - carousel scroll
+
+-(void) enableCarouselScroll {
+    [self.carousel setScrollEnabled:YES];
+}
+
+-(void) disableCarouselScroll {
+    [self.carousel setScrollEnabled:NO];
+}
+
 #pragma mark - constraint
 - (void) fixUserCardConstraint
 {
     CGFloat topCarousel = CONSTRAINT_WIDE_TOP_FOR_CAROUSEL;
-    if (![UIDevice hp_isWideScreen])
+    if (![UIDevice hp_isWideScreen]) {
         topCarousel = CONSTRAINT_TOP_FOR_CAROUSEL;
-    
+
+    }
+
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.carousel
                                                           attribute: NSLayoutAttributeTop
                                                           relatedBy: NSLayoutRelationEqual
@@ -209,6 +225,14 @@
     
     if (![UIDevice hp_isWideScreen])
     {
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.bottomView
+                                                              attribute: NSLayoutAttributeTop
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: self.view
+                                                              attribute: NSLayoutAttributeTop
+                                                             multiplier: 1.0
+                                                               constant: CONSTRAINT_TOP_FOR_BOTTOM_VIEW]];
         
         NSArray* cons = self.carousel.constraints;
         for (NSLayoutConstraint* consIter in cons)
@@ -250,7 +274,6 @@
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 264, 416)];
         view.backgroundColor = [UIColor whiteColor];
     }
-    
     return view;
 }
 
@@ -296,6 +319,32 @@
                     completion: ^(BOOL finished){
                     }];}
 
+
+#pragma mark - child container size
+
+- (void) maximizeChildContainer {
+    NSLog(@"maximize container");
+    HPCurrentUserCardOrPointView* container = (HPCurrentUserCardOrPointView*)self.carousel.currentItemView;
+    [container.childContainerView setFrame:CGRectMake(container.childContainerView.frame.origin.x, container.childContainerView.frame.origin.y, container.childContainerView.frame.size.width,container.childContainerView.frame.size.height + 251)];
+}
+
+- (void) minimizeChildContainer {
+    NSLog(@"maximize container");
+    HPCurrentUserCardOrPointView* container = (HPCurrentUserCardOrPointView*)self.carousel.currentItemView;
+    [container.childContainerView setFrame:CGRectMake(container.childContainerView.frame.origin.x, container.childContainerView.frame.origin.y, container.childContainerView.frame.size.width,container.childContainerView.frame.size.height - 251)];
+}
+
+#pragma mark - top navigation buttons
+
+- (void) showTopNavigationItems {
+    self.closeBtn.hidden = NO;
+    self.bubbleBtn.hidden = NO;
+}
+
+- (void) hideTopNavigationItems {
+    self.closeBtn.hidden = YES;
+    self.bubbleBtn.hidden = YES;
+}
 
 #pragma mark - user info
 

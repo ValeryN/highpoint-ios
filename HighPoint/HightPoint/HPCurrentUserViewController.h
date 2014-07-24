@@ -20,6 +20,10 @@
 
 @property (weak, nonatomic) IBOutlet iCarousel *carousel;
 
+
+@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
+@property (weak, nonatomic) IBOutlet UIButton *bubbleBtn;
+
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIImageView *personalDataDownImgView;
 @property (weak, nonatomic) IBOutlet UILabel *personalDataLabel;

@@ -76,7 +76,9 @@
     
     [self.msgFromMyself removeFromSuperview];
     [self.scrollViewContentView addSubview:self.msgFromMyself];
-    }
+    
+    [self addPanGesture];
+}
 
 - (int) returnCatchWidth {
     return 120;
@@ -108,6 +110,32 @@
     [self fixAvatarConstraint];
     
 }
+
+
+#pragma mark -
+#pragma mark - UITapGestureRecognizer Methods
+- (void) addPanGesture
+{
+    if(self.tap_Gesture == nil)
+    {
+        self.tap_Gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+        
+        self.tap_Gesture.cancelsTouchesInView = NO;
+        self.tap_Gesture.numberOfTouchesRequired = 1;
+        self.tap_Gesture.numberOfTapsRequired = 1;
+        [self.tap_Gesture setDelegate:self];
+        [self.contentView addGestureRecognizer:self.tap_Gesture];
+    }
+}
+
+- (void)tapGesture:(UITapGestureRecognizer *)recognizer {
+    CGPoint p = [recognizer locationInView:self.scrollViewButtonView];
+    if(p.x < 0) {
+        if([self.delegate respondsToSelector:@selector(cellDidTap:)])
+            [self.delegate cellDidTap:self];
+    }
+}
+
 
 #pragma mark - constrains
 

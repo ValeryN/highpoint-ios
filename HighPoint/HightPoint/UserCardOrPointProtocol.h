@@ -20,8 +20,19 @@
 - (void) hideNavigationItem;
 - (void) configurePublishPointNavigationItem;
 - (void) configureSendPointNavigationItem;
+- (void) resizeChildContainer;
 
 - (void) hideBottomBar;
 - (void) showBottomBar;
+
+- (void) maximizeChildContainer;
+- (void) minimizeChildContainer;
+
+- (void) showTopNavigationItems;
+- (void) hideTopNavigationItems;
+
+
+-(void) enableCarouselScroll;
+-(void) disableCarouselScroll;
 
 @end

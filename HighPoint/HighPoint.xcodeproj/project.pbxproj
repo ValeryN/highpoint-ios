@@ -222,6 +222,14 @@
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
 		CD3AF59C197E624600CC8767 /* HPAvatarLittleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3AF59B197E624600CC8767 /* HPAvatarLittleView.m */; };
 		CD3AF59E197E626500CC8767 /* HPAvatarLittleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD3AF59D197E626500CC8767 /* HPAvatarLittleView.xib */; };
+		CD4CA3B21980E4D70016DF7E /* HPChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD4CA3B01980E4D70016DF7E /* HPChatViewController.xib */; };
+		CD4CA3B51980F22F0016DF7E /* HPChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4CA3B41980F22F0016DF7E /* HPChatViewController.m */; };
+		CD4CA3B81980F71E0016DF7E /* Add Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CD4CA3B61980F71E0016DF7E /* Add Tap.png */; };
+		CD4CA3B91980F71E0016DF7E /* Add.png in Resources */ = {isa = PBXBuildFile; fileRef = CD4CA3B71980F71E0016DF7E /* Add.png */; };
+		CD4CA3BD19810F7C0016DF7E /* HPChatMsgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4CA3BB19810F7C0016DF7E /* HPChatMsgTableViewCell.m */; };
+		CD4CA3BE19810F7C0016DF7E /* HPChatMsgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD4CA3BC19810F7C0016DF7E /* HPChatMsgTableViewCell.xib */; };
+		CD4CA3C2198111550016DF7E /* HPChatOptionsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4CA3C0198111550016DF7E /* HPChatOptionsTableViewCell.m */; };
+		CD4CA3C3198111550016DF7E /* HPChatOptionsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD4CA3C1198111550016DF7E /* HPChatOptionsTableViewCell.xib */; };
 		CD55FD1119792025003EE9E9 /* Language.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1019792025003EE9E9 /* Language.m */; };
 		CD55FD17197925E3003EE9E9 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD16197925E3003EE9E9 /* Place.m */; };
 		CD55FD1D19792610003EE9E9 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1C19792610003EE9E9 /* User.m */; };
@@ -259,6 +267,7 @@
 		CDA317CD19768EDC00F04DA2 /* delete_point.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA317CC19768EDC00F04DA2 /* delete_point.png */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
+		CDD842C6197F7D4A00CCB857 /* UITextField+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD842C5197F7D4A00CCB857 /* UITextField+HighPoint.m */; };
 		CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */; };
 		CDE0BDC4196E636600CBCF58 /* HPUserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */; };
 		CDE0BDCA196E7FC000CBCF58 /* HPCurrentUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */; };
@@ -577,6 +586,17 @@
 		CD3AF59A197E624600CC8767 /* HPAvatarLittleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAvatarLittleView.h; sourceTree = "<group>"; };
 		CD3AF59B197E624600CC8767 /* HPAvatarLittleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAvatarLittleView.m; sourceTree = "<group>"; };
 		CD3AF59D197E626500CC8767 /* HPAvatarLittleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAvatarLittleView.xib; sourceTree = "<group>"; };
+		CD4CA3B01980E4D70016DF7E /* HPChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatViewController.xib; sourceTree = "<group>"; };
+		CD4CA3B31980F22F0016DF7E /* HPChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatViewController.h; sourceTree = "<group>"; };
+		CD4CA3B41980F22F0016DF7E /* HPChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChatViewController.m; sourceTree = "<group>"; };
+		CD4CA3B61980F71E0016DF7E /* Add Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add Tap.png"; sourceTree = "<group>"; };
+		CD4CA3B71980F71E0016DF7E /* Add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Add.png; sourceTree = "<group>"; };
+		CD4CA3BA19810F7C0016DF7E /* HPChatMsgTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatMsgTableViewCell.h; sourceTree = "<group>"; };
+		CD4CA3BB19810F7C0016DF7E /* HPChatMsgTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChatMsgTableViewCell.m; sourceTree = "<group>"; };
+		CD4CA3BC19810F7C0016DF7E /* HPChatMsgTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgTableViewCell.xib; sourceTree = "<group>"; };
+		CD4CA3BF198111550016DF7E /* HPChatOptionsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatOptionsTableViewCell.h; sourceTree = "<group>"; };
+		CD4CA3C0198111550016DF7E /* HPChatOptionsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChatOptionsTableViewCell.m; sourceTree = "<group>"; };
+		CD4CA3C1198111550016DF7E /* HPChatOptionsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatOptionsTableViewCell.xib; sourceTree = "<group>"; };
 		CD55FD0F19792025003EE9E9 /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
 		CD55FD1019792025003EE9E9 /* Language.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Language.m; sourceTree = "<group>"; };
 		CD55FD15197925E3003EE9E9 /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
@@ -634,6 +654,8 @@
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
+		CDD842C4197F7D4A00CCB857 /* UITextField+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+HighPoint.h"; sourceTree = "<group>"; };
+		CDD842C5197F7D4A00CCB857 /* UITextField+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+HighPoint.m"; sourceTree = "<group>"; };
 		CDE0BDC0196E636600CBCF58 /* HPUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoViewController.h; sourceTree = "<group>"; };
 		CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoViewController.m; sourceTree = "<group>"; };
 		CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoViewController.xib; sourceTree = "<group>"; };
@@ -790,7 +812,12 @@
 		3B31864D191A493F0000DD8B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+
 				3B5EFDB619811EE900408427 /* Camera.png */,
+
+				CD4CA3B61980F71E0016DF7E /* Add Tap.png */,
+				CD4CA3B71980F71E0016DF7E /* Add.png */,
+
 				3BE83C04197902950043E03E /* Photos_C.png */,
 				3BE83C05197902950043E03E /* Photos_R.png */,
 				3BE83C06197902950043E03E /* Photos_Camera_L.png */,
@@ -975,6 +1002,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CD4CA1841980DFB40016DF7E /* ChatViewController */,
 				CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */,
 				CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */,
 				CDA22EE0196FB22A0032210F /* ConciergeViewController */,
@@ -1325,8 +1353,26 @@
 				4CDC98BC19519EEB006D2F89 /* UIView+HighPoint.m */,
 				4C1A488019629A7C00DD36F9 /* UITextView+HightPoint.h */,
 				4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */,
+				CDD842C4197F7D4A00CCB857 /* UITextField+HighPoint.h */,
+				CDD842C5197F7D4A00CCB857 /* UITextField+HighPoint.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		CD4CA1841980DFB40016DF7E /* ChatViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CD4CA3B31980F22F0016DF7E /* HPChatViewController.h */,
+				CD4CA3B41980F22F0016DF7E /* HPChatViewController.m */,
+				CD4CA3B01980E4D70016DF7E /* HPChatViewController.xib */,
+				CD4CA3BA19810F7C0016DF7E /* HPChatMsgTableViewCell.h */,
+				CD4CA3BB19810F7C0016DF7E /* HPChatMsgTableViewCell.m */,
+				CD4CA3BC19810F7C0016DF7E /* HPChatMsgTableViewCell.xib */,
+				CD4CA3BF198111550016DF7E /* HPChatOptionsTableViewCell.h */,
+				CD4CA3C0198111550016DF7E /* HPChatOptionsTableViewCell.m */,
+				CD4CA3C1198111550016DF7E /* HPChatOptionsTableViewCell.xib */,
+			);
+			name = ChatViewController;
 			sourceTree = "<group>";
 		};
 		CD68A9BE196D0DE80090D6D1 /* TLSwipeForOptionsCell */ = {
@@ -1556,6 +1602,7 @@
 				CDFA8A21196BEA6200D04451 /* Switcher-R.png in Resources */,
 				CD6D7A8D197CDA6D0002E8A0 /* HPPointLikesViewController.xib in Resources */,
 				CDFA8A20196BEA6200D04451 /* Switcher-L.png in Resources */,
+				CD4CA3B81980F71E0016DF7E /* Add Tap.png in Resources */,
 				3BE83C08197902950043E03E /* Photos_R.png in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
 				3BE9DE3C197FD8F300AFA641 /* 19.jpg in Resources */,
@@ -1602,6 +1649,7 @@
 				3BE83C07197902950043E03E /* Photos_C.png in Resources */,
 				CD6D7A92197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib in Resources */,
 				3B298FCD192F476100BEC2AA /* slider-metal-handle.png in Resources */,
+				CD4CA3B91980F71E0016DF7E /* Add.png in Resources */,
 				3B298FCE192F476100BEC2AA /* slider-metal-handle@2x.png in Resources */,
 				3BE9DE32197FD8F300AFA641 /* 1.jpg in Resources */,
 				3BE9DE33197FD8F300AFA641 /* 10.jpg in Resources */,
@@ -1620,6 +1668,8 @@
 				3B298FBA192F476100BEC2AA /* slider-default-handle-highlighted@2x.png in Resources */,
 				CDF9745D196E8C4C0064ED04 /* Eye.png in Resources */,
 				3B298FBC192F476100BEC2AA /* slider-default-handle@2x.png in Resources */,
+				CD4CA3C3198111550016DF7E /* HPChatOptionsTableViewCell.xib in Resources */,
+				CD4CA3BE19810F7C0016DF7E /* HPChatMsgTableViewCell.xib in Resources */,
 				3B0B91FF197D1E6600910475 /* HPUserInfoFirstRowTableViewCell.xib in Resources */,
 				3BE9DE3D197FD8F300AFA641 /* 2.jpg in Resources */,
 				3BE9DE45197FD8F300AFA641 /* 9.jpg in Resources */,
@@ -1637,6 +1687,7 @@
 				3BE9DE37197FD8F300AFA641 /* 14.jpg in Resources */,
 				CDA317CB19768B6A00F04DA2 /* point_options.png in Resources */,
 				3B0B9207197D364E00910475 /* HPUserInfoTableHeaderView.xib in Resources */,
+				CD4CA3B21980E4D70016DF7E /* HPChatViewController.xib in Resources */,
 				CDFA8A1B196BEA6200D04451 /* Lens.png in Resources */,
 				CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */,
 				3BE9DE3B197FD8F300AFA641 /* 18.jpg in Resources */,
@@ -1744,9 +1795,11 @@
 				3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */,
 				3BDA4C6A19064AC900EF6619 /* AFURLSessionManager.m in Sources */,
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
+				CDD842C6197F7D4A00CCB857 /* UITextField+HighPoint.m in Sources */,
 				4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
 				CD55FD1119792025003EE9E9 /* Language.m in Sources */,
 				4C91C1F119585AC1002B27D4 /* HPUserPointView.m in Sources */,
+				CD4CA3B51980F22F0016DF7E /* HPChatViewController.m in Sources */,
 				3BDA4C8E19064E5900EF6619 /* NSData+ImageContentType.m in Sources */,
 				3B39D301195C3091002520B9 /* Gender.m in Sources */,
 				3BDA4C6419064AC900EF6619 /* AFHTTPSessionManager.m in Sources */,
@@ -1756,6 +1809,7 @@
 				3B39D2F8195C3091002520B9 /* MinEntertainmentPrice.m in Sources */,
 				3B31709D191B6B5200B72AC1 /* HPMainViewListTableViewCell.m in Sources */,
 				3B39D31A195C3122002520B9 /* SocketIO.m in Sources */,
+				CD4CA3C2198111550016DF7E /* HPChatOptionsTableViewCell.m in Sources */,
 				3BA9A305190125F700CD542A /* DataStorage.m in Sources */,
 				4C8096AE193F2E2200E4C174 /* UILabel+HighPoint.m in Sources */,
 				4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
@@ -1777,6 +1831,7 @@
 				4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */,
 				CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */,
 				CD6D7A90197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m in Sources */,
+				CD4CA3BD19810F7C0016DF7E /* HPChatMsgTableViewCell.m in Sources */,
 				CDFA8A00196BB68000D04451 /* City.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,

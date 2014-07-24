@@ -66,6 +66,7 @@
          [self.pointView setBlurForAvatar];
      }];
     [self.pointView initObjects];
+    [self.pointView setCropedAvatar:[UIImage imageNamed:@"img_sample1.png"]];
     return self.pointView;
 }
 
