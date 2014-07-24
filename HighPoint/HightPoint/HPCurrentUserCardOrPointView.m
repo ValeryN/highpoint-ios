@@ -44,6 +44,7 @@
         self.frame =CGRectMake(self.frame.origin.x, _childContainerView.frame.origin.y, self.frame.size.width, 602);
         _childContainerView = [cardOrPoint userPointWithDelegate: delegate user:user];
         _childContainerView.frame = CGRectMake(_childContainerView.frame.origin.x, _childContainerView.frame.origin.y, _childContainerView.frame.size.width, _childContainerView.frame.size.height + 251);
+        
     }
     [self fixUserCardConstraint];
     [self addSubview: _childContainerView];

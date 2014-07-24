@@ -6,8 +6,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPUserProfileViewController">
             <connections>
-                <outlet property="barView" destination="5hx-uo-s8D" id="bC5-Ta-f9k"/>
-                <outlet property="downButton" destination="YrJ-nF-tCM" id="r0e-4X-z7q"/>
+                <outlet property="collectionView" destination="c5z-xG-Gas" id="13t-xE-jvn"/>
+                <outlet property="infoTableView" destination="Pdk-6r-A7z" id="t4G-gB-hdy"/>
                 <outlet property="view" destination="iN0-l3-epB" id="xiT-FE-yFD"/>
             </connections>
         </placeholder>
@@ -16,30 +16,67 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5hx-uo-s8D" userLabel="barView View">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="48" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Pdk-6r-A7z">
+                    <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <color key="sectionIndexBackgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D2k-5y-4ck" userLabel="barView View">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bar_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="dCX-LC-A6b">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bar_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="pcG-5t-nAG">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YrJ-nF-tCM">
-                            <rect key="frame" x="12" y="29" width="23" height="12"/>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vft-km-owA">
+                            <rect key="frame" x="12" y="37" width="23" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <state key="normal" backgroundImage="Down.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="downButtonTap:" destination="-1" eventType="touchUpInside" id="PB1-NR-b54"/>
+                                <action selector="downButtonTap:" destination="-1" eventType="touchUpInside" id="kXs-a4-Zh7"/>
                             </connections>
                         </button>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Jqx-nE-8ny">
+                            <rect key="frame" x="68" y="26" width="184" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Фотоальбом"/>
+                                <segment title="Информация"/>
+                            </segments>
+                            <color key="tintColor" red="0.36470588240000001" green="0.72941176470000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="segmentedControlValueDidChange:" destination="-1" eventType="valueChanged" id="Krw-Hr-dUQ"/>
+                            </connections>
+                        </segmentedControl>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="c5z-xG-Gas">
+                    <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="504" id="y5e-QP-iLY"/>
+                    </constraints>
+                    <collectionViewLayout key="collectionViewLayout" id="oXH-Va-WXc" customClass="RACollectionViewReorderableTripletLayout"/>
+                    <cells/>
+                </collectionView>
             </subviews>
-            <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="c5z-xG-Gas" firstAttribute="top" secondItem="D2k-5y-4ck" secondAttribute="bottom" id="4FZ-cS-6gd"/>
+                <constraint firstAttribute="bottom" secondItem="c5z-xG-Gas" secondAttribute="bottom" id="JhL-pT-zj1"/>
+                <constraint firstItem="D2k-5y-4ck" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Jr9-pn-PKn"/>
+                <constraint firstAttribute="trailing" secondItem="D2k-5y-4ck" secondAttribute="trailing" id="kK5-eB-Icq"/>
+                <constraint firstItem="c5z-xG-Gas" firstAttribute="trailing" secondItem="D2k-5y-4ck" secondAttribute="trailing" id="sLe-UT-1o1"/>
+                <constraint firstItem="D2k-5y-4ck" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="u1L-Dg-Sac"/>
+                <constraint firstItem="c5z-xG-Gas" firstAttribute="leading" secondItem="D2k-5y-4ck" secondAttribute="leading" id="v9N-ph-oKa"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>

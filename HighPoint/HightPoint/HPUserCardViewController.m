@@ -138,37 +138,12 @@
     } completion:^(BOOL finished) {
     }];
     
-    
-    /*
-     
-     [UIView animateKeyframesWithDuration:1.7 delay:0.0 options:0 animations:^{
-     [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.15 animations:^{
-     //90 degrees (clockwise)
-     
-     }];
-     
-     } completion:^(BOOL finished) {
-     
-     }];
-     */
-    //UIStoryboard *storyBoard;
-    //self.view.userInteractionEnabled = NO;
-    //storyBoard = [UIStoryboard storyboardWithName:[Utils getStoryBoardName] bundle:nil];
-    //HPUserProfileViewController *modal = [storyBoard instantiateViewControllerWithIdentifier:@"HPUserProfileViewController"];
-    //modal.delegate = self;
-    //modal.transitioningDelegate = self;
-    //modal.modalPresentationStyle = UIModalPresentationCustom;
-    //[self presentViewController:modal animated:YES completion:nil];
-    
-    
     HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
     uiController.user = [usersArr objectAtIndex:_carouselView.currentItemIndex];
     uiController.delegate = self;
     uiController.transitioningDelegate = self;
     uiController.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:uiController animated:YES completion:nil];
-    
-    //[self.navigationController pushViewController:uiController animated:YES];
 }
 - (void) animationViewsDown {
     

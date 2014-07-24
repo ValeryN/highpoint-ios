@@ -19,6 +19,8 @@
 #import "UIButton+HighPoint.h"
 #import "HPBaseNetworkManager.h"
 #import "HPPointLikesViewController.h"
+#import "ModalAnimation.h"
+#import "Utils.h"
 
 #define FLIP_ANIMATION_SPEED 0.5
 #define CONSTRAINT_TOP_FOR_CAROUSEL 76
@@ -52,6 +54,7 @@
     self.carousel.delegate = self;
     [self fixUserCardConstraint];
     currentUserCardOrPoint = [HPCurrentUserCardOrPoint new];
+    _modalAnimationController = [[ModalAnimation alloc] init];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -196,13 +199,13 @@
     if (![UIDevice hp_isWideScreen])
         topCarousel = CONSTRAINT_TOP_FOR_CAROUSEL;
     
-//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.carousel
-//                                                          attribute: NSLayoutAttributeTop
-//                                                          relatedBy: NSLayoutRelationEqual
-//                                                             toItem: self.view
-//                                                          attribute: NSLayoutAttributeTop
-//                                                         multiplier: 1.0
-//                                                           constant: topCarousel]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.carousel
+                                                          attribute: NSLayoutAttributeTop
+                                                          relatedBy: NSLayoutRelationEqual
+                                                             toItem: self.view
+                                                          attribute: NSLayoutAttributeTop
+                                                         multiplier: 1.0
+                                                           constant: topCarousel]];
     
     if (![UIDevice hp_isWideScreen])
     {
@@ -303,7 +306,53 @@
     } else {
         //HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
         //[self.navigationController pushViewController:uiController animated:YES];
+        [self showCurrentUserProfile];
     }
+}
+- (void) showCurrentUserProfile {
+    
+    /*
+    UIImage *captureImg = [Utils captureView:self.carousel.currentItemView withArea:CGRectMake(0, 0, self.carousel.currentItemView.frame.size.width, self.carousel.currentItemView.frame.size.height)];
+    
+    self.carousel.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    self.captView = [[UIImageView alloc] initWithImage:captureImg];
+    CGRect rect = self.carousel.currentItemView.frame;
+    
+    CGRect result = [self.view convertRect:self.carousel.currentItemView.frame fromView:self.carousel];
+    
+    self.captView.frame = result;
+    
+    self.carousel.hidden = YES;
+    [self.view addSubview:self.captView];
+    
+    
+    
+    
+    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
+        
+        self.captView.frame = CGRectMake(self.captView.frame.origin.x, self.captView.frame.origin.y - 450.0, self.captView.frame.size.width, self.captView.frame.size.height);
+        
+        
+    } completion:^(BOOL finished) {
+    }];
+    */
+    HPUserProfileViewController* uiController = [[HPUserProfileViewController alloc] initWithNibName: @"HPUserProfile" bundle: nil];
+    //uiController.user = [usersArr objectAtIndex:_carouselView.currentItemIndex];
+    uiController.delegate = self;
+    uiController.transitioningDelegate = self;
+    uiController.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:uiController animated:YES completion:nil];
+}
+#pragma mark - Transitioning Delegate (Modal)
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    _modalAnimationController.type = AnimationTypePresent;
+    return _modalAnimationController;
+}
+
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    _modalAnimationController.type = AnimationTypeDismiss;
+    return _modalAnimationController;
 }
 
 @end

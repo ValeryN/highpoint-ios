@@ -73,6 +73,8 @@
 		3B49DE1E1934AAC500C3EF1E /* HPUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B49DE1D1934AAC500C3EF1E /* HPUserProfileViewController.m */; };
 		3B49DE211934CEF000C3EF1E /* HPSlideUpAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B49DE201934CEF000C3EF1E /* HPSlideUpAnimation.m */; };
 		3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B49DE231934CF2500C3EF1E /* HPSlideDownAnimation.m */; };
+		3B5EFDB51980E8AB00408427 /* HPImageCollectionViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B5EFDB41980E8AB00408427 /* HPImageCollectionViewHeader.xib */; };
+		3B5EFDB719811EE900408427 /* Camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B5EFDB619811EE900408427 /* Camera.png */; };
 		3B6DB49018FFC24C00C26A50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6DB48F18FFC24C00C26A50 /* Foundation.framework */; };
 		3B6DB49218FFC24C00C26A50 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6DB49118FFC24C00C26A50 /* CoreGraphics.framework */; };
 		3B6DB49418FFC24C00C26A50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6DB49318FFC24C00C26A50 /* UIKit.framework */; };
@@ -139,6 +141,30 @@
 		3BE83C09197902950043E03E /* Photos_Camera_L.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE83C06197902950043E03E /* Photos_Camera_L.png */; };
 		3BE83C1519796B2A0043E03E /* HEBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE83C1219796B2A0043E03E /* HEBubbleView.m */; };
 		3BE83C1619796B2A0043E03E /* HEBubbleViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE83C1419796B2A0043E03E /* HEBubbleViewItem.m */; };
+		3BE9DE16197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9DE13197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m */; };
+		3BE9DE17197FD09000AFA641 /* RACollectionViewTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9DE15197FD09000AFA641 /* RACollectionViewTripletLayout.m */; };
+		3BE9DE19197FD44000AFA641 /* HPImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE18197FD44000AFA641 /* HPImageCollectionViewCell.xib */; };
+		3BE9DE1C197FD4BF00AFA641 /* HPImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9DE1B197FD4BF00AFA641 /* HPImageCollectionViewCell.m */; };
+		3BE9DE32197FD8F300AFA641 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE1E197FD8F300AFA641 /* 1.jpg */; };
+		3BE9DE33197FD8F300AFA641 /* 10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE1F197FD8F300AFA641 /* 10.jpg */; };
+		3BE9DE34197FD8F300AFA641 /* 11.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE20197FD8F300AFA641 /* 11.jpg */; };
+		3BE9DE35197FD8F300AFA641 /* 12.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE21197FD8F300AFA641 /* 12.jpg */; };
+		3BE9DE36197FD8F300AFA641 /* 13.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE22197FD8F300AFA641 /* 13.jpg */; };
+		3BE9DE37197FD8F300AFA641 /* 14.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE23197FD8F300AFA641 /* 14.jpg */; };
+		3BE9DE38197FD8F300AFA641 /* 15.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE24197FD8F300AFA641 /* 15.jpg */; };
+		3BE9DE39197FD8F300AFA641 /* 16.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE25197FD8F300AFA641 /* 16.jpg */; };
+		3BE9DE3A197FD8F300AFA641 /* 17.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE26197FD8F300AFA641 /* 17.jpg */; };
+		3BE9DE3B197FD8F300AFA641 /* 18.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE27197FD8F300AFA641 /* 18.jpg */; };
+		3BE9DE3C197FD8F300AFA641 /* 19.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE28197FD8F300AFA641 /* 19.jpg */; };
+		3BE9DE3D197FD8F300AFA641 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE29197FD8F300AFA641 /* 2.jpg */; };
+		3BE9DE3E197FD8F300AFA641 /* 20.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE2A197FD8F300AFA641 /* 20.jpg */; };
+		3BE9DE3F197FD8F300AFA641 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE2B197FD8F300AFA641 /* 3.jpg */; };
+		3BE9DE40197FD8F300AFA641 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE2C197FD8F300AFA641 /* 4.jpg */; };
+		3BE9DE41197FD8F300AFA641 /* 5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE2D197FD8F300AFA641 /* 5.jpg */; };
+		3BE9DE42197FD8F300AFA641 /* 6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE2E197FD8F300AFA641 /* 6.jpg */; };
+		3BE9DE43197FD8F300AFA641 /* 7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE2F197FD8F300AFA641 /* 7.jpg */; };
+		3BE9DE44197FD8F300AFA641 /* 8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE30197FD8F300AFA641 /* 8.jpg */; };
+		3BE9DE45197FD8F300AFA641 /* 9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE31197FD8F300AFA641 /* 9.jpg */; };
 		4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1A488319629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FE935196427220016DED5 /* UIImage+StackBlur.m */; };
@@ -361,6 +387,8 @@
 		3B49DE201934CEF000C3EF1E /* HPSlideUpAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSlideUpAnimation.m; sourceTree = "<group>"; };
 		3B49DE221934CF2500C3EF1E /* HPSlideDownAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSlideDownAnimation.h; sourceTree = "<group>"; };
 		3B49DE231934CF2500C3EF1E /* HPSlideDownAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSlideDownAnimation.m; sourceTree = "<group>"; };
+		3B5EFDB41980E8AB00408427 /* HPImageCollectionViewHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPImageCollectionViewHeader.xib; sourceTree = "<group>"; };
+		3B5EFDB619811EE900408427 /* Camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Camera.png; sourceTree = "<group>"; };
 		3B6DB48C18FFC24C00C26A50 /* HighPoint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HighPoint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B6DB48F18FFC24C00C26A50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3B6DB49118FFC24C00C26A50 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -471,6 +499,33 @@
 		3BE83C1219796B2A0043E03E /* HEBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEBubbleView.m; sourceTree = "<group>"; };
 		3BE83C1319796B2A0043E03E /* HEBubbleViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEBubbleViewItem.h; sourceTree = "<group>"; };
 		3BE83C1419796B2A0043E03E /* HEBubbleViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEBubbleViewItem.m; sourceTree = "<group>"; };
+		3BE9DE12197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACollectionViewReorderableTripletLayout.h; sourceTree = "<group>"; };
+		3BE9DE13197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACollectionViewReorderableTripletLayout.m; sourceTree = "<group>"; };
+		3BE9DE14197FD09000AFA641 /* RACollectionViewTripletLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACollectionViewTripletLayout.h; sourceTree = "<group>"; };
+		3BE9DE15197FD09000AFA641 /* RACollectionViewTripletLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACollectionViewTripletLayout.m; sourceTree = "<group>"; };
+		3BE9DE18197FD44000AFA641 /* HPImageCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPImageCollectionViewCell.xib; sourceTree = "<group>"; };
+		3BE9DE1A197FD4BF00AFA641 /* HPImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPImageCollectionViewCell.h; sourceTree = "<group>"; };
+		3BE9DE1B197FD4BF00AFA641 /* HPImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPImageCollectionViewCell.m; sourceTree = "<group>"; };
+		3BE9DE1E197FD8F300AFA641 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
+		3BE9DE1F197FD8F300AFA641 /* 10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 10.jpg; sourceTree = "<group>"; };
+		3BE9DE20197FD8F300AFA641 /* 11.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 11.jpg; sourceTree = "<group>"; };
+		3BE9DE21197FD8F300AFA641 /* 12.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 12.jpg; sourceTree = "<group>"; };
+		3BE9DE22197FD8F300AFA641 /* 13.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 13.jpg; sourceTree = "<group>"; };
+		3BE9DE23197FD8F300AFA641 /* 14.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 14.jpg; sourceTree = "<group>"; };
+		3BE9DE24197FD8F300AFA641 /* 15.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 15.jpg; sourceTree = "<group>"; };
+		3BE9DE25197FD8F300AFA641 /* 16.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 16.jpg; sourceTree = "<group>"; };
+		3BE9DE26197FD8F300AFA641 /* 17.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 17.jpg; sourceTree = "<group>"; };
+		3BE9DE27197FD8F300AFA641 /* 18.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 18.jpg; sourceTree = "<group>"; };
+		3BE9DE28197FD8F300AFA641 /* 19.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 19.jpg; sourceTree = "<group>"; };
+		3BE9DE29197FD8F300AFA641 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
+		3BE9DE2A197FD8F300AFA641 /* 20.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 20.jpg; sourceTree = "<group>"; };
+		3BE9DE2B197FD8F300AFA641 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
+		3BE9DE2C197FD8F300AFA641 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
+		3BE9DE2D197FD8F300AFA641 /* 5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 5.jpg; sourceTree = "<group>"; };
+		3BE9DE2E197FD8F300AFA641 /* 6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 6.jpg; sourceTree = "<group>"; };
+		3BE9DE2F197FD8F300AFA641 /* 7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 7.jpg; sourceTree = "<group>"; };
+		3BE9DE30197FD8F300AFA641 /* 8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 8.jpg; sourceTree = "<group>"; };
+		3BE9DE31197FD8F300AFA641 /* 9.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 9.jpg; sourceTree = "<group>"; };
 		4C1A488019629A7C00DD36F9 /* UITextView+HightPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+HightPoint.h"; sourceTree = "<group>"; };
 		4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HightPoint.m"; sourceTree = "<group>"; };
 		4C1FE934196427220016DED5 /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+StackBlur.h"; sourceTree = "<group>"; };
@@ -724,6 +779,7 @@
 		3B31864C191A493F0000DD8B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3BE9DE1D197FD8F300AFA641 /* photos */,
 				CDA22EE6196FC7B90032210F /* Localization */,
 				3B318658191A7A4F0000DD8B /* Fonts */,
 				3B31864D191A493F0000DD8B /* Images */,
@@ -734,6 +790,7 @@
 		3B31864D191A493F0000DD8B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3B5EFDB619811EE900408427 /* Camera.png */,
 				3BE83C04197902950043E03E /* Photos_C.png */,
 				3BE83C05197902950043E03E /* Photos_R.png */,
 				3BE83C06197902950043E03E /* Photos_Camera_L.png */,
@@ -813,6 +870,10 @@
 				3B49DE1C1934AAC500C3EF1E /* HPUserProfileViewController.h */,
 				3B49DE1D1934AAC500C3EF1E /* HPUserProfileViewController.m */,
 				4C89BD2F193C899400DAE2EE /* HPUserProfile.xib */,
+				3BE9DE18197FD44000AFA641 /* HPImageCollectionViewCell.xib */,
+				3BE9DE1A197FD4BF00AFA641 /* HPImageCollectionViewCell.h */,
+				3BE9DE1B197FD4BF00AFA641 /* HPImageCollectionViewCell.m */,
+				3B5EFDB41980E8AB00408427 /* HPImageCollectionViewHeader.xib */,
 			);
 			name = HPUserProfileViewController;
 			sourceTree = "<group>";
@@ -944,6 +1005,7 @@
 		3B77908219001DA100EE0D15 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				3BE9DE11197FD09000AFA641 /* RACollectionViewReorderableTripletLayout */,
 				3BE83C1019796B2A0043E03E /* HeBubbleView */,
 				CD68A9BE196D0DE80090D6D1 /* TLSwipeForOptionsCell */,
 				3B39D30E195C3122002520B9 /* SocketIO */,
@@ -1167,6 +1229,45 @@
 			);
 			name = HeBubbleView;
 			path = External/HeBubbleView;
+			sourceTree = "<group>";
+		};
+		3BE9DE11197FD09000AFA641 /* RACollectionViewReorderableTripletLayout */ = {
+			isa = PBXGroup;
+			children = (
+				3BE9DE12197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.h */,
+				3BE9DE13197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m */,
+				3BE9DE14197FD09000AFA641 /* RACollectionViewTripletLayout.h */,
+				3BE9DE15197FD09000AFA641 /* RACollectionViewTripletLayout.m */,
+			);
+			name = RACollectionViewReorderableTripletLayout;
+			path = External/RACollectionViewReorderableTripletLayout;
+			sourceTree = "<group>";
+		};
+		3BE9DE1D197FD8F300AFA641 /* photos */ = {
+			isa = PBXGroup;
+			children = (
+				3BE9DE1E197FD8F300AFA641 /* 1.jpg */,
+				3BE9DE1F197FD8F300AFA641 /* 10.jpg */,
+				3BE9DE20197FD8F300AFA641 /* 11.jpg */,
+				3BE9DE21197FD8F300AFA641 /* 12.jpg */,
+				3BE9DE22197FD8F300AFA641 /* 13.jpg */,
+				3BE9DE23197FD8F300AFA641 /* 14.jpg */,
+				3BE9DE24197FD8F300AFA641 /* 15.jpg */,
+				3BE9DE25197FD8F300AFA641 /* 16.jpg */,
+				3BE9DE26197FD8F300AFA641 /* 17.jpg */,
+				3BE9DE27197FD8F300AFA641 /* 18.jpg */,
+				3BE9DE28197FD8F300AFA641 /* 19.jpg */,
+				3BE9DE29197FD8F300AFA641 /* 2.jpg */,
+				3BE9DE2A197FD8F300AFA641 /* 20.jpg */,
+				3BE9DE2B197FD8F300AFA641 /* 3.jpg */,
+				3BE9DE2C197FD8F300AFA641 /* 4.jpg */,
+				3BE9DE2D197FD8F300AFA641 /* 5.jpg */,
+				3BE9DE2E197FD8F300AFA641 /* 6.jpg */,
+				3BE9DE2F197FD8F300AFA641 /* 7.jpg */,
+				3BE9DE30197FD8F300AFA641 /* 8.jpg */,
+				3BE9DE31197FD8F300AFA641 /* 9.jpg */,
+			);
+			path = photos;
 			sourceTree = "<group>";
 		};
 		4C91C1E9195812AD002B27D4 /* Controls */ = {
@@ -1426,8 +1527,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE9DE35197FD8F300AFA641 /* 12.jpg in Resources */,
 				CDF9745B196E8C4C0064ED04 /* Eye Active.png in Resources */,
 				3BCB5B03192F8B2F00E5DCA9 /* Next.png in Resources */,
+				3BE9DE34197FD8F300AFA641 /* 11.jpg in Resources */,
 				CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */,
 				3B298FBF192F476100BEC2AA /* slider-default-trackBackground.png in Resources */,
 				4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */,
@@ -1444,6 +1547,7 @@
 				3B298FC2192F476100BEC2AA /* slider-default_trackBackground@2x.png in Resources */,
 				3B31865C191A7A4F0000DD8B /* ParaType - Futura PT Book.otf in Resources */,
 				3BDCB212197E8199003D7ECD /* HPUserInfoSecondRowTableViewCell.xib in Resources */,
+				3BE9DE3A197FD8F300AFA641 /* 17.jpg in Resources */,
 				CDFA8A1F196BEA6200D04451 /* Switcher-C.png in Resources */,
 				3B3170B1191B931300B72AC1 /* Userpic-Maskk_2.png in Resources */,
 				3B6DB49C18FFC24D00C26A50 /* InfoPlist.strings in Resources */,
@@ -1454,6 +1558,7 @@
 				CDFA8A20196BEA6200D04451 /* Switcher-L.png in Resources */,
 				3BE83C08197902950043E03E /* Photos_R.png in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
+				3BE9DE3C197FD8F300AFA641 /* 19.jpg in Resources */,
 				CD7C99541973A68700F1AAAB /* HPCurrentUserCardView.xib in Resources */,
 				CD9E788A1977C6FE0064E2AF /* Point Notice.png in Resources */,
 				CDA317CD19768EDC00F04DA2 /* delete_point.png in Resources */,
@@ -1465,8 +1570,11 @@
 				CDE0BDC4196E636600CBCF58 /* HPUserInfoViewController.xib in Resources */,
 				3B298FBE192F476100BEC2AA /* slider-default-track@2x.png in Resources */,
 				3B318656191A6C6D0000DD8B /* Notice-L.png in Resources */,
+				3BE9DE38197FD8F300AFA641 /* 15.jpg in Resources */,
 				CDFA8A1D196BEA6200D04451 /* Notice.png in Resources */,
 				CDFA8A1A196BEA6200D04451 /* Lens Tap.png in Resources */,
+				3B5EFDB719811EE900408427 /* Camera.png in Resources */,
+				3BE9DE3E197FD8F300AFA641 /* 20.jpg in Resources */,
 				4CA2F9D7193C64B800D7FBFD /* HPUserCardView.xib in Resources */,
 				CDFA8A1E196BEA6200D04451 /* Rectangle.png in Resources */,
 				4CDC98B919519D08006D2F89 /* HPUserCardViewController.xib in Resources */,
@@ -1474,24 +1582,34 @@
 				3BB5E86C1936121F00DDF5F9 /* bar_background.png in Resources */,
 				CDE0BDCA196E7FC000CBCF58 /* HPCurrentUserViewController.xib in Resources */,
 				CDFA8A0E196BE5E900D04451 /* HPChatTableViewCell.xib in Resources */,
+				3BE9DE42197FD8F300AFA641 /* 6.jpg in Resources */,
+				3BE9DE43197FD8F300AFA641 /* 7.jpg in Resources */,
 				3B298FBB192F476100BEC2AA /* slider-default-handle.png in Resources */,
 				3B298FC6192F476100BEC2AA /* slider-default7-track@2x.png in Resources */,
 				3B31865E191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf in Resources */,
 				CDF9745C196E8C4C0064ED04 /* Eye Tap.png in Resources */,
+				3BE9DE40197FD8F300AFA641 /* 4.jpg in Resources */,
 				3B3170AF191B91AD00B72AC1 /* pin_popup_blackw@2x.png in Resources */,
+				3BE9DE44197FD8F300AFA641 /* 8.jpg in Resources */,
+				3BE9DE36197FD8F300AFA641 /* 13.jpg in Resources */,
 				CD7C99521973A63700F1AAAB /* HPCurrentUserPointView.xib in Resources */,
 				3B3170B4191BA50600B72AC1 /* Green Button.png in Resources */,
 				CDF9745E196E8C4C0064ED04 /* Lock Active.png in Resources */,
 				3B3170A4191B7A1D00B72AC1 /* img_sample.png in Resources */,
+				3B5EFDB51980E8AB00408427 /* HPImageCollectionViewHeader.xib in Resources */,
 				3B318653191A674A0000DD8B /* Notice-C.png in Resources */,
 				3B298FC3192F476100BEC2AA /* slider-default7-handle.png in Resources */,
 				3BE83C07197902950043E03E /* Photos_C.png in Resources */,
 				CD6D7A92197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib in Resources */,
 				3B298FCD192F476100BEC2AA /* slider-metal-handle.png in Resources */,
 				3B298FCE192F476100BEC2AA /* slider-metal-handle@2x.png in Resources */,
+				3BE9DE32197FD8F300AFA641 /* 1.jpg in Resources */,
+				3BE9DE33197FD8F300AFA641 /* 10.jpg in Resources */,
 				3B318657191A6C6D0000DD8B /* Notice-R.png in Resources */,
+				3BE9DE19197FD44000AFA641 /* HPImageCollectionViewCell.xib in Resources */,
 				3B298FD2192F476100BEC2AA /* slider-metal-trackBackground@2x.png in Resources */,
 				CDF9745F196E8C4C0064ED04 /* Lock.png in Resources */,
+				3BE9DE41197FD8F300AFA641 /* 5.jpg in Resources */,
 				3BCB5B0B192F946B00E5DCA9 /* Back.png in Resources */,
 				3B3170AD191B88E000B72AC1 /* Userpic-Mask.png in Resources */,
 				4C8096B1193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */,
@@ -1503,19 +1621,25 @@
 				CDF9745D196E8C4C0064ED04 /* Eye.png in Resources */,
 				3B298FBC192F476100BEC2AA /* slider-default-handle@2x.png in Resources */,
 				3B0B91FF197D1E6600910475 /* HPUserInfoFirstRowTableViewCell.xib in Resources */,
+				3BE9DE3D197FD8F300AFA641 /* 2.jpg in Resources */,
+				3BE9DE45197FD8F300AFA641 /* 9.jpg in Resources */,
 				3B298FC5192F476100BEC2AA /* slider-default7-track.png in Resources */,
 				3B298FCB192F476100BEC2AA /* slider-metal-handle-highlighted.png in Resources */,
 				3BB5E86A1935FD5500DDF5F9 /* Down.png in Resources */,
 				4CA7B63E195C37B200DC9D52 /* HPAvatarView.xib in Resources */,
+				3BE9DE39197FD8F300AFA641 /* 16.jpg in Resources */,
+				3BE9DE3F197FD8F300AFA641 /* 3.jpg in Resources */,
 				3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */,
 				3B298FD1192F476100BEC2AA /* slider-metal-trackBackground.png in Resources */,
 				4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,
 				3B298FC9192F476100BEC2AA /* slider-default7-trackCrossedOver.png in Resources */,
 				3B6DB4C518FFC33900C26A50 /* Storyboard_568.storyboard in Resources */,
+				3BE9DE37197FD8F300AFA641 /* 14.jpg in Resources */,
 				CDA317CB19768B6A00F04DA2 /* point_options.png in Resources */,
 				3B0B9207197D364E00910475 /* HPUserInfoTableHeaderView.xib in Resources */,
 				CDFA8A1B196BEA6200D04451 /* Lens.png in Resources */,
 				CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */,
+				3BE9DE3B197FD8F300AFA641 /* 18.jpg in Resources */,
 				4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */,
 				4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
 				3B31865D191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf in Resources */,
@@ -1582,14 +1706,17 @@
 				3BDA4C6919064AC900EF6619 /* AFURLResponseSerialization.m in Sources */,
 				4CBFB5AA19586E3E002D7249 /* HPUserCardOrPointView.m in Sources */,
 				CD55FD2919792C30003EE9E9 /* School.m in Sources */,
+				3BE9DE16197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m in Sources */,
 				3BDA4C6819064AC900EF6619 /* AFURLRequestSerialization.m in Sources */,
 				4C91C1F719585CAA002B27D4 /* HPUserCardOrPoint.m in Sources */,
 				3B49DE1E1934AAC500C3EF1E /* HPUserProfileViewController.m in Sources */,
+				3BE9DE1C197FD4BF00AFA641 /* HPImageCollectionViewCell.m in Sources */,
 				3BD12E5A192DFE380026BA11 /* HPFilterSettingsViewController.m in Sources */,
 				CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */,
 				3BA3840B1924D58A00EFC749 /* CrossDissolveAnimation.m in Sources */,
 				CD55FD1D19792610003EE9E9 /* User.m in Sources */,
 				3B49DE211934CEF000C3EF1E /* HPSlideUpAnimation.m in Sources */,
+				3BE9DE17197FD09000AFA641 /* RACollectionViewTripletLayout.m in Sources */,
 				CD55FD2619792C30003EE9E9 /* Education.m in Sources */,
 				3B0B9202197D201F00910475 /* HPUserInfoFirstRowTableViewCell.m in Sources */,
 				3BDCB210197E7B18003D7ECD /* HPUserInfoLabel.m in Sources */,

@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "iCarousel.h"
 #import "UserCardOrPointProtocol.h"
-
-@interface HPCurrentUserViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UserCardOrPointProtocol>
+#import "HPUserProfileViewController.h"
+@class ModalAnimation;
+@interface HPCurrentUserViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UserCardOrPointProtocol, UIViewControllerTransitioningDelegate,HPUserProfileViewControllerDelegate> {
+    ModalAnimation *_modalAnimationController;
+}
 
 - (IBAction)backButtonTap:(id)sender;
 - (IBAction)bubbleButtonTap:(id)sender;
@@ -21,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *personalDataDownImgView;
 @property (weak, nonatomic) IBOutlet UILabel *personalDataLabel;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
-
+@property (nonatomic, strong) UIImageView *captView;
 - (void) configurePublishPointNavigationItem;
 
 @end

@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgP-fK-1cS">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgP-fK-1cS">
                     <rect key="frame" x="10" y="30" width="25" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="25" id="aR0-rA-iZg"/>
@@ -33,7 +33,7 @@
                         <action selector="backButtonTap:" destination="-1" eventType="touchUpInside" id="iju-xt-g5L"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zev-Cf-cbc">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zev-Cf-cbc">
                     <rect key="frame" x="280" y="30" width="25" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="25" id="4MR-rm-L8d"/>
@@ -48,7 +48,7 @@
                 </button>
                 <view contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="7W0-1W-x4E" userLabel="Carousel - View" customClass="iCarousel">
                     <rect key="frame" x="1" y="76" width="318" height="436"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X8f-rp-0ds">
                     <rect key="frame" x="0.0" y="518" width="320" height="48"/>
