@@ -11,9 +11,14 @@
 #import "HPAvatarView.h"
 #import "HPAvatarLittleView.h"
 
-@protocol HPChatTableViewCellDelegate <TLSwipeForOptionsCellDelegate>
+
+
+
+
+@protocol HPChatTableViewCellDelegate <TLSwipeForOptionsCellDelegate, UIGestureRecognizerDelegate>
 
 - (void)deleteChat:(TLSwipeForOptionsCell *)cell;
+- (void)cellDidTap:(TLSwipeForOptionsCell *)cell;
 
 @end
 
@@ -21,7 +26,7 @@
 
 @property (nonatomic, weak) id<HPChatTableViewCellDelegate> delegate;
 
-
+@property(nonatomic, strong) UITapGestureRecognizer *tap_Gesture;
 
 @property (nonatomic, weak) HPAvatarView* avatar;
 @property (weak, nonatomic) IBOutlet UIView *avatarView;

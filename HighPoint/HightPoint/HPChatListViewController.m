@@ -9,7 +9,7 @@
 #import "HPChatListViewController.h"
 #import "HPChatTableViewCell.h"
 #import "UITextField+HighPoint.h"
-
+#import "HPChatViewController.h"
 
 
 @interface HPChatListViewController ()
@@ -125,6 +125,7 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatTableViewCell" owner:self options:nil];
         chatCell = [nib objectAtIndex:0];
     }
+    [chatCell setDelegate:self];
     [chatCell configureCell];
     if (indexPath.row == 3) {
         [chatCell.avatar privacyLevel];
@@ -166,6 +167,13 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return [[UIView alloc] initWithFrame:CGRectZero];
 }
+
+- (void)cellDidTap:(TLSwipeForOptionsCell *)cell{
+    NSLog(@"tap cell");
+    HPChatViewController* chatController = [[HPChatViewController alloc] initWithNibName: @"HPChatViewController" bundle: nil];
+    [self.navigationController pushViewController:chatController animated:YES];
+}
+
 
 #pragma mark - search text field
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

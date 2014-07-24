@@ -196,6 +196,8 @@
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
 		CD3AF59C197E624600CC8767 /* HPAvatarLittleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3AF59B197E624600CC8767 /* HPAvatarLittleView.m */; };
 		CD3AF59E197E626500CC8767 /* HPAvatarLittleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD3AF59D197E626500CC8767 /* HPAvatarLittleView.xib */; };
+		CD4CA3B11980E4D70016DF7E /* HPChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4CA3AF1980E4D70016DF7E /* HPChatViewController.m */; };
+		CD4CA3B21980E4D70016DF7E /* HPChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD4CA3B01980E4D70016DF7E /* HPChatViewController.xib */; };
 		CD55FD1119792025003EE9E9 /* Language.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1019792025003EE9E9 /* Language.m */; };
 		CD55FD17197925E3003EE9E9 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD16197925E3003EE9E9 /* Place.m */; };
 		CD55FD1D19792610003EE9E9 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1C19792610003EE9E9 /* User.m */; };
@@ -523,6 +525,9 @@
 		CD3AF59A197E624600CC8767 /* HPAvatarLittleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAvatarLittleView.h; sourceTree = "<group>"; };
 		CD3AF59B197E624600CC8767 /* HPAvatarLittleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAvatarLittleView.m; sourceTree = "<group>"; };
 		CD3AF59D197E626500CC8767 /* HPAvatarLittleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAvatarLittleView.xib; sourceTree = "<group>"; };
+		CD4CA3AE1980E4D70016DF7E /* HPChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatViewController.h; sourceTree = "<group>"; };
+		CD4CA3AF1980E4D70016DF7E /* HPChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChatViewController.m; sourceTree = "<group>"; };
+		CD4CA3B01980E4D70016DF7E /* HPChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatViewController.xib; sourceTree = "<group>"; };
 		CD55FD0F19792025003EE9E9 /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
 		CD55FD1019792025003EE9E9 /* Language.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Language.m; sourceTree = "<group>"; };
 		CD55FD15197925E3003EE9E9 /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
@@ -917,6 +922,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CD4CA1841980DFB40016DF7E /* ChatViewController */,
 				CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */,
 				CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */,
 				CDA22EE0196FB22A0032210F /* ConciergeViewController */,
@@ -1233,6 +1239,16 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
+		CD4CA1841980DFB40016DF7E /* ChatViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CD4CA3AE1980E4D70016DF7E /* HPChatViewController.h */,
+				CD4CA3AF1980E4D70016DF7E /* HPChatViewController.m */,
+				CD4CA3B01980E4D70016DF7E /* HPChatViewController.xib */,
+			);
+			name = ChatViewController;
+			sourceTree = "<group>";
+		};
 		CD68A9BE196D0DE80090D6D1 /* TLSwipeForOptionsCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1519,6 +1535,7 @@
 				3B6DB4C518FFC33900C26A50 /* Storyboard_568.storyboard in Resources */,
 				CDA317CB19768B6A00F04DA2 /* point_options.png in Resources */,
 				3B0B9207197D364E00910475 /* HPUserInfoTableHeaderView.xib in Resources */,
+				CD4CA3B21980E4D70016DF7E /* HPChatViewController.xib in Resources */,
 				CDFA8A1B196BEA6200D04451 /* Lens.png in Resources */,
 				CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */,
 				4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */,
@@ -1626,6 +1643,7 @@
 				4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
 				CD55FD1119792025003EE9E9 /* Language.m in Sources */,
 				4C91C1F119585AC1002B27D4 /* HPUserPointView.m in Sources */,
+				CD4CA3B11980E4D70016DF7E /* HPChatViewController.m in Sources */,
 				3BDA4C8E19064E5900EF6619 /* NSData+ImageContentType.m in Sources */,
 				3B39D301195C3091002520B9 /* Gender.m in Sources */,
 				3BDA4C6419064AC900EF6619 /* AFHTTPSessionManager.m in Sources */,
