@@ -227,7 +227,6 @@
 		CD4CA3B81980F71E0016DF7E /* Add Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CD4CA3B61980F71E0016DF7E /* Add Tap.png */; };
 		CD4CA3B91980F71E0016DF7E /* Add.png in Resources */ = {isa = PBXBuildFile; fileRef = CD4CA3B71980F71E0016DF7E /* Add.png */; };
 		CD4CA3BD19810F7C0016DF7E /* HPChatMsgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4CA3BB19810F7C0016DF7E /* HPChatMsgTableViewCell.m */; };
-		CD4CA3BE19810F7C0016DF7E /* HPChatMsgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD4CA3BC19810F7C0016DF7E /* HPChatMsgTableViewCell.xib */; };
 		CD4CA3C2198111550016DF7E /* HPChatOptionsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4CA3C0198111550016DF7E /* HPChatOptionsTableViewCell.m */; };
 		CD4CA3C3198111550016DF7E /* HPChatOptionsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD4CA3C1198111550016DF7E /* HPChatOptionsTableViewCell.xib */; };
 		CD55FD1119792025003EE9E9 /* Language.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1019792025003EE9E9 /* Language.m */; };
@@ -257,6 +256,17 @@
 		CD9E788B1977C6FE0064E2AF /* Point.png in Resources */ = {isa = PBXBuildFile; fileRef = CD9E78881977C6FE0064E2AF /* Point.png */; };
 		CDA1702A1982354300173D1C /* HPEnterIPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA170291982354300173D1C /* HPEnterIPViewController.m */; };
 		CDA1702E1982392C00173D1C /* URLs.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA1702D1982392C00173D1C /* URLs.m */; };
+		CDA17039198246B600173D1C /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = CDA17030198246B600173D1C /* CHANGELOG */; };
+		CDA1703A198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset in Resources */ = {isa = PBXBuildFile; fileRef = CDA17031198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset */; };
+		CDA1703B198246B600173D1C /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA17033198246B600173D1C /* HockeySDK.framework */; };
+		CDA1703C198246B600173D1C /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CDA17035198246B600173D1C /* HockeySDK.xcconfig */; };
+		CDA1703D198246B600173D1C /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CDA17036198246B600173D1C /* HockeySDKResources.bundle */; };
+		CDA1703E198246B600173D1C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = CDA17037198246B600173D1C /* LICENSE */; };
+		CDA1703F198246B600173D1C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CDA17038198246B600173D1C /* README.md */; };
+		CDA170411982470800173D1C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170401982470800173D1C /* CoreText.framework */; };
+		CDA170431982471D00173D1C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170421982471D00173D1C /* QuartzCore.framework */; };
+		CDA170451982473200173D1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170441982473200173D1C /* SystemConfiguration.framework */; };
+		CDA17050198260C200173D1C /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA1704F198260C200173D1C /* Message.m */; };
 		CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EE2196FB2910032210F /* HPConciergeViewController.m */; };
 		CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */; };
 		CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE7196FC7E40032210F /* Localizable.strings */; };
@@ -595,7 +605,6 @@
 		CD4CA3B71980F71E0016DF7E /* Add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Add.png; sourceTree = "<group>"; };
 		CD4CA3BA19810F7C0016DF7E /* HPChatMsgTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatMsgTableViewCell.h; sourceTree = "<group>"; };
 		CD4CA3BB19810F7C0016DF7E /* HPChatMsgTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChatMsgTableViewCell.m; sourceTree = "<group>"; };
-		CD4CA3BC19810F7C0016DF7E /* HPChatMsgTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgTableViewCell.xib; sourceTree = "<group>"; };
 		CD4CA3BF198111550016DF7E /* HPChatOptionsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatOptionsTableViewCell.h; sourceTree = "<group>"; };
 		CD4CA3C0198111550016DF7E /* HPChatOptionsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChatOptionsTableViewCell.m; sourceTree = "<group>"; };
 		CD4CA3C1198111550016DF7E /* HPChatOptionsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatOptionsTableViewCell.xib; sourceTree = "<group>"; };
@@ -643,6 +652,18 @@
 		CDA170281982354300173D1C /* HPEnterIPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPEnterIPViewController.h; sourceTree = "<group>"; };
 		CDA170291982354300173D1C /* HPEnterIPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPEnterIPViewController.m; sourceTree = "<group>"; };
 		CDA1702D1982392C00173D1C /* URLs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLs.m; sourceTree = "<group>"; };
+		CDA17030198246B600173D1C /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
+		CDA17031198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "de.bitstadium.HockeySDK-iOS-3.5.6.docset"; sourceTree = "<group>"; };
+		CDA17033198246B600173D1C /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
+		CDA17035198246B600173D1C /* HockeySDK.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = HockeySDK.xcconfig; sourceTree = "<group>"; };
+		CDA17036198246B600173D1C /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
+		CDA17037198246B600173D1C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		CDA17038198246B600173D1C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		CDA170401982470800173D1C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		CDA170421982471D00173D1C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CDA170441982473200173D1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		CDA1704E198260C200173D1C /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		CDA1704F198260C200173D1C /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		CDA22EE1196FB2910032210F /* HPConciergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConciergeViewController.h; sourceTree = "<group>"; };
 		CDA22EE2196FB2910032210F /* HPConciergeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPConciergeViewController.m; sourceTree = "<group>"; };
 		CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPConciergeViewController.xib; sourceTree = "<group>"; };
@@ -695,11 +716,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDA170451982473200173D1C /* SystemConfiguration.framework in Frameworks */,
+				CDA170431982471D00173D1C /* QuartzCore.framework in Frameworks */,
+				CDA170411982470800173D1C /* CoreText.framework in Frameworks */,
 				CD7C99641973E40F00F1AAAB /* MobileCoreServices.framework in Frameworks */,
 				3BDA4CAE1906628200EF6619 /* Security.framework in Frameworks */,
 				3BDA4CAC1906627000EF6619 /* libicucore.dylib in Frameworks */,
 				3BDA4CAA1906623E00EF6619 /* CFNetwork.framework in Frameworks */,
 				3B6DB49218FFC24C00C26A50 /* CoreGraphics.framework in Frameworks */,
+				CDA1703B198246B600173D1C /* HockeySDK.framework in Frameworks */,
 				3B6DB49618FFC24C00C26A50 /* CoreData.framework in Frameworks */,
 				3B6DB49418FFC24C00C26A50 /* UIKit.framework in Frameworks */,
 				3B6DB49018FFC24C00C26A50 /* Foundation.framework in Frameworks */,
@@ -929,6 +954,9 @@
 		3B6DB48E18FFC24C00C26A50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CDA170441982473200173D1C /* SystemConfiguration.framework */,
+				CDA170421982471D00173D1C /* QuartzCore.framework */,
+				CDA170401982470800173D1C /* CoreText.framework */,
 				CD7C99631973E40F00F1AAAB /* MobileCoreServices.framework */,
 				3BDA4CAD1906628200EF6619 /* Security.framework */,
 				3BDA4CAB1906627000EF6619 /* libicucore.dylib */,
@@ -1036,6 +1064,7 @@
 		3B77908219001DA100EE0D15 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				CDA1702F198246B600173D1C /* HockeySDK-iOS */,
 				3BE9DE11197FD09000AFA641 /* RACollectionViewReorderableTripletLayout */,
 				3BE83C1019796B2A0043E03E /* HeBubbleView */,
 				CD68A9BE196D0DE80090D6D1 /* TLSwipeForOptionsCell */,
@@ -1371,7 +1400,6 @@
 				CD4CA3B01980E4D70016DF7E /* HPChatViewController.xib */,
 				CD4CA3BA19810F7C0016DF7E /* HPChatMsgTableViewCell.h */,
 				CD4CA3BB19810F7C0016DF7E /* HPChatMsgTableViewCell.m */,
-				CD4CA3BC19810F7C0016DF7E /* HPChatMsgTableViewCell.xib */,
 				CD4CA3BF198111550016DF7E /* HPChatOptionsTableViewCell.h */,
 				CD4CA3C0198111550016DF7E /* HPChatOptionsTableViewCell.m */,
 				CD4CA3C1198111550016DF7E /* HPChatOptionsTableViewCell.xib */,
@@ -1417,8 +1445,41 @@
 			children = (
 				CDA170281982354300173D1C /* HPEnterIPViewController.h */,
 				CDA170291982354300173D1C /* HPEnterIPViewController.m */,
+				CDA1704E198260C200173D1C /* Message.h */,
+				CDA1704F198260C200173D1C /* Message.m */,
 			);
 			name = TestControllers;
+			sourceTree = "<group>";
+		};
+		CDA1702F198246B600173D1C /* HockeySDK-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				CDA17030198246B600173D1C /* CHANGELOG */,
+				CDA17031198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset */,
+				CDA17032198246B600173D1C /* HockeySDK.embeddedframework */,
+				CDA17037198246B600173D1C /* LICENSE */,
+				CDA17038198246B600173D1C /* README.md */,
+			);
+			name = "HockeySDK-iOS";
+			path = "External/HockeySDK-iOS";
+			sourceTree = "<group>";
+		};
+		CDA17032198246B600173D1C /* HockeySDK.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				CDA17033198246B600173D1C /* HockeySDK.framework */,
+				CDA17034198246B600173D1C /* Resources */,
+			);
+			path = HockeySDK.embeddedframework;
+			sourceTree = "<group>";
+		};
+		CDA17034198246B600173D1C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CDA17035198246B600173D1C /* HockeySDK.xcconfig */,
+				CDA17036198246B600173D1C /* HockeySDKResources.bundle */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		CDA22EE0196FB22A0032210F /* ConciergeViewController */ = {
@@ -1597,12 +1658,14 @@
 				3BE83C09197902950043E03E /* Photos_Camera_L.png in Resources */,
 				3B298FCC192F476100BEC2AA /* slider-metal-handle-highlighted@2x.png in Resources */,
 				3B298FCA192F476100BEC2AA /* slider-default7-trackCrossedOver@2x.png in Resources */,
+				CDA1703A198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset in Resources */,
 				CD9E78891977C6FE0064E2AF /* Point Notice Tap.png in Resources */,
 				3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */,
 				CDA27BEB1974EE06007D6BC1 /* add_photo.png in Resources */,
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
 				3B298FC7192F476100BEC2AA /* slider-default7-trackBackground.png in Resources */,
 				3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */,
+				CDA17039198246B600173D1C /* CHANGELOG in Resources */,
 				3B298FC2192F476100BEC2AA /* slider-default_trackBackground@2x.png in Resources */,
 				3B31865C191A7A4F0000DD8B /* ParaType - Futura PT Book.otf in Resources */,
 				3BDCB212197E8199003D7ECD /* HPUserInfoSecondRowTableViewCell.xib in Resources */,
@@ -1620,6 +1683,7 @@
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
 				3BE9DE3C197FD8F300AFA641 /* 19.jpg in Resources */,
 				CD7C99541973A68700F1AAAB /* HPCurrentUserCardView.xib in Resources */,
+				CDA1703C198246B600173D1C /* HockeySDK.xcconfig in Resources */,
 				CD9E788A1977C6FE0064E2AF /* Point Notice.png in Resources */,
 				CDA317CD19768EDC00F04DA2 /* delete_point.png in Resources */,
 				CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */,
@@ -1682,7 +1746,6 @@
 				CDF9745D196E8C4C0064ED04 /* Eye.png in Resources */,
 				3B298FBC192F476100BEC2AA /* slider-default-handle@2x.png in Resources */,
 				CD4CA3C3198111550016DF7E /* HPChatOptionsTableViewCell.xib in Resources */,
-				CD4CA3BE19810F7C0016DF7E /* HPChatMsgTableViewCell.xib in Resources */,
 				3B0B91FF197D1E6600910475 /* HPUserInfoFirstRowTableViewCell.xib in Resources */,
 				3BE9DE3D197FD8F300AFA641 /* 2.jpg in Resources */,
 				3BE9DE45197FD8F300AFA641 /* 9.jpg in Resources */,
@@ -1691,9 +1754,11 @@
 				3BB5E86A1935FD5500DDF5F9 /* Down.png in Resources */,
 				4CA7B63E195C37B200DC9D52 /* HPAvatarView.xib in Resources */,
 				3BE9DE39197FD8F300AFA641 /* 16.jpg in Resources */,
+				CDA1703F198246B600173D1C /* README.md in Resources */,
 				3BE9DE3F197FD8F300AFA641 /* 3.jpg in Resources */,
 				3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */,
 				3B298FD1192F476100BEC2AA /* slider-metal-trackBackground.png in Resources */,
+				CDA1703D198246B600173D1C /* HockeySDKResources.bundle in Resources */,
 				4C89BD37193CAE9E00DAE2EE /* HPSelectTown.xib in Resources */,
 				3B298FC9192F476100BEC2AA /* slider-default7-trackCrossedOver.png in Resources */,
 				3B6DB4C518FFC33900C26A50 /* Storyboard_568.storyboard in Resources */,
@@ -1708,6 +1773,7 @@
 				4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
 				3B31865D191A7A4F0000DD8B /* ParaType - Futura PT Light.ttf in Resources */,
 				CD9E788B1977C6FE0064E2AF /* Point.png in Resources */,
+				CDA1703E198246B600173D1C /* LICENSE in Resources */,
 				3B3170A7191B7D1500B72AC1 /* Userpic Mask.png in Resources */,
 				4C91C1F319585AC1002B27D4 /* HPUserPointView.xib in Resources */,
 				CDFA8A1C196BEA6200D04451 /* Lock Tap.png in Resources */,
@@ -1822,6 +1888,7 @@
 				3B298FD3192F476100BEC2AA /* NMRangeSlider.m in Sources */,
 				CD55FD2019792C2F003EE9E9 /* CareerPost.m in Sources */,
 				3B39D2F8195C3091002520B9 /* MinEntertainmentPrice.m in Sources */,
+				CDA17050198260C200173D1C /* Message.m in Sources */,
 				3B31709D191B6B5200B72AC1 /* HPMainViewListTableViewCell.m in Sources */,
 				3B39D31A195C3122002520B9 /* SocketIO.m in Sources */,
 				CD4CA3C2198111550016DF7E /* HPChatOptionsTableViewCell.m in Sources */,
@@ -1993,6 +2060,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HightPoint/External/HockeySDK-iOS/HockeySDK.embeddedframework",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HightPoint/HighPoint-Prefix.pch";
 				INFOPLIST_FILE = "HightPoint/HighPoint-Info.plist";
@@ -2008,6 +2079,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HightPoint/External/HockeySDK-iOS/HockeySDK.embeddedframework",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HightPoint/HighPoint-Prefix.pch";
 				INFOPLIST_FILE = "HightPoint/HighPoint-Info.plist";

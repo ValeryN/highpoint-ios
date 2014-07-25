@@ -12,11 +12,14 @@
 #import "HPChatOptionsTableViewCell.h"
 
 
+
 #define KEYBOARD_HEIGHT 216
 #define MSGS_TEST_COUNT 11;
 
 
-@interface HPChatViewController ()
+@interface HPChatViewController () {
+    NSMutableArray *msgs;
+}
 
 @end
 
@@ -38,7 +41,26 @@
     self.msgTextView.delegate = self;
     self.chatTableView.delegate = self;
     self.chatTableView.dataSource = self;
+    [self initMsgs];
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void) initMsgs {
+     msgs = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 5; i++) {
+       
+        Message *msg = [[Message alloc] init];
+        msg.messageBody = @"сообщение";
+        if (i%2) {
+            msg.messageBody = @"сообщение сообщение сообщение сообщение сообщение сообщение  сообщение сообщение сообщение сообщение  сообщение сообщение сообщение сообщение  сообщение сообщение сообщение сообщение";
+        }
+        
+        if (i%5) {
+            msg.messageBody = @"сообщение сообщение  сообщение сообщение сообщение сообщение";
+        }
+        
+        [msgs addObject:msg];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -175,7 +197,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row < 10) {
+    if (indexPath.row < msgs.count) {
         static NSString *msgCellIdentifier = @"ChatMsgCell";
         HPChatMsgTableViewCell *msgCell = (HPChatMsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier];
         
@@ -184,7 +206,7 @@
             NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatMsgTableViewCell" owner:self options:nil];
             msgCell = [nib objectAtIndex:0];
         }
-        [msgCell configureSelfWithMsg];
+        [msgCell configureSelfWithMsg:[msgs objectAtIndex:indexPath.row]];
         return msgCell;
     } else {
         static NSString *msgOptCellIdentifier = @"ChatMsgOptions";
@@ -201,18 +223,21 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return MSGS_TEST_COUNT;
+    return msgs.count + 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row < 10) {
-        return 100;
+    if (indexPath.row < msgs.count) {
+        UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:18.0];
+        CGSize constraintSize = CGSizeMake(250.0f, 600);
+        CGSize labelSize = [((Message *)[msgs objectAtIndex:indexPath.row]).messageBody sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+        return labelSize.height + 32;
     } else {
         return 32;
     }
@@ -227,9 +252,17 @@
     return [[UIView alloc] initWithFrame:CGRectZero];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [[UIView alloc] initWithFrame:CGRectZero];
-}
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+    headerView.backgroundColor = [UIColor clearColor];
+    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 320, 16)];
+    dateLabel.text = @"Сегодня, 25 июня";
+    [dateLabel setTextAlignment:UITextAlignmentCenter];
+    dateLabel.textColor = [UIColor grayColor];
+    [headerView addSubview:dateLabel];
+    return headerView;
+}
 
 @end

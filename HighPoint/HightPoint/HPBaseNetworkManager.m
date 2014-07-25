@@ -162,7 +162,7 @@ static HPBaseNetworkManager *networkManager;
                 for(NSString *key in usr) {
                     NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[[usr objectForKey:key] objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
                     
-                    [self getGeoLocation:param];
+                   // [self getGeoLocation:param];
                     [[DataStorage sharedDataStorage] createUserEntity:[usr objectForKey:key] isCurrent:NO];
                 }
             }
@@ -204,7 +204,7 @@ static HPBaseNetworkManager *networkManager;
                 NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 for(NSDictionary *dict in usr) {
                     NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
-                    [self getGeoLocation:param];
+                    //[self getGeoLocation:param];
                     [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO];
                 }
                 

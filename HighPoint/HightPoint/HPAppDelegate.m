@@ -12,6 +12,8 @@
 #import "Utils.h"
 #import "HPRootViewController.h"
 #import "HPBaseNetworkManager.h"
+#import <HockeySDK/HockeySDK.h>
+
 
 //==============================================================================
 
@@ -33,9 +35,12 @@
     UIStoryboard* storyBoard = [UIStoryboard storyboardWithName: @"Storyboard_568" bundle: nil];
     HPRootViewController* initViewController = [storyBoard instantiateViewControllerWithIdentifier: @"main"];
 
-    
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"serverURL"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"b209e48e58a6fe3f6737b5fee1d95f4d"];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     
     [self.window setRootViewController: initViewController];
     [self.window makeKeyAndVisible];

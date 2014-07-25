@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Message.h"
+
 
 @interface HPChatMsgTableViewCell : UITableViewCell <UIScrollViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) UIScrollView *scrollView;
+@property (strong, nonatomic) UITextView * msgTextView;
 
-- (void) configureSelfWithMsg;
+- (void) configureSelfWithMsg : (Message *) msg;
 
 @end
