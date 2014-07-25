@@ -23,6 +23,7 @@
 #import "User.h"
 #import "Career.h"
 #import "Education.h"
+#import "URLs.h"
 
 
 //==============================================================================
@@ -41,13 +42,17 @@
 {
     [super viewDidLoad];
 
+    
     //TODO : delete
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
 
+    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
+    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
+    
     //socket init
-    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"localhost",@"host", @"3002",@"port", nil];
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:[URLs getServerURL],@"host", @"3002",@"port", nil];
     [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
 
     //

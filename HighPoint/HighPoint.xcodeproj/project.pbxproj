@@ -255,6 +255,8 @@
 		CD9E78891977C6FE0064E2AF /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CD9E78861977C6FE0064E2AF /* Point Notice Tap.png */; };
 		CD9E788A1977C6FE0064E2AF /* Point Notice.png in Resources */ = {isa = PBXBuildFile; fileRef = CD9E78871977C6FE0064E2AF /* Point Notice.png */; };
 		CD9E788B1977C6FE0064E2AF /* Point.png in Resources */ = {isa = PBXBuildFile; fileRef = CD9E78881977C6FE0064E2AF /* Point.png */; };
+		CDA1702A1982354300173D1C /* HPEnterIPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA170291982354300173D1C /* HPEnterIPViewController.m */; };
+		CDA1702E1982392C00173D1C /* URLs.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA1702D1982392C00173D1C /* URLs.m */; };
 		CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EE2196FB2910032210F /* HPConciergeViewController.m */; };
 		CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */; };
 		CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE7196FC7E40032210F /* Localizable.strings */; };
@@ -638,6 +640,9 @@
 		CD9E78861977C6FE0064E2AF /* Point Notice Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice Tap.png"; sourceTree = "<group>"; };
 		CD9E78871977C6FE0064E2AF /* Point Notice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice.png"; sourceTree = "<group>"; };
 		CD9E78881977C6FE0064E2AF /* Point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Point.png; sourceTree = "<group>"; };
+		CDA170281982354300173D1C /* HPEnterIPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPEnterIPViewController.h; sourceTree = "<group>"; };
+		CDA170291982354300173D1C /* HPEnterIPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPEnterIPViewController.m; sourceTree = "<group>"; };
+		CDA1702D1982392C00173D1C /* URLs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLs.m; sourceTree = "<group>"; };
 		CDA22EE1196FB2910032210F /* HPConciergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConciergeViewController.h; sourceTree = "<group>"; };
 		CDA22EE2196FB2910032210F /* HPConciergeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPConciergeViewController.m; sourceTree = "<group>"; };
 		CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPConciergeViewController.xib; sourceTree = "<group>"; };
@@ -812,12 +817,9 @@
 		3B31864D191A493F0000DD8B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-
 				3B5EFDB619811EE900408427 /* Camera.png */,
-
 				CD4CA3B61980F71E0016DF7E /* Add Tap.png */,
 				CD4CA3B71980F71E0016DF7E /* Add.png */,
-
 				3BE83C04197902950043E03E /* Photos_C.png */,
 				3BE83C05197902950043E03E /* Photos_R.png */,
 				3BE83C06197902950043E03E /* Photos_Camera_L.png */,
@@ -1002,6 +1004,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CDA17024198234B400173D1C /* TestControllers */,
 				CD4CA1841980DFB40016DF7E /* ChatViewController */,
 				CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */,
 				CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */,
@@ -1182,6 +1185,7 @@
 			isa = PBXGroup;
 			children = (
 				3B39D31F195C3198002520B9 /* URLs.h */,
+				CDA1702D1982392C00173D1C /* URLs.m */,
 				3BDA4C6C19064CD200EF6619 /* HPBaseNetworkManager.h */,
 				3BDA4C6D19064CD200EF6619 /* HPBaseNetworkManager.m */,
 			);
@@ -1406,6 +1410,15 @@
 				CD7C995D1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib */,
 			);
 			name = AddPhotoMenuView;
+			sourceTree = "<group>";
+		};
+		CDA17024198234B400173D1C /* TestControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CDA170281982354300173D1C /* HPEnterIPViewController.h */,
+				CDA170291982354300173D1C /* HPEnterIPViewController.m */,
+			);
+			name = TestControllers;
 			sourceTree = "<group>";
 		};
 		CDA22EE0196FB22A0032210F /* ConciergeViewController */ = {
@@ -1728,6 +1741,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDA1702E1982392C00173D1C /* URLs.m in Sources */,
 				3BDA4C9219064E5900EF6619 /* SDWebImageDownloader.m in Sources */,
 				3BDA4C6719064AC900EF6619 /* AFURLConnectionOperation.m in Sources */,
 				CD7C99621973C10500F1AAAB /* HPAddPhotoMenuViewController.m in Sources */,
@@ -1762,6 +1776,7 @@
 				4C91C1F719585CAA002B27D4 /* HPUserCardOrPoint.m in Sources */,
 				3B49DE1E1934AAC500C3EF1E /* HPUserProfileViewController.m in Sources */,
 				3BE9DE1C197FD4BF00AFA641 /* HPImageCollectionViewCell.m in Sources */,
+				CDA1702A1982354300173D1C /* HPEnterIPViewController.m in Sources */,
 				3BD12E5A192DFE380026BA11 /* HPFilterSettingsViewController.m in Sources */,
 				CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */,
 				3BA3840B1924D58A00EFC749 /* CrossDissolveAnimation.m in Sources */,

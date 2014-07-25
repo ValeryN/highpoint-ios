@@ -35,8 +35,7 @@
 
     [self.window setRootViewController: initViewController];
     [self.window makeKeyAndVisible];
-    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
+   
     return YES;
 }
 

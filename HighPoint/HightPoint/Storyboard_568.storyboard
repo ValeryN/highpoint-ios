@@ -5,6 +5,55 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
+        <!--EnterIP View Controller-->
+        <scene sceneID="cJD-V8-myA">
+            <objects>
+                <viewController id="BBy-ip-1SR" customClass="HPEnterIPViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="p0m-yw-6hL"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZKb-Tu-Gdd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="b7p-gv-otd">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UBr-Bh-Sx0">
+                                <rect key="frame" x="34" y="185" width="253" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jdv-kS-LbR">
+                                <rect key="frame" x="54" y="294" width="213" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Войти">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="enterApiBtnTap:" destination="BBy-ip-1SR" eventType="touchUpInside" id="d0w-ch-sfA"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Введите IP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8aQ-j8-DN9">
+                                <rect key="frame" x="114" y="116" width="88" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="jcP-3V-Uj2"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="enterBtn" destination="jdv-kS-LbR" id="zA6-Xo-tPf"/>
+                        <outlet property="ipTextField" destination="UBr-Bh-Sx0" id="C1T-Z2-Qh4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UX1-x1-yWf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="115" y="23"/>
+        </scene>
         <!--Root View Controller - Девушки, 24-27, Москва-->
         <scene sceneID="X0c-d5-7dI">
             <objects>
@@ -23,7 +72,7 @@
                                 <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="maincell" rowHeight="104" id="qqS-lS-YFR" customClass="HPMainViewListTableViewCell">
-                                        <rect key="frame" x="0.0" y="65" width="320" height="104"/>
+                                        <rect key="frame" x="0.0" y="1" width="320" height="104"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qqS-lS-YFR" id="lWp-py-opE">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
@@ -219,12 +268,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="d74-B2-43R" kind="relationship" relationship="rootViewController" id="FQI-Re-oaE"/>
+                        <segue destination="BBy-ip-1SR" kind="relationship" relationship="rootViewController" id="Xtj-gf-etr"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VYH-To-WPE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="213" y="23"/>
+            <point key="canvasLocation" x="-357" y="23"/>
         </scene>
     </scenes>
     <resources>

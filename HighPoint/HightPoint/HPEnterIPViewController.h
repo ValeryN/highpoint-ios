@@ -1,0 +1,17 @@
+//
+//  HPEnterIPViewController.h
+//  HighPoint
+//
+//  Created by Julia Pozdnyakova on 25.07.14.
+//  Copyright (c) 2014 SurfStudio. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface HPEnterIPViewController : UIViewController <UITextFieldDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *ipTextField;
+@property (weak, nonatomic) IBOutlet UIButton *enterBtn;
+
+
+@end
