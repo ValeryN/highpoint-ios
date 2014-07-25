@@ -23,7 +23,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <color key="sectionIndexBackgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                 </tableView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D2k-5y-4ck" userLabel="barView View">
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D2k-5y-4ck" userLabel="barView View">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
@@ -57,26 +57,14 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="c5z-xG-Gas">
+                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="c5z-xG-Gas">
                     <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="504" id="y5e-QP-iLY"/>
-                    </constraints>
                     <collectionViewLayout key="collectionViewLayout" id="oXH-Va-WXc" customClass="RACollectionViewReorderableTripletLayout"/>
                     <cells/>
                 </collectionView>
             </subviews>
             <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
-            <constraints>
-                <constraint firstItem="c5z-xG-Gas" firstAttribute="top" secondItem="D2k-5y-4ck" secondAttribute="bottom" id="4FZ-cS-6gd"/>
-                <constraint firstAttribute="bottom" secondItem="c5z-xG-Gas" secondAttribute="bottom" id="JhL-pT-zj1"/>
-                <constraint firstItem="D2k-5y-4ck" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Jr9-pn-PKn"/>
-                <constraint firstAttribute="trailing" secondItem="D2k-5y-4ck" secondAttribute="trailing" id="kK5-eB-Icq"/>
-                <constraint firstItem="c5z-xG-Gas" firstAttribute="trailing" secondItem="D2k-5y-4ck" secondAttribute="trailing" id="sLe-UT-1o1"/>
-                <constraint firstItem="D2k-5y-4ck" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="u1L-Dg-Sac"/>
-                <constraint firstItem="c5z-xG-Gas" firstAttribute="leading" secondItem="D2k-5y-4ck" secondAttribute="leading" id="v9N-ph-oKa"/>
-            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>

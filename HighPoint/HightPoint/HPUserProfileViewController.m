@@ -16,6 +16,7 @@
 #import "HPUserInfoSecondRowTableViewCell.h"
 #import "MaxEntertainmentPrice.h"
 #import "MinEntertainmentPrice.h"
+#import "UIDevice+HighPoint.h"
 //==============================================================================
 
 @implementation HPUserProfileViewController
@@ -38,7 +39,32 @@
     self.infoTableView.dataSource = self;
     //self.collectionView.translatesAutoresizingMaskIntoConstraints = YES;
     [self setupPhotosArray];
+    [self fixUserConstraint];
 }
+- (void) fixUserConstraint
+{
+    if (![UIDevice hp_isWideScreen])
+    {
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.collectionView
+                                                              attribute: NSLayoutAttributeHeight
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: self.view
+                                                              attribute: NSLayoutAttributeHeight
+                                                             multiplier: 0.74
+                                                               constant: 0]];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.infoTableView
+                                                              attribute: NSLayoutAttributeHeight
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: self.view
+                                                              attribute: NSLayoutAttributeHeight
+                                                             multiplier: 0.74
+                                                               constant: 0]];
+        
+        }
+}
+
 - (void)setupPhotosArray
 {
     [_photosArray removeAllObjects];
