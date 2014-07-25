@@ -15,6 +15,8 @@
 #import "HPUserInfoFirstRowTableViewCell.h"
 #import "HPUserInfoSecondRowTableViewCell.h"
 #import "HPUserInfoTableHeaderView.h"
+#import "UIDevice+HighPoint.h"
+
 #define GREEN_BUTTON_BOTTOM 20
 #define PHOTOS_NUMBER 4
 #define SPACE_BETWEEN_PHOTOS 20
@@ -70,8 +72,31 @@
     ed2 = @{@"Администрация Кыштымского района":@"Начальник департамента"};
     ed3 = @{@"ЖЭУ №5":@"Сантехник"};
     self.carrierDataSource = @[ed1,ed2, ed3];
-    
+    [self fixUserConstraint];
     // Do any additional setup after loading the view from its nib.
+}
+- (void) fixUserConstraint
+{
+    if (![UIDevice hp_isWideScreen])
+    {
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.carousel
+                                                              attribute: NSLayoutAttributeHeight
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: self.view
+                                                              attribute: NSLayoutAttributeHeight
+                                                             multiplier: 0.845
+                                                               constant: 0]];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.infoTableView
+                                                              attribute: NSLayoutAttributeHeight
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: self.view
+                                                              attribute: NSLayoutAttributeHeight
+                                                             multiplier: 0.74
+                                                               constant: 0]];
+        
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
