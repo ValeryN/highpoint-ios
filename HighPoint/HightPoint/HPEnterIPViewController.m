@@ -44,7 +44,7 @@
     if (self.ipTextField.text.length > 0) {
         [URLs setServerUrl:self.ipTextField.text];
     } else  {
-        [URLs setServerUrl:@"http://localhost:3002"];
+        [URLs setServerUrl:@"localhost"];
     }
     
     HPRootViewController *rootController;

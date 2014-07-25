@@ -33,6 +33,10 @@
     UIStoryboard* storyBoard = [UIStoryboard storyboardWithName: @"Storyboard_568" bundle: nil];
     HPRootViewController* initViewController = [storyBoard instantiateViewControllerWithIdentifier: @"main"];
 
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"serverURL"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     [self.window setRootViewController: initViewController];
     [self.window makeKeyAndVisible];
    
