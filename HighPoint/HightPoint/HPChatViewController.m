@@ -184,7 +184,7 @@
             NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatMsgTableViewCell" owner:self options:nil];
             msgCell = [nib objectAtIndex:0];
         }
-        [msgCell configureSelfWithIncomingMsg];
+        [msgCell configureSelfWithMsg];
         return msgCell;
     } else {
         static NSString *msgOptCellIdentifier = @"ChatMsgOptions";

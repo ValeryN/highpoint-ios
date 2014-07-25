@@ -12,6 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
-- (void) configureSelfWithIncomingMsg;
+- (void) configureSelfWithMsg;
 
 @end

@@ -55,7 +55,7 @@ static HPBaseNetworkManager *networkManager;
 # pragma mark http requests
 - (void) makeAutorizationRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kSigninRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -77,7 +77,7 @@ static HPBaseNetworkManager *networkManager;
 }
 - (void) makeRegistrationRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kRegistrationRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -101,7 +101,7 @@ static HPBaseNetworkManager *networkManager;
 - (void) getGeoLocation:(NSDictionary*) param {
     //
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kGeoLocationRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -139,7 +139,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) getPointsRequest:(NSInteger) lastPoint {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kPointsRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -182,7 +182,7 @@ static HPBaseNetworkManager *networkManager;
 - (void) getUsersRequest:(NSInteger) lastUser {
     ///v201405/users
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kUsersRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -225,7 +225,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) getCurrentUserRequest {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kCurrentUserRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -253,7 +253,7 @@ static HPBaseNetworkManager *networkManager;
 }
 - (void) findGeoLocation:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kGeoLocationFindRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -293,7 +293,7 @@ static HPBaseNetworkManager *networkManager;
 - (void) getApplicationSettingsRequest {
     ///v201405/settings
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kApplicationSettingsRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -323,7 +323,7 @@ static HPBaseNetworkManager *networkManager;
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param {
     ///v201405/me/filter
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kCurrentUserFilter];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -359,7 +359,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) makeReferenceRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kReferenceRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -407,7 +407,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) addEducationRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kEducationRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -441,7 +441,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) deleteEducationItemRequest:(NSString*) ids {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kEducationRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -476,7 +476,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) findSchoolsRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kSchoolsFindRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -513,7 +513,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) findSpecialitiesRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url =[URLs getServerURL];
     url = [url stringByAppendingString:kSpecialityFindRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -552,7 +552,7 @@ static HPBaseNetworkManager *networkManager;
 #pragma mark - plases
 - (void) addPlaceRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kPlasesRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -586,7 +586,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) deletePlaceItemRequest:(NSString*) ids {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kPlasesRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -620,7 +620,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) findPlacesRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kPlacesFindRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -660,7 +660,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) addLanguageRequest:(NSString*) langName {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kLanguagesRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:langName, @"name", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -696,7 +696,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) deleteLanguageItemRequest:(NSString*) ids {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kLanguagesRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -730,7 +730,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) findLanguagesRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kLanguagesFindRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -771,7 +771,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) findCompaniesRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kCompaniesFindRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -813,7 +813,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) findPostsRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kPostsFindRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -856,7 +856,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) addCareerItemRequest:(NSDictionary*) param {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kCareerRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
@@ -889,7 +889,7 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) deleteCareerItemRequest:(NSString*) ids {
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:kCareerRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -928,7 +928,7 @@ static HPBaseNetworkManager *networkManager;
 - (void) makePointLikeRequest:(NSNumber*) pointId {
     ///v201405/points/<id>/like
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:[NSString stringWithFormat:kPointsLikeRequest, [pointId stringValue]]];
     NSLog(@"url like = %@", url);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -964,7 +964,7 @@ static HPBaseNetworkManager *networkManager;
 - (void) makePointUnLikeRequest:(NSNumber*) pointId {
     ///v201405/points/<id>/like
     NSString *url = nil;
-    url = [NSString stringWithFormat:kAPIBaseURLString];
+    url = [URLs getServerURL];
     url = [url stringByAppendingString:[NSString stringWithFormat:kPointsUnlikeRequest, [pointId stringValue]]];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];

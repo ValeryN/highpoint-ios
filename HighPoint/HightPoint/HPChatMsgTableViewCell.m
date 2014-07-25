@@ -24,7 +24,7 @@
 }
 
 
-- (void) configureSelfWithIncomingMsg {
+- (void) configureSelfWithMsg {
     [self.scrollView setContentSize:CGSizeMake(360, 99)];
     [self.scrollView scrollRectToVisible:CGRectMake(40,0,360, 99) animated:NO];
 }
