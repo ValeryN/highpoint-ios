@@ -32,4 +32,6 @@
 - (void) hp_tuneForMessageInContactList;
 - (void) hp_tuneForMessageCountInContactList;
 
+- (void) hp_tuneForHeaderAndInfoInMessagesList;
+
 @end

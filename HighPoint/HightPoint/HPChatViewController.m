@@ -10,7 +10,7 @@
 #import "UINavigationController+HighPoint.h"
 #import "HPChatMsgTableViewCell.h"
 #import "HPChatOptionsTableViewCell.h"
-
+#import "UILabel+HighPoint.h"
 
 
 #define KEYBOARD_HEIGHT 216
@@ -223,7 +223,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return msgs.count + 1;
+    if (section == 0) {
+       return msgs.count  - 3;
+    } else {
+        return msgs.count + 1;
+    }
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -256,11 +261,15 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
-    headerView.backgroundColor = [UIColor clearColor];
+    headerView.backgroundColor = [UIColor colorWithRed: 30.0 / 255.0
+                                                 green: 29.0 / 255.0
+                                                  blue: 48.0 / 255.0
+                                                 alpha: 1.0];
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 320, 16)];
     dateLabel.text = @"Сегодня, 25 июня";
     [dateLabel setTextAlignment:UITextAlignmentCenter];
     dateLabel.textColor = [UIColor grayColor];
+    [dateLabel hp_tuneForHeaderAndInfoInMessagesList];
     [headerView addSubview:dateLabel];
     return headerView;
 }

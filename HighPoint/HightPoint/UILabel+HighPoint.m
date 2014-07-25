@@ -128,4 +128,16 @@
                                      alpha: 1.0];
 }
 
+
+#pragma mark - chat view
+- (void) hp_tuneForHeaderAndInfoInMessagesList
+{
+    self.font = [UIFont fontWithName: @"FuturaPT-Light" size: 14.0];
+    self.textColor = [UIColor colorWithRed: 216.0 / 255.0
+                                     green: 216.0 / 255.0
+                                      blue: 216.0 / 255.0
+                                     alpha: 1.0];
+}
+
+
 @end

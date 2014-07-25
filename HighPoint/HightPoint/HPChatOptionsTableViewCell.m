@@ -13,6 +13,7 @@
 - (void)awakeFromNib
 {
     // Initialization code
+    [self.infolabel hp_tuneForHeaderAndInfoInMessagesList];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
