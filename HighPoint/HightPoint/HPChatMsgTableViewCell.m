@@ -67,7 +67,7 @@
     }
     
     self.msgTextView.userInteractionEnabled = NO;
-    
+    //self.scrollView.userInteractionEnabled = NO;
     self.msgTextView.text = msg.messageBody;
     self.msgTextView.font = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
     self.msgTextView.layer.cornerRadius = 15;
@@ -90,6 +90,14 @@
     if (self.scrollView.contentOffset.x > 40) {
         self.scrollView.contentOffset = CGPointMake(40, self.scrollView.contentOffset.y);
     }
+    if (self.scrollView.contentOffset.x < -16) {
+        self.scrollView.contentOffset = CGPointMake(-16, self.scrollView.contentOffset.y);
+    }
+    
+//    if ([self.delegate respondsToSelector:@selector(scrollCellsForTimeShowing:)]) {
+//        [self.delegate scrollCellsForTimeShowing:self.scrollView.contentOffset];
+//    }
+    
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.0];
 }
@@ -100,6 +108,10 @@
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self.scrollView scrollRectToVisible:CGRectMake(40,0,360, 99) animated:NO];
     } completion:NULL];
+}
+
+- (void) scrollCellForTimeShowingCell :(CGPoint) point {
+    [self.scrollView scrollRectToVisible:CGRectMake(point.x,0,360, 99) animated:YES];
 }
 
 

@@ -9,7 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "HPAvatarLittleView.h"
 
-@interface HPChatViewController : UIViewController <UITextViewDelegate, UITableViewDelegate, UITableViewDataSource>
+
+@protocol HPChatViewControllerProtocol <NSObject>
+
+- (void) scrollCellsForTimeShowing : (CGPoint) point;
+
+@end
+
+@interface HPChatViewController : UIViewController <UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
 
 @property (strong, nonatomic) HPAvatarLittleView *avatar;

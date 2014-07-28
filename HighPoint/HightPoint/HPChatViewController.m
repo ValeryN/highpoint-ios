@@ -21,6 +21,8 @@
 
 #define CONSTRAINT_TOP_BOTTOMVIEW 431
 
+
+
 @interface HPChatViewController () {
     NSMutableArray *msgs;
 }
@@ -77,6 +79,7 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self fixSelfConstraint];
+    //[self setSwipeForTableView];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -93,6 +96,54 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+#pragma mark - scroll for time
+- (void) setSwipeForTableView {
+    UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+    recognizer.cancelsTouchesInView = NO;
+    [self.chatTableView addGestureRecognizer:recognizer];
+}
+
+- (void) handlePanFrom: (UIGestureRecognizer *) recognizer {
+    NSLog(@"pan");
+   // CGPoint startLocation;
+    
+    NSArray *cells = [self.chatTableView visibleCells];
+    for (HPChatMsgTableViewCell *cell in cells)
+    {
+        if ([cell isKindOfClass:[HPChatMsgTableViewCell class]]) {
+          //   [cell scrollCellForTimeShowing];
+        }
+       
+    }
+    
+//    if (recognizer.state == UIGestureRecognizerStateBegan) {
+//        
+//        
+////       startLocation = [recognizer locationInView:self.view];
+//    }
+//    else if (recognizer.state == UIGestureRecognizerStateEnded) {
+//        
+//        
+////        CGPoint stopLocation = [recognizer locationInView:self.view];
+////        CGFloat dx = stopLocation.x - startLocation.x;
+////        CGFloat dy = stopLocation.y - startLocation.y;
+////        CGFloat distance = sqrt(dx*dx + dy*dy );
+////        NSLog(@"Distance: %f", distance);
+//    }
+}
+
+- (void) scrollCellsForTimeShowing : (CGPoint) point {
+    NSArray *cells = [self.chatTableView visibleCells];
+    for (HPChatMsgTableViewCell *cell in cells)
+    {
+        if ([cell isKindOfClass:[HPChatMsgTableViewCell class]]) {
+            [cell scrollCellForTimeShowingCell :point];
+        }
+        
+    }
+
+}
 
 #pragma mark - constraints
 
@@ -261,6 +312,7 @@
             NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatMsgTableViewCell" owner:self options:nil];
             msgCell = [nib objectAtIndex:0];
         }
+        msgCell.delegate = self;
         [msgCell configureSelfWithMsg:[msgs objectAtIndex:indexPath.row]];
         return msgCell;
     } else {
@@ -328,5 +380,10 @@
     [headerView addSubview:dateLabel];
     return headerView;
 }
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleNone;
+}
+
 
 @end

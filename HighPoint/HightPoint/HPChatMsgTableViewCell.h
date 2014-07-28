@@ -8,13 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "Message.h"
+#import "HPChatViewController.h"
 
 
 @interface HPChatMsgTableViewCell : UITableViewCell <UIScrollViewDelegate>
 
+
+@property (strong, nonatomic) id <HPChatViewControllerProtocol> delegate;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UITextView * msgTextView;
 
 - (void) configureSelfWithMsg : (Message *) msg;
-
+- (void) scrollCellForTimeShowingCell :(CGPoint) point;
 @end
