@@ -38,13 +38,39 @@
 #pragma mark - msg area configure
 
 - (void) addMsgView : (Message*) msg {
+    [self.msgTextView removeFromSuperview];
     CGSize labelSize = [self getCellSize:msg];
-    self.msgTextView = [[UITextView alloc] initWithFrame:CGRectMake(60, 8, 250, labelSize.height + 16)];
+    
+    if (msg.isIncoming) {
+        int width = 250;
+        if (labelSize.width < 250) {
+            width = labelSize.width;
+        }
+        self.msgTextView = [[UITextView alloc] initWithFrame:CGRectMake(60, 8, width, labelSize.height + 25)];
+        self.msgTextView.backgroundColor = [UIColor colorWithRed: 230.0 / 255.0
+                                                           green: 230.0 / 255.0
+                                                            blue: 242.0 / 255.0
+                                                           alpha: 1.0];
+    } else {
+        
+        int width = 250;
+        if (labelSize.width < 250) {
+            width = labelSize.width;
+        }
+        
+        
+        self.msgTextView = [[UITextView alloc] initWithFrame:CGRectMake(100 + 250 - width, 8, width, labelSize.height + 25)];
+        self.msgTextView.backgroundColor = [UIColor colorWithRed: 80.0 / 255.0
+                                                           green: 227.0 / 255.0
+                                                            blue: 194.0 / 255.0
+                                                           alpha: 1.0];
+    }
+    
     self.msgTextView.userInteractionEnabled = NO;
-    self.msgTextView.backgroundColor = [UIColor greenColor];
+    
     self.msgTextView.text = msg.messageBody;
-    self.msgTextView.font = [UIFont fontWithName:@"Helvetica" size:18.0];
-    self.msgTextView.layer.cornerRadius = 5;    
+    self.msgTextView.font = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
+    self.msgTextView.layer.cornerRadius = 15;
     [self.scrollView addSubview:self.msgTextView];
 }
 

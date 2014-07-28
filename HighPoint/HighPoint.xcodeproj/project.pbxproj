@@ -284,6 +284,7 @@
 		CDE0BDC4196E636600CBCF58 /* HPUserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */; };
 		CDE0BDCA196E7FC000CBCF58 /* HPCurrentUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */; };
 		CDE0BDCD196E832E00CBCF58 /* HPCurrentUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */; };
+		CDE3465B19863CA70076961A /* HPChatMsgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE3465A19863CA70076961A /* HPChatMsgTableViewCell.xib */; };
 		CDF9745B196E8C4C0064ED04 /* Eye Active.png in Resources */ = {isa = PBXBuildFile; fileRef = CDF97456196E8C4C0064ED04 /* Eye Active.png */; };
 		CDF9745C196E8C4C0064ED04 /* Eye Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CDF97457196E8C4C0064ED04 /* Eye Tap.png */; };
 		CDF9745D196E8C4C0064ED04 /* Eye.png in Resources */ = {isa = PBXBuildFile; fileRef = CDF97458196E8C4C0064ED04 /* Eye.png */; };
@@ -688,6 +689,7 @@
 		CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCurrentUserViewController.xib; sourceTree = "<group>"; };
 		CDE0BDCB196E832E00CBCF58 /* HPCurrentUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserViewController.h; sourceTree = "<group>"; };
 		CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserViewController.m; sourceTree = "<group>"; };
+		CDE3465A19863CA70076961A /* HPChatMsgTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgTableViewCell.xib; sourceTree = "<group>"; };
 		CDF97456196E8C4C0064ED04 /* Eye Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Eye Active.png"; sourceTree = "<group>"; };
 		CDF97457196E8C4C0064ED04 /* Eye Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Eye Tap.png"; sourceTree = "<group>"; };
 		CDF97458196E8C4C0064ED04 /* Eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Eye.png; sourceTree = "<group>"; };
@@ -1400,6 +1402,7 @@
 				CD4CA3B01980E4D70016DF7E /* HPChatViewController.xib */,
 				CD4CA3BA19810F7C0016DF7E /* HPChatMsgTableViewCell.h */,
 				CD4CA3BB19810F7C0016DF7E /* HPChatMsgTableViewCell.m */,
+				CDE3465A19863CA70076961A /* HPChatMsgTableViewCell.xib */,
 				CD4CA3BF198111550016DF7E /* HPChatOptionsTableViewCell.h */,
 				CD4CA3C0198111550016DF7E /* HPChatOptionsTableViewCell.m */,
 				CD4CA3C1198111550016DF7E /* HPChatOptionsTableViewCell.xib */,
@@ -1669,6 +1672,7 @@
 				3B298FC2192F476100BEC2AA /* slider-default_trackBackground@2x.png in Resources */,
 				3B31865C191A7A4F0000DD8B /* ParaType - Futura PT Book.otf in Resources */,
 				3BDCB212197E8199003D7ECD /* HPUserInfoSecondRowTableViewCell.xib in Resources */,
+				CDE3465B19863CA70076961A /* HPChatMsgTableViewCell.xib in Resources */,
 				3BE9DE3A197FD8F300AFA641 /* 17.jpg in Resources */,
 				CDFA8A1F196BEA6200D04451 /* Switcher-C.png in Resources */,
 				3B3170B1191B931300B72AC1 /* Userpic-Maskk_2.png in Resources */,

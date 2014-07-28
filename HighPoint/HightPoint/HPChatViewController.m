@@ -56,16 +56,18 @@
 
 - (void) initMsgs {
      msgs = [[NSMutableArray alloc] init];
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 12; i++) {
        
         Message *msg = [[Message alloc] init];
-        msg.messageBody = @"сообщение";
-        if (i%2) {
-            msg.messageBody = @"сообщение сообщение сообщение сообщение сообщение сообщение  сообщение сообщение сообщение сообщение  сообщение сообщение сообщение сообщение  сообщение сообщение сообщение сообщение";
+        msg.isIncoming = NO;
+        msg.messageBody = @"Lorem ipsum dolor sit amet";
+        if (i%3) {
+            msg.messageBody = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis est a neque ultricies blandit. Donec quis congue ante. Praesent euismod semper turpis, sed ultricies felis aliquam quis. Etiam consectetur cursus lacinia";
+            msg.isIncoming = YES;
         }
         
         if (i%5) {
-            msg.messageBody = @"сообщение сообщение  сообщение сообщение сообщение сообщение";
+            msg.messageBody = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis est a neque ultricies blandit. ";
         }
         
         [msgs addObject:msg];
@@ -292,10 +294,10 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row < msgs.count) {
-        UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:18.0];
-        CGSize constraintSize = CGSizeMake(250.0f, 600);
+        UIFont *cellFont = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
+        CGSize constraintSize = CGSizeMake(250.0f, 1000);
         CGSize labelSize = [((Message *)[msgs objectAtIndex:indexPath.row]).messageBody sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
-        return labelSize.height + 32;
+        return labelSize.height + 40;
     } else {
         return 32;
     }

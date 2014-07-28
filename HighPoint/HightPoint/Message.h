@@ -13,6 +13,6 @@
 
 @property (strong, nonatomic) NSString *messageBody;
 @property (strong, nonatomic) NSString *sendTime;
-
+@property (assign, nonatomic) BOOL isIncoming;
 
 @end
