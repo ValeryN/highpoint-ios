@@ -11,11 +11,15 @@
 #import "HPChatMsgTableViewCell.h"
 #import "HPChatOptionsTableViewCell.h"
 #import "UILabel+HighPoint.h"
+#import "UITextView+HightPoint.h"
+#import "UIDevice+HighPoint.h"
 
 
 #define KEYBOARD_HEIGHT 216
-#define MSGS_TEST_COUNT 11;
+#define MSGS_TEST_COUNT 11
+#define MAX_COMMENT_LENGTH 250
 
+#define CONSTRAINT_TOP_BOTTOMVIEW 431
 
 @interface HPChatViewController () {
     NSMutableArray *msgs;
@@ -38,10 +42,15 @@
 {
     [super viewDidLoad];
     [self createNavigationItem];
+    
+    
+    
     self.msgTextView.delegate = self;
     self.chatTableView.delegate = self;
     self.chatTableView.dataSource = self;
     [self initMsgs];
+    self.msgTextView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
+    [self.msgTextView hp_tuneForTextViewMsgText];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -63,11 +72,43 @@
     }
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self fixSelfConstraint];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    if (self.chatTableView.contentSize.height > self.chatTableView.frame.size.height)
+    {
+        CGPoint offset = CGPointMake(0, self.chatTableView.contentSize.height -     self.chatTableView.frame.size.height);
+        [self.chatTableView setContentOffset:offset animated:NO];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+#pragma mark - constraints
+
+- (void) fixSelfConstraint {
+    
+    if (![UIDevice hp_isWideScreen])
+    {
+        NSArray* cons = self.view.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.msgBottomView))
+                consIter.constant = CONSTRAINT_TOP_BOTTOMVIEW;
+            
+            }
+    }
+}
+
 
 #pragma mark - navigation bar
 - (void) createNavigationItem
@@ -123,43 +164,44 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     
-    CGRect frame = self.msgTextView.frame;
-//    CGRect oldFrame = self.msgTextView.frame;
-//    CGRect viewFrame = self.msgBottomView.frame;
-    
-    frame.size.height = self.msgTextView.contentSize.height;
-    if (self.msgTextView.frame.size.height < self.msgTextView.contentSize.height) {
-        NSLog(@"up");
-        frame.origin.y = frame.origin.y - 16;
+    if ((self.msgTextView.text.length > MAX_COMMENT_LENGTH) && (text.length > 0)) {
+        return NO;
     }
     
+    CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    float possibleHeight = screenHeight - KEYBOARD_HEIGHT - 64;
+    CGRect frame = self.msgTextView.frame;
+    CGRect viewFrame = self.bgBottomView.frame;
+    frame.size.height = self.msgTextView.contentSize.height;
+    if (textView.text.length > 0) {
+        if (self.msgTextView.frame.size.height < self.msgTextView.contentSize.height) {
+            NSLog(@"up");
+            frame.origin.y = frame.origin.y - 20;
+            viewFrame.origin.y = viewFrame.origin.y - 20;
+            viewFrame.size.height = viewFrame.size.height + 20;
+        }
+    }
     if ((self.msgTextView.frame.size.height > self.msgTextView.contentSize.height) && (text.length < 1)) {
         NSLog(@"down");
-        frame.origin.y = frame.origin.y + 16;
+        frame.origin.y = frame.origin.y + 20;
+        viewFrame.origin.y = viewFrame.origin.y + 20;
+        viewFrame.size.height = viewFrame.size.height - 20;
     }
-    
-//    if ((oldFrame.size.height < frame.size.height) && (self.msgTextView.frame.size.height < self.msgTextView.contentSize.height)) {
-//        viewFrame.origin.y = viewFrame.origin.y - 16;
-//        viewFrame.size.height = viewFrame.size.height + 16;
-//        self.msgBottomView.frame = viewFrame;
-//    }
-//    
-//    if ((oldFrame.size.height > frame.size.height) && ((self.msgTextView.frame.size.height > self.msgTextView.contentSize.height) && (text.length < 1))) {
-//        viewFrame.origin.y = viewFrame.origin.y + 16;
-//        viewFrame.size.height = viewFrame.size.height - 16;
-//        self.msgBottomView.frame = viewFrame;
-//    }
-    
-    self.msgTextView.frame = frame;
-    
-    
-    
+    if (possibleHeight > viewFrame.size.height) {
+        self.msgTextView.frame = frame;
+        self.bgBottomView.frame = viewFrame;
+    }
     return YES;
 }
 
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
-
+    if ([textView.text isEqualToString:NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil)]) {
+        textView.text = @"";
+        [textView hp_tuneForTextViewMsgText];
+    }
+    [textView becomeFirstResponder];
+    
     CGRect newFrame = self.msgBottomView.frame;
     newFrame.origin.y = newFrame.origin.y - KEYBOARD_HEIGHT;
     [UIView animateWithDuration:0.4
@@ -173,6 +215,13 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
+    
+    if ([textView.text isEqualToString:@""]) {
+        textView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
+        [textView hp_tuneForTextViewPlaceholderText];
+    }
+    [textView resignFirstResponder];
+    
     CGRect newFrame = self.msgBottomView.frame;
     newFrame.origin.y = newFrame.origin.y + KEYBOARD_HEIGHT;
     [UIView animateWithDuration:0.2
@@ -189,6 +238,10 @@
 #pragma mark - button handlers
 - (IBAction)addMsgTap:(id)sender {
     [self.view endEditing:YES];
+    self.bgBottomView.frame = CGRectMake(0, 0, 320, 49);
+    self.msgTextView.frame = CGRectMake(48, 5, 261, 34);
+    self.msgTextView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
+    [self.msgTextView hp_tuneForTextViewMsgText];
     //TODO: send msg
 }
 

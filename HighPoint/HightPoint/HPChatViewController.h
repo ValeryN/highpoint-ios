@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIView *msgBottomView;
 @property (weak, nonatomic) IBOutlet UIButton *msgAddBtn;
 @property (weak, nonatomic) IBOutlet UITextView *msgTextView;
+@property (weak, nonatomic) IBOutlet UIView *bgBottomView;
 
 
 @end

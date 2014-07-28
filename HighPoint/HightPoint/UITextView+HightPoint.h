@@ -11,5 +11,7 @@
 @interface UITextView (HightPoint)
 
 - (void) hp_tuneForUserPoint;
+- (void) hp_tuneForTextViewPlaceholderText;
+- (void) hp_tuneForTextViewMsgText;
 
 @end

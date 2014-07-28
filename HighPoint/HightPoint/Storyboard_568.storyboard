@@ -13,7 +13,7 @@
                         <viewControllerLayoutGuide type="top" id="p0m-yw-6hL"/>
                         <viewControllerLayoutGuide type="bottom" id="ZKb-Tu-Gdd"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="b7p-gv-otd">
+                    <view key="view" contentMode="scaleToFill" id="b7p-gv-otd" customClass="UIControl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -42,6 +42,9 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <connections>
+                            <action selector="backgroundTap:" destination="BBy-ip-1SR" eventType="touchUpInside" id="3h6-Eb-XV7"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="jcP-3V-Uj2"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
