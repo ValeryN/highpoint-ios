@@ -46,6 +46,7 @@ static NSString * const kLanguagesFindRequest = @"/v201405/reference/languages/f
 static NSString * const kPlacesFindRequest = @"/v201405/reference/places/find";
 static NSString * const kSchoolsFindRequest = @"/v201405/reference/schools/find";
 static NSString * const kSpecialityFindRequest = @"/v201405/reference/specialities/find";
+static NSString * const kGetContactsRequest = @"/v201405/contacts";
 
 
 //socket io constants

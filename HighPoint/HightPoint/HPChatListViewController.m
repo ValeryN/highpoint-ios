@@ -10,13 +10,15 @@
 #import "HPChatTableViewCell.h"
 #import "UITextField+HighPoint.h"
 #import "HPChatViewController.h"
-
+#import "HPBaseNetworkManager.h"
 
 @interface HPChatListViewController ()
 
 @end
 
-@implementation HPChatListViewController
+@implementation HPChatListViewController {
+    NSArray *contacts;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,7 +37,7 @@
     
     self.chatListTableView.delegate = self;
     self.chatListTableView.dataSource = self;
-    
+    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
     // Do any additional setup after loading the view from its nib.
 }
 

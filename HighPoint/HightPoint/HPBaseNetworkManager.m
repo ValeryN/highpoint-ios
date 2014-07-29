@@ -19,6 +19,9 @@
 #import "CareerPost.h"
 #import "Company.h"
 #import "Language.h"
+#import "User.h"
+#import "LastMessage.h"
+#import "Contact.h"
 
 
 
@@ -1001,6 +1004,53 @@ static HPBaseNetworkManager *networkManager;
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alert show];
             }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+}
+
+
+
+#pragma mark - contacts
+- (void) getContactsRequest {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:kGetContactsRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+//    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+//    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"GET CONTACTS -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                [[DataStorage sharedDataStorage] deleteAllContacts];
+                NSArray *users = [jsonDict objectForKey:@"users"];
+                NSArray *lastMsgs = [jsonDict objectForKey:@"messages"];
+                
+                for (int i = 0; i < users.count; i++) {
+                   User *user = [[DataStorage sharedDataStorage] createUserEntity:[users objectAtIndex:i] isCurrent:NO];
+                    LastMessage * lastMsg;
+                    for (int j = 0; j < lastMsgs.count; j++) {
+                        if (user.userId == [[[lastMsgs objectAtIndex:j] allKeys] objectAtIndex:0]) {
+                            [[DataStorage sharedDataStorage] createLastMessage:[lastMsgs objectAtIndex:j]];
+                            break;
+                        }
+                    }
+                    [[DataStorage sharedDataStorage] createContactEntity:user :lastMsg];
+                }
+            }
+            else NSLog(@"Error, no valid data");
+            
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);

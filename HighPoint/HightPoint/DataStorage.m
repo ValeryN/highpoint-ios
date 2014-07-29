@@ -828,7 +828,7 @@ static DataStorage *dataStorage;
 }
 #pragma mark -
 #pragma mark current user entity
-- (void) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current {
+- (User *) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current {
     User *user;
     user = [self getUserForId:[param objectForKey:@"id"]];
     if(!user) {
@@ -989,6 +989,7 @@ static DataStorage *dataStorage;
         NSLog(@"saved point text %@", user.point.pointText);
         [self saveContext];
     }
+    return user;
 //    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:@"1,2",@"careerPostIds",@"1,2",@"companyIds",@"1,2",@"languageIds",@"1,2", @"placeIds",@"1,2", @"schoolIds",@"1,2", @"specialityIds",nil];
 //    [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:params];
 }
@@ -1469,6 +1470,66 @@ static DataStorage *dataStorage;
         [self.moc deleteObject:city];
     }
 }
+
+#pragma mark - contacts
+
+
+- (Contact *) createContactEntity: (User *)user : (LastMessage *) lastMessage  {
+    Contact *contactEnt = (Contact*)[NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:self.moc];
+    contactEnt.lastmessage = lastMessage;
+    contactEnt.user = user;
+    [self saveContext];
+    return contactEnt;
+}
+
+
+- (void) deleteAllContacts {
+    NSFetchRequest * allContacts = [[NSFetchRequest alloc] init];
+    [allContacts setEntity:[NSEntityDescription entityForName:@"Contact" inManagedObjectContext:self.moc]];
+    [allContacts setIncludesPropertyValues:NO];
+    NSError * error = nil;
+    NSArray * contacts = [self.moc executeFetchRequest:allContacts error:&error];
+    //error handling goes here
+    for (Contact * cont in contacts) {
+        [self.moc deleteObject:cont];
+    }
+}
+
+-(NSFetchedResultsController*) getAllContactsFetchResultsController {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    return controller;
+    
+}
+
+#pragma mark - last message
+
+- (LastMessage*) createLastMessage:(NSDictionary *)param {
+    LastMessage *lastMsgEnt = (LastMessage*)[NSEntityDescription insertNewObjectForEntityForName:@"LastMessage" inManagedObjectContext:self.moc];
+    id key = [[param allKeys] objectAtIndex:0];
+    lastMsgEnt.userId = key;
+    lastMsgEnt.id_ = [[param objectForKey:key] objectForKey:@"id"];
+    lastMsgEnt.createdAt = [[param objectForKey:key] objectForKey:@"createdAt"];
+    lastMsgEnt.destinationId = [[param objectForKey:key] objectForKey:@"destinationId"];
+    lastMsgEnt.readAt = [[param objectForKey:key] objectForKey:@"readAt"];
+    lastMsgEnt.sourceId = [[param objectForKey:key] objectForKey:@"sourceId"];
+    lastMsgEnt.text = [[param objectForKey:key] objectForKey:@"text"];
+    [self saveContext];
+    return lastMsgEnt;
+}
+
+
 
 #pragma mark - save context
 

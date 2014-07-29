@@ -24,7 +24,8 @@
 #import "Company.h"
 #import "School.h"
 #import "Speciality.h"
-
+#import "Contact.h"
+#import "LastMessage.h"
 
 @interface DataStorage : NSObject
 @property (nonatomic, strong) NSManagedObjectContext *moc;
@@ -39,7 +40,7 @@
 - (UserFilter*) getUserFilter;
 - (void) setCityToUserFilter :(City *) city;
 - (NSFetchedResultsController*) applicationSettingFetchResultsController;
-- (void) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current;
+- (User *) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 - (NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
@@ -75,5 +76,9 @@
 - (void) removeCityObjectById : (City *)city;
 - (void) removeCitiesFromUserFilter;
 - (void) deleteAllCities;
+- (Contact *) createContactEntity: (User *)user : (LastMessage *) lastMessage;
+- (void) deleteAllContacts;
+- (NSFetchedResultsController*) getAllContactsFetchResultsController;
+- (LastMessage*) createLastMessage:(NSDictionary *)param;
 - (void) saveContext;
 @end

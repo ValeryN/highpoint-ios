@@ -42,6 +42,9 @@
 - (void) getPointsRequest:(NSInteger) lastPoint;
 - (void) getGeoLocation:(NSDictionary*) param;
 - (void) findGeoLocation:(NSDictionary*) param;
+- (void) getContactsRequest;
+
+
 
 - (void) sendUserActivityStart:(NSDictionary*) param;
 - (void) sendUserActivityEnd:(NSDictionary*) param;
