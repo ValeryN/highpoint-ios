@@ -70,10 +70,6 @@
     [self.navigationController setNavigationBarHidden:NO];
     [self registerNotification];
     [self updateCurrentView];
-    
-//    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:@"инж",@"query", @"20", @"limit", nil];
-//    [[HPBaseNetworkManager sharedNetworkManager] findSpecialitiesRequest:param];
-    
 }
 
 - (void) viewWillDisappear:(BOOL)animated {

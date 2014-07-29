@@ -321,7 +321,6 @@ static HPBaseNetworkManager *networkManager;
 #pragma mark - user filter
 
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param {
-    ///v201405/me/filter
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCurrentUserFilter];
@@ -330,7 +329,7 @@ static HPBaseNetworkManager *networkManager;
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     NSLog(@"USER FILTER PARAMS --> %@", param.description);
-    [manager PUT:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@" FILTER JSON --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -343,7 +342,6 @@ static HPBaseNetworkManager *networkManager;
             } else {
                 NSLog(@"Error, no valid data");
             }
-            
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
@@ -408,9 +406,11 @@ static HPBaseNetworkManager *networkManager;
 - (void) addEducationRequest:(NSDictionary*) param {
     NSString *url = nil;
     url = [URLs getServerURL];
-    url = [url stringByAppendingString:kEducationRequest];
+    url = [url stringByAppendingString:kEducationAddRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"ADD EDUCATION: --> %@", operation.responseString);
         NSError *error = nil;
@@ -420,8 +420,8 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([jsonDict objectForKey:@"data"]) {
-                    [[DataStorage sharedDataStorage] addLEducationEntityForUser:[jsonDict objectForKey:@"data"]];
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"educationItem"]) {
+                    [[DataStorage sharedDataStorage] addLEducationEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"educationItem"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -442,11 +442,13 @@ static HPBaseNetworkManager *networkManager;
 - (void) deleteEducationItemRequest:(NSString*) ids {
     NSString *url = nil;
     url = [URLs getServerURL];
-    url = [url stringByAppendingString:kEducationRequest];
+    url = [url stringByAppendingString:kEducationDeleteRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [manager DELETE:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"DELETE EDUCATION ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -455,8 +457,8 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([jsonDict objectForKey:@"data"]) {
-                    [[DataStorage sharedDataStorage] deleteEducationEntityFromUser:[jsonDict objectForKey:@"data"]];
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
+                    [[DataStorage sharedDataStorage] deleteEducationEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -489,7 +491,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                NSArray *schools = [jsonDict objectForKey:@"data"] ;
+                NSArray *schools = [[jsonDict objectForKey:@"data"] objectForKey:@"schools"] ;
                 NSMutableArray *schoolsArr = [[NSMutableArray alloc] init];
                 for(NSDictionary *dict in schools) {
                     School *sch = [[DataStorage sharedDataStorage] createTempSchool:dict];
@@ -526,7 +528,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                NSArray *specialities = [jsonDict objectForKey:@"data"] ;
+                NSArray *specialities = [[jsonDict objectForKey:@"data"] objectForKey:@"specialities"] ;
                 NSMutableArray *specialitiesArr = [[NSMutableArray alloc] init];
                 for(NSDictionary *dict in specialities) {
                     Speciality *sp = [[DataStorage sharedDataStorage] createTempSpeciality:dict];
@@ -553,9 +555,11 @@ static HPBaseNetworkManager *networkManager;
 - (void) addPlaceRequest:(NSDictionary*) param {
     NSString *url = nil;
     url = [URLs getServerURL];
-    url = [url stringByAppendingString:kPlasesRequest];
+    url = [url stringByAppendingString:kPlasesAddRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"ADD PLACE: --> %@", operation.responseString);
         NSError *error = nil;
@@ -565,8 +569,8 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([jsonDict objectForKey:@"data"]) {
-                    [[DataStorage sharedDataStorage] addLPlaceEntityForUser:[jsonDict objectForKey:@"data"]];
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"place"]) {
+                    [[DataStorage sharedDataStorage] addLPlaceEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"place"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -587,11 +591,13 @@ static HPBaseNetworkManager *networkManager;
 - (void) deletePlaceItemRequest:(NSString*) ids {
     NSString *url = nil;
     url = [URLs getServerURL];
-    url = [url stringByAppendingString:kPlasesRequest];
+    url = [url stringByAppendingString:kPlasesDeleteRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [manager DELETE:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"DELETE PLACES ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -600,8 +606,8 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([jsonDict objectForKey:@"data"]) {
-                    [[DataStorage sharedDataStorage] deletePlaceEntityFromUser:[jsonDict objectForKey:@"data"]];
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
+                    [[DataStorage sharedDataStorage] deletePlaceEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -633,7 +639,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                NSArray *places = [jsonDict objectForKey:@"data"] ;
+                NSArray *places = [[jsonDict objectForKey:@"data"] objectForKey:@"places"];
                 NSMutableArray *placesArr = [[NSMutableArray alloc] init];
                 for(NSDictionary *dict in places) {
                     Place *place = [[DataStorage sharedDataStorage] createTempPlace:dict];
@@ -661,10 +667,12 @@ static HPBaseNetworkManager *networkManager;
 - (void) addLanguageRequest:(NSString*) langName {
     NSString *url = nil;
     url = [URLs getServerURL];
-    url = [url stringByAppendingString:kLanguagesRequest];
+    url = [url stringByAppendingString:kLanguagesAddRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:langName, @"name", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"ADD LANGUAGE: --> %@", operation.responseString);
         NSError *error = nil;
@@ -674,8 +682,8 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([jsonDict objectForKey:@"data"]) {
-                    [[DataStorage sharedDataStorage] addLanguageEntityForUser:[jsonDict objectForKey:@"data"]];
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"language"]) {
+                    [[DataStorage sharedDataStorage] addLanguageEntityForUser:[[jsonDict objectForKey:@"data"]objectForKey:@"language"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -697,11 +705,13 @@ static HPBaseNetworkManager *networkManager;
 - (void) deleteLanguageItemRequest:(NSString*) ids {
     NSString *url = nil;
     url = [URLs getServerURL];
-    url = [url stringByAppendingString:kLanguagesRequest];
+    url = [url stringByAppendingString:kLanguagesDeleteRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [manager DELETE:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"DELETE LANGUAGES ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -710,8 +720,8 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([jsonDict objectForKey:@"data"]) {
-                    [[DataStorage sharedDataStorage] deleteLanguageEntityFromUser:[jsonDict objectForKey:@"data"]];
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
+                    [[DataStorage sharedDataStorage] deleteLanguageEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -743,7 +753,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                NSArray *posts = [jsonDict objectForKey:@"data"] ;
+                NSArray *posts = [[jsonDict objectForKey:@"data"] objectForKey:@"languages"] ;
                 NSMutableArray *languagesArr = [[NSMutableArray alloc] init];
                 
                 for(NSDictionary *dict in posts) {
@@ -784,7 +794,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                NSArray *posts = [jsonDict objectForKey:@"data"] ;
+                NSArray *posts = [[jsonDict objectForKey:@"data"] objectForKey:@"companies"];
                 NSMutableArray *companiesArr = [[NSMutableArray alloc] init];
                 
                 for(NSDictionary *dict in posts) {
@@ -826,7 +836,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                NSArray *posts = [jsonDict objectForKey:@"data"] ;
+                NSArray *posts = [[jsonDict objectForKey:@"data"] objectForKey:@"careerPosts"] ;
                 NSMutableArray *postsArr = [[NSMutableArray alloc] init];
                 
                 for(NSDictionary *dict in posts) {
@@ -850,16 +860,16 @@ static HPBaseNetworkManager *networkManager;
 }
 
 
-
-
 #pragma mark - career
 
 - (void) addCareerItemRequest:(NSDictionary*) param {
     NSString *url = nil;
     url = [URLs getServerURL];
-    url = [url stringByAppendingString:kCareerRequest];
+    url = [url stringByAppendingString:kCareerAddRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"ADD CAREER ITEM: --> %@", operation.responseString);
         NSError *error = nil;
@@ -869,8 +879,8 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([jsonDict objectForKey:@"data"]) {
-                    [[DataStorage sharedDataStorage] addCareerEntityForUser:[jsonDict objectForKey:@"data"]];
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"careerItem"]) {
+                    [[DataStorage sharedDataStorage] addCareerEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"careerItem"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -890,11 +900,13 @@ static HPBaseNetworkManager *networkManager;
 - (void) deleteCareerItemRequest:(NSString*) ids {
     NSString *url = nil;
     url = [URLs getServerURL];
-    url = [url stringByAppendingString:kCareerRequest];
+    url = [url stringByAppendingString:kCareerDeleteRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [manager DELETE:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"DELETE CAREER ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -903,8 +915,8 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([jsonDict objectForKey:@"data"]) {
-                    [[DataStorage sharedDataStorage] deleteCareerEntityFromUser:[jsonDict objectForKey:@"data"]];
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
+                    [[DataStorage sharedDataStorage] deleteCareerEntityFromUser:[[jsonDict objectForKey:@"data"]objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -943,7 +955,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([jsonDict objectForKey:@"data"]) {
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"success"]) {
                     [[DataStorage sharedDataStorage] setPointLiked:pointId :YES];
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
                 }
@@ -980,7 +992,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([jsonDict objectForKey:@"data"]) {
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"success"]) {
                     [[DataStorage sharedDataStorage] setPointLiked:pointId :NO];
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
                 }

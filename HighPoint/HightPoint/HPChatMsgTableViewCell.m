@@ -67,7 +67,7 @@
     }
     
     self.msgTextView.userInteractionEnabled = NO;
-    //self.scrollView.userInteractionEnabled = NO;
+    self.scrollView.userInteractionEnabled = NO;
     self.msgTextView.text = msg.messageBody;
     self.msgTextView.font = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
     self.msgTextView.layer.cornerRadius = 15;
