@@ -79,6 +79,6 @@
 - (Contact *) createContactEntity: (User *)user : (LastMessage *) lastMessage;
 - (void) deleteAllContacts;
 - (NSFetchedResultsController*) getAllContactsFetchResultsController;
-- (LastMessage*) createLastMessage:(NSDictionary *)param;
+- (LastMessage*) createLastMessage:(NSDictionary *)param  :(int) keyId;
 - (void) saveContext;
 @end

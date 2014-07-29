@@ -10,7 +10,8 @@
 #import "UILabel+HighPoint.h"
 #import "UIButton+HighPoint.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import "User.h"
+#import "LastMessage.h"
 
 @implementation HPChatTableViewCell
 
@@ -94,7 +95,7 @@
 }
 
 
-- (void) configureCell {
+- (void) fillCell : (Contact *) contact {
     [self.userNameLabel hp_tuneForUserNameInContactList];
     [self.userAgeAndLocationLabel hp_tuneForUserDetailsInContactList];
     [self.currentMsgLabel hp_tuneForMessageInContactList];
@@ -104,11 +105,19 @@
     self.msgCountView.layer.cornerRadius = 12;
     self.avatar = [HPAvatarView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
     [self.avatarView addSubview: self.avatar];
-    self.currentMsgLabel.hidden = YES;
     self.myAvatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
     [self.myAvatarView addSubview: self.myAvatar];
     [self fixAvatarConstraint];
-    
+    self.userNameLabel.text = contact.user.name;
+    if ([contact.user.userId intValue] == [contact.lastmessage.destinationId intValue]) {
+        self.currentMsgLabel.hidden = YES;
+        self.msgFromMyself.hidden = NO;
+        self.currentMsgLabel.text = contact.lastmessage.text;
+    } else {
+        self.currentMsgLabel.hidden = NO;
+        self.msgFromMyself.hidden = YES;
+        self.currentUserMsgLabel.text = contact.lastmessage.text;
+    }
 }
 
 

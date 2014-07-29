@@ -1034,20 +1034,22 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 [[DataStorage sharedDataStorage] deleteAllContacts];
-                NSArray *users = [jsonDict objectForKey:@"users"];
-                NSArray *lastMsgs = [jsonDict objectForKey:@"messages"];
+                NSArray *users = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                NSDictionary *lastMsgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
                 
                 for (int i = 0; i < users.count; i++) {
-                   User *user = [[DataStorage sharedDataStorage] createUserEntity:[users objectAtIndex:i] isCurrent:NO];
+                    User *user = [[DataStorage sharedDataStorage] createUserEntity:[users objectAtIndex:i] isCurrent:NO];
                     LastMessage * lastMsg;
-                    for (int j = 0; j < lastMsgs.count; j++) {
-                        if (user.userId == [[[lastMsgs objectAtIndex:j] allKeys] objectAtIndex:0]) {
-                            [[DataStorage sharedDataStorage] createLastMessage:[lastMsgs objectAtIndex:j]];
+                    for (id key in [lastMsgs allKeys]) {
+                        if ([user.userId intValue] == [key intValue]) {
+                            lastMsg = [[DataStorage sharedDataStorage] createLastMessage:[lastMsgs objectForKey:key]: [key intValue]];
                             break;
                         }
                     }
                     [[DataStorage sharedDataStorage] createContactEntity:user :lastMsg];
                 }
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
             }
             else NSLog(@"Error, no valid data");
             

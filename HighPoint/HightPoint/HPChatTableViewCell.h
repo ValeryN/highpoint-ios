@@ -10,7 +10,7 @@
 #import "TLSwipeForOptionsCell.h"
 #import "HPAvatarView.h"
 #import "HPAvatarLittleView.h"
-
+#import "Contact.h"
 
 
 
@@ -46,6 +46,6 @@
 @property (weak, nonatomic) IBOutlet UIView *myAvatarView;
 
 
-- (void) configureCell;
+- (void) fillCell : (Contact *) contact;
 
 @end

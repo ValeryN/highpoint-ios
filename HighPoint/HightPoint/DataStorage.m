@@ -1500,7 +1500,7 @@ static DataStorage *dataStorage;
 	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:self.moc];
 	[request setEntity:entity];
     NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO];
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
     [sortDescriptors addObject:sortDescriptor];
     [request setSortDescriptors:sortDescriptors];
     NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
@@ -1515,16 +1515,15 @@ static DataStorage *dataStorage;
 
 #pragma mark - last message
 
-- (LastMessage*) createLastMessage:(NSDictionary *)param {
+- (LastMessage*) createLastMessage:(NSDictionary *)param  :(int) keyId {
     LastMessage *lastMsgEnt = (LastMessage*)[NSEntityDescription insertNewObjectForEntityForName:@"LastMessage" inManagedObjectContext:self.moc];
-    id key = [[param allKeys] objectAtIndex:0];
-    lastMsgEnt.userId = key;
-    lastMsgEnt.id_ = [[param objectForKey:key] objectForKey:@"id"];
-    lastMsgEnt.createdAt = [[param objectForKey:key] objectForKey:@"createdAt"];
-    lastMsgEnt.destinationId = [[param objectForKey:key] objectForKey:@"destinationId"];
-    lastMsgEnt.readAt = [[param objectForKey:key] objectForKey:@"readAt"];
-    lastMsgEnt.sourceId = [[param objectForKey:key] objectForKey:@"sourceId"];
-    lastMsgEnt.text = [[param objectForKey:key] objectForKey:@"text"];
+    lastMsgEnt.userId =[NSNumber numberWithInt: keyId];
+    lastMsgEnt.id_ = [param objectForKey:@"id"];
+   // lastMsgEnt.createdAt = [param objectForKey:@"createdAt"];
+    lastMsgEnt.destinationId = [param objectForKey:@"destinationId"];
+  // lastMsgEnt.readAt = [param objectForKey:@"readAt"];
+    lastMsgEnt.sourceId = [param objectForKey:@"sourceId"];
+    lastMsgEnt.text = [param objectForKey:@"text"];
     [self saveContext];
     return lastMsgEnt;
 }

@@ -11,6 +11,9 @@
 #import "UITextField+HighPoint.h"
 #import "HPChatViewController.h"
 #import "HPBaseNetworkManager.h"
+#import "NotificationsConstants.h"
+#import "DataStorage.h"
+
 
 @interface HPChatListViewController ()
 
@@ -32,6 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    contacts = [[NSArray alloc] init];
     [self.navigationController setNavigationBarHidden:NO];
     [self createNavigationItem];
     
@@ -47,12 +51,34 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self registerNotification];
+    [self updateCurrentView];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self unregisterNotification];
+}
+
+#pragma mark - notifications
+- (void) registerNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateContactListViews object:nil];
+}
+
+- (void) unregisterNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateContactListViews object:nil];
+}
+
+- (void) updateCurrentView {
+    contacts = [[[DataStorage sharedDataStorage] getAllContactsFetchResultsController] fetchedObjects];
+    [self.chatListTableView reloadData];
+}
 
 #pragma mark - create navigation item 
 - (void) createNavigationItem
 {
-
-    
     UIBarButtonItem* searchButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Lens.png"]
                                                      highlighedImage: [UIImage imageNamed:@"Lens Tap.png"]
                                                               action: @selector(searchTaped:)];
@@ -128,7 +154,7 @@
         chatCell = [nib objectAtIndex:0];
     }
     [chatCell setDelegate:self];
-    [chatCell configureCell];
+    
     if (indexPath.row == 3) {
         [chatCell.avatar privacyLevel];
     }
@@ -137,13 +163,16 @@
     } else {
         chatCell.msgCountView.hidden = NO;
     }
+    [chatCell fillCell: [contacts objectAtIndex:indexPath.row]];
     return chatCell;
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    NSLog(@"count contacts = %lu", (unsigned long)contacts.count);
+    return contacts.count;
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
