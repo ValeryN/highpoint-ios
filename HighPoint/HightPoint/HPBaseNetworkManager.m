@@ -1084,6 +1084,45 @@ static HPBaseNetworkManager *networkManager;
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"id"]) {
                     [[DataStorage sharedDataStorage] deleteContact:contactId];
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
+                    [[DataStorage sharedDataStorage] deleteChatByUserId:contactId];
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }];
+}
+
+#pragma mark - chat
+
+- (void) getChatMsgsForUser : (NSNumber *) userId : (NSNumber *) afterMsgId {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:[NSString stringWithFormat:kUserMessagesRequest, [userId stringValue]]];
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:afterMsgId, @"afterMessageId", nil];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"GET USER MESSAGES RESP JSON: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"messages"]) {
+                    User *user = [[DataStorage sharedDataStorage] getUserForId:userId];
+                    [[DataStorage sharedDataStorage] createChatEntity: user :[[jsonDict objectForKey:@"data"] objectForKey:@"messages"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);

@@ -13,6 +13,7 @@
 #import "UILabel+HighPoint.h"
 #import "UITextView+HightPoint.h"
 #import "UIDevice+HighPoint.h"
+#import "HPBaseNetworkManager.h"
 
 
 #define KEYBOARD_HEIGHT 216
@@ -60,7 +61,7 @@
      msgs = [[NSMutableArray alloc] init];
     for (int i = 0; i < 12; i++) {
        
-        Message *msg = [[Message alloc] init];
+        TestMessage *msg = [[TestMessage alloc] init];
         msg.isIncoming = NO;
         msg.messageBody = @"Lorem ipsum dolor sit amet";
         if (i%3) {
@@ -79,6 +80,8 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self fixSelfConstraint];
+    
+    [[HPBaseNetworkManager sharedNetworkManager] getChatMsgsForUser:@101 :@0];
     //[self setSwipeForTableView];
 }
 
@@ -348,7 +351,7 @@
     if (indexPath.row < msgs.count) {
         UIFont *cellFont = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
         CGSize constraintSize = CGSizeMake(250.0f, 1000);
-        CGSize labelSize = [((Message *)[msgs objectAtIndex:indexPath.row]).messageBody sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+        CGSize labelSize = [((TestMessage *)[msgs objectAtIndex:indexPath.row]).messageBody sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
         return labelSize.height + 40;
     } else {
         return 32;

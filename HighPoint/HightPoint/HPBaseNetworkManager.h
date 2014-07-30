@@ -44,7 +44,7 @@
 - (void) findGeoLocation:(NSDictionary*) param;
 - (void) getContactsRequest;
 - (void) deleteContactRequest : (NSNumber *)contactId;
-
+- (void) getChatMsgsForUser : (NSNumber *) userId : (NSNumber *) afterMsgId;
 
 - (void) sendUserActivityStart:(NSDictionary*) param;
 - (void) sendUserActivityEnd:(NSDictionary*) param;

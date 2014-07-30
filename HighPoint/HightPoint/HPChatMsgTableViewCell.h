@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Message.h"
+#import "TestMessage.h"
 #import "HPChatViewController.h"
 
 
@@ -18,6 +18,6 @@
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UITextView * msgTextView;
 
-- (void) configureSelfWithMsg : (Message *) msg;
+- (void) configureSelfWithMsg : (TestMessage *) msg;
 - (void) scrollCellForTimeShowingCell :(CGPoint) point;
 @end

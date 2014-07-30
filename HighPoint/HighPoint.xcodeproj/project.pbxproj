@@ -265,7 +265,7 @@
 		CDA170411982470800173D1C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170401982470800173D1C /* CoreText.framework */; };
 		CDA170431982471D00173D1C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170421982471D00173D1C /* QuartzCore.framework */; };
 		CDA170451982473200173D1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170441982473200173D1C /* SystemConfiguration.framework */; };
-		CDA17050198260C200173D1C /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA1704F198260C200173D1C /* Message.m */; };
+		CDA17050198260C200173D1C /* TestMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA1704F198260C200173D1C /* TestMessage.m */; };
 		CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EE2196FB2910032210F /* HPConciergeViewController.m */; };
 		CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */; };
 		CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE7196FC7E40032210F /* Localizable.strings */; };
@@ -276,11 +276,13 @@
 		CDA27BEB1974EE06007D6BC1 /* add_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA27BEA1974EE06007D6BC1 /* add_photo.png */; };
 		CDA317CB19768B6A00F04DA2 /* point_options.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA317CA19768B6A00F04DA2 /* point_options.png */; };
 		CDA317CD19768EDC00F04DA2 /* delete_point.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA317CC19768EDC00F04DA2 /* delete_point.png */; };
-		CDA36E6519878FF10073BE45 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA36E6419878FF10073BE45 /* User.m */; };
 		CDA36E6819878FF20073BE45 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA36E6719878FF20073BE45 /* Contact.m */; };
 		CDA36E6B19878FF20073BE45 /* LastMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA36E6A19878FF20073BE45 /* LastMessage.m */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
+		CDC2D7CF1988E33C0002B196 /* Chat.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC2D7CE1988E33C0002B196 /* Chat.m */; };
+		CDC2D7D21988E3BD0002B196 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC2D7D11988E3BD0002B196 /* User.m */; };
+		CDC2D7D81988ECB70002B196 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC2D7D71988ECB70002B196 /* Message.m */; };
 		CDD842C6197F7D4A00CCB857 /* UITextField+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD842C5197F7D4A00CCB857 /* UITextField+HighPoint.m */; };
 		CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */; };
 		CDE0BDC4196E636600CBCF58 /* HPUserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */; };
@@ -663,8 +665,8 @@
 		CDA170401982470800173D1C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		CDA170421982471D00173D1C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CDA170441982473200173D1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		CDA1704E198260C200173D1C /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		CDA1704F198260C200173D1C /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		CDA1704E198260C200173D1C /* TestMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMessage.h; sourceTree = "<group>"; };
+		CDA1704F198260C200173D1C /* TestMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMessage.m; sourceTree = "<group>"; };
 		CDA22EE1196FB2910032210F /* HPConciergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConciergeViewController.h; sourceTree = "<group>"; };
 		CDA22EE2196FB2910032210F /* HPConciergeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPConciergeViewController.m; sourceTree = "<group>"; };
 		CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPConciergeViewController.xib; sourceTree = "<group>"; };
@@ -678,8 +680,6 @@
 		CDA27BEA1974EE06007D6BC1 /* add_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_photo.png; sourceTree = "<group>"; };
 		CDA317CA19768B6A00F04DA2 /* point_options.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = point_options.png; sourceTree = "<group>"; };
 		CDA317CC19768EDC00F04DA2 /* delete_point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_point.png; sourceTree = "<group>"; };
-		CDA36E6319878FF10073BE45 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		CDA36E6419878FF10073BE45 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		CDA36E6619878FF20073BE45 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		CDA36E6719878FF20073BE45 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		CDA36E6919878FF20073BE45 /* LastMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastMessage.h; sourceTree = "<group>"; };
@@ -687,6 +687,12 @@
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
+		CDC2D7CD1988E33C0002B196 /* Chat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chat.h; sourceTree = "<group>"; };
+		CDC2D7CE1988E33C0002B196 /* Chat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chat.m; sourceTree = "<group>"; };
+		CDC2D7D01988E3BD0002B196 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		CDC2D7D11988E3BD0002B196 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		CDC2D7D61988ECB70002B196 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		CDC2D7D71988ECB70002B196 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		CDD842C4197F7D4A00CCB857 /* UITextField+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+HighPoint.h"; sourceTree = "<group>"; };
 		CDD842C5197F7D4A00CCB857 /* UITextField+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+HighPoint.m"; sourceTree = "<group>"; };
 		CDE0BDC0196E636600CBCF58 /* HPUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoViewController.h; sourceTree = "<group>"; };
@@ -1149,6 +1155,8 @@
 		3BDA4C441906461900EF6619 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				CDC2D7D61988ECB70002B196 /* Message.h */,
+				CDC2D7D71988ECB70002B196 /* Message.m */,
 				CD8CF434196A99D2000C7F18 /* UserFilter.h */,
 				CD8CF435196A99D2000C7F18 /* UserFilter.m */,
 				3B39D326195C5B5C002520B9 /* Region.h */,
@@ -1189,8 +1197,10 @@
 				CDA36E6A19878FF20073BE45 /* LastMessage.m */,
 				CDA36E6619878FF20073BE45 /* Contact.h */,
 				CDA36E6719878FF20073BE45 /* Contact.m */,
-				CDA36E6319878FF10073BE45 /* User.h */,
-				CDA36E6419878FF10073BE45 /* User.m */,
+				CDC2D7CD1988E33C0002B196 /* Chat.h */,
+				CDC2D7CE1988E33C0002B196 /* Chat.m */,
+				CDC2D7D01988E3BD0002B196 /* User.h */,
+				CDC2D7D11988E3BD0002B196 /* User.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -1458,8 +1468,8 @@
 			children = (
 				CDA170281982354300173D1C /* HPEnterIPViewController.h */,
 				CDA170291982354300173D1C /* HPEnterIPViewController.m */,
-				CDA1704E198260C200173D1C /* Message.h */,
-				CDA1704F198260C200173D1C /* Message.m */,
+				CDA1704E198260C200173D1C /* TestMessage.h */,
+				CDA1704F198260C200173D1C /* TestMessage.m */,
 			);
 			name = TestControllers;
 			sourceTree = "<group>";
@@ -1863,6 +1873,7 @@
 				3BA3840B1924D58A00EFC749 /* CrossDissolveAnimation.m in Sources */,
 				3B49DE211934CEF000C3EF1E /* HPSlideUpAnimation.m in Sources */,
 				3BE9DE17197FD09000AFA641 /* RACollectionViewTripletLayout.m in Sources */,
+				CDC2D7D21988E3BD0002B196 /* User.m in Sources */,
 				CD55FD2619792C30003EE9E9 /* Education.m in Sources */,
 				3B0B9202197D201F00910475 /* HPUserInfoFirstRowTableViewCell.m in Sources */,
 				3BDCB210197E7B18003D7ECD /* HPUserInfoLabel.m in Sources */,
@@ -1892,6 +1903,7 @@
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
 				CDD842C6197F7D4A00CCB857 /* UITextField+HighPoint.m in Sources */,
 				4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
+				CDC2D7D81988ECB70002B196 /* Message.m in Sources */,
 				CD55FD1119792025003EE9E9 /* Language.m in Sources */,
 				4C91C1F119585AC1002B27D4 /* HPUserPointView.m in Sources */,
 				CD4CA3B51980F22F0016DF7E /* HPChatViewController.m in Sources */,
@@ -1902,8 +1914,9 @@
 				3BA384081924CDBC00EFC749 /* ScaleAnimation.m in Sources */,
 				3B298FD3192F476100BEC2AA /* NMRangeSlider.m in Sources */,
 				CD55FD2019792C2F003EE9E9 /* CareerPost.m in Sources */,
+				CDC2D7CF1988E33C0002B196 /* Chat.m in Sources */,
 				3B39D2F8195C3091002520B9 /* MinEntertainmentPrice.m in Sources */,
-				CDA17050198260C200173D1C /* Message.m in Sources */,
+				CDA17050198260C200173D1C /* TestMessage.m in Sources */,
 				3B31709D191B6B5200B72AC1 /* HPMainViewListTableViewCell.m in Sources */,
 				3B39D31A195C3122002520B9 /* SocketIO.m in Sources */,
 				CD4CA3C2198111550016DF7E /* HPChatOptionsTableViewCell.m in Sources */,
@@ -1936,7 +1949,6 @@
 				3BDA4C9719064E5900EF6619 /* UIImage+GIF.m in Sources */,
 				4CDC98C119519FA2006D2F89 /* HPUserCardView.m in Sources */,
 				3B31864B191A408B0000DD8B /* Utils.m in Sources */,
-				CDA36E6519878FF10073BE45 /* User.m in Sources */,
 				3BDCB215197E820E003D7ECD /* HPUserInfoSecondRowTableViewCell.m in Sources */,
 				3BDA4C8F19064E5900EF6619 /* SDImageCache.m in Sources */,
 				3B39D31B195C3122002520B9 /* SocketIOJSONSerialization.m in Sources */,

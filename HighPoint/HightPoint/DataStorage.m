@@ -1595,16 +1595,96 @@ static DataStorage *dataStorage;
 #pragma mark - last message
 
 - (LastMessage*) createLastMessage:(NSDictionary *)param  :(int) keyId {
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
     LastMessage *lastMsgEnt = (LastMessage*)[NSEntityDescription insertNewObjectForEntityForName:@"LastMessage" inManagedObjectContext:self.moc];
     lastMsgEnt.userId =[NSNumber numberWithInt: keyId];
     lastMsgEnt.id_ = [param objectForKey:@"id"];
-   // lastMsgEnt.createdAt = [param objectForKey:@"createdAt"];
+    lastMsgEnt.createdAt = [df dateFromString:[param objectForKey:@"createdAt"]];
     lastMsgEnt.destinationId = [param objectForKey:@"destinationId"];
-  // lastMsgEnt.readAt = [param objectForKey:@"readAt"];
+    lastMsgEnt.readAt = [df dateFromString:[param objectForKey:@"readAt"]];
     lastMsgEnt.sourceId = [param objectForKey:@"sourceId"];
     lastMsgEnt.text = [param objectForKey:@"text"];
     [self saveContext];
     return lastMsgEnt;
+}
+
+#pragma mark - chat
+
+- (Chat *) createChatEntity: (User *)user : (NSArray *) messages  {
+    Chat *chatEnt = (Chat*)[NSEntityDescription insertNewObjectForEntityForName:@"Chat" inManagedObjectContext:self.moc];
+    chatEnt.user = user;
+    NSMutableArray *entArray = [NSMutableArray new];
+    for(NSDictionary *t in messages) {
+        Message *msg = [self createMessage:t : user.userId];
+        msg.chat = chatEnt;
+        [entArray addObject:msg];
+    }
+    chatEnt.message = [NSSet setWithArray:entArray];
+    [self saveContext];
+    return chatEnt;
+}
+
+- (Chat *) getChatByUserId :(NSNumber *) userId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Chat" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"user.userId  = %d",[userId intValue]];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0)
+        return [[controller fetchedObjects] objectAtIndex:0];
+    else return nil;
+}
+
+
+- (void) deleteChatByUserId : (NSNumber *) userId {
+    Chat *chat = [self getChatByUserId:userId];
+    if (chat) {
+        [self.moc deleteObject:chat];
+        [self saveContext];
+    }
+}
+
+#pragma mark - messages
+
+- (Message *) createMessage : (NSDictionary *) param : (NSNumber *)userId {
+    
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
+    Message *msgEnt = (Message*)[NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:self.moc];
+    msgEnt.bindedUserId = userId;
+    msgEnt.id_ = [param objectForKey:@"id"];
+    msgEnt.createdAt = [df dateFromString: [param objectForKey:@"createdAt"]];
+    msgEnt.destinationId = [param objectForKey:@"destinationId"];
+    msgEnt.readAt = [df dateFromString:[param objectForKey:@"readAt"]];
+    msgEnt.sourceId = [param objectForKey:@"sourceId"];
+    msgEnt.text = [param objectForKey:@"text"];
+    [self saveContext];
+    return msgEnt;
 }
 
 

@@ -2,13 +2,14 @@
 //  User.m
 //  HighPoint
 //
-//  Created by Julia Pozdnyakova on 29.07.14.
+//  Created by Julia Pozdnyakova on 30.07.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
 #import "User.h"
 #import "Avatar.h"
 #import "Career.h"
+#import "Chat.h"
 #import "Contact.h"
 #import "Education.h"
 #import "Language.h"
@@ -37,6 +38,7 @@
 @dynamic visibility;
 @dynamic avatar;
 @dynamic career;
+@dynamic contact;
 @dynamic education;
 @dynamic language;
 @dynamic maxentertainment;
@@ -44,6 +46,6 @@
 @dynamic place;
 @dynamic point;
 @dynamic userfilter;
-@dynamic contact;
+@dynamic chat;
 
 @end

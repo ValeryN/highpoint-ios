@@ -25,7 +25,7 @@
 }
 
 
-- (void) configureSelfWithMsg : (Message *) msg {
+- (void) configureSelfWithMsg : (TestMessage *) msg {
     CGSize labelSize = [self getCellSize:msg];
     self.contentView.frame = CGRectMake(0, 0, 320,labelSize.height + 32);
     self.scrollView.frame = CGRectMake(0, 0, 320,labelSize.height + 32);
@@ -37,7 +37,7 @@
 
 #pragma mark - msg area configure
 
-- (void) addMsgView : (Message*) msg {
+- (void) addMsgView : (TestMessage*) msg {
     [self.msgTextView removeFromSuperview];
     CGSize labelSize = [self getCellSize:msg];
     
@@ -76,7 +76,7 @@
 
 
 #pragma mark - count size 
-- (CGSize) getCellSize : (Message *) msg {
+- (CGSize) getCellSize : (TestMessage *) msg {
     UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:18.0];
     CGSize constraintSize = CGSizeMake(250.0f, 600);
     CGSize labelSize = [msg.messageBody sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];

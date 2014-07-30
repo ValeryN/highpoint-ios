@@ -26,6 +26,8 @@
 #import "Speciality.h"
 #import "Contact.h"
 #import "LastMessage.h"
+#import "Chat.h"
+#import "Message.h"
 
 @interface DataStorage : NSObject
 @property (nonatomic, strong) NSManagedObjectContext *moc;
@@ -44,6 +46,7 @@
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 - (NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
+- (User*) getUserForId:(NSNumber*) id_;
 - (void) deleteCurrentUser;
 - (School *) createSchoolEntity:(NSDictionary *)param;
 - (School *) createTempSchool :(NSDictionary *) param;
@@ -82,5 +85,7 @@
 - (void) deleteContact : (NSNumber *) contactId;
 -(NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
 - (LastMessage*) createLastMessage:(NSDictionary *)param  :(int) keyId;
+- (Chat *) createChatEntity: (User *)user : (NSArray *) messages;
+- (void) deleteChatByUserId : (NSNumber *) userId;
 - (void) saveContext;
 @end
