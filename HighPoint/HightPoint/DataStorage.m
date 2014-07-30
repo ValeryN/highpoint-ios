@@ -1555,8 +1555,42 @@ static DataStorage *dataStorage;
         [self.moc deleteObject:contact];
         [self saveContext];
     }
-   
 }
+
+-(NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"user.name contains[c] '%@' OR user.age == '%@'", queryStr, queryStr];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    return controller;
+    
+}
+
 
 #pragma mark - last message
 

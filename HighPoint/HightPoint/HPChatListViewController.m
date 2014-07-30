@@ -217,13 +217,26 @@
 
 #pragma mark - search text field
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if (textField.text.length > 0) {
-        //filter
+    if (string.length > 0) {
+        textField.text = [NSString stringWithFormat:@"%@%@", textField.text,string];
     } else {
-        //show all
+        if (textField.text.length > 1) {
+            textField.text = [NSString stringWithFormat:@"%@", [textField.text substringToIndex:[textField.text length] - 1 ]];
+        } else {
+            textField.text = @"";
+        }
+    }
+    if (textField.text.length > 0) {
+        contacts = [[[DataStorage sharedDataStorage] getContactsByQueryFetchResultsController:textField.text] fetchedObjects];
+        NSLog(@"update contacts query count = %lu", (unsigned long)contacts.count);
+        [self.chatListTableView reloadData];
+    } else {
+        contacts = [[[DataStorage sharedDataStorage] getAllContactsFetchResultsController] fetchedObjects];
+        NSLog(@"update contacts all count = %lu", (unsigned long)contacts.count);
+        [self.chatListTableView reloadData];
     }
     NSLog(@"changed");
-    return YES;
+    return NO;
 }
 
 #pragma mark - cover view

@@ -80,6 +80,7 @@
 - (void) deleteAllContacts;
 - (NSFetchedResultsController*) getAllContactsFetchResultsController;
 - (void) deleteContact : (NSNumber *) contactId;
+-(NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
 - (LastMessage*) createLastMessage:(NSDictionary *)param  :(int) keyId;
 - (void) saveContext;
 @end

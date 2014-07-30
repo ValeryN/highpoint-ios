@@ -113,6 +113,7 @@
     [self.myAvatarView addSubview: self.myAvatar];
     [self fixAvatarConstraint];
     self.userNameLabel.text = contact.user.name;
+    self.userAgeAndLocationLabel.text = [NSString stringWithFormat:@"%@ лет, %@", contact.user.age, contact.user.cityId];
     if ([contact.user.userId intValue] == [contact.lastmessage.destinationId intValue]) {
         self.currentMsgLabel.hidden = YES;
         self.msgFromMyself.hidden = NO;
