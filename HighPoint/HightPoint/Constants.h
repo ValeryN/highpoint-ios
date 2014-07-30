@@ -47,7 +47,7 @@ static NSString * const kPlacesFindRequest = @"/v201405/reference/places/find";
 static NSString * const kSchoolsFindRequest = @"/v201405/reference/schools/find";
 static NSString * const kSpecialityFindRequest = @"/v201405/reference/specialities/find";
 static NSString * const kGetContactsRequest = @"/v201405/contacts";
-
+static NSString * const kContactDeleteRequest = @"/v201405/contacts/%@/remove";
 
 //socket io constants
 static NSString * const kSendMessage = @"sendMessage";

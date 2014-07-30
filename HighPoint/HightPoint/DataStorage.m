@@ -1513,6 +1513,51 @@ static DataStorage *dataStorage;
     
 }
 
+
+- (Contact *) getContactById : (NSNumber *) contactId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"user.userId  = %d",[contactId intValue]];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0)
+        return [[controller fetchedObjects] objectAtIndex:0];
+    else return nil;
+}
+
+- (void) deleteContact : (NSNumber *) contactId {
+    Contact *contact = [self getContactById:contactId];
+    if (contact) {
+        [self.moc deleteObject:contact];
+        [self saveContext];
+    }
+   
+}
+
 #pragma mark - last message
 
 - (LastMessage*) createLastMessage:(NSDictionary *)param  :(int) keyId {

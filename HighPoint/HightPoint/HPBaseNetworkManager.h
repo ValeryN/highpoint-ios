@@ -43,7 +43,7 @@
 - (void) getGeoLocation:(NSDictionary*) param;
 - (void) findGeoLocation:(NSDictionary*) param;
 - (void) getContactsRequest;
-
+- (void) deleteContactRequest : (NSNumber *)contactId;
 
 
 - (void) sendUserActivityStart:(NSDictionary*) param;

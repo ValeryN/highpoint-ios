@@ -55,6 +55,7 @@
     [super viewWillAppear:animated];
     [self registerNotification];
     [self updateCurrentView];
+    
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -73,6 +74,7 @@
 
 - (void) updateCurrentView {
     contacts = [[[DataStorage sharedDataStorage] getAllContactsFetchResultsController] fetchedObjects];
+    NSLog(@"update contacts count = %lu", (unsigned long)contacts.count);
     [self.chatListTableView reloadData];
 }
 
@@ -141,18 +143,23 @@
 }
 
 
+#pragma mark - delete chat
+- (void)deleteChat:(TLSwipeForOptionsCell *)cell {
+    [[HPBaseNetworkManager sharedNetworkManager] deleteContactRequest:((Contact *)[contacts objectAtIndex:cell.tag]).user.userId];
+}
+
 #pragma mark - table view
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *townCellIdentifier = @"chatCell";
     HPChatTableViewCell *chatCell = (HPChatTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
-    
     if (chatCell == nil)
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatTableViewCell" owner:self options:nil];
         chatCell = [nib objectAtIndex:0];
     }
+    
     [chatCell setDelegate:self];
     
     if (indexPath.row == 3) {
@@ -166,6 +173,7 @@
     chatCell.currentMsgLabel.text = ((Contact *)[contacts objectAtIndex:indexPath.row]).lastmessage.text;
     chatCell.currentUserMsgLabel.text = ((Contact *)[contacts objectAtIndex:indexPath.row]).lastmessage.text;
     [chatCell fillCell: [contacts objectAtIndex:indexPath.row]];
+    chatCell.tag = indexPath.row;
     return chatCell;
 }
 

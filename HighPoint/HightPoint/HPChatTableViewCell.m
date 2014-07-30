@@ -92,6 +92,10 @@
 
 - (void)deleteChat:(TLSwipeForOptionsCell *)cell {
     NSLog(@"delete");
+    if ([self.delegate respondsToSelector:@selector(deleteChat:)]) {
+        [self.delegate deleteChat: self];
+    }
+    [self.scrollView setContentOffset:CGPointZero animated:YES];
 }
 
 
