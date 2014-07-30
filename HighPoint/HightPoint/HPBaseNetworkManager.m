@@ -1022,9 +1022,9 @@ static HPBaseNetworkManager *networkManager;
     url = [url stringByAppendingString:kGetContactsRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-//    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-//    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GET CONTACTS -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];

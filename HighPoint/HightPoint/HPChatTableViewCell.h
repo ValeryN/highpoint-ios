@@ -47,5 +47,6 @@
 
 
 - (void) fillCell : (Contact *) contact;
+- (void) setup;
 
 @end

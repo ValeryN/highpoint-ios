@@ -163,9 +163,10 @@
     } else {
         chatCell.msgCountView.hidden = NO;
     }
+    chatCell.currentMsgLabel.text = ((Contact *)[contacts objectAtIndex:indexPath.row]).lastmessage.text;
+    chatCell.currentUserMsgLabel.text = ((Contact *)[contacts objectAtIndex:indexPath.row]).lastmessage.text;
     [chatCell fillCell: [contacts objectAtIndex:indexPath.row]];
     return chatCell;
-    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

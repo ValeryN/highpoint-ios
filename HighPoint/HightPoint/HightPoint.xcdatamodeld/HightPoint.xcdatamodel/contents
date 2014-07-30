@@ -52,7 +52,7 @@
     </entity>
     <entity name="Contact" representedClassName="Contact" syncable="YES">
         <relationship name="lastmessage" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="LastMessage" inverseName="contact" inverseEntity="LastMessage" syncable="YES"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="User" inverseName="contact" inverseEntity="User" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="contact" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="Country" representedClassName="Country" syncable="YES">
         <attribute name="countryEnName" optional="YES" attributeType="String" syncable="YES"/>
@@ -180,10 +180,12 @@
         <element name="CareerPost" positionX="-389" positionY="-90" width="128" height="88"/>
         <element name="City" positionX="639" positionY="-36" width="128" height="135"/>
         <element name="Company" positionX="-360" positionY="117" width="128" height="88"/>
+        <element name="Contact" positionX="-110" positionY="261" width="128" height="73"/>
         <element name="Country" positionX="153" positionY="-486" width="128" height="103"/>
         <element name="Education" positionX="144" positionY="-331" width="128" height="163"/>
         <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
         <element name="Language" positionX="-396" positionY="-279" width="128" height="88"/>
+        <element name="LastMessage" positionX="63" positionY="308" width="128" height="163"/>
         <element name="MaxEntertainmentPrice" positionX="27" positionY="-0" width="128" height="88"/>
         <element name="Message" positionX="466" positionY="-9" width="128" height="133"/>
         <element name="MinEntertainmentPrice" positionX="493" positionY="-153" width="128" height="88"/>
@@ -194,7 +196,5 @@
         <element name="User" positionX="-36" positionY="-414" width="128" height="403"/>
         <element name="UserFilter" positionX="538" positionY="-306" width="128" height="133"/>
         <element name="UserPoint" positionX="295" positionY="-16" width="128" height="148"/>
-        <element name="Contact" positionX="-110" positionY="261" width="128" height="73"/>
-        <element name="LastMessage" positionX="63" positionY="308" width="128" height="163"/>
     </elements>
 </model>
