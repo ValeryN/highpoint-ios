@@ -9,6 +9,9 @@
 
 
 
+//USERS LIST SCREEN
+"UNKNOWN_CITY_ID" = "Unknown id";
+
 // ADD PHOTO SCREEN
 "GET_FROM_PHOTO_LIBRARY_BTN" = "Выбрать из альбома";
 "TAKE_PHOTO_BTN" = "Сделать фотографию";
@@ -44,3 +47,4 @@
 
 //CHAT SCREEN
 "YOUR_MSG_PLACEHOLDER" ="Ваше сообщение";
+

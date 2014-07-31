@@ -69,7 +69,7 @@ static DataStorage *dataStorage;
     }
     
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:cityIds, @"cityIds",@"",@"countryIds",@"",@"regionIds", nil];
-    [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params];
+    [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params:nil];
     uf.gender = [NSSet setWithArray:arr];
     [self saveContext];
     return uf;
@@ -1355,27 +1355,13 @@ static DataStorage *dataStorage;
     return controller;
 }
 
-- (void) createUser:(NSDictionary*) param {
-    
-}
-
-- (void) createUserInfo:(NSDictionary*) param {
-    
-}
-- (void) createUserSettings:(NSDictionary*) param {
-    
-}
-- (NSFetchedResultsController*) getAllUsers {
-    return nil;
-}
-- (NSFetchedResultsController*) getAllUsersForParams:(NSDictionary*) param {
-    return nil;
-}
-- (void) DeleteAllUsers {
-    
-}
-- (void) DeleteAllPoints {
-    
+- (void) setCityToUser : (NSNumber *) userId : (City *) city {
+    User *user = [self getUserForId:userId];
+    if(user) {
+        user.city = city;
+        [self saveContext];
+        return;
+    } else return;
 }
 
 

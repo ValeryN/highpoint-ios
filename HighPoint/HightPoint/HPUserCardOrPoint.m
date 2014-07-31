@@ -10,6 +10,7 @@
 
 #import "HPUserCardOrPoint.h"
 #import "UserPoint.h"
+#import "City.h"
 
 //==============================================================================
 
@@ -29,7 +30,6 @@
     return self;
 }
 
-//==============================================================================
 
 - (UIView*) userPointWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user
 {
@@ -41,7 +41,8 @@
     newPoint.delegate = delegate;
     newPoint.pointDelegate = delegate;
     newPoint.name.text = user.name;
-    newPoint.details.text = [NSString stringWithFormat:@"%@ лет, %@", user.age, user.cityId];
+    NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
+    newPoint.details.text = [NSString stringWithFormat:@"%@ лет, %@", user.age, cityName];
     UserPoint *point = user.point;
     newPoint.pointText.text = point.pointText;
     [newPoint.heartLike setSelected:[point.pointLiked boolValue]];
@@ -49,7 +50,6 @@
     return newPoint;
 }
 
-//==============================================================================
 
 - (UIView*) userCardWithDelegate: (NSObject<UserCardOrPointProtocol>*) delegate user: (User*) user
 {
@@ -82,13 +82,13 @@
     
     
     newCard.name.text = user.name;
-    newCard.details.text = [NSString stringWithFormat:@"%@ лет, %@", user.age, user.cityId];
+    NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
+    newCard.details.text = [NSString stringWithFormat:@"%@ лет, %@", user.age, cityName];
     [newCard initObjects];
 
     return newCard;
 }
 
-//==============================================================================
 
 - (BOOL) switchUserPoint
 {
@@ -96,13 +96,11 @@
     return _isUserPointView;
 }
 
-//==============================================================================
 
 - (BOOL) isUserPoint
 {
     return _isUserPointView;
 }
 
-//==============================================================================
 
 @end

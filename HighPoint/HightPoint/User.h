@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Avatar, Career, Chat, Contact, Education, Language, MaxEntertainmentPrice, MinEntertainmentPrice, Place, UserFilter, UserPoint;
+@class Avatar, Career, Chat, City, Contact, Education, Language, MaxEntertainmentPrice, MinEntertainmentPrice, Place, UserFilter, UserPoint;
 
 @interface User : NSManagedObject
 
@@ -38,6 +38,7 @@
 @property (nonatomic, retain) UserPoint *point;
 @property (nonatomic, retain) UserFilter *userfilter;
 @property (nonatomic, retain) Chat *chat;
+@property (nonatomic, retain) City *city;
 @end
 
 @interface User (CoreDataGeneratedAccessors)

@@ -101,8 +101,7 @@ static HPBaseNetworkManager *networkManager;
         [alert show];
     }];
 }
-- (void) getGeoLocation:(NSDictionary*) param {
-    //
+- (void) getGeoLocation:(NSDictionary*) param : (int) mode {
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kGeoLocationRequest];
@@ -117,7 +116,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                NSArray *cities = [jsonDict objectForKey:@"cities"] ;
+                NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
                 NSMutableArray *citiesArr = [[NSMutableArray alloc] init];
                 
                 for(NSDictionary *dict in cities) {
@@ -127,6 +126,26 @@ static HPBaseNetworkManager *networkManager;
                 NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
                 
+                
+                switch (mode) {
+                    case 0: {
+                        NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
+                        for (int i = 0; i < users.count; i++) {
+                            NSLog(@"city id = %@", ((User*)[users objectAtIndex:i]).cityId);
+                            City * city = [[DataStorage sharedDataStorage]  getCityById:((User*)[users objectAtIndex:i]).cityId];
+                            NSLog(@"city name = %@", city.cityName);
+                            [[DataStorage sharedDataStorage] setCityToUser:((User*)[users objectAtIndex:i]).userId :city];
+                        }
+                        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
+                                                                                                             object:nil
+                                                                                                           userInfo:nil]];
+                        break;
+                    }
+                    default:
+                        break;
+                }
+                
+
             }
             else NSLog(@"Error, no valid data");
             
@@ -199,22 +218,25 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                //[[DataStorage sharedDataStorage] createUserEntity:jsonDict];
-                
-                
-                
-                
                 NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 for(NSDictionary *dict in usr) {
-                    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
+                    //NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
                     //[self getGeoLocation:param];
                     [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO];
                 }
+                NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
+                NSString *ids = @"";
                 
-                NSNotification *notification = [NSNotification notificationWithName:kNeedUpdateUsersListViews
-                                                                             object:nil
-                                                                           userInfo:nil];
-                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                for (int i = 0; i < users.count; i++) {
+                    if (((User *)[users objectAtIndex:i]).cityId) {
+                        ids = [ids stringByAppendingString:[NSString stringWithFormat:@"%@%@", ((User *)[users objectAtIndex:i]).cityId, @","]];
+                    }
+                }
+                if ([ids length] > 0) {
+                    ids = [ids substringToIndex:[ids length] - 1];
+                }
+                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"cityIds", nil];
+                [self getGeoLocation:param:0];
             }
             else NSLog(@"Error, no valid data");
         }
@@ -270,14 +292,13 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 NSArray *cities = [jsonDict objectForKey:@"cities"] ;
-                NSMutableArray *citiesArr = [[NSMutableArray alloc] init];
-                
-                for(NSDictionary *dict in cities) {
-                    City *city = [[DataStorage sharedDataStorage] createTempCity:dict];
-                    [citiesArr addObject:city];
-                }
-                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCitiesListView object:self userInfo:param];
+                    NSMutableArray *citiesArr = [[NSMutableArray alloc] init];
+                    for(NSDictionary *dict in cities) {
+                        City *city = [[DataStorage sharedDataStorage] createTempCity:dict];
+                        [citiesArr addObject:city];
+                    }
+                    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCitiesListView object:self userInfo:param];
             } else {
                 NSLog(@"Error, no valid data");
             }

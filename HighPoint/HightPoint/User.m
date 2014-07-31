@@ -10,6 +10,7 @@
 #import "Avatar.h"
 #import "Career.h"
 #import "Chat.h"
+#import "City.h"
 #import "Contact.h"
 #import "Education.h"
 #import "Language.h"
@@ -47,5 +48,6 @@
 @dynamic point;
 @dynamic userfilter;
 @dynamic chat;
+@dynamic city;
 
 @end

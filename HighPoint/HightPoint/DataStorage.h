@@ -76,6 +76,7 @@
 - (City *) createTempCity :(NSDictionary *) param;
 - (City *) getCityById : (NSNumber *) cityId;
 - (City *) insertCityObjectToContext: (City *) city;
+- (void) setCityToUser : (NSNumber *) userId : (City *) city;
 - (void) removeCityObjectById : (City *)city;
 - (void) removeCitiesFromUserFilter;
 - (void) deleteAllCities;
