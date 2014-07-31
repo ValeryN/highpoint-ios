@@ -26,7 +26,12 @@
 - (void) configureCell : (City *) city {
     self.backgroundColor = [UIColor clearColor];
     self.townNameLabel.textColor = [UIColor whiteColor];
-    self.townNameLabel.text = city.cityName;
+    if (city) {
+        self.townNameLabel.text = city.cityName;
+    } else {
+        self.townNameLabel.text = NSLocalizedString(@"ADD_FILTER_CITY", nil);
+    }
+    
 }
 
 @end

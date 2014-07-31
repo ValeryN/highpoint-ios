@@ -10,6 +10,7 @@
 #import "HPAppDelegate.h"
 #import "HPBaseNetworkManager.h"
 #import "NotificationsConstants.h"
+#import <objc/runtime.h>
 
 static DataStorage *dataStorage;
 @implementation DataStorage
@@ -47,6 +48,12 @@ static DataStorage *dataStorage;
     if (!uf) {
         uf = (UserFilter*)[NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:self.moc];
     }
+    NSLog(@"filter params = %@", param);
+    
+    
+    const char* className = class_getName([ [param objectForKey:@"maxAge"] class]);
+    NSLog(@"yourObject is a: %s", className);
+    
     uf.maxAge = [param objectForKey:@"maxAge"];
     uf.minAge = [param objectForKey:@"minAge"];
     uf.viewType = [param objectForKey:@"viewType"];
@@ -66,11 +73,15 @@ static DataStorage *dataStorage;
         if ([cityIds length] > 0) {
             cityIds = [cityIds substringToIndex:[cityIds length] - 1];
         }
+    } else {
+        [[DataStorage sharedDataStorage] setCityToUserFilter:nil];
+         [self saveContext];
     }
+    uf.gender = [NSSet setWithArray:arr];
     [self saveContext];
+    NSLog(@"cityids = %@", cityIds);
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:cityIds, @"cityIds",@"",@"countryIds",@"",@"regionIds", nil];
     [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params:2];
-    uf.gender = [NSSet setWithArray:arr];
     return uf;
 }
 
@@ -83,9 +94,13 @@ static DataStorage *dataStorage;
     fetchedObjects = [self.moc executeFetchRequest:fetch error:&error];
     if([fetchedObjects count] == 1) {
         UserFilter *filter = [fetchedObjects objectAtIndex:0];
-        NSMutableSet *cities = [[NSMutableSet alloc] initWithSet:filter.city];
-        [cities addObject:city];
-        filter.city = cities;
+        if (city) {
+             NSMutableSet *cities = [[NSMutableSet alloc] initWithSet:filter.city];
+            [cities addObject:city];
+            filter.city = cities;
+        } else {
+            filter.city = nil;
+        }
         [self saveContext];
         return;
     } else {
@@ -939,11 +954,12 @@ static DataStorage *dataStorage;
             user.favoritePlaceIds = par;
         }
     }
-    
-    if(![[param objectForKey:@"filter"] isKindOfClass:[NSNull class]]) {
-        UserFilter *uf = [self createUserFilterEntity:[param objectForKey:@"filter"]];
-        uf.user = user;
-        user.userfilter = uf;
+    if (current) {
+        if(![[param objectForKey:@"filter"] isKindOfClass:[NSNull class]]) {
+            UserFilter *uf = [self createUserFilterEntity:[param objectForKey:@"filter"]];
+            uf.user = user;
+            user.userfilter = uf;
+        }
     }
     if(![[param objectForKey:@"languageIds"] isKindOfClass:[NSNull class]]) {
         cityIds = [param objectForKey:@"languageIds"];
