@@ -10,6 +10,7 @@
                 <outlet property="carouselView" destination="dmE-vu-pcg" id="lVp-cG-LNr"/>
                 <outlet property="infoButton" destination="J0f-D7-WJB" id="OKn-Va-aZI"/>
                 <outlet property="view" destination="iN0-l3-epB" id="5oa-jj-oiT"/>
+                <outlet property="writeMsgBtn" destination="b6K-Ag-qAQ" id="cNY-nM-V00"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -52,7 +53,7 @@
                         <action selector="slideRightPressed:" destination="-1" eventType="touchUpInside" id="zVG-a2-Udt"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0f-D7-WJB" userLabel="Info - Button">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0f-D7-WJB" userLabel="Info - Button">
                     <rect key="frame" x="40" y="448" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -64,12 +65,32 @@
                         <action selector="infoButtonPressed:" destination="-1" eventType="touchUpInside" id="IkJ-qs-I0m"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6K-Ag-qAQ">
+                    <rect key="frame" x="90" y="449" width="141" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="3GK-ss-0cE"/>
+                        <constraint firstAttribute="width" constant="141" id="oY2-5r-2Lx"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="Написать ей" backgroundImage="green_btn.png">
+                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" title="Написать ей" backgroundImage="green_btn_pressed.png">
+                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="writeMsgTap:" destination="-1" eventType="touchUpInside" id="Pwl-gt-2DC"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="dmE-vu-pcg" secondAttribute="bottom" constant="76" id="8F5-bA-Fpa"/>
                 <constraint firstItem="J0f-D7-WJB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="40" id="Hs7-s2-y3A"/>
                 <constraint firstAttribute="bottom" secondItem="J0f-D7-WJB" secondAttribute="bottom" constant="24" id="OJC-Qm-9yz"/>
+                <constraint firstAttribute="bottom" secondItem="b6K-Ag-qAQ" secondAttribute="bottom" constant="25" id="jeC-q0-aLo"/>
                 <constraint firstItem="dmE-vu-pcg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="28" id="nRy-Fc-qnz"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -80,5 +101,7 @@
     <resources>
         <image name="Info" width="32" height="32"/>
         <image name="Info Tap" width="32" height="32"/>
+        <image name="green_btn.png" width="315" height="64"/>
+        <image name="green_btn_pressed.png" width="315" height="64"/>
     </resources>
 </document>

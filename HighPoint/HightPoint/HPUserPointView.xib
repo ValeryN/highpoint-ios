@@ -85,7 +85,7 @@
                         <action selector="pointButtonPressed:" destination="i5M-Pr-FkT" eventType="touchUpInside" id="Yda-ow-72a"/>
                     </connections>
                 </button>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="PWU-ja-vha" userLabel="Point text - Text View">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="PWU-ja-vha" userLabel="Point text - Text View">
                     <rect key="frame" x="16" y="176" width="232" height="104"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

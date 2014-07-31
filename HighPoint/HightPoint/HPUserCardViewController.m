@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
+
 
 #import "HPUserCardViewController.h"
 #import "Utils.h"
@@ -20,11 +20,12 @@
 #import "UIDevice+HighPoint.h"
 #import "DataStorage.h"
 #import "User.h"
+#import "UIButton+HighPoint.h"
 
 #import "HPBaseNetworkManager.h"
 #import "NotificationsConstants.h"
 #import "ModalAnimation.h"
-//==============================================================================
+
 
 #define ICAROUSEL_ITEMS_COUNT 50
 #define ICAROUSEL_ITEMS_WIDTH 264.0
@@ -35,11 +36,11 @@
 #define CONSTRAINT_WIDE_TOP_FOR_CAROUSEL 80
 #define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
 
-//==============================================================================
+
 
 @implementation HPUserCardViewController
 
-//==============================================================================
+
 
 - (void)viewDidLoad
 {
@@ -189,13 +190,12 @@
     [self createNavigationItem];
     [self initCarousel];
     
-    
+    [self.writeMsgBtn hp_tuneFontForGreenButton];
     //TODO: need fix
   //  [self fixUserCardConstraint];
-    [self createGreenButton];
 }
 
-//==============================================================================
+
 
 - (void) fixUserCardConstraint
 {
@@ -224,71 +224,10 @@
     }
 }
 
-//==============================================================================
 
 - (void) fixUserPointConstraint
 {
 }
-
-//==============================================================================
-
-- (void) createGreenButton
-{
-    HPGreenButtonVC* sendMessage = [[HPGreenButtonVC alloc] initWithNibName: @"HPGreenButtonVC" bundle: nil];
-    sendMessage.view.translatesAutoresizingMaskIntoConstraints = NO;
-    sendMessage.delegate = self;
-    [sendMessage initObjects:@""];
-    CGRect rect = sendMessage.view.frame;
-    rect.origin.x = _infoButton.frame.origin.x + _infoButton.frame.size.width + SPACE_BETWEEN_GREENBUTTON_AND_INFO;
-    rect.origin.y = _infoButton.frame.origin.y;
-    sendMessage.view.frame = rect;
-
-    sendMessage.delegate = self;
-    [self addChildViewController: sendMessage];
-    [self.view addSubview: sendMessage.view];
-
-    [self createGreenButtonsConstraint: sendMessage];
-}
-
-//==============================================================================
-
-- (void) createGreenButtonsConstraint: (HPGreenButtonVC*) sendMessage
-{
-    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
-                                                                 attribute: NSLayoutAttributeWidth
-                                                                 relatedBy: NSLayoutRelationEqual
-                                                                    toItem: nil
-                                                                 attribute: NSLayoutAttributeNotAnAttribute
-                                                                multiplier: 1.0
-                                                                  constant: sendMessage.view.frame.size.width]];
-
-    [sendMessage.view addConstraint:[NSLayoutConstraint constraintWithItem: sendMessage.view
-                                                                 attribute: NSLayoutAttributeHeight
-                                                                 relatedBy: NSLayoutRelationEqual
-                                                                    toItem: nil
-                                                                 attribute: NSLayoutAttributeNotAnAttribute
-                                                                multiplier: 1.0
-                                                                  constant: sendMessage.view.frame.size.height]];
-
-    NSArray* cons = self.view.constraints;
-    for (NSLayoutConstraint* consIter in cons)
-    {
-        if ((consIter.firstAttribute == NSLayoutAttributeBottom) &&
-            (consIter.firstItem == self.view) &&
-            (consIter.secondItem == _infoButton))
-            {
-               [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.view
-                                                                     attribute: NSLayoutAttributeBottom
-                                                                     relatedBy: NSLayoutRelationEqual
-                                                                        toItem: sendMessage.view
-                                                                     attribute: NSLayoutAttributeBottom
-                                                                    multiplier: 1.0
-                                                                      constant: consIter.constant]];
-            }
-    }
-}
-
-//==============================================================================
 
 - (void) initCarousel
 {
@@ -302,7 +241,6 @@
     _carouselView.exclusiveTouch = YES;
 }
 
-//==============================================================================
 
 - (void) createNavigationItem
 {
@@ -318,10 +256,8 @@
                                                                  action: @selector(backbuttonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
-  //  self.navigationItem.title = @"Октябрина";
 }
 
-//==============================================================================
 
 - (UIBarButtonItem*) createBarButtonItemWithImage: (UIImage*) image
                                   highlighedImage: (UIImage*) highlighedImage
@@ -340,36 +276,30 @@
     return newbuttonItem;
 }
 
-//==============================================================================
 
 #pragma mark - Tap events -
 
-//==============================================================================
 
 - (void) chatsListTaped: (id) sender
 {
     NSLog(@"ChatsList taped");
 }
 
-//==============================================================================
 
 - (void) backbuttonTaped: (id) sender
 {
     [self.navigationController popViewControllerAnimated: YES];
 }
 
-//==============================================================================
 
 #pragma mark - iCarousel data source -
 
-//==============================================================================
 
 - (NSUInteger)numberOfItemsInCarousel: (iCarousel*) carousel
 {
     return usersArr.count;
 }
 
-//==============================================================================
 
 - (UIView*)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
 {
@@ -383,11 +313,9 @@
     return view;
 }
 
-//==============================================================================
 
 #pragma mark - iCarousel delegate -
 
-//==============================================================================
 
 - (CGFloat)carousel: (iCarousel *)carousel valueForOption: (iCarouselOption)option withDefault:(CGFloat)value
 {
@@ -408,18 +336,15 @@
     }
 }
 
-//==============================================================================
 
 - (CGFloat)carouselItemWidth:(iCarousel*)carousel
 {
     return ICAROUSEL_ITEMS_WIDTH;
 }
 
-//==============================================================================
 
 #pragma mark - Slide buttons -
 
-//==============================================================================
 
 - (IBAction) slideLeftPressed: (id)sender
 {
@@ -431,7 +356,6 @@
     [_carouselView scrollToItemAtIndex: itemIndexToScrollTo animated: YES];
 }
 
-//==============================================================================
 
 - (IBAction) slideRightPressed: (id)sender
 {
@@ -443,29 +367,23 @@
     [_carouselView scrollToItemAtIndex: itemIndexToScrollTo animated: YES];
 }
 
-//==============================================================================
 
 #pragma mark - Buttons pressed -
 
-//==============================================================================
 
-- (void) greenButtonPressed: (HPGreenButtonVC*) button
-{
-    NSLog(@"Green button pressed");
+- (IBAction)writeMsgTap:(id)sender {
+    NSLog(@"write");
 }
 
-//==============================================================================
 
 - (IBAction) infoButtonPressed: (id)sender
 {
     [self animationViewsUp];
 }
 
-//==============================================================================
 
 #pragma mark - User card delegate -
 
-//==============================================================================
 
 - (void) switchButtonPressed
 {
@@ -484,7 +402,6 @@
                 }];
 }
 
-//==============================================================================
 
 - (void) heartTapped
 {
@@ -503,6 +420,6 @@
     NSLog(@"heart tapped");
 }
 
-//==============================================================================
+
 
 @end

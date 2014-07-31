@@ -34,6 +34,7 @@
 @property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, assign) BOOL onlyWithPoints;
 @property (nonatomic, assign) int current;
+@property (weak, nonatomic) IBOutlet UIButton *writeMsgBtn;
 @property(nonatomic, strong) UIImageView *captView;
 @property(nonatomic, strong) UIImageView *captViewLeft;
 @property(nonatomic, strong) UIImageView *captViewRight;
