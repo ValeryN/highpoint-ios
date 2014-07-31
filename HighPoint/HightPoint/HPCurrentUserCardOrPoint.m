@@ -12,7 +12,7 @@
 #import "SDWebImageManager.h"
 #import "Avatar.h"
 #import "UIImage+HighPoint.h"
-
+#import "City.h"
 
 
 
@@ -103,7 +103,8 @@
     [self setVisibility:user card:self.cardView];
     
     self.cardView.nameLabel.text = user.name;
-    self.cardView.ageAndCitylabel.text = [NSString stringWithFormat:@"%@, %@", user.age, user.cityId];
+    NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
+    self.cardView.ageAndCitylabel.text = [NSString stringWithFormat:@"%@, %@", user.age, cityName];
     [self.cardView initObjects];
     
     return self.cardView;

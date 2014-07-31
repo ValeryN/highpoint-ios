@@ -117,18 +117,14 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
-                NSMutableArray *citiesArr = [[NSMutableArray alloc] init];
-                
-                for(NSDictionary *dict in cities) {
-                    City *city = [[DataStorage sharedDataStorage] createCity:dict];
-                    [citiesArr addObject:city];
-                }
-                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
-                
                 
                 switch (mode) {
+                        
                     case 0: {
+                        for(NSDictionary *dict in cities) {
+                            [[DataStorage sharedDataStorage] createCity:dict];
+                        }
+
                         NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
                         for (int i = 0; i < users.count; i++) {
                             NSLog(@"city id = %@", ((User*)[users objectAtIndex:i]).cityId);
@@ -136,11 +132,38 @@ static HPBaseNetworkManager *networkManager;
                             NSLog(@"city name = %@", city.cityName);
                             [[DataStorage sharedDataStorage] setCityToUser:((User*)[users objectAtIndex:i]).userId :city];
                         }
+                        [[DataStorage sharedDataStorage] saveContext];
                         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
                                                                                                              object:nil
                                                                                                            userInfo:nil]];
                         break;
                     }
+                        
+                    case 1: {
+                        for(NSDictionary *dict in cities) {
+                            [[DataStorage sharedDataStorage] createCity:dict];
+                        }
+
+                        User *current = [[DataStorage sharedDataStorage] getCurrentUser];
+                        City * city = [[DataStorage sharedDataStorage]  getCityById:current.cityId];
+                        [[DataStorage sharedDataStorage] setCityToUser:current.userId :city];
+                        [[DataStorage sharedDataStorage] saveContext];
+                        break;
+                    }
+                        
+                    case 2: {
+                        City *city;
+                        for(NSDictionary *dict in cities) {
+                            city = [[DataStorage sharedDataStorage] createCity:dict];
+                        }
+                        if (city) {
+                            [[DataStorage sharedDataStorage] setCityToUserFilter:city];
+                            [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:nil];
+                            [[DataStorage sharedDataStorage] saveContext];
+                        }
+                        break;
+                    }
+                        
                     default:
                         break;
                 }
