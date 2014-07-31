@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "User.h"
 #import "LastMessage.h"
+#import "City.h"
 
 @implementation HPChatTableViewCell
 
@@ -113,7 +114,8 @@
     [self.myAvatarView addSubview: self.myAvatar];
     [self fixAvatarConstraint];
     self.userNameLabel.text = contact.user.name;
-    self.userAgeAndLocationLabel.text = [NSString stringWithFormat:@"%@ лет, %@", contact.user.age, contact.user.cityId];
+    NSString *cityName = contact.user.city.cityName ? contact.user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
+    self.userAgeAndLocationLabel.text = [NSString stringWithFormat:@"%@ лет, %@", contact.user.age, cityName];
     if ([contact.user.userId intValue] == [contact.lastmessage.destinationId intValue]) {
         self.currentMsgLabel.hidden = YES;
         self.msgFromMyself.hidden = NO;

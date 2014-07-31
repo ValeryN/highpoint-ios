@@ -1553,7 +1553,7 @@ static DataStorage *dataStorage;
     [request setSortDescriptors:sortDescriptors];
 
     NSMutableString* predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"user.name contains[c] '%@' OR user.age == '%@'", queryStr, queryStr];
+    [predicateString appendFormat:@"user.name contains[c] '%@' OR user.age == '%@' OR user.city.cityName contains[c] '%@'", queryStr, queryStr, queryStr];
     
     BOOL predicateError = NO;
     @try {
