@@ -51,7 +51,7 @@
                             <action selector="heartBtnTap:" destination="NJ4-rg-JfA" eventType="touchUpInside" id="ccJ-PA-M0A"/>
                         </connections>
                     </button>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Текст поинта" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o0L-9t-MmA">
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Расследуем убйиства, совершенные гражданином Раскольниковым. Следы занесли нас в Екатеринбург" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o0L-9t-MmA">
                         <rect key="frame" x="20" y="212" width="280" height="80"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -70,7 +70,7 @@
                         </connections>
                     </button>
                     <view alpha="0.64999999999999969" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N43-Kl-9ca">
-                        <rect key="frame" x="12" y="12" width="48" height="23"/>
+                        <rect key="frame" x="19" y="21" width="48" height="23"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Camera Small.png" translatesAutoresizingMaskIntoConstraints="NO" id="q6q-fM-aAe">
@@ -78,7 +78,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQe-AH-y1m">
-                                <rect key="frame" x="21" y="0.0" width="26" height="21"/>
+                                <rect key="frame" x="20" y="0.0" width="27" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>

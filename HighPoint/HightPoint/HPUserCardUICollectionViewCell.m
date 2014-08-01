@@ -31,11 +31,17 @@
     if (user.point) {
         self.heartBtn.hidden = NO;
         self.pointTextView.hidden = NO;
+        self.pointBtn.hidden = NO;
     } else {
         self.heartBtn.hidden = YES;
         self.pointTextView.hidden = YES;
+        self.pointBtn.hidden = YES;
     }
     self.pointTextView.text = user.point.pointText;
+    CGRect frame = self.pointTextView.frame;
+    frame.size.height = self.pointTextView.contentSize.height;
+    frame.origin.y = self.frame.size.height - 120 - frame.size.height;
+    self.pointTextView.frame = frame;
     NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
     self.userInfoLabel.text = [NSString stringWithFormat:@"%@, %@ лет, %@", user.name, user.age, cityName];
     [self.heartBtn setSelected:[user.point.pointLiked boolValue]];
