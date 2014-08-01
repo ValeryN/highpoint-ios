@@ -48,7 +48,11 @@
 
 - (void) hp_tuneForUserCardName
 {
-    self.font = [UIFont fontWithName: @"YesevaOne" size: 24.0f];
+    self.font = [UIFont fontWithName: @"FuturaPT-Light" size:18.0f];
+    self.textColor = [UIColor colorWithRed: 230.0 / 255.0
+                                     green: 236.0 / 255.0
+                                      blue: 242.0 / 255.0
+                                     alpha: 0.6];
 }
 
 
