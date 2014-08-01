@@ -212,6 +212,8 @@
 		CD08B82B198B6CC80006AF4A /* usercard_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CD08B82A198B6CC80006AF4A /* usercard_new.png */; };
 		CD08B82D198B6F850006AF4A /* usercard_new_wp.png in Resources */ = {isa = PBXBuildFile; fileRef = CD08B82C198B6F850006AF4A /* usercard_new_wp.png */; };
 		CD08B830198B7E200006AF4A /* HPUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = CD08B82F198B7E200006AF4A /* HPUICollectionViewFlowLayout.m */; };
+		CD08B833198B87700006AF4A /* Camera Small Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CD08B831198B87700006AF4A /* Camera Small Tap.png */; };
+		CD08B834198B87700006AF4A /* Camera Small.png in Resources */ = {isa = PBXBuildFile; fileRef = CD08B832198B87700006AF4A /* Camera Small.png */; };
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
 		CD3AF59C197E624600CC8767 /* HPAvatarLittleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3AF59B197E624600CC8767 /* HPAvatarLittleView.m */; };
 		CD3AF59E197E626500CC8767 /* HPAvatarLittleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD3AF59D197E626500CC8767 /* HPAvatarLittleView.xib */; };
@@ -588,6 +590,8 @@
 		CD08B82C198B6F850006AF4A /* usercard_new_wp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usercard_new_wp.png; sourceTree = "<group>"; };
 		CD08B82E198B7E200006AF4A /* HPUICollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUICollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		CD08B82F198B7E200006AF4A /* HPUICollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUICollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		CD08B831198B87700006AF4A /* Camera Small Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Camera Small Tap.png"; sourceTree = "<group>"; };
+		CD08B832198B87700006AF4A /* Camera Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Camera Small.png"; sourceTree = "<group>"; };
 		CD183C35196418D0002AC98D /* UserTokenUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTokenUtils.h; sourceTree = "<group>"; };
 		CD183C36196418D0002AC98D /* UserTokenUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTokenUtils.m; sourceTree = "<group>"; };
 		CD3AF59A197E624600CC8767 /* HPAvatarLittleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAvatarLittleView.h; sourceTree = "<group>"; };
@@ -845,6 +849,8 @@
 		3B31864D191A493F0000DD8B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CD08B831198B87700006AF4A /* Camera Small Tap.png */,
+				CD08B832198B87700006AF4A /* Camera Small.png */,
 				3B5EFDB619811EE900408427 /* Camera.png */,
 				CD4CA3B61980F71E0016DF7E /* Add Tap.png */,
 				CD4CA3B71980F71E0016DF7E /* Add.png */,
@@ -1657,6 +1663,7 @@
 				3B298FBF192F476100BEC2AA /* slider-default-trackBackground.png in Resources */,
 				4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */,
 				CDA27BE71974ED96007D6BC1 /* green_btn_pressed.png in Resources */,
+				CD08B833198B87700006AF4A /* Camera Small Tap.png in Resources */,
 				3BE83C09197902950043E03E /* Photos_Camera_L.png in Resources */,
 				3B298FCC192F476100BEC2AA /* slider-metal-handle-highlighted@2x.png in Resources */,
 				3B298FCA192F476100BEC2AA /* slider-default7-trackCrossedOver@2x.png in Resources */,
@@ -1757,6 +1764,7 @@
 				3B298FC5192F476100BEC2AA /* slider-default7-track.png in Resources */,
 				3B298FCB192F476100BEC2AA /* slider-metal-handle-highlighted.png in Resources */,
 				3BB5E86A1935FD5500DDF5F9 /* Down.png in Resources */,
+				CD08B834198B87700006AF4A /* Camera Small.png in Resources */,
 				4CA7B63E195C37B200DC9D52 /* HPAvatarView.xib in Resources */,
 				3BE9DE39197FD8F300AFA641 /* 16.jpg in Resources */,
 				CDA1703F198246B600173D1C /* README.md in Resources */,

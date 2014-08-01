@@ -18,13 +18,6 @@
                         <rect key="frame" x="5" y="8" width="310" height="310"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1/4" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QBb-Td-lUT">
-                        <rect key="frame" x="28" y="23" width="41" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Анастасия, 24 года, Эдинбург" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpO-gG-wdI">
                         <rect key="frame" x="5" y="330" width="310" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -52,6 +45,7 @@
                         <state key="normal" backgroundImage="Heart">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <state key="selected" backgroundImage="Heart Tap"/>
                         <state key="highlighted" backgroundImage="Heart Tap"/>
                         <connections>
                             <action selector="heartBtnTap:" destination="NJ4-rg-JfA" eventType="touchUpInside" id="ccJ-PA-M0A"/>
@@ -75,6 +69,25 @@
                             <action selector="pointBtnTap:" destination="NJ4-rg-JfA" eventType="touchUpInside" id="wWb-uu-A2o"/>
                         </connections>
                     </button>
+                    <view alpha="0.64999999999999969" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N43-Kl-9ca">
+                        <rect key="frame" x="12" y="12" width="48" height="23"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Camera Small.png" translatesAutoresizingMaskIntoConstraints="NO" id="q6q-fM-aAe">
+                                <rect key="frame" x="7" y="4" width="16" height="13"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQe-AH-y1m">
+                                <rect key="frame" x="21" y="0.0" width="26" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -83,6 +96,8 @@
             <connections>
                 <outlet property="avatarImageView" destination="G9h-31-8Mc" id="oqc-7Q-jJK"/>
                 <outlet property="heartBtn" destination="cls-dI-Z4a" id="mrO-sI-AWS"/>
+                <outlet property="photoCountLabel" destination="ZQe-AH-y1m" id="2Bj-XG-ikJ"/>
+                <outlet property="photoView" destination="N43-Kl-9ca" id="vCT-EA-d0k"/>
                 <outlet property="pointBtn" destination="x3D-Pc-jiE" id="a61-rd-iNV"/>
                 <outlet property="pointTextView" destination="o0L-9t-MmA" id="1CM-wk-Buc"/>
                 <outlet property="sendMsgBtn" destination="war-Qb-XHI" id="9oy-pn-mQi"/>
@@ -91,6 +106,7 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="Camera Small.png" width="29" height="25"/>
         <image name="Heart" width="24" height="20"/>
         <image name="Heart Tap" width="24" height="20"/>
         <image name="Point" width="32" height="32"/>

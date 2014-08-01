@@ -49,7 +49,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self registerNotification];
     if (self.onlyWithPoints) {
         usersArr = [[[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController] fetchedObjects];
     } else {
@@ -64,6 +64,7 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [self unregisterNotification];
 }
 
 
@@ -138,6 +139,23 @@
 }
 
 
+#pragma mark - notifications
+- (void) registerNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePointLike) name:kNeedUpdatePointLike object:nil];
+}
+
+- (void) unregisterNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdatePointLike object:nil];
+
+}
+
+- (void) updatePointLike {
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+        [self.usersCollectionView reloadData];
+    });
+}
+
 #pragma mark - uicollection view
 
 #pragma mark - UICollectionView Datasource
@@ -154,6 +172,7 @@
     
     HPUserCardUICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"UserCardIdentif" forIndexPath:indexPath];
     [cell configureCell: [usersArr objectAtIndex:indexPath.row]];
+    
     return cell;
 }
 

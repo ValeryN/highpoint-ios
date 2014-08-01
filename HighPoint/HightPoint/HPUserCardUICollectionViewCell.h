@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *heartBtn;
 @property (weak, nonatomic) IBOutlet UITextView *pointTextView;
 @property (weak, nonatomic) IBOutlet UIButton *pointBtn;
+@property (weak, nonatomic) IBOutlet UIView *photoView;
+@property (weak, nonatomic) IBOutlet UILabel *photoCountLabel;
 
 
 
