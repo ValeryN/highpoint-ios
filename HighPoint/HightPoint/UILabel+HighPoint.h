@@ -21,6 +21,7 @@
 - (void) hp_tuneForUserCardName;
 - (void) hp_tuneForUserCardDetails;
 - (void) hp_tuneForUserCardPhotoIndex;
+- (void) hp_tuneForUserVisibilityInfo;
 - (void) hp_tuneForSymbolCounterWhite;
 - (void) hp_tuneForSymbolCounterRed;
 - (void) hp_tuneForDeletePointInfo;

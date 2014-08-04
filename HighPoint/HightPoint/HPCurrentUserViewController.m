@@ -19,6 +19,7 @@
 #import "ModalAnimation.h"
 #import "Utils.h"
 #import "HPUserCardUICollectionViewCell.h"
+#import "HPCurrentUserUICollectionViewCell.h"
 
 //#define FLIP_ANIMATION_SPEED 0.5
 //#define CONSTRAINT_TOP_FOR_CAROUSEL 30
@@ -48,6 +49,7 @@
 {
     [super viewDidLoad];
     [self.currentUserCollectionView registerNib:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"UserCardIdentif"];
+    [self.currentUserCollectionView registerNib:[UINib nibWithNibName:@"HPCurrentUserUICollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"CurrentUserCollectionCell"];
     self.currentUserCollectionView.delegate = self;
     self.currentUserCollectionView.dataSource = self;
 
@@ -114,11 +116,15 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    HPUserCardUICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"UserCardIdentif" forIndexPath:indexPath];
-    [cell configureCell: nil];
-    
-    return cell;
+    if (indexPath.row == 1) {
+        HPCurrentUserUICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"CurrentUserCollectionCell" forIndexPath:indexPath];
+        [cell configureCell:currentUser];
+        return cell;
+    } else {
+        HPUserCardUICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"UserCardIdentif" forIndexPath:indexPath];
+        [cell configureCell: nil];
+        return cell;
+    }
 }
 
 /*- (UICollectionReusableView *)collectionView:
@@ -137,7 +143,11 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(320, 418);
+    if (indexPath.row == 1) {
+        return CGSizeMake(320, 458);
+    } else {
+        return CGSizeMake(320, 418);
+    }
 }
 
 

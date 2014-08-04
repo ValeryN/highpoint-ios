@@ -24,11 +24,10 @@
 
 
 //CURRENT USER CARD SCREEN
-"YOUR_PROFILE_VISIBLE" = "Профиль виден всем";
-"YOUR_PROFILE_LOCKED" = "Профиль скрыт";
-"YOUR_PROFILE_LOCKED_INFO" = "Никто не увидит ваше имя\rи фотографии без вашего\rсогласия";
-"YOUR_PROFILE_INVISIBLE" = "Вы невидимы";
-"YOUR_PROFILE_INVISIBLE_INFO" = "Если ваш поинт не опубликован,\r вас никто не увидит, информация\rо вас недоступна";
+"YOUR_PROFILE" = "Ваш профиль";
+"YOUR_PROFILE_INVISIBLE" = "Вы скрыли свой профиль";
+"YOUR_PROFILE_LOCKED" = "Вы скрыли свое имя и фотографии";
+"VISIBILITY_INFO_LABEL" = "Скрытая информация о вас будет\rдоступна только по запросу";
 "YOUR_PHOTO_ALBUM_AND_DATA" = "Ваш фотоальбом и личные данные";
 
 //CURRENT USER POINT SCREEN

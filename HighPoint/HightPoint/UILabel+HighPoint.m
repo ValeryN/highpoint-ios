@@ -52,7 +52,7 @@
     self.textColor = [UIColor colorWithRed: 230.0 / 255.0
                                      green: 236.0 / 255.0
                                       blue: 242.0 / 255.0
-                                     alpha: 0.6];
+                                     alpha: 1.0];
 }
 
 
@@ -69,6 +69,14 @@
     [self hp_tuneForUserCardDetails];
 }
 
+
+- (void) hp_tuneForUserVisibilityInfo {
+    self.font = self.font = [UIFont fontWithName: @"FuturaPT-Book" size: 16.0];
+    self.textColor = [UIColor colorWithRed: 230.0 / 255.0
+                                     green: 236.0 / 255.0
+                                      blue: 242.0 / 255.0
+                                     alpha: 1.0];
+}
 
 - (void) hp_tuneForSymbolCounterWhite
 {
@@ -113,6 +121,8 @@
                                       blue: 242.0 / 255.0
                                      alpha: 1.0];
 }
+
+
 
 - (void) hp_tuneForMessageInContactList
 {
