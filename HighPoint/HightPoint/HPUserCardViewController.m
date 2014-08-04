@@ -57,9 +57,27 @@
     }
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
     
-    [self.usersCollectionView scrollToItemAtIndexPath:self.current atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
-    
     _modalAnimationController = [[ModalAnimation alloc] init];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear: animated];
+    
+    NSLog(@"current = %d", self.current);
+    if (self.current == 0) {
+        [self.usersCollectionView setContentOffset:CGPointMake(0, -64) animated:NO];
+    } else {
+        
+        if (![UIDevice hp_isWideScreen]) {
+            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 64) animated:NO];
+        }
+        
+        if (self.usersCollectionView.contentSize.height <= 428 * (self.current - 1) ) {
+            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 192) animated:NO];
+        } else {
+            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) -64) animated:NO];
+        }
+    }
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -201,6 +219,28 @@
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
+
+#pragma mark - Pagination
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    float currentOffset = scrollView.contentOffset.y;
+    float targetOffset = targetContentOffset->y;
+    float pageWidth = 418 + 10; // h + space
+    float newTargetOffset = 0;
+    if (targetOffset > currentOffset){
+        newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth - 64;
+    } else {
+        newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth - 64;
+    }
+    if (newTargetOffset < 0) {
+        newTargetOffset = -64;
+    } else if (newTargetOffset >= (scrollView.contentSize.height - 400)) {
+        newTargetOffset = scrollView.contentSize.height + 64;
+    }
+    
+    targetContentOffset->y = currentOffset;
+    [scrollView setContentOffset:CGPointMake(0, newTargetOffset) animated:YES];
+}
 
 //#pragma mark - Transitioning Delegate (Modal)
 //-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {

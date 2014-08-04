@@ -26,7 +26,7 @@
 }
 @property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, assign) BOOL onlyWithPoints;
-@property (nonatomic, assign) NSIndexPath *current;
+@property (nonatomic, assign) int current;
 @property (weak, nonatomic) IBOutlet UICollectionView *usersCollectionView;
 
 @end

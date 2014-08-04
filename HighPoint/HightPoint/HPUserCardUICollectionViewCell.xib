@@ -51,10 +51,10 @@
                             <action selector="heartBtnTap:" destination="NJ4-rg-JfA" eventType="touchUpInside" id="ccJ-PA-M0A"/>
                         </connections>
                     </button>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Расследуем убйиства, совершенные гражданином Раскольниковым. Следы занесли нас в Екатеринбург" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o0L-9t-MmA">
+                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Расследуем убйиства, совершенные гражданином Раскольниковым. Следы занесли нас в Екатеринбург" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o0L-9t-MmA">
                         <rect key="frame" x="20" y="212" width="280" height="80"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.87058823529999996" green="0.38431372549999998" blue="0.38431372549999998" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -99,7 +99,6 @@
                 <outlet property="photoCountLabel" destination="ZQe-AH-y1m" id="2Bj-XG-ikJ"/>
                 <outlet property="photoView" destination="N43-Kl-9ca" id="vCT-EA-d0k"/>
                 <outlet property="pointBtn" destination="x3D-Pc-jiE" id="a61-rd-iNV"/>
-                <outlet property="pointTextView" destination="o0L-9t-MmA" id="1CM-wk-Buc"/>
                 <outlet property="sendMsgBtn" destination="war-Qb-XHI" id="9oy-pn-mQi"/>
                 <outlet property="userInfoLabel" destination="gpO-gG-wdI" id="KG3-jn-tRX"/>
             </connections>

@@ -19,8 +19,18 @@
 
 
 - (void) configureCell : (User *) user {
+    for(UIView *subview in [self subviews]) {
+        if([subview isKindOfClass:[UITextView class]]) {
+            [subview removeFromSuperview];
+        }
+    }
+    UITextView *pointTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, 300, 40)];
+    pointTextView.textAlignment=NSTextAlignmentCenter;
+    pointTextView.backgroundColor = [UIColor clearColor];
+    pointTextView.userInteractionEnabled = NO;
+    pointTextView.text = user.point.pointText;
     currUser = user;
-    [self.pointTextView hp_tuneForUserPoint];
+    [pointTextView hp_tuneForUserPoint];
     [self.userInfoLabel hp_tuneForUserCardName];
     [self.sendMsgBtn hp_tuneFontForGreenButton];
     self.avatarImageView.clipsToBounds = YES;
@@ -30,20 +40,21 @@
     [self.photoCountLabel hp_tuneForUserCardPhotoIndex];
     if (user.point) {
         self.heartBtn.hidden = NO;
-        self.pointTextView.hidden = NO;
+        pointTextView.hidden = NO;
         self.pointBtn.hidden = NO;
     } else {
         self.heartBtn.hidden = YES;
-        self.pointTextView.hidden = YES;
+        pointTextView.hidden = YES;
         self.pointBtn.hidden = YES;
     }
-    self.pointTextView.text = user.point.pointText;
-    CGRect frame = self.pointTextView.frame;
-    frame.size.height = self.pointTextView.contentSize.height;
-    frame.origin.y = self.frame.size.height - 120 - frame.size.height;
-    self.pointTextView.frame = frame;
+    CGSize pointTVSize = [self getContentSize:pointTextView];
+    CGRect frame = pointTextView.frame;
+    frame.size.height = pointTVSize.height;
+    frame.origin.y = self.frame.size.height - 120 - pointTVSize.height;
+    [pointTextView setFrame:frame];
     NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
     self.userInfoLabel.text = [NSString stringWithFormat:@"%@, %@ лет, %@", user.name, user.age, cityName];
+    [self addSubview:pointTextView];
     [self.heartBtn setSelected:[user.point.pointLiked boolValue]];
 }
 
@@ -64,6 +75,11 @@
 
 - (IBAction)pointBtnTap:(id)sender {
     NSLog(@"point btn tap");
+}
+
+#pragma mark - textview
+-(CGSize) getContentSize:(UITextView*) myTextView{
+    return [myTextView sizeThatFits:CGSizeMake(myTextView.frame.size.width, FLT_MAX)];
 }
 
 @end

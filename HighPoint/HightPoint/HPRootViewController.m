@@ -207,7 +207,7 @@
 {
     HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCardViewController" bundle: nil];
     card.onlyWithPoints = _bottomSwitch.switchState;
-    card.current = indexPath;
+    card.current = indexPath.row;
     [self.navigationController pushViewController: card animated: YES];
 }
 
