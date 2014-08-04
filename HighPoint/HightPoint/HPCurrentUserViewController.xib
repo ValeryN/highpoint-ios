@@ -9,11 +9,12 @@
             <connections>
                 <outlet property="bottomBtn" destination="zdm-CF-rcl" id="ebG-Ht-Qvl"/>
                 <outlet property="bottomView" destination="X8f-rp-0ds" id="ppn-lR-UtT"/>
-                <outlet property="bubbleBtn" destination="zev-Cf-cbc" id="sUV-Ym-0Of"/>
-                <outlet property="carousel" destination="7W0-1W-x4E" id="c8I-WI-lt9"/>
                 <outlet property="closeBtn" destination="vgP-fK-1cS" id="UmW-NK-QeH"/>
+                <outlet property="currentUserCollectionView" destination="hB2-I5-tf1" id="cXb-fV-4X3"/>
+                <outlet property="pageController" destination="9uN-hj-CnH" id="jEg-zK-FGG"/>
                 <outlet property="personalDataDownImgView" destination="hnu-0j-wNf" id="SpQ-Yq-6LO"/>
                 <outlet property="personalDataLabel" destination="lDF-B1-aSM" id="LSz-Ub-Sse"/>
+                <outlet property="settingsBtn" destination="zev-Cf-cbc" id="gqt-fG-zdH"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,12 +23,8 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="center" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7W0-1W-x4E" userLabel="Carousel - View" customClass="iCarousel">
-                    <rect key="frame" x="1" y="74" width="318" height="436"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgP-fK-1cS">
-                    <rect key="frame" x="10" y="30" width="25" height="25"/>
+                    <rect key="frame" x="10" y="31" width="25" height="25"/>
                     <state key="normal" image="Close">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -37,13 +34,13 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zev-Cf-cbc">
-                    <rect key="frame" x="280" y="30" width="25" height="25"/>
+                    <rect key="frame" x="280" y="31" width="25" height="25"/>
                     <state key="normal" image="Bubble">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="highlighted" image="Bubble Tap"/>
                     <connections>
-                        <action selector="bubbleButtonTap:" destination="-1" eventType="touchUpInside" id="75t-lW-2a0"/>
+                        <action selector="settingsBtnTap:" destination="-1" eventType="touchUpInside" id="jIk-IE-wC8"/>
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X8f-rp-0ds">
@@ -74,12 +71,24 @@
                     </subviews>
                     <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
+                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="hB2-I5-tf1">
+                    <rect key="frame" x="0.0" y="63" width="320" height="457"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Xrl-RL-qNf" customClass="HPUICollectionViewFlowLayout">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <cells/>
+                </collectionView>
+                <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="9uN-hj-CnH">
+                    <rect key="frame" x="141" y="28" width="39" height="37"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </pageControl>
             </subviews>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
-            <constraints>
-                <constraint firstItem="7W0-1W-x4E" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="1" id="2ix-h0-Cyl"/>
-                <constraint firstItem="7W0-1W-x4E" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="76" id="pmK-YF-FsP"/>
-            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>

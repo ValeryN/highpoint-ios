@@ -7,22 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "iCarousel.h"
-#import "UserCardOrPointProtocol.h"
 #import "HPUserProfileViewController.h"
 @class ModalAnimation;
-@interface HPCurrentUserViewController : UIViewController <iCarouselDataSource, iCarouselDelegate, UserCardOrPointProtocol, UIViewControllerTransitioningDelegate,HPUserProfileViewControllerDelegate> {
+@interface HPCurrentUserViewController : UIViewController < UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout> {
     ModalAnimation *_modalAnimationController;
 }
 
 - (IBAction)backButtonTap:(id)sender;
-- (IBAction)bubbleButtonTap:(id)sender;
-
-@property (weak, nonatomic) IBOutlet iCarousel *carousel;
+- (IBAction)settingsBtnTap:(id)sender;
 
 
 @property (weak, nonatomic) IBOutlet UIButton *closeBtn;
-@property (weak, nonatomic) IBOutlet UIButton *bubbleBtn;
+@property (weak, nonatomic) IBOutlet UIButton *settingsBtn;
+@property (weak, nonatomic) IBOutlet UICollectionView *currentUserCollectionView;
+@property (weak, nonatomic) IBOutlet UIPageControl *pageController;
+
 
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIImageView *personalDataDownImgView;

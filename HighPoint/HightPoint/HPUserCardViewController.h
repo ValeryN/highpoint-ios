@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import <UIKit/UIKit.h>
 
@@ -16,7 +15,6 @@
 #import "HPUserInfoViewController.h"
 @class ModalAnimation;
 
-//==============================================================================
 
 @interface HPUserCardViewController : UIViewController <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, HPUserInfoViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
