@@ -20,7 +20,7 @@
 #define GREEN_BUTTON_BOTTOM 20
 #define PHOTOS_NUMBER 4
 #define SPACE_BETWEEN_PHOTOS 20
-
+#define BIBBLE_VIEW_WIDTH_CONST 290.0
 
 @interface HPUserInfoViewController ()
 {
@@ -72,6 +72,8 @@
     ed2 = @{@"Администрация Кыштымского района":@"Начальник департамента"};
     ed3 = @{@"ЖЭУ №5":@"Сантехник"};
     self.carrierDataSource = @[ed1,ed2, ed3];
+    
+     self.languages = [NSMutableArray arrayWithArray:@[@"Русский",@"Английский", @"Албанский", @"Китайский", @"Хинди"]];
     [self fixUserConstraint];
     // Do any additional setup after loading the view from its nib.
 }
@@ -425,7 +427,7 @@
         if (townCell == nil) {
             townCell = [[HPUserInfoFirstRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:townCellIdentifier];
             
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoFirstRowTableViewCell" owner:nil options:nil];
+            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoSecondRowTableViewCell" owner:nil options:nil];
             
             for(id currentObject in topLevelObjects)
             {
@@ -527,6 +529,7 @@
     cell.cellTextLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
     cell.cellTextLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
     cell.cellTextLabel.textAlignment = NSTextAlignmentLeft;
+    
     //[cell.contentView addSubview:textLabel];
     NSMutableString *text;
     if([self.user.gender intValue] == 2) {
@@ -574,27 +577,29 @@
     //textLabel.text = text;
     return cell;
 }
-- (UITableViewCell*) configureThirdCell:(HPUserInfoFirstRowTableViewCell*) cell {
+- (UITableViewCell*) configureThirdCell:(UITableViewCell*) cell {
     
-    cell.cellTextLabel.backgroundColor = [UIColor clearColor];
-    cell.cellTextLabel.numberOfLines = 0;
-    cell.cellTextLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
-    cell.cellTextLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
-    cell.cellTextLabel.textAlignment = NSTextAlignmentLeft;
-    //[cell.contentView addSubview:textLabel];
-    NSMutableString *text = [NSMutableString stringWithString:@""];
-    NSArray *languages = @[@"Русский",@"Английский", @"Албанский", @"Китайский", @"Хинди"];//[self.user.language allObjects];
-    for(NSString *lng in languages) {
-        [text appendString:lng];
-        [text appendString:@", "];
+    for(UIView *v in  [cell.contentView subviews]) {
+        if(v.tag != 7007)
+            [v removeFromSuperview];
     }
-    if(text.length > 2) {
-        NSRange rng;
-        rng.length = 2;
-        rng.location = text.length -2;
-        [text deleteCharactersInRange:rng];
-    }
-    cell.cellTextLabel.text = text;
+    
+    CGFloat shift = 10.0;
+    HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(15.0, shift, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+    bubbleView.layer.cornerRadius = 1;
+    bubbleView.bubbleDataSource = self;
+    bubbleView.bubbleDelegate = self;
+    //self.bubbleView.selectionStyle = HEBubbleViewSelectionStyleNone;
+    bubbleView.backgroundColor = [UIColor clearColor];
+    bubbleView.itemHeight = 20.0;
+    bubbleView.itemPadding = 5.0;
+    bubbleView.tag = 1001;
+    [bubbleView reloadData];
+    //CGSize s = bubbleView.contentSize;
+    CGRect rect = bubbleView.frame;
+    rect.size.height = bubbleView.contentSize.height;
+    bubbleView.frame = rect;
+    [cell.contentView addSubview:bubbleView];
     return cell;
 }
 - (UITableViewCell*) configureFourCell:(UITableViewCell*) cell {
@@ -652,7 +657,7 @@
     return totalHeight;
 }
 - (CGFloat) getThirdRowHeight {
-    return 49.0;
+    return 99.0;
 }
 - (CGFloat) getFourRowHeight {
     
@@ -707,35 +712,69 @@
 #pragma mark - HEBubbleViewDataSource
 
 - (NSInteger)numberOfItemsInBubbleView:(HEBubbleView *)bubbleView {
+    
+    if(bubbleView.tag >= 0 && bubbleView.tag < 1000) {
+        return [self getSourcesArray:bubbleView].count;
+    } else {
+        return self.languages.count;
+    }
+
+    //NSArray *keys = [self.placeCityDataSource allKeys];
+    //NSString *key = [keys objectAtIndex:bubbleView.tag];
+    //NSArray *sources = [self.placeCityDataSource objectForKey:key];
+    //return sources.count;
+}
+- (NSArray*) getSourcesArray:(HEBubbleView *)bubbleView {
     NSArray *keys = [self.placeCityDataSource allKeys];
     NSString *key = [keys objectAtIndex:bubbleView.tag];
     NSArray *sources = [self.placeCityDataSource objectForKey:key];
-    return sources.count;
+    return sources;
 }
 
 
 - (HEBubbleViewItem *)bubbleView:(HEBubbleView *)bubbleView bubbleItemForIndex:(NSInteger)index {
-    
     NSString *itemIdentifier = @"bubble";
     
     HEBubbleViewItem *bubble = [bubbleView dequeueItemUsingReuseIdentifier:itemIdentifier];
     if (!bubble) {
         bubble = [[HEBubbleViewItem alloc] initWithReuseIdentifier:itemIdentifier];
     }
-    bubble.unselectedBorderColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
-    bubble.unselectedBGColor = [UIColor clearColor];
-    //bubble.unselectedBGColor = [UIColor clearColor];
-    bubble.unselectedTextColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
-    bubble.selectedBorderColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
-    bubble.selectedBGColor = [UIColor clearColor];//[UIColor colorWithRed:0.784 green:0.847 blue:0.910 alpha:1];
-    bubble.selectedTextColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
-    
-    NSArray *keys = [self.placeCityDataSource allKeys];
-    NSString *key = [keys objectAtIndex:bubbleView.tag];
-    NSArray *sources = [self.placeCityDataSource objectForKey:key];
-    
-    [bubble.textLabel setText:[sources objectAtIndex:index]];
-    return bubble;
+    NSLog(@"%d", bubbleView.tag);
+    if(bubbleView.tag >= 0 && bubbleView.tag < 1000) {
+        //if([self getSourcesArray:bubbleView].count - index != 1) {
+            bubble.unselectedBorderColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
+            bubble.unselectedBGColor = [UIColor clearColor];
+            //bubble.unselectedBGColor = [UIColor clearColor];
+            bubble.unselectedTextColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
+            bubble.selectedBorderColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
+            bubble.selectedBGColor = [UIColor clearColor];//[UIColor colorWithRed:0.784 green:0.847 blue:0.910 alpha:1];
+            bubble.selectedTextColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
+        //}
+        bubble.textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
+        NSArray *keys = [self.placeCityDataSource allKeys];
+        NSString *key = [keys objectAtIndex:bubbleView.tag];
+        NSArray *sources = [self.placeCityDataSource objectForKey:key];
+        [bubble.textLabel setText:[sources objectAtIndex:index]];
+        return bubble;
+    } else {
+        //if(self.languages.count - index != 1) {
+            bubble.unselectedBorderColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
+            bubble.unselectedBGColor = [UIColor clearColor];
+            //bubble.unselectedBGColor = [UIColor clearColor];
+            bubble.unselectedTextColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
+            bubble.selectedBorderColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
+            bubble.selectedBGColor = [UIColor clearColor];//[UIColor colorWithRed:0.784 green:0.847 blue:0.910 alpha:1];
+            bubble.selectedTextColor = [UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1];
+        //}
+        bubble.textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
+        //NSArray *keys = [self.placeCityDataSource allKeys];
+        //NSString *key = [keys objectAtIndex:bubbleView.tag];
+        //NSArray *sources = [self.placeCityDataSource objectForKey:key];
+        [bubble.textLabel setText:[self.languages objectAtIndex:index]];
+        
+        return bubble;
+    }
+ 
 }
 
 

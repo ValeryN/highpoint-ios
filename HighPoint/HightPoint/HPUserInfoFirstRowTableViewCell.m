@@ -7,7 +7,8 @@
 //
 
 #import "HPUserInfoFirstRowTableViewCell.h"
-
+#import "MaxEntertainmentPrice.h"
+#import "MinEntertainmentPrice.h"
 @implementation HPUserInfoFirstRowTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -18,7 +19,6 @@
     }
     return self;
 }
-
 - (void)awakeFromNib
 {
     // Initialization code

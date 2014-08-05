@@ -10,7 +10,9 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIButton+HighPoint.h"
+#import "UIDevice+HighPoint.h"
 
+#define CONSTRAINT_TOP_FOR_CANCELL 422.0
 
 @interface HPAddPhotoMenuViewController ()
 
@@ -34,14 +36,30 @@
 {
     [super viewDidLoad];
     isCamera = NO;
-    [self setBgBlur];
+    
     [self createGreenButton];
+    [self fixUserConstraint];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self setBgBlur];
 }
-
+- (void) fixUserConstraint
+{
+    self.cancelBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    if (![UIDevice hp_isWideScreen])
+    {
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.cancelBtn
+                                                              attribute: NSLayoutAttributeTop
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: self.view
+                                                              attribute: NSLayoutAttributeTop
+                                                             multiplier: 1.0
+                                                               constant: CONSTRAINT_TOP_FOR_CANCELL]];
+        }
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -52,18 +70,28 @@
 #pragma mark - blur for bg
 
 - (void) setBgBlur {
-    self.view.opaque = NO;
+    //self.view.opaque = NO;
+    //Place the UIImage in a UIImageView
+    self.backGroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    self.backGroundView.image = self.screenShoot;
+    
+    //insert blur UIImageView below transparent view inside the blur image container
+    //[blurContainerView insertSubview:newView belowSubview:transparentView];
+    self.backGroundView.alpha = 1.0;
+    [self.view insertSubview:self.backGroundView atIndex:0];
     self.view.backgroundColor = [UIColor clearColor];
-    UIToolbar *fakeToolbar = [[UIToolbar alloc] initWithFrame:self.view.bounds];
-    fakeToolbar.alpha = 0.9;
-    fakeToolbar.autoresizingMask = self.view.autoresizingMask;
-    fakeToolbar.barTintColor = [UIColor clearColor];
-    [self.view insertSubview:fakeToolbar atIndex:0];
 }
 
 
 - (void) hideView {
-    [self.view removeFromSuperview];
+    [self.backGroundView removeFromSuperview];
+    self.backGroundView = nil;
+    if([self.delegate respondsToSelector:@selector(viewWillBeHidden:)]) {
+        [self.delegate viewWillBeHidden:nil];
+        //animation support if need
+    }
+    //[self dismissViewControllerAnimated: YES
+    //                         completion: nil];
 }
 
 #pragma mark - cancel
@@ -109,11 +137,12 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    UIImage *currentImage;
     if (isCamera) {
-        UIImage *viewImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        currentImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
         // Request to save the image to camera roll
-        [library writeImageToSavedPhotosAlbum:[viewImage CGImage] orientation:(ALAssetOrientation)[viewImage imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
+        [library writeImageToSavedPhotosAlbum:[currentImage CGImage] orientation:(ALAssetOrientation)[currentImage imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
             if (error) {
                 NSLog(@"error");
             } else {
@@ -121,16 +150,24 @@
             }  
         }];
         
-        [picker dismissModalViewControllerAnimated:YES];
+        [picker  dismissViewControllerAnimated:YES completion:nil];
         
     } else {
-        UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+        currentImage = [info valueForKey:UIImagePickerControllerOriginalImage];
         NSURL *path = [info valueForKey:UIImagePickerControllerReferenceURL];
         [picker dismissViewControllerAnimated:YES completion:^{
             NSLog(@"image path = %@", path);
         }];
     }
     isCamera = NO;
+    if([self.delegate respondsToSelector:@selector(viewWillBeHidden:)]) {
+        
+        [self.backGroundView removeFromSuperview];
+        self.backGroundView = nil;
+        [self.delegate viewWillBeHidden:currentImage];
+        //animation support if need
+    }
+    
 }
 
 #pragma mark - photo save utils
@@ -165,7 +202,7 @@
             [picker setMediaTypes:[NSArray arrayWithObject:(NSString *)kUTTypeImage]];
             
             picker.delegate = self;
-            [self presentModalViewController:picker animated:YES];
+            [self presentViewController:picker animated:YES completion:nil];
             //[picker release];
             
         }
@@ -206,7 +243,7 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissModalViewControllerAnimated:YES];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

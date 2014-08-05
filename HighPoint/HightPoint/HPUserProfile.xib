@@ -6,8 +6,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPUserProfileViewController">
             <connections>
+                <outlet property="backButton" destination="XZU-1O-Uva" id="n4A-Dd-duz"/>
+                <outlet property="barTitle" destination="uQd-Sr-hZ3" id="bie-d9-10X"/>
+                <outlet property="carousel" destination="RMK-HY-SN3" id="JzY-c3-uVV"/>
                 <outlet property="collectionView" destination="c5z-xG-Gas" id="13t-xE-jvn"/>
+                <outlet property="downButton" destination="Vft-km-owA" id="ZNq-fn-dcs"/>
                 <outlet property="infoTableView" destination="Pdk-6r-A7z" id="t4G-gB-hdy"/>
+                <outlet property="segmentControl" destination="Jqx-nE-8ny" id="bEQ-MO-ZpP"/>
                 <outlet property="view" destination="iN0-l3-epB" id="xiT-FE-yFD"/>
             </connections>
         </placeholder>
@@ -23,6 +28,10 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <color key="sectionIndexBackgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                 </tableView>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RMK-HY-SN3" customClass="iCarousel">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D2k-5y-4ck" userLabel="barView View">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -42,6 +51,17 @@
                                 <action selector="downButtonTap:" destination="-1" eventType="touchUpInside" id="kXs-a4-Zh7"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XZU-1O-Uva">
+                            <rect key="frame" x="17" y="30" width="12" height="23"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="Back.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="Back Tap.png"/>
+                            <connections>
+                                <action selector="backButtonTap:" destination="-1" eventType="touchUpInside" id="PKO-bq-mHK"/>
+                            </connections>
+                        </button>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Jqx-nE-8ny">
                             <rect key="frame" x="68" y="26" width="184" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -54,6 +74,13 @@
                                 <action selector="segmentedControlValueDidChange:" destination="-1" eventType="valueChanged" id="Krw-Hr-dUQ"/>
                             </connections>
                         </segmentedControl>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQd-Sr-hZ3">
+                            <rect key="frame" x="86" y="31" width="149" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -70,6 +97,8 @@
         </view>
     </objects>
     <resources>
+        <image name="Back Tap.png" width="24" height="46"/>
+        <image name="Back.png" width="24" height="46"/>
         <image name="Down.png" width="46" height="24"/>
         <image name="bar_background.png" width="640" height="129"/>
     </resources>

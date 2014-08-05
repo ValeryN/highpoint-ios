@@ -69,12 +69,12 @@
     
     UIImageView *viewCenter = [[UIImageView alloc] initWithImage:imgC];
     UIImageView *viewLeft = [[UIImageView alloc] initWithImage:imgL];
-    viewLeft.frame = CGRectMake(0, 0, viewLeft.frame.size.width/2.0, viewLeft.frame.size.height/2.0);
+    viewLeft.frame = CGRectMake(0, 0, viewLeft.frame.size.width, viewLeft.frame.size.height);
     UIImageView *viewRight = [[UIImageView alloc] initWithImage:imgR];
     
-    viewCenter.frame = CGRectMake(viewLeft.frame.size.width, 0, width ,viewCenter.frame.size.height/2.0);
+    viewCenter.frame = CGRectMake(viewLeft.frame.size.width, 0, width ,viewCenter.frame.size.height);
     
-    viewRight.frame = CGRectMake(viewLeft.frame.size.width + viewCenter.frame.size.width, 0, viewRight.frame.size.width/2.0,viewCenter.frame.size.height);
+    viewRight.frame = CGRectMake(viewLeft.frame.size.width + viewCenter.frame.size.width, 0, viewRight.frame.size.width,viewCenter.frame.size.height);
     UIView *notView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewLeft.frame.size.width + viewCenter.frame.size.width + viewRight.frame.size.width, viewCenter.frame.size.height)];
     notView.backgroundColor = [UIColor clearColor];
     [notView addSubview:viewLeft];

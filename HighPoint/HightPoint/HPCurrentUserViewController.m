@@ -388,10 +388,12 @@
     */
     HPUserProfileViewController* uiController = [[HPUserProfileViewController alloc] initWithNibName: @"HPUserProfile" bundle: nil];
     //uiController.user = [usersArr objectAtIndex:_carouselView.currentItemIndex];
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:uiController];
     uiController.delegate = self;
     uiController.transitioningDelegate = self;
     uiController.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController:uiController animated:YES completion:nil];
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 #pragma mark - Transitioning Delegate (Modal)
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {

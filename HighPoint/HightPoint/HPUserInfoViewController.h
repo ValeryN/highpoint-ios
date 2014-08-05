@@ -36,6 +36,8 @@
 @property(nonatomic, strong) NSDictionary *placeCityDataSource;
 @property(nonatomic, strong) NSArray *educationDataSource;
 @property(nonatomic, strong) NSArray *carrierDataSource;
+@property(nonatomic, strong) NSMutableArray *languages;
+
 @property(nonatomic, assign) BOOL tapState;
 - (IBAction)segmentedControlValueDidChange:(id)sender;
 - (IBAction) backbuttonTaped: (id) sender;

@@ -36,8 +36,11 @@
     self.townsTableView.delegate = self;
     self.townsTableView.dataSource = self;
     self.townsTableView.backgroundColor = [UIColor clearColor];
-    self.townSearchBar.delegate = self;
+    //self.townSearchBar.delegate = self;
     self.allCities = [[NSMutableArray alloc] init];
+    self.townSearchBar.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
+    self.townSearchBar.textAlignment = NSTextAlignmentLeft;
+    self.townSearchBar.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
     
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.townsTableView addGestureRecognizer:gestureRecognizer];
@@ -50,8 +53,11 @@
     [self configureNavButton];
     [self.navigationController setNavigationBarHidden:NO];
     [self registerNotification];
-    [self addTownsListFromFilter];
+    //[self addTownsListFromFilter];
     [self.townsTableView reloadData];
+    [[UITextField appearance] setTintColor:[UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1]];
+    [self.townSearchBar becomeFirstResponder];
+     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 
@@ -61,33 +67,69 @@
 }
 
 - (void) configureNavButton {
-    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 12, 23)];
+    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 23)];
     [leftButton setContentMode:UIViewContentModeScaleAspectFit];
     
-    [leftButton setBackgroundImage:[UIImage imageNamed:@"Back.png"] forState:UIControlStateNormal];
-    [leftButton setBackgroundImage:[UIImage imageNamed:@"Back Tap.png"] forState:UIControlStateHighlighted];
+    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 23)];
+    [rightButton setContentMode:UIViewContentModeScaleAspectFit];
+    
+    
+    leftButton.titleLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16];
+    [leftButton setTitle:@"Отменить" forState:UIControlStateNormal];
+    [leftButton setTitle:@"Отменить" forState:UIControlStateHighlighted];
+    
+    rightButton.titleLabel.font = [UIFont fontWithName:@"FuturaPT-Medium" size:16];
+    [rightButton setTitle:@"Готово" forState:UIControlStateNormal];
+    [rightButton setTitle:@"Готово" forState:UIControlStateHighlighted];
+    
+    [leftButton setTitleColor:[UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1] forState:UIControlStateNormal];
+    [leftButton setTitleColor:[UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1] forState:UIControlStateHighlighted];
+    
+    [rightButton setTitleColor:[UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1] forState:UIControlStateNormal];
+    [rightButton setTitleColor:[UIColor colorWithRed:80.0/255.0 green:227.0/255.0 blue:194.0/255.0 alpha:1] forState:UIControlStateHighlighted];
+    //[leftButton setBackgroundImage:[UIImage imageNamed:@"Back.png"] forState:UIControlStateNormal];
+    //[leftButton setBackgroundImage:[UIImage imageNamed:@"Back Tap.png"] forState:UIControlStateHighlighted];
     
     [leftButton addTarget:self action:@selector(backButtonTap:) forControlEvents: UIControlEventTouchUpInside];
+    [rightButton addTarget:self action:@selector(readyButtonTap:) forControlEvents: UIControlEventTouchUpInside];
     //[leftButton addTarget:self action:@selector(profileButtonPressedStop:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *leftButton_ = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    UIBarButtonItem *rightButton_ = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         // Add a negative spacer on iOS >= 7.0
         UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
                                            initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                            target:nil action:nil];
-        negativeSpacer.width = 0;
+        negativeSpacer.width = -25;
+        UIBarButtonItem *negativeSpacerRight = [[UIBarButtonItem alloc]
+                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                           target:nil action:nil];
+        negativeSpacerRight.width = -30;
         [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, leftButton_, nil]];
+        [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:negativeSpacerRight, rightButton_, nil]];
     } else {
         // Just set the UIBarButtonItem as you would normally
         [self.navigationItem setLeftBarButtonItem:leftButton_];
+        [self.navigationItem setRightBarButtonItem:rightButton_];
     }
 
 }
 - (void) backButtonTap:(UIButton *)sender {
     //[self showNotification];
     [self.navigationController popViewControllerAnimated:YES];
+}
+- (void) readyButtonTap:(UIButton *)sender {
+    if(self.selectedPath) {
+        City *city = [self.allCities objectAtIndex:self.selectedPath.row];
+        //[self showNotification];
+        [self.navigationController popViewControllerAnimated:YES];
+        if([self.delegate respondsToSelector:@selector(newTownSelected:)]) {
+            [self.delegate newTownSelected:city];
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark - hide keyboard
@@ -98,16 +140,19 @@
 #pragma mark - notifications 
 - (void) registerNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView:) name:kNeedUpdateCitiesListView object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(textFieldTextChange) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 - (void) unregisterNotification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateCitiesListView object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 #pragma mark - update current view
 
 - (void) updateCurrentView : (NSNotification *)notification
 {
+    NSLog(@"%@", [notification.userInfo objectForKey:@"cities"]);
     [self.allCities removeAllObjects];
     [self addTownsListFromFilter];
     NSArray *sortedCities = [self removeDoubleCityValues: [notification.userInfo objectForKey:@"cities"]];
@@ -168,7 +213,7 @@
     }
     City *city = [self.allCities objectAtIndex:indexPath.row];
     [townCell configureCell:city];
-    townCell.isSelectedImgView.hidden = ![self checkAddedMark:city];
+    //townCell.isSelectedImgView.hidden = ![self checkAddedMark:city];
     return townCell;
 
 }
@@ -186,17 +231,19 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return 44;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    //[[DataStorage sharedDataStorage] removeCitiesFromUserFilter];
+    //city = [[DataStorage sharedDataStorage] insertCityObjectToContext:city];
+    //[[DataStorage sharedDataStorage] setCityToUserFilter:city];
     City *city = [self.allCities objectAtIndex:indexPath.row];
-    [[DataStorage sharedDataStorage] removeCitiesFromUserFilter];
-    city = [[DataStorage sharedDataStorage] insertCityObjectToContext:city];
-    [[DataStorage sharedDataStorage] setCityToUserFilter:city];
+    self.townSearchBar.text = city.cityName;
+    self.selectedPath = indexPath;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -209,9 +256,9 @@
 
 #pragma mark - search bar
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    if (searchText.length > 0) {
-        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:searchText,@"query",@"20",@"limit",nil];
+- (void) textFieldTextChange {
+    if (self.townSearchBar.text.length > 0) {
+        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:self.townSearchBar.text,@"query",@"20",@"limit",nil];
         [[HPBaseNetworkManager sharedNetworkManager] findGeoLocation:dict];
     } else {
         [self.allCities removeAllObjects];

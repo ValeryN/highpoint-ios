@@ -10,4 +10,7 @@
 
 @interface HPUserInfoFirstRowTableViewCell : UITableViewCell
 @property (nonatomic, weak) IBOutlet UILabel *cellTextLabel;
+
+
+
 @end
