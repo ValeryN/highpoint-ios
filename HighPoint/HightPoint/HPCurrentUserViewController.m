@@ -21,11 +21,9 @@
 #import "HPUserCardUICollectionViewCell.h"
 #import "HPCurrentUserUICollectionViewCell.h"
 
-//#define FLIP_ANIMATION_SPEED 0.5
-//#define CONSTRAINT_TOP_FOR_CAROUSEL 30
-//#define CONSTRAINT_WIDE_TOP_FOR_CAROUSEL 80
-//#define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
+
 #define CONSTRAINT_TOP_FOR_BOTTOM_VIEW 432
+#define CONSTRAINT_HEIGHT_FOR_COLLECTIONVIEW 375
 
 
 @interface HPCurrentUserViewController ()
@@ -54,7 +52,7 @@
     self.currentUserCollectionView.dataSource = self;
 
     self.pageController.currentPage = 0;
-   // [self fixUserCardConstraint];
+    [self fixUserCardConstraint];
     _modalAnimationController = [[ModalAnimation alloc] init];
 }
 
@@ -90,14 +88,18 @@
 {
     if (![UIDevice hp_isWideScreen])
     {
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.bottomView
-                                                              attribute: NSLayoutAttributeTop
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: self.view
-                                                              attribute: NSLayoutAttributeTop
-                                                             multiplier: 1.0
-                                                               constant: CONSTRAINT_TOP_FOR_BOTTOM_VIEW]];
-
+        
+        NSArray* cons = self.view.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeHeight) &&
+                (consIter.firstItem == self.currentUserCollectionView))
+                consIter.constant = CONSTRAINT_HEIGHT_FOR_COLLECTIONVIEW;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.bottomView))
+                consIter.constant = CONSTRAINT_TOP_FOR_BOTTOM_VIEW;
+        }
     }
 }
 
@@ -143,10 +145,21 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 1) {
-        return CGSizeMake(320, 458);
+    
+    
+    if (![UIDevice hp_isWideScreen])
+    {
+        if (indexPath.row == 1) {
+            return CGSizeMake(320, 375);
+        } else {
+            return CGSizeMake(320, 375);
+        }
     } else {
-        return CGSizeMake(320, 418);
+        if (indexPath.row == 1) {
+            return CGSizeMake(320, 458);
+        } else {
+            return CGSizeMake(320, 418);
+        }
     }
 }
 
