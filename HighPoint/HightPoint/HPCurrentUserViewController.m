@@ -20,7 +20,7 @@
 #import "Utils.h"
 #import "HPUserCardUICollectionViewCell.h"
 #import "HPCurrentUserUICollectionViewCell.h"
-
+#import "HPCurrentUserPointCollectionViewCell.h"
 
 #define CONSTRAINT_TOP_FOR_BOTTOM_VIEW 432
 #define CONSTRAINT_HEIGHT_FOR_COLLECTIONVIEW 480
@@ -48,6 +48,8 @@
     [super viewDidLoad];
     [self.currentUserCollectionView registerNib:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"UserCardIdentif"];
     [self.currentUserCollectionView registerNib:[UINib nibWithNibName:@"HPCurrentUserUICollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"CurrentUserCollectionCell"];
+    [self.currentUserCollectionView registerNib:[UINib nibWithNibName:@"HPCurrentUserPointCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"CurrentUserPointIdentif"];
+    //
     self.currentUserCollectionView.delegate = self;
     self.currentUserCollectionView.dataSource = self;
 
@@ -118,6 +120,11 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        HPCurrentUserPointCollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"CurrentUserPointIdentif" forIndexPath:indexPath];
+        [cell configureCell];
+        return cell;
+    }
     if (indexPath.row == 1) {
         HPCurrentUserUICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"CurrentUserCollectionCell" forIndexPath:indexPath];
         [cell configureCell:currentUser];
@@ -149,13 +156,13 @@
     
     if (![UIDevice hp_isWideScreen])
     {
-        if (indexPath.row == 1) {
+        if ((indexPath.row == 1) || (indexPath.row == 0) ) {
             return CGSizeMake(320, 375);
         } else {
             return CGSizeMake(320, 375);
         }
     } else {
-        if (indexPath.row == 1) {
+        if ((indexPath.row == 1) || (indexPath.row == 0)) {
             return CGSizeMake(320, 458);
         } else {
             return CGSizeMake(320, 418);

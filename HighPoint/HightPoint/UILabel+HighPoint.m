@@ -153,6 +153,14 @@
                                      alpha: 1.0];
 }
 
-
+#pragma mark - current point
+- (void) hp_tuneForCurrentPointInfo
+{
+    self.font = [UIFont fontWithName: @"FuturaPT-Light" size: 17.0];
+    self.textColor = [UIColor colorWithRed: 216.0 / 255.0
+                                     green: 216.0 / 255.0
+                                      blue: 216.0 / 255.0
+                                     alpha: 0.6];
+}
 
 @end

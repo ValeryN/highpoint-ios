@@ -12,11 +12,11 @@
 
 - (void)awakeFromNib
 {
-    self.itemSize = CGSizeMake(320.0, 418.0);
+    self.itemSize = CGSizeMake(320.0, 458.0);
     self.minimumInteritemSpacing = 0.0;
     self.minimumLineSpacing =0.0;
     self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    self.sectionInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
+    self.sectionInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
 }
 
 
