@@ -230,6 +230,7 @@
 
 + (NSString *) getTitleStringForUserFilter {
     UserFilter *filter = [[DataStorage sharedDataStorage] getUserFilter];
+    NSLog(@"print filter = %@ %@ %@ %@", filter.minAge, filter.maxAge, filter.gender, filter.city);
     //gender
     NSString *genders = @"";
     NSArray *gendersArr = [filter.gender allObjects];
@@ -259,9 +260,8 @@
             age = @"";
         }
     }
-    
-    NSString *sep = age.length > 0 ? @"," : @"";
     NSString *town = [filter.city allObjects].count > 0 ? (((City *)[[filter.city allObjects] objectAtIndex:0]).cityName) :@"";
+    NSString *sep = ((age.length > 0) && town.length > 0)? @"," : @"";
     return [NSString stringWithFormat:@"%@,%@%@%@", genders, age, sep, town];
 }
 @end

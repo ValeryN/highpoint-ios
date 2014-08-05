@@ -13,11 +13,11 @@
                         <viewControllerLayoutGuide type="top" id="p0m-yw-6hL"/>
                         <viewControllerLayoutGuide type="bottom" id="ZKb-Tu-Gdd"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="b7p-gv-otd">
+                    <view key="view" contentMode="scaleToFill" id="b7p-gv-otd" customClass="UIControl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UBr-Bh-Sx0">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="146.185.141.21" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UBr-Bh-Sx0">
                                 <rect key="frame" x="34" y="185" width="253" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -42,6 +42,9 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <connections>
+                            <action selector="backgroundTap:" destination="BBy-ip-1SR" eventType="touchUpInside" id="3h6-Eb-XV7"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="jcP-3V-Uj2"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

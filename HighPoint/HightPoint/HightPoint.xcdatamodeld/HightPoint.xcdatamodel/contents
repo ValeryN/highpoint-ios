@@ -37,18 +37,27 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="career" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Career" inverseName="careerpost" inverseEntity="Career" syncable="YES"/>
     </entity>
+    <entity name="Chat" representedClassName="Chat" syncable="YES">
+        <relationship name="message" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Message" inverseName="chat" inverseEntity="Message" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="chat" inverseEntity="User" syncable="YES"/>
+    </entity>
     <entity name="City" representedClassName="City" syncable="YES">
         <attribute name="cityEnName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="cityName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cityNameForms" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="cityRegionId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="user" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="city" inverseEntity="User" syncable="YES"/>
         <relationship name="userfilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserFilter" inverseName="city" inverseEntity="UserFilter" syncable="YES"/>
     </entity>
     <entity name="Company" representedClassName="Company" syncable="YES">
         <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="career" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Career" inverseName="company" inverseEntity="Career" syncable="YES"/>
+    </entity>
+    <entity name="Contact" representedClassName="Contact" syncable="YES">
+        <relationship name="lastmessage" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="LastMessage" inverseName="contact" inverseEntity="LastMessage" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="contact" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="Country" representedClassName="Country" syncable="YES">
         <attribute name="countryEnName" optional="YES" attributeType="String" syncable="YES"/>
@@ -75,18 +84,31 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="language" inverseEntity="User" syncable="YES"/>
     </entity>
+    <entity name="LastMessage" representedClassName="LastMessage" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="destinationId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="readAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="sourceId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="contact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Contact" inverseName="lastmessage" inverseEntity="Contact" syncable="YES"/>
+    </entity>
     <entity name="MaxEntertainmentPrice" representedClassName="MaxEntertainmentPrice" syncable="YES">
         <attribute name="amount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="maxentertainment" inverseEntity="User" syncable="YES"/>
     </entity>
-    <entity name="Message" syncable="YES">
+    <entity name="Message" representedClassName="Message" syncable="YES">
+        <attribute name="bindedUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="destinationId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="messageBody" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="readAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="sourceId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="chat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Chat" inverseName="message" inverseEntity="Chat" syncable="YES"/>
     </entity>
     <entity name="MinEntertainmentPrice" representedClassName="MinEntertainmentPrice" syncable="YES">
         <attribute name="amount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -133,6 +155,9 @@
         <attribute name="visibility" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <relationship name="avatar" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Avatar" inverseName="user" inverseEntity="Avatar" syncable="YES"/>
         <relationship name="career" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Career" inverseName="user" inverseEntity="Career" syncable="YES"/>
+        <relationship name="chat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Chat" inverseName="user" inverseEntity="Chat" syncable="YES"/>
+        <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="user" inverseEntity="City" syncable="YES"/>
+        <relationship name="contact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Contact" inverseName="user" inverseEntity="Contact" syncable="YES"/>
         <relationship name="education" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Education" inverseName="user" inverseEntity="Education" syncable="YES"/>
         <relationship name="language" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Language" inverseName="user" inverseEntity="Language" syncable="YES"/>
         <relationship name="maxentertainment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MaxEntertainmentPrice" inverseName="user" inverseEntity="MaxEntertainmentPrice" syncable="YES"/>
@@ -163,20 +188,23 @@
         <element name="Avatar" positionX="-209" positionY="-270" width="128" height="223"/>
         <element name="Career" positionX="-146" positionY="20" width="128" height="163"/>
         <element name="CareerPost" positionX="-389" positionY="-90" width="128" height="88"/>
-        <element name="City" positionX="639" positionY="-36" width="128" height="135"/>
+        <element name="Chat" positionX="331" positionY="225" width="128" height="73"/>
+        <element name="City" positionX="639" positionY="-36" width="128" height="148"/>
         <element name="Company" positionX="-360" positionY="117" width="128" height="88"/>
+        <element name="Contact" positionX="-110" positionY="261" width="128" height="73"/>
         <element name="Country" positionX="153" positionY="-486" width="128" height="103"/>
         <element name="Education" positionX="144" positionY="-331" width="128" height="163"/>
         <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
         <element name="Language" positionX="-396" positionY="-279" width="128" height="88"/>
+        <element name="LastMessage" positionX="63" positionY="308" width="128" height="163"/>
         <element name="MaxEntertainmentPrice" positionX="27" positionY="-0" width="128" height="88"/>
-        <element name="Message" positionX="466" positionY="-9" width="128" height="133"/>
+        <element name="Message" positionX="520" positionY="225" width="128" height="178"/>
         <element name="MinEntertainmentPrice" positionX="493" positionY="-153" width="128" height="88"/>
         <element name="Place" positionX="135" positionY="167" width="128" height="103"/>
         <element name="Region" positionX="538" positionY="-522" width="128" height="118"/>
         <element name="School" positionX="-0" positionY="-711" width="128" height="88"/>
         <element name="Speciality" positionX="-182" positionY="-621" width="128" height="88"/>
-        <element name="User" positionX="-36" positionY="-414" width="128" height="388"/>
+        <element name="User" positionX="-36" positionY="-414" width="128" height="433"/>
         <element name="UserFilter" positionX="538" positionY="-306" width="128" height="133"/>
         <element name="UserPoint" positionX="295" positionY="-16" width="128" height="148"/>
     </elements>

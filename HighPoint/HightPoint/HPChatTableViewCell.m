@@ -10,7 +10,9 @@
 #import "UILabel+HighPoint.h"
 #import "UIButton+HighPoint.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import "User.h"
+#import "LastMessage.h"
+#import "City.h"
 
 @implementation HPChatTableViewCell
 
@@ -91,10 +93,14 @@
 
 - (void)deleteChat:(TLSwipeForOptionsCell *)cell {
     NSLog(@"delete");
+    if ([self.delegate respondsToSelector:@selector(deleteChat:)]) {
+        [self.delegate deleteChat: self];
+    }
+    [self.scrollView setContentOffset:CGPointZero animated:YES];
 }
 
 
-- (void) configureCell {
+- (void) fillCell : (Contact *) contact {
     [self.userNameLabel hp_tuneForUserNameInContactList];
     [self.userAgeAndLocationLabel hp_tuneForUserDetailsInContactList];
     [self.currentMsgLabel hp_tuneForMessageInContactList];
@@ -104,11 +110,21 @@
     self.msgCountView.layer.cornerRadius = 12;
     self.avatar = [HPAvatarView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
     [self.avatarView addSubview: self.avatar];
-    self.currentMsgLabel.hidden = YES;
     self.myAvatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
     [self.myAvatarView addSubview: self.myAvatar];
     [self fixAvatarConstraint];
-    
+    self.userNameLabel.text = contact.user.name;
+    NSString *cityName = contact.user.city.cityName ? contact.user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
+    self.userAgeAndLocationLabel.text = [NSString stringWithFormat:@"%@ лет, %@", contact.user.age, cityName];
+    if ([contact.user.userId intValue] == [contact.lastmessage.destinationId intValue]) {
+        self.currentMsgLabel.hidden = YES;
+        self.msgFromMyself.hidden = NO;
+        self.currentMsgLabel.text = contact.lastmessage.text;
+    } else {
+        self.currentMsgLabel.hidden = NO;
+        self.msgFromMyself.hidden = YES;
+        self.currentUserMsgLabel.text = contact.lastmessage.text;
+    }
 }
 
 

@@ -9,7 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "HPAvatarLittleView.h"
 
-@interface HPChatViewController : UIViewController <UITextViewDelegate, UITableViewDelegate, UITableViewDataSource>
+
+@protocol HPChatViewControllerProtocol <NSObject>
+
+- (void) scrollCellsForTimeShowing : (CGPoint) point;
+
+@end
+
+@interface HPChatViewController : UIViewController <UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
 
 @property (strong, nonatomic) HPAvatarLittleView *avatar;
@@ -23,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIView *msgBottomView;
 @property (weak, nonatomic) IBOutlet UIButton *msgAddBtn;
 @property (weak, nonatomic) IBOutlet UITextView *msgTextView;
+@property (weak, nonatomic) IBOutlet UIView *bgBottomView;
 
 
 @end

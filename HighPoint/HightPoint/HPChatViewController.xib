@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPChatViewController">
             <connections>
+                <outlet property="bgBottomView" destination="7Gj-3y-HMd" id="QhH-a2-bAk"/>
                 <outlet property="chatTableView" destination="dkt-NG-g9o" id="F8f-ak-e9b"/>
                 <outlet property="msgAddBtn" destination="aaG-4U-B78" id="RBg-9g-DDg"/>
                 <outlet property="msgBottomView" destination="KyZ-ZJ-pRW" id="j4x-wb-mUO"/>
@@ -19,16 +20,21 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="dkt-NG-g9o">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="521"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="20" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="dkt-NG-g9o">
+                    <rect key="frame" x="0.0" y="5" width="320" height="516"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </tableView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KyZ-ZJ-pRW">
-                    <rect key="frame" x="0.0" y="519" width="320" height="49"/>
+                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KyZ-ZJ-pRW">
+                    <rect key="frame" x="0.0" y="517" width="320" height="49"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Gj-3y-HMd">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.13333333333333333" green="0.1764705882352941" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aaG-4U-B78">
                             <rect key="frame" x="12" y="10" width="23" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -43,21 +49,21 @@
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Ваше сообщение" translatesAutoresizingMaskIntoConstraints="NO" id="dfn-79-WvO">
                             <rect key="frame" x="48" y="5" width="261" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" red="0.89721145069999997" green="0.01936017336" blue="0.14202212589999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                     </subviews>
-                    <color key="backgroundColor" red="0.058823529409999999" green="0.27058823529999998" blue="0.42352941179999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.1333333333" green="0.1764705882" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="KyZ-ZJ-pRW" secondAttribute="trailing" id="Aat-Ey-a61"/>
-                <constraint firstItem="KyZ-ZJ-pRW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="lfV-yg-xzl"/>
-                <constraint firstItem="KyZ-ZJ-pRW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="519" id="rck-FH-r1C"/>
-                <constraint firstAttribute="bottom" secondItem="KyZ-ZJ-pRW" secondAttribute="bottom" id="vlF-sk-2Yx"/>
+                <constraint firstItem="dkt-NG-g9o" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="NRb-Pf-ZLm"/>
+                <constraint firstAttribute="bottom" secondItem="KyZ-ZJ-pRW" secondAttribute="bottom" id="gDG-gy-bqv"/>
+                <constraint firstItem="KyZ-ZJ-pRW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="517" placeholder="YES" id="qH2-54-HDi"/>
+                <constraint firstAttribute="bottom" secondItem="dkt-NG-g9o" secondAttribute="bottom" constant="47" id="wGQ-9y-7RG"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

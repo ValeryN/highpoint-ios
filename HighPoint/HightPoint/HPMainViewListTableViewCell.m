@@ -13,6 +13,7 @@
 #import "UILabel+HighPoint.h"
 #import "HPMainViewListTableViewCell+HighPoint.h"
 #import "User.h"
+#import "City.h"
 
 
 //==============================================================================
@@ -48,7 +49,8 @@ static HPMainViewListTableViewCell* _prevCell;
     
     [self.secondLabel hp_tuneForUserListCellAgeAndCity];
     ;
-    self.secondLabel.text = [NSString stringWithFormat:@"%@ лет, %@", user.age, user.cityId];
+    NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
+    self.secondLabel.text = [NSString stringWithFormat:@"%@ лет, %@", user.age, cityName];
     
     [self.point hp_tuneForUserListCellPointText];
     

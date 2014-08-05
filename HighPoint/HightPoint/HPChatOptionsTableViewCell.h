@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UILabel+HighPoint.h"
 
 @interface HPChatOptionsTableViewCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet UILabel *infolabel;
 
 @end

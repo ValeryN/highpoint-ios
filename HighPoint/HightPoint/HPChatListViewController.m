@@ -10,13 +10,18 @@
 #import "HPChatTableViewCell.h"
 #import "UITextField+HighPoint.h"
 #import "HPChatViewController.h"
+#import "HPBaseNetworkManager.h"
+#import "NotificationsConstants.h"
+#import "DataStorage.h"
 
 
 @interface HPChatListViewController ()
 
 @end
 
-@implementation HPChatListViewController
+@implementation HPChatListViewController {
+    NSArray *contacts;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,12 +35,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    contacts = [[NSArray alloc] init];
     [self.navigationController setNavigationBarHidden:NO];
     [self createNavigationItem];
     
     self.chatListTableView.delegate = self;
     self.chatListTableView.dataSource = self;
-    
+    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -45,12 +51,36 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self registerNotification];
+    [self updateCurrentView];
+    
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self unregisterNotification];
+}
+
+#pragma mark - notifications
+- (void) registerNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateContactListViews object:nil];
+}
+
+- (void) unregisterNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateContactListViews object:nil];
+}
+
+- (void) updateCurrentView {
+    contacts = [[[DataStorage sharedDataStorage] getAllContactsFetchResultsController] fetchedObjects];
+    NSLog(@"update contacts count = %lu", (unsigned long)contacts.count);
+    [self.chatListTableView reloadData];
+}
 
 #pragma mark - create navigation item 
 - (void) createNavigationItem
 {
-
-    
     UIBarButtonItem* searchButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Lens.png"]
                                                      highlighedImage: [UIImage imageNamed:@"Lens Tap.png"]
                                                               action: @selector(searchTaped:)];
@@ -113,20 +143,25 @@
 }
 
 
+#pragma mark - delete chat
+- (void)deleteChat:(TLSwipeForOptionsCell *)cell {
+    [[HPBaseNetworkManager sharedNetworkManager] deleteContactRequest:((Contact *)[contacts objectAtIndex:cell.tag]).user.userId];
+}
+
 #pragma mark - table view
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *townCellIdentifier = @"chatCell";
     HPChatTableViewCell *chatCell = (HPChatTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
-    
     if (chatCell == nil)
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatTableViewCell" owner:self options:nil];
         chatCell = [nib objectAtIndex:0];
     }
+    
     [chatCell setDelegate:self];
-    [chatCell configureCell];
+    
     if (indexPath.row == 3) {
         [chatCell.avatar privacyLevel];
     }
@@ -135,13 +170,18 @@
     } else {
         chatCell.msgCountView.hidden = NO;
     }
+    chatCell.currentMsgLabel.text = ((Contact *)[contacts objectAtIndex:indexPath.row]).lastmessage.text;
+    chatCell.currentUserMsgLabel.text = ((Contact *)[contacts objectAtIndex:indexPath.row]).lastmessage.text;
+    [chatCell fillCell: [contacts objectAtIndex:indexPath.row]];
+    chatCell.tag = indexPath.row;
     return chatCell;
-    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    NSLog(@"count contacts = %lu", (unsigned long)contacts.count);
+    return contacts.count;
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -177,13 +217,26 @@
 
 #pragma mark - search text field
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if (textField.text.length > 0) {
-        //filter
+    if (string.length > 0) {
+        textField.text = [NSString stringWithFormat:@"%@%@", textField.text,string];
     } else {
-        //show all
+        if (textField.text.length > 1) {
+            textField.text = [NSString stringWithFormat:@"%@", [textField.text substringToIndex:[textField.text length] - 1 ]];
+        } else {
+            textField.text = @"";
+        }
+    }
+    if (textField.text.length > 0) {
+        contacts = [[[DataStorage sharedDataStorage] getContactsByQueryFetchResultsController:textField.text] fetchedObjects];
+        NSLog(@"update contacts query count = %lu", (unsigned long)contacts.count);
+        [self.chatListTableView reloadData];
+    } else {
+        contacts = [[[DataStorage sharedDataStorage] getAllContactsFetchResultsController] fetchedObjects];
+        NSLog(@"update contacts all count = %lu", (unsigned long)contacts.count);
+        [self.chatListTableView reloadData];
     }
     NSLog(@"changed");
-    return YES;
+    return NO;
 }
 
 #pragma mark - cover view

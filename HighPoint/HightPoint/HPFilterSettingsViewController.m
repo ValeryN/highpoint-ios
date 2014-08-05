@@ -280,9 +280,16 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPTownTableViewCell" owner:self options:nil];
         townCell = [nib objectAtIndex:0];
     }
+/*
     if(allCities.count > 0) {
         City *city = [allCities objectAtIndex:indexPath.row];
         [townCell configureCell:city];
+*/
+    if (allCities.count > 0) {
+        City *city = [allCities objectAtIndex:indexPath.row];
+        [townCell configureCell:city];
+    } else {
+        [townCell configureCell:nil];
     }
     return townCell;
 }

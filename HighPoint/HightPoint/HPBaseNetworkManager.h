@@ -40,8 +40,11 @@
 - (void) deleteCareerItemRequest:(NSString*) ids;
 - (void) getUsersRequest:(NSInteger) lastUser;
 - (void) getPointsRequest:(NSInteger) lastPoint;
-- (void) getGeoLocation:(NSDictionary*) param;
+- (void) getGeoLocation:(NSDictionary*) param : (int) mode;
 - (void) findGeoLocation:(NSDictionary*) param;
+- (void) getContactsRequest;
+- (void) deleteContactRequest : (NSNumber *)contactId;
+- (void) getChatMsgsForUser : (NSNumber *) userId : (NSNumber *) afterMsgId;
 
 - (void) sendUserActivityStart:(NSDictionary*) param;
 - (void) sendUserActivityEnd:(NSDictionary*) param;

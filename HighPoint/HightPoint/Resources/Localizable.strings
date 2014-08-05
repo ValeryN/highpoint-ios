@@ -9,6 +9,14 @@
 
 
 
+//USERS LIST SCREEN
+"UNKNOWN_CITY_ID" = "Unknown id";
+
+
+
+//USER FILTER SCREEN
+"ADD_FILTER_CITY" = "Добавить город";
+
 // ADD PHOTO SCREEN
 "GET_FROM_PHOTO_LIBRARY_BTN" = "Выбрать из альбома";
 "TAKE_PHOTO_BTN" = "Сделать фотографию";
@@ -16,21 +24,16 @@
 
 
 //CURRENT USER CARD SCREEN
-"YOUR_PROFILE_VISIBLE" = "Профиль виден всем";
-"YOUR_PROFILE_LOCKED" = "Профиль скрыт";
-"YOUR_PROFILE_LOCKED_INFO" = "Никто не увидит ваше имя\rи фотографии без вашего\rсогласия";
-"YOUR_PROFILE_INVISIBLE" = "Вы невидимы";
-"YOUR_PROFILE_INVISIBLE_INFO" = "Если ваш поинт не опубликован,\r вас никто не увидит, информация\rо вас недоступна";
+"YOUR_PROFILE" = "Ваш профиль";
+"YOUR_PROFILE_INVISIBLE" = "Вы скрыли свой профиль";
+"YOUR_PROFILE_LOCKED" = "Вы скрыли свое имя и фотографии";
+"VISIBILITY_INFO_LABEL" = "Скрытая информация о вас будет\rдоступна только по запросу";
 "YOUR_PHOTO_ALBUM_AND_DATA" = "Ваш фотоальбом и личные данные";
 
 //CURRENT USER POINT SCREEN
-"EMPTY_POINT_TEXT" = "Напишите здесь о ваших планах\rили желаниях на ближайший\rвечер. Это сообщение увидят\rвсе люди из вашего города.";
-"SHARE_POINT_BTN" = "Опубликовать поинт";
-"CANCEL_BTN" = "Отменить";
-"DONE_BTN" = "Готово";
-"PUBLISH_BTN" = "Опубликовать";
-"SET_POINT_TIME" = "Установите актуальное время\rдействия вашего поинта";
-"DELETE_POINT_INFO" = "Если вы удалите текущий поинт\rсейчас, то сможете опубликовать\rновый только через час. Хотите\rудалить его?";
+"YOUR_POINT" = "Ваш поинт";
+"YOUR_EMPTY_POINT" = "Напишите здесь о ваших планах или\rжеланиях на ближайший вечер. Это\rсообщение увидят все люди из вашего\rгорода.";
+
 
 //POINT LIKES SCREEN
 "POINT_LIKES_TITLE" = "Оценили ваш поинт";
@@ -40,3 +43,9 @@
 "CHAT_LIST_TITLE" = "Сообщения";
 "DELETE_BTN_TITLE" = "Удалить";
 "SEARCH_FIELD_PLACEHOLDER" = "Введите имя, возраст или город";
+
+
+//CHAT SCREEN
+"YOUR_MSG_PLACEHOLDER" ="Ваше сообщение";
+
+

@@ -69,4 +69,10 @@
     return YES;
 }
 
+- (IBAction)backgroundTap:(id)sender {
+    [self.view endEditing:YES];
+}
+
+
+
 @end

@@ -10,6 +10,7 @@
 #import "HPAppDelegate.h"
 #import "HPBaseNetworkManager.h"
 #import "NotificationsConstants.h"
+#import <objc/runtime.h>
 
 static DataStorage *dataStorage;
 @implementation DataStorage
@@ -47,6 +48,12 @@ static DataStorage *dataStorage;
     if (!uf) {
         uf = (UserFilter*)[NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:self.moc];
     }
+    NSLog(@"filter params = %@", param);
+    
+    
+    const char* className = class_getName([ [param objectForKey:@"maxAge"] class]);
+    NSLog(@"yourObject is a: %s", className);
+    
     uf.maxAge = [param objectForKey:@"maxAge"];
     uf.minAge = [param objectForKey:@"minAge"];
     uf.viewType = [param objectForKey:@"viewType"];
@@ -66,12 +73,15 @@ static DataStorage *dataStorage;
         if ([cityIds length] > 0) {
             cityIds = [cityIds substringToIndex:[cityIds length] - 1];
         }
+    } else {
+        [[DataStorage sharedDataStorage] setCityToUserFilter:nil];
+         [self saveContext];
     }
-    
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:cityIds, @"cityIds",@"",@"countryIds",@"",@"regionIds", nil];
-    [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params];
     uf.gender = [NSSet setWithArray:arr];
     [self saveContext];
+    NSLog(@"cityids = %@", cityIds);
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:cityIds, @"cityIds",@"",@"countryIds",@"",@"regionIds", nil];
+    [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params:2];
     return uf;
 }
 
@@ -84,9 +94,13 @@ static DataStorage *dataStorage;
     fetchedObjects = [self.moc executeFetchRequest:fetch error:&error];
     if([fetchedObjects count] == 1) {
         UserFilter *filter = [fetchedObjects objectAtIndex:0];
-        NSMutableSet *cities = [[NSMutableSet alloc] initWithSet:filter.city];
-        [cities addObject:city];
-        filter.city = cities;
+        if (city) {
+             NSMutableSet *cities = [[NSMutableSet alloc] initWithSet:filter.city];
+            [cities addObject:city];
+            filter.city = cities;
+        } else {
+            filter.city = nil;
+        }
         [self saveContext];
         return;
     } else {
@@ -828,169 +842,176 @@ static DataStorage *dataStorage;
 }
 #pragma mark -
 #pragma mark current user entity
-- (void) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current {
+- (User *) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current {
     User *user;
     user = [self getUserForId:[param objectForKey:@"id"]];
     if(!user) {
         user = (User*)[NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:self.moc];
-        user.isCurrentUser = [NSNumber numberWithBool:current];
-        if([param objectForKey:@"name"])
-            user.name = [param objectForKey:@"name"];
-        if([param objectForKey:@"id"])
-            user.userId = [param objectForKey:@"id"];
-        if([param objectForKey:@"cityId"])
-            user.cityId = [param objectForKey:@"cityId"];
-        if([param objectForKey:@"createdAt"])
-            user.createdAt = [param objectForKey:@"createdAt"];
-        if([param objectForKey:@"dateOfBirth"])
-            user.dateOfBirth = [param objectForKey:@"dateOfBirth"];
-        if([param objectForKey:@"email"])
-            user.email = [param objectForKey:@"email"];
-        if([param objectForKey:@"gender"])
-            user.gender = [param objectForKey:@"gender"];
-        if([param objectForKey:@"visibility"])
-            user.visibility = [param objectForKey:@"visibility"];
-        if([param objectForKey:@"avatar"]) {
-            user.avatar = [self createAvatarEntity:[param objectForKey:@"avatar"]];
-            user.avatar.user = user;
-        }
-        if([param objectForKey:@"age"])
-            user.age = [param objectForKey:@"age"];
-        if([[param objectForKey:@"education"] isKindOfClass:[NSDictionary class]]) {
-            
-            if(![[param objectForKey:@"education"] isKindOfClass:[NSNull class]]) {
-                Education *ed = [self createEducationEntity: [param objectForKey:@"education"]];
-                ed.user = user;
-                user.education = [NSSet setWithArray:[NSArray arrayWithObjects:ed, nil]];
-            }
-            
-        } else if ([[param objectForKey:@"education"] isKindOfClass:[NSArray class]]) {
-            NSMutableArray *entArray = [NSMutableArray new];
-            for(NSDictionary *t in [param objectForKey:@"education"]) {
-                Education *ed = [self createEducationEntity:t];
-                ed.user = user;
-                [entArray addObject:[self createEducationEntity:t]];
-            }
-            user.education = [NSSet setWithArray:entArray];
+    }
+    user.isCurrentUser = [NSNumber numberWithBool:current];
+    if([param objectForKey:@"name"])
+        user.name = [param objectForKey:@"name"];
+    if([param objectForKey:@"id"])
+        user.userId = [param objectForKey:@"id"];
+    if([param objectForKey:@"cityId"])
+        user.cityId = [param objectForKey:@"cityId"];
+    if([param objectForKey:@"createdAt"])
+        user.createdAt = [param objectForKey:@"createdAt"];
+    if([param objectForKey:@"dateOfBirth"])
+        user.dateOfBirth = [param objectForKey:@"dateOfBirth"];
+    if([param objectForKey:@"email"])
+        user.email = [param objectForKey:@"email"];
+    if([param objectForKey:@"gender"])
+        user.gender = [param objectForKey:@"gender"];
+    if([param objectForKey:@"visibility"])
+        user.visibility = [param objectForKey:@"visibility"];
+    if([param objectForKey:@"avatar"]) {
+        user.avatar = [self createAvatarEntity:[param objectForKey:@"avatar"]];
+        user.avatar.user = user;
+    }
+    if([param objectForKey:@"age"])
+        user.age = [param objectForKey:@"age"];
+    if([[param objectForKey:@"education"] isKindOfClass:[NSDictionary class]]) {
+        
+        if(![[param objectForKey:@"education"] isKindOfClass:[NSNull class]]) {
+            Education *ed = [self createEducationEntity: [param objectForKey:@"education"]];
+            ed.user = user;
+            user.education = [NSSet setWithArray:[NSArray arrayWithObjects:ed, nil]];
         }
         
-        if([[param objectForKey:@"career"] isKindOfClass:[NSDictionary class]]) {
-            
-            if(![[param objectForKey:@"career"] isKindOfClass:[NSNull class]]) {
-                Career *ca = [self createCareerEntity: [param objectForKey:@"career"]];
-                ca.user = user;
-                user.career = [NSSet setWithArray:[NSArray arrayWithObjects:ca, nil]];
-            }
-            
-        } else if ([[param objectForKey:@"career"] isKindOfClass:[NSArray class]]) {
-            NSMutableArray *entArray = [NSMutableArray new];
-            for(NSDictionary *t in [param objectForKey:@"career"]) {
-                Career *ca = [self createCareerEntity:t];
-                ca.user = user;
-                [entArray addObject:[self createCareerEntity:t]];
-            }
-            user.career = [NSSet setWithArray:entArray];
+    } else if ([[param objectForKey:@"education"] isKindOfClass:[NSArray class]]) {
+        NSMutableArray *entArray = [NSMutableArray new];
+        for(NSDictionary *t in [param objectForKey:@"education"]) {
+            Education *ed = [self createEducationEntity:t];
+            ed.user = user;
+            [entArray addObject:[self createEducationEntity:t]];
         }
+        user.education = [NSSet setWithArray:entArray];
+    }
+    
+    if([[param objectForKey:@"career"] isKindOfClass:[NSDictionary class]]) {
+        
+        if(![[param objectForKey:@"career"] isKindOfClass:[NSNull class]]) {
+            Career *ca = [self createCareerEntity: [param objectForKey:@"career"]];
+            ca.user = user;
+            user.career = [NSSet setWithArray:[NSArray arrayWithObjects:ca, nil]];
+        }
+        
+    } else if ([[param objectForKey:@"career"] isKindOfClass:[NSArray class]]) {
+        NSMutableArray *entArray = [NSMutableArray new];
+        for(NSDictionary *t in [param objectForKey:@"career"]) {
+            Career *ca = [self createCareerEntity:t];
+            ca.user = user;
+            [entArray addObject:[self createCareerEntity:t]];
+        }
+        user.career = [NSSet setWithArray:entArray];
+    }
 
-        if([[param objectForKey:@"languageIds"] isKindOfClass:[NSDictionary class]]) {
-            if(![[param objectForKey:@"languageIds"] isKindOfClass:[NSNull class]]) {
-                Language *lan = [self createLanguageEntity: [param objectForKey:@"language"]];
-                lan.user = user;
-                user.language = [NSSet setWithArray:[NSArray arrayWithObjects:lan, nil]];
-            }
-        } else if ([[param objectForKey:@"languageIds"] isKindOfClass:[NSArray class]]) {
-            NSMutableArray *entArray = [NSMutableArray new];
-            for(NSDictionary *t in [param objectForKey:@"career"]) {
-                Language *lan = [self createLanguageEntity:t];
-                lan.user = user;
-                [entArray addObject:[self createLanguageEntity:t]];
-            }
-            user.language = [NSSet setWithArray:entArray];
+    if([[param objectForKey:@"languageIds"] isKindOfClass:[NSDictionary class]]) {
+        if(![[param objectForKey:@"languageIds"] isKindOfClass:[NSNull class]]) {
+            Language *lan = [self createLanguageEntity: [param objectForKey:@"language"]];
+            lan.user = user;
+            user.language = [NSSet setWithArray:[NSArray arrayWithObjects:lan, nil]];
         }
-        
-        NSArray *cityIds;
-        NSMutableString *par;
-        if(![[param objectForKey:@"favoriteCityIds"] isKindOfClass:[NSNull class]]) {
-        
-            cityIds = [param objectForKey:@"favoriteCityIds"];
-            par = [NSMutableString new];
-            for(NSNumber *n in cityIds) {
-                [par appendFormat:@"%d;", [n intValue]];
-            }
-            if (par.length > 0) {
-                NSRange rng;
-                rng.location = par.length - 1;
-                rng.length = 1;
-                [par deleteCharactersInRange:rng];
-                user.favoriteCityIds = par;
-            }
+    } else if ([[param objectForKey:@"languageIds"] isKindOfClass:[NSArray class]]) {
+        NSMutableArray *entArray = [NSMutableArray new];
+        for(NSDictionary *t in [param objectForKey:@"career"]) {
+            Language *lan = [self createLanguageEntity:t];
+            lan.user = user;
+            [entArray addObject:[self createLanguageEntity:t]];
         }
-        if(![[param objectForKey:@"favoritePlaceIds"] isKindOfClass:[NSNull class]]) {
-            cityIds = [param objectForKey:@"favoritePlaceIds"];
-            par = [NSMutableString new];
-            for(NSNumber *n in cityIds) {
-                [par appendFormat:@"%d;", [n intValue]];
-            }
-            if (par.length > 0) {
-                NSRange rng;
-                rng.location = par.length - 1;
-                rng.length = 1;
-                [par deleteCharactersInRange:rng];
-                user.favoritePlaceIds = par;
-            }
+        user.language = [NSSet setWithArray:entArray];
+    }
+    
+    NSArray *cityIds;
+    NSMutableString *par;
+    if(![[param objectForKey:@"favoriteCityIds"] isKindOfClass:[NSNull class]]) {
+    
+        cityIds = [param objectForKey:@"favoriteCityIds"];
+        par = [NSMutableString new];
+        for(NSNumber *n in cityIds) {
+            [par appendFormat:@"%d;", [n intValue]];
         }
-        
+        if (par.length > 0) {
+            NSRange rng;
+            rng.location = par.length - 1;
+            rng.length = 1;
+            [par deleteCharactersInRange:rng];
+            user.favoriteCityIds = par;
+        }
+    }
+    if(![[param objectForKey:@"favoritePlaceIds"] isKindOfClass:[NSNull class]]) {
+        cityIds = [param objectForKey:@"favoritePlaceIds"];
+        par = [NSMutableString new];
+        for(NSNumber *n in cityIds) {
+            [par appendFormat:@"%d;", [n intValue]];
+        }
+        if (par.length > 0) {
+            NSRange rng;
+            rng.location = par.length - 1;
+            rng.length = 1;
+            [par deleteCharactersInRange:rng];
+            user.favoritePlaceIds = par;
+        }
+    }
+    if (current) {
         if(![[param objectForKey:@"filter"] isKindOfClass:[NSNull class]]) {
             UserFilter *uf = [self createUserFilterEntity:[param objectForKey:@"filter"]];
             uf.user = user;
             user.userfilter = uf;
         }
-        if(![[param objectForKey:@"languageIds"] isKindOfClass:[NSNull class]]) {
-            cityIds = [param objectForKey:@"languageIds"];
-            par = [NSMutableString new];
-            for(NSNumber *n in cityIds) {
-                [par appendFormat:@"%d;", [n intValue]];
-            }
-            if (par.length > 0) {
-                NSRange rng;
-                rng.location = par.length - 1;
-                rng.length = 1;
-                [par deleteCharactersInRange:rng];
-                user.languageIds = par;
-            }
-        }
-        //id y = [param objectForKey:@"maxEntertainmentPrice"];
-        if(![[param objectForKey:@"maxEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
-            MaxEntertainmentPrice *mxP = [self createMaxPrice:[param objectForKey:@"maxEntertainmentPrice"]];
-            mxP.user = user;
-            user.maxentertainment = mxP;
-        }
-        if(![[param objectForKey:@"minEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
-            MinEntertainmentPrice *mnP = [self createMinPrice:[param objectForKey:@"minEntertainmentPrice"]];
-            mnP.user = user;
-            user.minentertainment = mnP;
-        }
-        if(![[param objectForKey:@"nameForms"] isKindOfClass:[NSNull class]]) {
-            cityIds = [param objectForKey:@"nameForms"];
-            par = [NSMutableString new];
-            for(NSString *n in cityIds) {
-                [par appendString:n];
-                [par appendString:@";"];
-            }
-            if (par.length > 0) {
-                NSRange rng;
-                rng.location = par.length - 1;
-                rng.length = 1;
-                [par deleteCharactersInRange:rng];
-                user.nameForms = par;
-            }
-        }
-        user.point = [[DataStorage sharedDataStorage] getPointForUserId:user.userId];
-        NSLog(@"saved point text %@", user.point.pointText);
-        [self saveContext];
     }
-//    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:@"1,2",@"careerPostIds",@"1,2",@"companyIds",@"1,2",@"languageIds",@"1,2", @"placeIds",@"1,2", @"schoolIds",@"1,2", @"specialityIds",nil];
-//    [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:params];
+    if(![[param objectForKey:@"languageIds"] isKindOfClass:[NSNull class]]) {
+        cityIds = [param objectForKey:@"languageIds"];
+        par = [NSMutableString new];
+        for(NSNumber *n in cityIds) {
+            [par appendFormat:@"%d;", [n intValue]];
+        }
+        if (par.length > 0) {
+            NSRange rng;
+            rng.location = par.length - 1;
+            rng.length = 1;
+            [par deleteCharactersInRange:rng];
+            user.languageIds = par;
+        }
+    }
+    //id y = [param objectForKey:@"maxEntertainmentPrice"];
+    if(![[param objectForKey:@"maxEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
+        MaxEntertainmentPrice *mxP = [self createMaxPrice:[param objectForKey:@"maxEntertainmentPrice"]];
+        mxP.user = user;
+        user.maxentertainment = mxP;
+    }
+    if(![[param objectForKey:@"minEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
+        MinEntertainmentPrice *mnP = [self createMinPrice:[param objectForKey:@"minEntertainmentPrice"]];
+        mnP.user = user;
+        user.minentertainment = mnP;
+    }
+    if(![[param objectForKey:@"nameForms"] isKindOfClass:[NSNull class]]) {
+        cityIds = [param objectForKey:@"nameForms"];
+        par = [NSMutableString new];
+        for(NSString *n in cityIds) {
+            [par appendString:n];
+            [par appendString:@";"];
+        }
+        if (par.length > 0) {
+            NSRange rng;
+            rng.location = par.length - 1;
+            rng.length = 1;
+            [par deleteCharactersInRange:rng];
+            user.nameForms = par;
+        }
+    }
+    user.point = [[DataStorage sharedDataStorage] getPointForUserId:user.userId];
+    NSLog(@"saved point text %@", user.point.pointText);
+    
+    [self saveContext];
+    
+    if (current) {
+        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:user.cityId, @"cityIds",@"",@"countryIds",@"",@"regionIds", nil];
+        [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params:1];
+    }
+
+    return user;
 }
 - (User*) getCurrentUser {
     NSFetchRequest* request = [[NSFetchRequest alloc] init];
@@ -1354,27 +1375,13 @@ static DataStorage *dataStorage;
     return controller;
 }
 
-- (void) createUser:(NSDictionary*) param {
-    
-}
-
-- (void) createUserInfo:(NSDictionary*) param {
-    
-}
-- (void) createUserSettings:(NSDictionary*) param {
-    
-}
-- (NSFetchedResultsController*) getAllUsers {
-    return nil;
-}
-- (NSFetchedResultsController*) getAllUsersForParams:(NSDictionary*) param {
-    return nil;
-}
-- (void) DeleteAllUsers {
-    
-}
-- (void) DeleteAllPoints {
-    
+- (void) setCityToUser : (NSNumber *) userId : (City *) city {
+    User *user = [self getUserForId:userId];
+    if(user) {
+        user.city = city;
+        [self saveContext];
+        return;
+    } else return;
 }
 
 
@@ -1469,6 +1476,224 @@ static DataStorage *dataStorage;
         [self.moc deleteObject:city];
     }
 }
+
+#pragma mark - contacts
+
+
+- (Contact *) createContactEntity: (User *)user : (LastMessage *) lastMessage  {
+    Contact *contactEnt = (Contact*)[NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:self.moc];
+    contactEnt.lastmessage = lastMessage;
+    contactEnt.user = user;
+    [self saveContext];
+    return contactEnt;
+}
+
+
+- (void) deleteAllContacts {
+    NSFetchRequest * allContacts = [[NSFetchRequest alloc] init];
+    [allContacts setEntity:[NSEntityDescription entityForName:@"Contact" inManagedObjectContext:self.moc]];
+    [allContacts setIncludesPropertyValues:NO];
+    NSError * error = nil;
+    NSArray * contacts = [self.moc executeFetchRequest:allContacts error:&error];
+    //error handling goes here
+    for (Contact * cont in contacts) {
+        [self.moc deleteObject:cont];
+    }
+}
+
+-(NSFetchedResultsController*) getAllContactsFetchResultsController {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    return controller;
+    
+}
+
+
+- (Contact *) getContactById : (NSNumber *) contactId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"user.userId  = %d",[contactId intValue]];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0)
+        return [[controller fetchedObjects] objectAtIndex:0];
+    else return nil;
+}
+
+- (void) deleteContact : (NSNumber *) contactId {
+    Contact *contact = [self getContactById:contactId];
+    if (contact) {
+        [self.moc deleteObject:contact];
+        [self saveContext];
+    }
+}
+
+-(NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"user.name contains[c] '%@' OR user.age == '%@' OR user.city.cityName contains[c] '%@'", queryStr, queryStr, queryStr];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    return controller;
+    
+}
+
+
+#pragma mark - last message
+
+- (LastMessage*) createLastMessage:(NSDictionary *)param  :(int) keyId {
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
+    LastMessage *lastMsgEnt = (LastMessage*)[NSEntityDescription insertNewObjectForEntityForName:@"LastMessage" inManagedObjectContext:self.moc];
+    lastMsgEnt.userId =[NSNumber numberWithInt: keyId];
+    lastMsgEnt.id_ = [param objectForKey:@"id"];
+    lastMsgEnt.createdAt = [df dateFromString:[param objectForKey:@"createdAt"]];
+    lastMsgEnt.destinationId = [param objectForKey:@"destinationId"];
+    lastMsgEnt.readAt = [df dateFromString:[param objectForKey:@"readAt"]];
+    lastMsgEnt.sourceId = [param objectForKey:@"sourceId"];
+    lastMsgEnt.text = [param objectForKey:@"text"];
+    [self saveContext];
+    return lastMsgEnt;
+}
+
+#pragma mark - chat
+
+- (Chat *) createChatEntity: (User *)user : (NSArray *) messages  {
+    Chat *chatEnt = (Chat*)[NSEntityDescription insertNewObjectForEntityForName:@"Chat" inManagedObjectContext:self.moc];
+    chatEnt.user = user;
+    NSMutableArray *entArray = [NSMutableArray new];
+    for(NSDictionary *t in messages) {
+        Message *msg = [self createMessage:t : user.userId];
+        msg.chat = chatEnt;
+        [entArray addObject:msg];
+    }
+    chatEnt.message = [NSSet setWithArray:entArray];
+    [self saveContext];
+    return chatEnt;
+}
+
+- (Chat *) getChatByUserId :(NSNumber *) userId {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Chat" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"user.userId  = %d",[userId intValue]];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    if([[controller fetchedObjects] count] >0)
+        return [[controller fetchedObjects] objectAtIndex:0];
+    else return nil;
+}
+
+
+- (void) deleteChatByUserId : (NSNumber *) userId {
+    Chat *chat = [self getChatByUserId:userId];
+    if (chat) {
+        [self.moc deleteObject:chat];
+        [self saveContext];
+    }
+}
+
+#pragma mark - messages
+
+- (Message *) createMessage : (NSDictionary *) param : (NSNumber *)userId {
+    
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
+    Message *msgEnt = (Message*)[NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:self.moc];
+    msgEnt.bindedUserId = userId;
+    msgEnt.id_ = [param objectForKey:@"id"];
+    msgEnt.createdAt = [df dateFromString: [param objectForKey:@"createdAt"]];
+    msgEnt.destinationId = [param objectForKey:@"destinationId"];
+    msgEnt.readAt = [df dateFromString:[param objectForKey:@"readAt"]];
+    msgEnt.sourceId = [param objectForKey:@"sourceId"];
+    msgEnt.text = [param objectForKey:@"text"];
+    [self saveContext];
+    return msgEnt;
+}
+
+
 
 #pragma mark - save context
 

@@ -10,13 +10,23 @@
 #import "UINavigationController+HighPoint.h"
 #import "HPChatMsgTableViewCell.h"
 #import "HPChatOptionsTableViewCell.h"
+#import "UILabel+HighPoint.h"
+#import "UITextView+HightPoint.h"
+#import "UIDevice+HighPoint.h"
+#import "HPBaseNetworkManager.h"
 
 
 #define KEYBOARD_HEIGHT 216
-#define MSGS_TEST_COUNT 11;
+#define MSGS_TEST_COUNT 11
+#define MAX_COMMENT_LENGTH 250
+
+#define CONSTRAINT_TOP_BOTTOMVIEW 431
 
 
-@interface HPChatViewController ()
+
+@interface HPChatViewController () {
+    NSMutableArray *msgs;
+}
 
 @end
 
@@ -35,10 +45,52 @@
 {
     [super viewDidLoad];
     [self createNavigationItem];
+    
+    
+    
     self.msgTextView.delegate = self;
     self.chatTableView.delegate = self;
     self.chatTableView.dataSource = self;
+    [self initMsgs];
+    self.msgTextView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
+    [self.msgTextView hp_tuneForTextViewMsgText];
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void) initMsgs {
+     msgs = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 12; i++) {
+       
+        TestMessage *msg = [[TestMessage alloc] init];
+        msg.isIncoming = NO;
+        msg.messageBody = @"Lorem ipsum dolor sit amet";
+        if (i%3) {
+            msg.messageBody = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis est a neque ultricies blandit. Donec quis congue ante. Praesent euismod semper turpis, sed ultricies felis aliquam quis. Etiam consectetur cursus lacinia";
+            msg.isIncoming = YES;
+        }
+        
+        if (i%5) {
+            msg.messageBody = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis est a neque ultricies blandit. ";
+        }
+        
+        [msgs addObject:msg];
+    }
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self fixSelfConstraint];
+    
+    [[HPBaseNetworkManager sharedNetworkManager] getChatMsgsForUser:@101 :@0];
+    //[self setSwipeForTableView];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    if (self.chatTableView.contentSize.height > self.chatTableView.frame.size.height)
+    {
+        CGPoint offset = CGPointMake(0, self.chatTableView.contentSize.height -     self.chatTableView.frame.size.height);
+        [self.chatTableView setContentOffset:offset animated:NO];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,6 +98,73 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+#pragma mark - scroll for time
+- (void) setSwipeForTableView {
+    UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+    recognizer.cancelsTouchesInView = NO;
+    [self.chatTableView addGestureRecognizer:recognizer];
+}
+
+- (void) handlePanFrom: (UIGestureRecognizer *) recognizer {
+    NSLog(@"pan");
+   // CGPoint startLocation;
+    
+    NSArray *cells = [self.chatTableView visibleCells];
+    for (HPChatMsgTableViewCell *cell in cells)
+    {
+        if ([cell isKindOfClass:[HPChatMsgTableViewCell class]]) {
+          //   [cell scrollCellForTimeShowing];
+        }
+       
+    }
+    
+//    if (recognizer.state == UIGestureRecognizerStateBegan) {
+//        
+//        
+////       startLocation = [recognizer locationInView:self.view];
+//    }
+//    else if (recognizer.state == UIGestureRecognizerStateEnded) {
+//        
+//        
+////        CGPoint stopLocation = [recognizer locationInView:self.view];
+////        CGFloat dx = stopLocation.x - startLocation.x;
+////        CGFloat dy = stopLocation.y - startLocation.y;
+////        CGFloat distance = sqrt(dx*dx + dy*dy );
+////        NSLog(@"Distance: %f", distance);
+//    }
+}
+
+- (void) scrollCellsForTimeShowing : (CGPoint) point {
+    NSArray *cells = [self.chatTableView visibleCells];
+    for (HPChatMsgTableViewCell *cell in cells)
+    {
+        if ([cell isKindOfClass:[HPChatMsgTableViewCell class]]) {
+            [cell scrollCellForTimeShowingCell :point];
+        }
+        
+    }
+
+}
+
+#pragma mark - constraints
+
+- (void) fixSelfConstraint {
+    
+    if (![UIDevice hp_isWideScreen])
+    {
+        NSArray* cons = self.view.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.msgBottomView))
+                consIter.constant = CONSTRAINT_TOP_BOTTOMVIEW;
+            
+            }
+    }
+}
+
 
 #pragma mark - navigation bar
 - (void) createNavigationItem
@@ -101,43 +220,44 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     
-    CGRect frame = self.msgTextView.frame;
-//    CGRect oldFrame = self.msgTextView.frame;
-//    CGRect viewFrame = self.msgBottomView.frame;
-    
-    frame.size.height = self.msgTextView.contentSize.height;
-    if (self.msgTextView.frame.size.height < self.msgTextView.contentSize.height) {
-        NSLog(@"up");
-        frame.origin.y = frame.origin.y - 16;
+    if ((self.msgTextView.text.length > MAX_COMMENT_LENGTH) && (text.length > 0)) {
+        return NO;
     }
     
+    CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    float possibleHeight = screenHeight - KEYBOARD_HEIGHT - 64;
+    CGRect frame = self.msgTextView.frame;
+    CGRect viewFrame = self.bgBottomView.frame;
+    frame.size.height = self.msgTextView.contentSize.height;
+    if (textView.text.length > 0) {
+        if (self.msgTextView.frame.size.height < self.msgTextView.contentSize.height) {
+            NSLog(@"up");
+            frame.origin.y = frame.origin.y - 20;
+            viewFrame.origin.y = viewFrame.origin.y - 20;
+            viewFrame.size.height = viewFrame.size.height + 20;
+        }
+    }
     if ((self.msgTextView.frame.size.height > self.msgTextView.contentSize.height) && (text.length < 1)) {
         NSLog(@"down");
-        frame.origin.y = frame.origin.y + 16;
+        frame.origin.y = frame.origin.y + 20;
+        viewFrame.origin.y = viewFrame.origin.y + 20;
+        viewFrame.size.height = viewFrame.size.height - 20;
     }
-    
-//    if ((oldFrame.size.height < frame.size.height) && (self.msgTextView.frame.size.height < self.msgTextView.contentSize.height)) {
-//        viewFrame.origin.y = viewFrame.origin.y - 16;
-//        viewFrame.size.height = viewFrame.size.height + 16;
-//        self.msgBottomView.frame = viewFrame;
-//    }
-//    
-//    if ((oldFrame.size.height > frame.size.height) && ((self.msgTextView.frame.size.height > self.msgTextView.contentSize.height) && (text.length < 1))) {
-//        viewFrame.origin.y = viewFrame.origin.y + 16;
-//        viewFrame.size.height = viewFrame.size.height - 16;
-//        self.msgBottomView.frame = viewFrame;
-//    }
-    
-    self.msgTextView.frame = frame;
-    
-    
-    
+    if (possibleHeight > viewFrame.size.height) {
+        self.msgTextView.frame = frame;
+        self.bgBottomView.frame = viewFrame;
+    }
     return YES;
 }
 
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
-
+    if ([textView.text isEqualToString:NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil)]) {
+        textView.text = @"";
+        [textView hp_tuneForTextViewMsgText];
+    }
+    [textView becomeFirstResponder];
+    
     CGRect newFrame = self.msgBottomView.frame;
     newFrame.origin.y = newFrame.origin.y - KEYBOARD_HEIGHT;
     [UIView animateWithDuration:0.4
@@ -151,6 +271,13 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
+    
+    if ([textView.text isEqualToString:@""]) {
+        textView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
+        [textView hp_tuneForTextViewPlaceholderText];
+    }
+    [textView resignFirstResponder];
+    
     CGRect newFrame = self.msgBottomView.frame;
     newFrame.origin.y = newFrame.origin.y + KEYBOARD_HEIGHT;
     [UIView animateWithDuration:0.2
@@ -167,6 +294,10 @@
 #pragma mark - button handlers
 - (IBAction)addMsgTap:(id)sender {
     [self.view endEditing:YES];
+    self.bgBottomView.frame = CGRectMake(0, 0, 320, 49);
+    self.msgTextView.frame = CGRectMake(48, 5, 261, 34);
+    self.msgTextView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
+    [self.msgTextView hp_tuneForTextViewMsgText];
     //TODO: send msg
 }
 
@@ -175,7 +306,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row < 10) {
+    if (indexPath.row < msgs.count) {
         static NSString *msgCellIdentifier = @"ChatMsgCell";
         HPChatMsgTableViewCell *msgCell = (HPChatMsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier];
         
@@ -184,7 +315,8 @@
             NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatMsgTableViewCell" owner:self options:nil];
             msgCell = [nib objectAtIndex:0];
         }
-        [msgCell configureSelfWithMsg];
+        msgCell.delegate = self;
+        [msgCell configureSelfWithMsg:[msgs objectAtIndex:indexPath.row]];
         return msgCell;
     } else {
         static NSString *msgOptCellIdentifier = @"ChatMsgOptions";
@@ -201,18 +333,26 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return MSGS_TEST_COUNT;
+    if (section == 0) {
+       return msgs.count  - 3;
+    } else {
+        return msgs.count + 1;
+    }
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row < 10) {
-        return 100;
+    if (indexPath.row < msgs.count) {
+        UIFont *cellFont = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
+        CGSize constraintSize = CGSizeMake(250.0f, 1000);
+        CGSize labelSize = [((TestMessage *)[msgs objectAtIndex:indexPath.row]).messageBody sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+        return labelSize.height + 40;
     } else {
         return 32;
     }
@@ -227,8 +367,25 @@
     return [[UIView alloc] initWithFrame:CGRectZero];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [[UIView alloc] initWithFrame:CGRectZero];
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+    headerView.backgroundColor = [UIColor colorWithRed: 30.0 / 255.0
+                                                 green: 29.0 / 255.0
+                                                  blue: 48.0 / 255.0
+                                                 alpha: 1.0];
+    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 320, 16)];
+    dateLabel.text = @"Сегодня, 25 июня";
+    [dateLabel setTextAlignment:UITextAlignmentCenter];
+    dateLabel.textColor = [UIColor grayColor];
+    [dateLabel hp_tuneForHeaderAndInfoInMessagesList];
+    [headerView addSubview:dateLabel];
+    return headerView;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleNone;
 }
 
 
