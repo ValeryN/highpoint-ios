@@ -10,7 +10,7 @@
 
 @implementation UITextView (HightPoint)
 
-- (void) hp_tuneForUserPoint
+- (void) hp_tuneForUserPointEmpty
 {
     self.font = [UIFont fontWithName: @"FuturaPT-Book" size: 16.0];
     self.textColor = [UIColor colorWithRed: 230.0 / 255.0
@@ -21,6 +21,15 @@
 }
 
 
+- (void) hp_tuneForUserPoint
+{
+    self.font = [UIFont fontWithName: @"FuturaPT-Book" size: 16.0];
+    self.textColor = [UIColor colorWithRed: 230.0 / 255.0
+                                     green: 236.0 / 255.0
+                                      blue: 242.0 / 255.0
+                                     alpha: 1.0];
+    
+}
 
 
 
