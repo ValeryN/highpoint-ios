@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "HPUserProfileViewController.h"
+#import "HPCurrentUserPointCollectionViewCell.h"
+@protocol HPUserProfileViewControlleDelegate <NSObject>
+- (void) startEditingPoint ;
+- (void) cancelPointTap;
+
+@end
+
 @class ModalAnimation;
-@interface HPCurrentUserViewController : UIViewController < UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout> {
+@interface HPCurrentUserViewController : UIViewController < UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPCurrentUserPointCollectionViewCellDelegate> {
     ModalAnimation *_modalAnimationController;
 }
 
@@ -29,5 +36,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
 @property (nonatomic, strong) UIImageView *captView;
 - (void) configurePublishPointNavigationItem;
+
+
+- (void) startEditingPoint;
+- (void) cancelPointTap;
+- (void) sharePointTap;
 
 @end

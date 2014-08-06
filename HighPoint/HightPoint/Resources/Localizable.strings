@@ -33,6 +33,9 @@
 //CURRENT USER POINT SCREEN
 "YOUR_POINT" = "Ваш поинт";
 "YOUR_EMPTY_POINT" = "Напишите здесь о ваших планах или\rжеланиях на ближайший вечер. Это\rсообщение увидят все люди из вашего\rгорода.";
+"DONE_BTN" = "Готово";
+"PUBLISH_BTN" = "Опубликовать";
+"SET_TIME_FOR_YOUR_POINT" = "Установите актуальное время\rдействия вашего поинта";
 
 
 //POINT LIKES SCREEN

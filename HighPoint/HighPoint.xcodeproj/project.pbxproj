@@ -286,6 +286,7 @@
 		CDA317CD19768EDC00F04DA2 /* delete_point.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA317CC19768EDC00F04DA2 /* delete_point.png */; };
 		CDA36E6819878FF20073BE45 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA36E6719878FF20073BE45 /* Contact.m */; };
 		CDA36E6B19878FF20073BE45 /* LastMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA36E6A19878FF20073BE45 /* LastMessage.m */; };
+		CDA3A6471992017B008F9F86 /* point_info_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA3A6461992017B008F9F86 /* point_info_new.png */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 		CDC009931990C5ED00B3FF75 /* curruser_point_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDC009921990C5ED00B3FF75 /* curruser_point_new.png */; };
@@ -711,6 +712,7 @@
 		CDA36E6719878FF20073BE45 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		CDA36E6919878FF20073BE45 /* LastMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastMessage.h; sourceTree = "<group>"; };
 		CDA36E6A19878FF20073BE45 /* LastMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastMessage.m; sourceTree = "<group>"; };
+		CDA3A6461992017B008F9F86 /* point_info_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = point_info_new.png; sourceTree = "<group>"; };
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
@@ -899,7 +901,6 @@
 		3B31864D191A493F0000DD8B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-
 				3B9C749D1990FFA0006ADAE7 /* Close Tap.png */,
 				3B9C749E1990FFA0006ADAE7 /* Close.png */,
 				3B2E02B8198FC399003F4D62 /* Cancel Tap.png */,
@@ -908,10 +909,8 @@
 				3B51A1DF198B661C0016E907 /* Remove Tap.png */,
 				3B105E991987D22000BF4C32 /* Trash Tap.png */,
 				3B105E9A1987D22100BF4C32 /* Trash.png */,
-
 				CD08B831198B87700006AF4A /* Camera Small Tap.png */,
 				CD08B832198B87700006AF4A /* Camera Small.png */,
-
 				3B5EFDB619811EE900408427 /* Camera.png */,
 				CD4CA3B61980F71E0016DF7E /* Add Tap.png */,
 				CD4CA3B71980F71E0016DF7E /* Add.png */,
@@ -1443,13 +1442,10 @@
 				CD3AF59A197E624600CC8767 /* HPAvatarLittleView.h */,
 				CD3AF59B197E624600CC8767 /* HPAvatarLittleView.m */,
 				CD3AF59D197E626500CC8767 /* HPAvatarLittleView.xib */,
-
 				3B9C74941990B495006ADAE7 /* HPBubbleTextField.h */,
 				3B9C74951990B495006ADAE7 /* HPBubbleTextField.m */,
-
 				CD08B82E198B7E200006AF4A /* HPUICollectionViewFlowLayout.h */,
 				CD08B82F198B7E200006AF4A /* HPUICollectionViewFlowLayout.m */,
-
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -1595,6 +1591,7 @@
 		CDA27BE91974EE06007D6BC1 /* debug */ = {
 			isa = PBXGroup;
 			children = (
+				CDA3A6461992017B008F9F86 /* point_info_new.png */,
 				CDC009921990C5ED00B3FF75 /* curruser_point_new.png */,
 				CDD858B7198F84AF00AB6D07 /* curruser_card_new.png */,
 				CD08B82C198B6F850006AF4A /* usercard_new_wp.png */,
@@ -1739,11 +1736,8 @@
 				CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */,
 				3B298FBF192F476100BEC2AA /* slider-default-trackBackground.png in Resources */,
 				4C89BD30193C899400DAE2EE /* HPUserProfile.xib in Resources */,
-
 				3B51A1E1198B661C0016E907 /* Remove Tap.png in Resources */,
-
 				CDC009931990C5ED00B3FF75 /* curruser_point_new.png in Resources */,
-
 				CDA27BE71974ED96007D6BC1 /* green_btn_pressed.png in Resources */,
 				CD08B833198B87700006AF4A /* Camera Small Tap.png in Resources */,
 				3BE83C09197902950043E03E /* Photos_Camera_L.png in Resources */,
@@ -1756,11 +1750,8 @@
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
 				3B298FC7192F476100BEC2AA /* slider-default7-trackBackground.png in Resources */,
 				3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */,
-
 				3B9C749F1990FFA0006ADAE7 /* Close Tap.png in Resources */,
-
 				CDA17039198246B600173D1C /* CHANGELOG in Resources */,
-
 				3B298FC2192F476100BEC2AA /* slider-default_trackBackground@2x.png in Resources */,
 				3B31865C191A7A4F0000DD8B /* ParaType - Futura PT Book.otf in Resources */,
 				3BDCB212197E8199003D7ECD /* HPUserInfoSecondRowTableViewCell.xib in Resources */,
@@ -1773,6 +1764,7 @@
 				4C91C1EB1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */,
 				CD7C995F1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib in Resources */,
 				CDFA8A21196BEA6200D04451 /* Switcher-R.png in Resources */,
+				CDA3A6471992017B008F9F86 /* point_info_new.png in Resources */,
 				CD6D7A8D197CDA6D0002E8A0 /* HPPointLikesViewController.xib in Resources */,
 				CDFA8A20196BEA6200D04451 /* Switcher-L.png in Resources */,
 				CD4CA3B81980F71E0016DF7E /* Add Tap.png in Resources */,
@@ -1814,11 +1806,8 @@
 				3B31865E191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf in Resources */,
 				CDF9745C196E8C4C0064ED04 /* Eye Tap.png in Resources */,
 				3BE9DE40197FD8F300AFA641 /* 4.jpg in Resources */,
-
 				3B9C749C1990FB7E006ADAE7 /* HPMakeAvatarViewController.xib in Resources */,
-
 				CDD858B8198F84AF00AB6D07 /* curruser_card_new.png in Resources */,
-
 				3B3170AF191B91AD00B72AC1 /* pin_popup_blackw@2x.png in Resources */,
 				3B9C74A01990FFA0006ADAE7 /* Close.png in Resources */,
 				3BA70F121989052B00F2CB47 /* HPUserProfileFirstRowTableViewCell.xib in Resources */,
@@ -1974,11 +1963,8 @@
 				3B0B9205197D361D00910475 /* HPUserInfoTableHeaderView.m in Sources */,
 				3BDA4C6219064AC900EF6619 /* AFHTTPRequestOperation.m in Sources */,
 				4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
-
 				3BA70F141989053400F2CB47 /* HPUserProfileFirstRowTableViewCell.m in Sources */,
-
 				CD08B827198B68750006AF4A /* HPUserCardUICollectionViewCell.m in Sources */,
-
 				3BDA4C6E19064CD200EF6619 /* HPBaseNetworkManager.m in Sources */,
 				3B39D31C195C3122002520B9 /* SocketIOPacket.m in Sources */,
 				CDE0BDCD196E832E00CBCF58 /* HPCurrentUserViewController.m in Sources */,
@@ -2001,11 +1987,8 @@
 				3BDA4C8E19064E5900EF6619 /* NSData+ImageContentType.m in Sources */,
 				3B39D301195C3091002520B9 /* Gender.m in Sources */,
 				3BDA4C6419064AC900EF6619 /* AFHTTPSessionManager.m in Sources */,
-
 				3BA70F1A19890E5400F2CB47 /* HPUserProfileTableHeaderView.m in Sources */,
-
 				CDA36E6B19878FF20073BE45 /* LastMessage.m in Sources */,
-
 				3BA384081924CDBC00EFC749 /* ScaleAnimation.m in Sources */,
 				3B298FD3192F476100BEC2AA /* NMRangeSlider.m in Sources */,
 				CD55FD2019792C2F003EE9E9 /* CareerPost.m in Sources */,
@@ -2042,11 +2025,7 @@
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,
 				3BDA4C9619064E5900EF6619 /* UIButton+WebCache.m in Sources */,
 				3BDA4C9719064E5900EF6619 /* UIImage+GIF.m in Sources */,
-
 				3B2E02B6198F9027003F4D62 /* HPAddEducationViewController.m in Sources */,
-				4CDC98C119519FA2006D2F89 /* HPUserCardView.m in Sources */,
-
-
 				3B31864B191A408B0000DD8B /* Utils.m in Sources */,
 				3BDCB215197E820E003D7ECD /* HPUserInfoSecondRowTableViewCell.m in Sources */,
 				3BDA4C8F19064E5900EF6619 /* SDImageCache.m in Sources */,
