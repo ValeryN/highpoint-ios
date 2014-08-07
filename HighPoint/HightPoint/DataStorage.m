@@ -9,7 +9,6 @@
 #import "DataStorage.h"
 #import "HPAppDelegate.h"
 #import "HPBaseNetworkManager.h"
-#import "NotificationsConstants.h"
 #import <objc/runtime.h>
 
 static DataStorage *dataStorage;
@@ -39,6 +38,19 @@ static DataStorage *dataStorage;
     }
 }
 
+- (void)createUser:(NSDictionary *)param {
+    @throw [NSException exceptionWithName:@"ru.surfstudio.HighPoint.404" reason:@"Code not implemented" userInfo:param];
+}
+
+- (void)createUserInfo:(NSDictionary *)param {
+    @throw [NSException exceptionWithName:@"ru.surfstudio.HighPoint.404" reason:@"Code not implemented" userInfo:param];
+}
+
+- (void)createUserSettings:(NSDictionary *)param {
+    @throw [NSException exceptionWithName:@"ru.surfstudio.HighPoint.404" reason:@"Code not implemented" userInfo:param];
+}
+
+
 #pragma mark -
 #pragma mark maxEntertimentPrice
 
@@ -67,24 +79,24 @@ static DataStorage *dataStorage;
     NSLog(@"filter params = %@", param);
 
 
-    const char *className = class_getName([[param objectForKey:@"maxAge"] class]);
+    const char *className = class_getName([param[@"maxAge"] class]);
     NSLog(@"yourObject is a: %s", className);
 
-    uf.maxAge = [param objectForKey:@"maxAge"];
-    uf.minAge = [param objectForKey:@"minAge"];
-    uf.viewType = [param objectForKey:@"viewType"];
+    uf.maxAge = param[@"maxAge"];
+    uf.minAge = param[@"minAge"];
+    uf.viewType = param[@"viewType"];
     NSMutableArray *arr = [NSMutableArray new];
-    for (NSNumber *p in [param objectForKey:@"genders"]) {
+    for (NSNumber *p in param[@"genders"]) {
         Gender *gender = (Gender *) [NSEntityDescription insertNewObjectForEntityForName:@"Gender" inManagedObjectContext:self.moc];
         gender.genderType = p;
         [arr addObject:gender];
     }
     NSString *cityIds = @"";
-    NSArray *citiesArr = [param objectForKey:@"cityIds"];
+    NSArray *citiesArr = param[@"cityIds"];
 
     if ([param[@"cityIds"] isKindOfClass:[NSArray class]]) {
-        for (int i = 0; i < citiesArr.count; i++) {
-            cityIds = [[cityIds stringByAppendingString:[[citiesArr objectAtIndex:i] stringValue]] stringByAppendingString:@","];
+        for (NSUInteger i = 0; i < citiesArr.count; i++) {
+            cityIds = [[cityIds stringByAppendingString:[citiesArr[i] stringValue]] stringByAppendingString:@","];
         }
         if ([cityIds length] > 0) {
             cityIds = [cityIds substringToIndex:[cityIds length] - 1];
@@ -109,7 +121,7 @@ static DataStorage *dataStorage;
     NSError *error = nil;
     fetchedObjects = [self.moc executeFetchRequest:fetch error:&error];
     if ([fetchedObjects count] == 1) {
-        UserFilter *filter = [fetchedObjects objectAtIndex:0];
+        UserFilter *filter = fetchedObjects[0];
         if (city) {
             NSMutableSet *cities = [[NSMutableSet alloc] initWithSet:filter.city];
             [cities addObject:city];
@@ -133,7 +145,7 @@ static DataStorage *dataStorage;
     NSError *error = nil;
     fetchedObjects = [self.moc executeFetchRequest:fetch error:&error];
     if ([fetchedObjects count] >= 1) {
-        UserFilter *filter = [fetchedObjects objectAtIndex:0];
+        UserFilter *filter = fetchedObjects[0];
         filter.city = [[NSSet alloc] init];
         [self saveContext];
         return;
@@ -151,7 +163,7 @@ static DataStorage *dataStorage;
     NSError *error = nil;
     fetchedObjects = [self.moc executeFetchRequest:fetch error:&error];
     if ([fetchedObjects count] >= 1) {
-        return [fetchedObjects objectAtIndex:0];
+        return fetchedObjects[0];
     }
     else {
         return nil;
@@ -176,11 +188,11 @@ static DataStorage *dataStorage;
 
 - (Education *)createEducationEntity:(NSDictionary *)param {
     Education *edu = (Education *) [NSEntityDescription insertNewObjectForEntityForName:@"Education" inManagedObjectContext:self.moc];
-    edu.id_ = [param objectForKey:@"id"];
-    edu.fromYear = [param objectForKey:@"fromYear"];
-    edu.schoolId = [param objectForKey:@"schoolId"];
-    edu.specialityId = [param objectForKey:@"specialityId"];
-    edu.toYear = [param objectForKey:@"toYear"];
+    edu.id_ = param[@"id"];
+    edu.fromYear = param[@"fromYear"];
+    edu.schoolId = param[@"schoolId"];
+    edu.specialityId = param[@"specialityId"];
+    edu.toYear = param[@"toYear"];
     return edu;
 }
 
@@ -206,8 +218,8 @@ static DataStorage *dataStorage;
     NSMutableArray *discardedItems = [NSMutableArray array];
     Education *item;
     for (item in educationItems) {
-        for (int i = 0; i < ids.count; i++) {
-            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+        for (NSUInteger i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [ids[i] intValue]) {
                 [discardedItems addObject:item];
             }
         }
@@ -222,8 +234,8 @@ static DataStorage *dataStorage;
 
 - (Language *)createLanguageEntity:(NSDictionary *)param {
     Language *lan = (Language *) [NSEntityDescription insertNewObjectForEntityForName:@"Language" inManagedObjectContext:self.moc];
-    lan.id_ = [param objectForKey:@"id"];
-    lan.name = [param objectForKey:@"name"];
+    lan.id_ = param[@"id"];
+    lan.name = param[@"name"];
     return lan;
 }
 
@@ -248,8 +260,8 @@ static DataStorage *dataStorage;
     NSMutableArray *discardedItems = [NSMutableArray array];
     Language *item;
     for (item in languageItems) {
-        for (int i = 0; i < ids.count; i++) {
-            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+        for (NSUInteger i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [ids[i] intValue]) {
                 [discardedItems addObject:item];
             }
         }
@@ -262,8 +274,8 @@ static DataStorage *dataStorage;
 - (Language *)createTempLanguage:(NSDictionary *)param {
     NSEntityDescription *myLanguageEntity = [NSEntityDescription entityForName:@"Language" inManagedObjectContext:self.moc];
     Language *lanEnt = [[Language alloc] initWithEntity:myLanguageEntity insertIntoManagedObjectContext:nil];
-    lanEnt.id_ = [param objectForKey:@"id"];
-    lanEnt.name = [param objectForKey:@"name"];
+    lanEnt.id_ = param[@"id"];
+    lanEnt.name = param[@"name"];
     return lanEnt;
 }
 
@@ -297,17 +309,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"id_  = %@", postId];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -315,7 +324,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0) {
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     } else {
         return nil;
     }
@@ -338,16 +347,16 @@ static DataStorage *dataStorage;
 
 - (School *)createSchoolEntity:(NSDictionary *)param {
     School *sch = (School *) [NSEntityDescription insertNewObjectForEntityForName:@"School" inManagedObjectContext:self.moc];
-    sch.id_ = [param objectForKey:@"id"];
-    sch.name = [param objectForKey:@"name"];
+    sch.id_ = param[@"id"];
+    sch.name = param[@"name"];
     return sch;
 }
 
 - (School *)createTempSchool:(NSDictionary *)param {
     NSEntityDescription *mySchEntity = [NSEntityDescription entityForName:@"School" inManagedObjectContext:self.moc];
     School *schEnt = [[School alloc] initWithEntity:mySchEntity insertIntoManagedObjectContext:nil];
-    schEnt.id_ = [param objectForKey:@"id"];
-    schEnt.name = [param objectForKey:@"name"];
+    schEnt.id_ = param[@"id"];
+    schEnt.name = param[@"name"];
     return schEnt;
 }
 
@@ -399,7 +408,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0) {
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     } else {
         return nil;
     }
@@ -421,16 +430,16 @@ static DataStorage *dataStorage;
 
 - (Speciality *)createSpecialityEntity:(NSDictionary *)param {
     Speciality *sp = (Speciality *) [NSEntityDescription insertNewObjectForEntityForName:@"Speciality" inManagedObjectContext:self.moc];
-    sp.id_ = [param objectForKey:@"id"];
-    sp.name = [param objectForKey:@"name"];
+    sp.id_ = param[@"id"];
+    sp.name = param[@"name"];
     return sp;
 }
 
 - (Speciality *)createTempSpeciality:(NSDictionary *)param {
     NSEntityDescription *mySchEntity = [NSEntityDescription entityForName:@"Speciality" inManagedObjectContext:self.moc];
     Speciality *spEnt = [[Speciality alloc] initWithEntity:mySchEntity insertIntoManagedObjectContext:nil];
-    spEnt.id_ = [param objectForKey:@"id"];
-    spEnt.name = [param objectForKey:@"name"];
+    spEnt.id_ = param[@"id"];
+    spEnt.name = param[@"name"];
     return spEnt;
 }
 
@@ -464,17 +473,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"id_  = %@", specId];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -482,7 +488,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0) {
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     } else {
         return nil;
     }
@@ -505,9 +511,9 @@ static DataStorage *dataStorage;
 
 - (Place *)createPlaceEntity:(NSDictionary *)param {
     Place *pl = (Place *) [NSEntityDescription insertNewObjectForEntityForName:@"Place" inManagedObjectContext:self.moc];
-    pl.id_ = [param objectForKey:@"id"];
-    pl.cityId = [param objectForKey:@"cityId"];
-    pl.name = [param objectForKey:@"name"];
+    pl.id_ = param[@"id"];
+    pl.cityId = param[@"cityId"];
+    pl.name = param[@"name"];
     return pl;
 }
 
@@ -531,8 +537,8 @@ static DataStorage *dataStorage;
     NSMutableArray *discardedItems = [NSMutableArray array];
     Place *item;
     for (item in placesItems) {
-        for (int i = 0; i < ids.count; i++) {
-            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+        for (NSUInteger i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [ids[i] intValue]) {
                 [discardedItems addObject:item];
             }
         }
@@ -545,9 +551,9 @@ static DataStorage *dataStorage;
 - (Place *)createTempPlace:(NSDictionary *)param {
     NSEntityDescription *myPlaceEntity = [NSEntityDescription entityForName:@"Place" inManagedObjectContext:self.moc];
     Place *placeEnt = [[Place alloc] initWithEntity:myPlaceEntity insertIntoManagedObjectContext:nil];
-    placeEnt.id_ = [param objectForKey:@"id"];
-    placeEnt.cityId = [param objectForKey:@"cityId"];
-    placeEnt.name = [param objectForKey:@"name"];
+    placeEnt.id_ = param[@"id"];
+    placeEnt.cityId = param[@"cityId"];
+    placeEnt.name = param[@"name"];
     return placeEnt;
 }
 
@@ -581,17 +587,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"id_  = %@", postId];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -599,7 +602,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0) {
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     } else {
         return nil;
     }
@@ -623,11 +626,11 @@ static DataStorage *dataStorage;
 
 - (Career *)createCareerEntity:(NSDictionary *)param {
     Career *car = (Career *) [NSEntityDescription insertNewObjectForEntityForName:@"Career" inManagedObjectContext:self.moc];
-    car.id_ = [param objectForKey:@"id"];
-    car.fromYear = [param objectForKey:@"fromYear"];
-    car.companyId = [param objectForKey:@"companyId"];
-    car.postId = [param objectForKey:@"postId"];
-    car.toYear = [param objectForKey:@"toYear"];
+    car.id_ = param[@"id"];
+    car.fromYear = param[@"fromYear"];
+    car.companyId = param[@"companyId"];
+    car.postId = param[@"postId"];
+    car.toYear = param[@"toYear"];
     return car;
 }
 
@@ -651,8 +654,8 @@ static DataStorage *dataStorage;
     NSMutableArray *discardedItems = [NSMutableArray array];
     Career *item;
     for (item in careerItems) {
-        for (int i = 0; i < ids.count; i++) {
-            if ([item.id_ intValue] == [[ids objectAtIndex:i] intValue]) {
+        for (NSUInteger i = 0; i < ids.count; i++) {
+            if ([item.id_ intValue] == [ids[i] intValue]) {
                 [discardedItems addObject:item];
             }
         }
@@ -667,8 +670,8 @@ static DataStorage *dataStorage;
 
 - (CareerPost *)createCareerPost:(NSDictionary *)param {
     CareerPost *postEnt = (CareerPost *) [NSEntityDescription insertNewObjectForEntityForName:@"CareerPost" inManagedObjectContext:self.moc];
-    postEnt.name = [param objectForKey:@"name"];
-    postEnt.id_ = [param objectForKey:@"id"];
+    postEnt.name = param[@"name"];
+    postEnt.id_ = param[@"id"];
     [self saveContext];
     return postEnt;
 }
@@ -676,8 +679,8 @@ static DataStorage *dataStorage;
 - (CareerPost *)createTempCareerPost:(NSDictionary *)param {
     NSEntityDescription *myCareerPostEntity = [NSEntityDescription entityForName:@"CareerPost" inManagedObjectContext:self.moc];
     CareerPost *postEnt = [[CareerPost alloc] initWithEntity:myCareerPostEntity insertIntoManagedObjectContext:nil];
-    postEnt.id_ = [param objectForKey:@"id"];
-    postEnt.name = [param objectForKey:@"name"];
+    postEnt.id_ = param[@"id"];
+    postEnt.name = param[@"name"];
     return postEnt;
 }
 
@@ -711,17 +714,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"id_  = %@", postId];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -729,7 +729,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0) {
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     } else {
         return nil;
     }
@@ -753,8 +753,8 @@ static DataStorage *dataStorage;
 
 - (Company *)createCompany:(NSDictionary *)param {
     Company *companyEnt = (Company *) [NSEntityDescription insertNewObjectForEntityForName:@"Company" inManagedObjectContext:self.moc];
-    companyEnt.name = [param objectForKey:@"name"];
-    companyEnt.id_ = [param objectForKey:@"id"];
+    companyEnt.name = param[@"name"];
+    companyEnt.id_ = param[@"id"];
     [self saveContext];
     return companyEnt;
 }
@@ -762,8 +762,8 @@ static DataStorage *dataStorage;
 - (Company *)createTempCompany:(NSDictionary *)param {
     NSEntityDescription *myCompanyEntity = [NSEntityDescription entityForName:@"Company" inManagedObjectContext:self.moc];
     Company *companyEnt = [[Company alloc] initWithEntity:myCompanyEntity insertIntoManagedObjectContext:nil];
-    companyEnt.id_ = [param objectForKey:@"id"];
-    companyEnt.name = [param objectForKey:@"name"];
+    companyEnt.id_ = param[@"id"];
+    companyEnt.name = param[@"name"];
     return companyEnt;
 }
 
@@ -797,17 +797,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"id_  = %@", companyId];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -815,7 +812,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0) {
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     } else {
         return nil;
     }
@@ -839,17 +836,17 @@ static DataStorage *dataStorage;
 
 - (Avatar *)createAvatarEntity:(NSDictionary *)param {
     Avatar *avatar = (Avatar *) [NSEntityDescription insertNewObjectForEntityForName:@"Avatar" inManagedObjectContext:self.moc];
-    avatar.highCrop = [param objectForKey:@"highCrop"];
-    avatar.highImageSrc = [[param objectForKey:@"highImage"] objectForKey:@"src"];
-    avatar.highImageHeight = [[param objectForKey:@"highImage"] objectForKey:@"height"];
-    avatar.highImageWidth = [[param objectForKey:@"highImage"] objectForKey:@"width"];
-    avatar.squareCrop = [param objectForKey:@"squareCrop"];
-    avatar.originalImageSrc = [[param objectForKey:@"originalImage"] objectForKey:@"src"];
-    avatar.originalImageHeight = [[param objectForKey:@"originalImage"] objectForKey:@"height"];
-    avatar.originalImageWidth = [[param objectForKey:@"originalImage"] objectForKey:@"width"];
-    avatar.squareImageSrc = [[param objectForKey:@"squareImage"] objectForKey:@"src"];
-    avatar.squareImageHeight = [[param objectForKey:@"squarelImage"] objectForKey:@"height"];
-    avatar.squareImageWidth = [[param objectForKey:@"squareImage"] objectForKey:@"width"];
+    avatar.highCrop = param[@"highCrop"];
+    avatar.highImageSrc = [param[@"highImage"] objectForKey:@"src"];
+    avatar.highImageHeight = [param[@"highImage"] objectForKey:@"height"];
+    avatar.highImageWidth = [param[@"highImage"] objectForKey:@"width"];
+    avatar.squareCrop = param[@"squareCrop"];
+    avatar.originalImageSrc = [param[@"originalImage"] objectForKey:@"src"];
+    avatar.originalImageHeight = [param[@"originalImage"] objectForKey:@"height"];
+    avatar.originalImageWidth = [param[@"originalImage"] objectForKey:@"width"];
+    avatar.squareImageSrc = [param[@"squareImage"] objectForKey:@"src"];
+    avatar.squareImageHeight = [param[@"squarelImage"] objectForKey:@"height"];
+    avatar.squareImageWidth = [param[@"squareImage"] objectForKey:@"width"];
     return avatar;
 }
 
@@ -858,44 +855,44 @@ static DataStorage *dataStorage;
 
 - (User *)createUserEntity:(NSDictionary *)param isCurrent:(BOOL)current {
     User *user;
-    user = [self getUserForId:[param objectForKey:@"id"]];
+    user = [self getUserForId:param[@"id"]];
     if (!user) {
         user = (User *) [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:self.moc];
     }
-    user.isCurrentUser = [NSNumber numberWithBool:current];
-    if ([param objectForKey:@"name"])
-        user.name = [param objectForKey:@"name"];
-    if ([param objectForKey:@"id"])
-        user.userId = [param objectForKey:@"id"];
-    if ([param objectForKey:@"cityId"])
-        user.cityId = [param objectForKey:@"cityId"];
-    if ([param objectForKey:@"createdAt"])
-        user.createdAt = [param objectForKey:@"createdAt"];
-    if ([param objectForKey:@"dateOfBirth"])
-        user.dateOfBirth = [param objectForKey:@"dateOfBirth"];
-    if ([param objectForKey:@"email"])
-        user.email = [param objectForKey:@"email"];
-    if ([param objectForKey:@"gender"])
-        user.gender = [param objectForKey:@"gender"];
-    if ([param objectForKey:@"visibility"])
-        user.visibility = [param objectForKey:@"visibility"];
-    if ([param objectForKey:@"avatar"]) {
-        user.avatar = [self createAvatarEntity:[param objectForKey:@"avatar"]];
+    user.isCurrentUser = @(current);
+    if (param[@"name"])
+        user.name = param[@"name"];
+    if (param[@"id"])
+        user.userId = param[@"id"];
+    if (param[@"cityId"])
+        user.cityId = param[@"cityId"];
+    if (param[@"createdAt"])
+        user.createdAt = param[@"createdAt"];
+    if (param[@"dateOfBirth"])
+        user.dateOfBirth = param[@"dateOfBirth"];
+    if (param[@"email"])
+        user.email = param[@"email"];
+    if (param[@"gender"])
+        user.gender = param[@"gender"];
+    if (param[@"visibility"])
+        user.visibility = param[@"visibility"];
+    if (param[@"avatar"]) {
+        user.avatar = [self createAvatarEntity:param[@"avatar"]];
         user.avatar.user = user;
     }
-    if ([param objectForKey:@"age"])
-        user.age = [param objectForKey:@"age"];
-    if ([[param objectForKey:@"education"] isKindOfClass:[NSDictionary class]]) {
+    if (param[@"age"])
+        user.age = param[@"age"];
+    if ([param[@"education"] isKindOfClass:[NSDictionary class]]) {
 
-        if (![[param objectForKey:@"education"] isKindOfClass:[NSNull class]]) {
-            Education *ed = [self createEducationEntity:[param objectForKey:@"education"]];
+        if (![param[@"education"] isKindOfClass:[NSNull class]]) {
+            Education *ed = [self createEducationEntity:param[@"education"]];
             ed.user = user;
-            user.education = [NSSet setWithArray:[NSArray arrayWithObjects:ed, nil]];
+            user.education = [NSSet setWithArray:@[ed]];
         }
 
-    } else if ([[param objectForKey:@"education"] isKindOfClass:[NSArray class]]) {
+    } else if ([param[@"education"] isKindOfClass:[NSArray class]]) {
         NSMutableArray *entArray = [NSMutableArray new];
-        for (NSDictionary *t in [param objectForKey:@"education"]) {
+        for (NSDictionary *t in param[@"education"]) {
             Education *ed = [self createEducationEntity:t];
             ed.user = user;
             [entArray addObject:[self createEducationEntity:t]];
@@ -903,17 +900,17 @@ static DataStorage *dataStorage;
         user.education = [NSSet setWithArray:entArray];
     }
 
-    if ([[param objectForKey:@"career"] isKindOfClass:[NSDictionary class]]) {
+    if ([param[@"career"] isKindOfClass:[NSDictionary class]]) {
 
-        if (![[param objectForKey:@"career"] isKindOfClass:[NSNull class]]) {
-            Career *ca = [self createCareerEntity:[param objectForKey:@"career"]];
+        if (![param[@"career"] isKindOfClass:[NSNull class]]) {
+            Career *ca = [self createCareerEntity:param[@"career"]];
             ca.user = user;
-            user.career = [NSSet setWithArray:[NSArray arrayWithObjects:ca, nil]];
+            user.career = [NSSet setWithArray:@[ca]];
         }
 
-    } else if ([[param objectForKey:@"career"] isKindOfClass:[NSArray class]]) {
+    } else if ([param[@"career"] isKindOfClass:[NSArray class]]) {
         NSMutableArray *entArray = [NSMutableArray new];
-        for (NSDictionary *t in [param objectForKey:@"career"]) {
+        for (NSDictionary *t in param[@"career"]) {
             Career *ca = [self createCareerEntity:t];
             ca.user = user;
             [entArray addObject:[self createCareerEntity:t]];
@@ -921,15 +918,15 @@ static DataStorage *dataStorage;
         user.career = [NSSet setWithArray:entArray];
     }
 
-    if ([[param objectForKey:@"languageIds"] isKindOfClass:[NSDictionary class]]) {
-        if (![[param objectForKey:@"languageIds"] isKindOfClass:[NSNull class]]) {
-            Language *lan = [self createLanguageEntity:[param objectForKey:@"language"]];
+    if ([param[@"languageIds"] isKindOfClass:[NSDictionary class]]) {
+        if (![param[@"languageIds"] isKindOfClass:[NSNull class]]) {
+            Language *lan = [self createLanguageEntity:param[@"language"]];
             lan.user = user;
-            user.language = [NSSet setWithArray:[NSArray arrayWithObjects:lan, nil]];
+            user.language = [NSSet setWithArray:@[lan]];
         }
-    } else if ([[param objectForKey:@"languageIds"] isKindOfClass:[NSArray class]]) {
+    } else if ([param[@"languageIds"] isKindOfClass:[NSArray class]]) {
         NSMutableArray *entArray = [NSMutableArray new];
-        for (NSDictionary *t in [param objectForKey:@"career"]) {
+        for (NSDictionary *t in param[@"career"]) {
             Language *lan = [self createLanguageEntity:t];
             lan.user = user;
             [entArray addObject:[self createLanguageEntity:t]];
@@ -939,9 +936,9 @@ static DataStorage *dataStorage;
 
     NSArray *cityIds;
     NSMutableString *par;
-    if (![[param objectForKey:@"favoriteCityIds"] isKindOfClass:[NSNull class]]) {
+    if (![param[@"favoriteCityIds"] isKindOfClass:[NSNull class]]) {
 
-        cityIds = [param objectForKey:@"favoriteCityIds"];
+        cityIds = param[@"favoriteCityIds"];
         par = [NSMutableString new];
         for (NSNumber *n in cityIds) {
             [par appendFormat:@"%d;", [n intValue]];
@@ -954,8 +951,8 @@ static DataStorage *dataStorage;
             user.favoriteCityIds = par;
         }
     }
-    if (![[param objectForKey:@"favoritePlaceIds"] isKindOfClass:[NSNull class]]) {
-        cityIds = [param objectForKey:@"favoritePlaceIds"];
+    if (![param[@"favoritePlaceIds"] isKindOfClass:[NSNull class]]) {
+        cityIds = param[@"favoritePlaceIds"];
         par = [NSMutableString new];
         for (NSNumber *n in cityIds) {
             [par appendFormat:@"%d;", [n intValue]];
@@ -969,14 +966,14 @@ static DataStorage *dataStorage;
         }
     }
     if (current) {
-        if (![[param objectForKey:@"filter"] isKindOfClass:[NSNull class]]) {
-            UserFilter *uf = [self createUserFilterEntity:[param objectForKey:@"filter"]];
+        if (![param[@"filter"] isKindOfClass:[NSNull class]]) {
+            UserFilter *uf = [self createUserFilterEntity:param[@"filter"]];
             uf.user = user;
             user.userfilter = uf;
         }
     }
-    if (![[param objectForKey:@"languageIds"] isKindOfClass:[NSNull class]]) {
-        cityIds = [param objectForKey:@"languageIds"];
+    if (![param[@"languageIds"] isKindOfClass:[NSNull class]]) {
+        cityIds = param[@"languageIds"];
         par = [NSMutableString new];
         for (NSNumber *n in cityIds) {
             [par appendFormat:@"%d;", [n intValue]];
@@ -990,18 +987,18 @@ static DataStorage *dataStorage;
         }
     }
     //id y = [param objectForKey:@"maxEntertainmentPrice"];
-    if (![[param objectForKey:@"maxEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
-        MaxEntertainmentPrice *mxP = [self createMaxPrice:[param objectForKey:@"maxEntertainmentPrice"]];
+    if (![param[@"maxEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
+        MaxEntertainmentPrice *mxP = [self createMaxPrice:param[@"maxEntertainmentPrice"]];
         mxP.user = user;
         user.maxentertainment = mxP;
     }
-    if (![[param objectForKey:@"minEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
-        MinEntertainmentPrice *mnP = [self createMinPrice:[param objectForKey:@"minEntertainmentPrice"]];
+    if (![param[@"minEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
+        MinEntertainmentPrice *mnP = [self createMinPrice:param[@"minEntertainmentPrice"]];
         mnP.user = user;
         user.minentertainment = mnP;
     }
-    if (![[param objectForKey:@"nameForms"] isKindOfClass:[NSNull class]]) {
-        cityIds = [param objectForKey:@"nameForms"];
+    if (![param[@"nameForms"] isKindOfClass:[NSNull class]]) {
+        cityIds = param[@"nameForms"];
         par = [NSMutableString new];
         for (NSString *n in cityIds) {
             [par appendString:n];
@@ -1021,7 +1018,7 @@ static DataStorage *dataStorage;
     [self saveContext];
 
     if (current) {
-        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:user.cityId, @"cityIds", @"", @"countryIds", @"", @"regionIds", nil];
+        NSDictionary *params = @{@"cityIds" : user.cityId, @"countryIds" : @"", @"regionIds" : @""};
         [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params :1];
     }
 
@@ -1040,17 +1037,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"isCurrentUser  = %d", 1];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -1058,7 +1052,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0)
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     else return nil;
 }
 
@@ -1074,17 +1068,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"isCurrentUser  = %d", 1];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return;
     }
 
-    if (predicateError)
-        return;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -1092,7 +1083,7 @@ static DataStorage *dataStorage;
         return;
     }
     if ([[controller fetchedObjects] count] > 0) {
-        User *current = [[controller fetchedObjects] objectAtIndex:0];
+        User *current = [controller fetchedObjects][0];
         [self.moc deleteObject:current];
         return;
     } else {
@@ -1131,7 +1122,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0)
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     else return nil;
 }
 
@@ -1140,17 +1131,17 @@ static DataStorage *dataStorage;
 
 - (void)createPoint:(NSDictionary *)param {
     UserPoint *userPoint;
-    userPoint = [self getPointForId:[param objectForKey:@"id"]];
+    userPoint = [self getPointForId:param[@"id"]];
     if (!userPoint) {
         userPoint = (UserPoint *) [NSEntityDescription insertNewObjectForEntityForName:@"UserPoint" inManagedObjectContext:self.moc];
 
-        if ([param objectForKey:@"id"])
-            userPoint.pointId = [param objectForKey:@"id"];
-        userPoint.pointCreatedAt = [param objectForKey:@"createdAt"];
-        userPoint.pointLiked = [param objectForKey:@"liked"];
-        userPoint.pointText = [param objectForKey:@"text"];
-        userPoint.pointUserId = [param objectForKey:@"userId"];
-        userPoint.pointValidTo = [param objectForKey:@"validTo"];
+        if (param[@"id"])
+            userPoint.pointId = param[@"id"];
+        userPoint.pointCreatedAt = param[@"createdAt"];
+        userPoint.pointLiked = param[@"liked"];
+        userPoint.pointText = param[@"text"];
+        userPoint.pointUserId = param[@"userId"];
+        userPoint.pointValidTo = param[@"validTo"];
         [self saveContext];
     }
 }
@@ -1167,17 +1158,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"pointUserId  = %d", [userId intValue]];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -1185,7 +1173,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0)
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     else return nil;
 
 }
@@ -1202,17 +1190,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"pointId  = %d", [id_ intValue]];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -1220,7 +1205,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0)
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     else return nil;
 }
 
@@ -1237,17 +1222,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"pointId  = %d", [pointId intValue]];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return;
     }
 
-    if (predicateError)
-        return;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -1255,8 +1237,8 @@ static DataStorage *dataStorage;
         return;
     }
     if ([[controller fetchedObjects] count] > 0) {
-        UserPoint *point = [[controller fetchedObjects] objectAtIndex:0];
-        point.pointLiked = [NSNumber numberWithBool:isLiked];
+        UserPoint *point = [controller fetchedObjects][0];
+        point.pointLiked = @(isLiked);
         [self saveContext];
         return;
     } else {
@@ -1270,18 +1252,18 @@ static DataStorage *dataStorage;
 - (void)createApplicationSettingEntity:(NSDictionary *)param {
     [self deleteAppSettings];
     AppSetting *settings = (AppSetting *) [NSEntityDescription insertNewObjectForEntityForName:@"AppSetting" inManagedObjectContext:self.moc];
-    settings.avatarMaxFileSize = [[param objectForKey:@"avatar"] objectForKey:@"maxFileSize"];
-    if ([[[param objectForKey:@"avatar"] objectForKey:@"minImageSize"] isKindOfClass:[NSArray class]]) {
-        if ([[[param objectForKey:@"avatar"] objectForKey:@"minImageSize"] count] == 2) {
-            settings.avatarMinImageWidth = [[[param objectForKey:@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:0];//minImageSize
-            settings.avatarMinImageHeight = [[[param objectForKey:@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:1];
+    settings.avatarMaxFileSize = [param[@"avatar"] objectForKey:@"maxFileSize"];
+    if ([[param[@"avatar"] objectForKey:@"minImageSize"] isKindOfClass:[NSArray class]]) {
+        if ([[param[@"avatar"] objectForKey:@"minImageSize"] count] == 2) {
+            settings.avatarMinImageWidth = [[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:0];//minImageSize
+            settings.avatarMinImageHeight = [[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:1];
         }
     }
-    settings.pointMaxPeriod = [[param objectForKey:@"point"] objectForKey:@"maxPeriod"];
-    settings.pointMinPeriod = [[param objectForKey:@"point"] objectForKey:@"minPeriod"];
-    if ([[param objectForKey:@"webSocketUrls"] isKindOfClass:[NSArray class]]) {
-        if ([[param objectForKey:@"webSocketUrls"] count] == 1)
-            settings.webSoketUrl = [[param objectForKey:@"webSocketUrls"] objectAtIndex:0];
+    settings.pointMaxPeriod = [param[@"point"] objectForKey:@"maxPeriod"];
+    settings.pointMinPeriod = [param[@"point"] objectForKey:@"minPeriod"];
+    if ([param[@"webSocketUrls"] isKindOfClass:[NSArray class]]) {
+        if ([param[@"webSocketUrls"] count] == 1)
+            settings.webSoketUrl = [param[@"webSocketUrls"] objectAtIndex:0];
     }
     //settings.webSoketUrl = [param objectForKey:@"webSocketUrls"];
     [self saveContext];
@@ -1297,7 +1279,7 @@ static DataStorage *dataStorage;
 - (AppSetting *)getAppSettings {
     NSArray *temp = [[self applicationSettingFetchResultsController] fetchedObjects];
     if (temp.count > 0)
-        return [temp objectAtIndex:0];
+        return temp[0];
     else return nil;
 }
 
@@ -1315,17 +1297,13 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"isCurrentUser != 1"];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
-    }
-
-    if (predicateError)
         return nil;
+    }
 
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
@@ -1349,17 +1327,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"point.@count == 1 AND isCurrentUser != 1"];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -1401,11 +1376,11 @@ static DataStorage *dataStorage;
 
 - (City *)createCity:(NSDictionary *)param {
     City *cityEnt = (City *) [NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:self.moc];
-    cityEnt.cityEnName = [param objectForKey:@"enName"];
-    cityEnt.cityId = [param objectForKey:@"id"];
-    cityEnt.cityName = [param objectForKey:@"name"];
-    cityEnt.cityNameForms = [param objectForKey:@"nameForms"];
-    cityEnt.cityRegionId = [param objectForKey:@"regionId"];
+    cityEnt.cityEnName = param[@"enName"];
+    cityEnt.cityId = param[@"id"];
+    cityEnt.cityName = param[@"name"];
+    cityEnt.cityNameForms = param[@"nameForms"];
+    cityEnt.cityRegionId = param[@"regionId"];
     [self saveContext];
     return cityEnt;
 
@@ -1414,11 +1389,11 @@ static DataStorage *dataStorage;
 - (City *)createTempCity:(NSDictionary *)param {
     NSEntityDescription *myCityEntity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:self.moc];
     City *cityEnt = [[City alloc] initWithEntity:myCityEntity insertIntoManagedObjectContext:nil];
-    cityEnt.cityEnName = [param objectForKey:@"enName"];
-    cityEnt.cityId = [param objectForKey:@"id"];
-    cityEnt.cityName = [param objectForKey:@"name"];
-    cityEnt.cityNameForms = [param objectForKey:@"nameForms"];
-    cityEnt.cityRegionId = [param objectForKey:@"regionId"];
+    cityEnt.cityEnName = param[@"enName"];
+    cityEnt.cityId = param[@"id"];
+    cityEnt.cityName = param[@"name"];
+    cityEnt.cityNameForms = param[@"nameForms"];
+    cityEnt.cityRegionId = param[@"regionId"];
     return cityEnt;
 }
 
@@ -1452,17 +1427,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"cityId  = %@", cityId];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -1470,7 +1442,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0) {
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     } else {
         return nil;
     }
@@ -1561,7 +1533,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0)
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     else return nil;
 }
 
@@ -1585,17 +1557,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"user.name contains[c] '%@' OR user.age == '%@' OR user.city.cityName contains[c] '%@'", queryStr, queryStr, queryStr];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -1613,13 +1582,13 @@ static DataStorage *dataStorage;
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
     LastMessage *lastMsgEnt = (LastMessage *) [NSEntityDescription insertNewObjectForEntityForName:@"LastMessage" inManagedObjectContext:self.moc];
-    lastMsgEnt.userId = [NSNumber numberWithInt:keyId];
-    lastMsgEnt.id_ = [param objectForKey:@"id"];
-    lastMsgEnt.createdAt = [df dateFromString:[param objectForKey:@"createdAt"]];
-    lastMsgEnt.destinationId = [param objectForKey:@"destinationId"];
-    lastMsgEnt.readAt = [df dateFromString:[param objectForKey:@"readAt"]];
-    lastMsgEnt.sourceId = [param objectForKey:@"sourceId"];
-    lastMsgEnt.text = [param objectForKey:@"text"];
+    lastMsgEnt.userId = @(keyId);
+    lastMsgEnt.id_ = param[@"id"];
+    lastMsgEnt.createdAt = [df dateFromString:param[@"createdAt"]];
+    lastMsgEnt.destinationId = param[@"destinationId"];
+    lastMsgEnt.readAt = [df dateFromString:param[@"readAt"]];
+    lastMsgEnt.sourceId = param[@"sourceId"];
+    lastMsgEnt.text = param[@"text"];
     [self saveContext];
     return lastMsgEnt;
 }
@@ -1652,17 +1621,14 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"user.userId  = %d", [userId intValue]];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -1670,7 +1636,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if ([[controller fetchedObjects] count] > 0)
-        return [[controller fetchedObjects] objectAtIndex:0];
+        return [controller fetchedObjects][0];
     else return nil;
 }
 
@@ -1691,12 +1657,12 @@ static DataStorage *dataStorage;
     [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
     Message *msgEnt = (Message *) [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:self.moc];
     msgEnt.bindedUserId = userId;
-    msgEnt.id_ = [param objectForKey:@"id"];
-    msgEnt.createdAt = [df dateFromString:[param objectForKey:@"createdAt"]];
-    msgEnt.destinationId = [param objectForKey:@"destinationId"];
-    msgEnt.readAt = [df dateFromString:[param objectForKey:@"readAt"]];
-    msgEnt.sourceId = [param objectForKey:@"sourceId"];
-    msgEnt.text = [param objectForKey:@"text"];
+    msgEnt.id_ = param[@"id"];
+    msgEnt.createdAt = [df dateFromString:param[@"createdAt"]];
+    msgEnt.destinationId = param[@"destinationId"];
+    msgEnt.readAt = [df dateFromString:param[@"readAt"]];
+    msgEnt.sourceId = param[@"sourceId"];
+    msgEnt.text = param[@"text"];
     [self saveContext];
     return msgEnt;
 }
