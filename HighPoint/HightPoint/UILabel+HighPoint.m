@@ -98,7 +98,7 @@
 
 
 - (void) hp_tuneForDeletePointInfo {
-    self.font = [UIFont fontWithName: @"FuturaPT-Light" size:16.0f];
+    self.font = [UIFont fontWithName: @"FuturaPT-Book" size:16.0f];
     self.textColor = [UIColor colorWithRed: 255.0 / 255.0
                                      green: 102.0 / 255.0
                                       blue: 112.0 / 255.0

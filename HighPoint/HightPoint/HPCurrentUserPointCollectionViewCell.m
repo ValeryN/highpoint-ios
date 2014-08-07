@@ -10,13 +10,21 @@
 #import "UILabel+HighPoint.h"
 #import "UIButton+HighPoint.h"
 #import "UITextView+HightPoint.h"
+#import "UIDevice+HighPoint.h"
 
 #define POINT_LENGTH 150
+#define CONSTRAINT_AVATAR_TOP 10.0
+#define CONSTRAINT_POINT_TOP 180.0
+#define CONSTRAINT_POINT_INFO_TOP 280.0
+#define CONSTRAINT_BTNS_BOTTOM_TOP 330.0
+#define CONSTRAINT_VIEW_BOTTOM_TOP 330.0
+
 
 
 @implementation HPCurrentUserPointCollectionViewCell
 
 - (void) configureCell {
+    [self fixUserPointConstraint];
     [self.pointSettingsView setHidden:YES];
     [self setImageViewBgTap];
     self.isUp = NO;
@@ -79,6 +87,48 @@
     }
 }
 
+
+#pragma mark - constraint
+- (void) fixUserPointConstraint
+{
+    if (![UIDevice hp_isWideScreen])
+    {
+        NSArray* cons = self.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.avatarImageView))
+                consIter.constant = CONSTRAINT_AVATAR_TOP;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.pointTextView))
+                consIter.constant = CONSTRAINT_POINT_TOP;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.pointInfoLabel))
+                consIter.constant = CONSTRAINT_POINT_INFO_TOP;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.publishBtn))
+                consIter.constant = CONSTRAINT_BTNS_BOTTOM_TOP;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.deleteBtn))
+                consIter.constant = CONSTRAINT_BTNS_BOTTOM_TOP;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.deletePointView))
+                consIter.constant = CONSTRAINT_VIEW_BOTTOM_TOP;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.pointSettingsView))
+                consIter.constant = CONSTRAINT_VIEW_BOTTOM_TOP;
+        }
+    }
+}
+
+
+
 #pragma mark - animation
 - (void) editPointUp {
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
@@ -122,8 +172,6 @@
     if ([self.delegate respondsToSelector:@selector(sharePointTap)]) {
         [self.delegate sharePointTap];
     }
-    self.pointTextView.userInteractionEnabled = NO;
-    self.avatarImageView.userInteractionEnabled = NO;
 }
 
 

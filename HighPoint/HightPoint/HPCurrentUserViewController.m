@@ -207,7 +207,12 @@
 #pragma mark - user info
 
 - (IBAction)bottomTap:(id)sender {
-    [self showCurrentUserProfile];
+    if (self.pageController.currentPage == 0) {
+        HPPointLikesViewController* plController = [[HPPointLikesViewController alloc] initWithNibName: @"HPPointLikesViewController" bundle: nil];
+        [self.navigationController pushViewController:plController animated:YES];
+    } else {
+        [self showCurrentUserProfile];
+    }
 }
 - (void) showCurrentUserProfile {
     /*
@@ -297,12 +302,14 @@
 
 
 - (void) startDeletePoint{
+    self.bottomView.hidden = YES;
     self.currentUserCollectionView.scrollEnabled = NO;
     self.closeBtn.hidden = YES;
     self.settingsBtn.hidden = YES;
     self.pageController.hidden = YES;
 }
 - (void) endDeletePoint{
+    self.bottomView.hidden = NO;
     self.currentUserCollectionView.scrollEnabled = YES;
     self.closeBtn.hidden = NO;
     self.settingsBtn.hidden = NO;
@@ -350,6 +357,7 @@
 - (void) sharePointTap {
     NSLog(@"publish tap");
     [navBar removeFromSuperview];
+    self.bottomView.hidden = NO;
     [cellPoint endEditing:YES];
     [cellPoint editPointDown];
     [cellPoint.pointSettingsView setHidden:YES];
