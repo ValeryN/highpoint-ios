@@ -122,7 +122,7 @@ static HPBaseNetworkManager *networkManager;
                         
                     case 0: {
                         for(NSDictionary *dict in cities) {
-                            [[DataStorage sharedDataStorage] createCity:dict];
+                            [[DataStorage sharedDataStorage] createAndSaveCity:dict];
                         }
 
                         NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
@@ -130,7 +130,7 @@ static HPBaseNetworkManager *networkManager;
                             NSLog(@"city id = %@", ((User*)[users objectAtIndex:i]).cityId);
                             City * city = [[DataStorage sharedDataStorage]  getCityById:((User*)[users objectAtIndex:i]).cityId];
                             NSLog(@"city name = %@", city.cityName);
-                            [[DataStorage sharedDataStorage] setCityToUser:((User*)[users objectAtIndex:i]).userId :city];
+                            [[DataStorage sharedDataStorage] setAndSaveCityToUser:((User *) [users objectAtIndex:i]).userId :city];
                         }
                         [[DataStorage sharedDataStorage] saveContext];
                         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
@@ -141,12 +141,12 @@ static HPBaseNetworkManager *networkManager;
                         
                     case 1: {
                         for(NSDictionary *dict in cities) {
-                            [[DataStorage sharedDataStorage] createCity:dict];
+                            [[DataStorage sharedDataStorage] createAndSaveCity:dict];
                         }
 
                         User *current = [[DataStorage sharedDataStorage] getCurrentUser];
                         City * city = [[DataStorage sharedDataStorage]  getCityById:current.cityId];
-                        [[DataStorage sharedDataStorage] setCityToUser:current.userId :city];
+                        [[DataStorage sharedDataStorage] setAndSaveCityToUser:current.userId :city];
                         [[DataStorage sharedDataStorage] saveContext];
                         break;
                     }
@@ -154,10 +154,10 @@ static HPBaseNetworkManager *networkManager;
                     case 2: {
                         City *city;
                         for(NSDictionary *dict in cities) {
-                            city = [[DataStorage sharedDataStorage] createCity:dict];
+                            city = [[DataStorage sharedDataStorage] createAndSaveCity:dict];
                         }
                         if (city) {
-                            [[DataStorage sharedDataStorage] setCityToUserFilter:city];
+                            [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:city];
                             [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:nil];
                             [[DataStorage sharedDataStorage] saveContext];
                         }
@@ -201,14 +201,14 @@ static HPBaseNetworkManager *networkManager;
                 //[[DataStorage sharedDataStorage] createUserEntity:jsonDict];
                 NSArray *poi = [[jsonDict objectForKey:@"data"] objectForKey:@"points"];
                 for(NSDictionary *dict in poi) {
-                    [[DataStorage sharedDataStorage] createPoint:dict];
+                    [[DataStorage sharedDataStorage] createAndSavePoint:dict];
                 }
                 NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 for(NSString *key in usr) {
                     NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[[usr objectForKey:key] objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
                     
                    // [self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createUserEntity:[usr objectForKey:key] isCurrent:NO];
+                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:[usr objectForKey:key] isCurrent:NO];
                 }
             }
             else NSLog(@"Error, no valid data");
@@ -245,7 +245,7 @@ static HPBaseNetworkManager *networkManager;
                 for(NSDictionary *dict in usr) {
                     //NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
                     //[self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO];
+                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict isCurrent:NO];
                 }
                 NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
                 NSString *ids = @"";
@@ -288,7 +288,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict)
-                [[DataStorage sharedDataStorage] createUserEntity: [[jsonDict objectForKey:@"data"] objectForKey:@"user"] isCurrent:YES];
+                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] isCurrent:YES];
             else NSLog(@"Error, no valid data");
             
         }
@@ -366,7 +366,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict)
-                [[DataStorage sharedDataStorage] createApplicationSettingEntity:jsonDict];
+                [[DataStorage sharedDataStorage] createAndSaveApplicationSettingEntity:jsonDict];
             else NSLog(@"Error, no valid data");
             
         }
@@ -481,7 +481,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"educationItem"]) {
-                    [[DataStorage sharedDataStorage] addLEducationEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"educationItem"]];
+                    [[DataStorage sharedDataStorage] addAndSaveEducationEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"educationItem"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -518,7 +518,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
-                    [[DataStorage sharedDataStorage] deleteEducationEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
+                    [[DataStorage sharedDataStorage] deleteAndSaveEducationEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -630,7 +630,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"place"]) {
-                    [[DataStorage sharedDataStorage] addLPlaceEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"place"]];
+                    [[DataStorage sharedDataStorage] addAndSavePlaceEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"place"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -667,7 +667,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
-                    [[DataStorage sharedDataStorage] deletePlaceEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
+                    [[DataStorage sharedDataStorage] deleteAndSavePlaceEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -743,7 +743,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"language"]) {
-                    [[DataStorage sharedDataStorage] addLanguageEntityForUser:[[jsonDict objectForKey:@"data"]objectForKey:@"language"]];
+                    [[DataStorage sharedDataStorage] addAndSaveLanguageEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"language"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -781,7 +781,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
-                    [[DataStorage sharedDataStorage] deleteLanguageEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
+                    [[DataStorage sharedDataStorage] deleteAndSaveLanguageEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -940,7 +940,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"careerItem"]) {
-                    [[DataStorage sharedDataStorage] addCareerEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"careerItem"]];
+                    [[DataStorage sharedDataStorage] addAndSaveCareerEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"careerItem"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -976,7 +976,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
-                    [[DataStorage sharedDataStorage] deleteCareerEntityFromUser:[[jsonDict objectForKey:@"data"]objectForKey:@"ids"]];
+                    [[DataStorage sharedDataStorage] deleteAndSaveCareerEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1016,7 +1016,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"success"]) {
-                    [[DataStorage sharedDataStorage] setPointLiked:pointId :YES];
+                    [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId :YES];
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
                 }
             } else {
@@ -1053,7 +1053,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"success"]) {
-                    [[DataStorage sharedDataStorage] setPointLiked:pointId :NO];
+                    [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId :NO];
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
                 }
             } else {
@@ -1095,15 +1095,15 @@ static HPBaseNetworkManager *networkManager;
                 NSDictionary *lastMsgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
                 
                 for (int i = 0; i < users.count; i++) {
-                    User *user = [[DataStorage sharedDataStorage] createUserEntity:[users objectAtIndex:i] isCurrent:NO];
+                    User *user = [[DataStorage sharedDataStorage] createAndSaveUserEntity:[users objectAtIndex:i] isCurrent:NO];
                     LastMessage * lastMsg;
                     for (id key in [lastMsgs allKeys]) {
                         if ([user.userId intValue] == [key intValue]) {
-                            lastMsg = [[DataStorage sharedDataStorage] createLastMessage:[lastMsgs objectForKey:key]: [key intValue]];
+                            lastMsg = [[DataStorage sharedDataStorage] createAndSaveLastMessage:[lastMsgs objectForKey:key] :[key intValue]];
                             break;
                         }
                     }
-                    [[DataStorage sharedDataStorage] createContactEntity:user :lastMsg];
+                    [[DataStorage sharedDataStorage] createAndSaveContactEntity:user :lastMsg];
                 }
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
@@ -1139,9 +1139,9 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"id"]) {
-                    [[DataStorage sharedDataStorage] deleteContact:contactId];
+                    [[DataStorage sharedDataStorage] deleteAndSaveContact:contactId];
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
-                    [[DataStorage sharedDataStorage] deleteChatByUserId:contactId];
+                    [[DataStorage sharedDataStorage] deleteAndSaveChatByUserId:contactId];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1179,7 +1179,7 @@ static HPBaseNetworkManager *networkManager;
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"messages"]) {
                     User *user = [[DataStorage sharedDataStorage] getUserForId:userId];
-                    [[DataStorage sharedDataStorage] createChatEntity: user :[[jsonDict objectForKey:@"data"] objectForKey:@"messages"]];
+                    [[DataStorage sharedDataStorage] createAndSaveChatEntity:user :[[jsonDict objectForKey:@"data"] objectForKey:@"messages"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1269,7 +1269,7 @@ static HPBaseNetworkManager *networkManager;
         if(jsonDict) {
             [[DataStorage sharedDataStorage] deleteAllCities];
             [[DataStorage sharedDataStorage] deleteCurrentUser];
-            [[DataStorage sharedDataStorage] createUserEntity: [jsonDict objectForKey:@"user"] isCurrent:YES];
+            [[DataStorage sharedDataStorage] createAndSaveUserEntity:[jsonDict objectForKey:@"user"] isCurrent:YES];
             [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCurrentUserData object:self userInfo:nil];
         } else {
             NSLog(@"Error, no valid data");

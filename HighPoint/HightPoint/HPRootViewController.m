@@ -169,7 +169,7 @@
 -(void) updateUserFilterCities :(NSNotification *) notification {
     NSArray *cities = [notification.userInfo objectForKey:@"cities"];
     for (City *city in cities) {
-        [[DataStorage sharedDataStorage] setCityToUserFilter:city];
+        [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:city];
     }
 }
 

@@ -71,7 +71,7 @@ static DataStorage *dataStorage;
 #pragma mark -
 #pragma mark user filter
 
-- (UserFilter *)createUserFilterEntity:(NSDictionary *)param {
+- (UserFilter *)createAndSaveUserFilterEntity:(NSDictionary *)param {
     UserFilter *uf = [self getUserFilter];
     if (!uf) {
         uf = (UserFilter *) [NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:self.moc];
@@ -102,7 +102,7 @@ static DataStorage *dataStorage;
             cityIds = [cityIds substringToIndex:[cityIds length] - 1];
         }
     } else {
-        [[DataStorage sharedDataStorage] setCityToUserFilter:nil];
+        [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:nil];
         [self saveContext];
     }
     uf.gender = [NSSet setWithArray:arr];
@@ -113,7 +113,7 @@ static DataStorage *dataStorage;
     return uf;
 }
 
-- (void)setCityToUserFilter:(City *)city {
+- (void)setAndSaveCityToUserFilter:(City *)city {
     NSArray *fetchedObjects;
     NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"UserFilter" inManagedObjectContext:self.moc];
@@ -137,7 +137,7 @@ static DataStorage *dataStorage;
 }
 
 
-- (void)removeCitiesFromUserFilter {
+- (void)removeAndSaveCitiesFromUserFilter {
     NSArray *fetchedObjects;
     NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"UserFilter" inManagedObjectContext:self.moc];
@@ -170,7 +170,7 @@ static DataStorage *dataStorage;
     }
 }
 
-- (void)deleteUserFilter {
+- (void)removeAndSaveUserFilter {
     NSFetchRequest *allFilters = [[NSFetchRequest alloc] init];
     [allFilters setEntity:[NSEntityDescription entityForName:@"UserFilter" inManagedObjectContext:self.moc]];
     [allFilters setIncludesPropertyValues:NO]; //only fetch the managedObjectID
@@ -197,7 +197,7 @@ static DataStorage *dataStorage;
 }
 
 
-- (void)addLEducationEntityForUser:(NSDictionary *)param {
+- (void)addAndSaveEducationEntityForUser:(NSDictionary *)param {
     Education *ed = [self createEducationEntity:param];
     User *currentUser = [self getCurrentUser];
 
@@ -212,7 +212,7 @@ static DataStorage *dataStorage;
 }
 
 
-- (void)deleteEducationEntityFromUser:(NSArray *)ids {
+- (void)deleteAndSaveEducationEntityFromUser:(NSArray *)ids {
     User *currentUser = [self getCurrentUser];
     NSMutableArray *educationItems = [[currentUser.education allObjects] mutableCopy];
     NSMutableArray *discardedItems = [NSMutableArray array];
@@ -239,7 +239,7 @@ static DataStorage *dataStorage;
     return lan;
 }
 
-- (void)addLanguageEntityForUser:(NSDictionary *)param {
+- (void)addAndSaveLanguageEntityForUser:(NSDictionary *)param {
     Language *lan = [self createLanguageEntity:param];
     User *currentUser = [self getCurrentUser];
 
@@ -254,7 +254,7 @@ static DataStorage *dataStorage;
 }
 
 
-- (void)deleteLanguageEntityFromUser:(NSArray *)ids {
+- (void)deleteAndSaveLanguageEntityFromUser:(NSArray *)ids {
     User *currentUser = [self getCurrentUser];
     NSMutableArray *languageItems = [[currentUser.language allObjects] mutableCopy];
     NSMutableArray *discardedItems = [NSMutableArray array];
@@ -279,7 +279,7 @@ static DataStorage *dataStorage;
     return lanEnt;
 }
 
-- (Language *)insertLanguageObjectToContext:(Language *)language {
+- (Language *)insertAndSaveLanguageObjectToContext:(Language *)language {
     Language *lanEnt = [self getLanguageById:language.id_];
     if (!lanEnt) {
         [self.moc insertObject:language];
@@ -360,7 +360,7 @@ static DataStorage *dataStorage;
     return schEnt;
 }
 
-- (School *)insertSchoolObjectToContext:(School *)school {
+- (School *)insertAndSaveSchoolObjectToContext:(School *)school {
     School *schEnt = [self getSchoolById:school.id_];
     if (!schEnt) {
         [self.moc insertObject:school];
@@ -441,7 +441,7 @@ static DataStorage *dataStorage;
     return spEnt;
 }
 
-- (Speciality *)insertSpecialityObjectToContext:(Speciality *)speciality {
+- (Speciality *)insertAndSaveSpecialityObjectToContext:(Speciality *)speciality {
     Speciality *spEnt = [self getSpecialityById:speciality.id_];
     if (!spEnt) {
         [self.moc insertObject:speciality];
@@ -515,7 +515,7 @@ static DataStorage *dataStorage;
     return pl;
 }
 
-- (void)addLPlaceEntityForUser:(NSDictionary *)param {
+- (void)addAndSavePlaceEntityForUser:(NSDictionary *)param {
     Place *pl = [self createPlaceEntity:param];
     User *currentUser = [self getCurrentUser];
 
@@ -529,7 +529,7 @@ static DataStorage *dataStorage;
     [self saveContext];
 }
 
-- (void)deletePlaceEntityFromUser:(NSArray *)ids {
+- (void)deleteAndSavePlaceEntityFromUser:(NSArray *)ids {
     User *currentUser = [self getCurrentUser];
     NSMutableArray *placesItems = [[currentUser.place allObjects] mutableCopy];
     NSMutableArray *discardedItems = [NSMutableArray array];
@@ -555,7 +555,7 @@ static DataStorage *dataStorage;
     return placeEnt;
 }
 
-- (Place *)insertPlaceObjectToContext:(Place *)place {
+- (Place *)insertAndSavePlaceObjectToContext:(Place *)place {
     Place *placeEnt = [self getPlaceById:place.id_];
     if (!placeEnt) {
         [self.moc insertObject:place];
@@ -633,7 +633,7 @@ static DataStorage *dataStorage;
 }
 
 
-- (void)addCareerEntityForUser:(NSDictionary *)param {
+- (void)addAndSaveCareerEntityForUser:(NSDictionary *)param {
     Career *ca = [self createCareerEntity:param];
     User *currentUser = [self getCurrentUser];
     NSMutableArray *careerItems = [[currentUser.career allObjects] mutableCopy];
@@ -646,7 +646,7 @@ static DataStorage *dataStorage;
     [self saveContext];
 }
 
-- (void)deleteCareerEntityFromUser:(NSArray *)ids {
+- (void)deleteAndSaveCareerEntityFromUser:(NSArray *)ids {
     User *currentUser = [self getCurrentUser];
     NSMutableArray *careerItems = [[currentUser.career allObjects] mutableCopy];
     NSMutableArray *discardedItems = [NSMutableArray array];
@@ -666,7 +666,7 @@ static DataStorage *dataStorage;
 
 #pragma mark - career-post
 
-- (CareerPost *)createCareerPost:(NSDictionary *)param {
+- (CareerPost *)createAndSaveCareerPost:(NSDictionary *)param {
     CareerPost *postEnt = (CareerPost *) [NSEntityDescription insertNewObjectForEntityForName:@"CareerPost" inManagedObjectContext:self.moc];
     postEnt.name = param[@"name"];
     postEnt.id_ = param[@"id"];
@@ -682,7 +682,7 @@ static DataStorage *dataStorage;
     return postEnt;
 }
 
-- (CareerPost *)insertCareerPostObjectToContext:(CareerPost *)cPost {
+- (CareerPost *)insertAndSaveCareerPostObjectToContext:(CareerPost *)cPost {
     CareerPost *postEnt = [self getCareerPostById:cPost.id_];
     if (!postEnt) {
         [self.moc insertObject:cPost];
@@ -749,7 +749,7 @@ static DataStorage *dataStorage;
 
 #pragma mark - company
 
-- (Company *)createCompany:(NSDictionary *)param {
+- (Company *)createAndSaveCompany:(NSDictionary *)param {
     Company *companyEnt = (Company *) [NSEntityDescription insertNewObjectForEntityForName:@"Company" inManagedObjectContext:self.moc];
     companyEnt.name = param[@"name"];
     companyEnt.id_ = param[@"id"];
@@ -765,7 +765,7 @@ static DataStorage *dataStorage;
     return companyEnt;
 }
 
-- (Company *)insertCompanyObjectToContext:(Company *)company {
+- (Company *)insertAndSaveCompanyObjectToContext:(Company *)company {
     Company *companyEnt = [self getCompanyById:company.id_];
     if (!companyEnt) {
         [self.moc insertObject:company];
@@ -851,7 +851,7 @@ static DataStorage *dataStorage;
 #pragma mark -
 #pragma mark current user entity
 
-- (User *)createUserEntity:(NSDictionary *)param isCurrent:(BOOL)current {
+- (User *)createAndSaveUserEntity:(NSDictionary *)param isCurrent:(BOOL)current {
     User *user;
     user = [self getUserForId:param[@"id"]];
     if (!user) {
@@ -965,7 +965,7 @@ static DataStorage *dataStorage;
     }
     if (current) {
         if (![param[@"filter"] isKindOfClass:[NSNull class]]) {
-            UserFilter *uf = [self createUserFilterEntity:param[@"filter"]];
+            UserFilter *uf = [self createAndSaveUserFilterEntity:param[@"filter"]];
             uf.user = user;
             user.userfilter = uf;
         }
@@ -1125,7 +1125,7 @@ static DataStorage *dataStorage;
 #pragma mark -
 #pragma mark pointEntity
 
-- (void)createPoint:(NSDictionary *)param {
+- (void)createAndSavePoint:(NSDictionary *)param {
     UserPoint *userPoint;
     userPoint = [self getPointForId:param[@"id"]];
     if (!userPoint) {
@@ -1206,7 +1206,7 @@ static DataStorage *dataStorage;
 }
 
 
-- (void)setPointLiked:(NSNumber *)pointId :(BOOL)isLiked {
+- (void)setAndSavePointLiked:(NSNumber *)pointId :(BOOL)isLiked {
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"UserPoint" inManagedObjectContext:self.moc];
     [request setEntity:entity];
@@ -1245,7 +1245,7 @@ static DataStorage *dataStorage;
 #pragma mark -
 #pragma mark application settings entity
 
-- (void)createApplicationSettingEntity:(NSDictionary *)param {
+- (void)createAndSaveApplicationSettingEntity:(NSDictionary *)param {
     [self deleteAppSettings];
     AppSetting *settings = (AppSetting *) [NSEntityDescription insertNewObjectForEntityForName:@"AppSetting" inManagedObjectContext:self.moc];
     settings.avatarMaxFileSize = [param[@"avatar"] objectForKey:@"maxFileSize"];
@@ -1358,7 +1358,7 @@ static DataStorage *dataStorage;
     return controller;
 }
 
-- (void)setCityToUser:(NSNumber *)userId :(City *)city {
+- (void)setAndSaveCityToUser:(NSNumber *)userId :(City *)city {
     User *user = [self getUserForId:userId];
     if (user) {
         user.city = city;
@@ -1370,7 +1370,7 @@ static DataStorage *dataStorage;
 
 #pragma mark - city
 
-- (City *)createCity:(NSDictionary *)param {
+- (City *)createAndSaveCity:(NSDictionary *)param {
     City *cityEnt = (City *) [NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:self.moc];
     cityEnt.cityEnName = param[@"enName"];
     cityEnt.cityId = param[@"id"];
@@ -1393,7 +1393,7 @@ static DataStorage *dataStorage;
     return cityEnt;
 }
 
-- (City *)insertCityObjectToContext:(City *)city {
+- (City *)insertAndSaveCityObjectToContext:(City *)city {
     City *cityEnt = [self getCityById:city.cityId];
     if (!cityEnt) {
         [self.moc insertObject:city];
@@ -1460,7 +1460,7 @@ static DataStorage *dataStorage;
 #pragma mark - contacts
 
 
-- (Contact *)createContactEntity:(User *)user :(LastMessage *)lastMessage {
+- (Contact *)createAndSaveContactEntity:(User *)user :(LastMessage *)lastMessage {
     Contact *contactEnt = (Contact *) [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:self.moc];
     contactEnt.lastmessage = lastMessage;
     contactEnt.user = user;
@@ -1531,7 +1531,7 @@ static DataStorage *dataStorage;
     else return nil;
 }
 
-- (void)deleteContact:(NSNumber *)contactId {
+- (void)deleteAndSaveContact:(NSNumber *)contactId {
     Contact *contact = [self getContactById:contactId];
     if (contact) {
         [self.moc deleteObject:contact];
@@ -1572,7 +1572,7 @@ static DataStorage *dataStorage;
 
 #pragma mark - last message
 
-- (LastMessage *)createLastMessage:(NSDictionary *)param :(int)keyId {
+- (LastMessage *)createAndSaveLastMessage:(NSDictionary *)param :(int)keyId {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
     LastMessage *lastMsgEnt = (LastMessage *) [NSEntityDescription insertNewObjectForEntityForName:@"LastMessage" inManagedObjectContext:self.moc];
@@ -1589,12 +1589,12 @@ static DataStorage *dataStorage;
 
 #pragma mark - chat
 
-- (Chat *)createChatEntity:(User *)user :(NSArray *)messages {
+- (Chat *)createAndSaveChatEntity:(User *)user :(NSArray *)messages {
     Chat *chatEnt = (Chat *) [NSEntityDescription insertNewObjectForEntityForName:@"Chat" inManagedObjectContext:self.moc];
     chatEnt.user = user;
     NSMutableArray *entArray = [NSMutableArray new];
     for (NSDictionary *t in messages) {
-        Message *msg = [self createMessage:t :user.userId];
+        Message *msg = [self createAndSaveMessage:t :user.userId];
         msg.chat = chatEnt;
         [entArray addObject:msg];
     }
@@ -1635,7 +1635,7 @@ static DataStorage *dataStorage;
 }
 
 
-- (void)deleteChatByUserId:(NSNumber *)userId {
+- (void)deleteAndSaveChatByUserId:(NSNumber *)userId {
     Chat *chat = [self getChatByUserId:userId];
     if (chat) {
         [self.moc deleteObject:chat];
@@ -1645,7 +1645,7 @@ static DataStorage *dataStorage;
 
 #pragma mark - messages
 
-- (Message *)createMessage:(NSDictionary *)param :(NSNumber *)userId {
+- (Message *)createAndSaveMessage:(NSDictionary *)param :(NSNumber *)userId {
 
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
