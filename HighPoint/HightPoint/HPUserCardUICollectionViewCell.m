@@ -41,11 +41,9 @@
     if (user.point) {
         self.heartBtn.hidden = NO;
         pointTextView.hidden = NO;
-        self.pointBtn.hidden = NO;
     } else {
         self.heartBtn.hidden = YES;
         pointTextView.hidden = YES;
-        self.pointBtn.hidden = YES;
     }
     CGSize pointTVSize = [self getContentSize:pointTextView];
     CGRect frame = pointTextView.frame;
@@ -71,10 +69,6 @@
         //like request
           [[HPBaseNetworkManager sharedNetworkManager] makePointLikeRequest:currUser.point.pointId];
      }
-}
-
-- (IBAction)pointBtnTap:(id)sender {
-    NSLog(@"point btn tap");
 }
 
 #pragma mark - textview
