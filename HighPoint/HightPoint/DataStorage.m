@@ -390,17 +390,15 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"id_  = %@", schoolId];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
+
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -1104,17 +1102,15 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"userId  = %d", [id_ intValue]];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
+
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
@@ -1515,17 +1511,15 @@ static DataStorage *dataStorage;
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"user.userId  = %d", [contactId intValue]];
 
-    BOOL predicateError = NO;
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
     }
     @catch (NSException *exception) {
-        predicateError = YES;
+        return nil;
     }
 
-    if (predicateError)
-        return nil;
+
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
