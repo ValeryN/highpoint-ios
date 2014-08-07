@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPSlider.h"
 
 @protocol HPCurrentUserPointCollectionViewCellDelegate <NSObject>
 @required
@@ -33,7 +34,7 @@
 
 //point settings
 @property (weak, nonatomic) IBOutlet UIView *pointSettingsView;
-@property (weak, nonatomic) IBOutlet UISlider *pointTimeSlider;
+@property (weak, nonatomic) IBOutlet HPSlider *pointTimeSlider;
 @property (weak, nonatomic) IBOutlet UILabel *pointTimeInfoLabel;
 @property (weak, nonatomic) IBOutlet UIButton *publishSettBtn;
 

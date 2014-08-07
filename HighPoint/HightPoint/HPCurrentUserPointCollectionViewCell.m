@@ -11,7 +11,6 @@
 #import "UIButton+HighPoint.h"
 #import "UITextView+HightPoint.h"
 
-
 #define POINT_LENGTH 150
 
 
@@ -30,7 +29,8 @@
     self.pointTextView.delegate = self;
     self.pointTextView.text = NSLocalizedString(@"YOUR_EMPTY_POINT", nil);
     [self.pointTextView hp_tuneForUserPointEmpty];
-    
+    [self.pointTimeSlider setValue:6 animated:YES];
+    [self.pointTimeSlider initOnLoad];
     self.pointTimeInfoLabel.text = NSLocalizedString(@"SET_TIME_FOR_YOUR_POINT", nil);
     [self.pointTimeInfoLabel hp_tuneForCurrentPointInfo];
     [self.publishSettBtn hp_tuneFontForGreenButton];
@@ -120,6 +120,9 @@
         [self.delegate sharePointTap];
     }
 }
+
+
+
 
 
 @end

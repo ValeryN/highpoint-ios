@@ -53,7 +53,7 @@
                         <rect key="frame" x="1" y="408" width="320" height="215"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6" minValue="0.0" maxValue="12" translatesAutoresizingMaskIntoConstraints="NO" id="MLS-E9-Pf0">
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6" minValue="0.0" maxValue="12" translatesAutoresizingMaskIntoConstraints="NO" id="MLS-E9-Pf0" customClass="HPSlider">
                                 <rect key="frame" x="30" y="53" width="260" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -94,7 +94,7 @@
                 <outlet property="pointSettingsView" destination="1mX-xx-3Qa" id="bnE-X9-HgN"/>
                 <outlet property="pointTextView" destination="TfR-Za-la0" id="9Uf-2r-dI1"/>
                 <outlet property="pointTimeInfoLabel" destination="tXV-93-33x" id="8He-oJ-Gxu"/>
-                <outlet property="pointTimeSlider" destination="MLS-E9-Pf0" id="e4U-ik-A71"/>
+                <outlet property="pointTimeSlider" destination="MLS-E9-Pf0" id="1Mx-gi-WbQ"/>
                 <outlet property="publishBtn" destination="RoZ-6z-yzU" id="Dwb-ia-e4Z"/>
                 <outlet property="publishSettBtn" destination="nkk-TC-7q8" id="mQs-OQ-nWw"/>
                 <outlet property="yourPointLabel" destination="HfE-sU-Wr3" id="w8s-rl-PeE"/>

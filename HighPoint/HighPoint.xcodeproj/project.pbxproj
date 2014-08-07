@@ -287,6 +287,7 @@
 		CDA36E6819878FF20073BE45 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA36E6719878FF20073BE45 /* Contact.m */; };
 		CDA36E6B19878FF20073BE45 /* LastMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA36E6A19878FF20073BE45 /* LastMessage.m */; };
 		CDA3A6471992017B008F9F86 /* point_info_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA3A6461992017B008F9F86 /* point_info_new.png */; };
+		CDA3A64A1992117D008F9F86 /* HPSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA3A6491992117D008F9F86 /* HPSlider.m */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 		CDC009931990C5ED00B3FF75 /* curruser_point_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDC009921990C5ED00B3FF75 /* curruser_point_new.png */; };
@@ -713,6 +714,8 @@
 		CDA36E6919878FF20073BE45 /* LastMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastMessage.h; sourceTree = "<group>"; };
 		CDA36E6A19878FF20073BE45 /* LastMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastMessage.m; sourceTree = "<group>"; };
 		CDA3A6461992017B008F9F86 /* point_info_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = point_info_new.png; sourceTree = "<group>"; };
+		CDA3A6481992117D008F9F86 /* HPSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSlider.h; sourceTree = "<group>"; };
+		CDA3A6491992117D008F9F86 /* HPSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSlider.m; sourceTree = "<group>"; };
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
@@ -1446,6 +1449,8 @@
 				3B9C74951990B495006ADAE7 /* HPBubbleTextField.m */,
 				CD08B82E198B7E200006AF4A /* HPUICollectionViewFlowLayout.h */,
 				CD08B82F198B7E200006AF4A /* HPUICollectionViewFlowLayout.m */,
+				CDA3A6481992117D008F9F86 /* HPSlider.h */,
+				CDA3A6491992117D008F9F86 /* HPSlider.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -1948,6 +1953,7 @@
 				3BA3840B1924D58A00EFC749 /* CrossDissolveAnimation.m in Sources */,
 				3B49DE211934CEF000C3EF1E /* HPSlideUpAnimation.m in Sources */,
 				3B9C74961990B495006ADAE7 /* HPBubbleTextField.m in Sources */,
+				CDA3A64A1992117D008F9F86 /* HPSlider.m in Sources */,
 				3BE9DE17197FD09000AFA641 /* RACollectionViewTripletLayout.m in Sources */,
 				CD55FD2619792C30003EE9E9 /* Education.m in Sources */,
 				3B0B9202197D201F00910475 /* HPUserInfoFirstRowTableViewCell.m in Sources */,
