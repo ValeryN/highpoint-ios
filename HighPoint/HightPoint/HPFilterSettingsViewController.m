@@ -12,8 +12,13 @@
 #import "DataStorage.h"
 #import "HPBaseNetworkManager.h"
 #import "Gender.h"
-#import "HPTownTableViewCell.h"
+#import "HPCityTableViewCell.h"
 #import "NotificationsConstants.h"
+#import "UIDevice+HighPoint.h"
+
+
+#define CONSTRAINT_TOP_FOR_CLOSE_BTN 434
+
 
 @interface HPFilterSettingsViewController ()
 
@@ -39,35 +44,28 @@
     self.womenSw.layer.cornerRadius = 16.0;
     self.menSw.layer.cornerRadius = 16.0;
     
-    [self.profileButton setBackgroundImage:[UIImage imageNamed:@"Profile.png"] forState:UIControlStateNormal];
-    [self.profileButton setBackgroundImage:[UIImage imageNamed:@"Profile Tap.png"] forState:UIControlStateHighlighted];
-    
     //[self.profileButton addTarget:self action:@selector(profileButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
     
     self.notificationView = [Utils getNotificationViewForText:@"8"];
-    [self.messageButton addSubview:self.notificationView];
-    
-    [self.messageButton setBackgroundImage:[UIImage imageNamed:@"Bubble.png"] forState:UIControlStateNormal];
-    [self.messageButton setBackgroundImage:[UIImage imageNamed:@"Bubble Tap.png"] forState:UIControlStateHighlighted];
     
     [self.closeButton setBackgroundImage:[UIImage imageNamed:@"Close.png"] forState:UIControlStateNormal];
     [self.closeButton setBackgroundImage:[UIImage imageNamed:@"Close Tap.png"] forState:UIControlStateHighlighted];
     
     self.filterLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0f];
-    self.filterLabel.textColor = [UIColor whiteColor];
+    self.filterLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
     
     self.menLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0f];
-    self.menLabel.textColor = [UIColor whiteColor];
+    self.menLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
     self.womenLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0f];
-    self.womenLabel.textColor = [UIColor whiteColor];
+    self.womenLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
     self.oldLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0f];
-    self.oldLabel.textColor = [UIColor whiteColor];
+    self.oldLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
     
     self.oldLabelVal.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0f];
-    self.oldLabelVal.textColor = [UIColor whiteColor];
+    self.oldLabelVal.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
     
     self.townLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0f];
-    self.townLabel.textColor = [UIColor whiteColor];
+    self.townLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4];
     
     
     self.guideLabel1.font = [UIFont fontWithName:@"FuturaPT-Light" size:15.0f];
@@ -100,7 +98,7 @@
 }
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self fixSelfConstraint];
     [self registerNotification];
     
     [self.navigationController setNavigationBarHidden:YES];
@@ -117,14 +115,27 @@
     
 }
 
+
+
+#pragma mark - constraint
+- (void) fixSelfConstraint
+{
+    if (![UIDevice hp_isWideScreen])
+    {
+        
+        NSArray* cons = self.view.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.closeButton))
+                consIter.constant = CONSTRAINT_TOP_FOR_CLOSE_BTN;
+        }
+    }
+}
+
 #pragma mark -
 #pragma mark controller button tap handler
-- (IBAction) profileButtonTap:(id)sender {
-    
-}
-- (IBAction) messageButtonTap:(id)sender {
-    
-}
+
 - (IBAction) closeButtonTap:(id)sender {
     //save filter entity and make user filter request
 
@@ -157,7 +168,7 @@
                 self.townsTableView.hidden = NO;
             }
             completion:^(BOOL finished){
-                            
+              self.townLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
         }];
         } else {
         
@@ -172,7 +183,7 @@
                 self.townsTableView.hidden = YES;
             }
             completion:^(BOOL finished){
-                            
+                self.townLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4];
             }];
         }
 }
@@ -272,25 +283,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *townCellIdentifier = @"PaymentCellIdentif";
-    HPTownTableViewCell *townCell = (HPTownTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
+    static NSString *townCellIdentifier = @"FilterCityCellIdentif";
+    HPCityTableViewCell *townCell = (HPCityTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
     
     if (townCell == nil)
     {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPTownTableViewCell" owner:self options:nil];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPCityTableViewCell" owner:self options:nil];
         townCell = [nib objectAtIndex:0];
     }
-/*
-    if(allCities.count > 0) {
-        City *city = [allCities objectAtIndex:indexPath.row];
-        [townCell configureCell:city];
-*/
+    
     if (allCities.count > 0) {
         City *city = [allCities objectAtIndex:indexPath.row];
         [townCell configureCell:city];
     } else {
         [townCell configureCell:nil];
     }
+    
     return townCell;
 }
 

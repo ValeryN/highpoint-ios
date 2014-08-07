@@ -287,6 +287,9 @@
 		CDA317CB19768B6A00F04DA2 /* point_options.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA317CA19768B6A00F04DA2 /* point_options.png */; };
 		CDA317CD19768EDC00F04DA2 /* delete_point.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA317CC19768EDC00F04DA2 /* delete_point.png */; };
 		CDA33D9C199341EA0054201C /* delete_point_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA33D9B199341EA0054201C /* delete_point_new.png */; };
+		CDA33D9E199367E60054201C /* filter_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA33D9D199367E60054201C /* filter_new.png */; };
+		CDA33DA21993709C0054201C /* HPCityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA33DA01993709C0054201C /* HPCityTableViewCell.m */; };
+		CDA33DA31993709C0054201C /* HPCityTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA33DA11993709C0054201C /* HPCityTableViewCell.xib */; };
 		CDA36E6819878FF20073BE45 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA36E6719878FF20073BE45 /* Contact.m */; };
 		CDA36E6B19878FF20073BE45 /* LastMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA36E6A19878FF20073BE45 /* LastMessage.m */; };
 		CDA3A6471992017B008F9F86 /* point_info_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA3A6461992017B008F9F86 /* point_info_new.png */; };
@@ -718,6 +721,10 @@
 		CDA317CA19768B6A00F04DA2 /* point_options.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = point_options.png; sourceTree = "<group>"; };
 		CDA317CC19768EDC00F04DA2 /* delete_point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_point.png; sourceTree = "<group>"; };
 		CDA33D9B199341EA0054201C /* delete_point_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_point_new.png; sourceTree = "<group>"; };
+		CDA33D9D199367E60054201C /* filter_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_new.png; sourceTree = "<group>"; };
+		CDA33D9F1993709C0054201C /* HPCityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCityTableViewCell.h; sourceTree = "<group>"; };
+		CDA33DA01993709C0054201C /* HPCityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCityTableViewCell.m; sourceTree = "<group>"; };
+		CDA33DA11993709C0054201C /* HPCityTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCityTableViewCell.xib; sourceTree = "<group>"; };
 		CDA36E6619878FF20073BE45 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		CDA36E6719878FF20073BE45 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		CDA36E6919878FF20073BE45 /* LastMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastMessage.h; sourceTree = "<group>"; };
@@ -1219,6 +1226,9 @@
 				3BD12E58192DFE380026BA11 /* HPFilterSettingsViewController.h */,
 				3BD12E59192DFE380026BA11 /* HPFilterSettingsViewController.m */,
 				4C89BD2C193C6EDA00DAE2EE /* HPFilterSettings.xib */,
+				CDA33D9F1993709C0054201C /* HPCityTableViewCell.h */,
+				CDA33DA01993709C0054201C /* HPCityTableViewCell.m */,
+				CDA33DA11993709C0054201C /* HPCityTableViewCell.xib */,
 			);
 			name = HPFilterSettingsViewController;
 			sourceTree = "<group>";
@@ -1619,6 +1629,7 @@
 		CDA27BE91974EE06007D6BC1 /* debug */ = {
 			isa = PBXGroup;
 			children = (
+				CDA33D9D199367E60054201C /* filter_new.png */,
 				CDA33D9B199341EA0054201C /* delete_point_new.png */,
 				CDA3A6461992017B008F9F86 /* point_info_new.png */,
 				CDC009921990C5ED00B3FF75 /* curruser_point_new.png */,
@@ -1776,6 +1787,7 @@
 				CD9E78891977C6FE0064E2AF /* Point Notice Tap.png in Resources */,
 				3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */,
 				CDA27BEB1974EE06007D6BC1 /* add_photo.png in Resources */,
+				CDA33D9E199367E60054201C /* filter_new.png in Resources */,
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
 				3B298FC7192F476100BEC2AA /* slider-default7-trackBackground.png in Resources */,
 				3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */,
@@ -1889,6 +1901,7 @@
 				3BE9DE39197FD8F300AFA641 /* 16.jpg in Resources */,
 				CDA1703F198246B600173D1C /* README.md in Resources */,
 				3BE9DE3F197FD8F300AFA641 /* 3.jpg in Resources */,
+				CDA33DA31993709C0054201C /* HPCityTableViewCell.xib in Resources */,
 				3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */,
 				3B298FD1192F476100BEC2AA /* slider-metal-trackBackground.png in Resources */,
 				CDA1703D198246B600173D1C /* HockeySDKResources.bundle in Resources */,
@@ -2037,6 +2050,7 @@
 				3BDA4C9419064E5900EF6619 /* SDWebImageManager.m in Sources */,
 				3BEE69FE19926AA300C8B977 /* HFImageEditorViewController.m in Sources */,
 				3BDA4C9119064E5900EF6619 /* SDWebImageDecoder.m in Sources */,
+				CDA33DA21993709C0054201C /* HPCityTableViewCell.m in Sources */,
 				3BDA4C9319064E5900EF6619 /* SDWebImageDownloaderOperation.m in Sources */,
 				3B29F8E51922303D00EC6395 /* HPUserCardViewController.m in Sources */,
 				3BDA4C6519064AC900EF6619 /* AFNetworkReachabilityManager.m in Sources */,

@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NMRangeSlider.h"
 @interface HPFilterSettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, weak) IBOutlet UIButton *profileButton;
-@property (nonatomic, weak) IBOutlet UIButton *messageButton;
+
 @property (nonatomic, weak) IBOutlet UIButton *closeButton;
 @property (nonatomic, weak) IBOutlet UILabel *filterLabel;
 @property (nonatomic, weak) IBOutlet UISwitch *womenSw;
@@ -38,8 +37,7 @@
 
 - (IBAction) menSwitchTap:(id)sender;
 - (IBAction) womenSwitchTap:(id)sender;
-- (IBAction) profileButtonTap:(id)sender;
-- (IBAction) messageButtonTap:(id)sender;
+
 - (IBAction) closeButtonTap:(id)sender;
 - (IBAction) townSwitchTap:(id)sender;
 
