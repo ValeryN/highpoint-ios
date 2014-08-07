@@ -26,6 +26,11 @@
     self.avatarImageView.layer.cornerRadius = 5;
     [self.pointInfoLabel hp_tuneForCurrentPointInfo];
     [self.publishBtn hp_tuneFontForGreenButton];
+    [self.deletePointSettBtn hp_tuneFontForGreenButton];
+    [self.cancelDelBtn hp_tuneFontForGreenButton];
+    [self.deletePointInfoLabel hp_tuneForDeletePointInfo];
+    self.deletePointInfoLabel.text = NSLocalizedString(@"DELETE_POINT_INFO", nil);
+    [self.deleteBtn hp_tuneFontForGreenButton];
     self.pointTextView.delegate = self;
     self.pointTextView.text = NSLocalizedString(@"YOUR_EMPTY_POINT", nil);
     [self.pointTextView hp_tuneForUserPointEmpty];
@@ -113,16 +118,50 @@
     }
 }
 
-
-
 - (IBAction)publishSettTap:(id)sender {
     if ([self.delegate respondsToSelector:@selector(sharePointTap)]) {
         [self.delegate sharePointTap];
     }
+    self.pointTextView.userInteractionEnabled = NO;
+    self.avatarImageView.userInteractionEnabled = NO;
 }
 
 
+- (IBAction)deletePointTap:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(startDeletePoint)]) {
+        [self.delegate startDeletePoint];
+    }
+    [self editPointUp];
+    self.pointTextView.userInteractionEnabled = NO;
+    self.avatarImageView.userInteractionEnabled = NO;
+    self.publishBtn.hidden = YES;
+    self.deleteBtn.hidden = YES;
+    self.pointSettingsView.hidden = YES;
+    self.deletePointView.hidden = NO;
+}
 
+- (IBAction)deleteSettTap:(id)sender {
+    [self editPointDown];
+    self.pointTextView.userInteractionEnabled = YES;
+    self.avatarImageView.userInteractionEnabled = YES;
+    self.deletePointView.hidden = YES;
+    self.publishBtn.hidden = NO;
+    self.deleteBtn.hidden = YES;
+    if ([self.delegate respondsToSelector:@selector(endDeletePoint)]) {
+        [self.delegate endDeletePoint];
+    }
+}
 
+- (IBAction)cancelSettTap:(id)sender {
+    [self editPointDown];
+    self.pointTextView.userInteractionEnabled = NO;
+    self.avatarImageView.userInteractionEnabled = NO;
+    self.deletePointView.hidden = YES;
+    self.publishBtn.hidden = YES;
+    self.deleteBtn.hidden = NO;
+    if ([self.delegate respondsToSelector:@selector(endDeletePoint)]) {
+        [self.delegate endDeletePoint];
+    }
+}
 
 @end

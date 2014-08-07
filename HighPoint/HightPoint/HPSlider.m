@@ -39,22 +39,21 @@
 	[[UIColor redColor] setFill];
     
 
-    CGRect roundedRect = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, 84, floorf(self.bounds.size.height * 0.8));
+    CGRect roundedRect = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, 78, floorf(self.bounds.size.height * 0.8));
+    
     UIBezierPath *roundedRectPath = [UIBezierPath bezierPathWithRoundedRect:roundedRect cornerRadius:6.0];
-//    
-
-//    UIBezierPath *arrowPath = [UIBezierPath bezierPath];
-//    CGFloat midX = CGRectGetMidX(roundedRect);
-//    CGPoint p0 = CGPointMake(midX, CGRectGetMaxY(roundedRect) + 5);
-//    [arrowPath moveToPoint:p0];
-//    [arrowPath addLineToPoint:CGPointMake((midX - 5.0), CGRectGetMaxY(roundedRect))];
-//    [arrowPath addLineToPoint:CGPointMake((midX + 5.0), CGRectGetMaxY(roundedRect))];
-//    [arrowPath closePath];
-//    
-//    // Attach the arrow path to the rounded rect
-//    [roundedRectPath appendPath:arrowPath];
-//    
-//    [roundedRectPath fill];
+    UIBezierPath *arrowPath = [UIBezierPath bezierPath];
+    CGFloat midX = CGRectGetMidX(roundedRect);
+    CGPoint p0 = CGPointMake(midX, CGRectGetMaxY(roundedRect) + 5);
+    [arrowPath moveToPoint:p0];
+    [arrowPath addLineToPoint:CGPointMake((midX - 5.0), CGRectGetMaxY(roundedRect))];
+    [arrowPath addLineToPoint:CGPointMake((midX + 5.0), CGRectGetMaxY(roundedRect))];
+    [arrowPath closePath];
+    
+    // Attach the arrow path to the rounded rect
+    [roundedRectPath appendPath:arrowPath];
+    
+    [roundedRectPath fill];
     
 
     if (self.text) {
@@ -71,9 +70,6 @@
             lineBreakMode:UILineBreakModeWordWrap
                 alignment:UITextAlignmentCenter];
     }
-
-    self.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.layer.borderWidth = 1.0f;
 }
 
 - (void)setValue:(float)aValue {
@@ -92,7 +88,7 @@
 
 
 - (void) constructSlider {
-    timePopupView = [[HPSliderTimeView alloc] initWithFrame:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, 84, floorf(self.bounds.size.height * 0.8))];
+    timePopupView = [[HPSliderTimeView alloc] initWithFrame:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, 38, floorf(self.bounds.size.height * 0.8))];
     timePopupView.backgroundColor = [UIColor clearColor];
     timePopupView.alpha = 1.0;
     [self addSubview:timePopupView];
@@ -101,7 +97,7 @@
 
 - (void)_positionAndUpdatePopupView {
     CGRect _thumbRect = self.thumbRect;
-    CGRect popupRect = CGRectOffset(CGRectMake(_thumbRect.origin.x, _thumbRect.origin.y, 84, _thumbRect.size.height), 0, -floorf(_thumbRect.size.height * 1.5));
+    CGRect popupRect = CGRectOffset(CGRectMake(_thumbRect.origin.x, _thumbRect.origin.y, 38, _thumbRect.size.height), 0, -floorf(_thumbRect.size.height * 1.5));
     timePopupView.frame = CGRectInset(popupRect, -20, -10);
     timePopupView.value = (NSInteger)self.value;
 }

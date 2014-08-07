@@ -41,5 +41,7 @@
 - (void) startEditingPoint;
 - (void) cancelPointTap;
 - (void) sharePointTap;
+- (void) startDeletePoint;
+- (void) endDeletePoint;
 
 @end

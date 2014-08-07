@@ -65,6 +65,7 @@
 
     self.pageController.currentPage = 0;
     [self fixUserCardConstraint];
+    [self showBottomElement];
     _modalAnimationController = [[ModalAnimation alloc] init];
 }
 
@@ -90,8 +91,8 @@
     NSLog(@"settings tap");
 }
 
-- (void) showUserAlbumAndInfo {
-    self.personalDataLabel.text = NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
+- (void) showBottomElement {
+    [self setBottomMenu:0];
     [self.personalDataLabel hp_tuneForUserListCellPointText];
 }
 
@@ -122,7 +123,7 @@
 #pragma mark - UICollectionView Datasource
 // 1
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
@@ -135,15 +136,10 @@
         cellPoint.delegate = self;
         [cellPoint configureCell];
         return cellPoint;
-    }
-    if (indexPath.row == 1) {
+    } else  {
         cellUser = [cv dequeueReusableCellWithReuseIdentifier:@"CurrentUserCollectionCell" forIndexPath:indexPath];
         [cellUser configureCell:currentUser];
         return cellUser;
-    } else {
-        HPUserCardUICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"UserCardIdentif" forIndexPath:indexPath];
-        [cell configureCell: nil];
-        return cell;
     }
 }
 
@@ -192,7 +188,21 @@
 {
     float index = scrollView.contentOffset.x/320.0;
     self.pageController.currentPage = (int)index;
+    [self setBottomMenu:(int)index];
 }
+
+#pragma mark - bottom menu
+
+- (void) setBottomMenu : (int) index {
+    if (index == 0) {
+        self.personalDataLabel.text = NSLocalizedString(@"YOUR_POINT_LIKES", nil);
+        self.personalDataDownImgView.hidden = YES;
+    } else {
+        self.personalDataLabel.text = NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
+        self.personalDataDownImgView.hidden = NO;
+    }
+}
+
 
 #pragma mark - user info
 
@@ -286,6 +296,21 @@
 }
 
 
+- (void) startDeletePoint{
+    self.currentUserCollectionView.scrollEnabled = NO;
+    self.closeBtn.hidden = YES;
+    self.settingsBtn.hidden = YES;
+    self.pageController.hidden = YES;
+}
+- (void) endDeletePoint{
+    self.currentUserCollectionView.scrollEnabled = YES;
+    self.closeBtn.hidden = NO;
+    self.settingsBtn.hidden = NO;
+    self.pageController.hidden = NO;
+}
+
+
+
 #pragma mark - navigation item 
 
 - (void) doneEditingPointTap {
@@ -328,9 +353,10 @@
     [cellPoint endEditing:YES];
     [cellPoint editPointDown];
     [cellPoint.pointSettingsView setHidden:YES];
-    cellPoint.publishBtn.hidden = NO;
-    cellPoint.pointTextView.userInteractionEnabled = YES;
-    cellPoint.avatarImageView.userInteractionEnabled = YES;
+    cellPoint.publishBtn.hidden = YES;
+    cellPoint.deleteBtn.hidden = NO;
+    cellPoint.pointTextView.userInteractionEnabled = NO;
+    cellPoint.avatarImageView.userInteractionEnabled = NO;
     self.currentUserCollectionView.scrollEnabled = YES;
 }
 
@@ -339,6 +365,8 @@
     [cellPoint endEditing:YES];
     [cellPoint editPointDown];
     [cellPoint.pointSettingsView setHidden:YES];
+    cellPoint.pointTextView.userInteractionEnabled = YES;
+    cellPoint.avatarImageView.userInteractionEnabled = YES;
     cellPoint.publishBtn.hidden = NO;
     cellPoint.pointTextView.userInteractionEnabled = YES;
     cellPoint.avatarImageView.userInteractionEnabled = YES;
