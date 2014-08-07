@@ -184,6 +184,8 @@
 		3BE9DE43197FD8F300AFA641 /* 7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE2F197FD8F300AFA641 /* 7.jpg */; };
 		3BE9DE44197FD8F300AFA641 /* 8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE30197FD8F300AFA641 /* 8.jpg */; };
 		3BE9DE45197FD8F300AFA641 /* 9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE31197FD8F300AFA641 /* 9.jpg */; };
+		3BEE69FD19926AA300C8B977 /* HFImageEditorFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEE69F919926AA300C8B977 /* HFImageEditorFrameView.m */; };
+		3BEE69FE19926AA300C8B977 /* HFImageEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEE69FC19926AA300C8B977 /* HFImageEditorViewController.m */; };
 		4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1A488319629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FE935196427220016DED5 /* UIImage+StackBlur.m */; };
@@ -593,6 +595,11 @@
 		3BE9DE2F197FD8F300AFA641 /* 7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 7.jpg; sourceTree = "<group>"; };
 		3BE9DE30197FD8F300AFA641 /* 8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 8.jpg; sourceTree = "<group>"; };
 		3BE9DE31197FD8F300AFA641 /* 9.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 9.jpg; sourceTree = "<group>"; };
+		3BEE69F819926AA300C8B977 /* HFImageEditorFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFImageEditorFrameView.h; sourceTree = "<group>"; };
+		3BEE69F919926AA300C8B977 /* HFImageEditorFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFImageEditorFrameView.m; sourceTree = "<group>"; };
+		3BEE69FA19926AA300C8B977 /* HFImageEditorViewController+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HFImageEditorViewController+Private.h"; sourceTree = "<group>"; };
+		3BEE69FB19926AA300C8B977 /* HFImageEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFImageEditorViewController.h; sourceTree = "<group>"; };
+		3BEE69FC19926AA300C8B977 /* HFImageEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFImageEditorViewController.m; sourceTree = "<group>"; };
 		4C1A488019629A7C00DD36F9 /* UITextView+HightPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+HightPoint.h"; sourceTree = "<group>"; };
 		4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HightPoint.m"; sourceTree = "<group>"; };
 		4C1FE934196427220016DED5 /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+StackBlur.h"; sourceTree = "<group>"; };
@@ -1145,6 +1152,7 @@
 		3B77908219001DA100EE0D15 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				3BEE69F719926AA300C8B977 /* ImageEditor */,
 				CDA1702F198246B600173D1C /* HockeySDK-iOS */,
 				3BE9DE11197FD09000AFA641 /* RACollectionViewReorderableTripletLayout */,
 				3BE83C1019796B2A0043E03E /* HeBubbleView */,
@@ -1428,6 +1436,19 @@
 				3BE9DE31197FD8F300AFA641 /* 9.jpg */,
 			);
 			path = photos;
+			sourceTree = "<group>";
+		};
+		3BEE69F719926AA300C8B977 /* ImageEditor */ = {
+			isa = PBXGroup;
+			children = (
+				3BEE69F819926AA300C8B977 /* HFImageEditorFrameView.h */,
+				3BEE69F919926AA300C8B977 /* HFImageEditorFrameView.m */,
+				3BEE69FA19926AA300C8B977 /* HFImageEditorViewController+Private.h */,
+				3BEE69FB19926AA300C8B977 /* HFImageEditorViewController.h */,
+				3BEE69FC19926AA300C8B977 /* HFImageEditorViewController.m */,
+			);
+			name = ImageEditor;
+			path = External/ImageEditor;
 			sourceTree = "<group>";
 		};
 		4C91C1E9195812AD002B27D4 /* Controls */ = {
@@ -2010,6 +2031,7 @@
 				3B39D2F5195C3091002520B9 /* MaxEntertainmentPrice.m in Sources */,
 				3BCB5B07192F8D3500E5DCA9 /* HPSelectTownViewController.m in Sources */,
 				3BDA4C9419064E5900EF6619 /* SDWebImageManager.m in Sources */,
+				3BEE69FE19926AA300C8B977 /* HFImageEditorViewController.m in Sources */,
 				3BDA4C9119064E5900EF6619 /* SDWebImageDecoder.m in Sources */,
 				3BDA4C9319064E5900EF6619 /* SDWebImageDownloaderOperation.m in Sources */,
 				3B29F8E51922303D00EC6395 /* HPUserCardViewController.m in Sources */,
@@ -2032,6 +2054,10 @@
 				3BDA4C9619064E5900EF6619 /* UIButton+WebCache.m in Sources */,
 				3BDA4C9719064E5900EF6619 /* UIImage+GIF.m in Sources */,
 				3B2E02B6198F9027003F4D62 /* HPAddEducationViewController.m in Sources */,
+
+				3BEE69FD19926AA300C8B977 /* HFImageEditorFrameView.m in Sources */,
+
+
 				3B31864B191A408B0000DD8B /* Utils.m in Sources */,
 				3BDCB215197E820E003D7ECD /* HPUserInfoSecondRowTableViewCell.m in Sources */,
 				3BDA4C8F19064E5900EF6619 /* SDImageCache.m in Sources */,

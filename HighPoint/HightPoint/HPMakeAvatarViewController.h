@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HFImageEditorViewController.h"
 
-@interface HPMakeAvatarViewController : UIViewController
+@interface HPMakeAvatarViewController : HFImageEditorViewController
 @property (nonatomic, strong) UIImage *cImg;
-@property (nonatomic, strong) IBOutlet UIImageView *sourceImage;
+//@property (nonatomic, strong) IBOutlet UIImageView *sourceImage;
 @property(nonatomic, strong) UIView *greenButton;
 @property(nonatomic, strong) UIView *tappedGreenButton;
 - (void) configureImage;

@@ -27,6 +27,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.cropRect = CGRectMake(0,0,320,320);
+        self.minimumScale = 0.2;
+        self.maximumScale = 10;
     }
     return self;
 }
@@ -38,7 +41,7 @@
     // Do any additional setup after loading the view from its nib.
 }
 - (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+    //[super viewWillAppear:animated];
     [Utils configureNavigationBar:self.navigationController];
     [self configureNavButton];
     [self.navigationController setNavigationBarHidden:NO];
@@ -76,10 +79,11 @@
     [self.navigationController hp_configureNavigationBar];
 }
 - (void) configureImage {
-    self.sourceImage.contentMode = UIViewContentModeScaleAspectFill;
-    self.sourceImage.clipsToBounds = YES;
-    self.sourceImage.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    self.sourceImage.image = self.cImg;
+    //self.sourceImage.contentMode = UIViewContentModeScaleAspectFill;
+    //self.sourceImage.clipsToBounds = YES;
+    //self.sourceImage.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.sourceImage = [UIImage imageNamed:@"10.jpg"];
+    //[self reset:NO];
 }
 - (void) configureGreenButton {
     if(!self.greenButton && !self.tappedGreenButton) {
