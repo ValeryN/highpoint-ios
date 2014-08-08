@@ -54,5 +54,12 @@
         @throw [NSException exceptionWithName:@"CoreData.error" reason:@"Error save context" userInfo:@{@"error" : error}];
 #endif
     }
+    if(self.parentContext){
+        [self.parentContext performBlockAndWait:^{
+            if(self.parentContext.hasChanges) {
+                [self.parentContext saveWithErrorHandler];
+            }
+        }];
+    }
 }
 @end

@@ -10,31 +10,28 @@
 
 - (id)moveToContext:(NSManagedObjectContext *)otherContext {
     NSError *error = nil;
-    if(self.isFault) {
-        if ([[self objectID] isTemporaryID]) {
-            BOOL success = [[self managedObjectContext] obtainPermanentIDsForObjects:@[self] error:&error];
-            if (!success) {
-#ifdef DEBUG
-                @throw [NSException exceptionWithName:@"CoreData.error" reason:@"Error migration context" userInfo:@{@"error" : error}];
-#endif
-                NSLog(@"Error: %@", error.localizedDescription);
-                return nil;
-            }
-        }
-
-        error = nil;
-
-        NSManagedObject *inContext = [otherContext existingObjectWithID:[self objectID] error:&error];
-        if (error) {
+    if ([[self objectID] isTemporaryID]) {
+        BOOL success = [[self managedObjectContext] obtainPermanentIDsForObjects:@[self] error:&error];
+        if (!success) {
 #ifdef DEBUG
             @throw [NSException exceptionWithName:@"CoreData.error" reason:@"Error migration context" userInfo:@{@"error" : error}];
 #endif
             NSLog(@"Error: %@", error.localizedDescription);
+            return nil;
         }
-
-        return inContext;
     }
-    else
-        return self;
+
+    error = nil;
+
+    NSManagedObject *inContext = [otherContext existingObjectWithID:[self objectID] error:&error];
+    if (error) {
+#ifdef DEBUG
+        @throw [NSException exceptionWithName:@"CoreData.error" reason:@"Error migration context" userInfo:@{@"error" : error}];
+#endif
+        NSLog(@"Error: %@", error.localizedDescription);
+    }
+
+    return inContext;
+
 }
 @end
