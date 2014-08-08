@@ -275,7 +275,7 @@
         cityIds = [cityIds substringToIndex:[cityIds length] - 1];
     }
     NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders",cityIds, @"cityIds", nil];
-    [[DataStorage sharedDataStorage] createAndSaveUserFilterEntity:filterParams];
+    [[DataStorage sharedDataStorage] createAndSaveUserFilterEntity:filterParams withComplation:nil];
     [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
 }
 

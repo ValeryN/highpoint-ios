@@ -228,6 +228,8 @@
 		4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 		4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
+		7C5F763B6E244F2FFC517A12 /* NSManagedObject+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7CB7951BC9745387D6CC /* NSManagedObject+HighPoint.m */; };
+		7C5F79F487D68A326256AFD1 /* NSManagedObjectContext+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7F301D738FAB617FC7E5 /* NSManagedObjectContext+HighPoint.m */; };
 		CD08B827198B68750006AF4A /* HPUserCardUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD08B826198B68750006AF4A /* HPUserCardUICollectionViewCell.m */; };
 		CD08B829198B68960006AF4A /* HPUserCardUICollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD08B828198B68960006AF4A /* HPUserCardUICollectionViewCell.xib */; };
 		CD08B82B198B6CC80006AF4A /* usercard_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CD08B82A198B6CC80006AF4A /* usercard_new.png */; };
@@ -639,6 +641,10 @@
 		4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HighPoint.m"; sourceTree = "<group>"; };
 		4CF3A326194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPMainViewListTableViewCell+HighPoint.h"; sourceTree = "<group>"; };
 		4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPMainViewListTableViewCell+HighPoint.m"; sourceTree = "<group>"; };
+		7C5F727D5ACE12CAC506BCCA /* NSManagedObject+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+HighPoint.h"; sourceTree = "<group>"; };
+		7C5F73B28B4784B3764684CA /* NSManagedObjectContext+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+HighPoint.h"; sourceTree = "<group>"; };
+		7C5F7CB7951BC9745387D6CC /* NSManagedObject+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+HighPoint.m"; sourceTree = "<group>"; };
+		7C5F7F301D738FAB617FC7E5 /* NSManagedObjectContext+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+HighPoint.m"; sourceTree = "<group>"; };
 		CD08B825198B68750006AF4A /* HPUserCardUICollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserCardUICollectionViewCell.h; sourceTree = "<group>"; };
 		CD08B826198B68750006AF4A /* HPUserCardUICollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserCardUICollectionViewCell.m; sourceTree = "<group>"; };
 		CD08B828198B68960006AF4A /* HPUserCardUICollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserCardUICollectionViewCell.xib; sourceTree = "<group>"; };
@@ -1513,6 +1519,10 @@
 				4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */,
 				CDD842C4197F7D4A00CCB857 /* UITextField+HighPoint.h */,
 				CDD842C5197F7D4A00CCB857 /* UITextField+HighPoint.m */,
+				7C5F7F301D738FAB617FC7E5 /* NSManagedObjectContext+HighPoint.m */,
+				7C5F73B28B4784B3764684CA /* NSManagedObjectContext+HighPoint.h */,
+				7C5F7CB7951BC9745387D6CC /* NSManagedObject+HighPoint.m */,
+				7C5F727D5ACE12CAC506BCCA /* NSManagedObject+HighPoint.h */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -2078,6 +2088,8 @@
 				3BDA4C8F19064E5900EF6619 /* SDImageCache.m in Sources */,
 				3B39D31B195C3122002520B9 /* SocketIOJSONSerialization.m in Sources */,
 				CD68A9C4196D0DE80090D6D1 /* TLSwipeForOptionsCell.m in Sources */,
+				7C5F79F487D68A326256AFD1 /* NSManagedObjectContext+HighPoint.m in Sources */,
+				7C5F763B6E244F2FFC517A12 /* NSManagedObject+HighPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,25 +29,27 @@
 #import "Chat.h"
 #import "Message.h"
 
+typedef void (^complationBlock) (id object);
+
 @interface DataStorage : NSObject
-@property (nonatomic, strong) NSManagedObjectContext *moc;
+@property (nonatomic, retain) NSOperationQueue *backgroundOperationQueue;
 + (DataStorage*) sharedDataStorage;
 - (void) createUser:(NSDictionary*) param;
 - (void)createAndSavePoint:(NSDictionary*) param;
 - (void) createUserInfo:(NSDictionary*) param;
 - (void) createUserSettings:(NSDictionary*) param;
 - (void)createAndSaveApplicationSettingEntity:(NSDictionary *)param;
-- (UserFilter*)createAndSaveUserFilterEntity:(NSDictionary *)param;
+- (void)createAndSaveUserFilterEntity:(NSDictionary *)param withComplation:(complationBlock) block;
 - (void)removeAndSaveUserFilter;
 - (UserFilter*) getUserFilter;
 - (void)setAndSaveCityToUserFilter:(City *) city;
 - (NSFetchedResultsController*) applicationSettingFetchResultsController;
-- (User *)createAndSaveUserEntity:(NSDictionary *)param isCurrent:(BOOL) current;
+- (void) createAndSaveUserEntity:(NSDictionary *)param isCurrent:(BOOL)current withComplation:(complationBlock) block;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 - (NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
 - (User*) getUserForId:(NSNumber*) id_;
-- (void) deleteCurrentUser;
+- (void)deleteAndSaveCurrentUser;
 - (School *) createSchoolEntity:(NSDictionary *)param;
 - (School *) createTempSchool :(NSDictionary *) param;
 - (Speciality *) createSpecialityEntity:(NSDictionary *)param;
@@ -63,30 +65,30 @@
 - (void)addAndSaveLanguageEntityForUser:(NSDictionary *) param;
 - (void)deleteAndSaveLanguageEntityFromUser:(NSArray *) ids;
 - (Language *) createTempLanguage :(NSDictionary *) param;
-- (CareerPost*)createAndSaveCareerPost:(NSDictionary *)param;
+- (void)createAndSaveCareerPost:(NSDictionary *)param withComplation:(complationBlock) block;
 - (CareerPost *) createTempCareerPost :(NSDictionary *) param;
 - (void)addAndSaveCareerEntityForUser:(NSDictionary *) param;
 - (void)deleteAndSaveCareerEntityFromUser:(NSArray *) ids;
-- (Company*)createAndSaveCompany:(NSDictionary *)param;
+- (void)createAndSaveCompany:(NSDictionary *)param withComplation:(complationBlock) block;
 - (Company *) createTempCompany :(NSDictionary *) param;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (void)setAndSavePointLiked: (NSNumber *) pointId : (BOOL) isLiked;
 - (AppSetting*) getAppSettings;
-- (City*)createAndSaveCity:(NSDictionary *)param;
+- (void)createAndSaveCity:(NSDictionary *)param withComplation:(complationBlock) block;
 - (City *) createTempCity :(NSDictionary *) param;
 - (City *) getCityById : (NSNumber *) cityId;
-- (City *)insertAndSaveCityObjectToContext: (City *) city;
+- (void)insertAndSaveCityObjectToContext: (City *) city withComplation:(complationBlock) block;
 - (void)setAndSaveCityToUser: (NSNumber *) userId : (City *) city;
 - (void) removeCityObjectById : (City *)city;
 - (void)removeAndSaveCitiesFromUserFilter;
 - (void) deleteAllCities;
-- (Contact *)createAndSaveContactEntity: (User *)user : (LastMessage *) lastMessage;
+- (void)createAndSaveContactEntity: (User *)user : (LastMessage *) lastMessage withComplation:(complationBlock) block;
 - (void) deleteAllContacts;
 - (NSFetchedResultsController*) getAllContactsFetchResultsController;
 - (void)deleteAndSaveContact: (NSNumber *) contactId;
 -(NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
-- (LastMessage*)createAndSaveLastMessage:(NSDictionary *)param  :(int) keyId;
-- (Chat *)createAndSaveChatEntity: (User *)user : (NSArray *) messages;
+- (void)createAndSaveLastMessage:(NSDictionary *)param  :(int) keyId withComplation:(complationBlock) block;
+- (void)createAndSaveChatEntity: (User *)user : (NSArray *) messages withComplation:(complationBlock) block;
 - (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
 - (void) saveContext;
 @end
