@@ -30,7 +30,7 @@ static DataStorage *dataStorage;
                                     object:nil
                                      queue:nil
                                 usingBlock:^(NSNotification *note) {
-                                    NSManagedObjectContext *moc = ((HPAppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
+                                    NSManagedObjectContext *moc = ((HPAppDelegate *) [UIApplication sharedApplication].delegate).managedObjectContext;
                                     if (note.object != moc)
                                         [moc performBlock:^() {
                                             [moc mergeChangesFromContextDidSaveNotification:note];
@@ -114,7 +114,7 @@ static DataStorage *dataStorage;
     return uf;
 }
 
-- (void)createAndSaveUserFilterEntity:(NSDictionary *)param withComplation:(complationBlock) block{
+- (void)createAndSaveUserFilterEntity:(NSDictionary *)param withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block UserFilter *returnUf = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -335,7 +335,7 @@ static DataStorage *dataStorage;
     return lanEnt;
 }
 
-- (Language *)insertAndSaveLanguageObjectToContext:(Language *)globalLanguage {
+- (void)insertAndSaveLanguageObjectToContext:(Language *)globalLanguage withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block Language *returnLanguage = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -351,11 +351,14 @@ static DataStorage *dataStorage;
         } else {
             returnLanguage = lanEnt;
         }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (block)
+                block([returnLanguage moveToContext:[NSManagedObjectContext threadContext]]);
+        }];
     }];
 //    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
-    return [returnLanguage moveToContext:[NSManagedObjectContext threadContext]];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (void)removeLanguageObjectById:(Language *)language {
@@ -432,7 +435,7 @@ static DataStorage *dataStorage;
     return schEnt;
 }
 
-- (School *)insertAndSaveSchoolObjectToContext:(School *)globalSchool {
+- (void)insertAndSaveSchoolObjectToContext:(School *)globalSchool withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block School *returnSchool = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -448,11 +451,14 @@ static DataStorage *dataStorage;
         } else {
             returnSchool = schEnt;
         }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (block)
+                block([returnSchool moveToContext:[NSManagedObjectContext threadContext]]);
+        }];
     }];
 //    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
-    return [returnSchool moveToContext:[NSManagedObjectContext threadContext]];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (void)removeSchoolObjectById:(School *)school {
@@ -523,7 +529,7 @@ static DataStorage *dataStorage;
     return spEnt;
 }
 
-- (Speciality *)insertAndSaveSpecialityObjectToContext:(Speciality *)globalSpeciality {
+- (void)insertAndSaveSpecialityObjectToContext:(Speciality *)globalSpeciality withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block Speciality *returnSpeciality = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -539,11 +545,14 @@ static DataStorage *dataStorage;
         } else {
             returnSpeciality = spEnt;
         }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (block)
+                block([returnSpeciality moveToContext:[NSManagedObjectContext threadContext]]);
+        }];
     }];
 //    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
-    return [returnSpeciality moveToContext:[NSManagedObjectContext threadContext]];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (void)removeSpecialityObjectById:(Speciality *)speciality {
@@ -658,7 +667,7 @@ static DataStorage *dataStorage;
     return placeEnt;
 }
 
-- (Place *)insertAndSavePlaceObjectToContext:(Place *)globalPlace {
+- (void)insertAndSavePlaceObjectToContext:(Place *)globalPlace withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block Place *returnPlace = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -674,11 +683,14 @@ static DataStorage *dataStorage;
         } else {
             returnPlace = placeEnt;
         }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (block)
+                block([returnPlace moveToContext:[NSManagedObjectContext threadContext]]);
+        }];
     }];
 //    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
-    return [returnPlace moveToContext:[NSManagedObjectContext threadContext]];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (void)removePlaceObjectById:(Place *)place {
@@ -791,7 +803,7 @@ static DataStorage *dataStorage;
 
 #pragma mark - career-post
 
-- (void)createAndSaveCareerPost:(NSDictionary *)param withComplation:(complationBlock) block {
+- (void)createAndSaveCareerPost:(NSDictionary *)param withComplation:(complationBlock)block {
     __block CareerPost *returCpost = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
@@ -809,7 +821,7 @@ static DataStorage *dataStorage;
     }];
 //    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (CareerPost *)createTempCareerPost:(NSDictionary *)param {
@@ -821,7 +833,7 @@ static DataStorage *dataStorage;
     return postEnt;
 }
 
-- (CareerPost *)insertAndSaveCareerPostObjectToContext:(CareerPost *)globalcPost {
+- (void)insertAndSaveCareerPostObjectToContext:(CareerPost *)globalcPost withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block CareerPost *returnPost = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -837,11 +849,14 @@ static DataStorage *dataStorage;
         } else {
             returnPost = postEnt;
         }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (block)
+                block([returnPost moveToContext:[NSManagedObjectContext threadContext]]);
+        }];
     }];
 //    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
-    return [returnPost moveToContext:[NSManagedObjectContext threadContext]];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (void)removeCareerPostObjectById:(CareerPost *)cPost {
@@ -899,7 +914,7 @@ static DataStorage *dataStorage;
 
 #pragma mark - company
 
-- (void)createAndSaveCompany:(NSDictionary *)param withComplation:(complationBlock) block {
+- (void)createAndSaveCompany:(NSDictionary *)param withComplation:(complationBlock)block {
     __block Company *returnCompany = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
@@ -917,7 +932,7 @@ static DataStorage *dataStorage;
     }];
 //    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (Company *)createTempCompany:(NSDictionary *)param {
@@ -928,7 +943,7 @@ static DataStorage *dataStorage;
     return companyEnt;
 }
 
-- (Company *)insertAndSaveCompanyObjectToContext:(Company *)globalCompany {
+- (void)insertAndSaveCompanyObjectToContext:(Company *)globalCompany withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block Company *returnCompany = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -944,11 +959,14 @@ static DataStorage *dataStorage;
         } else {
             returnCompany = companyEnt;
         }
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (block)
+                block([returnCompany moveToContext:[NSManagedObjectContext threadContext]]);
+        }];
     }];
 //    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
-    return [returnCompany moveToContext:[NSManagedObjectContext threadContext]];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (void)removeCompanyObjectById:(Company *)company {
@@ -1192,7 +1210,6 @@ static DataStorage *dataStorage;
         }
         user.point = [[DataStorage sharedDataStorage] getPointForUserId:user.userId];
         NSLog(@"saved point text %@", user.point.pointText);
-
 
 
         if (current) {
@@ -1584,7 +1601,7 @@ static DataStorage *dataStorage;
 
 #pragma mark - city
 
-- (void)createAndSaveCity:(NSDictionary *)param withComplation:(complationBlock) block{
+- (void)createAndSaveCity:(NSDictionary *)param withComplation:(complationBlock)block {
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
@@ -1598,7 +1615,7 @@ static DataStorage *dataStorage;
             [context saveWithErrorHandler];
             returnCity = cityEnt;
             dispatch_async(dispatch_get_main_queue(), ^{
-                if(block){
+                if (block) {
                     block(returnCity);
                 }
             });
@@ -1620,7 +1637,7 @@ static DataStorage *dataStorage;
     return cityEnt;
 }
 
-- (void)insertAndSaveCityObjectToContext:(City *)globalCity withComplation:(complationBlock) block {
+- (void)insertAndSaveCityObjectToContext:(City *)globalCity withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block City *returnCity = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -1643,7 +1660,7 @@ static DataStorage *dataStorage;
     }];
 //    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (void)removeCityObjectById:(City *)city {
@@ -1703,7 +1720,7 @@ static DataStorage *dataStorage;
 #pragma mark - contacts
 
 
-- (void)createAndSaveContactEntity:(User *)glovaluser :(LastMessage *)globallastMessage withComplation:(complationBlock) block{
+- (void)createAndSaveContactEntity:(User *)glovaluser :(LastMessage *)globallastMessage withComplation:(complationBlock)block {
     __block Contact *returnContact = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
@@ -1722,7 +1739,7 @@ static DataStorage *dataStorage;
     }];
 //    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 
@@ -1836,7 +1853,7 @@ static DataStorage *dataStorage;
 
 #pragma mark - last message
 
-- (void)createAndSaveLastMessage:(NSDictionary *)param :(int)keyId withComplation:(complationBlock) block {
+- (void)createAndSaveLastMessage:(NSDictionary *)param :(int)keyId withComplation:(complationBlock)block {
     __block LastMessage *returnMessage = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
@@ -1861,23 +1878,23 @@ static DataStorage *dataStorage;
     }];
 //    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 #pragma mark - chat
 
-- (void)createAndSaveChatEntity:(User *)globalUser :(NSArray *)messages withComplation:(complationBlock) block {
+- (void)createAndSaveChatEntity:(User *)globalUser :(NSArray *)messages withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block Chat *returnChat = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context  performBlockAndWait:^{
-            User* user = [globalUser moveToContext:context];
+        [context performBlockAndWait:^{
+            User *user = [globalUser moveToContext:context];
             Chat *chatEnt = (Chat *) [NSEntityDescription insertNewObjectForEntityForName:@"Chat" inManagedObjectContext:context];
             chatEnt.user = user;
             NSMutableArray *entArray = [NSMutableArray new];
             for (NSDictionary *t in messages) {
-                Message *msg = [weakSelf createAndSaveMessage:t :user.userId];
+                Message *msg = [weakSelf createMessage:t :user.userId];
                 msg.chat = chatEnt;
                 [entArray addObject:msg];
             }
@@ -1890,9 +1907,9 @@ static DataStorage *dataStorage;
             }];
         }];
     }];
- //   operation.queuePriority = NSOperationQueuePriorityVeryHigh;
+    //   operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (Chat *)getChatByUserId:(NSNumber *)userId {
@@ -1942,29 +1959,38 @@ static DataStorage *dataStorage;
 
 #pragma mark - messages
 
-- (Message *)createAndSaveMessage:(NSDictionary *)param :(NSNumber *)userId {
+- (Message*)createMessage:(NSDictionary *)param :(NSNumber *)userId {
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
+    Message *msgEnt = (Message *) [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:context];
+    msgEnt.bindedUserId = userId;
+    msgEnt.id_ = param[@"id"];
+    msgEnt.createdAt = [df dateFromString:param[@"createdAt"]];
+    msgEnt.destinationId = param[@"destinationId"];
+    msgEnt.readAt = [df dateFromString:param[@"readAt"]];
+    msgEnt.sourceId = param[@"sourceId"];
+    msgEnt.text = param[@"text"];
+    return msgEnt;
+}
+
+- (void)createAndSaveMessage:(NSDictionary *)param :(NSNumber *)userId withComplation:(complationBlock)block {
+    __weak typeof(self) weakSelf = self;
     __block Message *returnMessage = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
-            NSDateFormatter *df = [[NSDateFormatter alloc] init];
-            [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
-            Message *msgEnt = (Message *) [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:context];
-            msgEnt.bindedUserId = userId;
-            msgEnt.id_ = param[@"id"];
-            msgEnt.createdAt = [df dateFromString:param[@"createdAt"]];
-            msgEnt.destinationId = param[@"destinationId"];
-            msgEnt.readAt = [df dateFromString:param[@"readAt"]];
-            msgEnt.sourceId = param[@"sourceId"];
-            msgEnt.text = param[@"text"];
+            returnMessage = [weakSelf createMessage:param :userId];
             [context saveWithErrorHandler];
-            returnMessage = msgEnt;
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                if (block)
+                    block([returnMessage moveToContext:[NSManagedObjectContext threadContext]]);
+            }];
         }];
     }];
- //   operation.queuePriority = NSOperationQueuePriorityVeryHigh;
+    //   operation.queuePriority = NSOperationQueuePriorityVeryHigh;
     operation.threadPriority = 1;
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:YES];
-    return [returnMessage moveToContext:[NSManagedObjectContext threadContext]];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 
