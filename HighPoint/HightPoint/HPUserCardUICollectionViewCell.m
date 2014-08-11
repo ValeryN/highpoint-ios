@@ -12,6 +12,10 @@
 #import "UIButton+HighPoint.h"
 #import <QuartzCore/QuartzCore.h>
 #import "HPBaseNetworkManager.h"
+#import "UIImage+HighPoint.h"
+
+#define AVATAR_BLUR_RADIUS 10.0
+
 
 @implementation HPUserCardUICollectionViewCell {
     User *currUser;
@@ -50,10 +54,39 @@
     frame.size.height = pointTVSize.height;
     frame.origin.y = self.frame.size.height - 120 - pointTVSize.height;
     [pointTextView setFrame:frame];
+    self.avatarImageView.image = [UIImage imageNamed:@"img_sample1.png"];
     NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
     self.userInfoLabel.text = [NSString stringWithFormat:@"%@, %@ лет, %@", user.name, user.age, cityName];
     [self addSubview:pointTextView];
     [self.heartBtn setSelected:[user.point.pointLiked boolValue]];
+    [self setAvatarVisibilityBlur:user];
+    [self setPrivacyText:user];
+}
+
+
+#pragma mark - privacy
+
+- (void) setAvatarVisibilityBlur :(User *) user {
+    if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
+        self.avatarImageView.image = [self.avatarImageView.image hp_imageWithGaussianBlur: AVATAR_BLUR_RADIUS];
+    } 
+}
+
+- (void) setPrivacyText :(User *) user {
+    if ([user.visibility intValue] == 2) {
+        if ([user.gender intValue] == 1) {
+            self.userInfoLabel.text = NSLocalizedString(@"HIDE_HIS_PROFILE_INFO", nil);
+        } else {
+            self.userInfoLabel.text = NSLocalizedString(@"HIDE_HER_PROFILE_INFO", nil);
+        }
+    }
+    if ([user.visibility intValue] == 3) {
+        if ([user.gender intValue] == 1) {
+            self.userInfoLabel.text = NSLocalizedString(@"HIDE_HER_NAME_INFO", nil);
+        } else {
+            self.userInfoLabel.text = NSLocalizedString(@"HIDE_HIS_NAME_INFO", nil);
+        }
+    }
 }
 
 
