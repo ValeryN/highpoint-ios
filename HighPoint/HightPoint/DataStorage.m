@@ -863,8 +863,10 @@ static DataStorage *dataStorage;
         user.email = [param objectForKey:@"email"];
     if([param objectForKey:@"gender"])
         user.gender = [param objectForKey:@"gender"];
-    if([param objectForKey:@"visibility"])
+    if([param objectForKey:@"visibility"]) {
         user.visibility = [param objectForKey:@"visibility"];
+        NSLog(@"visibility = %@ setted", [param objectForKey:@"visibility"]);
+    }
     if([param objectForKey:@"avatar"]) {
         user.avatar = [self createAvatarEntity:[param objectForKey:@"avatar"]];
         user.avatar.user = user;

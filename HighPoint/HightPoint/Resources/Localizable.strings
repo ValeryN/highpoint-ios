@@ -11,7 +11,10 @@
 
 //USERS LIST SCREEN
 "UNKNOWN_CITY_ID" = "Unknown id";
-
+"HIDE_HER_NAME" = "Скрыла свое имя\rи фотографии";
+"HIDE_HER_PROFILE" = "Скрыла свой профиль";
+"HIDE_HIS_NAME" = "Скрыл свое имя\rи фотографии";
+"HIDE_HIS_PROFILE" = "Скрыл свой профиль";
 
 
 //USER FILTER SCREEN

@@ -195,10 +195,16 @@
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
     User *user = [[self.allUsers fetchedObjects] objectAtIndex:indexPath.row];
-    [mCell configureCell: user];
-    if (indexPath.row == 3)
-        [mCell makeAnonymous];
     
+    if (indexPath.row == 3) {
+        user.visibility = @2;
+    }
+    if (indexPath.row == 8) {
+        user.visibility = @3;
+    }
+    
+    
+    [mCell configureCell: user];
     return mCell;
 }
 

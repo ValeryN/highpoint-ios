@@ -16,7 +16,6 @@
 
 + (void) makeCellReleased;
 
-- (void) makeAnonymous;
 - (void) configureCell:(User*) user;
 - (void) vibrateThePoint;
 - (void) showPoint;
@@ -32,6 +31,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *secondLabel;
 @property (nonatomic, weak) IBOutlet UILabel *point;
 @property (nonatomic, weak) IBOutlet UIView *mainInfoGroup;
+@property (weak, nonatomic) IBOutlet UILabel *privacyLabel;
 
 @property (nonatomic, strong) IBOutlet HPAvatarView *avatar;
 

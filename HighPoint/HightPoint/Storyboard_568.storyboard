@@ -138,6 +138,13 @@
                                                     <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Скрыла свое имя и фотографии" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="157" translatesAutoresizingMaskIntoConstraints="NO" id="81M-9F-wN0">
+                                                    <rect key="frame" x="111" y="24" width="157" height="52"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <gestureRecognizers/>
@@ -152,6 +159,7 @@
                                             <outlet property="firstLabel" destination="kbB-KV-Mr0" id="j6S-M9-zfd"/>
                                             <outlet property="mainInfoGroup" destination="qbC-tq-hhG" id="buP-Fd-adS"/>
                                             <outlet property="point" destination="bwY-Gy-lWp" id="9XC-am-whB"/>
+                                            <outlet property="privacyLabel" destination="81M-9F-wN0" id="wfV-fj-CDL"/>
                                             <outlet property="secondLabel" destination="bMB-4H-hBy" id="SdI-v6-BhP"/>
                                             <outlet property="showPointButton" destination="WWu-Bc-zmw" id="we9-Xw-NHA"/>
                                             <outlet property="showPointGroup" destination="IHw-GO-4eP" id="BOV-M9-IaV"/>
