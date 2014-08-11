@@ -28,6 +28,7 @@
 static HPBaseNetworkManager *networkManager;
 @interface HPBaseNetworkManager ()
 @property (nonatomic,strong) SocketIO* socketIO;
+@property (nonatomic, strong) NSMutableArray *taskArray;
 @end
 
 
@@ -41,6 +42,32 @@ static HPBaseNetworkManager *networkManager;
             networkManager = [[HPBaseNetworkManager alloc] init];
         });
         return networkManager;
+    }
+}
+# pragma mark -
+# pragma mark task monitor
+- (void) createTaskArray {
+    self.taskArray = [NSMutableArray new];
+}
+- (void) deleteTaskArray {
+    self.taskArray = nil;
+}
+- (BOOL) isTaskArrayEmpty:(AFHTTPRequestOperationManager*) manager {
+    if(self.taskArray && self.taskArray.count > 0) {
+        int index = [self.taskArray indexOfObject:manager ];
+        if(index != NSNotFound) {
+            [self.taskArray removeObjectAtIndex:[self.taskArray indexOfObject:manager ]];
+            if(self.taskArray.count == 0) {
+                self.taskArray = nil;
+                return YES;
+            } else return NO;
+        } else return NO;
+    } else return NO;
+}
+- (void) addTaskToArray:(AFHTTPRequestOperationManager*) manager {
+    if(self.taskArray && manager)   {
+        [self.taskArray addObject:manager];
+
     }
 }
 # pragma mark -
@@ -62,16 +89,24 @@ static HPBaseNetworkManager *networkManager;
     url = [url stringByAppendingString:kSigninRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [self addTaskToArray:manager];
+    
     NSLog(@"auth parameters = %@", param);
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if([self isTaskArrayEmpty:manager]) {
+            NSLog(@"Stop Queue");
+        }
         if(jsonData) {
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
             [UserTokenUtils setUserToken:[[jsonDict objectForKey:@"data"] objectForKey:@"token"]];
             }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if([self isTaskArrayEmpty:manager]) {
+            NSLog(@"Stop Queue");
+        }
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
@@ -107,8 +142,12 @@ static HPBaseNetworkManager *networkManager;
     url = [url stringByAppendingString:kGeoLocationRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [self addTaskToArray:manager];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GEOLOCATION -->: %@", operation.responseString);
+        if([self isTaskArrayEmpty:manager]) {
+            NSLog(@"Stop Queue");
+        }
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -188,9 +227,12 @@ static HPBaseNetworkManager *networkManager;
     url = [url stringByAppendingString:kPointsRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    
+    [self addTaskToArray:manager];
     [manager GET:url parameters:[Utils getParameterForPointsRequest:lastPoint] success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"POINTS -->: %@", operation.responseString);
+        if([self isTaskArrayEmpty:manager]) {
+            NSLog(@"Stop Queue");
+        }
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -217,6 +259,11 @@ static HPBaseNetworkManager *networkManager;
         
         //NSMutableDictionary *parsedDictionary = [NSMutableDictionary new];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        if([self isTaskArrayEmpty:manager]) {
+            NSLog(@"Stop Queue");
+        }
+
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
@@ -231,9 +278,12 @@ static HPBaseNetworkManager *networkManager;
     url = [url stringByAppendingString:kUsersRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    
+    [self addTaskToArray:manager];
     [manager GET:url parameters:[Utils getParameterForUsersRequest:lastUser] success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"USERS -->: %@", operation.responseString);
+        if([self isTaskArrayEmpty:manager]) {
+            NSLog(@"Stop Queue");
+        }
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -264,6 +314,11 @@ static HPBaseNetworkManager *networkManager;
             else NSLog(@"Error, no valid data");
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if([self isTaskArrayEmpty:manager]) {
+            NSLog(@"Stop Queue");
+        }
+
+        
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
@@ -276,11 +331,15 @@ static HPBaseNetworkManager *networkManager;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCurrentUserRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [self addTaskToArray:manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GET CURRENT USER JSON: %@", operation.responseString);
+        if([self isTaskArrayEmpty:manager]) {
+            NSLog(@"Stop Queue");
+        }
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -293,6 +352,9 @@ static HPBaseNetworkManager *networkManager;
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if([self isTaskArrayEmpty:manager]) {
+            NSLog(@"Stop Queue");
+        }
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
@@ -377,7 +439,13 @@ static HPBaseNetworkManager *networkManager;
         
     }];
 }
-
+- (void) getApplicationSettingsRequestForQueue {
+    ///v201405/settings
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:kCurrentUserFilter];
+    NSURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:url parameters:nil];
+}
 #pragma mark - user filter
 
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param {
@@ -1039,6 +1107,7 @@ static HPBaseNetworkManager *networkManager;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:[NSString stringWithFormat:kPointsUnlikeRequest, [pointId stringValue]]];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"POINT UNLIKE RESP JSON: --> %@", operation.responseString);

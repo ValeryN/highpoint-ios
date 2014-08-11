@@ -27,7 +27,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.cropRect = CGRectMake(0,0,320,320);
+        self.cropRect = CGRectMake(0,0,320,120);
         self.minimumScale = 0.2;
         self.maximumScale = 10;
     }
@@ -39,14 +39,15 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
     // Do any additional setup after loading the view from its nib.
+    //self.sourceImage = [UIImage imageNamed:@"10.jpg"];
 }
 - (void) viewWillAppear:(BOOL)animated {
-    //[super viewWillAppear:animated];
+    [super viewWillAppear:animated];
     [Utils configureNavigationBar:self.navigationController];
     [self configureNavButton];
     [self.navigationController setNavigationBarHidden:NO];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self configureImage];
+    //[self configureImage];
     [self configureGreenButton];
     
     
@@ -82,7 +83,13 @@
     //self.sourceImage.contentMode = UIViewContentModeScaleAspectFill;
     //self.sourceImage.clipsToBounds = YES;
     //self.sourceImage.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    self.sourceImage = [UIImage imageNamed:@"10.jpg"];
+    //self.sourceImage = self.cImg;//[UIImage imageNamed:@"10.jpg"];
+    
+    //self.sourceImage = [UIImage imageNamed:@"10.jpg"];
+    //self.previewImage = self.cImg;
+    //[self reset:YES];
+    //self.frameView.backgroundColor  = [UIColor greenColor];
+    //NSLog(@"%@",self.frameView);
     //[self reset:NO];
 }
 - (void) configureGreenButton {

@@ -11,6 +11,9 @@
 @class User;
 @interface HPBaseNetworkManager : NSObject <SocketIODelegate>
 
+
+- (void) createTaskArray;
+- (void) deleteTaskArray;
 + (HPBaseNetworkManager*) sharedNetworkManager;
 - (void) startNetworkStatusMonitor;
 - (void) setNetworkStatusMonitorCallback;
@@ -53,5 +56,8 @@
 - (void) sendUserTypingFinish:(NSDictionary*) param;
 - (void) sendUserNotificationRead:(NSDictionary*) param;
 - (void) sendUserAllNotificationRead:(NSDictionary*) param;
+
+//test
+- (void) getApplicationSettingsRequestForQueue;
 
 @end

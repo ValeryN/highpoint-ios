@@ -1452,6 +1452,7 @@ static DataStorage *dataStorage;
         return nil;
     
     NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    
     NSError* error=nil;
 	if (![controller performFetch:&error])
 	{

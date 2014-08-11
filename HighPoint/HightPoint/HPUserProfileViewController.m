@@ -988,19 +988,17 @@
     self.greenButton.hidden = NO;
     self.tappedGreenButton.hidden = YES;
     HPMakeAvatarViewController *avaView = [[HPMakeAvatarViewController alloc] initWithNibName: @"HPMakeAvatarViewController" bundle: nil];
+    NSLog(@"%d", self.carousel.currentItemIndex);
     
     UIImage *image = [self.photosArray objectAtIndex:self.carousel.currentItemIndex];
     
     //
-    
+    avaView.sourceImage = image;
+    [avaView reset:YES];
     //avaView.cImg = image;
     self.navigationController.delegate = nil;
     [self.navigationController pushViewController:avaView animated:YES];
-    avaView.sourceImage = image;
     
-    //[self addChildViewController: avaView];
-    //[self.view addSubview: avaView.view];
-    //[avaView didMoveToParentViewController:self];
 }
 - (void) deleteImage {
     [self.photosArray removeObjectAtIndex:self.carousel.currentItemIndex];

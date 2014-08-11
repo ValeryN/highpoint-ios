@@ -34,6 +34,7 @@
 
 //==============================================================================
 
+
 @implementation HPRootViewController
 
 #pragma mark - controller view delegate -
@@ -45,18 +46,22 @@
     
     //TODO : delete
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
+    
+    [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
+    
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
-
     [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
     [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
+    
+    
     
     //socket init
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:[URLs getServerURL],@"host", @"3002",@"port", nil];
     [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
 
     //
-
+    //[[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequestForQueue];
     [self configureNavigationBar];
     [self createSwitch];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
@@ -195,6 +200,7 @@
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
     User *user = [[self.allUsers fetchedObjects] objectAtIndex:indexPath.row];
+    //User *user = [self.allUsers objectAtIndexPath:indexPath];
     [mCell configureCell: user];
     if (indexPath.row == 3)
         [mCell makeAnonymous];
