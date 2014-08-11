@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import "UILabel+HighPoint.h"
 
@@ -157,6 +156,26 @@
 - (void) hp_tuneForCurrentPointInfo
 {
     self.font = [UIFont fontWithName: @"FuturaPT-Light" size: 17.0];
+    self.textColor = [UIColor colorWithRed: 216.0 / 255.0
+                                     green: 216.0 / 255.0
+                                      blue: 216.0 / 255.0
+                                     alpha: 0.6];
+}
+
+
+#pragma mark - user info
+- (void) hp_tuneForProfileHiddenlabel
+{
+    self.font = [UIFont fontWithName: @"FuturaPT-Light" size: 18.0];
+    self.textColor = [UIColor colorWithRed: 216.0 / 255.0
+                                     green: 216.0 / 255.0
+                                      blue: 216.0 / 255.0
+                                     alpha: 0.6];
+}
+
+- (void) hp_tuneForPrivacyInfolabel
+{
+    self.font = [UIFont fontWithName: @"FuturaPT-Light" size: 16.0];
     self.textColor = [UIColor colorWithRed: 216.0 / 255.0
                                      green: 216.0 / 255.0
                                       blue: 216.0 / 255.0

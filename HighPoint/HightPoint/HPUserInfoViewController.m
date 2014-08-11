@@ -16,11 +16,20 @@
 #import "HPUserInfoSecondRowTableViewCell.h"
 #import "HPUserInfoTableHeaderView.h"
 #import "UIDevice+HighPoint.h"
+#import "UILabel+HighPoint.h"
+#import "UIButton+HighPoint.h"
+#import "UIImage+HighPoint.h"
 
+
+#define AVATAR_BLUR_RADIUS 10.0
 #define GREEN_BUTTON_BOTTOM 20
 #define PHOTOS_NUMBER 4
 #define SPACE_BETWEEN_PHOTOS 20
 #define BIBBLE_VIEW_WIDTH_CONST 290.0
+
+#define CONSTRAINT_GREEN_BTN_TOP 434.0;
+#define CONSTRAINT_ICON_IMAGE_TOP 310.0;
+#define CONSTRAINT_PRIVACY_INFO_TOP 355.0;
 
 @interface HPUserInfoViewController ()
 {
@@ -43,11 +52,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self.profileHiddenLabel hp_tuneForProfileHiddenlabel];
     [self createSegmentedController];
     [self createNavigationItem];
     [self createGreenButton];
-    
+    [self.privacyInfoLabel hp_tuneForPrivacyInfolabel];
+    [self.openReqBtn hp_tuneFontForGreenButton];
+    [self.goToChat hp_tuneFontForGreenButton];
     self.infoTableView.delegate = self;
     self.infoTableView.dataSource = self;
     
@@ -75,6 +86,8 @@
     
      self.languages = [NSMutableArray arrayWithArray:@[@"Русский",@"Английский", @"Албанский", @"Китайский", @"Хинди"]];
     [self fixUserConstraint];
+    
+    [self setPrivacy];
     // Do any additional setup after loading the view from its nib.
 }
 - (void) fixUserConstraint
@@ -98,6 +111,29 @@
                                                              multiplier: 0.74
                                                                constant: 0]];
         
+        
+        NSArray* cons = self.view.constraints;
+        for (NSLayoutConstraint* consIter in cons)
+        {
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.openReqBtn))
+                consIter.constant = CONSTRAINT_GREEN_BTN_TOP;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+             (consIter.firstItem == self.goToChat))
+            consIter.constant = CONSTRAINT_GREEN_BTN_TOP;
+            
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+             (consIter.firstItem == self.lockImgView))
+            consIter.constant = CONSTRAINT_ICON_IMAGE_TOP;
+
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+             (consIter.firstItem == self.privacyInfoLabel))
+            consIter.constant = CONSTRAINT_PRIVACY_INFO_TOP;
+
+        }
+
+        
     }
 }
 
@@ -114,6 +150,80 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - privacy check
+- (void) setPrivacy {
+    if ([self.user.visibility intValue] == 2) {
+        self.profileHiddenLabel.hidden = NO;
+        self.segmentController.hidden = YES;
+        self.lockImgView.hidden = NO;
+        self.privacyInfoLabel.hidden = NO;
+        self.openReqBtn.hidden = NO;
+        self.sendMessage.view.hidden = YES;
+        self.goToChat.hidden = YES;
+        if ([self.user.gender integerValue] == 1) {
+            self.privacyInfoLabel.text = NSLocalizedString(@"REQUEST_HIS_PROFILE", nil);
+        } else  {
+            self.privacyInfoLabel.text = NSLocalizedString(@"REQUEST_HER_PROFILE", nil);
+        }
+        self.carousel.scrollEnabled = NO;
+        [self setAvatarVisibilityBlur];
+    } else if ([self.user.visibility intValue] == 3) {
+        self.profileHiddenLabel.hidden = YES;
+        self.segmentController.hidden = NO;
+        self.lockImgView.hidden = NO;
+        self.privacyInfoLabel.hidden = NO;
+        self.openReqBtn.hidden = NO;
+        self.sendMessage.view.hidden = YES;
+        self.goToChat.hidden = YES;
+        if ([self.user.gender integerValue] == 1) {
+            self.privacyInfoLabel.text = NSLocalizedString(@"REQUEST_HIS_NAME", nil);
+        } else  {
+            self.privacyInfoLabel.text = NSLocalizedString(@"REQUEST_HER_NAME", nil);
+        }
+        self.carousel.scrollEnabled = NO;
+        [self setAvatarVisibilityBlur];
+    } else {
+        self.profileHiddenLabel.hidden = YES;
+        self.segmentController.hidden = NO;
+        self.lockImgView.hidden = YES;
+        self.privacyInfoLabel.hidden = YES;
+        self.openReqBtn.hidden = YES;
+        self.sendMessage.view.hidden = NO;
+        self.goToChat.hidden = YES;
+        self.carousel.scrollEnabled = YES;
+    }
+}
+
+- (void) setAvatarVisibilityBlur {
+    if (([self.user.visibility intValue] == 2) || ([self.user.visibility intValue] == 3)) {
+        ((UIImageView *)[self.carousel itemViewAtIndex:self.carousel.currentItemIndex]).image = [((UIImageView *)[self.carousel itemViewAtIndex:self.carousel.currentItemIndex]).image hp_imageWithGaussianBlur: AVATAR_BLUR_RADIUS];
+    }
+}
+
+
+#pragma mark - open profile request
+
+- (IBAction)openRequestTap:(id)sender {
+    self.goToChat.hidden = NO;
+    self.openReqBtn.hidden = YES;
+    self.sendMessage.view.hidden = YES;
+    self.lockImgView.image = [UIImage imageNamed:@"Eye Active.png"];
+    if ([self.user.visibility intValue] == 2) {
+    if ([self.user.gender integerValue] == 1) {
+        self.privacyInfoLabel.text = NSLocalizedString(@"REQUESTED_HIS_PROFILE", nil);
+    } else  {
+        self.privacyInfoLabel.text = NSLocalizedString(@"REQUESTED_HER_PROFILE", nil);
+    }
+    } else if ([self.user.visibility intValue] == 3) {
+        if ([self.user.gender integerValue] == 1) {
+            self.privacyInfoLabel.text = NSLocalizedString(@"REQUESTED_HIS_NAME", nil);
+        } else  {
+            self.privacyInfoLabel.text = NSLocalizedString(@"REQUESTED_HER_NAME", nil);
+        }
+
+    }
 }
 
 #pragma mark - navigation bar switch
