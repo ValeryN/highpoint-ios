@@ -21,17 +21,17 @@
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Поинт не опубликован" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PRn-Mu-tVe">
-                        <rect key="frame" x="20" y="373" width="280" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="img_sample1.png" translatesAutoresizingMaskIntoConstraints="NO" id="GRk-BE-bsn">
                         <rect key="frame" x="7" y="45" width="306" height="306"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Поинт не опубликован" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PRn-Mu-tVe">
+                        <rect key="frame" x="20" y="373" width="280" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RoZ-6z-yzU">
                         <rect key="frame" x="67" y="413" width="188" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -49,11 +49,23 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ud8-cD-fuE">
+                        <rect key="frame" x="66" y="412" width="188" height="34"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <state key="normal" title="Удалить поинт" backgroundImage="green_btn.png">
+                            <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="highlighted" title="Удалить поинт" backgroundImage="green_btn_pressed.png"/>
+                        <connections>
+                            <action selector="deletePointTap:" destination="B7C-Rk-Jqu" eventType="touchUpInside" id="sMU-Jg-ruv"/>
+                        </connections>
+                    </button>
                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1mX-xx-3Qa">
                         <rect key="frame" x="1" y="408" width="320" height="215"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6" minValue="0.0" maxValue="12" translatesAutoresizingMaskIntoConstraints="NO" id="MLS-E9-Pf0">
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6" minValue="0.0" maxValue="12" translatesAutoresizingMaskIntoConstraints="NO" id="MLS-E9-Pf0" customClass="HPSlider">
                                 <rect key="frame" x="30" y="53" width="260" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -83,6 +95,46 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s2a-9C-wZ6">
+                        <rect key="frame" x="0.0" y="408" width="320" height="215"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Если вы удалите текущий поинт сейчасс, то сможете опубликовать новый только через час. Хотите удалить его?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="KxF-iX-zFR">
+                                <rect key="frame" x="30" y="7" width="260" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.89721145069999997" green="0.01936017336" blue="0.14202212589999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aj3-L2-t2u">
+                                <rect key="frame" x="90" y="113" width="139" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Удалить поинт" backgroundImage="green_btn.png">
+                                    <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" title="Удалить поинт" backgroundImage="green_btn_pressed.png"/>
+                                <connections>
+                                    <action selector="deleteSettTap:" destination="B7C-Rk-Jqu" eventType="touchUpInside" id="5u9-cv-1n0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x4s-tk-4AG">
+                                <rect key="frame" x="119" y="163" width="82" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Отменить">
+                                    <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" title="Отменить"/>
+                                <connections>
+                                    <action selector="cancelSettTap:" destination="B7C-Rk-Jqu" eventType="touchUpInside" id="Nrr-Su-DZC"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -90,11 +142,16 @@
             <size key="customSize" width="244" height="51"/>
             <connections>
                 <outlet property="avatarImageView" destination="GRk-BE-bsn" id="hJk-uz-ruR"/>
+                <outlet property="cancelDelBtn" destination="x4s-tk-4AG" id="XsL-g6-U1a"/>
+                <outlet property="deleteBtn" destination="Ud8-cD-fuE" id="XrS-Sa-qKo"/>
+                <outlet property="deletePointInfoLabel" destination="KxF-iX-zFR" id="whb-6R-rUu"/>
+                <outlet property="deletePointSettBtn" destination="aj3-L2-t2u" id="Wzl-vN-VDK"/>
+                <outlet property="deletePointView" destination="s2a-9C-wZ6" id="ilZ-qb-upa"/>
                 <outlet property="pointInfoLabel" destination="PRn-Mu-tVe" id="Xnm-Zl-2xR"/>
                 <outlet property="pointSettingsView" destination="1mX-xx-3Qa" id="bnE-X9-HgN"/>
                 <outlet property="pointTextView" destination="TfR-Za-la0" id="9Uf-2r-dI1"/>
                 <outlet property="pointTimeInfoLabel" destination="tXV-93-33x" id="8He-oJ-Gxu"/>
-                <outlet property="pointTimeSlider" destination="MLS-E9-Pf0" id="e4U-ik-A71"/>
+                <outlet property="pointTimeSlider" destination="MLS-E9-Pf0" id="1Mx-gi-WbQ"/>
                 <outlet property="publishBtn" destination="RoZ-6z-yzU" id="Dwb-ia-e4Z"/>
                 <outlet property="publishSettBtn" destination="nkk-TC-7q8" id="mQs-OQ-nWw"/>
                 <outlet property="yourPointLabel" destination="HfE-sU-Wr3" id="w8s-rl-PeE"/>

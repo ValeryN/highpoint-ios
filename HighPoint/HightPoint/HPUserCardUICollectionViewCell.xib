@@ -59,17 +59,6 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x3D-Pc-jiE">
-                        <rect key="frame" x="273" y="18" width="30" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" backgroundImage="Point">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <state key="disabled" backgroundImage="Point"/>
-                        <connections>
-                            <action selector="pointBtnTap:" destination="NJ4-rg-JfA" eventType="touchUpInside" id="wWb-uu-A2o"/>
-                        </connections>
-                    </button>
                     <view alpha="0.64999999999999969" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N43-Kl-9ca">
                         <rect key="frame" x="19" y="21" width="48" height="23"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -99,7 +88,6 @@
                 <outlet property="heartBtn" destination="cls-dI-Z4a" id="mrO-sI-AWS"/>
                 <outlet property="photoCountLabel" destination="ZQe-AH-y1m" id="2Bj-XG-ikJ"/>
                 <outlet property="photoView" destination="N43-Kl-9ca" id="vCT-EA-d0k"/>
-                <outlet property="pointBtn" destination="x3D-Pc-jiE" id="a61-rd-iNV"/>
                 <outlet property="sendMsgBtn" destination="war-Qb-XHI" id="9oy-pn-mQi"/>
                 <outlet property="userInfoLabel" destination="gpO-gG-wdI" id="KG3-jn-tRX"/>
             </connections>
@@ -109,7 +97,6 @@
         <image name="Camera Small.png" width="29" height="25"/>
         <image name="Heart" width="24" height="20"/>
         <image name="Heart Tap" width="24" height="20"/>
-        <image name="Point" width="32" height="32"/>
         <image name="green_btn.png" width="315" height="64"/>
         <image name="green_btn_pressed.png" width="315" height="64"/>
         <image name="img_sample1.png" width="176" height="176"/>

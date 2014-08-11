@@ -13,10 +13,10 @@
 #import "UIDevice+HighPoint.h"
 
 #define AVATAR_BLUR_RADIUS 10.0
-#define CONSTRAINT_AVATAR_TOP 5.0
+#define CONSTRAINT_AVATAR_TOP 10.0
 #define CONSTRAINT_USERINFO_TOP_INVISIBLE 225.0
 #define CONSTRAINT_USERINFO_TOP_VISIBLE 270.0
-#define CONSTRAINT_VISIBILITY_BNTS_TOP 325.0
+#define CONSTRAINT_VISIBILITY_BNTS_TOP 330.0
 #define CONSTRAINT_VISIBILITY_INFO_TOP 250.0
 
 @implementation HPCurrentUserUICollectionViewCell
@@ -24,7 +24,6 @@
 
 
 - (void) configureCell : (User *) user {
-
     [self fixUserCardConstraint:user];
     self.yourProfilelabel.text = NSLocalizedString(@"YOUR_PROFILE", nil);
     [self.yourProfilelabel hp_tuneForUserCardName];
