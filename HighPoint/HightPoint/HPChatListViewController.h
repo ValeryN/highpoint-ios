@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HPChatTableViewCell.h"
 
-@interface HPChatListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate, HPChatTableViewCellDelegate>
+@interface HPChatListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate, HPChatTableViewCellDelegate, NSFetchedResultsControllerDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UITableView *chatListTableView;

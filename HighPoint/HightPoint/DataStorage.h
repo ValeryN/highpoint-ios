@@ -83,7 +83,7 @@ typedef void (^complationBlock) (id object);
 - (void)removeAndSaveCitiesFromUserFilter;
 - (void) deleteAllCities;
 - (void)createAndSaveContactEntity: (User *)user : (LastMessage *) lastMessage withComplation:(complationBlock) block;
-- (void) deleteAllContacts;
+- (void)deleteAndSaveAllContacts;
 - (NSFetchedResultsController*) getAllContactsFetchResultsController;
 - (void)deleteAndSaveContact: (NSNumber *) contactId;
 -(NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;

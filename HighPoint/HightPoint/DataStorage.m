@@ -125,8 +125,7 @@ static DataStorage *dataStorage;
                 block([returnUf moveToContext:[NSManagedObjectContext threadContext]]);
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -356,8 +355,7 @@ static DataStorage *dataStorage;
                 block([returnLanguage moveToContext:[NSManagedObjectContext threadContext]]);
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -456,8 +454,7 @@ static DataStorage *dataStorage;
                 block([returnSchool moveToContext:[NSManagedObjectContext threadContext]]);
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -550,8 +547,7 @@ static DataStorage *dataStorage;
                 block([returnSpeciality moveToContext:[NSManagedObjectContext threadContext]]);
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -688,8 +684,7 @@ static DataStorage *dataStorage;
                 block([returnPlace moveToContext:[NSManagedObjectContext threadContext]]);
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -819,8 +814,7 @@ static DataStorage *dataStorage;
             }];
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -854,8 +848,7 @@ static DataStorage *dataStorage;
                 block([returnPost moveToContext:[NSManagedObjectContext threadContext]]);
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -930,8 +923,7 @@ static DataStorage *dataStorage;
             }];
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -964,8 +956,7 @@ static DataStorage *dataStorage;
                 block([returnCompany moveToContext:[NSManagedObjectContext threadContext]]);
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -1225,8 +1216,7 @@ static DataStorage *dataStorage;
         }];
 
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperation:operation];
 }
 
@@ -1621,8 +1611,7 @@ static DataStorage *dataStorage;
             });
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperation:operation];
 }
 
@@ -1658,8 +1647,7 @@ static DataStorage *dataStorage;
                 block([returnCity moveToContext:[NSManagedObjectContext threadContext]]);
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -1721,7 +1709,6 @@ static DataStorage *dataStorage;
 
 
 - (void)createAndSaveContactEntity:(User *)glovaluser :(LastMessage *)globallastMessage withComplation:(complationBlock)block {
-    __block Contact *returnContact = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
@@ -1729,31 +1716,35 @@ static DataStorage *dataStorage;
             contactEnt.lastmessage = [globallastMessage moveToContext:context];
             contactEnt.user = [glovaluser moveToContext:context];
             [context saveWithErrorHandler];
-            returnContact = contactEnt;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 if (block)
-                    block([returnContact moveToContext:[NSManagedObjectContext threadContext]]);
+                    block([contactEnt moveToContext:[NSManagedObjectContext threadContext]]);
             }];
         }];
 
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 
-- (void)deleteAllContacts {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *allContacts = [[NSFetchRequest alloc] init];
-    [allContacts setEntity:[NSEntityDescription entityForName:@"Contact" inManagedObjectContext:context]];
-    [allContacts setIncludesPropertyValues:NO];
-    NSError *error = nil;
-    NSArray *contacts = [context executeFetchRequest:allContacts error:&error];
-    //error handling goes here
-    for (Contact *cont in contacts) {
-        [context deleteObject:cont];
-    }
+- (void)deleteAndSaveAllContacts {
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        [context performBlockAndWait:^{
+            NSFetchRequest *allContacts = [[NSFetchRequest alloc] init];
+            [allContacts setEntity:[NSEntityDescription entityForName:@"Contact" inManagedObjectContext:context]];
+            [allContacts setIncludesPropertyValues:NO];
+            NSError *error = nil;
+            NSArray *contacts = [context executeFetchRequest:allContacts error:&error];
+            //error handling goes here
+            for (Contact *cont in contacts) {
+                [context deleteObject:cont];
+            }
+            [context saveWithErrorHandler];
+        }];
+    }];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (NSFetchedResultsController *)getAllContactsFetchResultsController {
@@ -1876,8 +1867,8 @@ static DataStorage *dataStorage;
             }];
         }];
     }];
-//    operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -1907,8 +1898,8 @@ static DataStorage *dataStorage;
             }];
         }];
     }];
-    //   operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
@@ -1988,8 +1979,7 @@ static DataStorage *dataStorage;
             }];
         }];
     }];
-    //   operation.queuePriority = NSOperationQueuePriorityVeryHigh;
-    operation.threadPriority = 1;
+
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 

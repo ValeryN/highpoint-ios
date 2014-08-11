@@ -30,7 +30,9 @@
 #endif
         NSLog(@"Error: %@", error.localizedDescription);
     }
-
+    if(inContext.isFault){
+        NSLog(@"Fault");
+    }
     return inContext;
 
 }

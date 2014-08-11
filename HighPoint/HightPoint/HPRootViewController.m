@@ -75,6 +75,7 @@
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self unregisterNotification];
+    self.allUsers.delegate = nil;
 }
 
 
