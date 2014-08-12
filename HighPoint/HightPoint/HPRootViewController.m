@@ -48,7 +48,7 @@
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
 
-    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
+    //[[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
     [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
     
     //socket init

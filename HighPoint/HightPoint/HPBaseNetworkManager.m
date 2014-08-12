@@ -241,6 +241,16 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                
+                NSDictionary *dict_ = [usr objectAtIndex:0];
+                NSMutableDictionary *dict__ = [NSMutableDictionary dictionaryWithDictionary:dict_];
+                //for(int i = 0; i < 1000; i++) {
+                //    [dict__ setValue:[NSNumber numberWithInt:i] forKey:@"id"];
+                //    [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict__ isCurrent:NO withComplation:nil];
+                //}
+
+                
+                /*
                 for(NSDictionary *dict in usr) {
                     //NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
                     //[self getGeoLocation:param];
@@ -259,6 +269,7 @@ static HPBaseNetworkManager *networkManager;
                 }
                 NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"cityIds", nil];
                 [self getGeoLocation:param:0];
+                */
             }
             else NSLog(@"Error, no valid data");
         }

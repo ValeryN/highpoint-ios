@@ -23,7 +23,7 @@ static DataStorage *dataStorage;
             dispatch_once(&onceToken, ^{
                 dataStorage = [[DataStorage alloc] init];
                 dataStorage.backgroundOperationQueue = [[NSOperationQueue alloc] init];
-                dataStorage.backgroundOperationQueue.maxConcurrentOperationCount = 1;
+                dataStorage.backgroundOperationQueue.maxConcurrentOperationCount = 10;
                 //Merge changes between context
                 [[NSNotificationCenter defaultCenter]
                         addObserverForName:NSManagedObjectContextDidSaveNotification
