@@ -25,6 +25,7 @@
 - (void) makeReferenceRequest:(NSDictionary*) param;
 - (void) makePointLikeRequest:(NSNumber*) pointId;
 - (void) makePointUnLikeRequest:(NSNumber*) pointId;
+- (void) getPopularCitiesRequest;
 - (void) getApplicationSettingsRequest;
 - (void) getCurrentUserRequest;
 - (void) addEducationRequest:(NSDictionary*) param;

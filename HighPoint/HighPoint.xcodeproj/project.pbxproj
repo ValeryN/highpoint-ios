@@ -266,6 +266,7 @@
 		CD9E78891977C6FE0064E2AF /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CD9E78861977C6FE0064E2AF /* Point Notice Tap.png */; };
 		CD9E788A1977C6FE0064E2AF /* Point Notice.png in Resources */ = {isa = PBXBuildFile; fileRef = CD9E78871977C6FE0064E2AF /* Point Notice.png */; };
 		CD9E788B1977C6FE0064E2AF /* Point.png in Resources */ = {isa = PBXBuildFile; fileRef = CD9E78881977C6FE0064E2AF /* Point.png */; };
+		CDA0A0AC1999D1760017D35B /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA0A0AB1999D1760017D35B /* City.m */; };
 		CDA1702A1982354300173D1C /* HPEnterIPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA170291982354300173D1C /* HPEnterIPViewController.m */; };
 		CDA1702E1982392C00173D1C /* URLs.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA1702D1982392C00173D1C /* URLs.m */; };
 		CDA17039198246B600173D1C /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = CDA17030198246B600173D1C /* CHANGELOG */; };
@@ -317,7 +318,6 @@
 		CDF9745D196E8C4C0064ED04 /* Eye.png in Resources */ = {isa = PBXBuildFile; fileRef = CDF97458196E8C4C0064ED04 /* Eye.png */; };
 		CDF9745E196E8C4C0064ED04 /* Lock Active.png in Resources */ = {isa = PBXBuildFile; fileRef = CDF97459196E8C4C0064ED04 /* Lock Active.png */; };
 		CDF9745F196E8C4C0064ED04 /* Lock.png in Resources */ = {isa = PBXBuildFile; fileRef = CDF9745A196E8C4C0064ED04 /* Lock.png */; };
-		CDFA8A00196BB68000D04451 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA89FF196BB67F00D04451 /* City.m */; };
 		CDFA8A06196BDF7C00D04451 /* HPChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A04196BDF7C00D04451 /* HPChatListViewController.xib */; };
 		CDFA8A09196BE4B100D04451 /* HPChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFA8A08196BE4B100D04451 /* HPChatListViewController.m */; };
 		CDFA8A0E196BE5E900D04451 /* HPChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFA8A0C196BE5E900D04451 /* HPChatTableViewCell.xib */; };
@@ -698,6 +698,8 @@
 		CD9E78861977C6FE0064E2AF /* Point Notice Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice Tap.png"; sourceTree = "<group>"; };
 		CD9E78871977C6FE0064E2AF /* Point Notice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice.png"; sourceTree = "<group>"; };
 		CD9E78881977C6FE0064E2AF /* Point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Point.png; sourceTree = "<group>"; };
+		CDA0A0AA1999D1760017D35B /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
+		CDA0A0AB1999D1760017D35B /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		CDA170281982354300173D1C /* HPEnterIPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPEnterIPViewController.h; sourceTree = "<group>"; };
 		CDA170291982354300173D1C /* HPEnterIPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPEnterIPViewController.m; sourceTree = "<group>"; };
 		CDA1702D1982392C00173D1C /* URLs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLs.m; sourceTree = "<group>"; };
@@ -765,8 +767,6 @@
 		CDF97458196E8C4C0064ED04 /* Eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Eye.png; sourceTree = "<group>"; };
 		CDF97459196E8C4C0064ED04 /* Lock Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lock Active.png"; sourceTree = "<group>"; };
 		CDF9745A196E8C4C0064ED04 /* Lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lock.png; sourceTree = "<group>"; };
-		CDFA89FE196BB67F00D04451 /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
-		CDFA89FF196BB67F00D04451 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		CDFA8A04196BDF7C00D04451 /* HPChatListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatListViewController.xib; sourceTree = "<group>"; };
 		CDFA8A07196BE4B100D04451 /* HPChatListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatListViewController.h; sourceTree = "<group>"; };
 		CDFA8A08196BE4B100D04451 /* HPChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChatListViewController.m; sourceTree = "<group>"; };
@@ -1274,8 +1274,6 @@
 				3B39D2F4195C3091002520B9 /* MaxEntertainmentPrice.m */,
 				3B39D2F0195C3090002520B9 /* AppSetting.h */,
 				3B39D2F1195C3090002520B9 /* AppSetting.m */,
-				CDFA89FE196BB67F00D04451 /* City.h */,
-				CDFA89FF196BB67F00D04451 /* City.m */,
 				CD55FD0F19792025003EE9E9 /* Language.h */,
 				CD55FD1019792025003EE9E9 /* Language.m */,
 				CD55FD15197925E3003EE9E9 /* Place.h */,
@@ -1300,6 +1298,8 @@
 				CDC2D7CE1988E33C0002B196 /* Chat.m */,
 				CDC2D7D91988F9C50002B196 /* User.h */,
 				CDC2D7DA1988F9C50002B196 /* User.m */,
+				CDA0A0AA1999D1760017D35B /* City.h */,
+				CDA0A0AB1999D1760017D35B /* City.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -1962,6 +1962,7 @@
 				3B6DB4A518FFC24D00C26A50 /* HightPoint.xcdatamodeld in Sources */,
 				3BE83C1619796B2A0043E03E /* HEBubbleViewItem.m in Sources */,
 				3BDA4C9519064E5900EF6619 /* SDWebImagePrefetcher.m in Sources */,
+				CDA0A0AC1999D1760017D35B /* City.m in Sources */,
 				CDC2D7DB1988F9C50002B196 /* User.m in Sources */,
 				3BDA4CA8190660B400EF6619 /* SRWebSocket.m in Sources */,
 				3B9C749B1990FB7E006ADAE7 /* HPMakeAvatarViewController.m in Sources */,
@@ -2070,7 +2071,6 @@
 				CD08B830198B7E200006AF4A /* HPUICollectionViewFlowLayout.m in Sources */,
 				CD6D7A90197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m in Sources */,
 				CD4CA3BD19810F7C0016DF7E /* HPChatMsgTableViewCell.m in Sources */,
-				CDFA8A00196BB68000D04451 /* City.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,
 				3BDA4C9619064E5900EF6619 /* UIButton+WebCache.m in Sources */,

@@ -52,9 +52,8 @@
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
-    
-    
+    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
+    [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
     
     //socket init
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:[[[URLs getServerURL] stringByReplacingOccurrencesOfString:@":3002" withString:@""] stringByReplacingOccurrencesOfString:@"http://" withString:@""],@"host", @"3002",@"port", nil];
