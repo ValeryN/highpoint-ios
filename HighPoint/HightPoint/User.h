@@ -2,7 +2,7 @@
 //  User.h
 //  HighPoint
 //
-//  Created by Julia Pozdnyakova on 30.07.14.
+//  Created by Andrey Anisimov on 11.08.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -27,8 +27,11 @@
 @property (nonatomic, retain) NSString * nameForms;
 @property (nonatomic, retain) NSNumber * userId;
 @property (nonatomic, retain) NSNumber * visibility;
+@property (nonatomic, retain) NSNumber * isItFromContact;
 @property (nonatomic, retain) Avatar *avatar;
 @property (nonatomic, retain) NSSet *career;
+@property (nonatomic, retain) Chat *chat;
+@property (nonatomic, retain) City *city;
 @property (nonatomic, retain) Contact *contact;
 @property (nonatomic, retain) NSSet *education;
 @property (nonatomic, retain) NSSet *language;
@@ -37,8 +40,6 @@
 @property (nonatomic, retain) NSSet *place;
 @property (nonatomic, retain) UserPoint *point;
 @property (nonatomic, retain) UserFilter *userfilter;
-@property (nonatomic, retain) Chat *chat;
-@property (nonatomic, retain) City *city;
 @end
 
 @interface User (CoreDataGeneratedAccessors)
