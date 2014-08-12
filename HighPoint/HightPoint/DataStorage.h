@@ -25,7 +25,6 @@
 #import "School.h"
 #import "Speciality.h"
 #import "Contact.h"
-#import "LastMessage.h"
 #import "Chat.h"
 #import "Message.h"
 #import "HPBaseNetworkManager.h"

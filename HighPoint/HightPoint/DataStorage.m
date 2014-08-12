@@ -1651,14 +1651,15 @@ static DataStorage *dataStorage;
     if(type == LastMessageType) {
         msgEnt.lastMessage = [NSNumber numberWithBool:YES];
     }
-
     msgEnt.id_ = [param objectForKey:@"id"];
     msgEnt.createdAt = [df dateFromString: [param objectForKey:@"createdAt"]];
     msgEnt.destinationId = [param objectForKey:@"destinationId"];
-    msgEnt.readAt = [df dateFromString:[param objectForKey:@"readAt"]];
+    NSLog(@"readAtParam = %@",[param objectForKey:@"readAt"]);
+    if (![[param objectForKey:@"readAt"] isKindOfClass:[NSNull class]]) {
+        msgEnt.readAt =  [df dateFromString:[param objectForKey:@"readAt"]];
+    }
     msgEnt.sourceId = [param objectForKey:@"sourceId"];
     msgEnt.text = [param objectForKey:@"text"];
-    
     [self saveContext];
     return msgEnt;
 }

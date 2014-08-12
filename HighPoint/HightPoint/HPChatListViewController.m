@@ -55,7 +55,6 @@
     [super viewWillAppear:animated];
     [self registerNotification];
     [self updateCurrentView];
-    
 }
 
 - (void) viewWillDisappear:(BOOL)animated {

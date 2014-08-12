@@ -20,7 +20,6 @@
 #import "Company.h"
 #import "Language.h"
 #import "User.h"
-#import "LastMessage.h"
 #import "Contact.h"
 
 
@@ -1188,6 +1187,44 @@ static HPBaseNetworkManager *networkManager;
         
     }];
 }
+
+#pragma mark - messages
+- (void) sendMessageToUser : (NSNumber *) userId param: (NSDictionary *)param {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:[NSString stringWithFormat:kSendMessageToUserRequest, [userId stringValue]]];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"SEND MESSAGE RESP JSON: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSDictionary *msg = [[jsonDict objectForKey:@"data"] objectForKey:@"message"];
+                if (msg) {
+                   [[DataStorage sharedDataStorage] createMessage:msg forUserId:userId andMessageType:HistoryMessageType];
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                //[alert show];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //[alert show];
+        
+    }];
+}
+
+
 #pragma mark - unread message
 - (void) getUnreadMessageRequest {
     NSString *url = nil;
