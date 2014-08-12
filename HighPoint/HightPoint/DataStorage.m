@@ -1654,7 +1654,6 @@ static DataStorage *dataStorage;
     msgEnt.id_ = [param objectForKey:@"id"];
     msgEnt.createdAt = [df dateFromString: [param objectForKey:@"createdAt"]];
     msgEnt.destinationId = [param objectForKey:@"destinationId"];
-    NSLog(@"readAtParam = %@",[param objectForKey:@"readAt"]);
     if (![[param objectForKey:@"readAt"] isKindOfClass:[NSNull class]]) {
         msgEnt.readAt =  [df dateFromString:[param objectForKey:@"readAt"]];
     }
