@@ -206,14 +206,10 @@
 #pragma mark - update view 
 
 - (void) updateViewValues {
-    //set values from DB
-    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
-    NSLog(@"Current user filter = %@", userFilter.description);
-    if (userFilter) {
-        self.oldRangeSlider.lowerValue = [userFilter.minAge floatValue];
-        self.oldRangeSlider.upperValue = [userFilter.maxAge floatValue];
-        for (Gender *num in [userFilter.gender allObjects]) {
-            NSLog(@"num = %@ -- %@", num, [num class]);
+    if (uf) {
+        self.oldRangeSlider.lowerValue = [uf.minAge floatValue];
+        self.oldRangeSlider.upperValue = [uf.maxAge floatValue];
+        for (Gender *num in [uf.gender allObjects]) {
             if ([num.genderType intValue] == 2) {
                 [self.womenSw setOn:YES];
             }
@@ -243,7 +239,6 @@
         [genderArr addObject:[NSNumber numberWithFloat:1]];
     }
     NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders",uf.city.cityId, @"cityIds", nil];
-    [[DataStorage sharedDataStorage] createUserFilterEntity:filterParams];
     [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
 }
 

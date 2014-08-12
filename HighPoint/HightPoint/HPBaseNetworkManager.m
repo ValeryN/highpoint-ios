@@ -499,7 +499,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                // TODO: save ?
+                [[DataStorage sharedDataStorage] createUserFilterEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"filter"]];
             } else {
                 NSLog(@"Error, no valid data");
             }

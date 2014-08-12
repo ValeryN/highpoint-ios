@@ -80,6 +80,22 @@
     [self.navigationController popViewControllerAnimated: YES];
 }
 
+#pragma mark - check mark
+- (BOOL) checkAddedMark :(City *) cityIn {
+    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
+    if ([userFilter.city.cityId isEqualToNumber:cityIn.cityId]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (void) checkMarksReload {
+    for (HPTownTableViewCell *cell in self.citiesTableView.visibleCells) {
+        NSIndexPath *cellIndexPath = [self.citiesTableView indexPathForCell:cell];
+        cell.isSelectedImgView.hidden = ![self checkAddedMark:[self.popularCities objectAtIndex:cellIndexPath.row]];
+    }
+}
+
 #pragma mark - table view
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -94,6 +110,7 @@
     }
     City *city = [self.popularCities objectAtIndex:indexPath.row];
     [townCell configureCell:city];
+    townCell.isSelectedImgView.hidden = ![self checkAddedMark:city];
     return townCell;
     
 }
@@ -119,6 +136,8 @@
     NSLog(@"index object = %@",((City *)[self.popularCities objectAtIndex:indexPath.row]).cityName);
     City *cityForFilter = [self.popularCities objectAtIndex:indexPath.row];
     [[DataStorage sharedDataStorage]  setCityToUserFilter:cityForFilter];
+    [self checkMarksReload];
+    [self.navigationController popViewControllerAnimated: YES];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {

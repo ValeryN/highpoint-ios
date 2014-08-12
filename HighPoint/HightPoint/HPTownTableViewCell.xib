@@ -21,21 +21,25 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ojR-4R-9Ad">
-                        <rect key="frame" x="298" y="12" width="12" height="25"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Selected.png" translatesAutoresizingMaskIntoConstraints="NO" id="ojR-4R-9Ad">
+                        <rect key="frame" x="292" y="19" width="15" height="12"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </imageView>
-                    <view alpha="0.40000000596046448" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iuJ-ON-8Kt" userLabel="Separator View">
-                        <rect key="frame" x="10" y="49" width="310" height="1"/>
+                    <view alpha="0.40000000000000002" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iuJ-ON-8Kt" userLabel="Separator View">
+                        <rect key="frame" x="15" y="49" width="305" height="1"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="isSelectedImgView" destination="ojR-4R-9Ad" id="fhW-ek-o3g"/>
                 <outlet property="townNameLabel" destination="l4F-zL-WNV" id="EFL-10-3in"/>
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="Selected.png" width="28" height="23"/>
+    </resources>
 </document>

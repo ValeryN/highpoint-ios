@@ -269,6 +269,7 @@
 		CDA0A0B01999DAC10017D35B /* HPSelectPopularCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA0A0AE1999DAC10017D35B /* HPSelectPopularCityViewController.m */; };
 		CDA0A0B11999DAC10017D35B /* HPSelectPopularCityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA0A0AF1999DAC10017D35B /* HPSelectPopularCityViewController.xib */; };
 		CDA0A0B41999E55B0017D35B /* UserFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA0A0B31999E55B0017D35B /* UserFilter.m */; };
+		CDA0A0B61999F5D00017D35B /* Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA0A0B51999F5D00017D35B /* Selected.png */; };
 		CDA1702A1982354300173D1C /* HPEnterIPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA170291982354300173D1C /* HPEnterIPViewController.m */; };
 		CDA1702E1982392C00173D1C /* URLs.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA1702D1982392C00173D1C /* URLs.m */; };
 		CDA17039198246B600173D1C /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = CDA17030198246B600173D1C /* CHANGELOG */; };
@@ -705,6 +706,7 @@
 		CDA0A0AF1999DAC10017D35B /* HPSelectPopularCityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSelectPopularCityViewController.xib; sourceTree = "<group>"; };
 		CDA0A0B21999E55B0017D35B /* UserFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFilter.h; sourceTree = "<group>"; };
 		CDA0A0B31999E55B0017D35B /* UserFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFilter.m; sourceTree = "<group>"; };
+		CDA0A0B51999F5D00017D35B /* Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Selected.png; sourceTree = "<group>"; };
 		CDA170281982354300173D1C /* HPEnterIPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPEnterIPViewController.h; sourceTree = "<group>"; };
 		CDA170291982354300173D1C /* HPEnterIPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPEnterIPViewController.m; sourceTree = "<group>"; };
 		CDA1702D1982392C00173D1C /* URLs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLs.m; sourceTree = "<group>"; };
@@ -927,6 +929,7 @@
 		3B31864D191A493F0000DD8B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CDA0A0B51999F5D00017D35B /* Selected.png */,
 				3B9C749D1990FFA0006ADAE7 /* Close Tap.png */,
 				3B9C749E1990FFA0006ADAE7 /* Close.png */,
 				3B2E02B8198FC399003F4D62 /* Cancel Tap.png */,
@@ -1812,6 +1815,7 @@
 				CD08B829198B68960006AF4A /* HPUserCardUICollectionViewCell.xib in Resources */,
 				3BE9DE3A197FD8F300AFA641 /* 17.jpg in Resources */,
 				CDFA8A1F196BEA6200D04451 /* Switcher-C.png in Resources */,
+				CDA0A0B61999F5D00017D35B /* Selected.png in Resources */,
 				3B3170B1191B931300B72AC1 /* Userpic-Maskk_2.png in Resources */,
 				3B6DB49C18FFC24D00C26A50 /* InfoPlist.strings in Resources */,
 				4C91C1EB1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */,
