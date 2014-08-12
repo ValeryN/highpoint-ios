@@ -244,10 +244,10 @@ static HPBaseNetworkManager *networkManager;
                 
                 NSDictionary *dict_ = [usr objectAtIndex:0];
                 NSMutableDictionary *dict__ = [NSMutableDictionary dictionaryWithDictionary:dict_];
-                //for(int i = 0; i < 1000; i++) {
-                //    [dict__ setValue:[NSNumber numberWithInt:i] forKey:@"id"];
-                //    [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict__ isCurrent:NO withComplation:nil];
-                //}
+                for(int i = 0; i < 1000; i++) {
+                    [dict__ setValue:[NSNumber numberWithInt:i] forKey:@"id"];
+                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict__ isCurrent:NO withComplation:nil];
+                }
 
                 
                 /*
