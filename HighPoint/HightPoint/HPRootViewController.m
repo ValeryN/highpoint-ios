@@ -64,6 +64,7 @@
     //[[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequestForQueue];
     [self configureNavigationBar];
     [self createSwitch];
+    [self addPullToRefresh];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
 }
 
@@ -178,6 +179,24 @@
     }
 }
 
+
+#pragma mark - pull-to-refresh
+#pragma mark - pull to refresh
+
+- (void) addPullToRefresh {
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.tintColor = [UIColor whiteColor];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.mainListTable addSubview:refreshControl];
+}
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    NSLog(@"update users");
+    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
+    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
+    [refreshControl endRefreshing];
+}
 
 #pragma mark - TableView and DataSource delegate -
 
