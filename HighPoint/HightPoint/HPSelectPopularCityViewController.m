@@ -33,7 +33,6 @@
     self.citiesTableView.dataSource = self;
     [self createNavigationItem];
     self.navigationItem.title = NSLocalizedString(@"POPULAR_CITIES_TITLE", nil);
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -45,7 +44,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -122,18 +120,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 44;
+    return 48;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"index object = %@",((City *)[self.popularCities objectAtIndex:indexPath.row]).cityName);
     City *cityForFilter = [self.popularCities objectAtIndex:indexPath.row];
     [[DataStorage sharedDataStorage]  setCityToUserFilter:cityForFilter];
     [self checkMarksReload];
