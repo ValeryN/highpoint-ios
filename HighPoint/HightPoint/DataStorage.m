@@ -95,9 +95,7 @@ static DataStorage *dataStorage;
     if([fetchedObjects count] == 1) {
         UserFilter *filter = [fetchedObjects objectAtIndex:0];
         if (city) {
-             NSMutableSet *cities = [[NSMutableSet alloc] initWithSet:filter.city];
-            [cities addObject:city];
-            filter.city = cities;
+            filter.city = city;
         } else {
             filter.city = nil;
         }

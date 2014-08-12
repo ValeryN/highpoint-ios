@@ -260,7 +260,7 @@
             age = @"";
         }
     }
-    NSString *town = [filter.city allObjects].count > 0 ? (((City *)[[filter.city allObjects] objectAtIndex:0]).cityName) :@"";
+    NSString *town = filter.city ? filter.city.cityName :@"";
     NSString *sep = ((age.length > 0) && town.length > 0)? @"," : @"";
     return [NSString stringWithFormat:@"%@,%@%@%@", genders, age, sep, town];
 }
