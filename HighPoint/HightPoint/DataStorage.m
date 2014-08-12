@@ -120,10 +120,7 @@ static DataStorage *dataStorage;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         returnUf = [weakSelf createUserFilterEntity:param];
         [[NSManagedObjectContext threadContext] saveWithErrorHandler];
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if (block)
-                block([returnUf moveToContext:[NSManagedObjectContext threadContext]]);
-        }];
+        [self returnObject:returnUf inComplationBlock:block];
     }];
 
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
@@ -350,10 +347,7 @@ static DataStorage *dataStorage;
         } else {
             returnLanguage = lanEnt;
         }
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if (block)
-                block([returnLanguage moveToContext:[NSManagedObjectContext threadContext]]);
-        }];
+        [self returnObject:returnLanguage inComplationBlock:block];
     }];
 
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
@@ -449,10 +443,7 @@ static DataStorage *dataStorage;
         } else {
             returnSchool = schEnt;
         }
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if (block)
-                block([returnSchool moveToContext:[NSManagedObjectContext threadContext]]);
-        }];
+        [self returnObject:returnSchool inComplationBlock:block];
     }];
 
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
@@ -542,10 +533,7 @@ static DataStorage *dataStorage;
         } else {
             returnSpeciality = spEnt;
         }
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if (block)
-                block([returnSpeciality moveToContext:[NSManagedObjectContext threadContext]]);
-        }];
+        [self returnObject:returnSpeciality inComplationBlock:block];
     }];
 
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
@@ -679,10 +667,7 @@ static DataStorage *dataStorage;
         } else {
             returnPlace = placeEnt;
         }
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if (block)
-                block([returnPlace moveToContext:[NSManagedObjectContext threadContext]]);
-        }];
+        [self returnObject:returnPlace inComplationBlock:block];
     }];
 
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
@@ -808,10 +793,7 @@ static DataStorage *dataStorage;
             postEnt.id_ = param[@"id"];
             [self addSaveOperationToBottomInContext:context];
             returCpost = postEnt;
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                if (block)
-                    block([returCpost moveToContext:[NSManagedObjectContext threadContext]]);
-            }];
+            [self returnObject:returCpost inComplationBlock:block];
         }];
     }];
 
@@ -843,10 +825,7 @@ static DataStorage *dataStorage;
         } else {
             returnPost = postEnt;
         }
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if (block)
-                block([returnPost moveToContext:[NSManagedObjectContext threadContext]]);
-        }];
+        [self returnObject:returnPost inComplationBlock:block];
     }];
 
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
@@ -917,10 +896,7 @@ static DataStorage *dataStorage;
             companyEnt.id_ = param[@"id"];
             [self addSaveOperationToBottomInContext:context];
             returnCompany = companyEnt;
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                if (block)
-                    block([returnCompany moveToContext:[NSManagedObjectContext threadContext]]);
-            }];
+            [self returnObject:returnCompany inComplationBlock:block];
         }];
     }];
 
@@ -951,10 +927,7 @@ static DataStorage *dataStorage;
         } else {
             returnCompany = companyEnt;
         }
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if (block)
-                block([returnCompany moveToContext:[NSManagedObjectContext threadContext]]);
-        }];
+        [self returnObject:returnCompany inComplationBlock:block];
     }];
 
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
@@ -1640,10 +1613,7 @@ static DataStorage *dataStorage;
         } else {
             returnCity = cityEnt;
         }
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if (block)
-                block([returnCity moveToContext:[NSManagedObjectContext threadContext]]);
-        }];
+        [self returnObject:returnCity inComplationBlock:block];
     }];
 
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
@@ -1714,10 +1684,7 @@ static DataStorage *dataStorage;
             contactEnt.lastmessage = [globallastMessage moveToContext:context];
             contactEnt.user = [glovaluser moveToContext:context];
             [self addSaveOperationToBottomInContext:context];
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                if (block)
-                    block([contactEnt moveToContext:[NSManagedObjectContext threadContext]]);
-            }];
+            [self returnObject:contactEnt inComplationBlock:block];
         }];
 
     }];
@@ -1859,10 +1826,7 @@ static DataStorage *dataStorage;
             lastMsgEnt.text = param[@"text"];
             [self addSaveOperationToBottomInContext:context];
             returnMessage = lastMsgEnt;
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                if (block)
-                    block([returnMessage moveToContext:[NSManagedObjectContext threadContext]]);
-            }];
+            [self returnObject:returnMessage inComplationBlock:block];
         }];
     }];
 
@@ -1890,10 +1854,7 @@ static DataStorage *dataStorage;
             chatEnt.message = [NSSet setWithArray:entArray];
             [self addSaveOperationToBottomInContext:context];
             returnChat = chatEnt;
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                if (block)
-                    block([returnChat moveToContext:[NSManagedObjectContext threadContext]]);
-            }];
+            [self returnObject:returnChat inComplationBlock:block];
         }];
     }];
 
@@ -1971,10 +1932,7 @@ static DataStorage *dataStorage;
         [context performBlockAndWait:^{
             returnMessage = [weakSelf createMessage:param :userId];
             [self addSaveOperationToBottomInContext:context];
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                if (block)
-                    block([returnMessage moveToContext:[NSManagedObjectContext threadContext]]);
-            }];
+            [self returnObject:returnMessage inComplationBlock:block];
         }];
     }];
 
