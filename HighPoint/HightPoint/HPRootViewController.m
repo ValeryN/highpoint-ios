@@ -50,15 +50,31 @@
     [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
     
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
+    NSBlockOperation *pointBlockOperation = [NSBlockOperation blockOperationWithBlock:^{
+        [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
+    }];
+    NSBlockOperation *usersBlockOperation = [NSBlockOperation blockOperationWithBlock:^{
+       [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
+    }];
+    NSBlockOperation *contactsBlockOperation = [NSBlockOperation blockOperationWithBlock:^{
+        [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
+    }];
+    
+    
+    
+    
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
-    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
     
+    [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
     
+    NSOperationQueue *operationQueue = [[NSOperationQueue alloc]init];
+    operationQueue.maxConcurrentOperationCount = 1;
+    [operationQueue addOperation:usersBlockOperation];
+    [operationQueue addOperation:contactsBlockOperation];
+    [operationQueue addOperation:pointBlockOperation];
     
     //socket init
-    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:[[[URLs getServerURL] stringByReplacingOccurrencesOfString:@":3002" withString:@""] stringByReplacingOccurrencesOfString:@"http://" withString:@""],@"host", @"3002",@"port", nil];
-    [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
+    
 
     //
     //[[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequestForQueue];

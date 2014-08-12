@@ -49,6 +49,7 @@ static NSString * const kSpecialityFindRequest = @"/v201405/reference/specialiti
 static NSString * const kGetContactsRequest = @"/v201405/contacts";
 static NSString * const kContactDeleteRequest = @"/v201405/contacts/%@/remove";
 static NSString * const kUserMessagesRequest = @"/v201405/users/%@/messages";
+static NSString * const kUnreadMessagesRequest = @"/v201405/messages/unread";
 
 
 //socket io constants

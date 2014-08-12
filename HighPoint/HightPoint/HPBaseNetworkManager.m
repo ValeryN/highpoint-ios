@@ -81,6 +81,25 @@ static HPBaseNetworkManager *networkManager;
     }];
     
 }
+- (void) makeTownByIdRequest {
+    NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
+    NSLog(@"make town request");
+    NSString *ids = @"";
+    
+    for (int i = 0; i < users.count; i++) {
+        if (((User *)[users objectAtIndex:i]).cityId) {
+            ids = [ids stringByAppendingString:[NSString stringWithFormat:@"%@%@", ((User *)[users objectAtIndex:i]).cityId, @","]];
+        }
+    }
+    if ([ids length] > 0) {
+        ids = [ids substringToIndex:[ids length] - 1];
+    }
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"cityIds", nil];
+    [self getGeoLocation:param:0];
+    
+    param = [[NSDictionary alloc] initWithObjectsAndKeys:[[[URLs getServerURL] stringByReplacingOccurrencesOfString:@":3002" withString:@""] stringByReplacingOccurrencesOfString:@"http://" withString:@""],@"host", @"3002",@"port", nil];
+    [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
+}
 # pragma mark -
 # pragma mark http requests
 - (void) makeAutorizationRequest:(NSDictionary*) param {
@@ -89,24 +108,24 @@ static HPBaseNetworkManager *networkManager;
     url = [url stringByAppendingString:kSigninRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [self addTaskToArray:manager];
+    //[self addTaskToArray:manager];
     
     NSLog(@"auth parameters = %@", param);
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
-        if([self isTaskArrayEmpty:manager]) {
-            NSLog(@"Stop Queue");
-        }
+        //if([self isTaskArrayEmpty:manager]) {
+        //    NSLog(@"Stop Queue");
+        //}
         if(jsonData) {
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
             [UserTokenUtils setUserToken:[[jsonDict objectForKey:@"data"] objectForKey:@"token"]];
             }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if([self isTaskArrayEmpty:manager]) {
-            NSLog(@"Stop Queue");
-        }
+        //if([self isTaskArrayEmpty:manager]) {
+        //    NSLog(@"Stop Queue");
+        //}
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
@@ -142,12 +161,12 @@ static HPBaseNetworkManager *networkManager;
     url = [url stringByAppendingString:kGeoLocationRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [self addTaskToArray:manager];
+    //[self addTaskToArray:manager];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GEOLOCATION -->: %@", operation.responseString);
-        if([self isTaskArrayEmpty:manager]) {
-            NSLog(@"Stop Queue");
-        }
+        //if([self isTaskArrayEmpty:manager]) {
+        //    NSLog(@"Stop Queue");
+        //}
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -230,9 +249,9 @@ static HPBaseNetworkManager *networkManager;
     [self addTaskToArray:manager];
     [manager GET:url parameters:[Utils getParameterForPointsRequest:lastPoint] success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"POINTS -->: %@", operation.responseString);
-        if([self isTaskArrayEmpty:manager]) {
-            NSLog(@"Stop Queue");
-        }
+        //if([self isTaskArrayEmpty:manager]) {
+        //    NSLog(@"Stop Queue");
+        //}
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -247,11 +266,16 @@ static HPBaseNetworkManager *networkManager;
                 }
                 NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 for(NSString *key in usr) {
-                    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[[usr objectForKey:key] objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
+                    NSDictionary *dict = [usr objectForKey:key];
                     
                    // [self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createUserEntity:[usr objectForKey:key] isCurrent:NO];
+                    [[DataStorage sharedDataStorage] createUserEntity:[usr objectForKey:key] isCurrent:NO isItFromContact:NO];
                 }
+                if([self isTaskArrayEmpty:manager]) {
+                    NSLog(@"Stop Queue");
+                    [self makeTownByIdRequest];
+                }
+
             }
             else NSLog(@"Error, no valid data");
             
@@ -262,7 +286,9 @@ static HPBaseNetworkManager *networkManager;
         
         if([self isTaskArrayEmpty:manager]) {
             NSLog(@"Stop Queue");
+            [self makeTownByIdRequest];
         }
+
 
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -281,9 +307,6 @@ static HPBaseNetworkManager *networkManager;
     [self addTaskToArray:manager];
     [manager GET:url parameters:[Utils getParameterForUsersRequest:lastUser] success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"USERS -->: %@", operation.responseString);
-        if([self isTaskArrayEmpty:manager]) {
-            NSLog(@"Stop Queue");
-        }
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -295,30 +318,21 @@ static HPBaseNetworkManager *networkManager;
                 for(NSDictionary *dict in usr) {
                     //NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
                     //[self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO];
+                    [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO isItFromContact:NO];
                 }
-                NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
-                NSString *ids = @"";
-                
-                for (int i = 0; i < users.count; i++) {
-                    if (((User *)[users objectAtIndex:i]).cityId) {
-                        ids = [ids stringByAppendingString:[NSString stringWithFormat:@"%@%@", ((User *)[users objectAtIndex:i]).cityId, @","]];
-                    }
+                if([self isTaskArrayEmpty:manager]) {
+                    NSLog(@"Stop Queue");
+                    [self makeTownByIdRequest];
                 }
-                if ([ids length] > 0) {
-                    ids = [ids substringToIndex:[ids length] - 1];
-                }
-                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"cityIds", nil];
-                [self getGeoLocation:param:0];
+
             }
             else NSLog(@"Error, no valid data");
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if([self isTaskArrayEmpty:manager]) {
             NSLog(@"Stop Queue");
+            [self makeTownByIdRequest];
         }
-
-        
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
@@ -337,23 +351,26 @@ static HPBaseNetworkManager *networkManager;
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GET CURRENT USER JSON: %@", operation.responseString);
-        if([self isTaskArrayEmpty:manager]) {
-            NSLog(@"Stop Queue");
-        }
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error];
-            if(jsonDict)
-                [[DataStorage sharedDataStorage] createUserEntity: [[jsonDict objectForKey:@"data"] objectForKey:@"user"] isCurrent:YES];
+            if(jsonDict) {
+                [[DataStorage sharedDataStorage] createUserEntity: [[jsonDict objectForKey:@"data"] objectForKey:@"user"] isCurrent:YES isItFromContact:NO];
+                if([self isTaskArrayEmpty:manager]) {
+                    NSLog(@"Stop Queue");
+                    [self makeTownByIdRequest];
+                }
+            }
             else NSLog(@"Error, no valid data");
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if([self isTaskArrayEmpty:manager]) {
             NSLog(@"Stop Queue");
+            [self makeTownByIdRequest];
         }
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -1138,8 +1155,44 @@ static HPBaseNetworkManager *networkManager;
         
     }];
 }
+#pragma mark - unread message
+- (void) getUnreadMessageRequest {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:kUnreadMessagesRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [self addTaskToArray:manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"GET UNREAD MESSAGES -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if([self isTaskArrayEmpty:manager]) {
+                    NSLog(@"Stop Queue");
+                    [self makeTownByIdRequest];
+                }
+            }
+            else NSLog(@"Error, no valid data");
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        //if([self isTaskArrayEmpty:manager]) {
+        //    NSLog(@"Stop Queue");
+        //}
+        
+    }];
 
-
+}
 
 #pragma mark - contacts
 - (void) getContactsRequest {
@@ -1149,6 +1202,7 @@ static HPBaseNetworkManager *networkManager;
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [self addTaskToArray:manager];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GET CONTACTS -->: %@", operation.responseString);
@@ -1164,15 +1218,20 @@ static HPBaseNetworkManager *networkManager;
                 NSDictionary *lastMsgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
                 
                 for (int i = 0; i < users.count; i++) {
-                    User *user = [[DataStorage sharedDataStorage] createUserEntity:[users objectAtIndex:i] isCurrent:NO];
-                    LastMessage * lastMsg;
+                    User *user = [[DataStorage sharedDataStorage] createUserEntity:[users objectAtIndex:i] isCurrent:NO isItFromContact:YES];
+                    Message * lastMsg;
                     for (id key in [lastMsgs allKeys]) {
                         if ([user.userId intValue] == [key intValue]) {
-                            lastMsg = [[DataStorage sharedDataStorage] createLastMessage:[lastMsgs objectForKey:key]: [key intValue]];
+                            lastMsg = [[DataStorage sharedDataStorage] createMessage:[lastMsgs objectForKey:key] forUserId:user.userId andMessageType:LastMessageType];
                             break;
                         }
                     }
-                    [[DataStorage sharedDataStorage] createContactEntity:user :lastMsg];
+                    [[DataStorage sharedDataStorage] createContactEntity:user forMessage:lastMsg];
+                    if([self isTaskArrayEmpty:manager]) {
+                        NSLog(@"Stop Queue");
+                        [self makeTownByIdRequest];
+                    }
+
                 }
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
@@ -1181,6 +1240,11 @@ static HPBaseNetworkManager *networkManager;
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        if([self isTaskArrayEmpty:manager]) {
+            NSLog(@"Stop Queue");
+            [self makeTownByIdRequest];
+        }
         NSLog(@"Error: %@", error.localizedDescription);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
@@ -1247,7 +1311,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"messages"]) {
-                    User *user = [[DataStorage sharedDataStorage] getUserForId:userId];
+                    User *user = [[DataStorage sharedDataStorage] getUserForId:userId]; //history message
                     [[DataStorage sharedDataStorage] createChatEntity: user :[[jsonDict objectForKey:@"data"] objectForKey:@"messages"]];
                 }
             } else {
@@ -1338,7 +1402,7 @@ static HPBaseNetworkManager *networkManager;
         if(jsonDict) {
             [[DataStorage sharedDataStorage] deleteAllCities];
             [[DataStorage sharedDataStorage] deleteCurrentUser];
-            [[DataStorage sharedDataStorage] createUserEntity: [jsonDict objectForKey:@"user"] isCurrent:YES];
+            [[DataStorage sharedDataStorage] createUserEntity: [jsonDict objectForKey:@"user"] isCurrent:YES isItFromContact:NO];
             [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCurrentUserData object:self userInfo:nil];
         } else {
             NSLog(@"Error, no valid data");

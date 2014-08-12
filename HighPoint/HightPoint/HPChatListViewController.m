@@ -41,7 +41,7 @@
     
     self.chatListTableView.delegate = self;
     self.chatListTableView.dataSource = self;
-    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
+    //[[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
     // Do any additional setup after loading the view from its nib.
 }
 

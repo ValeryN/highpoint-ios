@@ -11,7 +11,7 @@
 #import "UIButton+HighPoint.h"
 #import <QuartzCore/QuartzCore.h>
 #import "User.h"
-#import "LastMessage.h"
+#import "Message.h"
 #import "City.h"
 
 @implementation HPChatTableViewCell

@@ -28,6 +28,7 @@
 #import "LastMessage.h"
 #import "Chat.h"
 #import "Message.h"
+#import "HPBaseNetworkManager.h"
 
 @interface DataStorage : NSObject
 @property (nonatomic, strong) NSManagedObjectContext *moc;
@@ -42,7 +43,7 @@
 - (UserFilter*) getUserFilter;
 - (void) setCityToUserFilter :(City *) city;
 - (NSFetchedResultsController*) applicationSettingFetchResultsController;
-- (User *) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current;
+- (User *) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current isItFromContact:(BOOL) contact;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 - (NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
@@ -80,12 +81,13 @@
 - (void) removeCityObjectById : (City *)city;
 - (void) removeCitiesFromUserFilter;
 - (void) deleteAllCities;
-- (Contact *) createContactEntity: (User *)user : (LastMessage *) lastMessage;
+- (Contact *) createContactEntity:(User *)user forMessage:(Message *) lastMessage;
 - (void) deleteAllContacts;
 - (NSFetchedResultsController*) getAllContactsFetchResultsController;
 - (void) deleteContact : (NSNumber *) contactId;
 -(NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
-- (LastMessage*) createLastMessage:(NSDictionary *)param  :(int) keyId;
+
+- (Message *) createMessage :(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes) type;
 - (Chat *) createChatEntity: (User *)user : (NSArray *) messages;
 - (void) deleteChatByUserId : (NSNumber *) userId;
 - (void) saveContext;

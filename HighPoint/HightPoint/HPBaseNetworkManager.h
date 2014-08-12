@@ -9,9 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "SocketIO.h"
 @class User;
+
+typedef enum {
+    HistoryMessageType = 1,
+    LastMessageType,
+    UnreadMessageType,
+    NotSendedMessageType
+} MessageTypes;
+
 @interface HPBaseNetworkManager : NSObject <SocketIODelegate>
-
-
 - (void) createTaskArray;
 - (void) deleteTaskArray;
 + (HPBaseNetworkManager*) sharedNetworkManager;
@@ -48,7 +54,7 @@
 - (void) getContactsRequest;
 - (void) deleteContactRequest : (NSNumber *)contactId;
 - (void) getChatMsgsForUser : (NSNumber *) userId : (NSNumber *) afterMsgId;
-
+- (void) getUnreadMessageRequest;
 - (void) sendUserActivityStart:(NSDictionary*) param;
 - (void) sendUserActivityEnd:(NSDictionary*) param;
 - (void) sendUserMessagesRead:(NSDictionary*) param;
