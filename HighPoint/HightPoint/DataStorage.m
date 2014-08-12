@@ -23,7 +23,7 @@ static DataStorage *dataStorage;
             dispatch_once(&onceToken, ^{
                 dataStorage = [[DataStorage alloc] init];
                 dataStorage.backgroundOperationQueue = [[NSOperationQueue alloc] init];
-                dataStorage.backgroundOperationQueue.maxConcurrentOperationCount = 10;
+                dataStorage.backgroundOperationQueue.maxConcurrentOperationCount = 1;
                 //Merge changes between context
                 [[NSNotificationCenter defaultCenter]
                         addObserverForName:NSManagedObjectContextDidSaveNotification
@@ -149,7 +149,7 @@ static DataStorage *dataStorage;
                 } else {
                     filter.city = nil;
                 }
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }
             if ([fetchedObjects count] > 1) {
                 @throw [NSException exceptionWithName:@"ru.surfstudio.HighPoint.500" reason:@"Implicitly behavior!" userInfo:nil];
@@ -172,7 +172,7 @@ static DataStorage *dataStorage;
             if ([fetchedObjects count] >= 1) {
                 UserFilter *filter = fetchedObjects[0];
                 filter.city = [[NSSet alloc] init];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }
         }];
     }];
@@ -208,7 +208,7 @@ static DataStorage *dataStorage;
             for (NSManagedObject *filter in filters) {
                 [context deleteObject:filter];
             }
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
 }
@@ -242,7 +242,7 @@ static DataStorage *dataStorage;
         }
         [context performBlockAndWait:^{
             currentUser.education = [NSSet setWithArray:education];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
 }
@@ -266,7 +266,7 @@ static DataStorage *dataStorage;
         [educationItems removeObjectsInArray:discardedItems];
         [context performBlockAndWait:^{
             currentUser.education = [NSSet setWithArray:educationItems];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
 }
@@ -297,7 +297,7 @@ static DataStorage *dataStorage;
         }
         [context performBlockAndWait:^{
             currentUser.language = [NSSet setWithArray:languages];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
 }
@@ -321,7 +321,7 @@ static DataStorage *dataStorage;
         [languageItems removeObjectsInArray:discardedItems];
         [context performBlockAndWait:^{
             currentUser.language = [NSSet setWithArray:languageItems];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
 }
@@ -344,7 +344,7 @@ static DataStorage *dataStorage;
         if (!lanEnt) {
             [context performBlockAndWait:^{
                 [context insertObject:language];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }];
             returnLanguage = language;
         } else {
@@ -411,7 +411,7 @@ static DataStorage *dataStorage;
             for (Language *language in languages) {
                 [context deleteObject:language];
             }
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
 }
@@ -443,7 +443,7 @@ static DataStorage *dataStorage;
         if (!schEnt) {
             [context performBlockAndWait:^{
                 [context insertObject:school];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }];
             returnSchool = school;
         } else {
@@ -536,7 +536,7 @@ static DataStorage *dataStorage;
         if (!spEnt) {
             [context performBlockAndWait:^{
                 [context insertObject:speciality];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }];
             returnSpeciality = speciality;
         } else {
@@ -627,7 +627,7 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             currentUser.place = [NSSet setWithArray:places];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
 }
@@ -649,7 +649,7 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             currentUser.place = [NSSet setWithArray:placesItems];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
 }
@@ -673,7 +673,7 @@ static DataStorage *dataStorage;
         if (!placeEnt) {
             [context performBlockAndWait:^{
                 [context insertObject:place];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }];
             returnPlace = place;
         } else {
@@ -768,7 +768,7 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             currentUser.career = [NSSet setWithArray:careerItems];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
 }
@@ -790,7 +790,7 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             currentUser.career = [NSSet setWithArray:careerItems];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
 }
@@ -806,7 +806,7 @@ static DataStorage *dataStorage;
             CareerPost *postEnt = (CareerPost *) [NSEntityDescription insertNewObjectForEntityForName:@"CareerPost" inManagedObjectContext:context];
             postEnt.name = param[@"name"];
             postEnt.id_ = param[@"id"];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
             returCpost = postEnt;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 if (block)
@@ -837,7 +837,7 @@ static DataStorage *dataStorage;
         if (!postEnt) {
             [context performBlockAndWait:^{
                 [context insertObject:cPost];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }];
             returnPost = cPost;
         } else {
@@ -915,7 +915,7 @@ static DataStorage *dataStorage;
             Company *companyEnt = (Company *) [NSEntityDescription insertNewObjectForEntityForName:@"Company" inManagedObjectContext:context];
             companyEnt.name = param[@"name"];
             companyEnt.id_ = param[@"id"];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
             returnCompany = companyEnt;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 if (block)
@@ -945,7 +945,7 @@ static DataStorage *dataStorage;
         if (!companyEnt) {
             [context performBlockAndWait:^{
                 [context insertObject:company];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }];
             returnCompany = company;
         } else {
@@ -1209,11 +1209,8 @@ static DataStorage *dataStorage;
         }
 
         returnUser = user;
-        [context saveWithErrorHandler];
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if (block)
-                block([returnUser moveToContext:[NSManagedObjectContext threadContext]]);
-        }];
+        [self addSaveOperationToBottomInContext:context];
+        [self returnObject:returnUser inComplationBlock:block];
 
     }];
 
@@ -1281,7 +1278,7 @@ static DataStorage *dataStorage;
         if ([array count] > 0) {
             User *current = array[0];
             [context deleteObject:current];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
             return;
         } else {
             return;
@@ -1339,7 +1336,7 @@ static DataStorage *dataStorage;
                 userPoint.pointText = param[@"text"];
                 userPoint.pointUserId = param[@"userId"];
                 userPoint.pointValidTo = param[@"validTo"];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }
         }];
     }];
@@ -1474,7 +1471,7 @@ static DataStorage *dataStorage;
                     settings.webSoketUrl = [param[@"webSocketUrls"] objectAtIndex:0];
             }
             //settings.webSoketUrl = [param objectForKey:@"webSocketUrls"];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
 }
@@ -1498,6 +1495,7 @@ static DataStorage *dataStorage;
 - (NSFetchedResultsController *)allUsersFetchResultsController {
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    request.includesPendingChanges = YES;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
     [request setEntity:entity];
     NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
@@ -1582,7 +1580,7 @@ static DataStorage *dataStorage;
         if (user) {
             [context performBlockAndWait:^{
                 user.city = [city moveToContext:context];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }];
         }
     }];
@@ -1602,7 +1600,7 @@ static DataStorage *dataStorage;
             cityEnt.cityName = param[@"name"];
             cityEnt.cityNameForms = param[@"nameForms"];
             cityEnt.cityRegionId = param[@"regionId"];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
             returnCity = cityEnt;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (block) {
@@ -1636,7 +1634,7 @@ static DataStorage *dataStorage;
         if (!cityEnt) {
             [context performBlockAndWait:^{
                 [context insertObject:city];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }];
             returnCity = city;
         } else {
@@ -1715,7 +1713,7 @@ static DataStorage *dataStorage;
             Contact *contactEnt = (Contact *) [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:context];
             contactEnt.lastmessage = [globallastMessage moveToContext:context];
             contactEnt.user = [glovaluser moveToContext:context];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 if (block)
                     block([contactEnt moveToContext:[NSManagedObjectContext threadContext]]);
@@ -1741,7 +1739,7 @@ static DataStorage *dataStorage;
             for (Contact *cont in contacts) {
                 [context deleteObject:cont];
             }
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
         }];
     }];
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
@@ -1804,7 +1802,7 @@ static DataStorage *dataStorage;
         if (contact) {
             [context performBlockAndWait:^{
                 [context deleteObject:contact];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }];
         }
     }];
@@ -1859,7 +1857,7 @@ static DataStorage *dataStorage;
             lastMsgEnt.readAt = [df dateFromString:param[@"readAt"]];
             lastMsgEnt.sourceId = param[@"sourceId"];
             lastMsgEnt.text = param[@"text"];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
             returnMessage = lastMsgEnt;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 if (block)
@@ -1890,7 +1888,7 @@ static DataStorage *dataStorage;
                 [entArray addObject:msg];
             }
             chatEnt.message = [NSSet setWithArray:entArray];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
             returnChat = chatEnt;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 if (block)
@@ -1942,7 +1940,7 @@ static DataStorage *dataStorage;
         if (chat) {
             [context performBlockAndWait:^{
                 [context deleteObject:chat];
-                [context saveWithErrorHandler];
+                [self addSaveOperationToBottomInContext:context];
             }];
         }
     }];
@@ -1972,7 +1970,7 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             returnMessage = [weakSelf createMessage:param :userId];
-            [context saveWithErrorHandler];
+            [self addSaveOperationToBottomInContext:context];
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 if (block)
                     block([returnMessage moveToContext:[NSManagedObjectContext threadContext]]);
@@ -1983,6 +1981,34 @@ static DataStorage *dataStorage;
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
+
+- (void)addSaveOperationToBottomInContext:(NSManagedObjectContext *)context{
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        if(context.hasChanges) {
+            [context saveWithErrorHandler];
+        }
+    }];
+    operation.queuePriority = NSOperationQueuePriorityLow;
+    [self.backgroundOperationQueue addOperation:operation];
+}
+
+- (void)returnObject:(NSManagedObject *)object inComplationBlock:(complationBlock)block {
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (block) {
+                if (!object.isFault) {
+                    block([object moveToContext:[NSManagedObjectContext threadContext]]);
+                }
+                else {
+                    //Object already deleted
+                    block(nil);
+                }
+            }
+        }];
+    }];
+    operation.queuePriority = NSOperationQueuePriorityLow;
+    [self.backgroundOperationQueue addOperation:operation];
+}
 
 #pragma mark - Deprecated
 

@@ -18,8 +18,8 @@
         NSManagedObjectContext *threadContext = threadDict[@"NSManagedContextForThread"];
         if (threadContext == nil) {
             threadContext = [[self alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-            [threadContext setParentContext:mainContext];
-            [threadContext setMergePolicy:NSOverwriteMergePolicy];
+            [threadContext setPersistentStoreCoordinator:mainContext.persistentStoreCoordinator];
+            [threadContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(obtainPermanentIdForContextBeforeSave:)
                                                          name:NSManagedObjectContextWillSaveNotification
@@ -46,20 +46,16 @@
 }
 
 - (void) saveWithErrorHandler {
+
+    NSLog(@"Save");
     NSError *error = nil;
     [self save:&error];
+
     if (error) {
         NSLog(@"ERROR: saveContext: %@", error);
 #ifdef DEBUG
         @throw [NSException exceptionWithName:@"CoreData.error" reason:@"Error save context" userInfo:@{@"error" : error}];
 #endif
-    }
-    if(self.parentContext){
-        [self.parentContext performBlockAndWait:^{
-            if(self.parentContext.hasChanges) {
-                [self.parentContext saveWithErrorHandler];
-            }
-        }];
     }
 }
 @end
