@@ -7,7 +7,6 @@
 //
 
 #import "HPFilterSettingsViewController.h"
-#import "HPSelectTownViewController.h"
 #import "Utils.h"
 #import "DataStorage.h"
 #import "HPBaseNetworkManager.h"
@@ -15,18 +14,18 @@
 #import "HPCityTableViewCell.h"
 #import "NotificationsConstants.h"
 #import "UIDevice+HighPoint.h"
-
+#import "HPSelectPopularCityViewController.h"
 
 #define CONSTRAINT_TOP_FOR_CLOSE_BTN 434
 
 
-@interface HPFilterSettingsViewController ()
+@interface HPFilterSettingsViewController () {
+    UserFilter *uf;
+}
 
 @end
 
-@implementation HPFilterSettingsViewController {
-    NSArray *allCities;
-}
+@implementation HPFilterSettingsViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,9 +42,6 @@
     self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
     self.womenSw.layer.cornerRadius = 16.0;
     self.menSw.layer.cornerRadius = 16.0;
-    
-    //[self.profileButton addTarget:self action:@selector(profileButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
-    
     self.notificationView = [Utils getNotificationViewForText:@"8"];
     
     [self.closeButton setBackgroundImage:[UIImage imageNamed:@"Close.png"] forState:UIControlStateNormal];
@@ -76,46 +72,31 @@
     self.guideLabel3.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.6];
     self.guideLabel4.font = [UIFont fontWithName:@"FuturaPT-Light" size:15.0f];
     self.guideLabel4.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.6];
-    
     [self.womenSw setOn:NO];
     [self.menSw setOn:NO];
-    
-    //self.oldRangeSlider.lowerValue = 18;
     self.oldRangeSlider.minimumValue = 18;
     self.oldRangeSlider.maximumValue = 60;
-    
     self.oldRangeSlider.tintColor = [UIColor colorWithRed:93.0/255.0 green:186.0/255.0 blue:164.0/255.0 alpha:1.0];
-    //self.oldRangeSlider.trackBackgroundImage = [UIImage imageNamed: @"Progress Line"];
-    //self.oldRangeSlider.lowerValue = 50.0;
-    //self.oldRangeSlider.upperValue = 55.0;    //self.oldRangeSlider = [[NMRangeSlider alloc] initWithFrame:CGRectMake(12, 208.0, 295.0, 31.0)];
-    //self.oldRangeSlider.tintColor = [UIColor redColor];
-    //[self.view addSubview:self.oldRangeSlider];
-    //[self.messageButton addTarget:self action:@selector(messageButtonPressedStart:) forControlEvents: UIControlEventTouchUpInside];
-    // Do any additional setup after loading the view.
-    
     self.townsTableView.delegate = self;
     self.townsTableView.dataSource = self;
 }
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    uf = [[DataStorage sharedDataStorage] getUserFilter];
     [self fixSelfConstraint];
     [self registerNotification];
-    
     [self.navigationController setNavigationBarHidden:YES];
     self.oldRangeSlider.minimumValue = 18;
     self.oldRangeSlider.maximumValue = 60;
-    //self.oldRangeSlider.minimumRange = 1;
     [self updateViewValues];
 }
-
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self unregisterNotification];
     
 }
-
-
 
 #pragma mark - constraint
 - (void) fixSelfConstraint
@@ -225,14 +206,10 @@
 #pragma mark - update view 
 
 - (void) updateViewValues {
-    //set values from DB
-    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
-    NSLog(@"Current user filter = %@", userFilter.description);
-    if (userFilter) {
-        self.oldRangeSlider.lowerValue = [userFilter.minAge floatValue];
-        self.oldRangeSlider.upperValue = [userFilter.maxAge floatValue];
-        for (Gender *num in [userFilter.gender allObjects]) {
-            NSLog(@"num = %@ -- %@", num, [num class]);
+    if (uf) {
+        self.oldRangeSlider.lowerValue = [uf.minAge floatValue];
+        self.oldRangeSlider.upperValue = [uf.maxAge floatValue];
+        for (Gender *num in [uf.gender allObjects]) {
             if ([num.genderType intValue] == 2) {
                 [self.womenSw setOn:YES];
             }
@@ -246,7 +223,6 @@
         self.oldRangeSlider.upperValue = 30.0;
     }
     [self updateSliderLabels];
-    allCities = [userFilter.city allObjects];
     [self.townsTableView reloadData];
 }
 
@@ -262,20 +238,7 @@
     if (self.menSw.isOn) {
         [genderArr addObject:[NSNumber numberWithFloat:1]];
     }
-    //TODO: view type ?
-    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
-    NSArray *citiesArr = [userFilter.city allObjects];
-    NSString *cityIds = @"";
-    for (int i = 0; i < citiesArr.count; i++) {
-        if ([((City*)[citiesArr objectAtIndex:i]).cityId stringValue].length >0) {
-            cityIds = [[cityIds stringByAppendingString:[((City*)[citiesArr objectAtIndex:i]).cityId stringValue]] stringByAppendingString:@","];
-        }
-    }
-    if ([cityIds length] > 0) {
-        cityIds = [cityIds substringToIndex:[cityIds length] - 1];
-    }
-    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders",cityIds, @"cityIds", nil];
-    [[DataStorage sharedDataStorage] createUserFilterEntity:filterParams];
+    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders",uf.city.cityId, @"cityIds", nil];
     [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
 }
 
@@ -291,14 +254,11 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPCityTableViewCell" owner:self options:nil];
         townCell = [nib objectAtIndex:0];
     }
-    
-    if (allCities.count > 0) {
-        City *city = [allCities objectAtIndex:indexPath.row];
-        [townCell configureCell:city];
+    if (uf.city) {
+        [townCell configureCell:uf.city];
     } else {
         [townCell configureCell:nil];
     }
-    
     return townCell;
 }
 
@@ -320,10 +280,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HPSelectTownViewController *town = [[HPSelectTownViewController alloc] initWithNibName: @"HPSelectTown" bundle: nil];
+    HPSelectPopularCityViewController *cityVC = [[HPSelectPopularCityViewController alloc] initWithNibName: @"HPSelectPopularCityViewController" bundle: nil];
     self.savedDelegate = self.navigationController.delegate;
     self.navigationController.delegate = nil;
-    [self.navigationController pushViewController:town animated:YES];
+    [self.navigationController pushViewController:cityVC animated:YES];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {

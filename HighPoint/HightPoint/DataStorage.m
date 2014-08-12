@@ -48,12 +48,6 @@ static DataStorage *dataStorage;
     if (!uf) {
         uf = (UserFilter*)[NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:self.moc];
     }
-    NSLog(@"filter params = %@", param);
-    
-    
-    const char* className = class_getName([ [param objectForKey:@"maxAge"] class]);
-    NSLog(@"yourObject is a: %s", className);
-    
     uf.maxAge = [param objectForKey:@"maxAge"];
     uf.minAge = [param objectForKey:@"minAge"];
     uf.viewType = [param objectForKey:@"viewType"];
@@ -63,25 +57,20 @@ static DataStorage *dataStorage;
         gender.genderType = p;
         [arr addObject:gender];
     }
-    NSString *cityIds = @"";
     NSArray *citiesArr = [param objectForKey:@"cityIds"];
-    
-    if ( [[param objectForKey:@"cityIds"] isKindOfClass: [NSArray class]]) {
-        for (int i = 0; i < citiesArr.count; i++) {
-                cityIds = [[cityIds stringByAppendingString:[[citiesArr objectAtIndex:i] stringValue]] stringByAppendingString:@","];
-        }
-        if ([cityIds length] > 0) {
-            cityIds = [cityIds substringToIndex:[cityIds length] - 1];
+    if ([citiesArr isKindOfClass: [NSArray class]]) {
+        if (citiesArr.count > 0) {
+            City *city = [[DataStorage sharedDataStorage] getCityById:[citiesArr objectAtIndex:0]];
+            [[DataStorage sharedDataStorage] setCityToUserFilter:city];
+        } else {
+            [[DataStorage sharedDataStorage] setCityToUserFilter:nil];
         }
     } else {
         [[DataStorage sharedDataStorage] setCityToUserFilter:nil];
-         [self saveContext];
+        [self saveContext];
     }
     uf.gender = [NSSet setWithArray:arr];
     [self saveContext];
-    NSLog(@"cityids = %@", cityIds);
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:cityIds, @"cityIds",@"",@"countryIds",@"",@"regionIds", nil];
-    [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params:2];
     return uf;
 }
 
@@ -95,9 +84,7 @@ static DataStorage *dataStorage;
     if([fetchedObjects count] == 1) {
         UserFilter *filter = [fetchedObjects objectAtIndex:0];
         if (city) {
-             NSMutableSet *cities = [[NSMutableSet alloc] initWithSet:filter.city];
-            [cities addObject:city];
-            filter.city = cities;
+            filter.city = city;
         } else {
             filter.city = nil;
         }
@@ -1396,17 +1383,59 @@ static DataStorage *dataStorage;
 
 
 #pragma mark - city
-- (City*) createCity:(NSDictionary *)param {
-    City *cityEnt = (City*)[NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:self.moc];
+
+- (City*) createCity:(NSDictionary *)param : (BOOL) isPopular {
+    City *cityEnt;
+    cityEnt = [self getCityById:[param objectForKey:@"id"]];
+    if(!cityEnt) {
+        cityEnt = (City*)[NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:self.moc];
+    }
     cityEnt.cityEnName = [param objectForKey:@"enName"];
     cityEnt.cityId = [param objectForKey:@"id"];
     cityEnt.cityName = [param objectForKey:@"name"];
     cityEnt.cityNameForms = [param objectForKey:@"nameForms"];
     cityEnt.cityRegionId = [param objectForKey:@"regionId"];
+    if (isPopular) {
+        cityEnt.isPopular = @(isPopular);
+    }
     [self saveContext];
     return cityEnt;
-    
 }
+
+- (NSFetchedResultsController *) getPopularCities {
+    NSFetchRequest* request = [[NSFetchRequest alloc] init];
+	NSEntityDescription* entity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:self.moc];
+	[request setEntity:entity];
+    NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"cityId" ascending:YES];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString* predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"isPopular == 1"];
+    
+    BOOL predicateError = NO;
+    @try {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        predicateError = YES;
+    }
+    
+    if (predicateError)
+        return nil;
+    
+    
+    NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
+    NSError* error=nil;
+	if (![controller performFetch:&error])
+	{
+		return nil;
+	}
+    return controller;
+}
+
 
 - (City *) createTempCity :(NSDictionary *) param {
     NSEntityDescription *myCityEntity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:self.moc];

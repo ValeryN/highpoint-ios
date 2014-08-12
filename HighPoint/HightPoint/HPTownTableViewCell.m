@@ -28,7 +28,7 @@
     self.townNameLabel.textColor = [UIColor whiteColor];
 
     //self.isSelectedImgView.hidden = YES;
-    self.townNameLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
+    self.townNameLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0 ];
     self.townNameLabel.textAlignment = NSTextAlignmentLeft;
     self.townNameLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
     //self.townNameLabel.text = city.cityName;

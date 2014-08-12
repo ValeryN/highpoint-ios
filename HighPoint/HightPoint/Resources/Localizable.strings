@@ -23,8 +23,24 @@
 "HIDE_HIS_PROFILE_INFO" = "Скрыл свой профиль";
 
 
+//USER INFO SCREEN
+"REQUEST_HER_NAME" = "Вы можете попросить ее открыть\rвам свое имя и фотографии";
+"REQUEST_HER_PROFILE" = "Вы можете попросить ее открыть\rвам свой профиль";
+"REQUEST_HIS_NAME" = "Вы можете попросить его открыть\rвам свое имя и фотографии";
+"REQUEST_HIS_PROFILE" = "Вы можете попросить его открыть\rвам свой профиль";
+
+"REQUESTED_HER_NAME" = "Вы попросили открыть вам\r ее имя и фотографии";
+"REQUESTED_HIS_NAME" = "Вы попросили открыть вам\r его имя и фотографии";
+"REQUESTED_HER_PROFILE" = "Вы попросили открыть вам\r свой профиль";
+"REQUESTED_HIS_PROFILE" = "Вы попросили открыть вам\r свой профиль";
+
+
 //USER FILTER SCREEN
 "ADD_FILTER_CITY" = "Добавить город";
+
+
+//POPULAR CITIES SCREEN
+"POPULAR_CITIES_TITLE" = "Доступные города";
 
 // ADD PHOTO SCREEN
 "GET_FROM_PHOTO_LIBRARY_BTN" = "Выбрать из альбома";

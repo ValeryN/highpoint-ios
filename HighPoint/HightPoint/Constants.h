@@ -25,7 +25,7 @@ static NSString * const kCurrentUserRequest = @"/v201405/me";
 static NSString * const kCurrentUserFilter = @"/v201405/me/filter/update";
 static NSString * const kUsersRequest = @"/v201405/users";
 static NSString * const kGeoLocationRequest = @"/v201405/geo";
-static NSString * const kGeoLocationFindRequest = @"/v201405/geo/find";
+static NSString * const kGeoLocationFindRequest = @"/v201405/geo/cities/find";
 static NSString * const kPointsRequest = @"/v201405/points";
 static NSString * const kRegistrationRequest = @"/v201405/signup";
 static NSString * const kSigninRequest = @"/v201405/signin";
@@ -49,7 +49,11 @@ static NSString * const kSpecialityFindRequest = @"/v201405/reference/specialiti
 static NSString * const kGetContactsRequest = @"/v201405/contacts";
 static NSString * const kContactDeleteRequest = @"/v201405/contacts/%@/remove";
 static NSString * const kUserMessagesRequest = @"/v201405/users/%@/messages";
+
 static NSString * const kUnreadMessagesRequest = @"/v201405/messages/unread";
+
+static NSString * const kPopularCitiesRequest = @"/v201405/geo/cities/popular";
+
 
 
 //socket io constants

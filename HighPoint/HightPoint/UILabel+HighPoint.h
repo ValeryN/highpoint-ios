@@ -6,11 +6,9 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import <UIKit/UIKit.h>
 
-//==============================================================================
 
 @interface UILabel (HighPoint)
 
@@ -35,5 +33,8 @@
 
 - (void) hp_tuneForHeaderAndInfoInMessagesList;
 - (void) hp_tuneForCurrentPointInfo;
+
+- (void) hp_tuneForProfileHiddenlabel;
+- (void) hp_tuneForPrivacyInfolabel;
 
 @end

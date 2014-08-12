@@ -73,7 +73,8 @@
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (void) setPointLiked : (NSNumber *) pointId : (BOOL) isLiked;
 - (AppSetting*) getAppSettings;
-- (City*) createCity:(NSDictionary *)param;
+- (City*) createCity:(NSDictionary *)param : (BOOL) isPopular;
+- (NSFetchedResultsController *) getPopularCities;
 - (City *) createTempCity :(NSDictionary *) param;
 - (City *) getCityById : (NSNumber *) cityId;
 - (City *) insertCityObjectToContext: (City *) city;

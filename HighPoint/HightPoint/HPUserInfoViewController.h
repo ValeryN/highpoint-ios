@@ -30,6 +30,8 @@
 
 @property (nonatomic, weak) id<HPUserInfoViewControllerDelegate> delegate;
 @property (strong, nonatomic) User *user;
+@property (weak, nonatomic) IBOutlet UILabel *profileHiddenLabel;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentController;
 @property (nonatomic, strong) HPGreenButtonVC* sendMessage;
 @property(nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property(nonatomic, strong) NSArray *userDataSource;
@@ -37,6 +39,16 @@
 @property(nonatomic, strong) NSArray *educationDataSource;
 @property(nonatomic, strong) NSArray *carrierDataSource;
 @property(nonatomic, strong) NSMutableArray *languages;
+
+
+//privacy
+@property (weak, nonatomic) IBOutlet UIImageView *lockImgView;
+@property (weak, nonatomic) IBOutlet UILabel *privacyInfoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *openReqBtn;
+@property (weak, nonatomic) IBOutlet UIButton *goToChat;
+
+
+
 
 @property(nonatomic, assign) BOOL tapState;
 - (IBAction)segmentedControlValueDidChange:(id)sender;

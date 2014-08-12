@@ -180,7 +180,7 @@ static HPBaseNetworkManager *networkManager;
                         
                     case 0: {
                         for(NSDictionary *dict in cities) {
-                            [[DataStorage sharedDataStorage] createCity:dict];
+                            [[DataStorage sharedDataStorage] createCity:dict:NO];
                         }
 
                         NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
@@ -199,7 +199,7 @@ static HPBaseNetworkManager *networkManager;
                         
                     case 1: {
                         for(NSDictionary *dict in cities) {
-                            [[DataStorage sharedDataStorage] createCity:dict];
+                            [[DataStorage sharedDataStorage] createCity:dict:NO];
                         }
 
                         User *current = [[DataStorage sharedDataStorage] getCurrentUser];
@@ -212,7 +212,7 @@ static HPBaseNetworkManager *networkManager;
                     case 2: {
                         City *city;
                         for(NSDictionary *dict in cities) {
-                            city = [[DataStorage sharedDataStorage] createCity:dict];
+                            city = [[DataStorage sharedDataStorage] createCity:dict:NO];
                         }
                         if (city) {
                             [[DataStorage sharedDataStorage] setCityToUserFilter:city];
@@ -427,6 +427,39 @@ static HPBaseNetworkManager *networkManager;
     }];
 }
 
+
+
+#pragma mark - popular cities
+
+- (void) getPopularCitiesRequest {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:kPopularCitiesRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"POPULAR CITIES: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
+            NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
+            for(NSDictionary *dict in cities) {
+                [[DataStorage sharedDataStorage] createCity:dict:YES];
+            }
+        } else {
+            NSLog(@"Error, no valid data");
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //[alert show];
+        
+    }];
+}
+
+
+
 #pragma mark - application settings
 
 - (void) getApplicationSettingsRequest {
@@ -483,7 +516,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                // TODO: save ?
+                [[DataStorage sharedDataStorage] createUserFilterEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"filter"]];
             } else {
                 NSLog(@"Error, no valid data");
             }
