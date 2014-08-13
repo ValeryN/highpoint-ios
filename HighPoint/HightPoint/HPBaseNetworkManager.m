@@ -20,7 +20,6 @@
 #import "Company.h"
 #import "Language.h"
 #import "User.h"
-#import "LastMessage.h"
 #import "Contact.h"
 #import "HPAppDelegate.h"
 
@@ -1191,6 +1190,81 @@ static HPBaseNetworkManager *networkManager;
         
     }];
 }
+
+#pragma mark - messages
+- (void) sendMessageToUser : (NSNumber *) userId param: (NSDictionary *)param {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:[NSString stringWithFormat:kSendMessageToUserRequest, [userId stringValue]]];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"SEND MESSAGE RESP JSON: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSDictionary *msg = [[jsonDict objectForKey:@"data"] objectForKey:@"message"];
+                if (msg) {
+                   [[DataStorage sharedDataStorage] createMessage:msg forUserId:userId andMessageType:HistoryMessageType];
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                //[alert show];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //[alert show];
+        
+    }];
+}
+
+- (void) sendFewMessagesToUser : (NSNumber *) userId param: (NSArray *)param {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:[NSString stringWithFormat:kSendMessagesToUserRequest, [userId stringValue]]];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:param,@"data", nil];
+    [manager POST:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"SEND MESSAGE RESP JSON: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSArray *msgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
+                for (NSDictionary *msg in msgs) {
+                    [[DataStorage sharedDataStorage] createMessage:msg forUserId:userId andMessageType:HistoryMessageType];
+                    
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                //[alert show];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //[alert show];
+        
+    }];
+}
+
+
 #pragma mark - unread message
 - (void) getUnreadMessageRequest {
     NSString *url = nil;
@@ -1268,9 +1342,8 @@ static HPBaseNetworkManager *networkManager;
                         NSLog(@"Stop Queue");
                         [self makeTownByIdRequest];
                     }
-
+                    [self getChatMsgsForUser:user.userId :nil];
                 }
-                
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
             }
             else NSLog(@"Error, no valid data");
@@ -1356,6 +1429,7 @@ static HPBaseNetworkManager *networkManager;
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alert show];
             }
+             [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateChatView object:self userInfo:nil];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);

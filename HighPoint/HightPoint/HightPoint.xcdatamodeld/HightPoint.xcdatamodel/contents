@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AppSetting" representedClassName="AppSetting" syncable="YES">
         <attribute name="avatarMaxFileSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="avatarMinImageHeight" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -84,16 +84,6 @@
         <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="language" inverseEntity="User" syncable="YES"/>
-    </entity>
-    <entity name="LastMessage" representedClassName="LastMessage" syncable="YES">
-        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="destinationId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="readAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="sourceId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="contact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Contact" syncable="YES"/>
     </entity>
     <entity name="MaxEntertainmentPrice" representedClassName="MaxEntertainmentPrice" syncable="YES">
         <attribute name="amount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -204,11 +194,10 @@
         <element name="Education" positionX="144" positionY="-331" width="128" height="163"/>
         <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
         <element name="Language" positionX="-396" positionY="-279" width="128" height="88"/>
-        <element name="LastMessage" positionX="63" positionY="308" width="128" height="163"/>
         <element name="MaxEntertainmentPrice" positionX="27" positionY="-0" width="128" height="88"/>
         <element name="Message" positionX="520" positionY="225" width="128" height="253"/>
         <element name="MinEntertainmentPrice" positionX="493" positionY="-153" width="128" height="88"/>
-        <element name="Place" positionX="135" positionY="167" width="128" height="103"/>
+        <element name="Place" positionX="45" positionY="167" width="128" height="103"/>
         <element name="Region" positionX="538" positionY="-522" width="128" height="118"/>
         <element name="School" positionX="-0" positionY="-711" width="128" height="88"/>
         <element name="Speciality" positionX="-182" positionY="-621" width="128" height="88"/>

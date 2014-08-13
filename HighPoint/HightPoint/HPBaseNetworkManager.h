@@ -56,6 +56,8 @@ typedef enum {
 - (void) deleteContactRequest : (NSNumber *)contactId;
 - (void) getChatMsgsForUser : (NSNumber *) userId : (NSNumber *) afterMsgId;
 - (void) getUnreadMessageRequest;
+- (void) sendMessageToUser : (NSNumber *) userId param: (NSDictionary *)param;
+- (void) sendFewMessagesToUser : (NSNumber *) userId param: (NSArray *)param;
 - (void) sendUserActivityStart:(NSDictionary*) param;
 - (void) sendUserActivityEnd:(NSDictionary*) param;
 - (void) sendUserMessagesRead:(NSDictionary*) param;

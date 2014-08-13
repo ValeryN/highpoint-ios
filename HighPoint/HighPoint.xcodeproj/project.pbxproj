@@ -285,7 +285,6 @@
 		CDA170411982470800173D1C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170401982470800173D1C /* CoreText.framework */; };
 		CDA170431982471D00173D1C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170421982471D00173D1C /* QuartzCore.framework */; };
 		CDA170451982473200173D1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170441982473200173D1C /* SystemConfiguration.framework */; };
-		CDA17050198260C200173D1C /* TestMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA1704F198260C200173D1C /* TestMessage.m */; };
 		CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EE2196FB2910032210F /* HPConciergeViewController.m */; };
 		CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */; };
 		CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE7196FC7E40032210F /* Localizable.strings */; };
@@ -298,7 +297,6 @@
 		CDA33D9E199367E60054201C /* filter_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA33D9D199367E60054201C /* filter_new.png */; };
 		CDA33DA21993709C0054201C /* HPCityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA33DA01993709C0054201C /* HPCityTableViewCell.m */; };
 		CDA33DA31993709C0054201C /* HPCityTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA33DA11993709C0054201C /* HPCityTableViewCell.xib */; };
-		CDA36E6B19878FF20073BE45 /* LastMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA36E6A19878FF20073BE45 /* LastMessage.m */; };
 		CDA3A6471992017B008F9F86 /* point_info_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA3A6461992017B008F9F86 /* point_info_new.png */; };
 		CDA3A64A1992117D008F9F86 /* HPSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA3A6491992117D008F9F86 /* HPSlider.m */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
@@ -726,8 +724,6 @@
 		CDA170401982470800173D1C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		CDA170421982471D00173D1C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CDA170441982473200173D1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		CDA1704E198260C200173D1C /* TestMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMessage.h; sourceTree = "<group>"; };
-		CDA1704F198260C200173D1C /* TestMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMessage.m; sourceTree = "<group>"; };
 		CDA22EE1196FB2910032210F /* HPConciergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConciergeViewController.h; sourceTree = "<group>"; };
 		CDA22EE2196FB2910032210F /* HPConciergeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPConciergeViewController.m; sourceTree = "<group>"; };
 		CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPConciergeViewController.xib; sourceTree = "<group>"; };
@@ -742,8 +738,6 @@
 		CDA33D9F1993709C0054201C /* HPCityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCityTableViewCell.h; sourceTree = "<group>"; };
 		CDA33DA01993709C0054201C /* HPCityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCityTableViewCell.m; sourceTree = "<group>"; };
 		CDA33DA11993709C0054201C /* HPCityTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCityTableViewCell.xib; sourceTree = "<group>"; };
-		CDA36E6919878FF20073BE45 /* LastMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastMessage.h; sourceTree = "<group>"; };
-		CDA36E6A19878FF20073BE45 /* LastMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastMessage.m; sourceTree = "<group>"; };
 		CDA3A6461992017B008F9F86 /* point_info_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = point_info_new.png; sourceTree = "<group>"; };
 		CDA3A6481992117D008F9F86 /* HPSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSlider.h; sourceTree = "<group>"; };
 		CDA3A6491992117D008F9F86 /* HPSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSlider.m; sourceTree = "<group>"; };
@@ -1265,8 +1259,13 @@
 		3BDA4C441906461900EF6619 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+
 				3B871DDD199B398A006A84F2 /* User.h */,
 				3B871DDE199B398A006A84F2 /* User.m */,
+
+				3BA4E6791998E420002A3A0D /* User.h */,
+				3BA4E67A1998E420002A3A0D /* User.m */,
+
 				3BA4E6761998D0AD002A3A0D /* Contact.h */,
 				3BA4E6771998D0AD002A3A0D /* Contact.m */,
 				3BA4E6731998D08C002A3A0D /* Message.h */,
@@ -1303,8 +1302,6 @@
 				CD55FD2219792C30003EE9E9 /* Company.m */,
 				CD55FD1E19792C2F003EE9E9 /* CareerPost.h */,
 				CD55FD1F19792C2F003EE9E9 /* CareerPost.m */,
-				CDA36E6919878FF20073BE45 /* LastMessage.h */,
-				CDA36E6A19878FF20073BE45 /* LastMessage.m */,
 				CDC2D7CD1988E33C0002B196 /* Chat.h */,
 				CDC2D7CE1988E33C0002B196 /* Chat.m */,
 				CDA0A0AA1999D1760017D35B /* City.h */,
@@ -1584,8 +1581,6 @@
 			children = (
 				CDA170281982354300173D1C /* HPEnterIPViewController.h */,
 				CDA170291982354300173D1C /* HPEnterIPViewController.m */,
-				CDA1704E198260C200173D1C /* TestMessage.h */,
-				CDA1704F198260C200173D1C /* TestMessage.m */,
 			);
 			name = TestControllers;
 			sourceTree = "<group>";
@@ -1975,7 +1970,9 @@
 				3B6DB4A518FFC24D00C26A50 /* HightPoint.xcdatamodeld in Sources */,
 				3BE83C1619796B2A0043E03E /* HEBubbleViewItem.m in Sources */,
 				3BDA4C9519064E5900EF6619 /* SDWebImagePrefetcher.m in Sources */,
+
 				3B871DDF199B398B006A84F2 /* User.m in Sources */,
+
 				CDA0A0AC1999D1760017D35B /* City.m in Sources */,
 				3BDA4CA8190660B400EF6619 /* SRWebSocket.m in Sources */,
 				3B9C749B1990FB7E006ADAE7 /* HPMakeAvatarViewController.m in Sources */,
@@ -2049,13 +2046,11 @@
 				3B39D301195C3091002520B9 /* Gender.m in Sources */,
 				3BDA4C6419064AC900EF6619 /* AFHTTPSessionManager.m in Sources */,
 				3BA70F1A19890E5400F2CB47 /* HPUserProfileTableHeaderView.m in Sources */,
-				CDA36E6B19878FF20073BE45 /* LastMessage.m in Sources */,
 				3BA384081924CDBC00EFC749 /* ScaleAnimation.m in Sources */,
 				3B298FD3192F476100BEC2AA /* NMRangeSlider.m in Sources */,
 				CD55FD2019792C2F003EE9E9 /* CareerPost.m in Sources */,
 				CDC2D7CF1988E33C0002B196 /* Chat.m in Sources */,
 				3B39D2F8195C3091002520B9 /* MinEntertainmentPrice.m in Sources */,
-				CDA17050198260C200173D1C /* TestMessage.m in Sources */,
 				3B31709D191B6B5200B72AC1 /* HPMainViewListTableViewCell.m in Sources */,
 				3B39D31A195C3122002520B9 /* SocketIO.m in Sources */,
 				CD4CA3C2198111550016DF7E /* HPChatOptionsTableViewCell.m in Sources */,

@@ -25,7 +25,6 @@
 #import "School.h"
 #import "Speciality.h"
 #import "Contact.h"
-#import "LastMessage.h"
 #import "Chat.h"
 #import "Message.h"
 #import "HPBaseNetworkManager.h"
@@ -97,6 +96,7 @@ typedef enum {
 
 - (Message *) createMessage :(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes) type;
 - (Chat *) createChatEntity: (User *)user : (NSArray *) messages;
+- (Chat *) getChatByUserId :(NSNumber *) userId;
 - (void) deleteChatByUserId : (NSNumber *) userId;
 - (void) saveContext;
 @end
