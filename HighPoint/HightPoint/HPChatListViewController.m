@@ -40,7 +40,7 @@
     
     self.chatListTableView.delegate = self;
     self.chatListTableView.dataSource = self;
-    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
+    //[[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -54,7 +54,6 @@
     [super viewWillAppear:animated];
     [self registerNotification];
     [self updateCurrentView];
-    
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -217,6 +216,7 @@
 - (void)cellDidTap:(TLSwipeForOptionsCell *)cell{
     NSLog(@"tap cell");
     HPChatViewController* chatController = [[HPChatViewController alloc] initWithNibName: @"HPChatViewController" bundle: nil];
+    chatController.contact = [contactsController objectAtIndexPath:cell.indexPath];
     [self.navigationController pushViewController:chatController animated:YES];
 }
 

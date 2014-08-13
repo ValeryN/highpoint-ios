@@ -24,7 +24,6 @@
 
 
 - (void) configureCell : (User *) user {
-
     [self fixUserCardConstraint:user];
     self.yourProfilelabel.text = NSLocalizedString(@"YOUR_PROFILE", nil);
     [self.yourProfilelabel hp_tuneForUserCardName];

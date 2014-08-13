@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import "HPMainViewListTableViewCell.h"
 #import "UIImage+HighPoint.h"
@@ -16,44 +15,26 @@
 #import "City.h"
 
 
-//==============================================================================
-
 #define HALFHIDE_MAININFO_DURATION 0.1
 #define SHOWPOINT_COMPLETELY_DURATION 0.2
 #define SHOWPOINT_VIBRATE_DURATION 0.4
 #define CONSTRAINT_TOP_FOR_AVATAR 8
 
-//==============================================================================
 
 static HPMainViewListTableViewCell* _prevCell;
 
-//==============================================================================
-
 @implementation HPMainViewListTableViewCell
-
-//==============================================================================
-
-- (void) makeAnonymous
-{
-    [_secondLabel hp_tuneForUserListCellAnonymous];
-    [_firstLabel hp_tuneForUserListCellAnonymous];
-    [_avatar privacyLevel];
-}
-
-//==============================================================================
 
 - (void) configureCell:(User*) user
 {
     [self.firstLabel hp_tuneForUserListCellName];
     self.firstLabel.text = user.name;
-    
     [self.secondLabel hp_tuneForUserListCellAgeAndCity];
     ;
     NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
     self.secondLabel.text = [NSString stringWithFormat:@"%@ лет, %@", user.age, cityName];
-    
     [self.point hp_tuneForUserListCellPointText];
-    
+    [self.privacyLabel hp_tuneForUserListCellAnonymous];
     if (user.point.pointText.length > 0) {
         self.point.text = user.point.pointText;
         [self.showPointGroup setHidden:NO];
@@ -61,13 +42,39 @@ static HPMainViewListTableViewCell* _prevCell;
         [self.showPointGroup setHidden:YES];
     }
     self.point.text = user.point.pointText;
-
     [self createAvatar];
-
     [self addGestureRecognizer];
+    if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
+        self.privacyLabel.hidden = NO;
+        self.secondLabel.hidden = YES;
+        self.firstLabel.hidden = YES;
+        [self setPrivacyText:user];
+        [_avatar privacyLevel];
+    } else {
+        self.privacyLabel.hidden = YES;
+        self.secondLabel.hidden = NO;
+        self.firstLabel.hidden = NO;
+    }
 }
 
-//==============================================================================
+
+- (void) setPrivacyText :(User *) user {
+    if ([user.visibility intValue] == 2) {
+        if ([user.gender intValue] == 1) {
+            self.privacyLabel.text = NSLocalizedString(@"HIDE_HIS_PROFILE", nil);
+        } else {
+            self.privacyLabel.text = NSLocalizedString(@"HIDE_HER_PROFILE", nil);
+        }
+    }
+    
+    if ([user.visibility intValue] == 3) {
+        if ([user.gender intValue] == 1) {
+            self.privacyLabel.text = NSLocalizedString(@"HIDE_HER_NAME", nil);
+        } else {
+            self.privacyLabel.text = NSLocalizedString(@"HIDE_HIS_NAME", nil);
+        }
+    }
+}
 
 - (void) createAvatar
 {
@@ -101,11 +108,9 @@ static HPMainViewListTableViewCell* _prevCell;
                                                           constant: CONSTRAINT_TOP_FOR_AVATAR]];
 }
 
-//==============================================================================
 
 #pragma mark - show point animation -
 
-//==============================================================================
 
 - (void) vibrateThePoint
 {
@@ -138,7 +143,6 @@ static HPMainViewListTableViewCell* _prevCell;
      }];
 }
 
-//==============================================================================
 
 - (void) showPoint
 {
@@ -157,7 +161,6 @@ static HPMainViewListTableViewCell* _prevCell;
      }];
 }
 
-//==============================================================================
 
 - (void) hidePoint
 {
@@ -176,11 +179,9 @@ static HPMainViewListTableViewCell* _prevCell;
      }];
 }
 
-//==============================================================================
 
 #pragma mark - private methods -
 
-//==============================================================================
 
 - (void) showpointCompletely
 {
@@ -196,7 +197,6 @@ static HPMainViewListTableViewCell* _prevCell;
      }];
 }
 
-//==============================================================================
 
 - (void) halfhideMaininfo
 {
@@ -205,7 +205,6 @@ static HPMainViewListTableViewCell* _prevCell;
     self.mainInfoGroup.frame = rect;
 }
 
-//==============================================================================
 
 - (void) fullhideMaininfo
 {
@@ -216,14 +215,12 @@ static HPMainViewListTableViewCell* _prevCell;
     self.mainInfoGroup.frame = rect;
 }
 
-//==============================================================================
 
 - (void) fadeawayPointText
 {
     self.point.alpha = 0.5;
 }
 
-//==============================================================================
 
 - (void) showMainInfo
 {
@@ -243,11 +240,9 @@ static HPMainViewListTableViewCell* _prevCell;
      }];
 }
 
-//==============================================================================
 
 #pragma mark - Gesture recognizers -
 
-//==============================================================================
 
 - (void) addGestureRecognizer
 {
@@ -258,7 +253,6 @@ static HPMainViewListTableViewCell* _prevCell;
     [self.showPointGroup addGestureRecognizer: tapRecognizer];
 }
 
-//==============================================================================
 
 - (void) cellTap: (id)sender
 {
@@ -268,7 +262,6 @@ static HPMainViewListTableViewCell* _prevCell;
     [self vibrateThePoint];
 }
 
-//==============================================================================
 
 - (void) cellLongTap: (id)sender
 {
@@ -283,11 +276,9 @@ static HPMainViewListTableViewCell* _prevCell;
         [self hidePoint];
 }
 
-//==============================================================================
 
 #pragma mark - UIView touches processing -
 
-//==============================================================================
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -299,7 +290,6 @@ static HPMainViewListTableViewCell* _prevCell;
     [self hp_tuneForUserListPressedCell];
 }
 
-//==============================================================================
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -309,7 +299,6 @@ static HPMainViewListTableViewCell* _prevCell;
     NSLog(@"touch ended");
 }
 
-//==============================================================================
 
 + (void) makeCellReleased
 {
@@ -317,6 +306,5 @@ static HPMainViewListTableViewCell* _prevCell;
         [_prevCell hp_tuneForUserListReleasedCell];
 }
 
-//==============================================================================
 
 @end

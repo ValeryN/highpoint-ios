@@ -25,9 +25,15 @@
 #import "School.h"
 #import "Speciality.h"
 #import "Contact.h"
-#import "LastMessage.h"
 #import "Chat.h"
 #import "Message.h"
+#import "HPBaseNetworkManager.h"
+
+typedef enum {
+    CurrentUserType = 1,
+    MainListUserType,
+    ContactUserType
+} UserType;
 
 typedef void (^complationBlock) (id object);
 
@@ -44,7 +50,7 @@ typedef void (^complationBlock) (id object);
 - (UserFilter*) getUserFilter;
 - (void)setAndSaveCityToUserFilter:(City *) city;
 - (NSFetchedResultsController*) applicationSettingFetchResultsController;
-- (void) createAndSaveUserEntity:(NSDictionary *)param isCurrent:(BOOL)current withComplation:(complationBlock) block;
+- (void) createAndSaveUserEntity:(NSDictionary *)param forUserType:(UserType) type  withComplation:(complationBlock) block;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 - (NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
@@ -74,7 +80,8 @@ typedef void (^complationBlock) (id object);
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (void)setAndSavePointLiked: (NSNumber *) pointId : (BOOL) isLiked;
 - (AppSetting*) getAppSettings;
-- (void)createAndSaveCity:(NSDictionary *)param withComplation:(complationBlock) block;
+- (void) createAndSaveCity:(NSDictionary *)param popular: (BOOL) isPopular  withComplation:(complationBlock) block;
+- (NSFetchedResultsController *) getPopularCities;
 - (City *) createTempCity :(NSDictionary *) param;
 - (City *) getCityById : (NSNumber *) cityId;
 - (void)insertAndSaveCityObjectToContext: (City *) city withComplation:(complationBlock) block;
@@ -82,13 +89,14 @@ typedef void (^complationBlock) (id object);
 - (void) removeCityObjectById : (City *)city;
 - (void)removeAndSaveCitiesFromUserFilter;
 - (void) deleteAllCities;
-- (void)createAndSaveContactEntity: (User *)user : (LastMessage *) lastMessage withComplation:(complationBlock) block;
+- (void)createAndSaveContactEntity: (User *)user forMessage: (Message *) lastMessage withComplation:(complationBlock) block;
 - (void)deleteAndSaveAllContacts;
 - (NSFetchedResultsController*) getAllContactsFetchResultsController;
 - (void)deleteAndSaveContact: (NSNumber *) contactId;
 -(NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
-- (void)createAndSaveLastMessage:(NSDictionary *)param  :(int) keyId withComplation:(complationBlock) block;
-- (void)createAndSaveChatEntity: (User *)user : (NSArray *) messages withComplation:(complationBlock) block;
+- (void)createAndSaveMessage:(NSDictionary *)param  forUserId:(NSNumber*) keyId  andMessageType:(MessageTypes) type withComplation:(complationBlock) block;
+- (void)createAndSaveChatEntity: (User *)user withMessages: (NSArray *) messages withComplation:(complationBlock) block;
 - (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
-- (void) saveContext;
+- (Chat *) getChatByUserId :(NSNumber *) userId;
+
 @end

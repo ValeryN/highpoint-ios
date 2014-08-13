@@ -9,8 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "SocketIO.h"
 @class User;
-@interface HPBaseNetworkManager : NSObject <SocketIODelegate>
 
+typedef enum {
+    HistoryMessageType = 1,
+    LastMessageType,
+    UnreadMessageType,
+    NotSendedMessageType
+} MessageTypes;
+
+@interface HPBaseNetworkManager : NSObject <SocketIODelegate>
+- (void) createTaskArray;
+- (void) deleteTaskArray;
 + (HPBaseNetworkManager*) sharedNetworkManager;
 - (void) startNetworkStatusMonitor;
 - (void) setNetworkStatusMonitorCallback;
@@ -22,6 +31,7 @@
 - (void) makeReferenceRequest:(NSDictionary*) param;
 - (void) makePointLikeRequest:(NSNumber*) pointId;
 - (void) makePointUnLikeRequest:(NSNumber*) pointId;
+- (void) getPopularCitiesRequest;
 - (void) getApplicationSettingsRequest;
 - (void) getCurrentUserRequest;
 - (void) addEducationRequest:(NSDictionary*) param;
@@ -45,7 +55,9 @@
 - (void) getContactsRequest;
 - (void) deleteContactRequest : (NSNumber *)contactId;
 - (void) getChatMsgsForUser : (NSNumber *) userId : (NSNumber *) afterMsgId;
-
+- (void) getUnreadMessageRequest;
+- (void) sendMessageToUser : (NSNumber *) userId param: (NSDictionary *)param;
+- (void) sendFewMessagesToUser : (NSNumber *) userId param: (NSArray *)param;
 - (void) sendUserActivityStart:(NSDictionary*) param;
 - (void) sendUserActivityEnd:(NSDictionary*) param;
 - (void) sendUserMessagesRead:(NSDictionary*) param;
@@ -53,5 +65,8 @@
 - (void) sendUserTypingFinish:(NSDictionary*) param;
 - (void) sendUserNotificationRead:(NSDictionary*) param;
 - (void) sendUserAllNotificationRead:(NSDictionary*) param;
+
+//test
+- (void) getApplicationSettingsRequestForQueue;
 
 @end

@@ -8,10 +8,12 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPChatViewController">
             <connections>
                 <outlet property="bgBottomView" destination="7Gj-3y-HMd" id="QhH-a2-bAk"/>
+                <outlet property="bottomActivityIndicator" destination="Pjs-V0-xuf" id="zrB-Jt-84n"/>
                 <outlet property="chatTableView" destination="dkt-NG-g9o" id="F8f-ak-e9b"/>
                 <outlet property="msgAddBtn" destination="aaG-4U-B78" id="RBg-9g-DDg"/>
                 <outlet property="msgBottomView" destination="KyZ-ZJ-pRW" id="j4x-wb-mUO"/>
                 <outlet property="msgTextView" destination="dfn-79-WvO" id="zKP-Nk-DSM"/>
+                <outlet property="retryBtn" destination="90v-yw-ra4" id="Ort-Hs-qaQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -57,6 +59,21 @@
                     </subviews>
                     <color key="backgroundColor" red="0.1333333333" green="0.1764705882" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="90v-yw-ra4">
+                    <rect key="frame" x="15" y="292" width="291" height="67"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Попробовать еще раз">
+                        <color key="titleColor" red="0.87058823529999996" green="0.38431372549999998" blue="0.38431372549999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="retryBtnTap:" destination="-1" eventType="touchUpInside" id="anp-eK-hwr"/>
+                    </connections>
+                </button>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Pjs-V0-xuf">
+                    <rect key="frame" x="150" y="488" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>

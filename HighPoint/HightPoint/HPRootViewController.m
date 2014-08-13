@@ -34,6 +34,7 @@
 
 //==============================================================================
 
+
 @implementation HPRootViewController
 
 #pragma mark - controller view delegate -
@@ -45,20 +46,26 @@
     
     //TODO : delete
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
-    [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
-    [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
+    
+    [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
 
-    //[[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
+    [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
+    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
+    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
+    [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
+    [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
+    [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
+    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"", nil];
+    [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:param];
     
     //socket init
-    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:[[[URLs getServerURL] stringByReplacingOccurrencesOfString:@":3002" withString:@""] stringByReplacingOccurrencesOfString:@"http://" withString:@""],@"host", @"3002",@"port", nil];
-    [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
-
+   
     //
-
+    //[[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequestForQueue];
     [self configureNavigationBar];
     [self createSwitch];
+    [self addPullToRefresh];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
 }
 
@@ -224,6 +231,24 @@
 }
 
 
+#pragma mark - pull-to-refresh
+#pragma mark - pull to refresh
+
+- (void) addPullToRefresh {
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.tintColor = [UIColor whiteColor];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.mainListTable addSubview:refreshControl];
+}
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    NSLog(@"update users");
+    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
+    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
+    [refreshControl endRefreshing];
+}
+
 #pragma mark - TableView and DataSource delegate -
 
 
@@ -245,11 +270,10 @@
     HPMainViewListTableViewCell *mCell = [tableView dequeueReusableCellWithIdentifier: mainCellId];
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
+
     User *user = [self.allUsers objectAtIndexPath:indexPath];
+
     [mCell configureCell: user];
-    if (indexPath.row == 3)
-        [mCell makeAnonymous];
-    
     return mCell;
 }
 

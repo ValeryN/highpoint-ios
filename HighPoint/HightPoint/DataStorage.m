@@ -8,10 +8,8 @@
 
 #import "DataStorage.h"
 #import "HPAppDelegate.h"
-#import "HPBaseNetworkManager.h"
 #import "NSManagedObject+HighPoint.h"
 #import "NSManagedObjectContext+HighPoint.h"
-#import <objc/runtime.h>
 
 static DataStorage *dataStorage;
 
@@ -81,38 +79,34 @@ static DataStorage *dataStorage;
     if (!uf) {
         uf = (UserFilter *) [NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:context];
     }
-    NSLog(@"filter params = %@", param);
-
 
     uf.maxAge = param[@"maxAge"];
     uf.minAge = param[@"minAge"];
     uf.viewType = param[@"viewType"];
+
     NSMutableArray *arr = [NSMutableArray new];
     for (NSNumber *p in param[@"genders"]) {
         Gender *gender = (Gender *) [NSEntityDescription insertNewObjectForEntityForName:@"Gender" inManagedObjectContext:context];
         gender.genderType = p;
         [arr addObject:gender];
     }
-    NSString *cityIds = @"";
-    NSArray *citiesArr = param[@"cityIds"];
 
-    if ([param[@"cityIds"] isKindOfClass:[NSArray class]]) {
-        for (NSUInteger i = 0; i < citiesArr.count; i++) {
-            cityIds = [[cityIds stringByAppendingString:[citiesArr[i] stringValue]] stringByAppendingString:@","];
-        }
-        if ([cityIds length] > 0) {
-            cityIds = [cityIds substringToIndex:[cityIds length] - 1];
+    NSArray *citiesArr = param[@"cityIds"];
+    if ([citiesArr isKindOfClass:[NSArray class]]) {
+        if (citiesArr.count > 0) {
+            City *city = [[DataStorage sharedDataStorage] getCityById:citiesArr[0]];
+            [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:city];
+        } else {
+            [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:nil];
         }
     } else {
         [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:nil];
-
     }
     uf.gender = [NSSet setWithArray:arr];
-    NSLog(@"cityids = %@", cityIds);
-    NSDictionary *params = @{@"cityIds" : cityIds, @"countryIds" : @"", @"regionIds" : @""};
-    [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params :2];
+
     return uf;
 }
+
 
 - (void)createAndSaveUserFilterEntity:(NSDictionary *)param withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
@@ -140,9 +134,7 @@ static DataStorage *dataStorage;
             if ([fetchedObjects count] == 1) {
                 UserFilter *filter = fetchedObjects[0];
                 if (city) {
-                    NSMutableSet *cities = [[NSMutableSet alloc] initWithSet:filter.city];
-                    [cities addObject:city];
-                    filter.city = cities;
+                    filter.city = city;
                 } else {
                     filter.city = nil;
                 }
@@ -168,7 +160,7 @@ static DataStorage *dataStorage;
             fetchedObjects = [context executeFetchRequest:fetch error:&error];
             if ([fetchedObjects count] >= 1) {
                 UserFilter *filter = fetchedObjects[0];
-                filter.city = [[NSSet alloc] init];
+                filter.city = nil;
                 [self addSaveOperationToBottomInContext:context];
             }
         }];
@@ -1008,22 +1000,34 @@ static DataStorage *dataStorage;
 #pragma mark current user entity
 
 
-- (void)createAndSaveUserEntity:(NSDictionary *)param isCurrent:(BOOL)current withComplation:(complationBlock)block {
+- (void)createAndSaveUserEntity:(NSDictionary *)param forUserType:(UserType)type withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         User *returnUser = nil;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         User *user;
+
         user = [weakSelf getUserForId:param[@"id"]];
         if (!user) {
             user = (User *) [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
-            [context insertObject:user];
         }
-        user.isCurrentUser = @(current);
-        if (param[@"name"])
-            user.name = param[@"name"];
         if (param[@"id"])
             user.userId = param[@"id"];
+        //user type
+        if (type == CurrentUserType) {
+            user.isCurrentUser = @YES;
+        }
+        else user.isCurrentUser = @NO;
+        if (type == MainListUserType) {
+            user.isItFromMainList = @YES;
+        }
+        //else user.isItFromMainList =[NSNumber numberWithBool:NO];
+        if (type == ContactUserType) {
+            user.isItFromContact = @YES;
+        }
+        //else user.isItFromContact = [NSNumber numberWithBool:NO];
+        if (param[@"name"])
+            user.name = param[@"name"];
         if (param[@"cityId"])
             user.cityId = param[@"cityId"];
         if (param[@"createdAt"])
@@ -1034,70 +1038,63 @@ static DataStorage *dataStorage;
             user.email = param[@"email"];
         if (param[@"gender"])
             user.gender = param[@"gender"];
-        if (param[@"visibility"])
+        if (param[@"visibility"]) {
             user.visibility = param[@"visibility"];
+        }
         if (param[@"avatar"]) {
-            user.avatar = [weakSelf createAvatarEntity:param[@"avatar"]];
+            user.avatar = [self createAvatarEntity:param[@"avatar"]];
             user.avatar.user = user;
         }
         if (param[@"age"])
             user.age = param[@"age"];
         if ([param[@"education"] isKindOfClass:[NSDictionary class]]) {
-
             if (![param[@"education"] isKindOfClass:[NSNull class]]) {
-                Education *ed = [weakSelf createEducationEntity:param[@"education"]];
+                Education *ed = [self createEducationEntity:param[@"education"]];
                 ed.user = user;
                 user.education = [NSSet setWithArray:@[ed]];
             }
-
         } else if ([param[@"education"] isKindOfClass:[NSArray class]]) {
             NSMutableArray *entArray = [NSMutableArray new];
             for (NSDictionary *t in param[@"education"]) {
-                Education *ed = [weakSelf createEducationEntity:t];
+                Education *ed = [self createEducationEntity:t];
                 ed.user = user;
-                [entArray addObject:[weakSelf createEducationEntity:t]];
+                [entArray addObject:[self createEducationEntity:t]];
             }
             user.education = [NSSet setWithArray:entArray];
         }
-
         if ([param[@"career"] isKindOfClass:[NSDictionary class]]) {
-
             if (![param[@"career"] isKindOfClass:[NSNull class]]) {
-                Career *ca = [weakSelf createCareerEntity:param[@"career"]];
+                Career *ca = [self createCareerEntity:param[@"career"]];
                 ca.user = user;
                 user.career = [NSSet setWithArray:@[ca]];
             }
-
         } else if ([param[@"career"] isKindOfClass:[NSArray class]]) {
             NSMutableArray *entArray = [NSMutableArray new];
             for (NSDictionary *t in param[@"career"]) {
-                Career *ca = [weakSelf createCareerEntity:t];
+                Career *ca = [self createCareerEntity:t];
                 ca.user = user;
-                [entArray addObject:[weakSelf createCareerEntity:t]];
+                [entArray addObject:[self createCareerEntity:t]];
             }
             user.career = [NSSet setWithArray:entArray];
         }
-
         if ([param[@"languageIds"] isKindOfClass:[NSDictionary class]]) {
             if (![param[@"languageIds"] isKindOfClass:[NSNull class]]) {
-                Language *lan = [weakSelf createLanguageEntity:param[@"language"]];
+                Language *lan = [self createLanguageEntity:param[@"language"]];
                 lan.user = user;
                 user.language = [NSSet setWithArray:@[lan]];
             }
         } else if ([param[@"languageIds"] isKindOfClass:[NSArray class]]) {
             NSMutableArray *entArray = [NSMutableArray new];
             for (NSDictionary *t in param[@"career"]) {
-                Language *lan = [weakSelf createLanguageEntity:t];
+                Language *lan = [self createLanguageEntity:t];
                 lan.user = user;
-                [entArray addObject:[weakSelf createLanguageEntity:t]];
+                [entArray addObject:[self createLanguageEntity:t]];
             }
             user.language = [NSSet setWithArray:entArray];
         }
-
         NSArray *cityIds;
         NSMutableString *par;
         if (![param[@"favoriteCityIds"] isKindOfClass:[NSNull class]]) {
-
             cityIds = param[@"favoriteCityIds"];
             par = [NSMutableString new];
             for (NSNumber *n in cityIds) {
@@ -1125,9 +1122,9 @@ static DataStorage *dataStorage;
                 user.favoritePlaceIds = par;
             }
         }
-        if (current) {
+        if (type == CurrentUserType) {
             if (![param[@"filter"] isKindOfClass:[NSNull class]]) {
-                UserFilter *uf = [weakSelf createUserFilterEntity:param[@"filter"]];
+                UserFilter *uf = [self createUserFilterEntity:param[@"filter"]];
                 uf.user = user;
                 user.userfilter = uf;
             }
@@ -1146,14 +1143,14 @@ static DataStorage *dataStorage;
                 user.languageIds = par;
             }
         }
-        //id y = [param objectForKey:@"maxEntertainmentPrice"];
+
         if (![param[@"maxEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
-            MaxEntertainmentPrice *mxP = [weakSelf createMaxPrice:param[@"maxEntertainmentPrice"]];
+            MaxEntertainmentPrice *mxP = [self createMaxPrice:param[@"maxEntertainmentPrice"]];
             mxP.user = user;
             user.maxentertainment = mxP;
         }
         if (![param[@"minEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
-            MinEntertainmentPrice *mnP = [weakSelf createMinPrice:param[@"minEntertainmentPrice"]];
+            MinEntertainmentPrice *mnP = [self createMinPrice:param[@"minEntertainmentPrice"]];
             mnP.user = user;
             user.minentertainment = mnP;
         }
@@ -1172,16 +1169,10 @@ static DataStorage *dataStorage;
                 user.nameForms = par;
             }
         }
-        user.point = [[DataStorage sharedDataStorage] getPointForUserId:user.userId];
-        NSLog(@"saved point text %@", user.point.pointText);
-
-
-        if (current) {
-            NSDictionary *params = @{@"cityIds" : user.cityId, @"countryIds" : @"", @"regionIds" : @""};
-            [[HPBaseNetworkManager sharedNetworkManager] getGeoLocation:params :1];
+        UserPoint *point = [[DataStorage sharedDataStorage] getPointForUserId:user.userId];
+        if (point && [user.isItFromMainList boolValue]) {
+            user.point = point;
         }
-
-        returnUser = user;
         [self addSaveOperationToBottomInContext:context];
         [self returnObject:returnUser inComplationBlock:block];
 
@@ -1271,7 +1262,7 @@ static DataStorage *dataStorage;
     [request setSortDescriptors:sortDescriptors];
 
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"userId  = %d", [id_ intValue]];
+    [predicateString appendFormat:@"userId  = %d AND isItFromMainList == 1", [id_ intValue]];
 
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
@@ -1477,7 +1468,7 @@ static DataStorage *dataStorage;
     [request setSortDescriptors:sortDescriptors];
 
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"isCurrentUser != 1"];
+    [predicateString appendFormat:@"isCurrentUser != 1 AND isItFromMainList == 1"];//
 
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
@@ -1508,7 +1499,7 @@ static DataStorage *dataStorage;
     [request setSortDescriptors:sortDescriptors];
 
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"point != nil AND isCurrentUser != 1"];
+    [predicateString appendFormat:@"point.@count == 1 AND isItFromMainList == 1"];
 
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
@@ -1562,29 +1553,62 @@ static DataStorage *dataStorage;
 
 #pragma mark - city
 
-- (void)createAndSaveCity:(NSDictionary *)param withComplation:(complationBlock)block {
+
+- (void)createAndSaveCity:(NSDictionary *)param popular:(BOOL)isPopular withComplation:(complationBlock)block {
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
-            City *returnCity = nil;
-            City *cityEnt = (City *) [NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:context];
+            City *cityEnt;
+            cityEnt = [self getCityById:param[@"id"]];
+            if (!cityEnt) {
+                cityEnt = (City *) [NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:context];
+            }
             cityEnt.cityEnName = param[@"enName"];
             cityEnt.cityId = param[@"id"];
             cityEnt.cityName = param[@"name"];
             cityEnt.cityNameForms = param[@"nameForms"];
             cityEnt.cityRegionId = param[@"regionId"];
+            if (isPopular) {
+                cityEnt.isPopular = @(isPopular);
+            }
             [self addSaveOperationToBottomInContext:context];
-            returnCity = cityEnt;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (block) {
-                    block(returnCity);
-                }
-            });
+            [self returnObject:cityEnt inComplationBlock:block];
         }];
     }];
 
     [self.backgroundOperationQueue addOperation:operation];
 }
+
+- (NSFetchedResultsController *)getPopularCities {
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:context];
+    [request setEntity:entity];
+    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"cityId" ascending:YES];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"isPopular == 1"];
+
+    @try {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+
+
+    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
+    NSError *error = nil;
+    if (![controller performFetch:&error]) {
+        return nil;
+    }
+    return controller;
+}
+
 
 - (City *)createTempCity:(NSDictionary *)param {
     NSEntityDescription *myCityEntity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:[NSManagedObjectContext threadContext]];
@@ -1676,7 +1700,7 @@ static DataStorage *dataStorage;
 #pragma mark - contacts
 
 
-- (void)createAndSaveContactEntity:(User *)glovaluser :(LastMessage *)globallastMessage withComplation:(complationBlock)block {
+- (void)createAndSaveContactEntity:(User *)glovaluser forMessage:(Message *)globallastMessage withComplation:(complationBlock)block {
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
@@ -1686,7 +1710,6 @@ static DataStorage *dataStorage;
             [self addSaveOperationToBottomInContext:context];
             [self returnObject:contactEnt inComplationBlock:block];
         }];
-
     }];
 
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
@@ -1807,36 +1830,9 @@ static DataStorage *dataStorage;
 }
 
 
-#pragma mark - last message
-
-- (void)createAndSaveLastMessage:(NSDictionary *)param :(int)keyId withComplation:(complationBlock)block {
-    __block LastMessage *returnMessage = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        NSDateFormatter *df = [[NSDateFormatter alloc] init];
-        [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
-        [context performBlockAndWait:^{
-            LastMessage *lastMsgEnt = (LastMessage *) [NSEntityDescription insertNewObjectForEntityForName:@"LastMessage" inManagedObjectContext:context];
-            lastMsgEnt.userId = @(keyId);
-            lastMsgEnt.id_ = param[@"id"];
-            lastMsgEnt.createdAt = [df dateFromString:param[@"createdAt"]];
-            lastMsgEnt.destinationId = param[@"destinationId"];
-            lastMsgEnt.readAt = [df dateFromString:param[@"readAt"]];
-            lastMsgEnt.sourceId = param[@"sourceId"];
-            lastMsgEnt.text = param[@"text"];
-            [self addSaveOperationToBottomInContext:context];
-            returnMessage = lastMsgEnt;
-            [self returnObject:returnMessage inComplationBlock:block];
-        }];
-    }];
-
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
-}
-
 #pragma mark - chat
 
-- (void)createAndSaveChatEntity:(User *)globalUser :(NSArray *)messages withComplation:(complationBlock)block {
+- (void)createAndSaveChatEntity:(User *)globalUser withMessages:(NSArray *)messages withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block Chat *returnChat = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -1847,14 +1843,14 @@ static DataStorage *dataStorage;
             chatEnt.user = user;
             NSMutableArray *entArray = [NSMutableArray new];
             for (NSDictionary *t in messages) {
-                Message *msg = [weakSelf createMessage:t :user.userId];
+                Message *msg = [weakSelf createMessage:t forUserId:user.userId andMessageType:HistoryMessageType];
                 msg.chat = chatEnt;
                 [entArray addObject:msg];
             }
             chatEnt.message = [NSSet setWithArray:entArray];
-            [self addSaveOperationToBottomInContext:context];
+            [weakSelf addSaveOperationToBottomInContext:context];
             returnChat = chatEnt;
-            [self returnObject:returnChat inComplationBlock:block];
+            [weakSelf returnObject:returnChat inComplationBlock:block];
         }];
     }];
 
@@ -1909,30 +1905,39 @@ static DataStorage *dataStorage;
 
 #pragma mark - messages
 
-- (Message*)createMessage:(NSDictionary *)param :(NSNumber *)userId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+- (Message *)createMessage:(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes)type {
+
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
-    Message *msgEnt = (Message *) [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:context];
+    Message *msgEnt = (Message *) [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[NSManagedObjectContext threadContext]];
     msgEnt.bindedUserId = userId;
+
+    if (type == HistoryMessageType) {
+        msgEnt.historyMessage = @YES;
+    }
+    if (type == LastMessageType) {
+        msgEnt.lastMessage = @YES;
+    }
     msgEnt.id_ = param[@"id"];
     msgEnt.createdAt = [df dateFromString:param[@"createdAt"]];
     msgEnt.destinationId = param[@"destinationId"];
-    msgEnt.readAt = [df dateFromString:param[@"readAt"]];
+    if (![param[@"readAt"] isKindOfClass:[NSNull class]]) {
+        msgEnt.readAt = [df dateFromString:param[@"readAt"]];
+    }
     msgEnt.sourceId = param[@"sourceId"];
     msgEnt.text = param[@"text"];
     return msgEnt;
 }
 
-- (void)createAndSaveMessage:(NSDictionary *)param :(NSNumber *)userId withComplation:(complationBlock)block {
+- (void)createAndSaveMessage:(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes)type withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block Message *returnMessage = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
-            returnMessage = [weakSelf createMessage:param :userId];
-            [self addSaveOperationToBottomInContext:context];
-            [self returnObject:returnMessage inComplationBlock:block];
+            returnMessage = [weakSelf createMessage:param forUserId:userId andMessageType:type];
+            [weakSelf addSaveOperationToBottomInContext:context];
+            [weakSelf returnObject:returnMessage inComplationBlock:block];
         }];
     }];
 
@@ -1940,9 +1945,9 @@ static DataStorage *dataStorage;
 }
 
 
-- (void)addSaveOperationToBottomInContext:(NSManagedObjectContext *)context{
+- (void)addSaveOperationToBottomInContext:(NSManagedObjectContext *)context {
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        if(context.hasChanges) {
+        if (context.hasChanges) {
             [context saveWithErrorHandler];
         }
     }];
@@ -1968,16 +1973,5 @@ static DataStorage *dataStorage;
     [self.backgroundOperationQueue addOperation:operation];
 }
 
-#pragma mark - Deprecated
-
-
-- (void)saveContext {
-    @throw [NSException exceptionWithName:@"deprecated" reason:@"Deprecated" userInfo:nil];
-}
-
-- (NSManagedObjectContext *)moc {
-    @throw [NSException exceptionWithName:@"deprecated" reason:@"Deprecated" userInfo:nil];
-    return nil;
-}
 
 @end
