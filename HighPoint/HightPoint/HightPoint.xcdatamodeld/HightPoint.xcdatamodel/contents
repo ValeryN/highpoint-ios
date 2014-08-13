@@ -155,6 +155,7 @@
         <attribute name="gender" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="isCurrentUser" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isItFromContact" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isItFromMainList" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="languageIds" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nameForms" optional="YES" attributeType="String" syncable="YES"/>
@@ -211,7 +212,7 @@
         <element name="Region" positionX="538" positionY="-522" width="128" height="118"/>
         <element name="School" positionX="-0" positionY="-711" width="128" height="88"/>
         <element name="Speciality" positionX="-182" positionY="-621" width="128" height="88"/>
-        <element name="User" positionX="-36" positionY="-414" width="128" height="450"/>
+        <element name="User" positionX="-36" positionY="-414" width="128" height="465"/>
         <element name="UserFilter" positionX="538" positionY="-306" width="128" height="133"/>
         <element name="UserPoint" positionX="295" positionY="-16" width="128" height="148"/>
     </elements>

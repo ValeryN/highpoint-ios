@@ -50,38 +50,17 @@
     [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
     
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
-    NSBlockOperation *pointBlockOperation = [NSBlockOperation blockOperationWithBlock:^{
-        [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    }];
-    NSBlockOperation *usersBlockOperation = [NSBlockOperation blockOperationWithBlock:^{
-       [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
-    }];
-    NSBlockOperation *contactsBlockOperation = [NSBlockOperation blockOperationWithBlock:^{
-        [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
-    }];
-    
-    
-    
-    
-    [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
-
-    
-    [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
-    
-    NSOperationQueue *operationQueue = [[NSOperationQueue alloc]init];
-    operationQueue.maxConcurrentOperationCount = 1;
-    [operationQueue addOperation:usersBlockOperation];
-    [operationQueue addOperation:contactsBlockOperation];
-    [operationQueue addOperation:pointBlockOperation];
-
     [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
+    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
+    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
+    [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
+    [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
-
+    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"", nil];
+    [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:param];
     
     //socket init
-    
-
+   
     //
     //[[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequestForQueue];
     [self configureNavigationBar];
@@ -186,6 +165,7 @@
     } else {
         self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
     }
+    self.allUsers.delegate = self;
     [self.mainListTable reloadData];
 }
 
@@ -378,7 +358,9 @@
      {
      }];
 }
-
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self.mainListTable reloadData];
+}
 
 - (CGFloat) topFilterBorder
 {

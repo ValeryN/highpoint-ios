@@ -22,7 +22,7 @@
 #import "User.h"
 #import "LastMessage.h"
 #import "Contact.h"
-
+#import "HPAppDelegate.h"
 
 
 static HPBaseNetworkManager *networkManager;
@@ -248,7 +248,8 @@ static HPBaseNetworkManager *networkManager;
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [self addTaskToArray:manager];
     [manager GET:url parameters:[Utils getParameterForPointsRequest:lastPoint] success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"POINTS -->: %@", operation.responseString);
+        //NSLog(@"POINTS -->: %@", operation.responseString);
+        NSLog(@"POINTS");
         //if([self isTaskArrayEmpty:manager]) {
         //    NSLog(@"Stop Queue");
         //}
@@ -269,7 +270,7 @@ static HPBaseNetworkManager *networkManager;
                     NSDictionary *dict = [usr objectForKey:key];
                     
                    // [self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createUserEntity:[usr objectForKey:key] isCurrent:NO isItFromContact:NO];
+                    [[DataStorage sharedDataStorage] createUserEntity:[usr objectForKey:key] forUserType:MainListUserType];
                 }
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
@@ -306,7 +307,8 @@ static HPBaseNetworkManager *networkManager;
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [self addTaskToArray:manager];
     [manager GET:url parameters:[Utils getParameterForUsersRequest:lastUser] success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"USERS -->: %@", operation.responseString);
+        //NSLog(@"USERS -->: %@", operation.responseString);
+        NSLog(@"USERS");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -315,16 +317,16 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                
                 for(NSDictionary *dict in usr) {
                     //NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
                     //[self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createUserEntity:dict isCurrent:NO isItFromContact:NO];
+                    [[DataStorage sharedDataStorage] createUserEntity:dict forUserType:MainListUserType];
                 }
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
                 }
-
             }
             else NSLog(@"Error, no valid data");
         }
@@ -350,7 +352,8 @@ static HPBaseNetworkManager *networkManager;
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"GET CURRENT USER JSON: %@", operation.responseString);
+        //NSLog(@"GET CURRENT USER JSON: %@", operation.responseString);
+        NSLog(@"GET CURRENT USER JSON");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -358,7 +361,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                [[DataStorage sharedDataStorage] createUserEntity: [[jsonDict objectForKey:@"data"] objectForKey:@"user"] isCurrent:YES isItFromContact:NO];
+                [[DataStorage sharedDataStorage] createUserEntity: [[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:CurrentUserType];
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
@@ -539,7 +542,7 @@ static HPBaseNetworkManager *networkManager;
     url = [url stringByAppendingString:kReferenceRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"REFERENCE REQUEST -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -1238,7 +1241,8 @@ static HPBaseNetworkManager *networkManager;
     [self addTaskToArray:manager];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"GET CONTACTS -->: %@", operation.responseString);
+        //NSLog(@"GET CONTACTS -->: %@", operation.responseString);
+        NSLog(@"GET CONTACTS");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -1251,7 +1255,7 @@ static HPBaseNetworkManager *networkManager;
                 NSDictionary *lastMsgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
                 
                 for (int i = 0; i < users.count; i++) {
-                    User *user = [[DataStorage sharedDataStorage] createUserEntity:[users objectAtIndex:i] isCurrent:NO isItFromContact:YES];
+                    User *user = [[DataStorage sharedDataStorage] createUserEntity:[users objectAtIndex:i] forUserType:ContactUserType];
                     Message * lastMsg;
                     for (id key in [lastMsgs allKeys]) {
                         if ([user.userId intValue] == [key intValue]) {
@@ -1435,8 +1439,8 @@ static HPBaseNetworkManager *networkManager;
         if(jsonDict) {
             [[DataStorage sharedDataStorage] deleteAllCities];
             [[DataStorage sharedDataStorage] deleteCurrentUser];
-            [[DataStorage sharedDataStorage] createUserEntity: [jsonDict objectForKey:@"user"] isCurrent:YES isItFromContact:NO];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCurrentUserData object:self userInfo:nil];
+            //[[DataStorage sharedDataStorage] createUserEntity: [jsonDict objectForKey:@"user"] forUserType:CurrentUserType];
+            //[[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCurrentUserData object:self userInfo:nil];
         } else {
             NSLog(@"Error, no valid data");
         }

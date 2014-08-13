@@ -30,6 +30,12 @@
 #import "Message.h"
 #import "HPBaseNetworkManager.h"
 
+typedef enum {
+    CurrentUserType = 1,
+    MainListUserType,
+    ContactUserType
+} UserType;
+
 @interface DataStorage : NSObject
 @property (nonatomic, strong) NSManagedObjectContext *moc;
 + (DataStorage*) sharedDataStorage;
@@ -43,7 +49,8 @@
 - (UserFilter*) getUserFilter;
 - (void) setCityToUserFilter :(City *) city;
 - (NSFetchedResultsController*) applicationSettingFetchResultsController;
-- (User *) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current isItFromContact:(BOOL) contact;
+//- (User *) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current isItFromContact:(BOOL) contact;
+- (User *) createUserEntity:(NSDictionary *)param forUserType:(UserType) type;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 - (NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
