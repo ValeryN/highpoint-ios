@@ -289,7 +289,7 @@
                         self.notificationView.hidden = NO;
                     }
                     completion:^(BOOL finished){
-                        
+
                     }];
 }
 
@@ -336,15 +336,15 @@
     {
         if (_filterGroupView.frame.origin.y != [self topFilterBorder])
             return;
-        
+
         [self hideFilters];
     }
-    
+
     if (velocity.y < 0)
     {
         if (_filterGroupView.frame.origin.y != [self bottomFilterBorder])
             return;
-        
+
         [self showFilters];
     }
 }

@@ -22,6 +22,7 @@
 
 
 - (void) configureCell {
+    [self.avatar removeFromSuperview];
     self.avatar = [HPAvatarView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
     [self.avatarView addSubview: self.avatar];
     [self fixAvatarConstraint];

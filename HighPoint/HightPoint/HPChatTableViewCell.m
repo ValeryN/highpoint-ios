@@ -108,6 +108,7 @@
     [self.msgCountLabel hp_tuneForMessageCountInContactList];
     self.msgCountView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:102.0/255.0 blue:112.0/255.0 alpha:1.0f];
     self.msgCountView.layer.cornerRadius = 12;
+    [self.avatar removeFromSuperview];
     self.avatar = [HPAvatarView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
     [self.avatarView addSubview: self.avatar];
     self.myAvatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
