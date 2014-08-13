@@ -48,7 +48,7 @@
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
     
     [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
-    
+
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
     [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
@@ -79,6 +79,7 @@
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self unregisterNotification];
+    self.allUsers.delegate = nil;
 }
 
 
@@ -166,7 +167,55 @@
     [self.mainListTable reloadData];
 }
 
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller;
+{
+    // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+    [self.mainListTable beginUpdates];
+}
 
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            // your code for insert
+            break;
+        case NSFetchedResultsChangeDelete:
+            // your code for deletion
+            break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+
+        case NSFetchedResultsChangeDelete:
+            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+
+        case NSFetchedResultsChangeUpdate: {
+            User *user = [self.allUsers objectAtIndexPath:indexPath];
+            [(HPMainViewListTableViewCell *) [self.mainListTable cellForRowAtIndexPath:indexPath] configureCell:user];
+        }
+            break;
+
+        case NSFetchedResultsChangeMove:
+            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+    [self.mainListTable endUpdates];
+}
 
 
 #pragma mark - update user filter
@@ -174,7 +223,7 @@
 -(void) updateUserFilterCities :(NSNotification *) notification {
     NSArray *cities = [notification.userInfo objectForKey:@"cities"];
     for (City *city in cities) {
-        [[DataStorage sharedDataStorage] setCityToUserFilter:city];
+        [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:city];
     }
 }
 
@@ -207,7 +256,8 @@
 
 - (NSInteger) tableView: (UITableView*) tableView numberOfRowsInSection: (NSInteger) section
 {
-    return [[self.allUsers fetchedObjects] count];
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.allUsers sections] objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
 }
 
 
@@ -217,8 +267,9 @@
     HPMainViewListTableViewCell *mCell = [tableView dequeueReusableCellWithIdentifier: mainCellId];
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
-    User *user = [[self.allUsers fetchedObjects] objectAtIndex:indexPath.row];
-    //User *user = [self.allUsers objectAtIndexPath:indexPath];
+
+    User *user = [self.allUsers objectAtIndexPath:indexPath];
+
     [mCell configureCell: user];
     return mCell;
 }
@@ -259,7 +310,7 @@
                         self.notificationView.hidden = NO;
                     }
                     completion:^(BOOL finished){
-                        
+
                     }];
 }
 
@@ -306,15 +357,15 @@
     {
         if (_filterGroupView.frame.origin.y != [self topFilterBorder])
             return;
-        
+
         [self hideFilters];
     }
-    
+
     if (velocity.y < 0)
     {
         if (_filterGroupView.frame.origin.y != [self bottomFilterBorder])
             return;
-        
+
         [self showFilters];
     }
 }
@@ -355,9 +406,7 @@
      {
      }];
 }
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    [self.mainListTable reloadData];
-}
+
 
 - (CGFloat) topFilterBorder
 {

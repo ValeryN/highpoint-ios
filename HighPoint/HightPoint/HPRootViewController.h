@@ -18,8 +18,6 @@
 
 //==============================================================================
 
-
-
 @interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, HPSwitchProtocol, NSFetchedResultsControllerDelegate>
 {
     ScaleAnimation *_scaleAnimationController;

@@ -20,7 +20,7 @@
 @end
 
 @implementation HPChatListViewController {
-    NSArray *contacts;
+    NSFetchedResultsController *contactsController;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -35,7 +35,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    contacts = [[NSArray alloc] init];
     [self.navigationController setNavigationBarHidden:NO];
     [self createNavigationItem];
     
@@ -72,8 +71,8 @@
 }
 
 - (void) updateCurrentView {
-    contacts = [[[DataStorage sharedDataStorage] getAllContactsFetchResultsController] fetchedObjects];
-    NSLog(@"update contacts count = %lu", (unsigned long)contacts.count);
+    contactsController = [[DataStorage sharedDataStorage] getAllContactsFetchResultsController];
+    contactsController.delegate = self;
     [self.chatListTableView reloadData];
 }
 
@@ -144,7 +143,8 @@
 
 #pragma mark - delete chat
 - (void)deleteChat:(TLSwipeForOptionsCell *)cell {
-    [[HPBaseNetworkManager sharedNetworkManager] deleteContactRequest:((Contact *)[contacts objectAtIndex:cell.tag]).user.userId];
+    Contact * contact = [contactsController objectAtIndexPath:cell.indexPath];
+    [[HPBaseNetworkManager sharedNetworkManager] deleteContactRequest:contact.user.userId];
 }
 
 #pragma mark - table view
@@ -160,7 +160,13 @@
     }
     
     [chatCell setDelegate:self];
-    
+
+    [self configureCell:chatCell withIndexPath:indexPath];
+    return chatCell;
+}
+
+- (void) configureCell:(HPChatTableViewCell *) chatCell withIndexPath:(NSIndexPath *) indexPath{
+
     if (indexPath.row == 3) {
         [chatCell.avatar privacyLevel];
     }
@@ -169,17 +175,17 @@
     } else {
         chatCell.msgCountView.hidden = NO;
     }
-    chatCell.currentMsgLabel.text = ((Contact *)[contacts objectAtIndex:indexPath.row]).lastmessage.text;
-    chatCell.currentUserMsgLabel.text = ((Contact *)[contacts objectAtIndex:indexPath.row]).lastmessage.text;
-    [chatCell fillCell: [contacts objectAtIndex:indexPath.row]];
-    chatCell.tag = indexPath.row;
-    return chatCell;
+    chatCell.indexPath = [indexPath copy];
+    Contact * contact = [contactsController objectAtIndexPath:indexPath];
+    chatCell.currentMsgLabel.text = contact.lastmessage.text;
+    chatCell.currentUserMsgLabel.text = contact.lastmessage.text;
+    [chatCell fillCell: contact];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"count contacts = %lu", (unsigned long)contacts.count);
-    return contacts.count;
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[contactsController sections] objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
     
 }
 
@@ -210,7 +216,7 @@
 - (void)cellDidTap:(TLSwipeForOptionsCell *)cell{
     NSLog(@"tap cell");
     HPChatViewController* chatController = [[HPChatViewController alloc] initWithNibName: @"HPChatViewController" bundle: nil];
-    chatController.contact = [contacts objectAtIndex:cell.tag];
+    chatController.contact = [contactsController objectAtIndexPath:cell.indexPath];
     [self.navigationController pushViewController:chatController animated:YES];
 }
 
@@ -227,14 +233,13 @@
         }
     }
     if (textField.text.length > 0) {
-        contacts = [[[DataStorage sharedDataStorage] getContactsByQueryFetchResultsController:textField.text] fetchedObjects];
-        NSLog(@"update contacts query count = %lu", (unsigned long)contacts.count);
+        contactsController = [[DataStorage sharedDataStorage] getContactsByQueryFetchResultsController:textField.text];
         [self.chatListTableView reloadData];
     } else {
-        contacts = [[[DataStorage sharedDataStorage] getAllContactsFetchResultsController] fetchedObjects];
-        NSLog(@"update contacts all count = %lu", (unsigned long)contacts.count);
+        contactsController = [[DataStorage sharedDataStorage] getAllContactsFetchResultsController];
         [self.chatListTableView reloadData];
     }
+    contactsController.delegate = self;
     NSLog(@"changed");
     return NO;
 }
@@ -264,4 +269,54 @@
     [self hideSearchFieldElements];
 }
 
+
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller;
+{
+    // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+    [self.chatListTableView beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            // your code for insert
+            break;
+        case NSFetchedResultsChangeDelete:
+            // your code for deletion
+            break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.chatListTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+
+        case NSFetchedResultsChangeDelete:
+            [self.chatListTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+
+        case NSFetchedResultsChangeUpdate: {
+            [self configureCell:[self.chatListTableView cellForRowAtIndexPath:indexPath] withIndexPath:indexPath];
+        }
+            break;
+
+        case NSFetchedResultsChangeMove:
+            [self.chatListTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.chatListTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+    [self.chatListTableView endUpdates];
+}
 @end

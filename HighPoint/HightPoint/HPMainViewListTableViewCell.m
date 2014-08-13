@@ -78,6 +78,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
 - (void) createAvatar
 {
+    [_avatar removeFromSuperview];
     _avatar = [HPAvatarView createAvatar: [UIImage imageNamed: @"img_sample1"]];
     [_mainInfoGroup addSubview: _avatar];
     _avatar.translatesAutoresizingMaskIntoConstraints = NO;
@@ -114,7 +115,7 @@ static HPMainViewListTableViewCell* _prevCell;
 - (void) vibrateThePoint
 {
     self.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
-    
+
     [UIView animateWithDuration: SHOWPOINT_VIBRATE_DURATION / 2
                           delay: 0
                         options: UIViewAnimationOptionCurveLinear
@@ -146,7 +147,7 @@ static HPMainViewListTableViewCell* _prevCell;
 - (void) showPoint
 {
     self.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
-    
+
     [UIView animateWithDuration: HALFHIDE_MAININFO_DURATION
                           delay: 0
                         options: UIViewAnimationOptionCurveLinear

@@ -78,13 +78,13 @@ static HPBaseNetworkManager *networkManager;
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
     }];
-    
+
 }
 - (void) makeTownByIdRequest {
     NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
     NSLog(@"make town request");
     NSString *ids = @"";
-    
+
     for (int i = 0; i < users.count; i++) {
         if (((User *)[users objectAtIndex:i]).cityId) {
             ids = [ids stringByAppendingString:[NSString stringWithFormat:@"%@%@", ((User *)[users objectAtIndex:i]).cityId, @","]];
@@ -95,7 +95,7 @@ static HPBaseNetworkManager *networkManager;
     }
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"cityIds", nil];
     [self getGeoLocation:param:0];
-    
+
     param = [[NSDictionary alloc] initWithObjectsAndKeys:[[[URLs getServerURL] stringByReplacingOccurrencesOfString:@":3002" withString:@""] stringByReplacingOccurrencesOfString:@"http://" withString:@""],@"host", @"3002",@"port", nil];
     [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
     
@@ -114,7 +114,7 @@ static HPBaseNetworkManager *networkManager;
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     //[self addTaskToArray:manager];
-    
+
     NSLog(@"auth parameters = %@", param);
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", operation.responseString);
@@ -134,7 +134,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 - (void) makeRegistrationRequest:(NSDictionary*) param {
@@ -143,7 +143,7 @@ static HPBaseNetworkManager *networkManager;
     url = [url stringByAppendingString:kRegistrationRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    
+
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", operation.responseString);
         NSError *error = nil;
@@ -180,12 +180,12 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
-                
+
                 switch (mode) {
-                        
+
                     case 0: {
                         for(NSDictionary *dict in cities) {
-                            [[DataStorage sharedDataStorage] createCity:dict:NO];
+                            [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:nil];
                         }
 
                         NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
@@ -193,55 +193,58 @@ static HPBaseNetworkManager *networkManager;
                             NSLog(@"city id = %@", ((User*)[users objectAtIndex:i]).cityId);
                             City * city = [[DataStorage sharedDataStorage]  getCityById:((User*)[users objectAtIndex:i]).cityId];
                             NSLog(@"city name = %@", city.cityName);
-                            [[DataStorage sharedDataStorage] setCityToUser:((User*)[users objectAtIndex:i]).userId :city];
+                            [[DataStorage sharedDataStorage] setAndSaveCityToUser:((User *) [users objectAtIndex:i]).userId :city];
                         }
-                        [[DataStorage sharedDataStorage] saveContext];
+
                         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
                                                                                                              object:nil
                                                                                                            userInfo:nil]];
                         break;
                     }
-                        
+
                     case 1: {
                         for(NSDictionary *dict in cities) {
-                            [[DataStorage sharedDataStorage] createCity:dict:NO];
+                            [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:nil];
                         }
 
                         User *current = [[DataStorage sharedDataStorage] getCurrentUser];
                         City * city = [[DataStorage sharedDataStorage]  getCityById:current.cityId];
-                        [[DataStorage sharedDataStorage] setCityToUser:current.userId :city];
-                        [[DataStorage sharedDataStorage] saveContext];
+                        [[DataStorage sharedDataStorage] setAndSaveCityToUser:current.userId :city];
                         break;
                     }
-                        
+
                     case 2: {
-                        City *city;
-                        for(NSDictionary *dict in cities) {
-                            city = [[DataStorage sharedDataStorage] createCity:dict:NO];
+                        if(cities.count == 1) {
+                            [[DataStorage sharedDataStorage] createAndSaveCity:cities[0] popular:NO withComplation:^(City *city) {
+                                if (city) {
+                                    [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:city];
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:nil];
+                                }
+                            }];
                         }
-                        if (city) {
-                            [[DataStorage sharedDataStorage] setCityToUserFilter:city];
-                            [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:nil];
-                            [[DataStorage sharedDataStorage] saveContext];
+                        else if(cities.count>1){
+#ifdef DEBUG
+                            @throw [NSException exceptionWithName:@"" reason:@"Someone lied to me" userInfo:nil];
+#endif
                         }
                         break;
                     }
-                        
+
                     default:
                         break;
                 }
-                
+
 
             }
             else NSLog(@"Error, no valid data");
-            
+
         }
-        
+
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -268,15 +271,16 @@ static HPBaseNetworkManager *networkManager;
                 //[[DataStorage sharedDataStorage] createUserEntity:jsonDict];
                 NSArray *poi = [[jsonDict objectForKey:@"data"] objectForKey:@"points"];
                 for(NSDictionary *dict in poi) {
-                    [[DataStorage sharedDataStorage] createPoint:dict];
+                    [[DataStorage sharedDataStorage] createAndSavePoint:dict];
                 }
                 NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 for(NSString *key in usr) {
                     NSDictionary *dict = [usr objectForKey:key];
-                    
+
                    // [self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createUserEntity:[usr objectForKey:key] forUserType:MainListUserType];
+                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:[usr objectForKey:key] forUserType:MainListUserType withComplation:nil];
                 }
+
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
@@ -284,12 +288,12 @@ static HPBaseNetworkManager *networkManager;
 
             }
             else NSLog(@"Error, no valid data");
-            
+
         }
-        
+
         //NSMutableDictionary *parsedDictionary = [NSMutableDictionary new];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
+
         if([self isTaskArrayEmpty:manager]) {
             NSLog(@"Stop Queue");
             [self makeTownByIdRequest];
@@ -299,7 +303,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 
 }
@@ -322,12 +326,13 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
-                
+
                 for(NSDictionary *dict in usr) {
                     //NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
                     //[self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createUserEntity:dict forUserType:MainListUserType];
+                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:MainListUserType withComplation:nil];
                 }
+
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
@@ -343,7 +348,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -365,15 +370,15 @@ static HPBaseNetworkManager *networkManager;
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error];
-            if(jsonDict) {
-                [[DataStorage sharedDataStorage] createUserEntity: [[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:CurrentUserType];
+            if(jsonDict){
+                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:CurrentUserType withComplation:nil];
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
                 }
             }
             else NSLog(@"Error, no valid data");
-            
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if([self isTaskArrayEmpty:manager]) {
@@ -383,7 +388,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 - (void) findGeoLocation:(NSDictionary*) param {
@@ -404,7 +409,7 @@ static HPBaseNetworkManager *networkManager;
 
                 NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"];
                 NSMutableArray *citiesArr = [NSMutableArray new];
-                
+
                 for(NSDictionary *dict in cities) {
                     City *city = [[DataStorage sharedDataStorage] createTempCity:dict];
                     [citiesArr addObject:city];
@@ -425,13 +430,13 @@ static HPBaseNetworkManager *networkManager;
             } else {
                 NSLog(@"Error, no valid data");
             }
-            
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -453,7 +458,7 @@ static HPBaseNetworkManager *networkManager;
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
             NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
             for(NSDictionary *dict in cities) {
-                [[DataStorage sharedDataStorage] createCity:dict:YES];
+                [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:YES withComplation:nil];
             }
         } else {
             NSLog(@"Error, no valid data");
@@ -462,7 +467,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -486,15 +491,15 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict)
-                [[DataStorage sharedDataStorage] createApplicationSettingEntity:jsonDict];
+                [[DataStorage sharedDataStorage] createAndSaveApplicationSettingEntity:jsonDict];
             else NSLog(@"Error, no valid data");
-            
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 - (void) getApplicationSettingsRequestForQueue {
@@ -524,7 +529,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                [[DataStorage sharedDataStorage] createUserFilterEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"filter"]];
+                [[DataStorage sharedDataStorage] createAndSaveUserFilterEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"filter"] withComplation:nil];
             } else {
                 NSLog(@"Error, no valid data");
             }
@@ -533,9 +538,9 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
-    
+
 }
 
 
@@ -559,8 +564,10 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
+
                     [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user];
                 } else {
+
                 NSLog(@"Error: %@", error.localizedDescription);
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
@@ -570,12 +577,9 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
-
-
-
 
 #pragma mark - education
 
@@ -597,7 +601,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"educationItem"]) {
-                    [[DataStorage sharedDataStorage] addLEducationEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"educationItem"]];
+                    [[DataStorage sharedDataStorage] addAndSaveEducationEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"educationItem"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -609,9 +613,9 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
-    
+
 }
 
 
@@ -634,7 +638,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
-                    [[DataStorage sharedDataStorage] deleteEducationEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
+                    [[DataStorage sharedDataStorage] deleteAndSaveEducationEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -646,9 +650,9 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
        //[alert show];
-        
+
     }];
-    
+
 }
 
 
@@ -676,16 +680,16 @@ static HPBaseNetworkManager *networkManager;
                 //TODO: send
                 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
                 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
-                
+
             }
             else NSLog(@"Error, no valid data");
-            
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -713,16 +717,16 @@ static HPBaseNetworkManager *networkManager;
                 //TODO: send
                 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
                 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
-                
+
             }
             else NSLog(@"Error, no valid data");
-            
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -746,7 +750,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"place"]) {
-                    [[DataStorage sharedDataStorage] addLPlaceEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"place"]];
+                    [[DataStorage sharedDataStorage] addAndSavePlaceEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"place"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -758,9 +762,9 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
-    
+
 }
 
 
@@ -783,7 +787,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
-                    [[DataStorage sharedDataStorage] deletePlaceEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
+                    [[DataStorage sharedDataStorage] deleteAndSavePlaceEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -795,9 +799,9 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
-    
+
 }
 
 - (void) findPlacesRequest:(NSDictionary*) param {
@@ -824,16 +828,16 @@ static HPBaseNetworkManager *networkManager;
                 //TODO: send
                 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
                 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
-                
+
             }
             else NSLog(@"Error, no valid data");
-            
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -859,7 +863,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"language"]) {
-                    [[DataStorage sharedDataStorage] addLanguageEntityForUser:[[jsonDict objectForKey:@"data"]objectForKey:@"language"]];
+                    [[DataStorage sharedDataStorage] addAndSaveLanguageEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"language"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -871,9 +875,9 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
-    
+
 }
 
 
@@ -897,7 +901,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
-                    [[DataStorage sharedDataStorage] deleteLanguageEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
+                    [[DataStorage sharedDataStorage] deleteAndSaveLanguageEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -909,9 +913,9 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
-    
+
 }
 
 - (void) findLanguagesRequest:(NSDictionary*) param {
@@ -931,7 +935,7 @@ static HPBaseNetworkManager *networkManager;
             if(jsonDict) {
                 NSArray *posts = [[jsonDict objectForKey:@"data"] objectForKey:@"languages"] ;
                 NSMutableArray *languagesArr = [[NSMutableArray alloc] init];
-                
+
                 for(NSDictionary *dict in posts) {
                     Language *language = [[DataStorage sharedDataStorage] createTempLanguage:dict];
                     [languagesArr addObject:language];
@@ -939,16 +943,16 @@ static HPBaseNetworkManager *networkManager;
                 //TODO: send
                 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
                 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
-                
+
             }
             else NSLog(@"Error, no valid data");
-            
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -972,7 +976,7 @@ static HPBaseNetworkManager *networkManager;
             if(jsonDict) {
                 NSArray *posts = [[jsonDict objectForKey:@"data"] objectForKey:@"companies"];
                 NSMutableArray *companiesArr = [[NSMutableArray alloc] init];
-                
+
                 for(NSDictionary *dict in posts) {
                     Company *company = [[DataStorage sharedDataStorage] createTempCompany:dict];
                     [companiesArr addObject:company];
@@ -980,16 +984,16 @@ static HPBaseNetworkManager *networkManager;
                 //TODO: send
                 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
                 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
-                
+
             }
             else NSLog(@"Error, no valid data");
-            
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -1014,7 +1018,7 @@ static HPBaseNetworkManager *networkManager;
             if(jsonDict) {
                 NSArray *posts = [[jsonDict objectForKey:@"data"] objectForKey:@"careerPosts"] ;
                 NSMutableArray *postsArr = [[NSMutableArray alloc] init];
-                
+
                 for(NSDictionary *dict in posts) {
                     CareerPost *cPost = [[DataStorage sharedDataStorage] createTempCareerPost:dict];
                     [postsArr addObject:cPost];
@@ -1022,16 +1026,16 @@ static HPBaseNetworkManager *networkManager;
                 //TODO: send
 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
-                
+
             }
             else NSLog(@"Error, no valid data");
-            
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -1056,7 +1060,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"careerItem"]) {
-                    [[DataStorage sharedDataStorage] addCareerEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"careerItem"]];
+                    [[DataStorage sharedDataStorage] addAndSaveCareerEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"careerItem"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1068,9 +1072,9 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
-    
+
 }
 
 - (void) deleteCareerItemRequest:(NSString*) ids {
@@ -1092,7 +1096,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
-                    [[DataStorage sharedDataStorage] deleteCareerEntityFromUser:[[jsonDict objectForKey:@"data"]objectForKey:@"ids"]];
+                    [[DataStorage sharedDataStorage] deleteAndSaveCareerEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1104,9 +1108,9 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
-    
+
 }
 
 
@@ -1132,7 +1136,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"success"]) {
-                    [[DataStorage sharedDataStorage] setPointLiked:pointId :YES];
+                    [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId :YES];
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
                 }
             } else {
@@ -1145,9 +1149,9 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
-    
+
 }
 - (void) makePointUnLikeRequest:(NSNumber*) pointId {
     ///v201405/points/<id>/like
@@ -1155,13 +1159,13 @@ static HPBaseNetworkManager *networkManager;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:[NSString stringWithFormat:kPointsUnlikeRequest, [pointId stringValue]]];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
+
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"POINT UNLIKE RESP JSON: --> %@", operation.responseString);
         NSLog(@"UNLIKE HEADER --> %@", operation.description);
-        
-        
+
+
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -1170,7 +1174,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"success"]) {
-                    [[DataStorage sharedDataStorage] setPointLiked:pointId :NO];
+                    [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId :NO];
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
                 }
             } else {
@@ -1183,7 +1187,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -1207,7 +1211,7 @@ static HPBaseNetworkManager *networkManager;
             if(jsonDict) {
                 NSDictionary *msg = [[jsonDict objectForKey:@"data"] objectForKey:@"message"];
                 if (msg) {
-                   [[DataStorage sharedDataStorage] createMessage:msg forUserId:userId andMessageType:HistoryMessageType];
+                   [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:userId andMessageType:HistoryMessageType withComplation:nil];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1219,7 +1223,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -1243,8 +1247,8 @@ static HPBaseNetworkManager *networkManager;
             if(jsonDict) {
                 NSArray *msgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
                 for (NSDictionary *msg in msgs) {
-                    [[DataStorage sharedDataStorage] createMessage:msg forUserId:userId andMessageType:HistoryMessageType];
-                    
+                    [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:userId andMessageType:HistoryMessageType withComplation:nil];
+
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1256,7 +1260,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-        
+
     }];
 }
 
@@ -1286,7 +1290,7 @@ static HPBaseNetworkManager *networkManager;
                 }
             }
             else NSLog(@"Error, no valid data");
-            
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
@@ -1295,7 +1299,7 @@ static HPBaseNetworkManager *networkManager;
         //if([self isTaskArrayEmpty:manager]) {
         //    NSLog(@"Stop Queue");
         //}
-        
+
     }];
 
 }
@@ -1320,33 +1324,37 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                [[DataStorage sharedDataStorage] deleteAllContacts];
+                [[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
                 NSArray *users = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 NSDictionary *lastMsgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
-                
+
                 for (int i = 0; i < users.count; i++) {
-                    User *user = [[DataStorage sharedDataStorage] createUserEntity:[users objectAtIndex:i] forUserType:ContactUserType];
-                    Message * lastMsg;
-                    for (id key in [lastMsgs allKeys]) {
-                        if ([user.userId intValue] == [key intValue]) {
-                            lastMsg = [[DataStorage sharedDataStorage] createMessage:[lastMsgs objectForKey:key] forUserId:user.userId andMessageType:LastMessageType];
-                            break;
+                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:[users objectAtIndex:i] forUserType:ContactUserType withComplation:^(User *user) {
+                        Message *lastMsg;
+                        for (id key in [lastMsgs allKeys]) {
+                            if ([user.userId intValue] == [key intValue]) {
+                                [[DataStorage sharedDataStorage] createAndSaveMessage:[lastMsgs objectForKey:key] forUserId:user.userId andMessageType:LastMessageType withComplation:^(Message *lastMsg) {
+                                    [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:nil];
+                                }];
+                                break;
+                            }
                         }
-                    }
-                    [[DataStorage sharedDataStorage] createContactEntity:user forMessage:lastMsg];
-                    if([self isTaskArrayEmpty:manager]) {
-                        NSLog(@"Stop Queue");
-                        [self makeTownByIdRequest];
-                    }
-                    [self getChatMsgsForUser:user.userId :nil];
+                        [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:^(id object) {
+                            [self getChatMsgsForUser:user.userId :nil];
+                        }];
+                        if ([self isTaskArrayEmpty:manager]) {
+                            NSLog(@"Stop Queue");
+                            [self makeTownByIdRequest];
+                        }
+                    }];
                 }
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
             }
             else NSLog(@"Error, no valid data");
-            
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
+
         if([self isTaskArrayEmpty:manager]) {
             NSLog(@"Stop Queue");
             [self makeTownByIdRequest];
@@ -1354,7 +1362,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
-        
+
     }];
 }
 
@@ -1378,9 +1386,9 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"id"]) {
-                    [[DataStorage sharedDataStorage] deleteContact:contactId];
+                    [[DataStorage sharedDataStorage] deleteAndSaveContact:contactId];
                     [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
-                    [[DataStorage sharedDataStorage] deleteChatByUserId:contactId];
+                    [[DataStorage sharedDataStorage] deleteAndSaveChatByUserId:contactId];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1392,7 +1400,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
-        
+
     }];
 }
 
@@ -1417,8 +1425,8 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"messages"]) {
-                    User *user = [[DataStorage sharedDataStorage] getUserForId:userId]; //history message
-                    [[DataStorage sharedDataStorage] createChatEntity: user :[[jsonDict objectForKey:@"data"] objectForKey:@"messages"]];
+                    User *user = [[DataStorage sharedDataStorage] getUserForId:userId];
+                    [[DataStorage sharedDataStorage] createAndSaveChatEntity:user withMessages:[[jsonDict objectForKey:@"data"] objectForKey:@"messages"] withComplation:nil];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1431,7 +1439,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
-        
+
     }];
 }
 
@@ -1496,30 +1504,28 @@ static HPBaseNetworkManager *networkManager;
     NSLog(@"%@",packet.args);
     NSLog(@"%@",packet.name);
     //parsing incoming messages here
- 
+
     if([packet.name isEqualToString:@"message"])
     {
         NSArray* args = packet.args;
         NSDictionary* arg = args[0];
     }
-    
+
     if ([packet.name isEqualToString:kMeUpdate]) {
         NSLog(@"me update args = %@", packet.args);
         NSDictionary *jsonDict = [packet.args objectAtIndex:0];
         if(jsonDict) {
             [[DataStorage sharedDataStorage] deleteAllCities];
-            [[DataStorage sharedDataStorage] deleteCurrentUser];
-            //[[DataStorage sharedDataStorage] createUserEntity: [jsonDict objectForKey:@"user"] forUserType:CurrentUserType];
-            //[[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCurrentUserData object:self userInfo:nil];
+            [[DataStorage sharedDataStorage] deleteAndSaveCurrentUser];
         } else {
             NSLog(@"Error, no valid data");
         }
 
     }
-    
+
     if ([packet.name isEqualToString:kMessage]) {
         //TODO: write msgs to DB
-        
+
     }
 }
 

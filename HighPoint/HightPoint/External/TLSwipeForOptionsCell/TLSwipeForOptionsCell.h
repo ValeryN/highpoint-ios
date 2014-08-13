@@ -23,6 +23,7 @@ extern NSString *const TLSwipeForOptionsCellEnclosingTableViewDidBeginScrollingN
 @interface TLSwipeForOptionsCell : UITableViewCell
 
 @property (nonatomic, weak) id<TLSwipeForOptionsCellDelegate> delegate;
+@property (nonatomic, retain) NSIndexPath * indexPath;
 @property (weak, nonatomic) IBOutlet UILabel *costTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *costSumlabel;
 @property (weak, nonatomic) IBOutlet UIImageView *iconBg;

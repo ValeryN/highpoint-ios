@@ -35,62 +35,64 @@ typedef enum {
     ContactUserType
 } UserType;
 
+typedef void (^complationBlock) (id object);
+
 @interface DataStorage : NSObject
-@property (nonatomic, strong) NSManagedObjectContext *moc;
+@property (nonatomic, retain) NSOperationQueue *backgroundOperationQueue;
 + (DataStorage*) sharedDataStorage;
 - (void) createUser:(NSDictionary*) param;
-- (void) createPoint:(NSDictionary*) param;
+- (void)createAndSavePoint:(NSDictionary*) param;
 - (void) createUserInfo:(NSDictionary*) param;
 - (void) createUserSettings:(NSDictionary*) param;
-- (void) createApplicationSettingEntity:(NSDictionary *)param;
-- (UserFilter*) createUserFilterEntity:(NSDictionary *)param;
-- (void) deleteUserFilter;
+- (void)createAndSaveApplicationSettingEntity:(NSDictionary *)param;
+- (void)createAndSaveUserFilterEntity:(NSDictionary *)param withComplation:(complationBlock) block;
+- (void)removeAndSaveUserFilter;
 - (UserFilter*) getUserFilter;
-- (void) setCityToUserFilter :(City *) city;
+- (void)setAndSaveCityToUserFilter:(City *) city;
 - (NSFetchedResultsController*) applicationSettingFetchResultsController;
-//- (User *) createUserEntity:(NSDictionary *)param isCurrent:(BOOL) current isItFromContact:(BOOL) contact;
-- (User *) createUserEntity:(NSDictionary *)param forUserType:(UserType) type;
+- (void) createAndSaveUserEntity:(NSDictionary *)param forUserType:(UserType) type  withComplation:(complationBlock) block;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 - (NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (User*) getCurrentUser;
 - (User*) getUserForId:(NSNumber*) id_;
-- (void) deleteCurrentUser;
+- (void)deleteAndSaveCurrentUser;
 - (School *) createSchoolEntity:(NSDictionary *)param;
 - (School *) createTempSchool :(NSDictionary *) param;
 - (Speciality *) createSpecialityEntity:(NSDictionary *)param;
 - (Speciality *) createTempSpeciality :(NSDictionary *) param;
 - (Place *) createPlaceEntity:(NSDictionary *)param;
-- (void) addLPlaceEntityForUser :(NSDictionary *) param;
-- (void) deletePlaceEntityFromUser :(NSArray *) id;
+- (void)addAndSavePlaceEntityForUser:(NSDictionary *) param;
+- (void)deleteAndSavePlaceEntityFromUser:(NSArray *) id;
 - (Place *) createTempPlace :(NSDictionary *) param;
 - (Education*) createEducationEntity:(NSDictionary *)param;
-- (void) deleteEducationEntityFromUser :(NSArray *) ids;
-- (void) addLEducationEntityForUser :(NSDictionary *) param;
+- (void)deleteAndSaveEducationEntityFromUser:(NSArray *) ids;
+- (void)addAndSaveEducationEntityForUser:(NSDictionary *) param;
 - (Language *) createLanguageEntity:(NSDictionary *)param;
-- (void) addLanguageEntityForUser :(NSDictionary *) param;
-- (void) deleteLanguageEntityFromUser :(NSArray *) ids;
+- (void)addAndSaveLanguageEntityForUser:(NSDictionary *) param;
+- (void)deleteAndSaveLanguageEntityFromUser:(NSArray *) ids;
 - (Language *) createTempLanguage :(NSDictionary *) param;
-- (CareerPost*) createCareerPost :(NSDictionary *)param;
+- (void)createAndSaveCareerPost:(NSDictionary *)param withComplation:(complationBlock) block;
 - (CareerPost *) createTempCareerPost :(NSDictionary *) param;
-- (void) addCareerEntityForUser :(NSDictionary *) param;
-- (void) deleteCareerEntityFromUser :(NSArray *) ids;
-- (Company*) createCompany :(NSDictionary *)param;
+- (void)addAndSaveCareerEntityForUser:(NSDictionary *) param;
+- (void)deleteAndSaveCareerEntityFromUser:(NSArray *) ids;
+- (void)createAndSaveCompany:(NSDictionary *)param withComplation:(complationBlock) block;
 - (Company *) createTempCompany :(NSDictionary *) param;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
-- (void) setPointLiked : (NSNumber *) pointId : (BOOL) isLiked;
+- (void)setAndSavePointLiked: (NSNumber *) pointId : (BOOL) isLiked;
 - (AppSetting*) getAppSettings;
-- (City*) createCity:(NSDictionary *)param : (BOOL) isPopular;
+- (void) createAndSaveCity:(NSDictionary *)param popular: (BOOL) isPopular  withComplation:(complationBlock) block;
 - (NSFetchedResultsController *) getPopularCities;
 - (City *) createTempCity :(NSDictionary *) param;
 - (City *) getCityById : (NSNumber *) cityId;
-- (City *) insertCityObjectToContext: (City *) city;
-- (void) setCityToUser : (NSNumber *) userId : (City *) city;
+- (void)insertAndSaveCityObjectToContext: (City *) city withComplation:(complationBlock) block;
+- (void)setAndSaveCityToUser: (NSNumber *) userId : (City *) city;
 - (void) removeCityObjectById : (City *)city;
-- (void) removeCitiesFromUserFilter;
+- (void)removeAndSaveCitiesFromUserFilter;
 - (void) deleteAllCities;
-- (Contact *) createContactEntity:(User *)user forMessage:(Message *) lastMessage;
-- (void) deleteAllContacts;
+- (void)createAndSaveContactEntity: (User *)user forMessage: (Message *) lastMessage withComplation:(complationBlock) block;
+- (void)deleteAndSaveAllContacts;
 - (NSFetchedResultsController*) getAllContactsFetchResultsController;
+
 - (void) deleteContact : (NSNumber *) contactId;
 - (NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
 - (void) linkParameter:(NSDictionary*) param toUser:(User*) user;
@@ -100,4 +102,12 @@ typedef enum {
 - (NSDictionary*) prepareParamFromUser:(User*) user;
 - (void) deleteChatByUserId : (NSNumber *) userId;
 - (void) saveContext;
+
+- (void)deleteAndSaveContact: (NSNumber *) contactId;
+-(NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
+- (void)createAndSaveMessage:(NSDictionary *)param  forUserId:(NSNumber*) keyId  andMessageType:(MessageTypes) type withComplation:(complationBlock) block;
+- (void)createAndSaveChatEntity: (User *)user withMessages: (NSArray *) messages withComplation:(complationBlock) block;
+- (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
+- (Chat *) getChatByUserId :(NSNumber *) userId;
+
 @end

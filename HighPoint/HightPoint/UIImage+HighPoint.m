@@ -21,7 +21,7 @@
 {
     if (pattern == nil)
         return nil;
-    
+
     CGImageRef sourceImage = self.CGImage;
     CGImageRef imageWithAlpha = sourceImage;
 
@@ -32,38 +32,43 @@
                                         CGImageGetBitsPerPixel(maskRef),
                                         CGImageGetBytesPerRow(maskRef),
                                         CGImageGetDataProvider(maskRef), NULL, false);
-    
+
     CGImageRef masked = CGImageCreateWithMask(imageWithAlpha, mask);
-    return [UIImage imageWithCGImage: masked];
+    CGImageRelease(mask);
+    UIImage *returnImage = [UIImage imageWithCGImage: masked];
+    CGImageRelease(masked);
+    return returnImage;
 }
 
 //==============================================================================
 
-- (UIImage*) hp_applyBlurWithRadius: (CGFloat) blurRadius
-{
-    CIImage* originalImage = [CIImage imageWithCGImage: self.CGImage];
-    CIFilter* filter = [CIFilter filterWithName: @"CIGaussianBlur"
-                                  keysAndValues: kCIInputImageKey, originalImage, @"inputRadius", @(blurRadius), nil];
-    CIImage* outputImage = filter.outputImage;
-    
-    outputImage = [outputImage imageByCroppingToRect:(CGRect){
-        .origin.x = blurRadius,
-        .origin.y = blurRadius,
-        .size.width = originalImage.extent.size.width - blurRadius * 2,
-        .size.height = originalImage.extent.size.height - blurRadius * 2
+- (UIImage *)hp_applyBlurWithRadius:(CGFloat)blurRadius {
+    CIImage *originalImage = [CIImage imageWithCGImage:self.CGImage];
+    CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"
+                                  keysAndValues:kCIInputImageKey, originalImage, @"inputRadius", @(blurRadius), nil];
+    CIImage *outputImage = filter.outputImage;
+
+    outputImage = [outputImage imageByCroppingToRect:(CGRect) {
+            .origin.x = blurRadius,
+            .origin.y = blurRadius,
+            .size.width = originalImage.extent.size.width - blurRadius * 2,
+            .size.height = originalImage.extent.size.height - blurRadius * 2
     }];
-    
-    CIContext *context = [CIContext contextWithOptions: nil];
-    CGImageRef cropColourImage = [context createCGImage: outputImage
-                                               fromRect: [outputImage extent]];
-    return [UIImage imageWithCGImage: cropColourImage];
+
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CGImageRef cropColourImage = [context createCGImage:outputImage
+                                               fromRect:[outputImage extent]];
+
+    UIImage *returnImage = [UIImage imageWithCGImage:cropColourImage];
+    if (cropColourImage)
+        CGImageRelease(cropColourImage);
+    return returnImage;
 }
 
 //==============================================================================
 
-- (UIImage*) hp_imageWithGaussianBlur: (NSInteger) blurRadius
-{
-    return [self stackBlur: blurRadius];
+- (UIImage *)hp_imageWithGaussianBlur:(NSInteger)blurRadius {
+    return [self stackBlur:blurRadius];
 }
 
 @end
