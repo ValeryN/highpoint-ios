@@ -285,7 +285,6 @@
 		CDA170411982470800173D1C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170401982470800173D1C /* CoreText.framework */; };
 		CDA170431982471D00173D1C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170421982471D00173D1C /* QuartzCore.framework */; };
 		CDA170451982473200173D1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170441982473200173D1C /* SystemConfiguration.framework */; };
-		CDA17050198260C200173D1C /* TestMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA1704F198260C200173D1C /* TestMessage.m */; };
 		CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EE2196FB2910032210F /* HPConciergeViewController.m */; };
 		CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */; };
 		CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE7196FC7E40032210F /* Localizable.strings */; };
@@ -725,8 +724,6 @@
 		CDA170401982470800173D1C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		CDA170421982471D00173D1C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CDA170441982473200173D1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		CDA1704E198260C200173D1C /* TestMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMessage.h; sourceTree = "<group>"; };
-		CDA1704F198260C200173D1C /* TestMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMessage.m; sourceTree = "<group>"; };
 		CDA22EE1196FB2910032210F /* HPConciergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConciergeViewController.h; sourceTree = "<group>"; };
 		CDA22EE2196FB2910032210F /* HPConciergeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPConciergeViewController.m; sourceTree = "<group>"; };
 		CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPConciergeViewController.xib; sourceTree = "<group>"; };
@@ -1579,8 +1576,6 @@
 			children = (
 				CDA170281982354300173D1C /* HPEnterIPViewController.h */,
 				CDA170291982354300173D1C /* HPEnterIPViewController.m */,
-				CDA1704E198260C200173D1C /* TestMessage.h */,
-				CDA1704F198260C200173D1C /* TestMessage.m */,
 			);
 			name = TestControllers;
 			sourceTree = "<group>";
@@ -2049,7 +2044,6 @@
 				CD55FD2019792C2F003EE9E9 /* CareerPost.m in Sources */,
 				CDC2D7CF1988E33C0002B196 /* Chat.m in Sources */,
 				3B39D2F8195C3091002520B9 /* MinEntertainmentPrice.m in Sources */,
-				CDA17050198260C200173D1C /* TestMessage.m in Sources */,
 				3B31709D191B6B5200B72AC1 /* HPMainViewListTableViewCell.m in Sources */,
 				3B39D31A195C3122002520B9 /* SocketIO.m in Sources */,
 				CD4CA3C2198111550016DF7E /* HPChatOptionsTableViewCell.m in Sources */,

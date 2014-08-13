@@ -1546,7 +1546,7 @@ static DataStorage *dataStorage;
 	NSEntityDescription* entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:self.moc];
 	[request setEntity:entity];
     NSMutableArray* sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:YES];
     [sortDescriptors addObject:sortDescriptor];
     [request setSortDescriptors:sortDescriptors];
     NSFetchedResultsController* controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.moc sectionNameKeyPath:nil cacheName:nil];
@@ -1662,6 +1662,11 @@ static DataStorage *dataStorage;
     [self saveContext];
     return msgEnt;
 }
+
+
+
+
+
 #pragma mark - last message
 /*
 - (LastMessage*) createLastMessage:(NSDictionary *)param  :(int) keyId {

@@ -89,6 +89,7 @@
 
 - (Message *) createMessage :(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes) type;
 - (Chat *) createChatEntity: (User *)user : (NSArray *) messages;
+- (Chat *) getChatByUserId :(NSNumber *) userId;
 - (void) deleteChatByUserId : (NSNumber *) userId;
 - (void) saveContext;
 @end

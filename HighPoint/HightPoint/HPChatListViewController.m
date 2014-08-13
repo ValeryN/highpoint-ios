@@ -210,6 +210,7 @@
 - (void)cellDidTap:(TLSwipeForOptionsCell *)cell{
     NSLog(@"tap cell");
     HPChatViewController* chatController = [[HPChatViewController alloc] initWithNibName: @"HPChatViewController" bundle: nil];
+    chatController.contact = [contacts objectAtIndex:cell.tag];
     [self.navigationController pushViewController:chatController animated:YES];
 }
 

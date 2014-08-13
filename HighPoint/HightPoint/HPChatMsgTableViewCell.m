@@ -25,7 +25,7 @@
 }
 
 
-- (void) configureSelfWithMsg : (TestMessage *) msg {
+- (void) configureSelfWithMsg : (Message *) msg {
     CGSize labelSize = [self getCellSize:msg];
     self.contentView.frame = CGRectMake(0, 0, 320,labelSize.height + 32);
     self.scrollView.frame = CGRectMake(0, 0, 320,labelSize.height + 32);
@@ -37,11 +37,11 @@
 
 #pragma mark - msg area configure
 
-- (void) addMsgView : (TestMessage*) msg {
+- (void) addMsgView : (Message*) msg {
     [self.msgTextView removeFromSuperview];
     CGSize labelSize = [self getCellSize:msg];
     
-    if (msg.isIncoming) {
+    if ([msg.sourceId isEqualToNumber:self.currentUserId]) {
         int width = 250;
         if (labelSize.width < 250) {
             width = labelSize.width;
@@ -68,7 +68,7 @@
     
     self.msgTextView.userInteractionEnabled = NO;
     self.scrollView.userInteractionEnabled = NO;
-    self.msgTextView.text = msg.messageBody;
+    self.msgTextView.text = msg.text;
     self.msgTextView.font = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
     self.msgTextView.layer.cornerRadius = 15;
     [self.scrollView addSubview:self.msgTextView];
@@ -76,10 +76,10 @@
 
 
 #pragma mark - count size 
-- (CGSize) getCellSize : (TestMessage *) msg {
+- (CGSize) getCellSize : (Message *) msg {
     UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:18.0];
     CGSize constraintSize = CGSizeMake(250.0f, 600);
-    CGSize labelSize = [msg.messageBody sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    CGSize labelSize = [msg.text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
     return labelSize;
 }
 

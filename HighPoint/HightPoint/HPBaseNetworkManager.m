@@ -1338,9 +1338,8 @@ static HPBaseNetworkManager *networkManager;
                         NSLog(@"Stop Queue");
                         [self makeTownByIdRequest];
                     }
-
+                    [self getChatMsgsForUser:user.userId :nil];
                 }
-                
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
             }
             else NSLog(@"Error, no valid data");
@@ -1426,6 +1425,7 @@ static HPBaseNetworkManager *networkManager;
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alert show];
             }
+             [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateChatView object:self userInfo:nil];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);

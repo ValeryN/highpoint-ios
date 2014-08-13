@@ -14,6 +14,9 @@
 #import "UITextView+HightPoint.h"
 #import "UIDevice+HighPoint.h"
 #import "HPBaseNetworkManager.h"
+#import "DataStorage.h"
+#import "HPBaseNetworkManager.h"
+#import "NotificationsConstants.h"
 
 
 #define KEYBOARD_HEIGHT 216
@@ -21,11 +24,13 @@
 #define MAX_COMMENT_LENGTH 250
 
 #define CONSTRAINT_TOP_BOTTOMVIEW 431
+#define CONSTRAINT_TOP_ACTIVITYBOTTOM 400
 
 
 
 @interface HPChatViewController () {
-    NSMutableArray *msgs;
+    NSArray *msgs;
+    BOOL isFirstLoad;
 }
 
 @end
@@ -44,53 +49,40 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    isFirstLoad = YES;
     [self createNavigationItem];
-    
-    
-    
     self.msgTextView.delegate = self;
     self.chatTableView.delegate = self;
     self.chatTableView.dataSource = self;
-    [self initMsgs];
+    msgs = [[NSArray alloc] init];
+    self.currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
     self.msgTextView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
     [self.msgTextView hp_tuneForTextViewMsgText];
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void) initMsgs {
-     msgs = [[NSMutableArray alloc] init];
-    for (int i = 0; i < 12; i++) {
-       
-        TestMessage *msg = [[TestMessage alloc] init];
-        msg.isIncoming = NO;
-        msg.messageBody = @"Lorem ipsum dolor sit amet";
-        if (i%3) {
-            msg.messageBody = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis est a neque ultricies blandit. Donec quis congue ante. Praesent euismod semper turpis, sed ultricies felis aliquam quis. Etiam consectetur cursus lacinia";
-            msg.isIncoming = YES;
-        }
-        
-        if (i%5) {
-            msg.messageBody = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis est a neque ultricies blandit. ";
-        }
-        
-        [msgs addObject:msg];
-    }
-}
-
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self registerNotification];
+    msgs = [[[DataStorage sharedDataStorage] getChatByUserId:self.contact.user.userId].message allObjects];
+    [self initElements];
     [self fixSelfConstraint];
-    
-    [[HPBaseNetworkManager sharedNetworkManager] getChatMsgsForUser:@101 :@0];
     //[self setSwipeForTableView];
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+    [self unregisterNotification];
+}
+
 - (void) viewDidAppear:(BOOL)animated {
-    if (self.chatTableView.contentSize.height > self.chatTableView.frame.size.height)
-    {
-        CGPoint offset = CGPointMake(0, self.chatTableView.contentSize.height -     self.chatTableView.frame.size.height);
-        [self.chatTableView setContentOffset:offset animated:NO];
+    if (msgs.count > 0) {
+        if (self.chatTableView.contentSize.height > self.chatTableView.frame.size.height)
+        {
+            CGPoint offset = CGPointMake(0, self.chatTableView.contentSize.height - self.chatTableView.frame.size.height);
+            [self.chatTableView setContentOffset:offset animated:YES];
+        }
     }
+    isFirstLoad = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -99,6 +91,36 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) registerNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateChatView object:nil];
+}
+
+
+- (void) unregisterNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateChatView object:nil];
+}
+
+
+#pragma mark - update 
+
+- (void) updateCurrentView {
+    msgs = [[[DataStorage sharedDataStorage] getChatByUserId:self.contact.user.userId].message allObjects];
+    [self initElements];
+    [self.chatTableView reloadData];
+    NSLog(@"chat updated for = %@", self.contact.user.userId);
+}
+
+
+#pragma mark - msgs count 
+- (void) initElements {
+    if (msgs.count > 0) {
+        self.retryBtn.hidden = YES;
+        self.chatTableView.hidden = NO;
+    } else {
+        self.retryBtn.hidden = NO;
+        self.chatTableView.hidden = YES;
+    }
+}
 
 #pragma mark - scroll for time
 - (void) setSwipeForTableView {
@@ -161,6 +183,10 @@
                 (consIter.firstItem == self.msgBottomView))
                 consIter.constant = CONSTRAINT_TOP_BOTTOMVIEW;
             
+            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
+                (consIter.firstItem == self.bottomActivityIndicator))
+                consIter.constant = CONSTRAINT_TOP_ACTIVITYBOTTOM;
+            
             }
     }
 }
@@ -179,10 +205,8 @@
     [avatarView addSubview: self.avatar];
     UIBarButtonItem *avatarBarItem = [[UIBarButtonItem alloc]initWithCustomView:avatarView];
     self.navigationItem.rightBarButtonItem = avatarBarItem;
-    self.navigationItem.title = @"Анастасия";
+    self.navigationItem.title = self.contact.user.name;
     [self.navigationController hp_configureNavigationBar];
-
-    
 }
 
 
@@ -301,6 +325,34 @@
     //TODO: send msg
 }
 
+
+- (IBAction)retryBtnTap:(id)sender {
+    [[HPBaseNetworkManager sharedNetworkManager] getChatMsgsForUser:self.contact.user.userId :nil];
+}
+
+#pragma mark - scroll view
+
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (!isFirstLoad) {
+        CGFloat scrollPosition = self.chatTableView.contentSize.height - self.chatTableView.frame.size.height - self.chatTableView.contentOffset.y;
+        NSLog(@"scroll position = %f", scrollPosition);
+        if (scrollPosition < -40)// you can set your value
+        {
+            if (!self.bottomActivityIndicator.isAnimating) {
+                [self.bottomActivityIndicator startAnimating];
+                [[HPBaseNetworkManager sharedNetworkManager] getChatMsgsForUser:self.contact.user.userId :nil];
+            }
+        } else {
+            if (self.bottomActivityIndicator.isAnimating) {
+                [self.bottomActivityIndicator stopAnimating];
+                NSLog(@"scroll stop");
+            }
+        }
+    }
+}
+
+
 #pragma mark - table view
 
 
@@ -316,6 +368,7 @@
             msgCell = [nib objectAtIndex:0];
         }
         msgCell.delegate = self;
+        msgCell.currentUserId = self.currentUser.userId;
         [msgCell configureSelfWithMsg:[msgs objectAtIndex:indexPath.row]];
         return msgCell;
     } else {
@@ -333,17 +386,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-       return msgs.count  - 3;
-    } else {
-        return msgs.count + 1;
-    }
-    
+    return msgs.count + 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -351,7 +399,7 @@
     if (indexPath.row < msgs.count) {
         UIFont *cellFont = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
         CGSize constraintSize = CGSizeMake(250.0f, 1000);
-        CGSize labelSize = [((TestMessage *)[msgs objectAtIndex:indexPath.row]).messageBody sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+        CGSize labelSize = [((Message *)[msgs objectAtIndex:indexPath.row]).text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
         return labelSize.height + 40;
     } else {
         return 32;

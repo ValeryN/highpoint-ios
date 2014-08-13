@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HPAvatarLittleView.h"
+#import "User.h"
 
 
 @protocol HPChatViewControllerProtocol <NSObject>
@@ -21,10 +22,9 @@
 
 @property (strong, nonatomic) HPAvatarLittleView *avatar;
 @property (strong, nonatomic) UIView *avatarView;
-
 @property (weak, nonatomic) IBOutlet UITableView *chatTableView;
-
-
+@property (strong, nonatomic) Contact *contact;
+@property (strong, nonatomic) User *currentUser;
 
 //bottom view
 @property (weak, nonatomic) IBOutlet UIView *msgBottomView;
@@ -32,5 +32,10 @@
 @property (weak, nonatomic) IBOutlet UITextView *msgTextView;
 @property (weak, nonatomic) IBOutlet UIView *bgBottomView;
 
+
+//retry
+
+@property (weak, nonatomic) IBOutlet UIButton *retryBtn;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityIndicator;
 
 @end
