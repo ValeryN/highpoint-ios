@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1297"
             endingLineNumber = "1297"
-            landmarkName = "-linkParameter:toUser:"
+            landmarkName = "-createAndSavePoint:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1293"
             endingLineNumber = "1293"
-            landmarkName = "-linkParameter:toUser:"
+            landmarkName = "-createAndSavePoint:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -1456,14 +1456,14 @@ static DataStorage *dataStorage;
     for(Career *car in  [user.career allObjects]) {
         for(NSDictionary *d in [param objectForKey:@"careerPosts"]) {
             if([car.postId intValue] == [[d objectForKey:@"id"] intValue]) {
-                CareerPost *cp = [self createCareerPost:d];
-                car.careerpost = cp;
+                //CareerPost *cp = [self createCareerPost:d];
+                //car.careerpost = cp;
             }
         }
         for(NSDictionary *d in [param objectForKey:@"companies"]) {
             if([car.companyId intValue] == [[d objectForKey:@"id"] intValue]) {
-                Company *com = [self createCompany:d];
-                car.company = com;
+                //Company *com = [self createCompany:d];
+                //car.company = com;
             }
         }
         NSLog(@"%@", car);
