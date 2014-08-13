@@ -264,4 +264,14 @@
     NSString *sep = ((age.length > 0) && town.length > 0)? @"," : @"";
     return [NSString stringWithFormat:@"%@,%@%@%@", genders, age, sep, town];
 }
++ (NSString*) deleteLastChar:(NSMutableString*) str {
+    if(str.length > 0) {
+        NSRange rng;
+        rng.length = 1;
+        rng.location = str.length - 1;
+        [str deleteCharactersInRange:rng];
+        return [NSString stringWithString:str];
+    }
+    return @"";
+}
 @end

@@ -27,4 +27,5 @@
 + (NSString *) getTitleStringForUserFilter;
 + (UIView*) getFhotoCountViewForText:(NSString*) text;
 + (NSString*) currencyConverter:(NSString*) currency;
++ (NSString*) deleteLastChar:(NSString*) str;
 @end

@@ -98,6 +98,12 @@ static HPBaseNetworkManager *networkManager;
     
     param = [[NSDictionary alloc] initWithObjectsAndKeys:[[[URLs getServerURL] stringByReplacingOccurrencesOfString:@":3002" withString:@""] stringByReplacingOccurrencesOfString:@"http://" withString:@""],@"host", @"3002",@"port", nil];
     [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
+    
+    //NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"", nil];
+    User * usr = [[DataStorage sharedDataStorage] getCurrentUser];
+    if(usr) {
+        [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
+    }
 }
 # pragma mark -
 # pragma mark http requests
@@ -537,11 +543,14 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) makeReferenceRequest:(NSDictionary*) param {
     NSString *url = nil;
+    User *user = [param objectForKey:@"user"];
+    NSMutableDictionary *par = [NSMutableDictionary dictionaryWithDictionary:param];
+    [par removeObjectForKey:@"user"];
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kReferenceRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:url parameters:par success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"REFERENCE REQUEST -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -550,26 +559,13 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                
-                
-//                NSArray *cities = [jsonDict objectForKey:@"cities"] ;
-//                NSMutableArray *citiesArr = [[NSMutableArray alloc] init];
-//                
-//                for(NSDictionary *dict in cities) {
-//                    City *city = [[DataStorage sharedDataStorage] createCity:dict];
-//                    [citiesArr addObject:city];
-//                }
-//                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
-                
-            } else {
+                    [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user];
+                } else {
                 NSLog(@"Error: %@", error.localizedDescription);
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
             }
-            
         }
-        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];

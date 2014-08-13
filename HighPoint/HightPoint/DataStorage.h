@@ -92,11 +92,12 @@ typedef enum {
 - (void) deleteAllContacts;
 - (NSFetchedResultsController*) getAllContactsFetchResultsController;
 - (void) deleteContact : (NSNumber *) contactId;
--(NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
-
+- (NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
+- (void) linkParameter:(NSDictionary*) param toUser:(User*) user;
 - (Message *) createMessage :(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes) type;
 - (Chat *) createChatEntity: (User *)user : (NSArray *) messages;
 - (Chat *) getChatByUserId :(NSNumber *) userId;
+- (NSDictionary*) prepareParamFromUser:(User*) user;
 - (void) deleteChatByUserId : (NSNumber *) userId;
 - (void) saveContext;
 @end

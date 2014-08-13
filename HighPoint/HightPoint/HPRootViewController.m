@@ -56,10 +56,7 @@
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
-    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"", nil];
-    [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:param];
-    
-    //socket init
+        //socket init
    
     //
     //[[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequestForQueue];

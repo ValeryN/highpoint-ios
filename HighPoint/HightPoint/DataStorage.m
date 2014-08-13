@@ -8,7 +8,7 @@
 
 #import "DataStorage.h"
 #import "HPAppDelegate.h"
-
+#import "Utils.h"
 #import "NotificationsConstants.h"
 #import <objc/runtime.h>
 
@@ -1243,6 +1243,66 @@ static DataStorage *dataStorage;
     } else {
         return;
     }
+}
+- (NSDictionary*) prepareParamFromUser:(User*) user {
+    
+    NSArray *lng = [user.language allObjects];
+    NSMutableString *langStr = [NSMutableString stringWithString:@""];
+    for(Language *l in lng) {
+        [langStr appendFormat:@"%d,", [l.id_ intValue]];
+    }
+    NSArray *edu = [user.education allObjects];
+    NSMutableString *schoolStr = [NSMutableString stringWithString:@""];
+    NSMutableString *specStr = [NSMutableString stringWithString:@""];
+    for(Education *e in edu) {
+        [schoolStr appendFormat:@"%d,", [e.schoolId intValue]];
+        [specStr appendFormat:@"%d,", [e.specialityId intValue]];
+    }
+    NSArray *car = [user.career allObjects];
+    NSMutableString *carrierStr = [NSMutableString stringWithString:@""];
+    NSMutableString *workPlaceStr = [NSMutableString stringWithString:@""];
+    for(Career *c in car) {
+        [carrierStr appendFormat:@"%d,", [c.companyId intValue]];
+        [workPlaceStr appendFormat:@"%d,", [c.postId intValue]];
+    }
+    NSArray *pl = [user.place allObjects];
+    NSMutableString *placeStr = [NSMutableString stringWithString:@""];
+    for (Place *p in pl) {
+        [placeStr appendFormat:@"%d,", [p.id_ intValue]];
+    }
+    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:   [Utils deleteLastChar:placeStr],@"placeIds",
+                           [Utils deleteLastChar:carrierStr], @"companyIds",
+                           [Utils deleteLastChar:workPlaceStr], @"careerPostIds",
+                           [Utils deleteLastChar:schoolStr], @"schoolIds",
+                           [Utils deleteLastChar:specStr], @"specialityIds",
+                           [Utils deleteLastChar:langStr], @"languageIds",
+                           user, @"user",nil];//workPlaceStr
+    return param;
+}
+- (void) linkParameter:(NSDictionary*) param toUser:(User*) user {
+    
+    for(Career *car in  [user.career allObjects]) {
+        for(NSDictionary *d in [param objectForKey:@"careerPosts"]) {
+            if([car.postId intValue] == [[d objectForKey:@"id"] intValue]) {
+                CareerPost *cp = [self createCareerPost:d];
+                car.careerpost = cp;
+            }
+        }
+        for(NSDictionary *d in [param objectForKey:@"companies"]) {
+            if([car.companyId intValue] == [[d objectForKey:@"id"] intValue]) {
+                Company *com = [self createCompany:d];
+                car.company = com;
+            }
+        }
+        NSLog(@"%@", car);
+    }
+    
+    
+    NSArray *companies = [param objectForKey:@"companies"];
+    NSArray *languages = [param objectForKey:@"languages"];
+    NSArray *places = [param objectForKey:@"places"];
+    NSArray *schools = [param objectForKey:@"schools"];
+    NSArray *special = [param objectForKey:@"specialities"];
 }
 #pragma mark -
 #pragma mark application settings entity
