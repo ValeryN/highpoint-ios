@@ -2,7 +2,7 @@
 //  User.m
 //  HighPoint
 //
-//  Created by Andrey Anisimov on 11.08.14.
+//  Created by Andrey Anisimov on 13.08.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -32,12 +32,13 @@
 @dynamic favoritePlaceIds;
 @dynamic gender;
 @dynamic isCurrentUser;
+@dynamic isItFromContact;
 @dynamic languageIds;
 @dynamic name;
 @dynamic nameForms;
 @dynamic userId;
 @dynamic visibility;
-@dynamic isItFromContact;
+@dynamic isItFromMainList;
 @dynamic avatar;
 @dynamic career;
 @dynamic chat;
