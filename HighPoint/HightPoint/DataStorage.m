@@ -1802,6 +1802,7 @@ static DataStorage *dataStorage;
 }
 
 - (NSFetchedResultsController *)getAllContactsFetchResultsController {
+
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:context];

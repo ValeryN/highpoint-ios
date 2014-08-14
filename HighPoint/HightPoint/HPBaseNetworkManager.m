@@ -1327,21 +1327,19 @@ static HPBaseNetworkManager *networkManager;
                 [[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
                 NSArray *users = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 NSDictionary *lastMsgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
-
                 for (int i = 0; i < users.count; i++) {
                     [[DataStorage sharedDataStorage] createAndSaveUserEntity:[users objectAtIndex:i] forUserType:ContactUserType withComplation:^(User *user) {
-                        Message *lastMsg;
                         for (id key in [lastMsgs allKeys]) {
                             if ([user.userId intValue] == [key intValue]) {
                                 [[DataStorage sharedDataStorage] createAndSaveMessage:[lastMsgs objectForKey:key] forUserId:user.userId andMessageType:LastMessageType withComplation:^(Message *lastMsg) {
-                                    [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:nil];
+                                    [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:^(id object) {
+                                        [self getChatMsgsForUser:user.userId :nil];
+                                    }];
                                 }];
                                 break;
                             }
                         }
-                        [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:^(id object) {
-                            [self getChatMsgsForUser:user.userId :nil];
-                        }];
+                        
                         if ([self isTaskArrayEmpty:manager]) {
                             NSLog(@"Stop Queue");
                             [self makeTownByIdRequest];
@@ -1437,8 +1435,8 @@ static HPBaseNetworkManager *networkManager;
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alert show];
 
     }];
 }
