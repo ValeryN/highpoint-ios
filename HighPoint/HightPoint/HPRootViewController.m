@@ -141,7 +141,7 @@
     HPChatListViewController* chatList = [[HPChatListViewController alloc] initWithNibName: @"HPChatListViewController" bundle: nil];
     _crossDissolveAnimationController.viewForInteraction = chatList.view;
     [self.navigationController pushViewController:chatList animated:YES];
-    
+    _crossDissolveAnimationController.viewForInteraction = nil;
 }
 
 
@@ -153,7 +153,9 @@
     HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
     _crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:filter animated:YES];
+    _crossDissolveAnimationController.viewForInteraction = nil;
 }
+
 - (void) updateCurrentView {
     NSLog(@"switcher state = %d", _bottomSwitch.switchState);
     
