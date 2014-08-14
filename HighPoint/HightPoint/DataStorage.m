@@ -1566,7 +1566,7 @@ static DataStorage *dataStorage;
     [request setSortDescriptors:sortDescriptors];
 
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"point.@count == 1 AND isItFromMainList == 1"];
+    [predicateString appendFormat:@"point != nil AND isItFromMainList == 1"];
 
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
