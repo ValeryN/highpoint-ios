@@ -1007,7 +1007,6 @@ static DataStorage *dataStorage;
 - (void)createAndSaveUserEntity:(NSDictionary *)param forUserType:(UserType)type withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        User *returnUser = nil;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         User *user;
 
@@ -1178,7 +1177,7 @@ static DataStorage *dataStorage;
             user.point = point;
         }
         [self addSaveOperationToBottomInContext:context];
-        [self returnObject:returnUser inComplationBlock:block];
+        [self returnObject:user inComplationBlock:block];
 
     }];
 
@@ -1808,7 +1807,7 @@ static DataStorage *dataStorage;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:context];
     [request setEntity:entity];
     NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:YES];
     [sortDescriptors addObject:sortDescriptor];
     [request setSortDescriptors:sortDescriptors];
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
