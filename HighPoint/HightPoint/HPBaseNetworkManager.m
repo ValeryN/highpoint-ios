@@ -1414,7 +1414,7 @@ static HPBaseNetworkManager *networkManager;
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"GET USER MESSAGES RESP JSON: --> %@", operation.responseString);
+       // NSLog(@"GET USER MESSAGES RESP JSON: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {

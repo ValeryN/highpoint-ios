@@ -51,9 +51,9 @@
 
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
+    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
         //socket init

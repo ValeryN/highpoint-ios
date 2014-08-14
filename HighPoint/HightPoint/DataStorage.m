@@ -1265,7 +1265,7 @@ static DataStorage *dataStorage;
     [request setSortDescriptors:sortDescriptors];
 
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"userId  = %d AND isItFromMainList == 1", [id_ intValue]];
+    [predicateString appendFormat:@"userId  = %d", [id_ intValue]];
 
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
@@ -1770,7 +1770,11 @@ static DataStorage *dataStorage;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
-            Contact *contactEnt = (Contact *) [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:context];
+            Contact *contactEnt;
+            contactEnt = [self getContactById:glovaluser.userId];
+            if (!contactEnt) {
+                contactEnt = (Contact *) [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:context];
+            }
             contactEnt.lastmessage = [globallastMessage moveToContext:context];
             contactEnt.user = [glovaluser moveToContext:context];
             [self addSaveOperationToBottomInContext:context];
@@ -1906,7 +1910,12 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             User *user = [globalUser moveToContext:context];
-            Chat *chatEnt = (Chat *) [NSEntityDescription insertNewObjectForEntityForName:@"Chat" inManagedObjectContext:context];
+            Chat *chatEnt;
+            NSLog(@"create chat entity for user = %@", user.userId);
+            chatEnt = [weakSelf getChatByUserId:user.userId];
+            if (!chatEnt) {
+                chatEnt = (Chat *) [NSEntityDescription insertNewObjectForEntityForName:@"Chat" inManagedObjectContext:context];
+            }
             chatEnt.user = user;
             NSMutableArray *entArray = [NSMutableArray new];
             for (NSDictionary *t in messages) {
