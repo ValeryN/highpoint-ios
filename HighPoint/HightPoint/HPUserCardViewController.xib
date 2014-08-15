@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPUserCardViewController">
             <connections>
+                <outlet property="bottomActivityView" destination="p2l-n7-67R" id="J1J-tk-Ubw"/>
                 <outlet property="usersCollectionView" destination="kbG-9s-TTK" id="IaV-Ym-AMl"/>
                 <outlet property="view" destination="iN0-l3-epB" id="5oa-jj-oiT"/>
             </connections>
@@ -28,12 +29,17 @@
                     </collectionViewFlowLayout>
                     <cells/>
                 </collectionView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="p2l-n7-67R">
+                    <rect key="frame" x="150" y="529" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="kbG-9s-TTK" secondAttribute="trailing" id="7ha-6h-n8g"/>
                 <constraint firstItem="kbG-9s-TTK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="HwH-mD-jbc"/>
                 <constraint firstItem="kbG-9s-TTK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TM3-d8-60i"/>
+                <constraint firstItem="p2l-n7-67R" firstAttribute="top" secondItem="kbG-9s-TTK" secondAttribute="bottom" constant="-39" id="kaq-9B-XbK"/>
                 <constraint firstAttribute="bottom" secondItem="kbG-9s-TTK" secondAttribute="bottom" id="whz-Rm-wCK"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

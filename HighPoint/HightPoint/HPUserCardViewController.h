@@ -26,5 +26,6 @@
 @property (nonatomic, assign) BOOL onlyWithPoints;
 @property (nonatomic, assign) int current;
 @property (weak, nonatomic) IBOutlet UICollectionView *usersCollectionView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
 
 @end

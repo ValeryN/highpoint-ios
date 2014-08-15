@@ -209,6 +209,10 @@
                                     <constraint firstItem="7c7-ao-JSu" firstAttribute="top" secondItem="j7y-09-8PB" secondAttribute="top" id="lFX-Fn-CxS"/>
                                 </constraints>
                             </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="GP7-8T-xvY">
+                                <rect key="frame" x="150" y="529" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -256,6 +260,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="bottomActivityView" destination="GP7-8T-xvY" id="75x-zX-W2a"/>
                         <outlet property="chatsListButton" destination="aHY-bi-ett" id="UR2-jA-ZDa"/>
                         <outlet property="filterGroupView" destination="j7y-09-8PB" id="V6I-jv-RfS"/>
                         <outlet property="mainListTable" destination="NN0-MU-hah" id="gRO-VO-oVS"/>
