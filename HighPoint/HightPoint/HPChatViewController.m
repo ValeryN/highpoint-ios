@@ -74,6 +74,7 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
     [self unregisterNotification];
+    [self.chatTableView setContentOffset:CGPointZero];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -323,11 +324,12 @@
     
     CGRect newFrame = self.msgBottomView.frame;
     newFrame.origin.y = newFrame.origin.y - KEYBOARD_HEIGHT;
+    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.4
                           delay:0.0
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         self.msgBottomView.frame = newFrame;
+                         weakSelf.msgBottomView.frame = newFrame;
                      }
                      completion:^(BOOL finished){
                      }];
@@ -343,11 +345,12 @@
     
     CGRect newFrame = self.msgBottomView.frame;
     newFrame.origin.y = newFrame.origin.y + KEYBOARD_HEIGHT;
+    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.2
                           delay:0.0
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         self.msgBottomView.frame = newFrame;
+                         weakSelf.msgBottomView.frame = newFrame;
                      }
                      completion:^(BOOL finished){
                      }];
