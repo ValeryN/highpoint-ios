@@ -60,7 +60,7 @@
    
     //
     //[[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequestForQueue];
-    [self configureNavigationBar];
+    
     [self createSwitch];
     [self addPullToRefresh];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
@@ -70,8 +70,8 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self.navigationController setNavigationBarHidden:NO];
+    [self configureNavigationBar];
     [self registerNotification];
     [self updateCurrentView];
 }
@@ -119,8 +119,11 @@
 {
     [self.navigationController hp_configureNavigationBar];
     self.navigationController.delegate = self;
-
-    self.notificationView = [Utils getNotificationViewForText: @"8"];
+    int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount : nil];
+    if (msgsCount > 0) {
+        self.notificationView = nil;
+        self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%d", msgsCount]];
+    }
     [_chatsListButton addSubview: _notificationView];
 }
 

@@ -1994,6 +1994,9 @@ static DataStorage *dataStorage;
     if (type == LastMessageType) {
         msgEnt.lastMessage = @YES;
     }
+    if (type == UnreadMessageType) {
+        msgEnt.unreadMessage = @YES;
+    }
     msgEnt.id_ = param[@"id"];
     msgEnt.createdAt = [df dateFromString:param[@"createdAt"]];
     msgEnt.destinationId = param[@"destinationId"];
@@ -2019,6 +2022,38 @@ static DataStorage *dataStorage;
 
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
+
+- (int) allUnreadMessagesCount : (User *) user {
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
+    [request setEntity:entity];
+    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:YES];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"unreadMessage == 1"];
+    if (user) {
+        [predicateString appendFormat:@"AND bindedUserId  = %d", [user.userId intValue]];
+    }
+    @try {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        return 0;
+    }
+    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
+    NSError *error = nil;
+    if (![controller performFetch:&error]) {
+        return 0;
+    }
+    return [controller fetchedObjects].count;
+}
+
+
 
 
 - (void)addSaveOperationToBottomInContext:(NSManagedObjectContext *)context {

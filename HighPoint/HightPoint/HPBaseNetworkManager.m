@@ -1280,10 +1280,13 @@ static HPBaseNetworkManager *networkManager;
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+            NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error];
-            if(jsonDict) {
+            for (NSDictionary * msg in jsonArray) {
+                [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:[msg objectForKey:@"sourceId"] andMessageType:UnreadMessageType withComplation:nil];
+            }
+            if(jsonArray) {
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
@@ -1385,8 +1388,8 @@ static HPBaseNetworkManager *networkManager;
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"id"]) {
                     [[DataStorage sharedDataStorage] deleteAndSaveContact:contactId];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
                     [[DataStorage sharedDataStorage] deleteAndSaveChatByUserId:contactId];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);

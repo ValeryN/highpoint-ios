@@ -170,13 +170,15 @@
     if (indexPath.row == 3) {
         [chatCell.avatar privacyLevel];
     }
-    if(indexPath.row %3) {
-        chatCell.msgCountView.hidden = YES;
-    } else {
+    Contact * contact = [contactsController objectAtIndexPath:indexPath];
+    int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:contact.user];
+    if(msgsCount > 0) {
         chatCell.msgCountView.hidden = NO;
+        chatCell.msgCountLabel.text = [NSString stringWithFormat:@"%d", msgsCount];
+    } else {
+        chatCell.msgCountView.hidden = YES;
     }
     chatCell.indexPath = [indexPath copy];
-    Contact * contact = [contactsController objectAtIndexPath:indexPath];
     chatCell.currentMsgLabel.text = contact.lastmessage.text;
     chatCell.currentUserMsgLabel.text = contact.lastmessage.text;
     [chatCell fillCell: contact];

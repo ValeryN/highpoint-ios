@@ -56,7 +56,7 @@
         usersArr = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
     }
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
-    
+    [self updateNotificationViewCount];
     _modalAnimationController = [[ModalAnimation alloc] init];
 }
 
@@ -103,7 +103,7 @@
     UIBarButtonItem* chatlistButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Bubble"]
                                                          highlighedImage: [UIImage imageNamed:@"Bubble Tap"]
                                                                   action: @selector(chatsListTaped:)];
-    self.notificationView = [Utils getNotificationViewForText:@"8"];
+    [self updateNotificationViewCount];
     [chatlistButton.customView addSubview: _notificationView];
     self.navigationItem.rightBarButtonItem = chatlistButton;
     
@@ -112,6 +112,14 @@
                                                               action: @selector(backbuttonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
+}
+
+
+- (void) updateNotificationViewCount {
+    int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:nil];
+    if (msgsCount > 0) {
+        self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%d", msgsCount]];
+    }
 }
 
 
