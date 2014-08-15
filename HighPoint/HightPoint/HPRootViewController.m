@@ -328,6 +328,7 @@
     HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCardViewController" bundle: nil];
     card.onlyWithPoints = _bottomSwitch.switchState;
     card.current = indexPath.row;
+    card.delegate = self;
     [self.navigationController pushViewController: card animated: YES];
 }
 
@@ -467,5 +468,18 @@
     return self.view.frame.size.height;
 }
 
+
+
+#pragma mark - sync position
+- (void) syncronizePosition : (NSInteger) currentPosition {
+    NSIndexPath *path = [NSIndexPath indexPathForRow:currentPosition inSection:0];
+//    if (usersCount < path.row) {
+//        int portionsCount = path.row/PORTION_OF_DATA + 1;
+//        usersCount = portionsCount *PORTION_OF_DATA;
+//    }
+//    [self.mainListTable reloadData];
+//    [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    
+}
 
 @end

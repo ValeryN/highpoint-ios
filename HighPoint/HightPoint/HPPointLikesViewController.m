@@ -77,6 +77,7 @@
 - (void) backbuttonTaped: (id) sender
 {
     [self.navigationController popViewControllerAnimated: YES];
+    
 }
 
 

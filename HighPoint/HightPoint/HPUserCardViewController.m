@@ -165,6 +165,7 @@
 
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+
     if (!isFirstLoad) {
         CGFloat scrollPosition = self.usersCollectionView.contentSize.height - self.usersCollectionView.frame.size.height - self.usersCollectionView.contentOffset.y;
         if (scrollPosition < -86)
@@ -193,6 +194,10 @@
 - (void) backbuttonTaped: (id) sender
 {
     [self.navigationController popViewControllerAnimated: YES];
+    if ([self.delegate respondsToSelector:@selector(syncronizePosition:)]) {
+        NSInteger currentIndex = self.usersCollectionView.contentOffset.y / self.usersCollectionView.frame.size.height;
+        [self.delegate syncronizePosition:currentIndex];
+    }
 }
 
 #pragma mark - Buttons pressed -
