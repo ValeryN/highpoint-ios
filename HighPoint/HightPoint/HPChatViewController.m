@@ -26,8 +26,6 @@
 #define CONSTRAINT_TOP_BOTTOMVIEW 431
 #define CONSTRAINT_TOP_ACTIVITYBOTTOM 400
 
-
-
 @interface HPChatViewController () {
     NSArray *msgs;
     BOOL isFirstLoad;
@@ -35,7 +33,10 @@
 
 @end
 
+
 @implementation HPChatViewController
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -67,6 +68,7 @@
     msgs = [[[DataStorage sharedDataStorage] getChatByUserId:self.contact.user.userId].message allObjects];
     [self initElements];
     [self fixSelfConstraint];
+    [self sortMessages];
     //[self setSwipeForTableView];
 }
 
@@ -79,7 +81,7 @@
         if (self.chatTableView.contentSize.height > self.chatTableView.frame.size.height)
         {
             CGPoint offset = CGPointMake(0, self.chatTableView.contentSize.height - self.chatTableView.frame.size.height);
-            [self.chatTableView setContentOffset:offset animated:YES];
+            [self.chatTableView setContentOffset:offset animated:NO];
         }
     }
     isFirstLoad = NO;
@@ -100,14 +102,51 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateChatView object:nil];
 }
 
+#pragma mark - msgs sorting
+- (NSDate *)dateAtBeginningOfDayForDate:(NSDate *)inputDate
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:inputDate];
+    return [calendar dateFromComponents:components];
+}
+
+- (void) sortMessages {
+    self.sections = [NSMutableDictionary dictionary];
+    for (Message *msg in msgs)
+    {
+        NSDate *dateRepresentingThisDay = msg.createdAt;
+        NSLog(@"message list object = %@ %@ %@",msg.text, msg.sourceId, msg.createdAt);
+        NSMutableArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
+        if (msgsOnThisDay == nil) {
+            msgsOnThisDay = [NSMutableArray array];
+            [self.sections setObject:msgsOnThisDay forKey:dateRepresentingThisDay];
+        }
+        [msgsOnThisDay addObject:msg];
+    }
+    NSArray *unsortedDays = [self.sections allKeys];
+    self.sortedDays = [unsortedDays sortedArrayUsingSelector:@selector(compare:)];
+
+    NSLog(@"sections = %@", self.sections);
+    
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MMM-dd HH:mm:ss"];
+    for (NSDate *date in self.sortedDays) {
+        NSString *strFromDate = [formatter stringFromDate:date];
+        NSLog(@"%@", strFromDate);
+    }
+}
+
+
 
 #pragma mark - update 
 
 - (void) updateCurrentView {
     msgs = [[[DataStorage sharedDataStorage] getChatByUserId:self.contact.user.userId].message allObjects];
     [self initElements];
+    [self sortMessages];
     [self.chatTableView reloadData];
-    NSLog(@"chat updated for = %@", self.contact.user.userId);
+    NSLog(@"chat contains %d elements", msgs.count);
 }
 
 
@@ -336,8 +375,8 @@
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
     if (!isFirstLoad) {
         CGFloat scrollPosition = self.chatTableView.contentSize.height - self.chatTableView.frame.size.height - self.chatTableView.contentOffset.y;
-        NSLog(@"scroll position = %f", scrollPosition);
-        if (scrollPosition < -40)// you can set your value
+        //NSLog(@"scroll position = %f", scrollPosition);
+        if (scrollPosition < -40)
         {
             if (!self.bottomActivityIndicator.isAnimating) {
                 [self.bottomActivityIndicator startAnimating];
@@ -358,7 +397,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row < msgs.count) {
+//    if (indexPath.row < msgs.count) {
+//        
+    NSLog(@"index path = %d", indexPath.row);
+    
+        
         static NSString *msgCellIdentifier = @"ChatMsgCell";
         HPChatMsgTableViewCell *msgCell = (HPChatMsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier];
         
@@ -367,32 +410,39 @@
             NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatMsgTableViewCell" owner:self options:nil];
             msgCell = [nib objectAtIndex:0];
         }
+        NSDate *dateRepresentingThisDay = [self.sortedDays objectAtIndex:indexPath.section];
+        NSArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
+        Message *msg = [msgsOnThisDay objectAtIndex:indexPath.row];
         msgCell.delegate = self;
         msgCell.currentUserId = self.currentUser.userId;
-        [msgCell configureSelfWithMsg:[msgs objectAtIndex:indexPath.row]];
+        [msgCell configureSelfWithMsg:msg];
         return msgCell;
-    } else {
-        static NSString *msgOptCellIdentifier = @"ChatMsgOptions";
-        HPChatOptionsTableViewCell *msgOptCell = (HPChatOptionsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgOptCellIdentifier];
-        
-        if (msgOptCell == nil)
-        {
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatOptionsTableViewCell" owner:self options:nil];
-            msgOptCell = [nib objectAtIndex:0];
-        }
-        return msgOptCell;
-    }
+//    } else {
+//        static NSString *msgOptCellIdentifier = @"ChatMsgOptions";
+//        HPChatOptionsTableViewCell *msgOptCell = (HPChatOptionsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgOptCellIdentifier];
+//        
+//        if (msgOptCell == nil)
+//        {
+//            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatOptionsTableViewCell" owner:self options:nil];
+//            msgOptCell = [nib objectAtIndex:0];
+//        }
+//        return msgOptCell;
+//    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return msgs.count + 1;
+    NSDate *dateRepresentingThisDay = [self.sortedDays objectAtIndex:section];
+    NSArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
+    NSLog(@"count msgs for section  = %d", msgsOnThisDay.count);
+    return [msgsOnThisDay count];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return [self.sections count];
 }
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -424,7 +474,10 @@
                                                   blue: 48.0 / 255.0
                                                  alpha: 1.0];
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 320, 16)];
-    dateLabel.text = @"Сегодня, 25 июня";
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd-MM-YYYY"];
+    dateLabel.text = [formatter stringFromDate:[self.sortedDays objectAtIndex:section]];
     [dateLabel setTextAlignment:UITextAlignmentCenter];
     dateLabel.textColor = [UIColor grayColor];
     [dateLabel hp_tuneForHeaderAndInfoInMessagesList];

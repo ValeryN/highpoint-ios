@@ -1984,7 +1984,7 @@ static DataStorage *dataStorage;
 - (Message *)createMessage:(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes)type {
 
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
+    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     Message *msgEnt = (Message *) [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[NSManagedObjectContext threadContext]];
     msgEnt.bindedUserId = userId;
 
