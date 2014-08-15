@@ -70,4 +70,8 @@ static NSString * const kMeUpdate = @"meUpdate";
 static NSString * const kMessage = @"message";
 
 
+//other
+#define months [NSArray arrayWithObjects: @"января", @"февраля",@"марта",@"апреля", @"мая",@"июня",@"июля", @"августа",@"сентября",@"октября", @"ноября",@"декабря", nil]
+
+
 #endif

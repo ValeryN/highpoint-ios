@@ -17,6 +17,8 @@
 #import "DataStorage.h"
 #import "HPBaseNetworkManager.h"
 #import "NotificationsConstants.h"
+#import "Constants.h"
+
 
 
 #define KEYBOARD_HEIGHT 216
@@ -93,6 +95,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - notifications
 
 - (void) registerNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateChatView object:nil];
@@ -356,6 +360,16 @@
                      }];
 }
 
+#pragma mark - date string
+- (NSString *) getDateString : (NSDate *) date {
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
+    NSInteger day = [components day];
+    NSInteger month = [components month];
+    NSInteger year = [components year];
+    return [NSString stringWithFormat:@"%d %@ %d", day, [months objectAtIndex:month-1], year];
+}
+
+
 
 #pragma mark - button handlers
 - (IBAction)addMsgTap:(id)sender {
@@ -388,7 +402,6 @@
         } else {
             if (self.bottomActivityIndicator.isAnimating) {
                 [self.bottomActivityIndicator stopAnimating];
-                NSLog(@"scroll stop");
             }
         }
     }
@@ -401,10 +414,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //    if (indexPath.row < msgs.count) {
-//        
-    NSLog(@"index path = %d", indexPath.row);
-    
-        
+//
         static NSString *msgCellIdentifier = @"ChatMsgCell";
         HPChatMsgTableViewCell *msgCell = (HPChatMsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier];
         
@@ -449,14 +459,13 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row < msgs.count) {
-        UIFont *cellFont = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
-        CGSize constraintSize = CGSizeMake(250.0f, 1000);
-        CGSize labelSize = [((Message *)[msgs objectAtIndex:indexPath.row]).text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
-        return labelSize.height + 40;
-    } else {
-        return 32;
-    }
+    NSDate *dateRepresentingThisDay = [self.sortedDays objectAtIndex:indexPath.section];
+    NSArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
+    Message *msg = [msgsOnThisDay objectAtIndex:indexPath.row];
+    UIFont *cellFont = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
+    CGSize constraintSize = CGSizeMake(250.0f, 1000);
+    CGSize labelSize = [msg.text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    return labelSize.height + 40;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -478,9 +487,8 @@
                                                  alpha: 1.0];
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 320, 16)];
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"dd-MM-YYYY"];
-    dateLabel.text = [formatter stringFromDate:[self.sortedDays objectAtIndex:section]];
+    
+    dateLabel.text = [self getDateString:[self.sortedDays objectAtIndex:section]];
     [dateLabel setTextAlignment:UITextAlignmentCenter];
     dateLabel.textColor = [UIColor grayColor];
     [dateLabel hp_tuneForHeaderAndInfoInMessagesList];
