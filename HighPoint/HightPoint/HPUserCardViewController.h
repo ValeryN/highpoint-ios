@@ -34,6 +34,6 @@
 @property (nonatomic, assign) int current;
 @property (weak, nonatomic) IBOutlet UICollectionView *usersCollectionView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
-@property (strong, nonatomic) id <HPUserCardViewControllerDelegate> delegate;
+@property (assign, nonatomic) id <HPUserCardViewControllerDelegate> delegate;
 
 @end
