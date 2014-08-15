@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSFetchedResultsController *allUsers;
 @property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, assign) CGRect savedFrame;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
 
 - (IBAction) filterButtonTap:(id)sender;
 - (IBAction) profileButtonPressedStart: (id) sender;
