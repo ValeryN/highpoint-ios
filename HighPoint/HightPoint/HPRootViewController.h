@@ -32,6 +32,8 @@
 @property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, assign) CGRect savedFrame;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
+@property (assign, nonatomic) BOOL isNeedScrollToIndex;
+@property (assign, nonatomic) int currentIndex;
 
 - (IBAction) filterButtonTap:(id)sender;
 - (IBAction) profileButtonPressedStart: (id) sender;

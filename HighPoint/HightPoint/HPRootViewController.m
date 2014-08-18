@@ -49,6 +49,7 @@
     [super viewDidLoad];
 
     isFirstLoad = YES;
+    self.isNeedScrollToIndex = NO;
     //TODO : delete
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
     
@@ -84,6 +85,16 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     isFirstLoad = NO;
+    if (self.isNeedScrollToIndex) {
+        NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
+        if (usersCount < self.currentIndex + 1) {
+            int portionsCount = path.row/PORTION_OF_DATA + 1;
+            usersCount = portionsCount *PORTION_OF_DATA;
+        }
+        [self.mainListTable reloadData];
+        [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    }
+    self.isNeedScrollToIndex = NO;
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -472,14 +483,8 @@
 
 #pragma mark - sync position
 - (void) syncronizePosition : (NSInteger) currentPosition {
-    NSIndexPath *path = [NSIndexPath indexPathForRow:currentPosition inSection:0];
-//    if (usersCount < path.row) {
-//        int portionsCount = path.row/PORTION_OF_DATA + 1;
-//        usersCount = portionsCount *PORTION_OF_DATA;
-//    }
-//    [self.mainListTable reloadData];
-//    [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-    
+    self.isNeedScrollToIndex = YES;
+    self.currentIndex = currentPosition;
 }
 
 @end

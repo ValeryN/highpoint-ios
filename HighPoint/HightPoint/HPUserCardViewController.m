@@ -46,6 +46,7 @@
 {
     [super viewDidLoad];
     isFirstLoad = YES;
+    self.currentIndex = 0;
     [self initObjects];
     
     [self addPullToRefresh];
@@ -195,8 +196,7 @@
 {
     [self.navigationController popViewControllerAnimated: YES];
     if ([self.delegate respondsToSelector:@selector(syncronizePosition:)]) {
-        NSInteger currentIndex = self.usersCollectionView.contentOffset.y / self.usersCollectionView.frame.size.height;
-        [self.delegate syncronizePosition:currentIndex];
+        [self.delegate syncronizePosition:self.currentIndex];
     }
 }
 
@@ -246,6 +246,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HPUserCardUICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"UserCardIdentif" forIndexPath:indexPath];
     [cell configureCell: [usersArr objectAtIndex:indexPath.row]];
+    cell.tag = indexPath.row;
     return cell;
 }
 
@@ -297,6 +298,17 @@
     
     targetContentOffset->y = currentOffset;
     [scrollView setContentOffset:CGPointMake(0, newTargetOffset) animated:YES];
+}
+
+
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    HPUserCardUICollectionViewCell* currentCell = ([[collectionView visibleCells]count] > 0) ? [[collectionView visibleCells] objectAtIndex:0] : nil;
+    
+    if(cell != nil){
+        self.currentIndex = [collectionView indexPathForCell:currentCell].row;
+    }
+    NSLog(@"current index for sync = %d", self.currentIndex);
 }
 
 //#pragma mark - Transitioning Delegate (Modal)
