@@ -20,37 +20,56 @@
 #define CONSTRAINT_BTNS_BOTTOM_TOP 318.0
 #define CONSTRAINT_VIEW_BOTTOM_TOP 318.0
 
+@interface HPCurrentUserPointCollectionViewCell()
+//Private methods
+- (void) editPointUp;
+- (void) editPointDown;
 
+
+//Private properties
+@property (weak, nonatomic) IBOutlet UILabel *yourPointLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UILabel *pointInfoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *publishBtn;
+@property (weak, nonatomic) IBOutlet UITextView *pointTextView;
+@property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
+//point settings
+@property (weak, nonatomic) IBOutlet UIView *pointSettingsView;
+@property (weak, nonatomic) IBOutlet HPSlider *pointTimeSlider;
+@property (weak, nonatomic) IBOutlet UILabel *pointTimeInfoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *publishSettBtn;
+//point delete
+@property (weak, nonatomic) IBOutlet UIView *deletePointView;
+@property (weak, nonatomic) IBOutlet UILabel *deletePointInfoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *deletePointSettBtn;
+@property (weak, nonatomic) IBOutlet UIButton *cancelDelBtn;
+@end
 
 @implementation HPCurrentUserPointCollectionViewCell
 
-- (void) configureCell {
+- (void)awakeFromNib {
+    [super awakeFromNib];
+
     [self fixUserPointConstraint];
     [self.pointSettingsView setHidden:YES];
     [self setImageViewBgTap];
     self.isUp = NO;
     self.yourPointLabel.text = NSLocalizedString(@"YOUR_POINT", nil);
-    [self.yourPointLabel hp_tuneForUserCardName];
     self.avatarImageView.clipsToBounds = YES;
     self.avatarImageView.layer.cornerRadius = 5;
     self.avatarImageView.image = [self.avatarImageView.image addBlendToPhoto];
-    [self.pointInfoLabel hp_tuneForCurrentPointInfo];
-    [self.publishBtn hp_tuneFontForGreenButton];
-    [self.deletePointSettBtn hp_tuneFontForGreenButton];
-    [self.cancelDelBtn hp_tuneFontForGreenButton];
-    [self.deletePointInfoLabel hp_tuneForDeletePointInfo];
     self.deletePointInfoLabel.text = NSLocalizedString(@"DELETE_POINT_INFO", nil);
-    [self.deleteBtn hp_tuneFontForGreenButton];
     self.pointTextView.delegate = self;
     self.pointTextView.text = NSLocalizedString(@"YOUR_EMPTY_POINT", nil);
-    [self.pointTextView hp_tuneForUserPointEmpty];
     [self.pointTimeSlider setValue:6 animated:YES];
     [self.pointTimeSlider initOnLoad];
     self.pointTimeInfoLabel.text = NSLocalizedString(@"SET_TIME_FOR_YOUR_POINT", nil);
-    [self.pointTimeInfoLabel hp_tuneForCurrentPointInfo];
-    [self.publishSettBtn hp_tuneFontForGreenButton];
 }
 
+- (void) updateConstraints
+{
+    [super updateConstraints];
+}
 
 #pragma mark - text view
 
@@ -59,16 +78,12 @@
         [self.delegate startEditingPoint];
     }
     [self editPointUp];
-    [self.pointTextView hp_tuneForUserPoint];
     [self setSymbolsCounter];
 }
 
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
-//    [self editPointDown];
-//    if ([self.delegate respondsToSelector:@selector(cancelPointTap)]) {
-//        [self.delegate cancelPointTap];
-//    }
+    [self editPointDown];
 }
 
 -(void)textViewDidChange:(UITextView *)textView
