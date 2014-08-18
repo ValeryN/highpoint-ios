@@ -1455,8 +1455,11 @@ static DataStorage *dataStorage;
     for(Career *car in  [user.career allObjects]) {
         for(NSDictionary *d in [param objectForKey:@"careerPosts"]) {
             if([car.postId intValue] == [[d objectForKey:@"id"] intValue]) {
-                //CareerPost *cp = [self createCareerPost:d];
-                //car.careerpost = cp;
+                
+                [self createAndSaveCareerPost:d withComplation:^(CareerPost *carrierPost) {
+                    car.careerpost = carrierPost;
+                    
+                }];
             }
         }
         for(NSDictionary *d in [param objectForKey:@"companies"]) {
