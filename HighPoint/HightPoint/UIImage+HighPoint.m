@@ -10,6 +10,7 @@
 
 #import "UIImage+HighPoint.h"
 #import "UIImage+StackBlur.h"
+#import "UIDevice+HighPoint.h"
 
 //==============================================================================
 
@@ -63,6 +64,30 @@
     if (cropColourImage)
         CGImageRelease(cropColourImage);
     return returnImage;
+}
+
+- (UIImage*) addBlendToPhoto{
+    UIImage *blendImage;
+    if([UIDevice hp_isWideScreen]){
+        blendImage = [UIImage imageNamed:@"Blend 5X.png"];
+    }
+    else{
+        blendImage = [UIImage imageNamed:@"Blend 4X.png"];
+    }
+
+
+    CGSize newSize = CGSizeMake(self.size.width, self.size.height);
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, .0f);
+
+// Use existing opacity as is
+    [self drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+// Apply supplied opacity
+    [blendImage drawInRect:CGRectMake(0,newSize.height-blendImage.size.height/2,newSize.width,blendImage.size.height/2) blendMode:kCGBlendModeNormal alpha:0.75];
+
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 //==============================================================================

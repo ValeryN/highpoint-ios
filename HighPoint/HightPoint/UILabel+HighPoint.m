@@ -79,7 +79,7 @@
 
 - (void) hp_tuneForSymbolCounterWhite
 {
-    self.font = [UIFont fontWithName: @"FuturaPT-Light" size:15.0f];
+    self.font = [UIFont fontWithName: @"FuturaPT-Light" size:17.0f];
     self.textColor = [UIColor colorWithRed: 230.0 / 255.0
                                      green: 236.0 / 255.0
                                       blue: 242.0 / 255.0
@@ -88,7 +88,7 @@
 
 - (void) hp_tuneForSymbolCounterRed
 {
-    self.font = [UIFont fontWithName: @"FuturaPT-Light" size:15.0f];
+    self.font = [UIFont fontWithName: @"FuturaPT-Light" size:17.0f];
     self.textColor = [UIColor colorWithRed: 255.0 / 255.0
                                      green: 102.0 / 255.0
                                       blue: 112.0 / 255.0

@@ -1280,10 +1280,13 @@ static HPBaseNetworkManager *networkManager;
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+            NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error];
-            if(jsonDict) {
+            for (NSDictionary * msg in jsonArray) {
+                [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:[msg objectForKey:@"sourceId"] andMessageType:UnreadMessageType withComplation:nil];
+            }
+            if(jsonArray) {
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
@@ -1327,21 +1330,19 @@ static HPBaseNetworkManager *networkManager;
                 [[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
                 NSArray *users = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 NSDictionary *lastMsgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
-
                 for (int i = 0; i < users.count; i++) {
                     [[DataStorage sharedDataStorage] createAndSaveUserEntity:[users objectAtIndex:i] forUserType:ContactUserType withComplation:^(User *user) {
-                        Message *lastMsg;
                         for (id key in [lastMsgs allKeys]) {
                             if ([user.userId intValue] == [key intValue]) {
                                 [[DataStorage sharedDataStorage] createAndSaveMessage:[lastMsgs objectForKey:key] forUserId:user.userId andMessageType:LastMessageType withComplation:^(Message *lastMsg) {
-                                    [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:nil];
+                                    [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:^(id object) {
+                                        [self getChatMsgsForUser:user.userId :nil];
+                                    }];
                                 }];
                                 break;
                             }
                         }
-                        [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:^(id object) {
-                            [self getChatMsgsForUser:user.userId :nil];
-                        }];
+                        
                         if ([self isTaskArrayEmpty:manager]) {
                             NSLog(@"Stop Queue");
                             [self makeTownByIdRequest];
@@ -1387,8 +1388,8 @@ static HPBaseNetworkManager *networkManager;
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"id"]) {
                     [[DataStorage sharedDataStorage] deleteAndSaveContact:contactId];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
                     [[DataStorage sharedDataStorage] deleteAndSaveChatByUserId:contactId];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1416,7 +1417,7 @@ static HPBaseNetworkManager *networkManager;
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"GET USER MESSAGES RESP JSON: --> %@", operation.responseString);
+       // NSLog(@"GET USER MESSAGES RESP JSON: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -1437,8 +1438,8 @@ static HPBaseNetworkManager *networkManager;
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alert show];
 
     }];
 }

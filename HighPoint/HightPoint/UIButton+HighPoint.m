@@ -26,6 +26,12 @@
     self.titleLabel.textColor = [UIColor colorWithRed: 80.0f / 255.0f green: 226.0f / 255.0f blue:193.0f / 255.0f alpha: 1.0f];
 }
 
+- (void) hp_tuneFontForGreenDoneButton
+{
+    self.titleLabel.font = [UIFont fontWithName: @"FuturaPT-Book" size: 18.0];
+    self.titleLabel.textColor = [UIColor colorWithRed: 80.0f / 255.0f green: 226.0f / 255.0f blue:193.0f / 255.0f alpha: 1.0f];
+}
+
 - (void) hp_tuneForDeleteBtnInContactList
 {
     self.titleLabel.font = [UIFont fontWithName: @"FuturaPT-Book" size: 18.0];

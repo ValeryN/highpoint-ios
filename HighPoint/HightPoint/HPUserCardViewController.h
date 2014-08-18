@@ -16,6 +16,13 @@
 @class ModalAnimation;
 
 
+@protocol HPUserCardViewControllerDelegate <NSObject>
+
+- (void) syncronizePosition : (NSInteger) currentPosition;
+
+@end
+
+
 @interface HPUserCardViewController : UIViewController <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, HPUserInfoViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
     NSArray *usersArr;
@@ -26,5 +33,7 @@
 @property (nonatomic, assign) BOOL onlyWithPoints;
 @property (nonatomic, assign) int current;
 @property (weak, nonatomic) IBOutlet UICollectionView *usersCollectionView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
+@property (assign, nonatomic) id <HPUserCardViewControllerDelegate> delegate;
 
 @end

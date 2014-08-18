@@ -1007,7 +1007,6 @@ static DataStorage *dataStorage;
 - (void)createAndSaveUserEntity:(NSDictionary *)param forUserType:(UserType)type withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        User *returnUser = nil;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         User *user;
 
@@ -1178,7 +1177,7 @@ static DataStorage *dataStorage;
             user.point = point;
         }
         [self addSaveOperationToBottomInContext:context];
-        [self returnObject:returnUser inComplationBlock:block];
+        [self returnObject:user inComplationBlock:block];
 
     }];
 
@@ -1266,7 +1265,7 @@ static DataStorage *dataStorage;
     [request setSortDescriptors:sortDescriptors];
 
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"userId  = %d AND isItFromMainList == 1", [id_ intValue]];
+    [predicateString appendFormat:@"userId  = %d", [id_ intValue]];
 
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
@@ -1566,7 +1565,7 @@ static DataStorage *dataStorage;
     [request setSortDescriptors:sortDescriptors];
 
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"point.@count == 1 AND isItFromMainList == 1"];
+    [predicateString appendFormat:@"point != nil AND isItFromMainList == 1"];
 
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
@@ -1771,7 +1770,11 @@ static DataStorage *dataStorage;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
-            Contact *contactEnt = (Contact *) [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:context];
+            Contact *contactEnt;
+            contactEnt = [self getContactById:glovaluser.userId];
+            if (!contactEnt) {
+                contactEnt = (Contact *) [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:context];
+            }
             contactEnt.lastmessage = [globallastMessage moveToContext:context];
             contactEnt.user = [glovaluser moveToContext:context];
             [self addSaveOperationToBottomInContext:context];
@@ -1803,12 +1806,13 @@ static DataStorage *dataStorage;
 }
 
 - (NSFetchedResultsController *)getAllContactsFetchResultsController {
+
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:context];
     [request setEntity:entity];
     NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:YES];
     [sortDescriptors addObject:sortDescriptor];
     [request setSortDescriptors:sortDescriptors];
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
@@ -1906,7 +1910,12 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             User *user = [globalUser moveToContext:context];
-            Chat *chatEnt = (Chat *) [NSEntityDescription insertNewObjectForEntityForName:@"Chat" inManagedObjectContext:context];
+            Chat *chatEnt;
+            NSLog(@"create chat entity for user = %@", user.userId);
+            chatEnt = [weakSelf getChatByUserId:user.userId];
+            if (!chatEnt) {
+                chatEnt = (Chat *) [NSEntityDescription insertNewObjectForEntityForName:@"Chat" inManagedObjectContext:context];
+            }
             chatEnt.user = user;
             NSMutableArray *entArray = [NSMutableArray new];
             for (NSDictionary *t in messages) {
@@ -1975,7 +1984,7 @@ static DataStorage *dataStorage;
 - (Message *)createMessage:(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes)type {
 
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
+    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     Message *msgEnt = (Message *) [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[NSManagedObjectContext threadContext]];
     msgEnt.bindedUserId = userId;
 
@@ -1984,6 +1993,9 @@ static DataStorage *dataStorage;
     }
     if (type == LastMessageType) {
         msgEnt.lastMessage = @YES;
+    }
+    if (type == UnreadMessageType) {
+        msgEnt.unreadMessage = @YES;
     }
     msgEnt.id_ = param[@"id"];
     msgEnt.createdAt = [df dateFromString:param[@"createdAt"]];
@@ -2010,6 +2022,38 @@ static DataStorage *dataStorage;
 
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
+
+- (int) allUnreadMessagesCount : (User *) user {
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
+    [request setEntity:entity];
+    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:YES];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"unreadMessage == 1"];
+    if (user) {
+        [predicateString appendFormat:@"AND bindedUserId  = %d", [user.userId intValue]];
+    }
+    @try {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        return 0;
+    }
+    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
+    NSError *error = nil;
+    if (![controller performFetch:&error]) {
+        return 0;
+    }
+    return [controller fetchedObjects].count;
+}
+
+
 
 
 - (void)addSaveOperationToBottomInContext:(NSManagedObjectContext *)context {

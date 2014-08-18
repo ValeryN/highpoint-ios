@@ -11,13 +11,14 @@
 #import "UIButton+HighPoint.h"
 #import "UITextView+HightPoint.h"
 #import "UIDevice+HighPoint.h"
+#import "UIImage+HighPoint.h"
 
 #define POINT_LENGTH 150
 #define CONSTRAINT_AVATAR_TOP 10.0
 #define CONSTRAINT_POINT_TOP 180.0
-#define CONSTRAINT_POINT_INFO_TOP 280.0
-#define CONSTRAINT_BTNS_BOTTOM_TOP 330.0
-#define CONSTRAINT_VIEW_BOTTOM_TOP 330.0
+#define CONSTRAINT_POINT_INFO_TOP 274.0
+#define CONSTRAINT_BTNS_BOTTOM_TOP 318.0
+#define CONSTRAINT_VIEW_BOTTOM_TOP 318.0
 
 
 
@@ -32,6 +33,7 @@
     [self.yourPointLabel hp_tuneForUserCardName];
     self.avatarImageView.clipsToBounds = YES;
     self.avatarImageView.layer.cornerRadius = 5;
+    self.avatarImageView.image = [self.avatarImageView.image addBlendToPhoto];
     [self.pointInfoLabel hp_tuneForCurrentPointInfo];
     [self.publishBtn hp_tuneFontForGreenButton];
     [self.deletePointSettBtn hp_tuneFontForGreenButton];
@@ -131,23 +133,25 @@
 
 #pragma mark - animation
 - (void) editPointUp {
+    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 115, self.frame.size.width, self.frame.size.height);
+                         weakSelf.frame = CGRectMake(weakSelf.frame.origin.x, weakSelf.frame.origin.y - 115, weakSelf.frame.size.width, weakSelf.frame.size.height);
                      }
                      completion:^(BOOL finished){
-                         self.isUp = YES;
+                         weakSelf.isUp = YES;
                      }];
 }
 
 - (void) editPointDown {
+    __weak typeof(self) weakSelf = self;
     if (self.isUp) {
         [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
                          animations:^{
-                             self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + 115, self.frame.size.width, self.frame.size.height);
+                             weakSelf.frame = CGRectMake(weakSelf.frame.origin.x, weakSelf.frame.origin.y + 115, weakSelf.frame.size.width, weakSelf.frame.size.height);
                          }
                          completion:^(BOOL finished){
-                             self.isUp = NO;
+                             weakSelf.isUp = NO;
                          }];
     }
 }

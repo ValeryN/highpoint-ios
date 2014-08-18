@@ -23,7 +23,7 @@
 
 @interface HPCurrentUserPointCollectionViewCell : UICollectionViewCell <UITextViewDelegate, UIGestureRecognizerDelegate>
 
-@property (strong, nonatomic) id<HPCurrentUserPointCollectionViewCellDelegate> delegate;
+@property (assign, nonatomic) id<HPCurrentUserPointCollectionViewCellDelegate> delegate;
 @property (assign, nonatomic) BOOL isUp;
 
 @property (weak, nonatomic) IBOutlet UILabel *yourPointLabel;

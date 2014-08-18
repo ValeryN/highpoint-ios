@@ -18,7 +18,7 @@
 
 //==============================================================================
 
-@interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, HPSwitchProtocol, NSFetchedResultsControllerDelegate>
+@interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, HPSwitchProtocol, NSFetchedResultsControllerDelegate, HPUserCardViewControllerDelegate>
 {
     ScaleAnimation *_scaleAnimationController;
     CrossDissolveAnimation *_crossDissolveAnimationController;
@@ -31,9 +31,11 @@
 @property (nonatomic, strong) NSFetchedResultsController *allUsers;
 @property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, assign) CGRect savedFrame;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
 
 - (IBAction) filterButtonTap:(id)sender;
 - (IBAction) profileButtonPressedStart: (id) sender;
 - (IBAction) bubbleButtonPressedStart: (id) sender;
+- (void) syncronizePosition : (NSInteger) currentPosition;
 
 @end

@@ -38,4 +38,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *retryBtn;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityIndicator;
 
+//sorting
+
+
+@property (strong, nonatomic) NSMutableDictionary *sections;
+@property (strong, nonatomic) NSArray *sortedDays;
+
 @end

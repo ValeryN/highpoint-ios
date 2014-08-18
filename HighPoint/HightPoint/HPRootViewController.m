@@ -31,11 +31,16 @@
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
 #define HIDE_FILTER_ANIMATION_SPEED 0.5
+#define PORTION_OF_DATA 7
+
 
 //==============================================================================
 
 
-@implementation HPRootViewController
+@implementation HPRootViewController {
+    int usersCount;
+    BOOL isFirstLoad;
+}
 
 #pragma mark - controller view delegate -
 
@@ -43,7 +48,7 @@
 {
     [super viewDidLoad];
 
-    
+    isFirstLoad = YES;
     //TODO : delete
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
     
@@ -51,16 +56,16 @@
 
     [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
+    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
         //socket init
    
     //
     //[[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequestForQueue];
-    [self configureNavigationBar];
+    
     [self createSwitch];
     [self addPullToRefresh];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
@@ -70,10 +75,15 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self.navigationController setNavigationBarHidden:NO];
+    [self configureNavigationBar];
     [self registerNotification];
     [self updateCurrentView];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    isFirstLoad = NO;
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -119,8 +129,11 @@
 {
     [self.navigationController hp_configureNavigationBar];
     self.navigationController.delegate = self;
-
-    self.notificationView = [Utils getNotificationViewForText: @"8"];
+    int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount : nil];
+    if (msgsCount > 0) {
+        self.notificationView = nil;
+        self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%d", msgsCount]];
+    }
     [_chatsListButton addSubview: _notificationView];
 }
 
@@ -141,7 +154,7 @@
     HPChatListViewController* chatList = [[HPChatListViewController alloc] initWithNibName: @"HPChatListViewController" bundle: nil];
     _crossDissolveAnimationController.viewForInteraction = chatList.view;
     [self.navigationController pushViewController:chatList animated:YES];
-    
+    _crossDissolveAnimationController.viewForInteraction = nil;
 }
 
 
@@ -153,10 +166,10 @@
     HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
     _crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:filter animated:YES];
+    _crossDissolveAnimationController.viewForInteraction = nil;
 }
+
 - (void) updateCurrentView {
-    NSLog(@"switcher state = %d", _bottomSwitch.switchState);
-    
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
     if (_bottomSwitch.switchState) {
         self.allUsers = [[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController];
@@ -164,6 +177,7 @@
         self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
     }
     self.allUsers.delegate = self;
+    usersCount = [self.allUsers fetchedObjects].count > 0? PORTION_OF_DATA : 0;
     [self.mainListTable reloadData];
 }
 
@@ -228,8 +242,7 @@
 }
 
 
-#pragma mark - pull-to-refresh
-#pragma mark - pull to refresh
+#pragma mark - pull-to-refresh   
 
 - (void) addPullToRefresh {
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -240,10 +253,44 @@
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
-    NSLog(@"update users");
     [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
     [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
     [refreshControl endRefreshing];
+    [self.mainListTable reloadData];
+}
+
+
+#pragma mark - scroll view
+
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (!isFirstLoad) {
+        CGFloat scrollPosition = self.mainListTable.contentSize.height - self.mainListTable.frame.size.height - self.mainListTable.contentOffset.y;
+        if (scrollPosition < -40)
+        {
+            if (!self.bottomActivityView.isAnimating) {
+                [self.bottomActivityView startAnimating];
+                
+                if ([self.allUsers fetchedObjects].count - usersCount == 0) {
+                    User *user = [[self.allUsers fetchedObjects] lastObject];
+                    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
+                    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
+                } else {
+                    if (([self.allUsers fetchedObjects].count - usersCount) > PORTION_OF_DATA) {
+                        usersCount += PORTION_OF_DATA;
+                    } else {
+                        usersCount += ([self.allUsers fetchedObjects].count - usersCount);
+                    }
+                }
+                [self.mainListTable reloadData];
+            }
+        } else {
+            if (self.bottomActivityView.isAnimating) {
+                [self.bottomActivityView stopAnimating];
+            }
+        }
+    }
 }
 
 #pragma mark - TableView and DataSource delegate -
@@ -256,8 +303,9 @@
 
 - (NSInteger) tableView: (UITableView*) tableView numberOfRowsInSection: (NSInteger) section
 {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.allUsers sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+//    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.allUsers sections] objectAtIndex:section];
+//    return [sectionInfo numberOfObjects];
+    return usersCount;
 }
 
 
@@ -280,6 +328,7 @@
     HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCardViewController" bundle: nil];
     card.onlyWithPoints = _bottomSwitch.switchState;
     card.current = indexPath.row;
+    card.delegate = self;
     [self.navigationController pushViewController: card animated: YES];
 }
 
@@ -419,5 +468,18 @@
     return self.view.frame.size.height;
 }
 
+
+
+#pragma mark - sync position
+- (void) syncronizePosition : (NSInteger) currentPosition {
+    NSIndexPath *path = [NSIndexPath indexPathForRow:currentPosition inSection:0];
+//    if (usersCount < path.row) {
+//        int portionsCount = path.row/PORTION_OF_DATA + 1;
+//        usersCount = portionsCount *PORTION_OF_DATA;
+//    }
+//    [self.mainListTable reloadData];
+//    [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    
+}
 
 @end

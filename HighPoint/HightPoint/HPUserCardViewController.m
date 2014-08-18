@@ -37,14 +37,18 @@
 
 
 
-@implementation HPUserCardViewController
+@implementation HPUserCardViewController {
+     BOOL isFirstLoad;
+}
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    isFirstLoad = YES;
     [self initObjects];
+    
+    [self addPullToRefresh];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -56,7 +60,7 @@
         usersArr = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
     }
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
-    
+    [self updateNotificationViewCount];
     _modalAnimationController = [[ModalAnimation alloc] init];
 }
 
@@ -78,6 +82,7 @@
             [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) -64) animated:NO];
         }
     }
+    isFirstLoad = NO;
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -103,7 +108,7 @@
     UIBarButtonItem* chatlistButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Bubble"]
                                                          highlighedImage: [UIImage imageNamed:@"Bubble Tap"]
                                                                   action: @selector(chatsListTaped:)];
-    self.notificationView = [Utils getNotificationViewForText:@"8"];
+    [self updateNotificationViewCount];
     [chatlistButton.customView addSubview: _notificationView];
     self.navigationItem.rightBarButtonItem = chatlistButton;
     
@@ -112,6 +117,14 @@
                                                               action: @selector(backbuttonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
+}
+
+
+- (void) updateNotificationViewCount {
+    int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:nil];
+    if (msgsCount > 0) {
+        self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%d", msgsCount]];
+    }
 }
 
 
@@ -132,6 +145,46 @@
     return newbuttonItem;
 }
 
+#pragma mark - pull-to-refresh
+
+- (void) addPullToRefresh {
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.tintColor = [UIColor whiteColor];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.usersCollectionView addSubview:refreshControl];
+}
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
+    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
+    [refreshControl endRefreshing];
+    [self.usersCollectionView reloadData];
+}
+
+#pragma mark - scroll view
+
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+
+    if (!isFirstLoad) {
+        CGFloat scrollPosition = self.usersCollectionView.contentSize.height - self.usersCollectionView.frame.size.height - self.usersCollectionView.contentOffset.y;
+        if (scrollPosition < -86)
+        {
+            if (!self.bottomActivityView.isAnimating) {
+                [self.bottomActivityView startAnimating];
+                User *user = [usersArr lastObject];
+                [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
+                [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
+                [self.usersCollectionView reloadData];
+            }
+        } else {
+            if (self.bottomActivityView.isAnimating) {
+                [self.bottomActivityView stopAnimating];
+            }
+        }
+    }
+}
+
 #pragma mark - Tap events -
 - (void) chatsListTaped: (id) sender
 {
@@ -141,6 +194,10 @@
 - (void) backbuttonTaped: (id) sender
 {
     [self.navigationController popViewControllerAnimated: YES];
+    if ([self.delegate respondsToSelector:@selector(syncronizePosition:)]) {
+        NSInteger currentIndex = self.usersCollectionView.contentOffset.y / self.usersCollectionView.frame.size.height;
+        [self.delegate syncronizePosition:currentIndex];
+    }
 }
 
 #pragma mark - Buttons pressed -
