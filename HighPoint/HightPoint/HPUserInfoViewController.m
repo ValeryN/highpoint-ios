@@ -305,7 +305,7 @@
     if([self.delegate respondsToSelector:@selector(profileWillBeHidden)]) {
         [self.delegate profileWillBeHidden];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
