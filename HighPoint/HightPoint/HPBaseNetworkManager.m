@@ -53,7 +53,7 @@ static HPBaseNetworkManager *networkManager;
 }
 - (BOOL) isTaskArrayEmpty:(AFHTTPRequestOperationManager*) manager {
     if(self.taskArray && self.taskArray.count > 0) {
-        int index = [self.taskArray indexOfObject:manager ];
+        NSUInteger index = [self.taskArray indexOfObject:manager];;
         if(index != NSNotFound) {
             [self.taskArray removeObjectAtIndex:[self.taskArray indexOfObject:manager ]];
             if(self.taskArray.count == 0) {
