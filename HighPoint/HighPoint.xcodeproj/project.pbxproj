@@ -55,7 +55,6 @@
 		3B3170B1191B931300B72AC1 /* Userpic-Maskk_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170B0191B931300B72AC1 /* Userpic-Maskk_2.png */; };
 		3B3170B4191BA50600B72AC1 /* Green Button.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170B3191BA50600B72AC1 /* Green Button.png */; };
 		3B3170B7191BA56900B72AC1 /* HPSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */; };
-		3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170C1191BC82A00B72AC1 /* Blend 5X.png */; };
 		3B31864B191A408B0000DD8B /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31864A191A408B0000DD8B /* Utils.m */; };
 		3B318653191A674A0000DD8B /* Notice-C.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B318652191A674A0000DD8B /* Notice-C.png */; };
 		3B318656191A6C6D0000DD8B /* Notice-L.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B318654191A6C6D0000DD8B /* Notice-L.png */; };
@@ -303,6 +302,7 @@
 		CDA3A64A1992117D008F9F86 /* HPSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA3A6491992117D008F9F86 /* HPSlider.m */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
+		CDB9527619A1CFEF00238DFC /* Blend 5X@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB9527519A1CFEF00238DFC /* Blend 5X@2x.png */; };
 		CDC009931990C5ED00B3FF75 /* curruser_point_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDC009921990C5ED00B3FF75 /* curruser_point_new.png */; };
 		CDC009961990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */; };
 		CDC009981990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC009971990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib */; };
@@ -403,7 +403,6 @@
 		3B3170B5191BA56900B72AC1 /* HPSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSwitchViewController.h; sourceTree = "<group>"; };
 		3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSwitchViewController.m; sourceTree = "<group>"; };
 		3B3170B8191BA64B00B72AC1 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		3B3170C1191BC82A00B72AC1 /* Blend 5X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blend 5X.png"; sourceTree = "<group>"; };
 		3B318649191A408B0000DD8B /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		3B31864A191A408B0000DD8B /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		3B318652191A674A0000DD8B /* Notice-C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Notice-C.png"; sourceTree = "<group>"; };
@@ -750,6 +749,7 @@
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
+		CDB9527519A1CFEF00238DFC /* Blend 5X@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blend 5X@2x.png"; sourceTree = "<group>"; };
 		CDC009921990C5ED00B3FF75 /* curruser_point_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = curruser_point_new.png; sourceTree = "<group>"; };
 		CDC009941990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserPointCollectionViewCell.h; sourceTree = "<group>"; };
 		CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserPointCollectionViewCell.m; sourceTree = "<group>"; };
@@ -929,6 +929,7 @@
 		3B31864D191A493F0000DD8B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CDB9527519A1CFEF00238DFC /* Blend 5X@2x.png */,
 				CDA0A0B51999F5D00017D35B /* Selected.png */,
 				3B9C749D1990FFA0006ADAE7 /* Close Tap.png */,
 				3B9C749E1990FFA0006ADAE7 /* Close.png */,
@@ -971,7 +972,6 @@
 				3BCB5B09192F946B00E5DCA9 /* Back.png */,
 				3BCB5B02192F8B2F00E5DCA9 /* Next.png */,
 				3BCB5B00192F76D200E5DCA9 /* Progress Line.png */,
-				3B3170C1191BC82A00B72AC1 /* Blend 5X.png */,
 				3B3170B3191BA50600B72AC1 /* Green Button.png */,
 				3B3170B0191B931300B72AC1 /* Userpic-Maskk_2.png */,
 				3B3170AE191B91AD00B72AC1 /* pin_popup_blackw@2x.png */,
@@ -1803,7 +1803,6 @@
 				3B298FCA192F476100BEC2AA /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				CDA1703A198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset in Resources */,
 				CD9E78891977C6FE0064E2AF /* Point Notice Tap.png in Resources */,
-				3B3170C2191BC82A00B72AC1 /* Blend 5X.png in Resources */,
 				CDA27BEB1974EE06007D6BC1 /* add_photo.png in Resources */,
 				CDA33D9E199367E60054201C /* filter_new.png in Resources */,
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
@@ -1899,6 +1898,7 @@
 				CDF9745F196E8C4C0064ED04 /* Lock.png in Resources */,
 				3BE9DE41197FD8F300AFA641 /* 5.jpg in Resources */,
 				3BCB5B0B192F946B00E5DCA9 /* Back.png in Resources */,
+				CDB9527619A1CFEF00238DFC /* Blend 5X@2x.png in Resources */,
 				3B3170AD191B88E000B72AC1 /* Userpic-Mask.png in Resources */,
 				4C8096B1193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */,
 				3B6DB4A718FFC24D00C26A50 /* Images.xcassets in Resources */,
