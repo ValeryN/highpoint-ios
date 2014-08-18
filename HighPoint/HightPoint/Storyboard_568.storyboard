@@ -31,6 +31,7 @@
                                 </state>
                                 <connections>
                                     <action selector="enterApiBtnTap:" destination="BBy-ip-1SR" eventType="touchUpInside" id="d0w-ch-sfA"/>
+                                    <segue destination="0rt-WY-YgQ" kind="push" id="qnK-rR-nuv"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Введите IP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8aQ-j8-DN9">
@@ -56,6 +57,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UX1-x1-yWf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="115" y="23"/>
+        </scene>
+        <!--Splash View Controller-->
+        <scene sceneID="4Ix-kY-Cgn">
+            <objects>
+                <viewController restorationIdentifier="HPSplashViewController" storyboardIdentifier="HPSplashViewController" id="0rt-WY-YgQ" customClass="HPSplashViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eee-Vk-GGc"/>
+                        <viewControllerLayoutGuide type="bottom" id="yoE-uc-W8N"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="UHM-tV-PSk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="0.058823529409999999" green="0.27058823529999998" blue="0.42352941179999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="3I6-NG-XRC"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="loN-39-Feg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="531" y="23"/>
         </scene>
         <!--Root View Controller - Девушки, 24-27, Москва-->
         <scene sceneID="X0c-d5-7dI">
@@ -269,7 +290,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0a2-YX-SYV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="739" y="23"/>
+            <point key="canvasLocation" x="1027" y="31"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="huC-X6-gg3">
@@ -294,7 +315,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Blend 5X.png" width="640" height="320"/>
+        <image name="Blend 5X.png" width="320" height="160"/>
         <image name="Bubble" width="26" height="25"/>
         <image name="Bubble Tap" width="26" height="25"/>
         <image name="Lens" width="24" height="24"/>

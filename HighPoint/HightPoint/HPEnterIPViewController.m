@@ -10,6 +10,7 @@
 #import "HPRootViewController.h"
 #import "UINavigationController+HighPoint.h"
 #import "URLs.h"
+#import "HPSplashViewController.h"
 
 @interface HPEnterIPViewController ()
 
@@ -46,11 +47,16 @@
     } else  {
         [URLs setServerUrl:@"localhost"];
     }
-    
-    HPRootViewController *rootController;
+
+    HPSplashViewController *splashController;
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard_568" bundle:nil];
-    rootController = [storyBoard instantiateViewControllerWithIdentifier:@"HPRootViewController"];
-    [self.navigationController pushViewController:rootController animated:YES];
+    splashController = [storyBoard instantiateViewControllerWithIdentifier:@"HPSplashViewController"];
+    [self.navigationController pushViewController:splashController animated:YES];
+
+//    HPRootViewController *rootController;
+//    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard_568" bundle:nil];
+//    rootController = [storyBoard instantiateViewControllerWithIdentifier:@"HPRootViewController"];
+//    [self.navigationController pushViewController:rootController animated:YES];
 
 }
 

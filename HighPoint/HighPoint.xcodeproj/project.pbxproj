@@ -305,6 +305,7 @@
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 		CDB9527619A1CFEF00238DFC /* Blend 5X@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB9527519A1CFEF00238DFC /* Blend 5X@2x.png */; };
+		CDB9527D19A1F87D00238DFC /* HPSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB9527C19A1F87D00238DFC /* HPSplashViewController.m */; };
 		CDC009931990C5ED00B3FF75 /* curruser_point_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDC009921990C5ED00B3FF75 /* curruser_point_new.png */; };
 		CDC009961990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */; };
 		CDC009981990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC009971990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib */; };
@@ -754,6 +755,8 @@
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
 		CDB9527519A1CFEF00238DFC /* Blend 5X@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blend 5X@2x.png"; sourceTree = "<group>"; };
+		CDB9527B19A1F87D00238DFC /* HPSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSplashViewController.h; sourceTree = "<group>"; };
+		CDB9527C19A1F87D00238DFC /* HPSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSplashViewController.m; sourceTree = "<group>"; };
 		CDC009921990C5ED00B3FF75 /* curruser_point_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = curruser_point_new.png; sourceTree = "<group>"; };
 		CDC009941990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserPointCollectionViewCell.h; sourceTree = "<group>"; };
 		CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserPointCollectionViewCell.m; sourceTree = "<group>"; };
@@ -1145,6 +1148,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CDB9527719A1F2FB00238DFC /* SplashViewController */,
 				CDA17024198234B400173D1C /* TestControllers */,
 				CD4CA1841980DFB40016DF7E /* ChatViewController */,
 				CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */,
@@ -1663,6 +1667,15 @@
 			path = debug;
 			sourceTree = "<group>";
 		};
+		CDB9527719A1F2FB00238DFC /* SplashViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CDB9527B19A1F87D00238DFC /* HPSplashViewController.h */,
+				CDB9527C19A1F87D00238DFC /* HPSplashViewController.m */,
+			);
+			name = SplashViewController;
+			sourceTree = "<group>";
+		};
 		CDE0BDBF196E632E00CBCF58 /* UserInfoViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1762,7 +1775,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = J67Y29BQR7;
+						DevelopmentTeam = B9639RHZFT;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -2011,6 +2024,7 @@
 				3BDA4C6919064AC900EF6619 /* AFURLResponseSerialization.m in Sources */,
 				CD55FD2919792C30003EE9E9 /* School.m in Sources */,
 				3BE9DE16197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m in Sources */,
+				CDB9527D19A1F87D00238DFC /* HPSplashViewController.m in Sources */,
 				3BDA4C6819064AC900EF6619 /* AFURLRequestSerialization.m in Sources */,
 				3B49DE1E1934AAC500C3EF1E /* HPUserProfileViewController.m in Sources */,
 				3BE9DE1C197FD4BF00AFA641 /* HPImageCollectionViewCell.m in Sources */,
@@ -2247,6 +2261,7 @@
 				INFOPLIST_FILE = "HightPoint/HighPoint-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = HighPoint;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2257,6 +2272,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HightPoint/External/HockeySDK-iOS/HockeySDK.embeddedframework",
@@ -2266,6 +2282,7 @@
 				INFOPLIST_FILE = "HightPoint/HighPoint-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = HighPoint;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

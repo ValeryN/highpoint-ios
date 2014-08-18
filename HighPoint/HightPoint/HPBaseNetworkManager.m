@@ -58,6 +58,7 @@ static HPBaseNetworkManager *networkManager;
             [self.taskArray removeObjectAtIndex:[self.taskArray indexOfObject:manager ]];
             if(self.taskArray.count == 0) {
                 self.taskArray = nil;
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedHideSplashView object:nil userInfo:nil];
                 return YES;
             } else return NO;
         } else return NO;
