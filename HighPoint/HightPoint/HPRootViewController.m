@@ -47,24 +47,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    [self.navigationController hp_configureNavigationBar];
     isFirstLoad = YES;
     self.isNeedScrollToIndex = NO;
-    //TODO : delete
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
-    
-    [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
-
-    [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
-    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
-    [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
-    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
-    [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
-    [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
-        //socket init
-   
-    //
+    //socket init
     //[[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequestForQueue];
     
     [self createSwitch];

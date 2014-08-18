@@ -19,6 +19,7 @@ static NSString *const kNeedUpdateCurrentUserData = @"NeedUpdateCurrentUserData"
 static NSString *const kNeedUpdatePointLike = @"NeedUpdatePointLike";
 static NSString * const kNeedUpdateContactListViews = @"NeedUpdateContactListViews";
 static NSString * const kNeedUpdateChatView = @"NeedUpdateChatView";
+static NSString * const kNeedHideSplashView = @"NeedHideSplashView";
 
 
 #endif
