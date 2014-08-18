@@ -50,7 +50,6 @@
 - (void) configureNabBar {
     [self.navigationController setNavigationBarHidden:NO];
     self.navigationItem.title = NSLocalizedString(@"POINT_LIKES_TITLE", nil);
-    [self.navigationController hp_configureNavigationBar];
     UIBarButtonItem* backButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Down.png"]
                                                      highlighedImage: [UIImage imageNamed:@"Down Tap.png"]
                                                               action: @selector(backbuttonTaped:)];

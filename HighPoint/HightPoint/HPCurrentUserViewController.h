@@ -9,11 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "HPUserProfileViewController.h"
 #import "HPCurrentUserPointCollectionViewCell.h"
-@protocol HPUserProfileViewControlleDelegate <NSObject>
-- (void) startEditingPoint ;
-- (void) cancelPointTap;
-
-@end
 
 @class ModalAnimation;
 @interface HPCurrentUserViewController : UIViewController < UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPCurrentUserPointCollectionViewCellDelegate> {
@@ -38,10 +33,5 @@
 - (void) configurePublishPointNavigationItem;
 
 
-- (void) startEditingPoint;
-- (void) cancelPointTap;
-- (void) sharePointTap;
-- (void) startDeletePoint;
-- (void) endDeletePoint;
 
 @end

@@ -12,37 +12,41 @@
 #import "UITextView+HightPoint.h"
 #import "UIDevice+HighPoint.h"
 #import "UIImage+HighPoint.h"
+#import "User.h"
 
 #define POINT_LENGTH 150
+#define RED_LIGHT_POINT_COUNT 10
 #define CONSTRAINT_AVATAR_TOP 10.0
 #define CONSTRAINT_POINT_TOP 180.0
 #define CONSTRAINT_POINT_INFO_TOP 274.0
 #define CONSTRAINT_BTNS_BOTTOM_TOP 318.0
 #define CONSTRAINT_VIEW_BOTTOM_TOP 318.0
 
-@interface HPCurrentUserPointCollectionViewCell()
+@interface HPCurrentUserPointCollectionViewCell ()
 //Private methods
-- (void) editPointUp;
-- (void) editPointDown;
+- (void)editPointUp;
+
+- (void)editPointDown;
 
 
 //Private properties
-@property (weak, nonatomic) IBOutlet UILabel *yourPointLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-@property (weak, nonatomic) IBOutlet UILabel *pointInfoLabel;
-@property (weak, nonatomic) IBOutlet UIButton *publishBtn;
-@property (weak, nonatomic) IBOutlet UITextView *pointTextView;
-@property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
+@property(weak, nonatomic) IBOutlet UILabel *yourPointLabel;
+@property(weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property(weak, nonatomic) IBOutlet UILabel *pointInfoLabel;
+@property(weak, nonatomic) IBOutlet UIButton *publishBtn;
+@property(weak, nonatomic) IBOutlet UITextView *pointTextView;
+@property(weak, nonatomic) IBOutlet UIButton *deleteBtn;
 //point settings
-@property (weak, nonatomic) IBOutlet UIView *pointSettingsView;
-@property (weak, nonatomic) IBOutlet HPSlider *pointTimeSlider;
-@property (weak, nonatomic) IBOutlet UILabel *pointTimeInfoLabel;
-@property (weak, nonatomic) IBOutlet UIButton *publishSettBtn;
+@property(weak, nonatomic) IBOutlet UIView *pointSettingsView;
+@property(weak, nonatomic) IBOutlet HPSlider *pointTimeSlider;
+@property(weak, nonatomic) IBOutlet UILabel *pointTimeInfoLabel;
+@property(weak, nonatomic) IBOutlet UIButton *publishSettBtn;
 //point delete
-@property (weak, nonatomic) IBOutlet UIView *deletePointView;
-@property (weak, nonatomic) IBOutlet UILabel *deletePointInfoLabel;
-@property (weak, nonatomic) IBOutlet UIButton *deletePointSettBtn;
-@property (weak, nonatomic) IBOutlet UIButton *cancelDelBtn;
+@property(weak, nonatomic) IBOutlet UIView *deletePointView;
+@property(weak, nonatomic) IBOutlet UILabel *deletePointInfoLabel;
+@property(weak, nonatomic) IBOutlet UIButton *deletePointSettBtn;
+@property(weak, nonatomic) IBOutlet UIButton *cancelDelBtn;
+
 @end
 
 @implementation HPCurrentUserPointCollectionViewCell
@@ -53,151 +57,208 @@
     [self fixUserPointConstraint];
     [self.pointSettingsView setHidden:YES];
     [self setImageViewBgTap];
-    self.isUp = NO;
     self.yourPointLabel.text = NSLocalizedString(@"YOUR_POINT", nil);
     self.avatarImageView.clipsToBounds = YES;
     self.avatarImageView.layer.cornerRadius = 5;
     self.avatarImageView.image = [self.avatarImageView.image addBlendToPhoto];
     self.deletePointInfoLabel.text = NSLocalizedString(@"DELETE_POINT_INFO", nil);
-    self.pointTextView.delegate = self;
-    self.pointTextView.text = NSLocalizedString(@"YOUR_EMPTY_POINT", nil);
     [self.pointTimeSlider setValue:6 animated:YES];
     [self.pointTimeSlider initOnLoad];
     self.pointTimeInfoLabel.text = NSLocalizedString(@"SET_TIME_FOR_YOUR_POINT", nil);
+
+
+    RACSignal *keyboardIsShown = [[[RACSignal merge:@[
+            [RACSignal return:@NO],
+            [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil] map:^id(id value) {
+                return @YES;
+            }],
+            [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil] map:^id(id value) {
+                return @NO;
+            }]
+    ]] takeUntil:[self rac_willDeallocSignal]] replayLast];
+
+    @weakify(self);
+
+    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil] subscribeNext:^(NSNumber *isShown) {
+        @strongify(self);
+        self.editUserPointMode = YES;
+    }];
+
+    [[RACObserve(self, editUserPointMode) distinctUntilChanged] subscribeNext:^(NSNumber *editMode) {
+        @strongify(self);
+        if (editMode.boolValue) {
+            [self editPointUp];
+        }
+        else {
+            [self editPointDown];
+        }
+    }];
+    [[RACSignal combineLatest:@[keyboardIsShown, RACObserve(self, editUserPointMode)]] subscribeNext:^(RACTuple *tuple) {
+        @strongify(self);
+        RACTupleUnpack(NSNumber *keyboardShown, NSNumber *editMode) = tuple;
+        if (keyboardShown.boolValue) {
+            self.delegate.navigationItem.leftBarButtonItem = [self barItemCancelEditText];
+            self.delegate.navigationItem.rightBarButtonItem = [self barItemApplyEditText];
+            return;
+        }
+        if (editMode.boolValue) {
+
+        }
+        else {
+            [self.delegate resetNavigationBarButtons];
+        }
+    }];
+
+
+    RACSignal *showCountNumber = [[RACSignal merge:@[RACObserve(self, editUserPointMode), keyboardIsShown]] replayLast];
+
+    RAC(self.pointInfoLabel, text) = [showCountNumber flattenMap:^RACStream *(NSNumber *showCount) {
+        @strongify(self);
+        if (showCount.boolValue) {
+            return [[self.pointTextView rac_textSignal] map:^id(NSString *value) {
+                return @((NSInteger)(POINT_LENGTH - value.length)).stringValue;
+            }];
+        }
+        else {
+            return [RACSignal return:NSLocalizedString(@"YOUR_EMPTY_POINT", nil)];
+        }
+    }];
+
+    RAC(self.pointInfoLabel, textColor) = [showCountNumber flattenMap:^RACStream *(NSNumber *showCount) {
+        @strongify(self);
+        if (showCount.boolValue) {
+            return [[self.pointTextView rac_textSignal] map:^id(NSString *value) {
+                if (POINT_LENGTH - value.length <= RED_LIGHT_POINT_COUNT) {
+                    return [UIColor colorWithRed:255.f / 255.f green:102.f / 255.f blue:112.f / 255.f alpha:1];
+                }
+                else {
+                    return [UIColor colorWithRed:230.f / 255.f green:236.f / 255.f blue:242.f / 255.f alpha:1];
+                }
+            }];
+        }
+        else {
+            return [RACSignal return:[UIColor colorWithRed:230.f / 255.f green:236.f / 255.f blue:242.f / 255.f alpha:1]];
+        }
+    }];
 }
 
-- (void) updateConstraints
-{
+
+- (void)updateConstraints {
     [super updateConstraints];
 }
 
-#pragma mark - text view
+- (UIBarButtonItem *)barItemCancelEditText {
+    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] init];
+    leftBarItem.title = @"Отмена";
+    @weakify(self);
+    leftBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        @strongify(self)
 
-- (void)textViewDidBeginEditing:(UITextView *)textView {
-    if ([self.delegate respondsToSelector:@selector(startEditingPoint)]) {
-        [self.delegate startEditingPoint];
-    }
-    [self editPointUp];
-    [self setSymbolsCounter];
+        // EVENT HANDLER code here
+        self.editUserPointMode = NO;
+        [self.pointTextView resignFirstResponder];
+        // An empty signal is a signal that completes immediately.
+        return [RACSignal empty];
+    }];
+    return leftBarItem;
 }
 
-
-- (void)textViewDidEndEditing:(UITextView *)textView {
-    [self editPointDown];
-}
-
--(void)textViewDidChange:(UITextView *)textView
-{
-    [self setSymbolsCounter];
+- (UIBarButtonItem *)barItemApplyEditText {
+    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] init];
+    leftBarItem.title = @"Опубликовать";
+    @weakify(self);
+    leftBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        @strongify(self)
+        [self.pointTextView resignFirstResponder];
+        // An empty signal is a signal that completes immediately.
+        return [RACSignal empty];
+    }];
+    return leftBarItem;
 }
 
 #pragma mark - symbols counting
 
-- (void) setSymbolsCounter {
-    
-    signed int symbCount = POINT_LENGTH - self.pointTextView.text.length;
-    self.pointInfoLabel.text = [NSString stringWithFormat:@"%d", symbCount];
-    if(symbCount <=10) {
-        [self.pointInfoLabel hp_tuneForSymbolCounterRed];
-    } else {
-        [self.pointInfoLabel hp_tuneForSymbolCounterWhite];
-    }
-}
-
 
 #pragma mark - constraint
-- (void) fixUserPointConstraint
-{
-    if (![UIDevice hp_isWideScreen])
-    {
-        NSArray* cons = self.constraints;
-        for (NSLayoutConstraint* consIter in cons)
-        {
+
+- (void)fixUserPointConstraint {
+    if (![UIDevice hp_isWideScreen]) {
+        NSArray *cons = self.constraints;
+        for (NSLayoutConstraint *consIter in cons) {
             if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.avatarImageView))
+                    (consIter.firstItem == self.avatarImageView))
                 consIter.constant = CONSTRAINT_AVATAR_TOP;
-            
+
             if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.pointTextView))
+                    (consIter.firstItem == self.pointTextView))
                 consIter.constant = CONSTRAINT_POINT_TOP;
-            
+
             if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.pointInfoLabel))
+                    (consIter.firstItem == self.pointInfoLabel))
                 consIter.constant = CONSTRAINT_POINT_INFO_TOP;
-            
+
             if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.publishBtn))
+                    (consIter.firstItem == self.publishBtn))
                 consIter.constant = CONSTRAINT_BTNS_BOTTOM_TOP;
-            
+
             if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.deleteBtn))
+                    (consIter.firstItem == self.deleteBtn))
                 consIter.constant = CONSTRAINT_BTNS_BOTTOM_TOP;
-            
+
             if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.deletePointView))
+                    (consIter.firstItem == self.deletePointView))
                 consIter.constant = CONSTRAINT_VIEW_BOTTOM_TOP;
-            
+
             if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.pointSettingsView))
+                    (consIter.firstItem == self.pointSettingsView))
                 consIter.constant = CONSTRAINT_VIEW_BOTTOM_TOP;
         }
     }
 }
 
 
-
 #pragma mark - animation
-- (void) editPointUp {
+
+- (void)editPointUp {
     __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationCurveEaseOut
                      animations:^{
                          weakSelf.frame = CGRectMake(weakSelf.frame.origin.x, weakSelf.frame.origin.y - 115, weakSelf.frame.size.width, weakSelf.frame.size.height);
                      }
-                     completion:^(BOOL finished){
-                         weakSelf.isUp = YES;
+                     completion:^(BOOL finished) {
                      }];
 }
 
-- (void) editPointDown {
+- (void)editPointDown {
     __weak typeof(self) weakSelf = self;
-    if (self.isUp) {
-        [UIView animateWithDuration:0.3 delay:0.0 options: UIViewAnimationCurveEaseOut
-                         animations:^{
-                             weakSelf.frame = CGRectMake(weakSelf.frame.origin.x, weakSelf.frame.origin.y + 115, weakSelf.frame.size.width, weakSelf.frame.size.height);
-                         }
-                         completion:^(BOOL finished){
-                             weakSelf.isUp = NO;
-                         }];
-    }
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationCurveEaseOut
+                     animations:^{
+                         weakSelf.frame = CGRectMake(weakSelf.frame.origin.x, weakSelf.frame.origin.y + 115, weakSelf.frame.size.width, weakSelf.frame.size.height);
+                     }
+                     completion:^(BOOL finished) {
+                     }];
+
 }
 
 
 #pragma mark - tap
 
--(void) setImageViewBgTap {
+- (void)setImageViewBgTap {
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]
-                                   initWithTarget:self action:@selector(bgTap)];
+            initWithTarget:self action:@selector(bgTap)];
     tgr.delegate = self;
     [self.avatarImageView addGestureRecognizer:tgr];
 }
 
-- (void) bgTap {
-    if ([self.delegate respondsToSelector:@selector(cancelPointTap)]) {
-        [self.delegate cancelPointTap];
-    }
+- (void)bgTap {
+
 }
 
 - (IBAction)publishSettTap:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(sharePointTap)]) {
-        [self.delegate sharePointTap];
-    }
 }
 
 
 - (IBAction)deletePointTap:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(startDeletePoint)]) {
-        [self.delegate startDeletePoint];
-    }
     [self editPointUp];
     self.pointTextView.userInteractionEnabled = NO;
     self.avatarImageView.userInteractionEnabled = NO;
@@ -214,9 +275,6 @@
     self.deletePointView.hidden = YES;
     self.publishBtn.hidden = NO;
     self.deleteBtn.hidden = YES;
-    if ([self.delegate respondsToSelector:@selector(endDeletePoint)]) {
-        [self.delegate endDeletePoint];
-    }
 }
 
 - (IBAction)cancelSettTap:(id)sender {
@@ -226,9 +284,7 @@
     self.deletePointView.hidden = YES;
     self.publishBtn.hidden = YES;
     self.deleteBtn.hidden = NO;
-    if ([self.delegate respondsToSelector:@selector(endDeletePoint)]) {
-        [self.delegate endDeletePoint];
-    }
 }
+
 
 @end

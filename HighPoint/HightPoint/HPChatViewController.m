@@ -250,7 +250,6 @@
     UIBarButtonItem *avatarBarItem = [[UIBarButtonItem alloc]initWithCustomView:avatarView];
     self.navigationItem.rightBarButtonItem = avatarBarItem;
     self.navigationItem.title = self.contact.user.name;
-    [self.navigationController hp_configureNavigationBar];
 }
 
 

@@ -47,7 +47,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.navigationController hp_configureNavigationBar];
     isFirstLoad = YES;
     self.isNeedScrollToIndex = NO;
     //socket init
@@ -124,7 +123,6 @@
 
 - (void) configureNavigationBar
 {
-    [self.navigationController hp_configureNavigationBar];
     self.navigationController.delegate = self;
     int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount : nil];
     if (msgsCount > 0) {

@@ -12,6 +12,7 @@
 #import "Utils.h"
 #import "HPRootViewController.h"
 #import "HPBaseNetworkManager.h"
+#import "UINavigationController+HighPoint.h"
 #import <HockeySDK/HockeySDK.h>
 
 
@@ -37,11 +38,10 @@
 
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"serverURL"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
+    [UINavigationController hp_configureNavigationBar];
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"b209e48e58a6fe3f6737b5fee1d95f4d"];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
-    
     [self.window setRootViewController: initViewController];
     [self.window makeKeyAndVisible];
    

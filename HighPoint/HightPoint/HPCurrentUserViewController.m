@@ -14,6 +14,8 @@
 #import "HPPointLikesViewController.h"
 #import "ModalAnimation.h"
 #import "HPCurrentUserUICollectionViewCell.h"
+#import "Utils.h"
+#import "UINavigationController+HighPoint.h"
 
 
 #define CONSTRAINT_TOP_FOR_BOTTOM_VIEW 432
@@ -28,7 +30,6 @@
     User *currentUser;
     HPCurrentUserPointCollectionViewCell *cellPoint;
     HPCurrentUserUICollectionViewCell *cellUser;
-    UINavigationBar *navBar;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -42,8 +43,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        self.edgesForExtendedLayout = UIRectEdgeNone;
 
     [self.currentUserCollectionView registerNib:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"UserCardIdentif"];
     [self.currentUserCollectionView registerNib:[UINib nibWithNibName:@"HPCurrentUserUICollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"CurrentUserCollectionCell"];
@@ -60,8 +59,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES];
+    [self resetNavigationBarButtons];
+    [Utils configureNavigationBar:self.navigationController];
     currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+}
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -253,42 +256,42 @@
 
 
 #pragma mark - delegate methods
-
-- (void)startEditingPoint {
-
-    self.currentUserCollectionView.scrollEnabled = NO;
-    navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
-    navBar.barTintColor = [UIColor colorWithRed:34.0 / 255.0
-                                          green:45.0 / 255.0
-                                           blue:77.0 / 255.0
-                                          alpha:1.0];
-    UINavigationItem *navItem = [[UINavigationItem alloc] init];
-    UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    doneBtn.exclusiveTouch = YES;
-    [doneBtn setFrame:CGRectMake(0, 0, 50, 30)];
-    [doneBtn addTarget:self action:@selector(doneEditingPointTap) forControlEvents:UIControlEventTouchUpInside];
-    [doneBtn setTitle:NSLocalizedString(@"DONE_BTN", nil) forState:UIControlStateNormal];
-    [doneBtn setTitle:NSLocalizedString(@"DONE_BTN", nil) forState:UIControlStateHighlighted];
-    [doneBtn hp_tuneFontForGreenDoneButton];
-    UIBarButtonItem *itemDone = [[UIBarButtonItem alloc] initWithCustomView:doneBtn];
-    navItem.rightBarButtonItem = itemDone;
-
-    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancelBtn.exclusiveTouch = YES;
-    [cancelBtn setFrame:CGRectMake(0, 0, 80, 30)];
-    [cancelBtn addTarget:self action:@selector(cancelPointTap) forControlEvents:UIControlEventTouchUpInside];
-    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState:UIControlStateNormal];
-    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState:UIControlStateHighlighted];
-    [cancelBtn hp_tuneFontForGreenButton];
-    UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
-    navItem.leftBarButtonItem = itemCancel;
-    navBar.items = @[navItem];
-    [self.view addSubview:navBar];
-}
-
-- (void)endEditingPoint {
-    [navBar removeFromSuperview];
-}
+//
+//- (void)startEditingPoint {
+//
+//    self.currentUserCollectionView.scrollEnabled = NO;
+//    navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
+//    navBar.barTintColor = [UIColor colorWithRed:34.0 / 255.0
+//                                          green:45.0 / 255.0
+//                                           blue:77.0 / 255.0
+//                                          alpha:1.0];
+//    UINavigationItem *navItem = [[UINavigationItem alloc] init];
+//    UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    doneBtn.exclusiveTouch = YES;
+//    [doneBtn setFrame:CGRectMake(0, 0, 50, 30)];
+//    [doneBtn addTarget:self action:@selector(doneEditingPointTap) forControlEvents:UIControlEventTouchUpInside];
+//    [doneBtn setTitle:NSLocalizedString(@"DONE_BTN", nil) forState:UIControlStateNormal];
+//    [doneBtn setTitle:NSLocalizedString(@"DONE_BTN", nil) forState:UIControlStateHighlighted];
+//    [doneBtn hp_tuneFontForGreenDoneButton];
+//    UIBarButtonItem *itemDone = [[UIBarButtonItem alloc] initWithCustomView:doneBtn];
+//    navItem.rightBarButtonItem = itemDone;
+//
+//    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    cancelBtn.exclusiveTouch = YES;
+//    [cancelBtn setFrame:CGRectMake(0, 0, 80, 30)];
+//    [cancelBtn addTarget:self action:@selector(cancelPointTap) forControlEvents:UIControlEventTouchUpInside];
+//    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState:UIControlStateNormal];
+//    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState:UIControlStateHighlighted];
+//    [cancelBtn hp_tuneFontForGreenButton];
+//    UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
+//    navItem.leftBarButtonItem = itemCancel;
+//    navBar.items = @[navItem];
+//    [self.view addSubview:navBar];
+//}
+//
+//- (void)endEditingPoint {
+//    [navBar removeFromSuperview];
+//}
 
 
 - (void)startDeletePoint {
@@ -310,71 +313,93 @@
 
 #pragma mark - navigation item
 
-- (void)doneEditingPointTap {
-    [cellPoint endEditing:YES];
-    [self.bottomView setHidden:YES];
+//- (void)doneEditingPointTap {
+//    [cellPoint endEditing:YES];
+//    [self.bottomView setHidden:YES];
+//
+//    UINavigationItem *navItem = [[UINavigationItem alloc] init];
+//
+//    UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    doneBtn.exclusiveTouch = YES;
+//    [doneBtn setFrame:CGRectMake(0, 0, 120, 30)];
+//    [doneBtn addTarget:self action:@selector(sharePointTap) forControlEvents:UIControlEventTouchUpInside];
+//    [doneBtn setTitle:NSLocalizedString(@"PUBLISH_BTN", nil) forState:UIControlStateNormal];
+//    [doneBtn setTitle:NSLocalizedString(@"PUBLISH_BTN", nil) forState:UIControlStateHighlighted];
+//    [doneBtn hp_tuneFontForGreenButton];
+//    UIBarButtonItem *itemDone = [[UIBarButtonItem alloc] initWithCustomView:doneBtn];
+//    navItem.rightBarButtonItem = itemDone;
+//
+//    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    cancelBtn.exclusiveTouch = YES;
+//    [cancelBtn setFrame:CGRectMake(0, 0, 80, 30)];
+//    [cancelBtn addTarget:self action:@selector(cancelPointTap) forControlEvents:UIControlEventTouchUpInside];
+//    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState:UIControlStateNormal];
+//    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState:UIControlStateHighlighted];
+//    [cancelBtn hp_tuneFontForGreenButton];
+//    UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
+//    navItem.leftBarButtonItem = itemCancel;
+//    navBar.items = @[navItem];
+//    /*
+//    cellPoint.publishBtn.hidden = YES;
+//    cellPoint.pointTextView.userInteractionEnabled = NO;
+//    cellPoint.avatarImageView.userInteractionEnabled = NO;
+//    cellPoint.frame = CGRectMake(cellPoint.frame.origin.x, cellPoint.frame.origin.y, 320, 623);
+//    [cellPoint.pointSettingsView setHidden:NO];
+//    */
+//}
+//
+//- (void)sharePointTap {
+//    NSLog(@"publish tap");
+//    /*
+//    [navBar removeFromSuperview];
+//    self.bottomView.hidden = NO;
+//    [cellPoint endEditing:YES];
+//    [cellPoint editPointDown];
+//    [cellPoint.pointSettingsView setHidden:YES];
+//    cellPoint.publishBtn.hidden = YES;
+//    cellPoint.deleteBtn.hidden = NO;
+//    cellPoint.pointTextView.userInteractionEnabled = NO;
+//    cellPoint.avatarImageView.userInteractionEnabled = NO;
+//    self.currentUserCollectionView.scrollEnabled = YES;
+//    */
+//}
+//
+//- (void)cancelPointTap {
+//    [navBar removeFromSuperview];
+//    /*
+//    [cellPoint endEditing:YES];
+//    [cellPoint editPointDown];
+//    [cellPoint.pointSettingsView setHidden:YES];
+//    cellPoint.pointTextView.userInteractionEnabled = YES;
+//    cellPoint.avatarImageView.userInteractionEnabled = YES;
+//    cellPoint.publishBtn.hidden = NO;
+//    cellPoint.pointTextView.userInteractionEnabled = YES;
+//    cellPoint.avatarImageView.userInteractionEnabled = YES;
+//    self.currentUserCollectionView.scrollEnabled = YES;
+//    */
+//}
 
-    UINavigationItem *navItem = [[UINavigationItem alloc] init];
-
-    UIButton *doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    doneBtn.exclusiveTouch = YES;
-    [doneBtn setFrame:CGRectMake(0, 0, 120, 30)];
-    [doneBtn addTarget:self action:@selector(sharePointTap) forControlEvents:UIControlEventTouchUpInside];
-    [doneBtn setTitle:NSLocalizedString(@"PUBLISH_BTN", nil) forState:UIControlStateNormal];
-    [doneBtn setTitle:NSLocalizedString(@"PUBLISH_BTN", nil) forState:UIControlStateHighlighted];
-    [doneBtn hp_tuneFontForGreenButton];
-    UIBarButtonItem *itemDone = [[UIBarButtonItem alloc] initWithCustomView:doneBtn];
-    navItem.rightBarButtonItem = itemDone;
-
-    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancelBtn.exclusiveTouch = YES;
-    [cancelBtn setFrame:CGRectMake(0, 0, 80, 30)];
-    [cancelBtn addTarget:self action:@selector(cancelPointTap) forControlEvents:UIControlEventTouchUpInside];
-    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState:UIControlStateNormal];
-    [cancelBtn setTitle:NSLocalizedString(@"CANCEL_BTN", nil) forState:UIControlStateHighlighted];
-    [cancelBtn hp_tuneFontForGreenButton];
-    UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
-    navItem.leftBarButtonItem = itemCancel;
-    navBar.items = @[navItem];
-    /*
-    cellPoint.publishBtn.hidden = YES;
-    cellPoint.pointTextView.userInteractionEnabled = NO;
-    cellPoint.avatarImageView.userInteractionEnabled = NO;
-    cellPoint.frame = CGRectMake(cellPoint.frame.origin.x, cellPoint.frame.origin.y, 320, 623);
-    [cellPoint.pointSettingsView setHidden:NO];
-    */
+- (void)resetNavigationBarButtons {
+    UIBarButtonItem * leftBarItem = [[UIBarButtonItem alloc] init];
+    if([UIDevice hp_isIOS6]){
+        leftBarItem.image = [UIImage imageNamed:@"Close"];
+    }
+    else {
+        leftBarItem.image = [[UIImage imageNamed:@"Close"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+    @weakify(self);
+    leftBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        @strongify(self)
+        [self.navigationController popViewControllerAnimated:YES];
+        return [RACSignal empty];
+    }];
+    self.navigationItem.leftBarButtonItem = leftBarItem;
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
-- (void)sharePointTap {
-    NSLog(@"publish tap");
-    /*
-    [navBar removeFromSuperview];
-    self.bottomView.hidden = NO;
-    [cellPoint endEditing:YES];
-    [cellPoint editPointDown];
-    [cellPoint.pointSettingsView setHidden:YES];
-    cellPoint.publishBtn.hidden = YES;
-    cellPoint.deleteBtn.hidden = NO;
-    cellPoint.pointTextView.userInteractionEnabled = NO;
-    cellPoint.avatarImageView.userInteractionEnabled = NO;
-    self.currentUserCollectionView.scrollEnabled = YES;
-    */
+- (void)createPointWithPointText:(NSString *)text andTime:(NSNumber *)time forUser:(User*) user {
+    NSDictionary * dictionary = @{@"createdAt":@"Как время может быть строкой! Искать збс удобно в базе",@"text":text,@"userId":user.userId, @"pointValidTo": @"Ммм, строка плюс строка, клас."};
+    [[DataStorage sharedDataStorage] createAndSavePoint:dictionary];
 }
-
-- (void)cancelPointTap {
-    [navBar removeFromSuperview];
-    /*
-    [cellPoint endEditing:YES];
-    [cellPoint editPointDown];
-    [cellPoint.pointSettingsView setHidden:YES];
-    cellPoint.pointTextView.userInteractionEnabled = YES;
-    cellPoint.avatarImageView.userInteractionEnabled = YES;
-    cellPoint.publishBtn.hidden = NO;
-    cellPoint.pointTextView.userInteractionEnabled = YES;
-    cellPoint.avatarImageView.userInteractionEnabled = YES;
-    self.currentUserCollectionView.scrollEnabled = YES;
-    */
-}
-
 
 @end
