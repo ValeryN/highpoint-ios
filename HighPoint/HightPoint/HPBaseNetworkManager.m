@@ -1277,6 +1277,7 @@ static HPBaseNetworkManager *networkManager;
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GET UNREAD MESSAGES -->: %@", operation.responseString);
+        NSLog(@"UNREAD");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
