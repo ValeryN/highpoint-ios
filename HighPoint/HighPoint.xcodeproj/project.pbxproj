@@ -190,6 +190,7 @@
 		3BEE69FD19926AA300C8B977 /* HFImageEditorFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEE69F919926AA300C8B977 /* HFImageEditorFrameView.m */; };
 		3BEE69FE19926AA300C8B977 /* HFImageEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEE69FC19926AA300C8B977 /* HFImageEditorViewController.m */; };
 		444D91AB19A1F9750034FF5D /* UIFont+IBCustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */; };
+		44E66BAF19A238240010117A /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */; };
 		4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1A488319629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FE935196427220016DED5 /* UIImage+StackBlur.m */; };
@@ -620,6 +621,7 @@
 		3BEE69FC19926AA300C8B977 /* HFImageEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFImageEditorViewController.m; sourceTree = "<group>"; };
 		444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+IBCustomFonts.m"; sourceTree = "<group>"; };
 		44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = External/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
+		44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libReactiveCocoa-iOS.a"; path = "HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework/build/Debug-iphoneos/libReactiveCocoa-iOS.a"; sourceTree = "<group>"; };
 		4C1A488019629A7C00DD36F9 /* UITextView+HightPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+HightPoint.h"; sourceTree = "<group>"; };
 		4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HightPoint.m"; sourceTree = "<group>"; };
 		4C1FE934196427220016DED5 /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+StackBlur.h"; sourceTree = "<group>"; };
@@ -805,6 +807,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44E66BAF19A238240010117A /* libReactiveCocoa-iOS.a in Frameworks */,
 				CDA170451982473200173D1C /* SystemConfiguration.framework in Frameworks */,
 				CDA170431982471D00173D1C /* QuartzCore.framework in Frameworks */,
 				CDA170411982470800173D1C /* CoreText.framework in Frameworks */,
@@ -1073,6 +1076,7 @@
 		3B6DB48E18FFC24C00C26A50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */,
 				CDA170441982473200173D1C /* SystemConfiguration.framework */,
 				CDA170421982471D00173D1C /* QuartzCore.framework */,
 				CDA170401982470800173D1C /* CoreText.framework */,
@@ -2280,6 +2284,10 @@
 				);
 				INFOPLIST_FILE = "HightPoint/HighPoint-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = HighPoint;
 				PROVISIONING_PROFILE = "";
@@ -2307,6 +2315,10 @@
 				);
 				INFOPLIST_FILE = "HightPoint/HighPoint-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = HighPoint;
 				PROVISIONING_PROFILE = "";
