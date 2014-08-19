@@ -8,7 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "NMRangeSlider.h"
+
+
+@protocol HPFilterSettingsViewControllerDelegate <NSObject>
+
+- (void) showActivity;
+
+@end
+
+
+
 @interface HPFilterSettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+
+@property (weak, nonatomic) id<HPFilterSettingsViewControllerDelegate> delegate;
+
 
 @property (nonatomic, weak) IBOutlet UIButton *closeButton;
 @property (nonatomic, weak) IBOutlet UILabel *filterLabel;

@@ -126,6 +126,12 @@
         self.msgFromMyself.hidden = YES;
         self.currentUserMsgLabel.text = contact.lastmessage.text;
     }
+    
+    if ([contact.user.online isEqualToNumber:@1]) {
+        [self.avatar makeOnline];
+    } else {
+        [self.avatar makeOffline];
+    }
     NSLog(@"contact name = %@ with id = %@", contact.user.name, contact.user.userId);
 }
 
