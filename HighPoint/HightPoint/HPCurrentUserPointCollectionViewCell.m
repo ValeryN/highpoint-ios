@@ -15,9 +15,8 @@
 #import "Avatar.h"
 
 #define POINT_LENGTH 140
-#define MIN_POINT_LENGHT 5
+#define MIN_POINT_LENGTH 5
 #define RED_LIGHT_POINT_COUNT 10
-#define CONSTRAINT_AVATAR_TOP 10.0
 
 
 @interface HPCurrentUserPointCollectionViewCell ()
@@ -85,42 +84,6 @@
 - (void)updateConstraints {
     [super updateConstraints];
 }
-
-
-#pragma mark - tap
-
-- (IBAction)publishSettTap:(id)sender {
-}
-
-
-- (IBAction)deletePointTap:(id)sender {
-    [self animateMainViewToTop];
-    self.pointTextView.userInteractionEnabled = NO;
-    self.avatarImageView.userInteractionEnabled = NO;
-    self.publishBtn.hidden = YES;
-    self.deleteBtn.hidden = YES;
-    self.pointSettingsView.hidden = YES;
-    self.deletePointView.hidden = NO;
-}
-
-- (IBAction)deleteSettTap:(id)sender {
-    [self animateMainViewToBottom];
-    self.pointTextView.userInteractionEnabled = YES;
-    self.avatarImageView.userInteractionEnabled = YES;
-    self.deletePointView.hidden = YES;
-    self.publishBtn.hidden = NO;
-    self.deleteBtn.hidden = YES;
-}
-
-- (IBAction)cancelSettTap:(id)sender {
-    [self animateMainViewToBottom];
-    self.pointTextView.userInteractionEnabled = NO;
-    self.avatarImageView.userInteractionEnabled = NO;
-    self.deletePointView.hidden = YES;
-    self.publishBtn.hidden = YES;
-    self.deleteBtn.hidden = NO;
-}
-
 
 #pragma mark Configuring UIElements
 
@@ -232,7 +195,7 @@
     if ([text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound) {
         return YES;
     }
-    if (txtView.text.length >= MIN_POINT_LENGHT && txtView.text.length <= POINT_LENGTH) {
+    if (txtView.text.length >= MIN_POINT_LENGTH && txtView.text.length <= POINT_LENGTH) {
         [txtView resignFirstResponder];
     }
     return NO;
@@ -304,7 +267,7 @@
         if ([self.pointTextView.text isEqualToString:NSLocalizedString(@"YOUR_EMPTY_POINT", nil)]) {
             return @(NO);
         }
-        if (value.length < MIN_POINT_LENGHT)
+        if (value.length < MIN_POINT_LENGTH)
             return @(NO);
         return @((NSInteger) (POINT_LENGTH - value.length) >= 0);
     }];
