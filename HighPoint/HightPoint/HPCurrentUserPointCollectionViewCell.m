@@ -13,7 +13,7 @@
 #import "UIDevice+HighPoint.h"
 #import "UIImage+HighPoint.h"
 
-#define POINT_LENGTH 150
+#define POINT_LENGTH 140
 #define CONSTRAINT_AVATAR_TOP 10.0
 #define CONSTRAINT_POINT_TOP 180.0
 #define CONSTRAINT_POINT_INFO_TOP 274.0
