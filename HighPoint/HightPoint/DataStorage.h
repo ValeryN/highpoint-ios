@@ -72,6 +72,7 @@ typedef void (^complationBlock) (id object);
 - (void)deleteAndSaveLanguageEntityFromUser:(NSArray *) ids;
 - (Language *) createTempLanguage :(NSDictionary *) param;
 - (void)createAndSaveCareerPost:(NSDictionary *)param withComplation:(complationBlock) block;
+
 - (CareerPost *) createTempCareerPost :(NSDictionary *) param;
 - (void)addAndSaveCareerEntityForUser:(NSDictionary *) param;
 - (void)deleteAndSaveCareerEntityFromUser:(NSArray *) ids;

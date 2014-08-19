@@ -65,7 +65,7 @@
         //socket init
    
     //
-    //[[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequestForQueue];
+    
     
     [self createSwitch];
     [self addPullToRefresh];

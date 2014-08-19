@@ -422,7 +422,21 @@ static DataStorage *dataStorage;
     schEnt.name = param[@"name"];
     return schEnt;
 }
-
+- (void)createAndSaveSchool:(NSDictionary *)param withComplation:(complationBlock) block {
+    __block School *returnSchool = nil;
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        [context performBlockAndWait:^{
+            School *school = (School *) [NSEntityDescription insertNewObjectForEntityForName:@"School" inManagedObjectContext:context];
+            school.name = param[@"name"];
+            school.id_ = param[@"id"];
+            [self addSaveOperationToBottomInContext:context];
+            returnSchool = school;
+            [self returnObject:returnSchool inComplationBlock:block];
+        }];
+    }];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
+}
 - (void)insertAndSaveSchoolObjectToContext:(School *)globalSchool withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block School *returnSchool = nil;
@@ -511,6 +525,21 @@ static DataStorage *dataStorage;
     spEnt.id_ = param[@"id"];
     spEnt.name = param[@"name"];
     return spEnt;
+}
+- (void)createAndSaveSpeciality:(NSDictionary *)param withComplation:(complationBlock)block {
+    __block Speciality *returnSpec = nil;
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        [context performBlockAndWait:^{
+            Speciality *spec = (Speciality *) [NSEntityDescription insertNewObjectForEntityForName:@"Speciality" inManagedObjectContext:context];
+            spec.name = param[@"name"];
+            spec.id_ = param[@"id"];
+            [self addSaveOperationToBottomInContext:context];
+            returnSpec = spec;
+            [self returnObject:returnSpec inComplationBlock:block];
+        }];
+    }];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (void)insertAndSaveSpecialityObjectToContext:(Speciality *)globalSpeciality withComplation:(complationBlock)block {
@@ -1451,32 +1480,70 @@ static DataStorage *dataStorage;
     return param;
 }
 - (void) linkParameter:(NSDictionary*) param toUser:(User*) user {
-    
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
     for(Career *car in  [user.career allObjects]) {
         for(NSDictionary *d in [param objectForKey:@"careerPosts"]) {
             if([car.postId intValue] == [[d objectForKey:@"id"] intValue]) {
                 
                 [self createAndSaveCareerPost:d withComplation:^(CareerPost *carrierPost) {
                     car.careerpost = carrierPost;
-                    
+                    [self addSaveOperationToBottomInContext:context];
                 }];
             }
         }
         for(NSDictionary *d in [param objectForKey:@"companies"]) {
             if([car.companyId intValue] == [[d objectForKey:@"id"] intValue]) {
-                //Company *com = [self createCompany:d];
-                //car.company = com;
+                
+                [self createAndSaveCompany:d withComplation:^(Company *company) {
+                    car.company = company;
+                    [self addSaveOperationToBottomInContext:context];
+                }];
             }
         }
         NSLog(@"%@", car);
     }
+    for(Education *edu in  [user.education allObjects]) {
+        for(NSDictionary *d in [param objectForKey:@"schools"]) {
+            if([edu.schoolId intValue] == [[d objectForKey:@"id"] intValue]) {
+                
+                [self createAndSaveSchool:d withComplation:^(School *school) {
+                    edu.school = school;
+                    NSLog(@"%@", edu);
+                    [self addSaveOperationToBottomInContext:context];
+                    
+                }];
+            }
+        }
+        for(NSDictionary *d in [param objectForKey:@"specialities"]) {
+            if([edu.specialityId intValue] == [[d objectForKey:@"id"] intValue]) {
+                
+                [self createAndSaveSpeciality:d withComplation:^(Speciality *spec) {
+                    edu.speciality = spec;
+                NSLog(@"%@", edu);
+                [self addSaveOperationToBottomInContext:context];
+                }];
+            }
+        }
+        NSLog(@"%@", edu);
+    }
     
-    
-    NSArray *companies = [param objectForKey:@"companies"];
-    NSArray *languages = [param objectForKey:@"languages"];
-    NSArray *places = [param objectForKey:@"places"];
-    NSArray *schools = [param objectForKey:@"schools"];
-    NSArray *special = [param objectForKey:@"specialities"];
+    for(Place *place in  [user.place allObjects]) {
+        for(NSDictionary *d in [param objectForKey:@"places"]) {
+            if([place. id_ intValue] == [[d objectForKey:@"id"] intValue]) {
+                NSLog(@"%@", d);
+                place.name = [d objectForKey:@"name"];
+            }
+        }
+    }
+    for(Language *lang in  [user.language allObjects]) {
+        for(NSDictionary *d in [param objectForKey:@"languages"]) {
+            if([lang. id_ intValue] == [[d objectForKey:@"id"] intValue]) {
+                lang.name = [d objectForKey:@"name"];
+            }
+        }
+    }
+    //NSManagedObjectContext *backgroundContext = [NSManagedObjectContext threadContext];
+    //[backgroundContext saveWithErrorHandler];
 }
 
 

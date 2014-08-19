@@ -53,6 +53,7 @@
 {
     [super viewDidLoad];
     [self.profileHiddenLabel hp_tuneForProfileHiddenlabel];
+    
     [self createSegmentedController];
     [self createNavigationItem];
     [self createGreenButton];
@@ -64,8 +65,11 @@
     
     self.carousel.dataSource = self;
     self.carousel.delegate = self;
-    
-    self.topBarView.translatesAutoresizingMaskIntoConstraints = YES;
+    self.carousel.backgroundColor = [UIColor colorWithRed: 30.0/255.0
+                                                    green: 29.0/255.0
+                                                     blue: 48.0/255.0
+                                                    alpha: 1.0];
+    self.topBarView.translatesAutoresizingMaskIntoConstraints = NO;
     self.infoTableView.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
     self.userDataSource = @[@"РАСХОДЫ", @"ЛЮБИМЫЕ МЕСТА", @"ЯЗЫКИ", @"ОБРАЗОВАНИЕ", @"КАРЬЕРА"];
     NSArray *place1 = @[@"Dulwich Park", @"Greenwich", @"Covent Garden", @"Borough Market", @"The Hob"];
@@ -94,15 +98,16 @@
 {
     if (![UIDevice hp_isWideScreen])
     {
-        
+        self.carousel.translatesAutoresizingMaskIntoConstraints = YES;
+        self.infoTableView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.carousel
                                                               attribute: NSLayoutAttributeHeight
                                                               relatedBy: NSLayoutRelationEqual
                                                                  toItem: self.view
                                                               attribute: NSLayoutAttributeHeight
-                                                             multiplier: 0.845
+                                                             multiplier: 1.0
                                                                constant: 0]];
-        
+        /*
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.infoTableView
                                                               attribute: NSLayoutAttributeHeight
                                                               relatedBy: NSLayoutRelationEqual
@@ -110,6 +115,14 @@
                                                               attribute: NSLayoutAttributeHeight
                                                              multiplier: 0.74
                                                                constant: 0]];
+         */
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.infoTableView
+                                                              attribute: NSLayoutAttributeHeight
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: nil
+                                                              attribute: NSLayoutAttributeHeight
+                                                             multiplier: 1.0
+                                                               constant: 417]];
         
         
         NSArray* cons = self.view.constraints;
@@ -139,13 +152,23 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES];
+    [UIView animateWithDuration:0.1 animations:^{
+        [self.navigationController setNavigationBarHidden:YES];
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+    
+    self.automaticallyAdjustsScrollViewInsets = NO; //fix table header places
     [self createPhotoCountView];
     //self.view.backgroundColor = [UIColor greenColor];
     //self.carousel.hidden = YES;
     //self.infoTableView.hidden = YES;
 }
-
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -302,10 +325,12 @@
 }
 - (IBAction) backbuttonTaped: (id) sender
 {
+    [self.navigationController popViewControllerAnimated:YES];
     if([self.delegate respondsToSelector:@selector(profileWillBeHidden)]) {
         [self.delegate profileWillBeHidden];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 
@@ -488,14 +513,21 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *townCellIdentifier = @"FirstRowCellIdent";
-    static NSString *cellIdentifier = @"CellIdent";
+    //static NSString *townCellIdentifier = @"FirstRowCellIdent";
+    //static NSString *cellIdentifier = @"CellIdent";
+    
+    static NSString *cellIdentifier1 = @"CellIdent1";
+    static NSString *cellIdentifier2 = @"CellIdent2";
+    static NSString *cellIdentifier3 = @"CellIdent3";
+    static NSString *cellIdentifier4 = @"CellIdent4";
+    static NSString *cellIdentifier5 = @"CellIdent5";
+    
     
     if(indexPath.row == 0 && indexPath.section == 0) {
         HPUserInfoFirstRowTableViewCell *townCell;
-        townCell = (HPUserInfoFirstRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
+        townCell = (HPUserInfoFirstRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier1];
         if (townCell == nil) {
-            townCell = [[HPUserInfoFirstRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:townCellIdentifier];
+            townCell = [[HPUserInfoFirstRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier1];
             
             NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoFirstRowTableViewCell" owner:nil options:nil];
             
@@ -513,9 +545,9 @@
     }
     else if (indexPath.row == 0 && indexPath.section == 1) {
         HPUserInfoSecondRowTableViewCell *townCell;
-        townCell = (HPUserInfoSecondRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        townCell = (HPUserInfoSecondRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier2];
         if (townCell == nil) {
-            townCell = [[HPUserInfoSecondRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            townCell = [[HPUserInfoSecondRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier2];
             
             NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoSecondRowTableViewCell" owner:nil options:nil];
             
@@ -533,9 +565,9 @@
     }
     else if (indexPath.row == 0 && indexPath.section == 2) {
         HPUserInfoFirstRowTableViewCell *townCell;
-        townCell = (HPUserInfoFirstRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:townCellIdentifier];
+        townCell = (HPUserInfoFirstRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier3];
         if (townCell == nil) {
-            townCell = [[HPUserInfoFirstRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:townCellIdentifier];
+            townCell = [[HPUserInfoFirstRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier3];
             
             NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoSecondRowTableViewCell" owner:nil options:nil];
             
@@ -553,9 +585,9 @@
     }
     else if (indexPath.row == 0 && indexPath.section == 3) {
         HPUserInfoSecondRowTableViewCell *townCell;
-        townCell = (HPUserInfoSecondRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        townCell = (HPUserInfoSecondRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier4];
         if (townCell == nil) {
-            townCell = [[HPUserInfoSecondRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            townCell = [[HPUserInfoSecondRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier4];
             
             NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoSecondRowTableViewCell" owner:nil options:nil];
             
@@ -574,9 +606,9 @@
     else if (indexPath.row == 0 && indexPath.section == 4) {
         
         HPUserInfoSecondRowTableViewCell *townCell;
-        townCell = (HPUserInfoSecondRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        townCell = (HPUserInfoSecondRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier5];
         if (townCell == nil) {
-            townCell = [[HPUserInfoSecondRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            townCell = [[HPUserInfoSecondRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier5];
             
             NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoSecondRowTableViewCell" owner:nil options:nil];
             
@@ -653,9 +685,12 @@
     return cell;
 }
 - (UITableViewCell*) configureSecondCell:(UITableViewCell*) cell {
-    UIView *t = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50.0, 40.0)];
-    t.backgroundColor = [UIColor whiteColor];
-    //[cell.contentView addSubview:t];
+    
+    for(UIView *v in  [cell.contentView subviews]) {
+        if(v.tag != 7007)
+            [v removeFromSuperview];
+    }
+
     NSArray *keys = [self.placeCityDataSource allKeys];
     CGFloat shift = 10.0;
     NSInteger bubbleTag = 0;
@@ -719,6 +754,12 @@
     return [self configureCell:cell forDataSource:self.carrierDataSource];
 }
 - (UITableViewCell*) configureCell:(UITableViewCell*) cell  forDataSource:(NSArray*) dataSource {
+    
+    for(UIView *v in  [cell.contentView subviews]) {
+        if(v.tag != 7007)
+            [v removeFromSuperview];
+    }
+
     CGFloat shift = 5.0;
     //cell.cellTextLabel.hidden = YES;
     CGSize constrainedSize = CGSizeMake(300.0  , 9999);
@@ -899,6 +940,15 @@
 - (UIView*)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
 {
     view = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"img_sample"]];
+    
+    //CGRect rect = CGRectMake([UIScreen mainScreen].bounds.size.width, 0, 320.0, 200);
+    
+    //view.contentMode = UIViewContentModeScaleAspectFill;
+    //view.clipsToBounds = YES;
+    //view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    
+    //view.frame = rect;
+    
     CGRect rect = CGRectMake([UIScreen mainScreen].bounds.size.width, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     view.frame = rect;
     return view;

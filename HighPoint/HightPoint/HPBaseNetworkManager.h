@@ -66,7 +66,6 @@ typedef enum {
 - (void) sendUserNotificationRead:(NSDictionary*) param;
 - (void) sendUserAllNotificationRead:(NSDictionary*) param;
 
-//test
-- (void) getApplicationSettingsRequestForQueue;
+
 
 @end

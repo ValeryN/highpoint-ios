@@ -53,7 +53,7 @@ static HPBaseNetworkManager *networkManager;
 }
 - (BOOL) isTaskArrayEmpty:(AFHTTPRequestOperationManager*) manager {
     if(self.taskArray && self.taskArray.count > 0) {
-        int index = [self.taskArray indexOfObject:manager ];
+        NSUInteger index = [self.taskArray indexOfObject:manager ];
         if(index != NSNotFound) {
             [self.taskArray removeObjectAtIndex:[self.taskArray indexOfObject:manager ]];
             if(self.taskArray.count == 0) {
@@ -280,15 +280,12 @@ static HPBaseNetworkManager *networkManager;
                    // [self getGeoLocation:param];
                     [[DataStorage sharedDataStorage] createAndSaveUserEntity:[usr objectForKey:key] forUserType:MainListUserType withComplation:nil];
                 }
-
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
                 }
-
             }
             else NSLog(@"Error, no valid data");
-
         }
 
         //NSMutableDictionary *parsedDictionary = [NSMutableDictionary new];
@@ -502,13 +499,6 @@ static HPBaseNetworkManager *networkManager;
 
     }];
 }
-- (void) getApplicationSettingsRequestForQueue {
-    ///v201405/settings
-    NSString *url = nil;
-    url = [URLs getServerURL];
-    url = [url stringByAppendingString:kCurrentUserFilter];
-    NSURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:url parameters:nil];
-}
 #pragma mark - user filter
 
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param {
@@ -566,6 +556,7 @@ static HPBaseNetworkManager *networkManager;
             if(jsonDict) {
 
                     [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user];
+                
                 } else {
 
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -580,7 +571,6 @@ static HPBaseNetworkManager *networkManager;
 
     }];
 }
-
 #pragma mark - education
 
 - (void) addEducationRequest:(NSDictionary*) param {
