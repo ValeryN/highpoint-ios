@@ -1044,6 +1044,9 @@ static DataStorage *dataStorage;
         if (param[@"visibility"]) {
             user.visibility = param[@"visibility"];
         }
+        if (param[@"online"]) {
+            user.online = param[@"online"];
+        }
         if (param[@"avatar"]) {
             user.avatar = [self createAvatarEntity:param[@"avatar"]];
             user.avatar.user = user;

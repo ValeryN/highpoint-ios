@@ -317,7 +317,7 @@ static HPBaseNetworkManager *networkManager;
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [self addTaskToArray:manager];
     [manager GET:url parameters:[Utils getParameterForUsersRequest:lastUser] success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"USERS -->: %@", operation.responseString);
+        NSLog(@"USERS -->: %@", operation.responseString);
         NSLog(@"USERS");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];

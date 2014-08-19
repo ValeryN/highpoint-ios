@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import "HPRootViewController.h"
 #import "HPBaseNetworkManager.h"
@@ -26,15 +25,10 @@
 #import "URLs.h"
 
 
-//==============================================================================
-
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
 #define HIDE_FILTER_ANIMATION_SPEED 0.5
 #define PORTION_OF_DATA 7
-
-
-//==============================================================================
 
 
 @implementation HPRootViewController {
@@ -311,7 +305,6 @@
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
 
     User *user = [self.allUsers objectAtIndexPath:indexPath];
-
     [mCell configureCell: user];
     return mCell;
 }
