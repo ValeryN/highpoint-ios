@@ -101,7 +101,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="104" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="NN0-MU-hah">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -256,7 +256,7 @@
                             <constraint firstAttribute="trailing" secondItem="j7y-09-8PB" secondAttribute="trailing" id="omS-3C-nAj"/>
                             <constraint firstItem="NN0-MU-hah" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" id="pGc-sa-CYS"/>
                             <constraint firstItem="j7y-09-8PB" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" id="rSD-cS-IWZ"/>
-                            <constraint firstItem="NN0-MU-hah" firstAttribute="top" secondItem="Ixf-VR-DTw" secondAttribute="top" id="vh1-YT-v7y"/>
+                            <constraint firstItem="NN0-MU-hah" firstAttribute="top" secondItem="Ixf-VR-DTw" secondAttribute="top" constant="64" id="vh1-YT-v7y"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Девушки, 24-27, Москва" id="uF6-uG-LRu">
@@ -289,6 +289,7 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
