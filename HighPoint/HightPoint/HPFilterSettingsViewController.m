@@ -123,6 +123,9 @@
     [self saveFilter];
     self.navigationController.delegate = self.savedDelegate;
     [self.navigationController popViewControllerAnimated:YES];
+    if ([self.delegate respondsToSelector:@selector(showActivity)]) {
+        [self.delegate showActivity];
+    }
 }
 - (IBAction) menSwitchTap:(id)sender {
     if(![self.menSw isOn] && ![self.womenSw isOn]) {
@@ -238,9 +241,8 @@
     if (self.menSw.isOn) {
         [genderArr addObject:[NSNumber numberWithFloat:1]];
     }
-
-    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders",uf.city.cityId, @"cityIds", nil];
-
+    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders", [NSArray arrayWithObjects: uf.city.cityId, nil], @"cityIds", nil];
+    [[DataStorage sharedDataStorage] createAndSaveUserFilterEntity:filterParams withComplation:nil];
     [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
 }
 
