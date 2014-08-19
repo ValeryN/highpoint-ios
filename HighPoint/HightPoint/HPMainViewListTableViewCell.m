@@ -43,11 +43,7 @@ static HPMainViewListTableViewCell* _prevCell;
     }
     self.point.text = user.point.pointText;
     [self createAvatar];
-    if (user.online) {
-        [self.avatar makeOnline];
-    } else {
-        [self.avatar makeOffline];
-    }
+    
     [self addGestureRecognizer];
     if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
         self.privacyLabel.hidden = NO;
@@ -59,6 +55,11 @@ static HPMainViewListTableViewCell* _prevCell;
         self.privacyLabel.hidden = YES;
         self.secondLabel.hidden = NO;
         self.firstLabel.hidden = NO;
+    }
+    if ([user.online isEqualToNumber:@1]) {
+        [self.avatar makeOnline];
+    } else {
+        [self.avatar makeOffline];
     }
 }
 
