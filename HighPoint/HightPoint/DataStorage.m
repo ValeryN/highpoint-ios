@@ -2071,7 +2071,7 @@ static DataStorage *dataStorage;
 
 - (void)returnObject:(NSManagedObject *)object inComplationBlock:(complationBlock)block {
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        NSOperation *waitOperation = [NSBlockOperation blockOperationWithBlock:^{
             if (block) {
                 if (!object.isFault) {
                     block([object moveToContext:[NSManagedObjectContext threadContext]]);
@@ -2082,6 +2082,7 @@ static DataStorage *dataStorage;
                 }
             }
         }];
+        [[NSOperationQueue mainQueue] addOperations:@[waitOperation] waitUntilFinished:YES];
     }];
     operation.queuePriority = NSOperationQueuePriorityLow;
     [self.backgroundOperationQueue addOperation:operation];

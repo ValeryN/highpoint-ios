@@ -22,7 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *settingsBtn;
 @property (weak, nonatomic) IBOutlet UICollectionView *currentUserCollectionView;
-@property (weak, nonatomic) IBOutlet UIPageControl *pageController;
+@property (retain, nonatomic) IBOutlet UIPageControl *pageController;
 
 
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
