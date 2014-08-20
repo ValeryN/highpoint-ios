@@ -422,7 +422,8 @@ static DataStorage *dataStorage;
     schEnt.name = param[@"name"];
     return schEnt;
 }
-- (void)createAndSaveSchool:(NSDictionary *)param withComplation:(complationBlock) block {
+
+- (void)createAndSaveSchool:(NSDictionary *)param withComplation:(complationBlock)block {
     __block School *returnSchool = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
@@ -437,6 +438,7 @@ static DataStorage *dataStorage;
     }];
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
+
 - (void)insertAndSaveSchoolObjectToContext:(School *)globalSchool withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     __block School *returnSchool = nil;
@@ -526,6 +528,7 @@ static DataStorage *dataStorage;
     spEnt.name = param[@"name"];
     return spEnt;
 }
+
 - (void)createAndSaveSpeciality:(NSDictionary *)param withComplation:(complationBlock)block {
     __block Speciality *returnSpec = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -625,6 +628,7 @@ static DataStorage *dataStorage;
     pl.name = param[@"name"];
     return pl;
 }
+
 - (void)createAndSavePlace:(NSDictionary *)param withComplation:(complationBlock)block {
     __block Place *returnPlace = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -638,7 +642,8 @@ static DataStorage *dataStorage;
     }];
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
-- (void)addAndSavePlaceEntity:(NSDictionary *)param forUser:(User*) user{
+
+- (void)addAndSavePlaceEntity:(NSDictionary *)param forUser:(User *)user {
     [self.backgroundOperationQueue addOperationWithBlock:^{
         Place *pl = [self createPlaceEntity:param];
         //User *currentUser = [self getCurrentUser];
@@ -1336,21 +1341,24 @@ static DataStorage *dataStorage;
 - (void)createAndSavePoint:(NSDictionary *)param {
     [self.backgroundOperationQueue addOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        __block UserPoint *userPoint;
-        userPoint = [self getPointForId:param[@"id"]];
+
         [context performBlockAndWait:^{
+            UserPoint *userPoint = [self getPointForId:param[@"id"]];
             if (!userPoint) {
                 userPoint = (UserPoint *) [NSEntityDescription insertNewObjectForEntityForName:@"UserPoint" inManagedObjectContext:context];
-
-                if (param[@"id"])
-                    userPoint.pointId = param[@"id"];
-                userPoint.pointCreatedAt = param[@"createdAt"];
-                userPoint.pointLiked = param[@"liked"];
-                userPoint.pointText = param[@"text"];
-                userPoint.pointUserId = param[@"userId"];
-                userPoint.pointValidTo = param[@"validTo"];
-                [self addSaveOperationToBottomInContext:context];
             }
+            if (param[@"id"])
+                userPoint.pointId = param[@"id"];
+
+            userPoint.pointCreatedAt = param[@"createdAt"];
+            userPoint.pointLiked = param[@"liked"];
+            userPoint.pointText = param[@"text"];
+            userPoint.pointUserId = param[@"userId"];
+            userPoint.pointValidTo = param[@"validTo"];
+            User *user = [self getSelectedUserById:param[@"userId"]];
+            user.point = userPoint;
+            [self addSaveOperationToBottomInContext:context];
+
         }];
     }];
 }
@@ -1461,24 +1469,24 @@ static DataStorage *dataStorage;
     }
 }
 
-- (NSDictionary*) prepareParamFromUser:(User*) user {
-    
+- (NSDictionary *)prepareParamFromUser:(User *)user {
+
     NSArray *lng = [user.language allObjects];
     NSMutableString *langStr = [NSMutableString stringWithString:@""];
-    for(Language *l in lng) {
+    for (Language *l in lng) {
         [langStr appendFormat:@"%d,", [l.id_ intValue]];
     }
     NSArray *edu = [user.education allObjects];
     NSMutableString *schoolStr = [NSMutableString stringWithString:@""];
     NSMutableString *specStr = [NSMutableString stringWithString:@""];
-    for(Education *e in edu) {
+    for (Education *e in edu) {
         [schoolStr appendFormat:@"%d,", [e.schoolId intValue]];
         [specStr appendFormat:@"%d,", [e.specialityId intValue]];
     }
     NSArray *car = [user.career allObjects];
     NSMutableString *carrierStr = [NSMutableString stringWithString:@""];
     NSMutableString *workPlaceStr = [NSMutableString stringWithString:@""];
-    for(Career *c in car) {
+    for (Career *c in car) {
         [carrierStr appendFormat:@"%d,", [c.companyId intValue]];
         [workPlaceStr appendFormat:@"%d,", [c.postId intValue]];
     }
@@ -1488,21 +1496,22 @@ static DataStorage *dataStorage;
         [placeStr appendString:p];
         [placeStr appendString:@","];
     }
-    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:   [Utils deleteLastChar:placeStr],@"placeIds",
-                           [Utils deleteLastChar:carrierStr], @"companyIds",
-                           [Utils deleteLastChar:workPlaceStr], @"careerPostIds",
-                           [Utils deleteLastChar:schoolStr], @"schoolIds",
-                           [Utils deleteLastChar:specStr], @"specialityIds",
-                           [Utils deleteLastChar:langStr], @"languageIds",
-                           user, @"user",nil];//workPlaceStr
+    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[Utils deleteLastChar:placeStr], @"placeIds",
+                                                                     [Utils deleteLastChar:carrierStr], @"companyIds",
+                                                                     [Utils deleteLastChar:workPlaceStr], @"careerPostIds",
+                                                                     [Utils deleteLastChar:schoolStr], @"schoolIds",
+                                                                     [Utils deleteLastChar:specStr], @"specialityIds",
+                                                                     [Utils deleteLastChar:langStr], @"languageIds",
+                                                                     user, @"user", nil];//workPlaceStr
     return param;
 }
-- (void) linkParameter:(NSDictionary*) param toUser:(User*) user {
+
+- (void)linkParameter:(NSDictionary *)param toUser:(User *)user {
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    for(Career *car in  [user.career allObjects]) {
-        for(NSDictionary *d in [param objectForKey:@"careerPosts"]) {
-            if([car.postId intValue] == [[d objectForKey:@"id"] intValue]) {
-                
+    for (Career *car in  [user.career allObjects]) {
+        for (NSDictionary *d in [param objectForKey:@"careerPosts"]) {
+            if ([car.postId intValue] == [[d objectForKey:@"id"] intValue]) {
+
                 CareerPost *post = [self createTempCareerPost:d];
                 car.careerpost = post;
                 //[self createAndSaveCareerPost:d withComplation:^(CareerPost *carrierPost) {
@@ -1511,10 +1520,10 @@ static DataStorage *dataStorage;
                 //}];
             }
         }
-        for(NSDictionary *d in [param objectForKey:@"companies"]) {
+        for (NSDictionary *d in [param objectForKey:@"companies"]) {
             NSLog(@"%@", d);
-            if([car.companyId intValue] == [[d objectForKey:@"id"] intValue]) {
-                
+            if ([car.companyId intValue] == [[d objectForKey:@"id"] intValue]) {
+
                 Company *comp = [self createTempCompany:d];
                 car.company = comp;
                 //[self createAndSaveCompany:d withComplation:^(Company *company) {
@@ -1524,27 +1533,27 @@ static DataStorage *dataStorage;
                 //}];
             }
         }
-        
+
     }
-    for(Education *edu in  [user.education allObjects]) {
-        for(NSDictionary *d in [param objectForKey:@"schools"]) {
-            if([edu.schoolId intValue] == [[d objectForKey:@"id"] intValue]) {
-                
+    for (Education *edu in  [user.education allObjects]) {
+        for (NSDictionary *d in [param objectForKey:@"schools"]) {
+            if ([edu.schoolId intValue] == [[d objectForKey:@"id"] intValue]) {
+
                 [self createAndSaveSchool:d withComplation:^(School *school) {
                     edu.school = school;
                     NSLog(@"%@", edu);
                     [self addSaveOperationToBottomInContext:context];
-                    
+
                 }];
             }
         }
-        for(NSDictionary *d in [param objectForKey:@"specialities"]) {
-            if([edu.specialityId intValue] == [[d objectForKey:@"id"] intValue]) {
-                
+        for (NSDictionary *d in [param objectForKey:@"specialities"]) {
+            if ([edu.specialityId intValue] == [[d objectForKey:@"id"] intValue]) {
+
                 [self createAndSaveSpeciality:d withComplation:^(Speciality *spec) {
                     edu.speciality = spec;
-                NSLog(@"%@", edu);
-                [self addSaveOperationToBottomInContext:context];
+                    NSLog(@"%@", edu);
+                    [self addSaveOperationToBottomInContext:context];
                 }];
             }
         }
@@ -1552,21 +1561,20 @@ static DataStorage *dataStorage;
     }
     NSMutableArray *places = [NSMutableArray new];
     NSMutableArray *languages = [NSMutableArray new];
-    for(NSDictionary *d in [param objectForKey:@"places"]) {
-            Place *pl = [self createPlaceEntity:d];
-            [places addObject:pl];
-        }
+    for (NSDictionary *d in [param objectForKey:@"places"]) {
+        Place *pl = [self createPlaceEntity:d];
+        [places addObject:pl];
+    }
     user.place = [NSSet setWithArray:places];
-    for(NSDictionary *d in [param objectForKey:@"languages"]) {
-        Language *lng  = [self createLanguageEntity:d];
+    for (NSDictionary *d in [param objectForKey:@"languages"]) {
+        Language *lng = [self createLanguageEntity:d];
         [languages addObject:lng];
     }
     user.language = [NSSet setWithArray:languages];
-    
-    
+
+
     [context saveWithErrorHandler];
 }
-
 
 
 #pragma mark -
@@ -1913,7 +1921,8 @@ static DataStorage *dataStorage;
     }
     return controller;
 }
-- (NSFetchedResultsController *) getSelectedUserById:(NSNumber*) id_ {
+
+- (User *)getSelectedUserById:(NSNumber *)id_ {
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
@@ -1922,9 +1931,10 @@ static DataStorage *dataStorage;
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:YES];
     [sortDescriptors addObject:sortDescriptor];
     [request setSortDescriptors:sortDescriptors];
-    
+
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"userId  = %d", [id_ intValue]];
+
     @try {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
@@ -1933,12 +1943,14 @@ static DataStorage *dataStorage;
         return nil;
     }
 
-    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
+
     NSError *error = nil;
-    if (![controller performFetch:&error]) {
-        return nil;
-    }
-    return controller;
+    [request setFetchLimit:1];
+    NSArray *array = [context executeFetchRequest:request error:&error];
+
+    if ([array count] > 0)
+        return array[0];
+    else return nil;
 }
 
 - (Contact *)getContactById:(NSNumber *)contactId {
@@ -2139,7 +2151,7 @@ static DataStorage *dataStorage;
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
-- (int) allUnreadMessagesCount : (User *) user {
+- (int)allUnreadMessagesCount:(User *)user {
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
@@ -2148,7 +2160,7 @@ static DataStorage *dataStorage;
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:YES];
     [sortDescriptors addObject:sortDescriptor];
     [request setSortDescriptors:sortDescriptors];
-    
+
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"unreadMessage == 1"];
     if (user) {
@@ -2168,8 +2180,6 @@ static DataStorage *dataStorage;
     }
     return [controller fetchedObjects].count;
 }
-
-
 
 
 - (void)addSaveOperationToBottomInContext:(NSManagedObjectContext *)context {

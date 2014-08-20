@@ -337,7 +337,11 @@
     @weakify(self);
     [rightBarItem setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:18]} forState:UIControlStateNormal];
     [rightBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:80.f / 255.f green:227.f / 255.f blue:194.f / 255.f alpha:0.4]} forState:UIControlStateDisabled];
-    rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:[RACSignal return:@([self symbolsInPostIsAvailableToPost])] signalBlock:^RACSignal *(id input) {
+
+    RACSignal *enableSignal = [self.pointTextView.rac_textSignal map:^id(id value) {
+        return @([self symbolsInPostIsAvailableToPost]);
+    }];
+    rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:enableSignal signalBlock:^RACSignal *(id input) {
         @strongify(self)
         self.topApplyButtonPressed = [RACSignal return:@YES];
         [self.pointTextView resignFirstResponder];

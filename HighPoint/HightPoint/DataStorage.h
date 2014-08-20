@@ -112,6 +112,6 @@ typedef void (^complationBlock) (id object);
 - (void)createAndSaveChatEntity: (User *)user withMessages: (NSArray *) messages withComplation:(complationBlock) block;
 - (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
 - (Chat *) getChatByUserId :(NSNumber *) userId;
-- (NSFetchedResultsController *) getSelectedUserById:(NSNumber*) id_;
+- (User *) getSelectedUserById:(NSNumber*) id_;
 
 @end
