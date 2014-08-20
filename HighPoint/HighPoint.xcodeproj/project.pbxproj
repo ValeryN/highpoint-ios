@@ -190,6 +190,8 @@
 		3BEE69FD19926AA300C8B977 /* HFImageEditorFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEE69F919926AA300C8B977 /* HFImageEditorFrameView.m */; };
 		3BEE69FE19926AA300C8B977 /* HFImageEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEE69FC19926AA300C8B977 /* HFImageEditorViewController.m */; };
 		444D91AB19A1F9750034FF5D /* UIFont+IBCustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */; };
+		44B8C74519A4F81000F3081E /* Smartling.i18n.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8C74419A4F81000F3081E /* Smartling.i18n.framework */; };
+		44B8C74C19A4FC5600F3081E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 44B8C74E19A4FC5600F3081E /* Localizable.strings */; };
 		44E66BAF19A238240010117A /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */; };
 		4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1A488319629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
@@ -292,7 +294,6 @@
 		CDA170451982473200173D1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA170441982473200173D1C /* SystemConfiguration.framework */; };
 		CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA22EE2196FB2910032210F /* HPConciergeViewController.m */; };
 		CDA22EE5196FB2910032210F /* HPConciergeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */; };
-		CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDA22EE7196FC7E40032210F /* Localizable.strings */; };
 		CDA27BE71974ED96007D6BC1 /* green_btn_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA27BE51974ED96007D6BC1 /* green_btn_pressed.png */; };
 		CDA27BE81974ED96007D6BC1 /* green_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA27BE61974ED96007D6BC1 /* green_btn.png */; };
 		CDA27BEB1974EE06007D6BC1 /* add_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA27BEA1974EE06007D6BC1 /* add_photo.png */; };
@@ -677,6 +678,11 @@
 		3BEE69FB19926AA300C8B977 /* HFImageEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HFImageEditorViewController.h; sourceTree = "<group>"; };
 		3BEE69FC19926AA300C8B977 /* HFImageEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFImageEditorViewController.m; sourceTree = "<group>"; };
 		444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+IBCustomFonts.m"; sourceTree = "<group>"; };
+		44B8C74419A4F81000F3081E /* Smartling.i18n.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Smartling.i18n.framework; path = External/i18n/Smartling.i18n.framework; sourceTree = "<group>"; };
+		44B8C74D19A4FC5600F3081E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		44B8C75219A4FC9C00F3081E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		44B8C75319A4FC9C00F3081E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		44B8C75419A4FC9C00F3081E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = External/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libReactiveCocoa-iOS.a"; path = "HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework/build/Debug-iphoneos/libReactiveCocoa-iOS.a"; sourceTree = "<group>"; };
 		4C1A488019629A7C00DD36F9 /* UITextView+HightPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+HightPoint.h"; sourceTree = "<group>"; };
@@ -799,7 +805,6 @@
 		CDA22EE1196FB2910032210F /* HPConciergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPConciergeViewController.h; sourceTree = "<group>"; };
 		CDA22EE2196FB2910032210F /* HPConciergeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPConciergeViewController.m; sourceTree = "<group>"; };
 		CDA22EE3196FB2910032210F /* HPConciergeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPConciergeViewController.xib; sourceTree = "<group>"; };
-		CDA22EE7196FC7E40032210F /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		CDA27BE51974ED96007D6BC1 /* green_btn_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_btn_pressed.png; sourceTree = "<group>"; };
 		CDA27BE61974ED96007D6BC1 /* green_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_btn.png; sourceTree = "<group>"; };
 		CDA27BEA1974EE06007D6BC1 /* add_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_photo.png; sourceTree = "<group>"; };
@@ -869,6 +874,7 @@
 				44E66BAF19A238240010117A /* libReactiveCocoa-iOS.a in Frameworks */,
 				CDA170451982473200173D1C /* SystemConfiguration.framework in Frameworks */,
 				CDA170431982471D00173D1C /* QuartzCore.framework in Frameworks */,
+				44B8C74519A4F81000F3081E /* Smartling.i18n.framework in Frameworks */,
 				CDA170411982470800173D1C /* CoreText.framework in Frameworks */,
 				CD7C99641973E40F00F1AAAB /* MobileCoreServices.framework in Frameworks */,
 				3BDA4CAE1906628200EF6619 /* Security.framework in Frameworks */,
@@ -1247,6 +1253,7 @@
 		3B77908219001DA100EE0D15 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				44B8C74419A4F81000F3081E /* Smartling.i18n.framework */,
 				44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */,
 				444D91A919A1F9320034FF5D /* IBCustomFonts */,
 				3BEE69F719926AA300C8B977 /* ImageEditor */,
@@ -1737,7 +1744,7 @@
 		CDA22EE6196FC7B90032210F /* Localization */ = {
 			isa = PBXGroup;
 			children = (
-				CDA22EE7196FC7E40032210F /* Localizable.strings */,
+				44B8C74E19A4FC5600F3081E /* Localizable.strings */,
 			);
 			name = Localization;
 			sourceTree = "<group>";
@@ -1882,6 +1889,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ru,
 			);
 			mainGroup = 3B6DB48318FFC24C00C26A50;
 			productRefGroup = 3B6DB48D18FFC24C00C26A50 /* Products */;
@@ -2105,7 +2113,7 @@
 				3B0B9207197D364E00910475 /* HPUserInfoTableHeaderView.xib in Resources */,
 				CD4CA3B21980E4D70016DF7E /* HPChatViewController.xib in Resources */,
 				CDFA8A1B196BEA6200D04451 /* Lens.png in Resources */,
-				CDA22EE8196FC7E40032210F /* Localizable.strings in Resources */,
+				44B8C74C19A4FC5600F3081E /* Localizable.strings in Resources */,
 				3BE9DE3B197FD8F300AFA641 /* 18.jpg in Resources */,
 				4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */,
 				4C89BD2D193C6EDA00DAE2EE /* HPFilterSettings.xib in Resources */,
@@ -2319,6 +2327,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				3B6DB49B18FFC24D00C26A50 /* en */,
+				44B8C75319A4FC9C00F3081E /* ru */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -2327,8 +2336,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				3B6DB4B818FFC24D00C26A50 /* en */,
+				44B8C75419A4FC9C00F3081E /* ru */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		44B8C74E19A4FC5600F3081E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				44B8C74D19A4FC5600F3081E /* en */,
+				44B8C75219A4FC9C00F3081E /* ru */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -2414,6 +2433,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HightPoint/External/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"$(PROJECT_DIR)/HightPoint/External/i18n",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HightPoint/HighPoint-Prefix.pch";
@@ -2446,6 +2466,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HightPoint/External/HockeySDK-iOS/HockeySDK.embeddedframework",
+					"$(PROJECT_DIR)/HightPoint/External/i18n",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HightPoint/HighPoint-Prefix.pch";

@@ -1,0 +1,84 @@
+/* 
+  Localizable.strings
+  HighPoint
+
+  Created by Julia Pozdnyakova on 11.07.14.
+  Copyright (c) 2014 SurfStudio. All rights reserved.
+*/
+
+
+
+
+//USERS LIST SCREEN
+"UNKNOWN_CITY_ID" = "Unknown id";
+"HIDE_HER_NAME" = "Скрыла свое имя\rи фотографии";
+"HIDE_HER_PROFILE" = "Скрыла свой профиль";
+"HIDE_HIS_NAME" = "Скрыл свое имя\rи фотографии";
+"HIDE_HIS_PROFILE" = "Скрыл свой профиль";
+
+//USERS CARD SCREEN
+"HIDE_HER_NAME_INFO" = "Скрыла свое имя и фотографии";
+"HIDE_HER_PROFILE_INFO" = "Скрыла свой профиль";
+"HIDE_HIS_NAME_INFO" = "Скрыл свое имя и фотографии";
+"HIDE_HIS_PROFILE_INFO" = "Скрыл свой профиль";
+
+
+//USER INFO SCREEN
+"REQUEST_HER_NAME" = "Вы можете попросить ее открыть\rвам свое имя и фотографии";
+"REQUEST_HER_PROFILE" = "Вы можете попросить ее открыть\rвам свой профиль";
+"REQUEST_HIS_NAME" = "Вы можете попросить его открыть\rвам свое имя и фотографии";
+"REQUEST_HIS_PROFILE" = "Вы можете попросить его открыть\rвам свой профиль";
+
+"REQUESTED_HER_NAME" = "Вы попросили открыть вам\r ее имя и фотографии";
+"REQUESTED_HIS_NAME" = "Вы попросили открыть вам\r его имя и фотографии";
+"REQUESTED_HER_PROFILE" = "Вы попросили открыть вам\r свой профиль";
+"REQUESTED_HIS_PROFILE" = "Вы попросили открыть вам\r свой профиль";
+
+
+//USER FILTER SCREEN
+"ADD_FILTER_CITY" = "Добавить город";
+
+
+//POPULAR CITIES SCREEN
+"POPULAR_CITIES_TITLE" = "Доступные города";
+
+// ADD PHOTO SCREEN
+"GET_FROM_PHOTO_LIBRARY_BTN" = "Выбрать из альбома";
+"TAKE_PHOTO_BTN" = "Сделать фотографию";
+"CANCEL_BTN" = "Отменить";
+
+
+//CURRENT USER CARD SCREEN
+"YOUR_PROFILE" = "Ваш профиль";
+"YOUR_PROFILE_INVISIBLE" = "Вы скрыли свой профиль";
+"YOUR_PROFILE_LOCKED" = "Вы скрыли свое имя и фотографии";
+"VISIBILITY_INFO_LABEL" = "Скрытая информация о вас будет\rдоступна только по запросу";
+"YOUR_PHOTO_ALBUM_AND_DATA" = "Ваш фотоальбом и личные данные";
+
+//CURRENT USER POINT SCREEN
+"YOUR_POINT" = "Ваш поинт";
+"YOUR_EMPTY_POINT" = "Напишите здесь о ваших планах или\rжеланиях на ближайший вечер. Это\rсообщение увидят все люди из вашего\rгорода.";
+"NO_ACTIVE_POINT" = "Поинт не опубликован";
+"DONE_BTN" = "Готово";
+"PUBLISH_BTN" = "Опубликовать";
+"SET_TIME_FOR_YOUR_POINT" = "Установите актуальное время\rдействия вашего поинта";
+"DELETE_POINT_INFO" = "Если вы удалите текущий поинт\rсейчас, то сможете опубликовать\rновый только через час. Хотите\rудалить его?";
+"YOUR_POINT_LIKES" = "Оценили ваш поинт";
+"POINT_WILL_ACTIVE##{one}" = "Point will active for one hour";
+"POINT_WILL_ACTIVE##{other}" =  "Point will active for %d hours";
+
+
+//POINT LIKES SCREEN
+"POINT_LIKES_TITLE" = "Оценили ваш поинт";
+
+
+//CHAT LIST SCREEN
+"CHAT_LIST_TITLE" = "Сообщения";
+"DELETE_BTN_TITLE" = "Удалить";
+"SEARCH_FIELD_PLACEHOLDER" = "Введите имя, возраст или город";
+
+
+//CHAT SCREEN
+"YOUR_MSG_PLACEHOLDER" ="Ваше сообщение";
+
+

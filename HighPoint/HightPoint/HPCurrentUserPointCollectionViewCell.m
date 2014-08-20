@@ -13,6 +13,8 @@
 #import "UITextView+HPRacSignal.h"
 #import "UIImageView+WebCache.h"
 #import "Avatar.h"
+#import "UserPoint.h"
+#import <Smartling.i18n/SLLocalization.h>
 
 #define POINT_LENGTH 140
 #define MIN_POINT_LENGTH 5
@@ -117,17 +119,25 @@
     @weakify(self);
     RACSignal *showCountNumber = [[RACSignal merge:@[RACObserve(self, editUserPointMode), [self textViewIsEditing]]] replayLast];
 
-    RAC(self.pointInfoLabel, text) = [[RACSignal combineLatest:@[RACObserve(self, editUserPointMode), showCountNumber]]
+    RAC(self.pointInfoLabel, text) = [[RACSignal combineLatest:@[RACObserve(self, editUserPointMode), showCountNumber, RACObserve(self, currentUser.point)]]
             flattenMap:^RACStream *(RACTuple *x) {
-                RACTupleUnpack(NSNumber *editMode, NSNumber *showCount) = x;
+                RACTupleUnpack(NSNumber *editMode, NSNumber *showCount, UserPoint* point) = x;
                 @strongify(self);
-                if (showCount.boolValue || editMode.boolValue) {
-                    return [[self.pointTextView rac_textSignal] map:^id(NSString *value) {
-                        return @((NSInteger) (POINT_LENGTH - value.length)).stringValue;
-                    }];
+                if(point){
+                    int hourActive = rand()%12;
+                    NSString* stringFormat = SLPluralizedString(@"POINT_WILL_ACTIVE",hourActive, nil);
+                    return [RACSignal return:[NSString stringWithFormat:stringFormat, hourActive]];
+
                 }
                 else {
-                    return [RACSignal return:NSLocalizedString(@"NO_ACTIVE_POINT", nil)];
+                    if (showCount.boolValue || editMode.boolValue) {
+                        return [[self.pointTextView rac_textSignal] map:^id(NSString *value) {
+                            return @((NSInteger) (POINT_LENGTH - value.length)).stringValue;
+                        }];
+                    }
+                    else {
+                        return [RACSignal return:NSLocalizedString(@"NO_ACTIVE_POINT", nil)];
+                    }
                 }
             }];
 
@@ -199,9 +209,17 @@
     self.pointTextView.text = NSLocalizedString(@"YOUR_EMPTY_POINT", nil);
     self.pointTextView.textColor = placeHolderColor;
     @weakify(self);
-    [[RACSignal combineLatest:@[[self textViewIsEditing], RACObserve(self.pointTextView, text)]] subscribeNext:^(RACTuple *x) {
+
+    [[RACObserve(self, currentUser.point) filter:^BOOL(id value) {
+        return value==nil;
+    }] subscribeNext:^(id x) {
         @strongify(self);
-        RACTupleUnpack(NSNumber *isEdit, NSString *text) = x;
+        self.pointTextView.text = @"";
+    }];
+
+    [[RACSignal combineLatest:@[[self textViewIsEditing], [RACObserve(self.pointTextView, text) distinctUntilChanged], RACObserve(self, currentUser.point)]] subscribeNext:^(RACTuple *x) {
+        @strongify(self);
+        RACTupleUnpack(NSNumber *isEdit, NSString *text,UserPoint * userPoint) = x;
         if (isEdit.boolValue) {
             if ([self.pointTextView.text isEqualToString:NSLocalizedString(@"YOUR_EMPTY_POINT", nil)]) {
                 self.pointTextView.text = @"";
@@ -209,11 +227,22 @@
             self.pointTextView.textColor = [UIColor whiteColor];
         }
         else {
-            if ([self.pointTextView.text isEqualToString:@""]) {
-                self.pointTextView.text = NSLocalizedString(@"YOUR_EMPTY_POINT", nil);
-                self.pointTextView.textColor = placeHolderColor;
+            if(userPoint)
+            {
+                self.pointTextView.text = userPoint.pointText;
+                self.pointTextView.textColor = [UIColor whiteColor];
+            }
+            else {
+                if ([self.pointTextView.text isEqualToString:@""]) {
+                    self.pointTextView.text = NSLocalizedString(@"YOUR_EMPTY_POINT", nil);
+                    self.pointTextView.textColor = placeHolderColor;
+                }
             }
         }
+    }];
+
+    RAC(self.pointTextView,userInteractionEnabled) = [RACObserve(self, currentUser.point) map:^id(UserPoint *value) {
+        return @(value == nil);
     }];
 
     self.pointTextView.delegate = self;

@@ -64,6 +64,10 @@
 "SET_TIME_FOR_YOUR_POINT" = "Установите актуальное время\rдействия вашего поинта";
 "DELETE_POINT_INFO" = "Если вы удалите текущий поинт\rсейчас, то сможете опубликовать\rновый только через час. Хотите\rудалить его?";
 "YOUR_POINT_LIKES" = "Оценили ваш поинт";
+"POINT_WILL_ACTIVE##{one}" = "Поинт будет активен %d час";
+"POINT_WILL_ACTIVE##{few}" = "Поинт будет активен %d часа";
+"POINT_WILL_ACTIVE##{many}" = "Поинт будет активен %d часов";
+"POINT_WILL_ACTIVE##{other}" = "Поинт будет активен %d часов";
 
 
 //POINT LIKES SCREEN
