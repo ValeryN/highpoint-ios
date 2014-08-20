@@ -30,7 +30,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.navigationController hp_configureNavigationBar];
     self.ipTextField.delegate = self;
     // Do any additional setup after loading the view.
 }

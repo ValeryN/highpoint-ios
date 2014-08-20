@@ -189,6 +189,7 @@
 		3BEE69FD19926AA300C8B977 /* HFImageEditorFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEE69F919926AA300C8B977 /* HFImageEditorFrameView.m */; };
 		3BEE69FE19926AA300C8B977 /* HFImageEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEE69FC19926AA300C8B977 /* HFImageEditorViewController.m */; };
 		444D91AB19A1F9750034FF5D /* UIFont+IBCustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */; };
+		44E66BAF19A238240010117A /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */; };
 		4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1A488319629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FE935196427220016DED5 /* UIImage+StackBlur.m */; };
@@ -233,6 +234,7 @@
 		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		7C5F763B6E244F2FFC517A12 /* NSManagedObject+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7CB7951BC9745387D6CC /* NSManagedObject+HighPoint.m */; };
 		7C5F77339183307C84A9760B /* Blend 4X@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7F2E3B26E823B3734ABD /* Blend 4X@2x.png */; };
+		7C5F7840C7F24F1E16C62A49 /* UITextView+HPRacSignal.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F759EF310328097A08FC6 /* UITextView+HPRacSignal.m */; };
 		7C5F79F487D68A326256AFD1 /* NSManagedObjectContext+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7F301D738FAB617FC7E5 /* NSManagedObjectContext+HighPoint.m */; };
 		CD002F8C1998A04100C2093A /* privacy_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CD002F8B1998A04100C2093A /* privacy_new.png */; };
 		CD08B827198B68750006AF4A /* HPUserCardUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD08B826198B68750006AF4A /* HPUserCardUICollectionViewCell.m */; };
@@ -347,49 +349,49 @@
 			remoteGlobalIDString = 3B6DB48B18FFC24C00C26A50;
 			remoteInfo = HightPoint;
 		};
-		CDA3AD2B19A30C44004E8431 /* PBXContainerItemProxy */ = {
+		44AC68C919A23F1B00AD5661 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 88037F8315056328001A5B19;
 			remoteInfo = ReactiveCocoa;
 		};
-		CDA3AD2D19A30C44004E8431 /* PBXContainerItemProxy */ = {
+		44AC68CB19A23F1B00AD5661 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 88F440AB153DAC820097B4C3;
 			remoteInfo = "ReactiveCocoa-iOS";
 		};
-		CDA3AD2F19A30C44004E8431 /* PBXContainerItemProxy */ = {
+		44AC68CD19A23F1B00AD5661 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 88CDF7DC15000FCF00163A9F;
 			remoteInfo = ReactiveCocoaTests;
 		};
-		CDA3AD3119A30C44004E8431 /* PBXContainerItemProxy */ = {
+		44AC68CF19A23F1B00AD5661 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 5FAF5223174D4C2000CAC810;
 			remoteInfo = "ReactiveCocoaTests-iOS";
 		};
-		CDA3AD3319A30C44004E8431 /* PBXContainerItemProxy */ = {
+		44AC68D119A23F1B00AD5661 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1860F412177C91B500C7B3C9;
 			remoteInfo = "ReactiveCocoa-iOS-UIKitTestHost";
 		};
-		CDA3AD3519A30C44004E8431 /* PBXContainerItemProxy */ = {
+		44AC68D319A23F1B00AD5661 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1860F430177C91B500C7B3C9;
 			remoteInfo = "ReactiveCocoa-iOS-UIKitTestHostTests";
 		};
-		CDA3AD3719A30C44004E8431 /* PBXContainerItemProxy */ = {
+		44AC68D519A23F1B00AD5661 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */;
 			proxyType = 2;
@@ -667,6 +669,7 @@
 		3BEE69FC19926AA300C8B977 /* HFImageEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFImageEditorViewController.m; sourceTree = "<group>"; };
 		444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+IBCustomFonts.m"; sourceTree = "<group>"; };
 		44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = External/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
+		44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libReactiveCocoa-iOS.a"; path = "HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework/build/Debug-iphoneos/libReactiveCocoa-iOS.a"; sourceTree = "<group>"; };
 		4C1A488019629A7C00DD36F9 /* UITextView+HightPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+HightPoint.h"; sourceTree = "<group>"; };
 		4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HightPoint.m"; sourceTree = "<group>"; };
 		4C1FE934196427220016DED5 /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+StackBlur.h"; sourceTree = "<group>"; };
@@ -702,8 +705,10 @@
 		4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HighPoint.m"; sourceTree = "<group>"; };
 		4CF3A326194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPMainViewListTableViewCell+HighPoint.h"; sourceTree = "<group>"; };
 		4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPMainViewListTableViewCell+HighPoint.m"; sourceTree = "<group>"; };
+		7C5F714907A20072CF50C98A /* UITextView+HPRacSignal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+HPRacSignal.h"; sourceTree = "<group>"; };
 		7C5F727D5ACE12CAC506BCCA /* NSManagedObject+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+HighPoint.h"; sourceTree = "<group>"; };
 		7C5F73B28B4784B3764684CA /* NSManagedObjectContext+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+HighPoint.h"; sourceTree = "<group>"; };
+		7C5F759EF310328097A08FC6 /* UITextView+HPRacSignal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HPRacSignal.m"; sourceTree = "<group>"; };
 		7C5F7CB7951BC9745387D6CC /* NSManagedObject+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+HighPoint.m"; sourceTree = "<group>"; };
 		7C5F7F2E3B26E823B3734ABD /* Blend 4X@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blend 4X@2x.png"; sourceTree = "<group>"; };
 		7C5F7F301D738FAB617FC7E5 /* NSManagedObjectContext+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+HighPoint.m"; sourceTree = "<group>"; };
@@ -854,6 +859,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44E66BAF19A238240010117A /* libReactiveCocoa-iOS.a in Frameworks */,
 				CDA170451982473200173D1C /* SystemConfiguration.framework in Frameworks */,
 				CDA170431982471D00173D1C /* QuartzCore.framework in Frameworks */,
 				CDA170411982470800173D1C /* CoreText.framework in Frameworks */,
@@ -1122,6 +1128,7 @@
 		3B6DB48E18FFC24C00C26A50 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */,
 				CDA170441982473200173D1C /* SystemConfiguration.framework */,
 				CDA170421982471D00173D1C /* QuartzCore.framework */,
 				CDA170401982470800173D1C /* CoreText.framework */,
@@ -1547,6 +1554,20 @@
 			path = External/IBCustomFonts;
 			sourceTree = "<group>";
 		};
+		44AC68C019A23F1B00AD5661 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				44AC68CA19A23F1B00AD5661 /* ReactiveCocoa.framework */,
+				44AC68CC19A23F1B00AD5661 /* libReactiveCocoa-iOS.a */,
+				44AC68CE19A23F1B00AD5661 /* ReactiveCocoaTests.xctest */,
+				44AC68D019A23F1B00AD5661 /* ReactiveCocoaTests-iOS.xctest */,
+				44AC68D219A23F1B00AD5661 /* ReactiveCocoa-iOS-UIKitTestHost.app */,
+				44AC68D419A23F1B00AD5661 /* ReactiveCocoa-iOS-UIKitTestHostTests.octest */,
+				44AC68D619A23F1B00AD5661 /* libReactiveCocoa-Mac.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4C91C1E9195812AD002B27D4 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -1601,6 +1622,8 @@
 				7C5F73B28B4784B3764684CA /* NSManagedObjectContext+HighPoint.h */,
 				7C5F7CB7951BC9745387D6CC /* NSManagedObject+HighPoint.m */,
 				7C5F727D5ACE12CAC506BCCA /* NSManagedObject+HighPoint.h */,
+				7C5F759EF310328097A08FC6 /* UITextView+HPRacSignal.m */,
+				7C5F714907A20072CF50C98A /* UITextView+HPRacSignal.h */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1730,20 +1753,6 @@
 			path = debug;
 			sourceTree = "<group>";
 		};
-		CDA3AD2219A30C44004E8431 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CDA3AD2C19A30C44004E8431 /* ReactiveCocoa.framework */,
-				CDA3AD2E19A30C44004E8431 /* libReactiveCocoa-iOS.a */,
-				CDA3AD3019A30C44004E8431 /* ReactiveCocoaTests.xctest */,
-				CDA3AD3219A30C44004E8431 /* ReactiveCocoaTests-iOS.xctest */,
-				CDA3AD3419A30C44004E8431 /* ReactiveCocoa-iOS-UIKitTestHost.app */,
-				CDA3AD3619A30C44004E8431 /* ReactiveCocoa-iOS-UIKitTestHostTests.octest */,
-				CDA3AD3819A30C44004E8431 /* libReactiveCocoa-Mac.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		CDB9527719A1F2FB00238DFC /* SplashViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1852,7 +1861,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = B9639RHZFT;
+						DevelopmentTeam = J67Y29BQR7;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -1871,7 +1880,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = CDA3AD2219A30C44004E8431 /* Products */;
+					ProductGroup = 44AC68C019A23F1B00AD5661 /* Products */;
 					ProjectRef = 44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */;
 				},
 			);
@@ -1884,53 +1893,53 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		CDA3AD2C19A30C44004E8431 /* ReactiveCocoa.framework */ = {
+		44AC68CA19A23F1B00AD5661 /* ReactiveCocoa.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = ReactiveCocoa.framework;
-			remoteRef = CDA3AD2B19A30C44004E8431 /* PBXContainerItemProxy */;
+			remoteRef = 44AC68C919A23F1B00AD5661 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CDA3AD2E19A30C44004E8431 /* libReactiveCocoa-iOS.a */ = {
+		44AC68CC19A23F1B00AD5661 /* libReactiveCocoa-iOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libReactiveCocoa-iOS.a";
-			remoteRef = CDA3AD2D19A30C44004E8431 /* PBXContainerItemProxy */;
+			remoteRef = 44AC68CB19A23F1B00AD5661 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CDA3AD3019A30C44004E8431 /* ReactiveCocoaTests.xctest */ = {
+		44AC68CE19A23F1B00AD5661 /* ReactiveCocoaTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ReactiveCocoaTests.xctest;
-			remoteRef = CDA3AD2F19A30C44004E8431 /* PBXContainerItemProxy */;
+			remoteRef = 44AC68CD19A23F1B00AD5661 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CDA3AD3219A30C44004E8431 /* ReactiveCocoaTests-iOS.xctest */ = {
+		44AC68D019A23F1B00AD5661 /* ReactiveCocoaTests-iOS.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "ReactiveCocoaTests-iOS.xctest";
-			remoteRef = CDA3AD3119A30C44004E8431 /* PBXContainerItemProxy */;
+			remoteRef = 44AC68CF19A23F1B00AD5661 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CDA3AD3419A30C44004E8431 /* ReactiveCocoa-iOS-UIKitTestHost.app */ = {
+		44AC68D219A23F1B00AD5661 /* ReactiveCocoa-iOS-UIKitTestHost.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = "ReactiveCocoa-iOS-UIKitTestHost.app";
-			remoteRef = CDA3AD3319A30C44004E8431 /* PBXContainerItemProxy */;
+			remoteRef = 44AC68D119A23F1B00AD5661 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CDA3AD3619A30C44004E8431 /* ReactiveCocoa-iOS-UIKitTestHostTests.octest */ = {
+		44AC68D419A23F1B00AD5661 /* ReactiveCocoa-iOS-UIKitTestHostTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "ReactiveCocoa-iOS-UIKitTestHostTests.octest";
-			remoteRef = CDA3AD3519A30C44004E8431 /* PBXContainerItemProxy */;
+			remoteRef = 44AC68D319A23F1B00AD5661 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CDA3AD3819A30C44004E8431 /* libReactiveCocoa-Mac.a */ = {
+		44AC68D619A23F1B00AD5661 /* libReactiveCocoa-Mac.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libReactiveCocoa-Mac.a";
-			remoteRef = CDA3AD3719A30C44004E8431 /* PBXContainerItemProxy */;
+			remoteRef = 44AC68D519A23F1B00AD5661 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2257,6 +2266,7 @@
 				CD68A9C4196D0DE80090D6D1 /* TLSwipeForOptionsCell.m in Sources */,
 				7C5F79F487D68A326256AFD1 /* NSManagedObjectContext+HighPoint.m in Sources */,
 				7C5F763B6E244F2FFC517A12 /* NSManagedObject+HighPoint.m in Sources */,
+				7C5F7840C7F24F1E16C62A49 /* UITextView+HPRacSignal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2401,9 +2411,14 @@
 				);
 				INFOPLIST_FILE = "HightPoint/HighPoint-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = HighPoint;
 				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2428,9 +2443,14 @@
 				);
 				INFOPLIST_FILE = "HightPoint/HighPoint-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = HighPoint;
 				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

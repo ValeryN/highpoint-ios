@@ -9,23 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "HPSlider.h"
 
+@class User;
+
 @protocol HPCurrentUserPointCollectionViewCellDelegate <NSObject>
 @required
 
-- (void) startEditingPoint;
-- (void) cancelPointTap;
-- (void) sharePointTap;
-- (void) startDeletePoint;
-- (void) endDeletePoint;
-
+- (UINavigationItem *) navigationItem;
+- (void)resetNavigationBarButtons;
+- (void) createPointWithPointText:(NSString*) text andTime:(NSNumber*) time forUser:(User *) user;
 @end
 
 
 @interface HPCurrentUserPointCollectionViewCell : UICollectionViewCell <UITextViewDelegate, UIGestureRecognizerDelegate>
 
 @property (assign, nonatomic) id<HPCurrentUserPointCollectionViewCellDelegate> delegate;
-@property (assign, nonatomic) BOOL isUp;
-
-
+@property (nonatomic) BOOL editUserPointMode;
+@property (nonatomic, retain) User* currentUser;
 
 @end
