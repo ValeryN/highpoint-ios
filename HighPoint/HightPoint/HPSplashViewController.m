@@ -54,7 +54,6 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -80,9 +79,12 @@
     HPRootViewController *rootController;
     UIStoryboard *mainstoryboard = [UIStoryboard storyboardWithName:@"Storyboard_568" bundle:nil];
     rootController = [mainstoryboard instantiateViewControllerWithIdentifier:@"HPRootViewController"];
-    [self.navigationController pushViewController:rootController animated:NO];
+    [self performSelector:@selector(openViewController:) withObject:rootController afterDelay:1];
 }
 
+- (void) openViewController:(UIViewController *) controller{
+    [self.navigationController pushViewController:controller animated:NO];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

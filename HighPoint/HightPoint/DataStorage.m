@@ -1742,7 +1742,7 @@ static DataStorage *dataStorage;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:context];
     [request setEntity:entity];
     NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"cityId" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"cityName" ascending:YES];
     [sortDescriptors addObject:sortDescriptor];
     [request setSortDescriptors:sortDescriptors];
 
@@ -2184,7 +2184,7 @@ static DataStorage *dataStorage;
 
 - (void)returnObject:(NSManagedObject *)object inComplationBlock:(complationBlock)block {
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        NSOperation *waitOperation = [NSBlockOperation blockOperationWithBlock:^{
             if (block) {
                 if (!object.isFault) {
                     block([object moveToContext:[NSManagedObjectContext threadContext]]);
@@ -2195,6 +2195,7 @@ static DataStorage *dataStorage;
                 }
             }
         }];
+        [[NSOperationQueue mainQueue] addOperations:@[waitOperation] waitUntilFinished:YES];
     }];
     operation.queuePriority = NSOperationQueuePriorityLow;
     [self.backgroundOperationQueue addOperation:operation];

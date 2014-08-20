@@ -77,7 +77,6 @@
         //[self.navigationItem setRightBarButtonItem:rightButton_];
     }
     self.navigationItem.title = @"Кадрируйте фотографию";
-    [self.navigationController hp_configureNavigationBar];
 }
 - (void) configureImage {
     //self.sourceImage.contentMode = UIViewContentModeScaleAspectFill;

@@ -41,7 +41,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.navigationController hp_configureNavigationBar];
     isFirstLoad = YES;
     self.isNeedScrollToIndex = NO;
 
@@ -103,14 +102,16 @@
 
 
 - (void) registerNotification {
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserFilterCities:) name:kNeedUpdateFilterCities object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupFilterSendResults:) name:kNeedUpdateUserFilterData object:nil];
 }
 
 
 - (void) unregisterNotification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateFilterCities object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserFilterData object:nil];
 }
 
 
@@ -136,7 +137,6 @@
 
 - (void) configureNavigationBar
 {
-    [self.navigationController hp_configureNavigationBar];
     self.navigationController.delegate = self;
     int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount : nil];
     if (msgsCount > 0) {
@@ -173,6 +173,7 @@
 - (IBAction) filterButtonTap: (id)sender
 {
     HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
+    filter.delegate = self;
     _crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:filter animated:YES];
     _crossDissolveAnimationController.viewForInteraction = nil;
@@ -193,51 +194,52 @@
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller;
 {
     // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
-    [self.mainListTable beginUpdates];
+   // [self.mainListTable beginUpdates];
 }
 
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
 {
-    switch(type) {
-        case NSFetchedResultsChangeInsert:
-            // your code for insert
-            break;
-        case NSFetchedResultsChangeDelete:
-            // your code for deletion
-            break;
-    }
+//    switch(type) {
+//        case NSFetchedResultsChangeInsert:
+//            // your code for insert
+//            break;
+//        case NSFetchedResultsChangeDelete:
+//            // your code for deletion
+//            break;
+//    }
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
 
-    switch(type) {
-        case NSFetchedResultsChangeInsert:
-            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-
-        case NSFetchedResultsChangeDelete:
-            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-
-        case NSFetchedResultsChangeUpdate: {
-            User *user = [self.allUsers objectAtIndexPath:indexPath];
-            [(HPMainViewListTableViewCell *) [self.mainListTable cellForRowAtIndexPath:indexPath] configureCell:user];
-        }
-            break;
-
-        case NSFetchedResultsChangeMove:
-            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-    }
+//    switch(type) {
+//        case NSFetchedResultsChangeInsert:
+//            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            break;
+//
+//        case NSFetchedResultsChangeDelete:
+//            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            break;
+//
+//        case NSFetchedResultsChangeUpdate: {
+//            User *user = [self.allUsers objectAtIndexPath:indexPath];
+//            [(HPMainViewListTableViewCell *) [self.mainListTable cellForRowAtIndexPath:indexPath] configureCell:user];
+//        }
+//            break;
+//
+//        case NSFetchedResultsChangeMove:
+//            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            break;
+//    }
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
-    [self.mainListTable endUpdates];
+   // [self.mainListTable endUpdates];
+    [self.mainListTable reloadData];
 }
 
 
@@ -250,7 +252,6 @@
     }
 }
 
-
 #pragma mark - pull-to-refresh   
 
 - (void) addPullToRefresh {
@@ -261,12 +262,15 @@
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
-    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
+    [self makeUsersRequest];
     [refreshControl endRefreshing];
     [self.mainListTable reloadData];
 }
 
+- (void) makeUsersRequest {
+    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
+    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
+}
 
 #pragma mark - scroll view
 
@@ -476,6 +480,73 @@
 }
 
 
+#pragma mark - filter resend
+
+- (IBAction)sendFilterValue:(id)sender {
+    [self showActivity];
+    UserFilter *uf = [[DataStorage sharedDataStorage] getUserFilter];
+    NSString *genders = @"";
+    
+    for (Gender *gender in [uf.gender allObjects]) {
+        if ([gender.genderType isEqualToNumber:@2]) {
+            genders = genders.length > 0 ? [genders stringByAppendingString: @",2"] : [genders stringByAppendingString: @"2"];
+        }
+        if ([gender.genderType isEqualToNumber:@1]) {
+            genders = genders.length > 0 ? [genders stringByAppendingString: @",1"] : [genders stringByAppendingString: @"1"];
+        }
+    }
+    NSLog(@"send genders = %@", genders);
+    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: uf.maxAge, @"maxAge", uf.minAge, @"minAge", [NSNumber numberWithFloat:0], @"viewType", genders, @"genders",uf.city.cityId, @"cityIds", nil];
+     [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
+}
+
+#pragma mark - reload on filter change 
+
+- (void) setupFilterSendResults :(NSNotification *)notification {
+    NSLog(@"%@", notification.userInfo);
+    NSLog(@"%@", [notification.userInfo objectForKey:@"status"]);
+    NSNumber *status =  [notification.userInfo objectForKey:@"status"];
+    if ([status isEqualToNumber:@1]) {
+        [self getNewFilteredUsers];
+        self.mainListTable.hidden = NO;
+        self.sendFilterBtn.hidden = YES;
+        self.filterGroupView.hidden = NO;
+    } else {
+        self.mainListTable.hidden = YES;
+        self.sendFilterBtn.hidden = NO;
+        self.filterGroupView.hidden = YES;
+    }
+    [self hideActivity];
+}
+
+
+- (void) getNewFilteredUsers {
+    [self makeUsersRequest];
+}
+
+#pragma mark - activity
+
+- (void)showActivity {
+    if(!self.overlayView)
+        self.overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height +20) ];
+    self.overlayView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    if(!self.activityIndicator)
+        self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    self.activityIndicator.center = self.overlayView.center;
+    [self.overlayView addSubview:self.activityIndicator];
+    [self.activityIndicator startAnimating];
+    [[[[[UIApplication sharedApplication]delegate] window] rootViewController].view addSubview:self.overlayView];
+    //todo: disable buttons
+}
+
+- (void) hideActivity {
+    [self.activityIndicator stopAnimating];
+    [self.activityIndicator removeFromSuperview];
+    self.activityIndicator = nil;
+    [self.overlayView removeFromSuperview];
+    self.overlayView = nil;
+    //todo: enable buttons
+}
 
 #pragma mark - sync position
 - (void) syncronizePosition : (NSInteger) currentPosition {

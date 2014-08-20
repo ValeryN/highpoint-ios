@@ -521,15 +521,21 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                [[DataStorage sharedDataStorage] createAndSaveUserFilterEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"filter"] withComplation:nil];
+                NSLog(@"filter saved");
+                NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@1,@"status", nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateUserFilterData object:nil userInfo:options];
             } else {
                 NSLog(@"Error, no valid data");
+                NSLog(@"cant parse filter json");
+                NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@0,@"status", nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateUserFilterData object:nil userInfo:options];
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //[alert show];
+        NSLog(@"filter save error");
+        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@0,@"status", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateUserFilterData object:nil userInfo:options];
 
     }];
 

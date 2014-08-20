@@ -18,12 +18,17 @@
 
 //==============================================================================
 
-@interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, HPSwitchProtocol, NSFetchedResultsControllerDelegate, HPUserCardViewControllerDelegate>
+@interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, HPSwitchProtocol, NSFetchedResultsControllerDelegate, HPUserCardViewControllerDelegate, HPFilterSettingsViewControllerDelegate>
 {
     ScaleAnimation *_scaleAnimationController;
     CrossDissolveAnimation *_crossDissolveAnimationController;
     HPSwitchViewController *_bottomSwitch;
 }
+
+@property (nonatomic, strong) UIView *overlayView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *sendFilterBtn;
+
 
 @property (nonatomic, weak) IBOutlet UIButton* chatsListButton;
 @property (nonatomic, weak) IBOutlet UIView* filterGroupView;

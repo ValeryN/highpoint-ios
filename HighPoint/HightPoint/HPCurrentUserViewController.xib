@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -9,12 +9,9 @@
             <connections>
                 <outlet property="bottomBtn" destination="zdm-CF-rcl" id="ebG-Ht-Qvl"/>
                 <outlet property="bottomView" destination="X8f-rp-0ds" id="ppn-lR-UtT"/>
-                <outlet property="closeBtn" destination="vgP-fK-1cS" id="UmW-NK-QeH"/>
                 <outlet property="currentUserCollectionView" destination="hB2-I5-tf1" id="cXb-fV-4X3"/>
-                <outlet property="pageController" destination="9uN-hj-CnH" id="jEg-zK-FGG"/>
                 <outlet property="personalDataDownImgView" destination="hnu-0j-wNf" id="SpQ-Yq-6LO"/>
                 <outlet property="personalDataLabel" destination="lDF-B1-aSM" id="LSz-Ub-Sse"/>
-                <outlet property="settingsBtn" destination="zev-Cf-cbc" id="gqt-fG-zdH"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -23,8 +20,8 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="hB2-I5-tf1">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="566"/>
+                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="hB2-I5-tf1">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Xrl-RL-qNf" customClass="HPUICollectionViewFlowLayout">
@@ -35,32 +32,8 @@
                     </collectionViewFlowLayout>
                     <cells/>
                 </collectionView>
-                <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="9uN-hj-CnH">
-                    <rect key="frame" x="141" y="28" width="39" height="37"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </pageControl>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zev-Cf-cbc">
-                    <rect key="frame" x="280" y="31" width="25" height="25"/>
-                    <state key="normal" image="Bubble">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="highlighted" image="Bubble Tap"/>
-                    <connections>
-                        <action selector="settingsBtnTap:" destination="-1" eventType="touchUpInside" id="jIk-IE-wC8"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgP-fK-1cS">
-                    <rect key="frame" x="10" y="31" width="25" height="25"/>
-                    <state key="normal" image="Close">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="highlighted" image="Close Tap"/>
-                    <connections>
-                        <action selector="backButtonTap:" destination="-1" eventType="touchUpInside" id="iju-xt-g5L"/>
-                    </connections>
-                </button>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X8f-rp-0ds">
-                    <rect key="frame" x="0.0" y="518" width="320" height="48"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X8f-rp-0ds">
+                    <rect key="frame" x="0.0" y="520" width="320" height="48"/>
                     <subviews>
                         <view alpha="0.14999999999999969" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBB-5X-610">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
@@ -86,18 +59,26 @@
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="k4H-oA-Rpr"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="X8f-rp-0ds" secondAttribute="bottom" id="4dv-rb-hDl"/>
+                <constraint firstAttribute="trailing" secondItem="hB2-I5-tf1" secondAttribute="trailing" id="9Ph-Na-rng"/>
+                <constraint firstItem="hB2-I5-tf1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="IjA-Jw-i5p"/>
+                <constraint firstAttribute="trailing" secondItem="X8f-rp-0ds" secondAttribute="trailing" id="bqj-Zh-0oO"/>
+                <constraint firstItem="X8f-rp-0ds" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="mQ5-7v-k9B"/>
+                <constraint firstItem="hB2-I5-tf1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xDq-is-40m"/>
+                <constraint firstAttribute="bottom" secondItem="hB2-I5-tf1" secondAttribute="bottom" id="yuY-jJ-8NB"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
     <resources>
-        <image name="Bubble" width="26" height="25"/>
-        <image name="Bubble Tap" width="26" height="25"/>
-        <image name="Close" width="24" height="24"/>
-        <image name="Close Tap" width="24" height="24"/>
         <image name="Down.png" width="46" height="24"/>
     </resources>
 </document>

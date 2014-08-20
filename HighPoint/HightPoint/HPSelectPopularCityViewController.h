@@ -10,7 +10,7 @@
 
 @interface HPSelectPopularCityViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *citiesTableView;
-@property (strong, nonatomic) NSArray *popularCities;
+@property (strong, nonatomic) NSMutableArray *popularCities;
 
 
 @end
