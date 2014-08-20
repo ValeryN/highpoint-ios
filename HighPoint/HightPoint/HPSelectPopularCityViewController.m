@@ -41,11 +41,16 @@
     self.popularCities = [[[[DataStorage sharedDataStorage] getPopularCities] fetchedObjects] mutableCopy];
     UserFilter *uf = [[DataStorage sharedDataStorage] getUserFilter];
     if (uf.city) {
+        City *selectedCity;
         for (City * city in self.popularCities) {
             if ([city.cityId isEqualToNumber:uf.city.cityId]) {
-                [self.popularCities removeObject:city];
-                [self.popularCities insertObject:city atIndex:0];
+                selectedCity = city;
+                [self.popularCities removeObject:selectedCity];
+                break;
             }
+        }
+        if (selectedCity) {
+             [self.popularCities insertObject:selectedCity atIndex:0];
         }
     }
 }
