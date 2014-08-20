@@ -2200,7 +2200,9 @@ static DataStorage *dataStorage;
 - (void)addSaveOperationToBottomInContext:(NSManagedObjectContext *)context {
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         if (context.hasChanges) {
-            [context saveWithErrorHandler];
+            [context performBlockAndWait:^{
+                [context saveWithErrorHandler];
+            }];
         }
     }];
     operation.queuePriority = NSOperationQueuePriorityLow;
