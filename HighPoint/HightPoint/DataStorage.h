@@ -79,6 +79,9 @@ typedef void (^complationBlock) (id object);
 - (void)deleteAndSaveCareerEntityFromUser:(NSArray *) ids;
 - (void)createAndSaveCompany:(NSDictionary *)param withComplation:(complationBlock) block;
 - (Company *) createTempCompany :(NSDictionary *) param;
+
+- (void)deleteAndSaveUserPointForUser:(User *)globalUser;
+
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (void)setAndSavePointLiked: (NSNumber *) pointId : (BOOL) isLiked;
 - (AppSetting*) getAppSettings;

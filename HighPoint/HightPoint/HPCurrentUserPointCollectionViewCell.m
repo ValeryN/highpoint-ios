@@ -84,8 +84,11 @@
     [self configurePointSettingsView];
     [self configurePublishButton];
     [self configureFinisPublishButton];
+    [self configureDeletePointButton];
+    [self configureDeletePointView];
+    [self configureFinisDeleteButton];
+    [self configureCancelDeleteButton];
 }
-
 
 
 #pragma mark - constraint
@@ -145,6 +148,7 @@
         @strongify(self);
         if (showCount.boolValue) {
             return [self.pointTextView.rac_textSignal map:^id(NSString *value) {
+                @strongify(self);
                 if (![self symbolsInPostIsWarningToPost]) {
                     return [UIColor colorWithRed:255.f / 255.f green:102.f / 255.f blue:112.f / 255.f alpha:1];
                 }
@@ -159,6 +163,7 @@
     }];
 
     [[[self applyTextPressedInPointTextView] filter:^BOOL(id value) {
+        @strongify(self);
         return ![self symbolsInPostIsAvailableToPost];
     }] subscribeNext:^(id x) {
         @strongify(self);
@@ -179,28 +184,36 @@
 //Configure buttons of navigation bar
 - (void)configureNavigationBar {
     @weakify(self);
-    [[RACSignal combineLatest:@[[self textViewIsEditing], RACObserve(self, editUserPointMode)]] subscribeNext:^(RACTuple *tuple) {
+    [[RACSignal combineLatest:@[[self textViewIsEditing], RACObserve(self, editUserPointMode), RACObserve(self, currentUser.point)]] subscribeNext:^(RACTuple *tuple) {
         @strongify(self);
-        RACTupleUnpack(NSNumber *textViewEditing, NSNumber *editMode) = tuple;
+        RACTupleUnpack(NSNumber *textViewEditing, NSNumber *editMode, UserPoint * point) = tuple;
         if (textViewEditing.boolValue) {
             self.delegate.navigationItem.leftBarButtonItem = [self barItemCancelEditText];
             self.delegate.navigationItem.rightBarButtonItem = [self barItemApplyEditText];
             return;
         }
         if (editMode.boolValue) {
-            self.delegate.navigationItem.leftBarButtonItem = [self barItemCancelEditText];
-            self.delegate.navigationItem.rightBarButtonItem = [self barItemFinishPublish];
+            if(point!=nil) {
+                self.delegate.navigationItem.leftBarButtonItem = [self barItemCancelEditText];
+                self.delegate.navigationItem.rightBarButtonItem = [self barItemDeletePoint];
+            }
+            else{
+                self.delegate.navigationItem.leftBarButtonItem = [self barItemCancelEditText];
+                self.delegate.navigationItem.rightBarButtonItem = [self barItemFinishPublish];
+            }
         }
         else {
             [self.delegate resetNavigationBarButtons];
         }
     }];
-    RAC(self,delegate.navigationController.navigationBar.translucent) = RACObserve(self, editUserPointMode);
 }
 
 //Visibility of point settings
 - (void)configurePointSettingsView {
-    RAC(self.pointSettingsView, hidden) = [RACObserve(self, editUserPointMode) not];
+    RAC(self.pointSettingsView, hidden) = [[RACSignal combineLatest:@[RACObserve(self, editUserPointMode),RACObserve(self, currentUser.point)]] map:^id(RACTuple * value) {
+        RACTupleUnpack(NSNumber * editMode, UserPoint * point) = value;
+        return @(!(editMode.boolValue&&(point==nil)));
+    }];
 }
 
 //Configure placeholde
@@ -210,12 +223,7 @@
     self.pointTextView.textColor = placeHolderColor;
     @weakify(self);
 
-    [[RACObserve(self, currentUser.point) filter:^BOOL(id value) {
-        return value==nil;
-    }] subscribeNext:^(id x) {
-        @strongify(self);
-        self.pointTextView.text = @"";
-    }];
+
 
     [[RACSignal combineLatest:@[[self textViewIsEditing], [RACObserve(self.pointTextView, text) distinctUntilChanged], RACObserve(self, currentUser.point)]] subscribeNext:^(RACTuple *x) {
         @strongify(self);
@@ -239,6 +247,13 @@
                 }
             }
         }
+    }];
+
+    [[RACObserve(self, currentUser.point) filter:^BOOL(id value) {
+        return value==nil;
+    }] subscribeNext:^(id x) {
+        @strongify(self);
+        self.pointTextView.text = @"";
     }];
 
     RAC(self.pointTextView,userInteractionEnabled) = [RACObserve(self, currentUser.point) map:^id(UserPoint *value) {
@@ -282,7 +297,11 @@
 }
 
 - (void)configurePublishButton {
-    RAC(self.publishBtn, hidden) = RACObserve(self, editUserPointMode);
+    RAC(self.publishBtn, hidden) = [[RACSignal combineLatest:@[RACObserve(self, editUserPointMode), RACObserve(self, currentUser.point)]] map:^id(RACTuple * value) {
+        RACTupleUnpack(NSNumber* editMode, UserPoint * currentPoint) = value;
+        return @(editMode.boolValue||(currentPoint != nil));
+    }];
+
     @weakify(self);
     [[self.publishBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
@@ -298,6 +317,41 @@
     }];
 }
 
+- (void)configureDeletePointButton {
+    RAC(self.deleteBtn, hidden) = [[RACSignal combineLatest:@[RACObserve(self, editUserPointMode),RACObserve(self, currentUser.point)]] map:^id(RACTuple * value) {
+        RACTupleUnpack(NSNumber * editMode, UserPoint * point) = value;
+        return @(!(!editMode.boolValue&&(point!=nil)));
+    }];
+    @weakify(self);
+    [[self.deleteBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        self.editUserPointMode = YES;
+    }];
+}
+
+- (void)configureDeletePointView {
+    RAC(self.deletePointView, hidden) = [[RACSignal combineLatest:@[RACObserve(self, editUserPointMode),RACObserve(self, currentUser.point)]] map:^id(RACTuple * value) {
+        RACTupleUnpack(NSNumber * editMode, UserPoint * point) = value;
+        return @(!(editMode.boolValue&&(point!=nil)));
+    }];
+}
+
+- (void)configureCancelDeleteButton {
+    @weakify(self);
+    [[self.cancelDelBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        self.editUserPointMode = NO;
+    }];
+}
+
+- (void)configureFinisDeleteButton {
+    @weakify(self);
+    [[self.deletePointSettBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self deleteCurrentUserPoint];
+    }];
+}
+
 #pragma mark Actions
 
 - (void)createUserPointWithCurrentData {
@@ -308,6 +362,14 @@
     self.pointTextView.text = @"";
 }
 
+
+- (void)deleteCurrentUserPoint
+{
+    if ([self.delegate respondsToSelector:@selector(deleteCurrentUserPointForUser:)]) {
+        [self.delegate deleteCurrentUserPointForUser:self.currentUser];
+    }
+    self.editUserPointMode = NO;
+}
 #pragma mark Signals
 
 - (RACSignal *)textViewIsEditing {
@@ -344,6 +406,7 @@
     return [RACSignal merge:@[[RACObserve(self, topApplyButtonPressed) flatten], [RACObserve(self, keyboardApplyButtonPressed) flatten]]];
 }
 
+
 #pragma mark UIElements
 
 - (UIBarButtonItem *)barItemCancelEditText {
@@ -368,6 +431,7 @@
     [rightBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:80.f / 255.f green:227.f / 255.f blue:194.f / 255.f alpha:0.4]} forState:UIControlStateDisabled];
 
     RACSignal *enableSignal = [self.pointTextView.rac_textSignal map:^id(id value) {
+        @strongify(self)
         return @([self symbolsInPostIsAvailableToPost]);
     }];
     rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:enableSignal signalBlock:^RACSignal *(id input) {
@@ -388,6 +452,20 @@
     rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:[RACSignal return:@([self symbolsInPostIsAvailableToPost])] signalBlock:^RACSignal *(id input) {
         @strongify(self)
         [self createUserPointWithCurrentData];
+        return [RACSignal empty];
+    }];
+    return rightBarItem;
+}
+
+- (UIBarButtonItem *)barItemDeletePoint {
+    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] init];
+    rightBarItem.title = @"Удалить";
+    @weakify(self);
+    [rightBarItem setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:18]} forState:UIControlStateNormal];
+    [rightBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:80.f / 255.f green:227.f / 255.f blue:194.f / 255.f alpha:0.4]} forState:UIControlStateDisabled];
+    rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:[RACSignal return:@YES] signalBlock:^RACSignal *(id input) {
+        @strongify(self)
+        [self deleteCurrentUserPoint];
         return [RACSignal empty];
     }];
     return rightBarItem;

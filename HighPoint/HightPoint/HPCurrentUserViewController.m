@@ -135,6 +135,10 @@
     [[DataStorage sharedDataStorage] createAndSavePoint:dictionary];
 }
 
+- (void)deleteCurrentUserPointForUser:(User *)user {
+    [[DataStorage sharedDataStorage] deleteAndSaveUserPointForUser:user];
+}
+
 
 #pragma mark - delegate methods
 
@@ -204,9 +208,15 @@
 }
 
 - (void)configureBottomMenu {
-    [RACObserve(self.pageController, currentPage) subscribeNext:^(NSNumber *index) {
+    @weakify(self);
+    [[RACSignal combineLatest:@[RACObserve(self.pageController, currentPage), RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, currentUser.point)]] subscribeNext:^(RACTuple *x) {
+        @strongify(self);
+        RACTupleUnpack(NSNumber *index,NSNumber * editMode, UserPoint* userPoint) = x;
         if (index.intValue == 0) {
-            if(self.currentUser.point == nil){
+            if(userPoint == nil){
+                self.bottomView.hidden = YES;
+            }
+            else if(editMode.boolValue){
                 self.bottomView.hidden = YES;
             }
             else{
