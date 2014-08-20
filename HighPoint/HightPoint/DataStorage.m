@@ -1654,7 +1654,7 @@ static DataStorage *dataStorage;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:context];
     [request setEntity:entity];
     NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"cityId" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"cityName" ascending:YES];
     [sortDescriptors addObject:sortDescriptor];
     [request setSortDescriptors:sortDescriptors];
 

@@ -38,7 +38,16 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
-    self.popularCities = [[[DataStorage sharedDataStorage] getPopularCities] fetchedObjects];
+    self.popularCities = [[[[DataStorage sharedDataStorage] getPopularCities] fetchedObjects] mutableCopy];
+    UserFilter *uf = [[DataStorage sharedDataStorage] getUserFilter];
+    if (uf.city) {
+        for (City * city in self.popularCities) {
+            if ([city.cityId isEqualToNumber:uf.city.cityId]) {
+                [self.popularCities removeObject:city];
+                [self.popularCities insertObject:city atIndex:0];
+            }
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
