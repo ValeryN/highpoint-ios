@@ -398,6 +398,13 @@
 			remoteGlobalIDString = D05AD39417F2D56F0080895B;
 			remoteInfo = "ReactiveCocoa-Mac";
 		};
+		4C9BB6F219A47CA9006BC75A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 88F440AA153DAC820097B4C3;
+			remoteInfo = "ReactiveCocoa-iOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -1826,6 +1833,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4C9BB6F319A47CA9006BC75A /* PBXTargetDependency */,
 			);
 			name = HighPoint;
 			productName = HightPoint;
@@ -2298,6 +2306,11 @@
 			isa = PBXTargetDependency;
 			target = 3B6DB48B18FFC24C00C26A50 /* HighPoint */;
 			targetProxy = 3B6DB4B218FFC24D00C26A50 /* PBXContainerItemProxy */;
+		};
+		4C9BB6F319A47CA9006BC75A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ReactiveCocoa-iOS";
+			targetProxy = 4C9BB6F219A47CA9006BC75A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
