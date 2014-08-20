@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ReactiveCocoa-iOS-UIKitTestHost" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="ReactiveCocoa" TARGET_NAME="ReactiveCocoa-iOS-UIKitTestHost" CONFIG_NAME="Debug" SCHEME_NAME="ReactiveCocoa-iOS-UIKitTestHost" RUN_TARGET_PROJECT_NAME="ReactiveCocoa" RUN_TARGET_NAME="ReactiveCocoa-iOS-UIKitTestHost" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+    <envs />
+    <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
+      <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
+    </EXTENSION>
+    <method />
+  </configuration>
+</component>

@@ -22,6 +22,17 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
+	<key>IBCustomFonts</key>
+	<dict>
+		<key>HelveticaNeue</key>
+		<string>FuturaPT-Book</string>
+		<key>HelveticaNeue-Light</key>
+		<string>FuturaPT-Light</string>
+		<key>HelveticaNeue-Medium</key>
+		<string>FuturaPT-Medium</string>
+		<key>HelveticaNeue-Regular</key>
+		<string>FuturaPT-Book</string>
+	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>

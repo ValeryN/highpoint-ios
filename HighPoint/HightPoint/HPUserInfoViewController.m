@@ -19,7 +19,9 @@
 #import "UILabel+HighPoint.h"
 #import "UIButton+HighPoint.h"
 #import "UIImage+HighPoint.h"
-
+//#import "Place.h"
+#import "DataStorage.h"
+#import "School.h"
 
 #define AVATAR_BLUR_RADIUS 10.0
 #define GREEN_BUTTON_BOTTOM 20
@@ -71,28 +73,77 @@
                                                     alpha: 1.0];
     self.topBarView.translatesAutoresizingMaskIntoConstraints = NO;
     self.infoTableView.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    self.userDataSource = @[@"РАСХОДЫ", @"ЛЮБИМЫЕ МЕСТА", @"ЯЗЫКИ", @"ОБРАЗОВАНИЕ", @"КАРЬЕРА"];
-    NSArray *place1 = @[@"Dulwich Park", @"Greenwich", @"Covent Garden", @"Borough Market", @"The Hob"];
-    NSArray *place2 = @[@"Notre Dame", @"De la Concorde", @"De la Bastille", @"Brasserie Bofinger", @"Promenade Plantee"];
-    NSArray *place3 = @[@"Anthology Film Archives", @"Bamonte's", @"Housing Works Bookstore Cafe", @"Shopsin's", @"The Hog Pit"];
-    self.placeCityDataSource = @{@"London": place1, @"Paris": place2, @"New York": place3};
     
-    NSDictionary *ed1 = @{@"Академия гос. службы":@"Руководитель"};
-    NSDictionary *ed2 = @{@"МФТИ":@"Физик-лирик"};
-    NSDictionary *ed3 = @{@"Кыштымский заборостроительный техникум":@"Сортировщик 6 разряда"};
-    self.educationDataSource = @[ed1,ed2, ed3];
-    
-    
-    ed1 = @{@"Правительство":@"Председатель"};
-    ed2 = @{@"Администрация Кыштымского района":@"Начальник департамента"};
-    ed3 = @{@"ЖЭУ №5":@"Сантехник"};
-    self.carrierDataSource = @[ed1,ed2, ed3];
-    
-     self.languages = [NSMutableArray arrayWithArray:@[@"Русский",@"Английский", @"Албанский", @"Китайский", @"Хинди"]];
+    self.placeCityDataSource = [NSMutableDictionary new];
+    self.educationDataSource = [NSMutableArray new];
+    self.carrierDataSource = [NSMutableArray new];
+    self.languages = [NSMutableArray new];
     [self fixUserConstraint];
-    
     [self setPrivacy];
+    
     // Do any additional setup after loading the view from its nib.
+}
+- (void) updateDataSource {
+    if(self.user != nil) {
+        self.userDataSource = @[@"РАСХОДЫ", @"ЛЮБИМЫЕ МЕСТА", @"ЯЗЫКИ", @"ОБРАЗОВАНИЕ", @"КАРЬЕРА"];
+        NSLog(@"%@", self.user.place);
+        NSLog(@"%@", self.user.favoriteCityIds);
+        
+        [self.placeCityDataSource removeAllObjects];
+        [self.languages removeAllObjects];
+        [self.carrierDataSource removeAllObjects];
+        
+        NSArray *cityes = [self.user.favoriteCityIds componentsSeparatedByString:@";"];
+        for(NSString *str in cityes) {
+            NSPredicate *pred = [NSPredicate predicateWithFormat:
+                                      @"cityId == %d", [str intValue]];
+            NSArray *subArray = [[self.user.place allObjects] filteredArrayUsingPredicate:pred];
+            NSMutableArray *placeNames = [NSMutableArray new];
+            for(Place *place in subArray) {
+                [placeNames addObject:place.name];
+            }
+            City *c = [[DataStorage sharedDataStorage] getCityById: [NSNumber numberWithInt:[str intValue]]];
+            if(c != nil && placeNames.count > 0) {
+                [self.placeCityDataSource setObject:placeNames forKey:c.cityName];
+            }
+            NSLog(@"%@", self.placeCityDataSource);
+        }
+        for(Language *lng in [self.user.language allObjects]) {
+            if(lng.name != nil) {
+                [self.languages addObject:lng.name];
+            }
+        }
+        for(Career *carr in [self.user.career allObjects]) {
+            NSLog(@"%@", carr);
+            NSString *carr_name;
+            NSString *comp_name;
+            if(carr.careerpost.name != nil && carr.careerpost.name.length >0)
+                carr_name = carr.careerpost.name;
+            else carr_name = @"";
+            if(carr.company.name != nil && carr.company.name.length >0)
+                comp_name = carr.company.name;
+            else comp_name = @"";
+            
+            [self.carrierDataSource addObject:[NSDictionary dictionaryWithObjectsAndKeys:carr_name, comp_name, nil]];
+        }
+        for(Education *edu in [self.user.education allObjects]) {
+            NSString *school_name;
+            NSString *spec_name;
+            if(edu.school.name != nil && edu.school.name.length >0)
+                school_name = edu.school.name;
+            else school_name = @"";
+            if(edu.speciality.name != nil && edu.speciality.name.length >0)
+                spec_name = edu.speciality.name;
+            else spec_name = @"";
+            [self.carrierDataSource addObject:[NSDictionary dictionaryWithObjectsAndKeys:school_name, spec_name, nil]];
+        }
+        //for(Place *place in [self.user.place allObjects]) {
+        //    NSLog(@"%@",place.name);
+        //    City *c = [[DataStorage sharedDataStorage] getCityById: place.cityId];
+        //    NSLog(@"%@",c.cityName);
+        //}
+        [self.infoTableView reloadData];
+    }
 }
 - (void) fixUserConstraint
 {
@@ -161,9 +212,14 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO; //fix table header places
     [self createPhotoCountView];
+    [self updateDataSource];
+    
     //self.view.backgroundColor = [UIColor greenColor];
     //self.carousel.hidden = YES;
     //self.infoTableView.hidden = YES;
+}
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self updateDataSource];
 }
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -329,8 +385,6 @@
     if([self.delegate respondsToSelector:@selector(profileWillBeHidden)]) {
         [self.delegate profileWillBeHidden];
     }
-    //[self dismissViewControllerAnimated:YES completion:nil];
-    
 }
 
 
@@ -564,18 +618,18 @@
         return [self configureSecondCell:townCell];
     }
     else if (indexPath.row == 0 && indexPath.section == 2) {
-        HPUserInfoFirstRowTableViewCell *townCell;
-        townCell = (HPUserInfoFirstRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier3];
+        HPUserInfoSecondRowTableViewCell *townCell;
+        townCell = (HPUserInfoSecondRowTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier3];
         if (townCell == nil) {
-            townCell = [[HPUserInfoFirstRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier3];
+            townCell = [[HPUserInfoSecondRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier3];
             
             NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoSecondRowTableViewCell" owner:nil options:nil];
             
             for(id currentObject in topLevelObjects)
             {
-                if([currentObject isKindOfClass:[HPUserInfoFirstRowTableViewCell class]])
+                if([currentObject isKindOfClass:[HPUserInfoSecondRowTableViewCell class]])
                 {
-                    townCell = (HPUserInfoFirstRowTableViewCell *)currentObject;
+                    townCell = (HPUserInfoSecondRowTableViewCell *)currentObject;
                     break;
                 }
             }
@@ -701,11 +755,32 @@
         textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
         textLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
         textLabel.textAlignment = NSTextAlignmentLeft;
-        CGFloat calcHeight = [self calculateSectionHeight:[self.placeCityDataSource objectForKey:key]] + 20;
-        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(10, shift + 20.0, 320, calcHeight)];
-        shift = shift + calcHeight;
+        //CGFloat calcHeight = [self calculateSectionHeight:[self.placeCityDataSource objectForKey:key]] + 20;
         textLabel.text = key;
         [cell.contentView addSubview:textLabel];
+        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(10.0, shift + 20.0, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+        bubbleView.layer.cornerRadius = 1;
+        bubbleView.bubbleDataSource = self;
+        bubbleView.bubbleDelegate = self;
+        //self.bubbleView.selectionStyle = HEBubbleViewSelectionStyleNone;
+        bubbleView.backgroundColor = [UIColor clearColor];
+        bubbleView.itemHeight = 20.0;
+        bubbleView.itemPadding = 5.0;
+        bubbleView.tag = bubbleTag;
+        
+        bubbleTag++;
+        [bubbleView reloadData];
+        //CGSize s = bubbleView.contentSize;
+        CGRect rect = bubbleView.frame;
+        rect.size.height = bubbleView.contentSize.height;
+        bubbleView.frame = rect;
+        [cell.contentView addSubview:bubbleView];
+        shift = shift + bubbleView.frame.size.height + 20.0;
+        /*
+        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(10, shift + 20.0, 320, calcHeight)];
+        shift = shift + calcHeight;
+        
+        
         bubbleView.layer.cornerRadius = 1;
         bubbleView.bubbleDataSource = self;
         bubbleView.bubbleDelegate = self;
@@ -717,6 +792,7 @@
         [cell.contentView addSubview:bubbleView];
         bubbleTag++;
         [bubbleView reloadData];
+         */
     }
     //cell.cellTextLabel.hidden = YES;
     //textLabel.text = text;
@@ -730,7 +806,7 @@
     }
     
     CGFloat shift = 10.0;
-    HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(15.0, shift, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+    HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(10.0, shift, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
     bubbleView.layer.cornerRadius = 1;
     bubbleView.bubbleDataSource = self;
     bubbleView.bubbleDelegate = self;
@@ -770,7 +846,8 @@
         textLabel1.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
         textLabel1.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
         textLabel1.textAlignment = NSTextAlignmentLeft;
-        textLabel1.text = [[dict allKeys] objectAtIndex:0];
+        if([dict allKeys].count > 0)
+            textLabel1.text = [[dict allKeys] objectAtIndex:0];
         [cell.contentView addSubview:textLabel1];
         CGFloat h1 = [self GetSizeOfLabelForGivenText:textLabel1 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0 ] Size:constrainedSize].height;
         UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(15.0, shift + h1, 300.0, 20.0)];
@@ -779,7 +856,8 @@
         textLabel2.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
         textLabel2.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
         textLabel2.textAlignment = NSTextAlignmentLeft;
-        textLabel2.text = [dict objectForKey:[[dict allKeys] objectAtIndex:0]];
+        if([dict allKeys].count > 0)
+            textLabel2.text = [dict objectForKey:[[dict allKeys] objectAtIndex:0]];
         [cell.contentView addSubview:textLabel2];
         CGFloat h2 = [self GetSizeOfLabelForGivenText:textLabel2 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0 ] Size:constrainedSize].height;
         shift = shift + h1 + h2;
@@ -792,6 +870,30 @@
     return 49.0;
 }
 - (CGFloat) getSecondRowHeight {
+    NSArray *keys = [self.placeCityDataSource allKeys];
+    if(keys.count > 0) {
+        NSInteger bubbleTag = 0;
+        CGFloat totalHeight = 20.0;
+        for(int i = 0; i< keys.count; i++) {
+            //add block label
+            HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(15.0, totalHeight + 20.0, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+            bubbleView.layer.cornerRadius = 1;
+            bubbleView.bubbleDataSource = self;
+            bubbleView.bubbleDelegate = self;
+            bubbleView.itemHeight = 20.0;
+            bubbleView.itemPadding = 5.0;
+            bubbleView.tag = bubbleTag;
+            bubbleTag++;
+            [bubbleView reloadData];
+            CGRect rect = bubbleView.frame;
+            rect.size.height = bubbleView.contentSize.height;
+            bubbleView.frame = rect;
+            totalHeight = totalHeight + bubbleView.frame.size.height + 20.0;
+        }
+        return totalHeight;
+    } else return 10;
+    
+    /*
     NSArray *keys = [self.placeCityDataSource allKeys];
     CGFloat totalHeight = 0.0;
     for(NSString *key in keys) {
@@ -806,16 +908,37 @@
     }
     
     return totalHeight;
+     */
 }
 - (CGFloat) getThirdRowHeight {
-    return 99.0;
+    if(self.languages.count > 0) {
+        CGFloat totalHeight = 20.0;
+        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(15.0, totalHeight, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+        bubbleView.layer.cornerRadius = 1;
+        bubbleView.bubbleDataSource = self;
+        bubbleView.bubbleDelegate = self;
+        bubbleView.itemHeight = 20.0;
+        bubbleView.itemPadding = 5.0;
+        bubbleView.tag = 1001;
+        
+        [bubbleView reloadData];
+        CGRect rect = bubbleView.frame;
+        rect.size.height = bubbleView.contentSize.height;
+        bubbleView.frame = rect;
+        totalHeight = bubbleView.frame.size.height + totalHeight;
+        //return 99.0;
+        return totalHeight;
+    } else return 10;
 }
 - (CGFloat) getFourRowHeight {
-    
-    return [self getHeightForDataSource:self.educationDataSource];
+    if(self.educationDataSource.count > 0)
+        return [self getHeightForDataSource:self.educationDataSource];
+    else return 10;
 }
 - (CGFloat) getFifthRowHeight {
-    return [self getHeightForDataSource:self.carrierDataSource];
+    if(self.carrierDataSource.count > 0)
+        return [self getHeightForDataSource:self.carrierDataSource];
+    else return 10;
 }
 - (CGFloat) getHeightForDataSource:(NSArray*) dataSource {
     CGFloat totalHeight = 0.0;
@@ -827,7 +950,8 @@
         textLabel1.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
         textLabel1.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
         textLabel1.textAlignment = NSTextAlignmentLeft;
-        textLabel1.text = [[dict allKeys] objectAtIndex:0];
+        if([dict allKeys].count > 0)
+            textLabel1.text = [[dict allKeys] objectAtIndex:0];
         CGFloat h1 = [self GetSizeOfLabelForGivenText:textLabel1 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0 ] Size:constrainedSize].height;
         UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0, 300.0, 20.0)];
         textLabel2.backgroundColor = [UIColor clearColor];
@@ -835,7 +959,8 @@
         textLabel2.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
         textLabel2.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
         textLabel2.textAlignment = NSTextAlignmentLeft;
-        textLabel2.text = [dict objectForKey:[[dict allKeys] objectAtIndex:0]];
+        if([dict allKeys].count > 0)
+            textLabel2.text = [dict objectForKey:[[dict allKeys] objectAtIndex:0]];
         CGFloat h2 = [self GetSizeOfLabelForGivenText:textLabel2 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0 ] Size:constrainedSize].height;
         totalHeight = totalHeight + h1 + h2 + 5;
     }

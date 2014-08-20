@@ -242,7 +242,6 @@
         [self.chatListTableView reloadData];
     }
     contactsController.delegate = self;
-    NSLog(@"changed");
     return NO;
 }
 

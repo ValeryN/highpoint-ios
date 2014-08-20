@@ -54,6 +54,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
     [self registerNotification];
     if (self.onlyWithPoints) {
         usersArr = [[[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController] fetchedObjects];
@@ -259,12 +260,11 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+
     User * usr = [usersArr objectAtIndex:indexPath.row];
     if(usr) {
         [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
     }
-
-    
     HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
     uiController.delegate = self;
     uiController.user = [usersArr objectAtIndex:indexPath.row];

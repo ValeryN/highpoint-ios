@@ -126,6 +126,7 @@
         self.msgFromMyself.hidden = YES;
         self.currentUserMsgLabel.text = contact.lastmessage.text;
     }
+    NSLog(@"contact name = %@ with id = %@", contact.user.name, contact.user.userId);
 }
 
 

@@ -7,21 +7,13 @@
 //
 
 #import "HPCurrentUserViewController.h"
-#import "HPChatListViewController.h"
-#import "HPConciergeViewController.h"
-#import "HPUserInfoViewController.h"
 #import "DataStorage.h"
 #import "UILabel+HighPoint.h"
 #import "UIDevice+HighPoint.h"
 #import "UIButton+HighPoint.h"
-#import "HPBaseNetworkManager.h"
 #import "HPPointLikesViewController.h"
 #import "ModalAnimation.h"
-#import "Utils.h"
-#import "HPUserCardUICollectionViewCell.h"
 #import "HPCurrentUserUICollectionViewCell.h"
-#import "HPCurrentUserPointCollectionViewCell.h"
-#import "UINavigationController+HighPoint.h"
 
 
 #define CONSTRAINT_TOP_FOR_BOTTOM_VIEW 432
@@ -129,7 +121,6 @@
         if (!cellPoint) {
             cellPoint = [cv dequeueReusableCellWithReuseIdentifier:@"CurrentUserPointIdentif" forIndexPath:indexPath];
             cellPoint.delegate = self;
-            [cellPoint configureCell];
         }
         return cellPoint;
     } else {
@@ -345,16 +336,18 @@
     UIBarButtonItem *itemCancel = [[UIBarButtonItem alloc] initWithCustomView:cancelBtn];
     navItem.leftBarButtonItem = itemCancel;
     navBar.items = @[navItem];
-
+    /*
     cellPoint.publishBtn.hidden = YES;
     cellPoint.pointTextView.userInteractionEnabled = NO;
     cellPoint.avatarImageView.userInteractionEnabled = NO;
     cellPoint.frame = CGRectMake(cellPoint.frame.origin.x, cellPoint.frame.origin.y, 320, 623);
     [cellPoint.pointSettingsView setHidden:NO];
+    */
 }
 
 - (void)sharePointTap {
     NSLog(@"publish tap");
+    /*
     [navBar removeFromSuperview];
     self.bottomView.hidden = NO;
     [cellPoint endEditing:YES];
@@ -365,10 +358,12 @@
     cellPoint.pointTextView.userInteractionEnabled = NO;
     cellPoint.avatarImageView.userInteractionEnabled = NO;
     self.currentUserCollectionView.scrollEnabled = YES;
+    */
 }
 
 - (void)cancelPointTap {
     [navBar removeFromSuperview];
+    /*
     [cellPoint endEditing:YES];
     [cellPoint editPointDown];
     [cellPoint.pointSettingsView setHidden:YES];
@@ -378,6 +373,7 @@
     cellPoint.pointTextView.userInteractionEnabled = YES;
     cellPoint.avatarImageView.userInteractionEnabled = YES;
     self.currentUserCollectionView.scrollEnabled = YES;
+    */
 }
 
 

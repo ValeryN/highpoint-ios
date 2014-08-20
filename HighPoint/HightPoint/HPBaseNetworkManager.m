@@ -53,11 +53,13 @@ static HPBaseNetworkManager *networkManager;
 }
 - (BOOL) isTaskArrayEmpty:(AFHTTPRequestOperationManager*) manager {
     if(self.taskArray && self.taskArray.count > 0) {
+
         NSUInteger index = [self.taskArray indexOfObject:manager ];
         if(index != NSNotFound) {
             [self.taskArray removeObjectAtIndex:[self.taskArray indexOfObject:manager ]];
             if(self.taskArray.count == 0) {
                 self.taskArray = nil;
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedHideSplashView object:nil userInfo:nil];
                 return YES;
             } else return NO;
         } else return NO;
@@ -313,7 +315,7 @@ static HPBaseNetworkManager *networkManager;
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [self addTaskToArray:manager];
     [manager GET:url parameters:[Utils getParameterForUsersRequest:lastUser] success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"USERS -->: %@", operation.responseString);
+        NSLog(@"USERS -->: %@", operation.responseString);
         NSLog(@"USERS");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -740,7 +742,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"place"]) {
-                    [[DataStorage sharedDataStorage] addAndSavePlaceEntityForUser:[[jsonDict objectForKey:@"data"] objectForKey:@"place"]];
+                    [[DataStorage sharedDataStorage] addAndSavePlaceEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"place"] forUser:[[DataStorage sharedDataStorage] getCurrentUser]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1267,6 +1269,7 @@ static HPBaseNetworkManager *networkManager;
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GET UNREAD MESSAGES -->: %@", operation.responseString);
+        NSLog(@"UNREAD");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
