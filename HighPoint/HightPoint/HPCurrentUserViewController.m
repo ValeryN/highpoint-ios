@@ -36,7 +36,7 @@
 
     [self createPageControlInNavigationBar];
 
-
+    [self configureNavigationBar];
     [self configureCurrentUsersForCells];
     [self configureBottomMenu];
     [self configurePageControl];
@@ -45,7 +45,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self resetNavigationBarButtons];
-    [Utils configureNavigationBar:self.navigationController];
 
     self.currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
 }
@@ -180,6 +179,21 @@
 
 
 #pragma mark Configures
+
+- (void) configureNavigationBar
+{
+    [[RACSignal combineLatest:@[RACObserve(self, cellPoint.editUserPointMode),RACObserve(self, navigationController.navigationBar)]] subscribeNext:^(RACTuple * x) {
+        RACTupleUnpack(NSNumber* editUserPointMode,UINavigationBar* navigationBar) = x;
+        if(editUserPointMode.boolValue) {
+            navigationBar.barTintColor = [UIColor colorWithRed:34.0/255.0 green:45.0/255.0 blue:77.0/255.0 alpha:0.9];
+            navigationBar.translucent = YES;
+        }
+        else{
+            navigationBar.barTintColor = [UIColor colorWithRed:30.f / 255.f green:29.f / 255.f blue:48.f / 255.f alpha:1];
+            navigationBar.translucent = NO;
+        }
+    }];
+}
 
 - (void)configurePageControl {
     @weakify(self);

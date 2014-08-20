@@ -15,6 +15,7 @@
 @required
 
 - (UINavigationItem *) navigationItem;
+- (UINavigationController *) navigationController;
 - (void)resetNavigationBarButtons;
 - (void) createPointWithPointText:(NSString*) text andTime:(NSNumber*) time forUser:(User *) user;
 @end

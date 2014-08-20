@@ -44,6 +44,11 @@
 @property(weak, nonatomic) IBOutlet UIButton *deletePointSettBtn;
 @property(weak, nonatomic) IBOutlet UIButton *cancelDelBtn;
 
+@property (nonatomic, strong) IBOutletCollection(NSLayoutConstraint ) NSArray *constraintFor4inch;
+
+
+@property(nonatomic, retain) RACSignal *topApplyButtonPressed;
+@property(nonatomic, retain) RACSignal *keyboardApplyButtonPressed;
 @end
 
 @implementation HPCurrentUserPointCollectionViewCell
@@ -51,7 +56,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-
+    [self remove4InchConstraint];
 
     self.deletePointInfoLabel.text = NSLocalizedString(@"DELETE_POINT_INFO", nil);
     [self.pointTimeSlider setValue:6 animated:YES];
@@ -67,6 +72,7 @@
         }
     }];
 
+
     [self configureMainView];
     [self configureAvatarImageView];
     [self configurePointLabel];
@@ -79,10 +85,15 @@
 }
 
 
+
 #pragma mark - constraint
 
-- (void)updateConstraints {
-    [super updateConstraints];
+- (void) remove4InchConstraint{
+    if(![UIDevice hp_isWideScreen]) {
+        for (NSLayoutConstraint *constraint in self.constraintFor4inch) {
+            constraint.priority = 1;
+        }
+    }
 }
 
 #pragma mark Configuring UIElements
@@ -123,8 +134,8 @@
     RAC(self.pointInfoLabel, textColor) = [showCountNumber flattenMap:^RACStream *(NSNumber *showCount) {
         @strongify(self);
         if (showCount.boolValue) {
-            return [[self.pointTextView rac_textSignal] map:^id(NSString *value) {
-                if ((NSInteger) (POINT_LENGTH - value.length) <= RED_LIGHT_POINT_COUNT) {
+            return [self.pointTextView.rac_textSignal map:^id(NSString *value) {
+                if (![self symbolsInPostIsWarningToPost]) {
                     return [UIColor colorWithRed:255.f / 255.f green:102.f / 255.f blue:112.f / 255.f alpha:1];
                 }
                 else {
@@ -135,6 +146,23 @@
         else {
             return [RACSignal return:[UIColor colorWithRed:230.f / 255.f green:236.f / 255.f blue:242.f / 255.f alpha:1]];
         }
+    }];
+
+    [[[self applyTextPressedInPointTextView] filter:^BOOL(id value) {
+        return ![self symbolsInPostIsAvailableToPost];
+    }] subscribeNext:^(id x) {
+        @strongify(self);
+        CABasicAnimation *animation =
+                [CABasicAnimation animationWithKeyPath:@"position"];
+        [animation setDuration:0.05];
+        [animation setRepeatCount:4];
+        [animation setAutoreverses:YES];
+        [animation setFromValue:[NSValue valueWithCGPoint:
+                CGPointMake([self.pointInfoLabel center].x - 10.0f, [self.pointInfoLabel center].y)]];
+        [animation setToValue:[NSValue valueWithCGPoint:
+                CGPointMake([self.pointInfoLabel center].x + 10.0f, [self.pointInfoLabel center].y)]];
+        [[self.pointInfoLabel layer] addAnimation:animation forKey:@"position"];
+
     }];
 }
 
@@ -157,7 +185,7 @@
             [self.delegate resetNavigationBarButtons];
         }
     }];
-
+    RAC(self,delegate.navigationController.navigationBar.translucent) = RACObserve(self, editUserPointMode);
 }
 
 //Visibility of point settings
@@ -195,6 +223,8 @@
     if ([text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location == NSNotFound) {
         return YES;
     }
+
+    self.keyboardApplyButtonPressed = [RACSignal return:@YES];
     if (txtView.text.length >= MIN_POINT_LENGTH && txtView.text.length <= POINT_LENGTH) {
         [txtView resignFirstResponder];
     }
@@ -262,15 +292,27 @@
     ]] takeUntil:[self rac_willDeallocSignal]] replayLast];
 }
 
-- (RACSignal *)symbolsInPostIsAvailableToPost {
-    return [[self.pointTextView rac_textSignal] map:^id(NSString *value) {
-        if ([self.pointTextView.text isEqualToString:NSLocalizedString(@"YOUR_EMPTY_POINT", nil)]) {
-            return @(NO);
-        }
-        if (value.length < MIN_POINT_LENGTH)
-            return @(NO);
-        return @((NSInteger) (POINT_LENGTH - value.length) >= 0);
-    }];
+- (BOOL)symbolsInPostIsWarningToPost {
+    if ([self.pointTextView.text isEqualToString:NSLocalizedString(@"YOUR_EMPTY_POINT", nil)]) {
+        return NO;
+    }
+    if (self.pointTextView.text.length < MIN_POINT_LENGTH)
+        return NO;
+    return ((NSInteger) ((POINT_LENGTH - RED_LIGHT_POINT_COUNT) - self.pointTextView.text.length) >= 0);
+
+}
+
+- (BOOL)symbolsInPostIsAvailableToPost {
+    if ([self.pointTextView.text isEqualToString:NSLocalizedString(@"YOUR_EMPTY_POINT", nil)]) {
+        return NO;
+    }
+    if (self.pointTextView.text.length < MIN_POINT_LENGTH)
+        return NO;
+    return ((NSInteger) (POINT_LENGTH - self.pointTextView.text.length) >= 0);
+}
+
+- (RACSignal *)applyTextPressedInPointTextView {
+    return [RACSignal merge:@[[RACObserve(self, topApplyButtonPressed) flatten], [RACObserve(self, keyboardApplyButtonPressed) flatten]]];
 }
 
 #pragma mark UIElements
@@ -295,8 +337,9 @@
     @weakify(self);
     [rightBarItem setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:18]} forState:UIControlStateNormal];
     [rightBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:80.f / 255.f green:227.f / 255.f blue:194.f / 255.f alpha:0.4]} forState:UIControlStateDisabled];
-    rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:[self symbolsInPostIsAvailableToPost] signalBlock:^RACSignal *(id input) {
+    rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:[RACSignal return:@([self symbolsInPostIsAvailableToPost])] signalBlock:^RACSignal *(id input) {
         @strongify(self)
+        self.topApplyButtonPressed = [RACSignal return:@YES];
         [self.pointTextView resignFirstResponder];
         return [RACSignal empty];
     }];
@@ -309,7 +352,7 @@
     @weakify(self);
     [rightBarItem setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:18]} forState:UIControlStateNormal];
     [rightBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:80.f / 255.f green:227.f / 255.f blue:194.f / 255.f alpha:0.4]} forState:UIControlStateDisabled];
-    rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:[self symbolsInPostIsAvailableToPost] signalBlock:^RACSignal *(id input) {
+    rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:[RACSignal return:@([self symbolsInPostIsAvailableToPost])] signalBlock:^RACSignal *(id input) {
         @strongify(self)
         [self createUserPointWithCurrentData];
         return [RACSignal empty];
