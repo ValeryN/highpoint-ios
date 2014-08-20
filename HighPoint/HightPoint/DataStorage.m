@@ -1363,7 +1363,7 @@ static DataStorage *dataStorage;
     }];
 }
 
-#pragma warning Temp Where delete? Surfstudio write method!
+#warning Temp Where delete? Surfstudio write method!
 - (void)deleteAndSaveUserPointForUser:(User*) globalUser{
     [self.backgroundOperationQueue addOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
