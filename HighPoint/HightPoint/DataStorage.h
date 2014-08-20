@@ -61,7 +61,8 @@ typedef void (^complationBlock) (id object);
 - (Speciality *) createSpecialityEntity:(NSDictionary *)param;
 - (Speciality *) createTempSpeciality :(NSDictionary *) param;
 - (Place *) createPlaceEntity:(NSDictionary *)param;
-- (void)addAndSavePlaceEntityForUser:(NSDictionary *) param;
+//- (void)addAndSavePlaceEntityForUser:(NSDictionary *) param;
+- (void)addAndSavePlaceEntity:(NSDictionary *)param forUser:(User*) user;
 - (void)deleteAndSavePlaceEntityFromUser:(NSArray *) id;
 - (Place *) createTempPlace :(NSDictionary *) param;
 - (Education*) createEducationEntity:(NSDictionary *)param;
@@ -106,10 +107,11 @@ typedef void (^complationBlock) (id object);
 - (void) saveContext;
 
 - (void)deleteAndSaveContact: (NSNumber *) contactId;
--(NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
+- (NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
 - (void)createAndSaveMessage:(NSDictionary *)param  forUserId:(NSNumber*) keyId  andMessageType:(MessageTypes) type withComplation:(complationBlock) block;
 - (void)createAndSaveChatEntity: (User *)user withMessages: (NSArray *) messages withComplation:(complationBlock) block;
 - (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
 - (Chat *) getChatByUserId :(NSNumber *) userId;
+- (NSFetchedResultsController *) getSelectedUserById:(NSNumber*) id_;
 
 @end

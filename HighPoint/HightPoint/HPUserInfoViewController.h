@@ -17,7 +17,7 @@
 - (void)profileWillBeHidden;
 @end
 
-@interface HPUserInfoViewController : UIViewController <GreenButtonProtocol, UITableViewDelegate, UITableViewDataSource, iCarouselDelegate, iCarouselDataSource, UIGestureRecognizerDelegate, HEBubbleViewDataSource, HEBubbleViewDelegate> {
+@interface HPUserInfoViewController : UIViewController <GreenButtonProtocol, UITableViewDelegate, UITableViewDataSource, iCarouselDelegate, iCarouselDataSource, UIGestureRecognizerDelegate, HEBubbleViewDataSource, HEBubbleViewDelegate, NSFetchedResultsControllerDelegate> {
     
 }
 
@@ -35,10 +35,11 @@
 @property (nonatomic, strong) HPGreenButtonVC* sendMessage;
 @property(nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property(nonatomic, strong) NSArray *userDataSource;
-@property(nonatomic, strong) NSDictionary *placeCityDataSource;
-@property(nonatomic, strong) NSArray *educationDataSource;
-@property(nonatomic, strong) NSArray *carrierDataSource;
+@property(nonatomic, strong) NSMutableDictionary *placeCityDataSource;
+@property(nonatomic, strong) NSMutableArray *educationDataSource;
+@property(nonatomic, strong) NSMutableArray *carrierDataSource;
 @property(nonatomic, strong) NSMutableArray *languages;
+@property (nonatomic, strong) NSFetchedResultsController *selectedUser;
 
 
 //privacy
