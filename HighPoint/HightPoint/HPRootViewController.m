@@ -45,7 +45,7 @@
     self.isNeedScrollToIndex = NO;
 
     //TODO : delete
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
+   // NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
     /*
     [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
 
