@@ -14,13 +14,5 @@
 @class ModalAnimation;
 @interface HPCurrentUserViewController : UIViewController < UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPCurrentUserPointCollectionViewCellDelegate,HPCurrentUserUICollectionViewCellDelegate>
 
-@property (weak, nonatomic) IBOutlet UICollectionView *currentUserCollectionView;
-@property (retain, nonatomic) IBOutlet UIPageControl *pageController;
-
-
-@property (weak, nonatomic) IBOutlet UIView *bottomView;
-@property (weak, nonatomic) IBOutlet UIImageView *personalDataDownImgView;
-@property (weak, nonatomic) IBOutlet UILabel *personalDataLabel;
-@property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
-
+@property (nonatomic, retain) RACSignal * randomUsersForLikes;
 @end

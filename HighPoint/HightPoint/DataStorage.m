@@ -1032,6 +1032,7 @@ static DataStorage *dataStorage;
 #pragma mark -
 #pragma mark avatar entity
 
+#warning Исправьте метод!
 - (Avatar *)createAvatarEntity:(NSDictionary *)param {
     Avatar *avatar = (Avatar *) [NSEntityDescription insertNewObjectForEntityForName:@"Avatar" inManagedObjectContext:[NSManagedObjectContext threadContext]];
     avatar.highCrop = param[@"highCrop"];
@@ -1045,6 +1046,9 @@ static DataStorage *dataStorage;
     avatar.squareImageSrc = [param[@"squareImage"] objectForKey:@"src"];
     avatar.squareImageHeight = [param[@"squarelImage"] objectForKey:@"height"];
     avatar.squareImageWidth = [param[@"squareImage"] objectForKey:@"width"];
+
+    //tmpFix
+    avatar.originalImageSrc = [param[@"src"] stringByAppendingString:@"?size=s640"];
     return avatar;
 }
 
