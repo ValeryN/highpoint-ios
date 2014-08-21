@@ -56,7 +56,7 @@
 
 
 
-+ (void) hp_configureNavigationBar {
+- (void) hp_configureNavigationBar {
     UIColor *color = [UIColor colorWithRed:230.0 / 255.0
                                      green:236.0 / 255.0
                                       blue:242.0 / 255.0

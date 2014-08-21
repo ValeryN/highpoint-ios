@@ -12,7 +12,7 @@
 #import "HPPointLikesViewController.h"
 #import "HPCurrentUserUICollectionViewCell.h"
 #import "Utils.h"
-
+#import "HPSettingsViewController.h"
 
 @interface HPCurrentUserViewController ()
 @property(nonatomic, retain) User *currentUser;
@@ -178,7 +178,21 @@
         return [RACSignal empty];
     }];
     self.navigationItem.leftBarButtonItem = leftBarItem;
-    self.navigationItem.rightBarButtonItem = nil;
+    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] init];
+    if ([UIDevice hp_isIOS6]) {
+        rightBarItem.image = [UIImage imageNamed:@"Close"];
+    }
+    else {
+        rightBarItem.image = [[UIImage imageNamed:@"Close"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+    rightBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        @strongify(self)
+        HPSettingsViewController* settingsVC = [[HPSettingsViewController alloc] initWithNibName: @"HPSettingsViewController" bundle: nil];
+        [self.navigationController pushViewController: settingsVC animated: YES];
+        return [RACSignal empty];
+    }];
+    
+    self.navigationItem.rightBarButtonItem = rightBarItem;
 }
 
 
