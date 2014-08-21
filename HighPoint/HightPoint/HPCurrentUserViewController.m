@@ -81,6 +81,7 @@
     } else {
         if (!self.cellUser) {
             self.cellUser = [cv dequeueReusableCellWithReuseIdentifier:@"CurrentUserCollectionCell" forIndexPath:indexPath];
+            self.cellUser.delegate = self;
         }
         return self.cellUser;
     }
@@ -139,24 +140,8 @@
     [[DataStorage sharedDataStorage] deleteAndSaveUserPointForUser:user];
 }
 
-
-#pragma mark - delegate methods
-
-
-- (void)startDeletePoint {
-    self.bottomView.hidden = YES;
-    self.currentUserCollectionView.scrollEnabled = NO;
-    self.closeBtn.hidden = YES;
-    self.settingsBtn.hidden = YES;
-    self.pageController.hidden = YES;
-}
-
-- (void)endDeletePoint {
-    self.bottomView.hidden = NO;
-    self.currentUserCollectionView.scrollEnabled = YES;
-    self.closeBtn.hidden = NO;
-    self.settingsBtn.hidden = NO;
-    self.pageController.hidden = NO;
+- (void)updateUserVisibility:(UserVisibilityType)visibilityType forUser:(User *)user {
+    [[DataStorage sharedDataStorage] updateAndSaveVisibility:visibilityType forUser:user];
 }
 
 
@@ -263,4 +248,6 @@
     self.pageController.currentPage = 0;
 
 }
+
+
 @end

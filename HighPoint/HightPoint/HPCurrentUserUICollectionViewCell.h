@@ -10,7 +10,13 @@
 #import "User.h"
 #import "City.h"
 
+@protocol HPCurrentUserUICollectionViewCellDelegate <NSObject>
+@required
+- (void) updateUserVisibility:(UserVisibilityType) visibilityType forUser:(User*) user;
+@end
+
 @interface HPCurrentUserUICollectionViewCell : UICollectionViewCell
 @property (nonatomic, retain) User* currentUser;
+@property (nonatomic, weak) id<HPCurrentUserUICollectionViewCellDelegate> delegate;
 
 @end

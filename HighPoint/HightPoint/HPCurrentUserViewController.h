@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "HPUserProfileViewController.h"
 #import "HPCurrentUserPointCollectionViewCell.h"
+#import "HPCurrentUserUICollectionViewCell.h"
 
 @class ModalAnimation;
-@interface HPCurrentUserViewController : UIViewController < UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPCurrentUserPointCollectionViewCellDelegate> {
+@interface HPCurrentUserViewController : UIViewController < UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPCurrentUserPointCollectionViewCellDelegate,HPCurrentUserUICollectionViewCellDelegate> {
     ModalAnimation *_modalAnimationController;
 }
 
