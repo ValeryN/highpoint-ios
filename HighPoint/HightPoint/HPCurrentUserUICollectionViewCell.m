@@ -8,50 +8,92 @@
 
 #import "HPCurrentUserUICollectionViewCell.h"
 #import "UILabel+HighPoint.h"
-#import <QuartzCore/QuartzCore.h>
 #import "UIImage+HighPoint.h"
-#import "UIDevice+HighPoint.h"
 
 #define AVATAR_BLUR_RADIUS 10.0
-#define CONSTRAINT_AVATAR_TOP 10.0
-#define CONSTRAINT_USERINFO_TOP_INVISIBLE 225.0
-#define CONSTRAINT_USERINFO_TOP_VISIBLE 270.0
-#define CONSTRAINT_VISIBILITY_BNTS_TOP 330.0
-#define CONSTRAINT_VISIBILITY_INFO_TOP 250.0
+
+@interface HPCurrentUserUICollectionViewCell()
+@property (weak, nonatomic) IBOutlet UILabel *yourProfilelabel;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UILabel *userInfoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *visibleBtn;
+@property (weak, nonatomic) IBOutlet UIButton *lockBtn;
+@property (weak, nonatomic) IBOutlet UIButton *invisibleBtn;
+@property (weak, nonatomic) IBOutlet UILabel *visibilityInfoLabel;
+@end
 
 @implementation HPCurrentUserUICollectionViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
 
+    [self configureMainView];
+    [self configureCellInfoLabel];
+    [self configureYourNameLabel];
+    [self configureProfileVisibilityLabel];
+    [self configureVisibleButton];
+    [self configureBlurButton];
+    [self configureHiddenButton];
+}
 
+- (void)configureHiddenButton {
+
+}
+
+- (void)configureBlurButton {
+
+}
+
+- (void)configureVisibleButton {
+
+}
+
+- (void)configureProfileVisibilityLabel {
+
+}
+
+- (void)configureYourNameLabel {
+    RAC(self.userInfoLabel,text) = [RACObserve(self, currentUser) map:^id(User* user) {
+        NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
+        return [NSString stringWithFormat:@"%@, %@ лет, %@", user.name, user.age, cityName];
+    }];
+}
+
+- (void)configureCellInfoLabel {
+
+}
+
+- (void)configureMainView {
+
+}
+
+//Trash
 - (void) configureCell : (User *) user {
-    [self fixUserCardConstraint:user];
-    self.yourProfilelabel.text = NSLocalizedString(@"YOUR_PROFILE", nil);
-    [self.yourProfilelabel hp_tuneForUserCardName];
-    self.avatarImageView.clipsToBounds = YES;
-    self.avatarImageView.layer.cornerRadius = 5;
-    [self.userInfoLabel hp_tuneForUserCardName];
-    NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
-    self.userInfoLabel.text = [NSString stringWithFormat:@"%@, %@ лет, %@", user.name, user.age, cityName];
-    [self setAvatarVisibilityBlur:user];
-    [self setVisibility:user.visibility];
-    
+//    self.yourProfilelabel.text = NSLocalizedString(@"YOUR_PROFILE", nil);
+//    [self.yourProfilelabel hp_tuneForUserCardName];
+//    self.avatarImageView.clipsToBounds = YES;
+//    self.avatarImageView.layer.cornerRadius = 5;
+//    [self.userInfoLabel hp_tuneForUserCardName];
+//
+//    [self setAvatarVisibilityBlur:user];
+//    [self setVisibility:user.visibility];
 }
 
 - (void) setAvatarVisibilityBlur :(User *) user {
-    if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
+    if (([user.visibility intValue] == UserVisibilityBlur) || ([user.visibility intValue] == UserVisibilityHidden)) {
         self.avatarImageView.image = [self.avatarImageView.image hp_imageWithGaussianBlur: AVATAR_BLUR_RADIUS];
     }
 }
 
 - (void) setVisibility : (NSNumber *) visibility {
-    if ([visibility isEqualToNumber:@1]) {
+    if ([visibility isEqualToNumber:@(UserVisibilityVisible)]) {
         self.visibleBtn.selected = YES;
         self.invisibleBtn.selected = NO;
         self.lockBtn.selected = NO;
         self.visibilityInfoLabel.hidden = NO;
         self.visibilityInfoLabel.hidden = YES;
     }
-    if ([visibility isEqualToNumber:@2]) {
+    if ([visibility isEqualToNumber:@(UserVisibilityBlur)]) {
         self.visibleBtn.selected = NO;
         self.invisibleBtn.selected = YES;
         self.lockBtn.selected = NO;
@@ -61,7 +103,7 @@
         self.userInfoLabel.text = NSLocalizedString(@"YOUR_PROFILE_INVISIBLE", nil);
         
     }
-    if ([visibility isEqualToNumber:@3]) {
+    if ([visibility isEqualToNumber:@(UserVisibilityHidden)]) {
         self.visibleBtn.selected = NO;
         self.invisibleBtn.selected = NO;
         self.lockBtn.selected = YES;
@@ -71,63 +113,6 @@
         self.userInfoLabel.text = NSLocalizedString(@"YOUR_PROFILE_LOCKED", nil);
     }
 }
-
-#pragma mark - visibility btns
-
-- (IBAction)visibleBtnTap:(id)sender {
-    NSLog(@"visible");
-}
-- (IBAction)lockBtnTap:(id)sender {
-    NSLog(@"locked");
-}
-- (IBAction)invisibleBtnTap:(id)sender {
-    NSLog(@"invisible");
-}
-
-#pragma mark - constraint
-- (void) fixUserCardConstraint : (User *) user
-{
-    if (![UIDevice hp_isWideScreen])
-    {
-        NSArray* cons = self.constraints;
-        for (NSLayoutConstraint* consIter in cons)
-        {
-            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.avatarImageView))
-                consIter.constant = CONSTRAINT_AVATAR_TOP;
-            
-            
-            if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
-                if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                    (consIter.firstItem == self.userInfoLabel))
-                    consIter.constant = CONSTRAINT_USERINFO_TOP_INVISIBLE;
-
-            } else {
-                if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                    (consIter.firstItem == self.userInfoLabel))
-                    consIter.constant = CONSTRAINT_USERINFO_TOP_VISIBLE;
-            }
-            
-            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.visibilityInfoLabel))
-                consIter.constant = CONSTRAINT_VISIBILITY_INFO_TOP;
-            
-            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.visibleBtn))
-                consIter.constant = CONSTRAINT_VISIBILITY_BNTS_TOP;
-            
-            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.lockBtn))
-                consIter.constant = CONSTRAINT_VISIBILITY_BNTS_TOP;
-            
-            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.invisibleBtn))
-                consIter.constant = CONSTRAINT_VISIBILITY_BNTS_TOP;
-        }
-    }
-}
-
-
 
 
 @end

@@ -184,15 +184,14 @@
 
 #pragma mark Configures
 
-- (void) configureNavigationBar
-{
-    [[RACSignal combineLatest:@[RACObserve(self, cellPoint.editUserPointMode),RACObserve(self, navigationController.navigationBar)]] subscribeNext:^(RACTuple * x) {
-        RACTupleUnpack(NSNumber* editUserPointMode,UINavigationBar* navigationBar) = x;
-        if(editUserPointMode.boolValue) {
-            navigationBar.barTintColor = [UIColor colorWithRed:34.0/255.0 green:45.0/255.0 blue:77.0/255.0 alpha:0.9];
+- (void)configureNavigationBar {
+    [[RACSignal combineLatest:@[RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, navigationController.navigationBar)]] subscribeNext:^(RACTuple *x) {
+        RACTupleUnpack(NSNumber *editUserPointMode, UINavigationBar *navigationBar) = x;
+        if (editUserPointMode.boolValue) {
+            navigationBar.barTintColor = [UIColor colorWithRed:34.0 / 255.0 green:45.0 / 255.0 blue:77.0 / 255.0 alpha:0.9];
             navigationBar.translucent = YES;
         }
-        else{
+        else {
             navigationBar.barTintColor = [UIColor colorWithRed:30.f / 255.f green:29.f / 255.f blue:48.f / 255.f alpha:1];
             navigationBar.translucent = NO;
         }
@@ -201,25 +200,26 @@
 
 - (void)configurePageControl {
     @weakify(self);
-    [[self.pageController rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+    [[self.pageController rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UIPageControl * pageControl) {
         @strongify(self);
-        [self.currentUserCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.pageController.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+        self.pageController.currentPage =  pageControl.currentPage;
+        [self.currentUserCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:pageControl.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
     }];
 }
 
 - (void)configureBottomMenu {
     @weakify(self);
-    [[RACSignal combineLatest:@[RACObserve(self.pageController, currentPage), RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, currentUser.point)]] subscribeNext:^(RACTuple *x) {
+    [[RACSignal combineLatest:@[RACObserve(self, pageController.currentPage), RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, currentUser.point)]] subscribeNext:^(RACTuple *x) {
         @strongify(self);
-        RACTupleUnpack(NSNumber *index,NSNumber * editMode, UserPoint* userPoint) = x;
+        RACTupleUnpack(NSNumber *index, NSNumber *editMode, UserPoint *userPoint) = x;
         if (index.intValue == 0) {
-            if(userPoint == nil){
+            if (userPoint == nil) {
                 self.bottomView.hidden = YES;
             }
-            else if(editMode.boolValue){
+            else if (editMode.boolValue) {
                 self.bottomView.hidden = YES;
             }
-            else{
+            else {
                 self.bottomView.hidden = NO;
                 self.personalDataLabel.text = NSLocalizedString(@"YOUR_POINT_LIKES", nil);
                 self.personalDataDownImgView.hidden = YES;
@@ -239,7 +239,7 @@
     }];
     [[RACSignal zip:@[RACObserve(self, currentUser), RACObserve(self, cellUser)]] subscribeNext:^(RACTuple *x) {
         RACTupleUnpack(User *currentUser, HPCurrentUserUICollectionViewCell *cellUser) = x;
-        [cellUser configureCell:currentUser];
+        cellUser.currentUser = currentUser;
     }];
 }
 

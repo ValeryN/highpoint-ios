@@ -28,7 +28,14 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * nameForms;
 @property (nonatomic, retain) NSNumber * userId;
+
+typedef NS_ENUM(NSUInteger, UserVisibilityType){
+    UserVisibilityVisible = 1,
+    UserVisibilityBlur = 2,
+    UserVisibilityHidden = 3
+};
 @property (nonatomic, retain) NSNumber * visibility;
+
 @property (nonatomic, retain) NSNumber * online;
 @property (nonatomic, retain) Avatar *avatar;
 @property (nonatomic, retain) NSSet *career;
