@@ -475,7 +475,7 @@
 
 - (void)animateMainViewToTop {
     __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationCurveEaseOut
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          weakSelf.frame = CGRectMake(weakSelf.frame.origin.x, weakSelf.frame.origin.y - 115, weakSelf.frame.size.width, weakSelf.frame.size.height + 115);
                      }
@@ -485,7 +485,7 @@
 
 - (void)animateMainViewToBottom {
     __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationCurveEaseOut
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          weakSelf.frame = CGRectMake(weakSelf.frame.origin.x, weakSelf.frame.origin.y + 115, weakSelf.frame.size.width, weakSelf.frame.size.height - 115);
                      }

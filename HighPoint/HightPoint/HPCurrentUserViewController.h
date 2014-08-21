@@ -12,16 +12,8 @@
 #import "HPCurrentUserUICollectionViewCell.h"
 
 @class ModalAnimation;
-@interface HPCurrentUserViewController : UIViewController < UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPCurrentUserPointCollectionViewCellDelegate,HPCurrentUserUICollectionViewCellDelegate> {
-    ModalAnimation *_modalAnimationController;
-}
+@interface HPCurrentUserViewController : UIViewController < UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPCurrentUserPointCollectionViewCellDelegate,HPCurrentUserUICollectionViewCellDelegate>
 
-- (IBAction)backButtonTap:(id)sender;
-- (IBAction)settingsBtnTap:(id)sender;
-
-
-@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
-@property (weak, nonatomic) IBOutlet UIButton *settingsBtn;
 @property (weak, nonatomic) IBOutlet UICollectionView *currentUserCollectionView;
 @property (retain, nonatomic) IBOutlet UIPageControl *pageController;
 
@@ -30,9 +22,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *personalDataDownImgView;
 @property (weak, nonatomic) IBOutlet UILabel *personalDataLabel;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
-@property (nonatomic, strong) UIImageView *captView;
-- (void) configurePublishPointNavigationItem;
-
-
 
 @end

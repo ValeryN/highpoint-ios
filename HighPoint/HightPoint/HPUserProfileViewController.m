@@ -1259,8 +1259,6 @@
 
 - (IBAction)downButtonTap: (id)sender
 {
-    if ([self.delegate respondsToSelector: @selector(profileWillBeHidden)])
-        [self.delegate profileWillBeHidden];
 
     [self dismissViewControllerAnimated: YES
                              completion: nil];

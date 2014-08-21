@@ -10,8 +10,6 @@
 #import "DataStorage.h"
 #import "UIDevice+HighPoint.h"
 #import "HPPointLikesViewController.h"
-#import "HPCurrentUserUICollectionViewCell.h"
-#import "Utils.h"
 
 
 @interface HPCurrentUserViewController ()
@@ -101,11 +99,6 @@
 }
 
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    double index = scrollView.contentOffset.x / 320.0;
-    self.pageController.currentPage = (int) index;
-}
-
 
 #pragma mark - Actions
 
@@ -120,7 +113,6 @@
 - (void)showCurrentUserProfileViewController {
     HPUserProfileViewController *uiController = [[HPUserProfileViewController alloc] initWithNibName:@"HPUserProfile" bundle:nil];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:uiController];
-    uiController.delegate = self;
     uiController.transitioningDelegate = self;
     uiController.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:navigationController animated:YES completion:nil];
@@ -173,7 +165,7 @@
     [[RACSignal combineLatest:@[RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, navigationController.navigationBar)]] subscribeNext:^(RACTuple *x) {
         RACTupleUnpack(NSNumber *editUserPointMode, UINavigationBar *navigationBar) = x;
         if (editUserPointMode.boolValue) {
-            navigationBar.barTintColor = [UIColor colorWithRed:34.0 / 255.0 green:45.0 / 255.0 blue:77.0 / 255.0 alpha:0.9];
+            navigationBar.barTintColor = [UIColor colorWithRed:34.0f / 255.0f green:45.0f / 255.0f blue:77.0f / 255.0f alpha:0.9];
             navigationBar.translucent = YES;
         }
         else {
@@ -189,6 +181,12 @@
         @strongify(self);
         self.pageController.currentPage =  pageControl.currentPage;
         [self.currentUserCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:pageControl.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    }];
+    RAC(self.pageController, currentPage) = [RACObserve(self.currentUserCollectionView, contentOffset) map:^id(NSValue *value) {
+        CGPoint contentOffset = [value CGPointValue];
+        NSUInteger page = (NSUInteger) (floor((contentOffset.x - 320 / 2) / 320) + 1);
+
+        return @(page);
     }];
 }
 
