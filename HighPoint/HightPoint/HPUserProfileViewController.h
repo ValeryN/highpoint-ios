@@ -16,20 +16,20 @@
 #import "HPAddPhotoMenuViewController.h"
 #import "iCarousel.h"
 #import "HPUserProfileFirstRowTableViewCell.h"
-#import "HPAddNewTownView.h"
+#import "HPAddNewTownCellView.h"
 #import "HPSelectTownViewController.h"
 #import "HPAddEducationViewController.h"
 #import "HPBubbleTextField.h"
 //==============================================================================
 //==============================================================================
 
-@interface HPUserProfileViewController : UIViewController <RACollectionViewDelegateReorderableTripletLayout, RACollectionViewReorderableTripletLayoutDataSource, UITableViewDelegate, UITableViewDataSource, iCarouselDelegate, iCarouselDataSource, HEBubbleViewDataSource, HEBubbleViewDelegate, HPAddPhotoMenuViewControllerDelegate, HPUserProfileFirstRowTableViewCellDelegate, UITextFieldDelegate, HPAddNewTownViewDelegate, HPSelectTownViewControllerDelegate, HPAddEducationViewControllerDelegate, HPBubbleTextFieldDelegate>
+@interface HPUserProfileViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, iCarouselDelegate, iCarouselDataSource, HEBubbleViewDataSource, HEBubbleViewDelegate, HPAddPhotoMenuViewControllerDelegate, HPUserProfileFirstRowTableViewCellDelegate, UITextFieldDelegate, HPAddNewTownViewDelegate, HPSelectTownViewControllerDelegate, HPAddEducationViewControllerDelegate, HPBubbleTextFieldDelegate>
 @property (nonatomic, weak) IBOutlet UIButton *downButton;
 @property (nonatomic, weak) IBOutlet UIButton *backButton;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *segmentControl;
 @property (nonatomic, weak) IBOutlet UILabel *barTitle;
 @property (nonatomic, weak) IBOutlet UIView *barView;
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
 @property (weak, nonatomic) IBOutlet UITableView *infoTableView;
 @property (nonatomic, strong) NSMutableArray *photosArray;
 @property (strong, nonatomic) User *user;

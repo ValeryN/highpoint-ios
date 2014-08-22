@@ -12,6 +12,7 @@
 #import "HPPointLikesViewController.h"
 #import "HPAvatarView.h"
 #import "SDWebImageManager.h"
+#import "UINavigationBar+HighPoint.h"
 
 
 @interface HPCurrentUserViewController ()
@@ -183,12 +184,10 @@
     [[RACSignal combineLatest:@[RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, navigationController.navigationBar)]] subscribeNext:^(RACTuple *x) {
         RACTupleUnpack(NSNumber *editUserPointMode, UINavigationBar *navigationBar) = x;
         if (editUserPointMode.boolValue) {
-            navigationBar.barTintColor = [UIColor colorWithRed:34.0f / 255.0f green:45.0f / 255.0f blue:77.0f / 255.0f alpha:0.9];
-            navigationBar.translucent = YES;
+            [navigationBar configureTranslucentNavigationBar];
         }
         else {
-            navigationBar.barTintColor = [UIColor colorWithRed:30.f / 255.f green:29.f / 255.f blue:48.f / 255.f alpha:1];
-            navigationBar.translucent = NO;
+            [navigationBar configureOpaqueNavigationBar];
         }
     }];
 }

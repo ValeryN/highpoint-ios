@@ -11,6 +11,7 @@
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIButton+HighPoint.h"
 #import "UIDevice+HighPoint.h"
+#import "UIImage+HighPoint.h"
 
 #define CONSTRAINT_TOP_FOR_CANCELL 422.0
 
@@ -73,15 +74,10 @@
     //self.view.opaque = NO;
     //Place the UIImage in a UIImageView
     self.backGroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    self.backGroundView.image = self.screenShoot;
-    
-    //insert blur UIImageView below transparent view inside the blur image container
-    //[blurContainerView insertSubview:newView belowSubview:transparentView];
-    self.backGroundView.alpha = 1.0;
+    self.backGroundView.image = [self.screenShoot hp_applyBlurWithRadius:2];
     [self.view insertSubview:self.backGroundView atIndex:0];
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor blackColor];
 }
-
 
 - (void) hideView {
     [self.backGroundView removeFromSuperview];
@@ -96,7 +92,7 @@
 
 #pragma mark - cancel
 - (IBAction)cancelBtnTap:(id)sender {
-    [self hideView];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 
