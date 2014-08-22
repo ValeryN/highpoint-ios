@@ -54,10 +54,7 @@
         self.navigationController = [[UINavigationController alloc] initWithRootViewController:authViewController];
     }
     [self.navigationController hp_configureNavigationBar];
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:34.0 / 255.0
-                    green:45.0 / 255.0
-                     blue:77.0 / 255.0
-                    alpha:1.0];
+    
     [self.window setRootViewController:self.navigationController];
     
     [self.window makeKeyAndVisible];
