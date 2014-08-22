@@ -68,6 +68,9 @@
     }
 }
 
+- (IBAction)backgroundTap:(id)sender {
+    [self.view endEditing:YES];
+}
 
 #pragma mark - auth handler
 

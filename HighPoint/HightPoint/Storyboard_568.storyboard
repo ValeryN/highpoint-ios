@@ -42,7 +42,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <connections>
-                            <action selector="backgroundTap:" destination="BBy-ip-1SR" eventType="touchUpInside" id="3h6-Eb-XV7"/>
+                            <action selector="backgroundTap:" destination="BBy-ip-1SR" eventType="touchUpInside" id="4j0-dW-FEW"/>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" id="jcP-3V-Uj2"/>
