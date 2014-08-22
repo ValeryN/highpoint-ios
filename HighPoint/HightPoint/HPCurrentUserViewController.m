@@ -13,12 +13,26 @@
 #import "HPCurrentUserUICollectionViewCell.h"
 #import "Utils.h"
 #import "HPSettingsViewController.h"
+#import "HPAvatarView.h"
+#import "SDWebImageManager.h"
+
 
 @interface HPCurrentUserViewController ()
 @property(nonatomic, retain) User *currentUser;
 @property(nonatomic, retain) HPCurrentUserPointCollectionViewCell *cellPoint;
 @property(nonatomic, retain) HPCurrentUserUICollectionViewCell *cellUser;
 
+
+@property(weak, nonatomic) IBOutlet UICollectionView *currentUserCollectionView;
+@property(retain, nonatomic) IBOutlet UIPageControl *pageController;
+
+
+@property(weak, nonatomic) IBOutlet UIView *bottomView;
+@property(weak, nonatomic) IBOutlet UIImageView *personalDataDownImgView;
+@property(weak, nonatomic) IBOutlet UILabel *personalDataLabel;
+@property(weak, nonatomic) IBOutlet UIButton *bottomBtn;
+@property(weak, nonatomic) IBOutlet UIView *bottomLikedView;
+@property(weak, nonatomic) IBOutlet UIView *bottomNobodyLikeLabel;
 @end
 
 @implementation HPCurrentUserViewController
@@ -81,6 +95,7 @@
     } else {
         if (!self.cellUser) {
             self.cellUser = [cv dequeueReusableCellWithReuseIdentifier:@"CurrentUserCollectionCell" forIndexPath:indexPath];
+            self.cellUser.delegate = self;
         }
         return self.cellUser;
     }
@@ -100,17 +115,17 @@
 }
 
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    double index = scrollView.contentOffset.x / 320.0;
-    self.pageController.currentPage = (int) index;
-}
-
-
 #pragma mark - Actions
 
 - (IBAction)bottomTap:(id)sender {
     if (self.pageController.currentPage == 0) {
-        [self showLikedUserPointViewController];
+        @weakify(self);
+        [[self.randomUsersForLikes filter:^BOOL(NSArray *array) {
+            return array.count > 0;
+        }] subscribeNext:^(id x) {
+            @strongify(self);
+            [self showLikedUserPointViewController];
+        }];
     } else {
         [self showCurrentUserProfileViewController];
     }
@@ -119,7 +134,6 @@
 - (void)showCurrentUserProfileViewController {
     HPUserProfileViewController *uiController = [[HPUserProfileViewController alloc] initWithNibName:@"HPUserProfile" bundle:nil];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:uiController];
-    uiController.delegate = self;
     uiController.transitioningDelegate = self;
     uiController.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:navigationController animated:YES completion:nil];
@@ -139,24 +153,8 @@
     [[DataStorage sharedDataStorage] deleteAndSaveUserPointForUser:user];
 }
 
-
-#pragma mark - delegate methods
-
-
-- (void)startDeletePoint {
-    self.bottomView.hidden = YES;
-    self.currentUserCollectionView.scrollEnabled = NO;
-    self.closeBtn.hidden = YES;
-    self.settingsBtn.hidden = YES;
-    self.pageController.hidden = YES;
-}
-
-- (void)endDeletePoint {
-    self.bottomView.hidden = NO;
-    self.currentUserCollectionView.scrollEnabled = YES;
-    self.closeBtn.hidden = NO;
-    self.settingsBtn.hidden = NO;
-    self.pageController.hidden = NO;
+- (void)updateUserVisibility:(UserVisibilityType)visibilityType forUser:(User *)user {
+    [[DataStorage sharedDataStorage] updateAndSaveVisibility:visibilityType forUser:user];
 }
 
 
@@ -198,15 +196,14 @@
 
 #pragma mark Configures
 
-- (void) configureNavigationBar
-{
-    [[RACSignal combineLatest:@[RACObserve(self, cellPoint.editUserPointMode),RACObserve(self, navigationController.navigationBar)]] subscribeNext:^(RACTuple * x) {
-        RACTupleUnpack(NSNumber* editUserPointMode,UINavigationBar* navigationBar) = x;
-        if(editUserPointMode.boolValue) {
-            navigationBar.barTintColor = [UIColor colorWithRed:34.0/255.0 green:45.0/255.0 blue:77.0/255.0 alpha:0.9];
+- (void)configureNavigationBar {
+    [[RACSignal combineLatest:@[RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, navigationController.navigationBar)]] subscribeNext:^(RACTuple *x) {
+        RACTupleUnpack(NSNumber *editUserPointMode, UINavigationBar *navigationBar) = x;
+        if (editUserPointMode.boolValue) {
+            navigationBar.barTintColor = [UIColor colorWithRed:34.0f / 255.0f green:45.0f / 255.0f blue:77.0f / 255.0f alpha:0.9];
             navigationBar.translucent = YES;
         }
-        else{
+        else {
             navigationBar.barTintColor = [UIColor colorWithRed:30.f / 255.f green:29.f / 255.f blue:48.f / 255.f alpha:1];
             navigationBar.translucent = NO;
         }
@@ -215,35 +212,131 @@
 
 - (void)configurePageControl {
     @weakify(self);
-    [[self.pageController rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(id x) {
+    [[self.pageController rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UIPageControl *pageControl) {
         @strongify(self);
-        [self.currentUserCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.pageController.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+        self.pageController.currentPage = pageControl.currentPage;
+        [self.currentUserCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:pageControl.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    }];
+    RAC(self.pageController, currentPage) = [RACObserve(self.currentUserCollectionView, contentOffset) map:^id(NSValue *value) {
+        CGPoint contentOffset = [value CGPointValue];
+        NSUInteger page = (NSUInteger) (floor((contentOffset.x - 320 / 2) / 320) + 1);
+
+        return @(page);
     }];
 }
 
 - (void)configureBottomMenu {
     @weakify(self);
-    [[RACSignal combineLatest:@[RACObserve(self.pageController, currentPage), RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, currentUser.point)]] subscribeNext:^(RACTuple *x) {
+    [[RACSignal combineLatest:@[RACObserve(self, pageController.currentPage), RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, currentUser.point)]] subscribeNext:^(RACTuple *x) {
         @strongify(self);
-        RACTupleUnpack(NSNumber *index,NSNumber * editMode, UserPoint* userPoint) = x;
+        RACTupleUnpack(NSNumber *index, NSNumber *editMode, UserPoint *userPoint) = x;
         if (index.intValue == 0) {
-            if(userPoint == nil){
+            if (userPoint == nil) {
                 self.bottomView.hidden = YES;
             }
-            else if(editMode.boolValue){
+            else if (editMode.boolValue) {
                 self.bottomView.hidden = YES;
             }
-            else{
+            else {
                 self.bottomView.hidden = NO;
+                self.bottomLikedView.hidden = NO;
                 self.personalDataLabel.text = NSLocalizedString(@"YOUR_POINT_LIKES", nil);
                 self.personalDataDownImgView.hidden = YES;
             }
         } else {
+            self.bottomLikedView.hidden = YES;
             self.bottomView.hidden = NO;
             self.personalDataLabel.text = NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
             self.personalDataDownImgView.hidden = NO;
         }
     }];
+
+    self.randomUsersForLikes = [[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+        int needCount = rand() % 4;
+        NSMutableArray *array = [@[] mutableCopy];
+        while (array.count < needCount) {
+            User *user = [[DataStorage sharedDataStorage] getUserForId:@(101 + rand() % 14)];
+            if (user)
+                [array addObject:user];
+        }
+        [subscriber sendNext:array];
+        [subscriber sendCompleted];
+        return nil;
+    }] replayLast];
+
+    RAC(self.bottomNobodyLikeLabel, hidden) = [self.randomUsersForLikes map:^id(NSArray *value) {
+        return @(value.count > 0);
+    }];
+
+    [self.randomUsersForLikes subscribeNext:^(NSArray *usersArray) {
+        @strongify(self);
+        for (UIView *view in [self.bottomLikedView subviews])
+            [view removeFromSuperview];
+        if(usersArray.count > 0) {
+            NSMutableArray * downloadQueue = [NSMutableArray new];
+            for(User* user in usersArray){
+                [downloadQueue addObject:[self downloadImageForUser:user]];
+            }
+
+            [[RACSignal zip:downloadQueue] subscribeNext:^(NSArray* imagesArray) {
+                @strongify(self);
+                NSMutableDictionary *constraintViewDictionary = @{}.mutableCopy;
+                for (UIImage* image in imagesArray) {
+                    if(![image isEqual:@(NO)]) {
+                        HPAvatarView *avatarView = [HPAvatarView createAvatar:image];
+                        avatarView.frame = (CGRect) {0, 0, 33, 33};
+                        avatarView.translatesAutoresizingMaskIntoConstraints = NO;
+                        constraintViewDictionary[[NSString stringWithFormat:@"avatarView_%d", rand() % 100000]] = avatarView;
+                        [self.bottomLikedView addSubview:avatarView];
+                    }
+                }
+                if(constraintViewDictionary.count) {
+                    NSMutableString *horizontalConstraintFormat = @"H:".mutableCopy;
+
+                    for (NSString *key in constraintViewDictionary) {
+                        [self.bottomLikedView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[%@(32)]", key]
+                                                                                                     options:NSLayoutFormatAlignAllCenterY
+                                                                                                     metrics:nil
+                                                                                                       views:constraintViewDictionary]];
+                        [horizontalConstraintFormat appendFormat:@"[%@(32)]-(4)-", key];
+
+
+                    }
+                    [horizontalConstraintFormat appendString:@"|"];
+                    [self.bottomLikedView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:horizontalConstraintFormat
+                                                                                                 options:0
+                                                                                                 metrics:nil
+                                                                                                   views:constraintViewDictionary]];
+                }
+            }];
+
+        }
+
+
+    }];
+}
+
+- (RACSignal *) downloadImageForUser:(User*) user{
+    return [[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        id <SDWebImageOperation> operation = [manager downloadWithURL:[NSURL URLWithString:user.avatar.originalImageSrc]
+                                                             options:0
+                                                            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                                            }
+                                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                                               if (image) {
+                                                                   [subscriber sendNext:image];
+                                                                   [subscriber sendCompleted];
+                                                               }
+                                                               else {
+                                                                   NSLog(@"Failed download %@",user.avatar.originalImageSrc);
+                                                                   [subscriber sendError:error];
+                                                               }
+                                                           }];
+        return [RACDisposable disposableWithBlock:^{
+            [operation cancel];
+        }];
+    }] retry:2] catchTo:[RACSignal return:@(NO)]];
 }
 
 - (void)configureCurrentUsersForCells {
@@ -253,7 +346,7 @@
     }];
     [[RACSignal zip:@[RACObserve(self, currentUser), RACObserve(self, cellUser)]] subscribeNext:^(RACTuple *x) {
         RACTupleUnpack(User *currentUser, HPCurrentUserUICollectionViewCell *cellUser) = x;
-        [cellUser configureCell:currentUser];
+        cellUser.currentUser = currentUser;
     }];
 }
 
@@ -277,4 +370,6 @@
     self.pageController.currentPage = 0;
 
 }
+
+
 @end

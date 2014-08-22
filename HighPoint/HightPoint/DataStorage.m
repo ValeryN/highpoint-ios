@@ -1032,6 +1032,7 @@ static DataStorage *dataStorage;
 #pragma mark -
 #pragma mark avatar entity
 
+#warning Исправьте метод!
 - (Avatar *)createAvatarEntity:(NSDictionary *)param {
     Avatar *avatar = (Avatar *) [NSEntityDescription insertNewObjectForEntityForName:@"Avatar" inManagedObjectContext:[NSManagedObjectContext threadContext]];
     avatar.highCrop = param[@"highCrop"];
@@ -1045,6 +1046,9 @@ static DataStorage *dataStorage;
     avatar.squareImageSrc = [param[@"squareImage"] objectForKey:@"src"];
     avatar.squareImageHeight = [param[@"squarelImage"] objectForKey:@"height"];
     avatar.squareImageWidth = [param[@"squareImage"] objectForKey:@"width"];
+
+    //tmpFix
+    avatar.originalImageSrc = [param[@"src"] stringByAppendingString:@"?size=s640"];
     return avatar;
 }
 
@@ -1363,6 +1367,7 @@ static DataStorage *dataStorage;
     }];
 }
 
+
 #warning Temp Where delete? Surfstudio write method!
 - (void)deleteAndSaveUserPointForUser:(User*) globalUser{
     [self.backgroundOperationQueue addOperationWithBlock:^{
@@ -1377,6 +1382,16 @@ static DataStorage *dataStorage;
     }];
 }
 
+- (void) updateAndSaveVisibility:(UserVisibilityType) visibilityType forUser:(User*) globalUser{
+    [self.backgroundOperationQueue addOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        [context performBlockAndWait:^{
+            User* user = [globalUser moveToContext:context];
+            user.visibility = @(visibilityType);
+            [self addSaveOperationToBottomInContext:context];
+        }];
+    }];
+}
 
 - (UserPoint *)getPointForUserId:(NSNumber *)userId {
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
