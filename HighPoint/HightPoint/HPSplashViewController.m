@@ -31,13 +31,8 @@
 {
     [super viewDidLoad];
     [self.navigationController setNavigationBarHidden:YES];
-    
-    
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
-    
+
     [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
-    
-    [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
     [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];

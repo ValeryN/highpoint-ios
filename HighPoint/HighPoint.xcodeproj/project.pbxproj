@@ -286,7 +286,6 @@
 		CDA0A0B11999DAC10017D35B /* HPSelectPopularCityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA0A0AF1999DAC10017D35B /* HPSelectPopularCityViewController.xib */; };
 		CDA0A0B41999E55B0017D35B /* UserFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA0A0B31999E55B0017D35B /* UserFilter.m */; };
 		CDA0A0B61999F5D00017D35B /* Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA0A0B51999F5D00017D35B /* Selected.png */; };
-		CDA1702A1982354300173D1C /* HPEnterIPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA170291982354300173D1C /* HPEnterIPViewController.m */; };
 		CDA1702E1982392C00173D1C /* URLs.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA1702D1982392C00173D1C /* URLs.m */; };
 		CDA17039198246B600173D1C /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = CDA17030198246B600173D1C /* CHANGELOG */; };
 		CDA1703A198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset in Resources */ = {isa = PBXBuildFile; fileRef = CDA17031198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset */; };
@@ -311,6 +310,9 @@
 		CDA33DA31993709C0054201C /* HPCityTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA33DA11993709C0054201C /* HPCityTableViewCell.xib */; };
 		CDA3A6471992017B008F9F86 /* point_info_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA3A6461992017B008F9F86 /* point_info_new.png */; };
 		CDA3A64A1992117D008F9F86 /* HPSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA3A6491992117D008F9F86 /* HPSlider.m */; };
+		CDA44BB619A5D84700E33230 /* HPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA44BB419A5D84700E33230 /* HPSettingsViewController.m */; };
+		CDA44BB719A5D84700E33230 /* HPSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */; };
+		CDA44BBE19A5E8EA00E33230 /* HPAuthorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA44BBD19A5E8EA00E33230 /* HPAuthorizationViewController.m */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 		CDB9527619A1CFEF00238DFC /* Blend 5X@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB9527519A1CFEF00238DFC /* Blend 5X@2x.png */; };
@@ -805,8 +807,6 @@
 		CDA0A0B21999E55B0017D35B /* UserFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFilter.h; sourceTree = "<group>"; };
 		CDA0A0B31999E55B0017D35B /* UserFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFilter.m; sourceTree = "<group>"; };
 		CDA0A0B51999F5D00017D35B /* Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Selected.png; sourceTree = "<group>"; };
-		CDA170281982354300173D1C /* HPEnterIPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPEnterIPViewController.h; sourceTree = "<group>"; };
-		CDA170291982354300173D1C /* HPEnterIPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPEnterIPViewController.m; sourceTree = "<group>"; };
 		CDA1702D1982392C00173D1C /* URLs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLs.m; sourceTree = "<group>"; };
 		CDA17030198246B600173D1C /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		CDA17031198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "de.bitstadium.HockeySDK-iOS-3.5.6.docset"; sourceTree = "<group>"; };
@@ -834,6 +834,11 @@
 		CDA3A6461992017B008F9F86 /* point_info_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = point_info_new.png; sourceTree = "<group>"; };
 		CDA3A6481992117D008F9F86 /* HPSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSlider.h; sourceTree = "<group>"; };
 		CDA3A6491992117D008F9F86 /* HPSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSlider.m; sourceTree = "<group>"; };
+		CDA44BB319A5D84700E33230 /* HPSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSettingsViewController.h; sourceTree = "<group>"; };
+		CDA44BB419A5D84700E33230 /* HPSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSettingsViewController.m; sourceTree = "<group>"; };
+		CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSettingsViewController.xib; sourceTree = "<group>"; };
+		CDA44BBC19A5E8EA00E33230 /* HPAuthorizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAuthorizationViewController.h; sourceTree = "<group>"; };
+		CDA44BBD19A5E8EA00E33230 /* HPAuthorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAuthorizationViewController.m; sourceTree = "<group>"; };
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
@@ -1232,8 +1237,9 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CDA44BB819A5E78700E33230 /* AuthorizationViewController */,
+				CDA44BAC19A5D82900E33230 /* SettingsViewController */,
 				CDB9527719A1F2FB00238DFC /* SplashViewController */,
-				CDA17024198234B400173D1C /* TestControllers */,
 				CD4CA1841980DFB40016DF7E /* ChatViewController */,
 				CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */,
 				CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */,
@@ -1725,15 +1731,6 @@
 			name = AddPhotoMenuView;
 			sourceTree = "<group>";
 		};
-		CDA17024198234B400173D1C /* TestControllers */ = {
-			isa = PBXGroup;
-			children = (
-				CDA170281982354300173D1C /* HPEnterIPViewController.h */,
-				CDA170291982354300173D1C /* HPEnterIPViewController.m */,
-			);
-			name = TestControllers;
-			sourceTree = "<group>";
-		};
 		CDA1702F198246B600173D1C /* HockeySDK-iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -1799,6 +1796,25 @@
 				CDA27BEA1974EE06007D6BC1 /* add_photo.png */,
 			);
 			path = debug;
+			sourceTree = "<group>";
+		};
+		CDA44BAC19A5D82900E33230 /* SettingsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CDA44BB319A5D84700E33230 /* HPSettingsViewController.h */,
+				CDA44BB419A5D84700E33230 /* HPSettingsViewController.m */,
+				CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */,
+			);
+			name = SettingsViewController;
+			sourceTree = "<group>";
+		};
+		CDA44BB819A5E78700E33230 /* AuthorizationViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CDA44BBC19A5E8EA00E33230 /* HPAuthorizationViewController.h */,
+				CDA44BBD19A5E8EA00E33230 /* HPAuthorizationViewController.m */,
+			);
+			name = AuthorizationViewController;
 			sourceTree = "<group>";
 		};
 		CDB9527719A1F2FB00238DFC /* SplashViewController */ = {
@@ -2012,6 +2028,7 @@
 				CDA0A0B11999DAC10017D35B /* HPSelectPopularCityViewController.xib in Resources */,
 				CD08B833198B87700006AF4A /* Camera Small Tap.png in Resources */,
 				3BE83C09197902950043E03E /* Photos_Camera_L.png in Resources */,
+				CDA44BB719A5D84700E33230 /* HPSettingsViewController.xib in Resources */,
 				3B298FCC192F476100BEC2AA /* slider-metal-handle-highlighted@2x.png in Resources */,
 				3B298FCA192F476100BEC2AA /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				CDA1703A198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset in Resources */,
@@ -2224,6 +2241,7 @@
 				3BDA4C6819064AC900EF6619 /* AFURLRequestSerialization.m in Sources */,
 				3B49DE1E1934AAC500C3EF1E /* HPUserProfileViewController.m in Sources */,
 				CDA1702A1982354300173D1C /* HPEnterIPViewController.m in Sources */,
+				3BE9DE1C197FD4BF00AFA641 /* HPImageCollectionViewCell.m in Sources */,
 				3BD12E5A192DFE380026BA11 /* HPFilterSettingsViewController.m in Sources */,
 				CDA22EE4196FB2910032210F /* HPConciergeViewController.m in Sources */,
 				3BA3840B1924D58A00EFC749 /* CrossDissolveAnimation.m in Sources */,
@@ -2242,6 +2260,7 @@
 				3B39D31E195C3122002520B9 /* SocketIOTransportXHR.m in Sources */,
 				4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				3B0B9205197D361D00910475 /* HPUserInfoTableHeaderView.m in Sources */,
+				CDA44BBE19A5E8EA00E33230 /* HPAuthorizationViewController.m in Sources */,
 				3BDA4C6219064AC900EF6619 /* AFHTTPRequestOperation.m in Sources */,
 				4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
 				CD08B827198B68750006AF4A /* HPUserCardUICollectionViewCell.m in Sources */,
@@ -2264,6 +2283,7 @@
 				CDA0A0B01999DAC10017D35B /* HPSelectPopularCityViewController.m in Sources */,
 				3BDA4C8E19064E5900EF6619 /* NSData+ImageContentType.m in Sources */,
 				3B39D301195C3091002520B9 /* Gender.m in Sources */,
+				CDA44BB619A5D84700E33230 /* HPSettingsViewController.m in Sources */,
 				3BDA4C6419064AC900EF6619 /* AFHTTPSessionManager.m in Sources */,
 				3BA384081924CDBC00EFC749 /* ScaleAnimation.m in Sources */,
 				3B298FD3192F476100BEC2AA /* NMRangeSlider.m in Sources */,

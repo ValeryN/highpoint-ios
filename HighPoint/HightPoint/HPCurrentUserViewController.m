@@ -10,6 +10,9 @@
 #import "DataStorage.h"
 #import "UIDevice+HighPoint.h"
 #import "HPPointLikesViewController.h"
+#import "HPCurrentUserUICollectionViewCell.h"
+#import "Utils.h"
+#import "HPSettingsViewController.h"
 #import "HPAvatarView.h"
 #import "SDWebImageManager.h"
 #import "UINavigationBar+HighPoint.h"
@@ -174,7 +177,21 @@
         return [RACSignal empty];
     }];
     self.navigationItem.leftBarButtonItem = leftBarItem;
-    self.navigationItem.rightBarButtonItem = nil;
+    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] init];
+    if ([UIDevice hp_isIOS6]) {
+        rightBarItem.image = [UIImage imageNamed:@"Close"];
+    }
+    else {
+        rightBarItem.image = [[UIImage imageNamed:@"Close"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+    rightBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        @strongify(self)
+        HPSettingsViewController* settingsVC = [[HPSettingsViewController alloc] initWithNibName: @"HPSettingsViewController" bundle: nil];
+        [self.navigationController pushViewController: settingsVC animated: YES];
+        return [RACSignal empty];
+    }];
+    
+    self.navigationItem.rightBarButtonItem = rightBarItem;
 }
 
 

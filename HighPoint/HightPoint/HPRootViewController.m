@@ -68,6 +68,7 @@
     [self createSwitch];
     [self addPullToRefresh];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
+    
 }
 
 

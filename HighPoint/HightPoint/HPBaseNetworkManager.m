@@ -128,11 +128,18 @@ static HPBaseNetworkManager *networkManager;
         if(jsonData) {
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
             [UserTokenUtils setUserToken:[[jsonDict objectForKey:@"data"] objectForKey:@"token"]];
-            }
+            NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@1,@"status", nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateAuthView object:nil userInfo:options];
+        } else {
+            NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@0,@"status", nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateAuthView object:nil userInfo:options];
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //if([self isTaskArrayEmpty:manager]) {
         //    NSLog(@"Stop Queue");
         //}
+        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@0,@"status", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateAuthView object:nil userInfo:options];
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
