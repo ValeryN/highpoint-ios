@@ -1279,9 +1279,9 @@ static HPBaseNetworkManager *networkManager;
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
-            NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData
+            NSArray *jsonArray = [[[NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
-                                                                       error:&error];
+                                                                       error:&error] objectForKey:@"data"] objectForKey:@"messages"];
             for (NSDictionary * msg in jsonArray) {
                 [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:[msg objectForKey:@"sourceId"] andMessageType:UnreadMessageType withComplation:nil];
             }
