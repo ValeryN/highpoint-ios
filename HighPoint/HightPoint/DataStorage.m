@@ -142,6 +142,7 @@ static DataStorage *dataStorage;
                 } else {
                     filter.city = nil;
                 }
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCity object:self userInfo:nil];
                 [self addSaveOperationToBottomInContext:context];
             }
             if ([fetchedObjects count] > 1) {
@@ -151,6 +152,16 @@ static DataStorage *dataStorage;
     }];
 }
 
+
+- (void)updateCityAtUserFilter:(City *)city {
+    UserFilter *filter = [self getUserFilter];
+    if (city) {
+        filter.city = city;
+    } else {
+        filter.city = nil;
+    }
+    
+}
 
 - (void)removeAndSaveCitiesFromUserFilter {
     [self.backgroundOperationQueue addOperationWithBlock:^{
