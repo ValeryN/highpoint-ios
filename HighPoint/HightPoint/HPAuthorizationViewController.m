@@ -33,6 +33,7 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:YES];
     [super viewWillAppear:animated];
     [self registerNotification];
 }

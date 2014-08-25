@@ -9,6 +9,9 @@
 #import "HPSettingsViewController.h"
 #import "URLs.h"
 #import "UserTokenUtils.h"
+#import "HPAuthorizationViewController.h"
+
+
 
 @interface HPSettingsViewController ()
 
@@ -41,6 +44,9 @@
 
 - (IBAction)logoutBtnTap:(id)sender {
     [UserTokenUtils setUserToken:nil];
+    UIStoryboard* storyBoard = [UIStoryboard storyboardWithName: @"Storyboard_568" bundle: nil];
+    HPAuthorizationViewController* authViewController = [storyBoard instantiateViewControllerWithIdentifier: @"auth"];
+    [self.navigationController pushViewController:authViewController animated:NO];
 }
 
 - (IBAction)changeIPBtnTap:(id)sender {
@@ -49,6 +55,9 @@
     } else  {
         [URLs setServerUrl:kAPIBaseURLString];
     }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"IP изменен на %@", [URLs getIPFromSettings]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
 }
 
 #pragma mark - text field
