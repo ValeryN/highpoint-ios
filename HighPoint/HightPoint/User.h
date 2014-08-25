@@ -2,12 +2,20 @@
 //  User.h
 //  HighPoint
 //
-//  Created by Julia Pozdnyakova on 18.08.14.
+//  Created by Julia Pozdnyakova on 25.08.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+
+
+typedef NS_ENUM(NSUInteger, UserVisibilityType){
+    UserVisibilityVisible = 1,
+    UserVisibilityBlur = 2,
+    UserVisibilityHidden = 3
+};
+
 
 @class Avatar, Career, Chat, City, Contact, Education, Language, MaxEntertainmentPrice, MinEntertainmentPrice, Place, UserFilter, UserPoint;
 
@@ -27,16 +35,10 @@
 @property (nonatomic, retain) NSString * languageIds;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * nameForms;
-@property (nonatomic, retain) NSNumber * userId;
-
-typedef NS_ENUM(NSUInteger, UserVisibilityType){
-    UserVisibilityVisible = 1,
-    UserVisibilityBlur = 2,
-    UserVisibilityHidden = 3
-};
-@property (nonatomic, retain) NSNumber * visibility;
-
 @property (nonatomic, retain) NSNumber * online;
+@property (nonatomic, retain) NSNumber * userId;
+@property (nonatomic, retain) NSNumber * visibility;
+@property (nonatomic, retain) NSNumber * isItFromPointLike;
 @property (nonatomic, retain) Avatar *avatar;
 @property (nonatomic, retain) NSSet *career;
 @property (nonatomic, retain) Chat *chat;

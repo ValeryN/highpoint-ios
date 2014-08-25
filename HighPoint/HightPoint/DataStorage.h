@@ -32,7 +32,8 @@
 typedef enum {
     CurrentUserType = 1,
     MainListUserType,
-    ContactUserType
+    ContactUserType,
+    PointLikeUserType
 } UserType;
 
 typedef void (^complationBlock) (id object);
@@ -53,6 +54,7 @@ typedef void (^complationBlock) (id object);
 - (void) createAndSaveUserEntity:(NSDictionary *)param forUserType:(UserType) type  withComplation:(complationBlock) block;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 - (NSFetchedResultsController*) allUsersWithPointFetchResultsController;
+- (NSFetchedResultsController *)allUsersPointLikesResultsController;
 - (User*) getCurrentUser;
 - (User*) getUserForId:(NSNumber*) id_;
 - (void)deleteAndSaveCurrentUser;

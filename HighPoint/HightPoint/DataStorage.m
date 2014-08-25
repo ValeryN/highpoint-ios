@@ -1080,6 +1080,9 @@ static DataStorage *dataStorage;
         if (type == ContactUserType) {
             user.isItFromContact = @YES;
         }
+        if (type == PointLikeUserType) {
+            user.isItFromPointLike = @YES;
+        }
         //else user.isItFromContact = [NSNumber numberWithBool:NO];
         if (param[@"name"])
             user.name = param[@"name"];
@@ -1712,6 +1715,37 @@ static DataStorage *dataStorage;
     }
     return controller;
 
+}
+
+- (NSFetchedResultsController *)allUsersPointLikesResultsController {
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
+    [request setEntity:entity];
+    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"isItFromPointLike == 1"];
+    
+    @try {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    
+    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
+    NSError *error = nil;
+    if (![controller performFetch:&error]) {
+        return nil;
+    }
+    NSLog(@"point like userscount = %d", [controller fetchedObjects].count);
+    return controller;
+    
 }
 
 
