@@ -32,7 +32,6 @@
 #define kNavBarDefaultPosition CGPointMake(160,64)
 
 @implementation HPRootViewController {
-    int usersCount;
     BOOL isFirstLoad;
 }
 
@@ -43,28 +42,6 @@
     [super viewDidLoad];
     isFirstLoad = YES;
     self.isNeedScrollToIndex = NO;
-
-    //TODO : delete
-   // NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: @"email", @"email", @"password", @"password", nil];
-    /*
-    [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
-
-    [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
-    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
-    [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
-    [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
-    [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
-    [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
-        //socket init
-   
-    //
-    */
-
-    //socket init
-    //[[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequestForQueue];
-
-    
     [self createSwitch];
     [self addPullToRefresh];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
@@ -85,12 +62,8 @@
     isFirstLoad = NO;
     if (self.isNeedScrollToIndex) {
         NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
-        if (usersCount < self.currentIndex + 1) {
-            int portionsCount = path.row/PORTION_OF_DATA + 1;
-            usersCount = portionsCount *PORTION_OF_DATA;
-        }
         [self.mainListTable reloadData];
-        [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+        [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
     self.isNeedScrollToIndex = NO;
 }
@@ -143,6 +116,7 @@
     if (msgsCount > 0) {
         self.notificationView = nil;
         self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%d", msgsCount]];
+        self.notificationView.userInteractionEnabled = NO;
     }
     [_chatsListButton addSubview: _notificationView];
 }
@@ -188,7 +162,6 @@
         self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
     }
     self.allUsers.delegate = self;
-    usersCount = [self.allUsers fetchedObjects].count > 0? PORTION_OF_DATA : 0;
     [self.mainListTable reloadData];
 }
 
@@ -284,18 +257,9 @@
         {
             if (!self.bottomActivityView.isAnimating) {
                 [self.bottomActivityView startAnimating];
-                
-                if ([self.allUsers fetchedObjects].count - usersCount == 0) {
-                    User *user = [[self.allUsers fetchedObjects] lastObject];
-                    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
-                    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
-                } else {
-                    if (([self.allUsers fetchedObjects].count - usersCount) > PORTION_OF_DATA) {
-                        usersCount += PORTION_OF_DATA;
-                    } else {
-                        usersCount += ([self.allUsers fetchedObjects].count - usersCount);
-                    }
-                }
+                User *user = [[self.allUsers fetchedObjects] lastObject];
+                [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
+                [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
                 [self.mainListTable reloadData];
             }
         } else {
@@ -316,9 +280,8 @@
 
 - (NSInteger) tableView: (UITableView*) tableView numberOfRowsInSection: (NSInteger) section
 {
-//    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.allUsers sections] objectAtIndex:section];
-//    return [sectionInfo numberOfObjects];
-    return usersCount;
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.allUsers sections] objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
 }
 
 
