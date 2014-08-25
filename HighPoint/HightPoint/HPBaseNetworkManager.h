@@ -35,6 +35,7 @@ typedef enum {
 - (void) getPopularCitiesRequest;
 - (void) getApplicationSettingsRequest;
 - (void) getCurrentUserRequest;
+- (void) getUserInfoRequest: (NSNumber *) userId;
 - (void) addEducationRequest:(NSDictionary*) param;
 - (void) deleteEducationItemRequest:(NSString*) ids;
 - (void) findSchoolsRequest:(NSDictionary*) param;

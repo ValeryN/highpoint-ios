@@ -284,6 +284,37 @@ static HPBaseNetworkManager *networkManager;
     }];
 }
 
+#pragma mark - user info 
+
+
+- (void) getUserInfoRequest: (NSNumber *) userId {
+    NSString *url = nil;
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys: userId, @"id", nil];
+    url = [URLs getServerURL];
+    url =  [url stringByAppendingString:[NSString stringWithFormat:kUserInfoRequest, [userId stringValue]]];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [self addTaskToArray:manager];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"USER INFO REQUEST -->: %@", operation.responseString);
+        NSLog(@"USER INFO");
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:nil withComplation:nil];
+
+            }
+            else NSLog(@"Error, no valid data");
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+    }];
+}
+
 #pragma mark - current user
 
 - (void) getCurrentUserRequest {
