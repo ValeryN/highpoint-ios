@@ -1345,6 +1345,7 @@ static DataStorage *dataStorage;
                 if (param[@"id"])
                     userPoint.pointId = param[@"id"];
                 userPoint.pointCreatedAt = param[@"createdAt"];
+                id t = param[@"createdAt"];
                 userPoint.pointLiked = param[@"liked"];
                 userPoint.pointText = param[@"text"];
                 userPoint.pointUserId = param[@"userId"];
