@@ -1,5 +1,5 @@
 //
-//  HPAddNewTownView.h
+//  HPAddNewTownCellView.h
 //  HighPoint
 //
 //  Created by Andrey Anisimov on 01.08.14.
@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-@class HPAddNewTownView;
+@class HPAddNewTownCellView;
 @protocol  HPAddNewTownViewDelegate <NSObject>
-- (void) showNextView:(HPAddNewTownView*) view;
+- (void) showNextView:(HPAddNewTownCellView *) view;
 @end
 
-@interface HPAddNewTownView : UIView
+@interface HPAddNewTownCellView : UIView
 @property (nonatomic, weak) id<HPAddNewTownViewDelegate> delegate;
 @property (nonatomic, weak) IBOutlet UIImageView *addImg;
 @property (nonatomic, weak) IBOutlet UIImageView *addImgTap;

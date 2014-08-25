@@ -1,14 +1,14 @@
 //
-//  HPAddNewTownView.m
+//  HPAddNewTownCellView.m
 //  HighPoint
 //
 //  Created by Andrey Anisimov on 01.08.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-#import "HPAddNewTownView.h"
+#import "HPAddNewTownCellView.h"
 
-@implementation HPAddNewTownView
+@implementation HPAddNewTownCellView
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -20,8 +20,8 @@
 }
 + (id) createView {
     
-    HPAddNewTownView *customView = [[[NSBundle mainBundle] loadNibNamed:@"HPAddNewTownView" owner:nil options:nil] lastObject];
-    if ([customView isKindOfClass:[HPAddNewTownView class]]) {
+    HPAddNewTownCellView *customView = [[[NSBundle mainBundle] loadNibNamed:@"HPAddNewTownCellView" owner:nil options:nil] lastObject];
+    if ([customView isKindOfClass:[HPAddNewTownCellView class]]) {
         [customView configureView];
         return customView;
     }

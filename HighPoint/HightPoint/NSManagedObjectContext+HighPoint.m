@@ -46,11 +46,11 @@
 }
 
 - (void) saveWithErrorHandler {
-
+    [self.persistentStoreCoordinator tryLock];
     NSLog(@"Save");
     NSError *error = nil;
     [self save:&error];
-
+    [self.persistentStoreCoordinator unlock];
     if (error) {
         NSLog(@"ERROR: saveContext: %@", error);
 #ifdef DEBUG

@@ -14,6 +14,10 @@
 #import "HPBaseNetworkManager.h"
 #import "UINavigationController+HighPoint.h"
 #import <HockeySDK/HockeySDK.h>
+#import "URLs.h"
+#import "UserTokenUtils.h"
+#import "HPSplashViewController.h"
+#import "HPAuthorizationViewController.h"
 
 
 //==============================================================================
@@ -33,22 +37,30 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    UIStoryboard* storyBoard = [UIStoryboard storyboardWithName: @"Storyboard_568" bundle: nil];
-    HPRootViewController* initViewController = [storyBoard instantiateViewControllerWithIdentifier: @"main"];
-
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"serverURL"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [UINavigationController hp_configureNavigationBar];
+    [URLs isServerUrlSetted];
+    
     [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"b209e48e58a6fe3f6737b5fee1d95f4d"];
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
-    [self.window setRootViewController: initViewController];
+    
+    
+    UIStoryboard* storyBoard = [UIStoryboard storyboardWithName: @"Storyboard_568" bundle: nil];
+    if ([UserTokenUtils getUserToken]) {
+        HPSplashViewController* splashViewController = [storyBoard instantiateViewControllerWithIdentifier: @"HPSplashViewController"];
+         self.navigationController = [[UINavigationController alloc] initWithRootViewController:splashViewController];
+    } else {
+        HPAuthorizationViewController* authViewController = [storyBoard instantiateViewControllerWithIdentifier: @"auth"];
+        self.window.rootViewController = authViewController;
+        self.navigationController = [[UINavigationController alloc] initWithRootViewController:authViewController];
+    }
+    [self.navigationController hp_configureNavigationBar];
+    
+    [self.window setRootViewController:self.navigationController];
+    
     [self.window makeKeyAndVisible];
-   
     return YES;
 }
 
-//==============================================================================
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
@@ -56,7 +68,7 @@
     [self saveContext];
 }
 
-//==============================================================================
+
 
 - (void)saveContext
 {

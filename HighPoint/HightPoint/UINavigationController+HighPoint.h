@@ -12,7 +12,7 @@
 
 @interface UINavigationController (HighPoint)
 
-+ (void)hp_configureNavigationBar;
+- (void)hp_configureNavigationBar;
 
 - (void) hp_presentViewController: (UIViewController*) vc;
 - (void) hp_popViewController;

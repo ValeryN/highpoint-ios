@@ -50,6 +50,7 @@
                             <constraint firstAttribute="height" constant="32" id="LAJ-c0-xlr"/>
                             <constraint firstAttribute="width" constant="188" id="euG-F9-b7f"/>
                         </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                         <state key="normal" title="Опубликовать поинт" backgroundImage="green_btn.png">
                             <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -68,38 +69,53 @@
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                     </textView>
-                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ud8-cD-fuE">
-                        <rect key="frame" x="66" y="412" width="188" height="34"/>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ud8-cD-fuE">
+                        <rect key="frame" x="66" y="405" width="188" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="188" id="9UN-XE-8Vb"/>
+                            <constraint firstAttribute="height" constant="34" id="spb-HO-YvV"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                         <state key="normal" title="Удалить поинт" backgroundImage="green_btn.png">
                             <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <state key="highlighted" title="Удалить поинт" backgroundImage="green_btn_pressed.png"/>
-                        <connections>
-                            <action selector="deletePointTap:" destination="B7C-Rk-Jqu" eventType="touchUpInside" id="sMU-Jg-ruv"/>
-                        </connections>
                     </button>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1mX-xx-3Qa">
-                        <rect key="frame" x="1" y="408" width="320" height="215"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1mX-xx-3Qa">
+                        <rect key="frame" x="0.0" y="408" width="320" height="215"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6" minValue="0.0" maxValue="12" translatesAutoresizingMaskIntoConstraints="NO" id="MLS-E9-Pf0" customClass="HPSlider">
-                                <rect key="frame" x="30" y="53" width="260" height="31"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6" minValue="0.0" maxValue="12" translatesAutoresizingMaskIntoConstraints="NO" id="MLS-E9-Pf0" customClass="HPSlider">
+                                <rect key="frame" x="30" y="48" width="260" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="7Lh-o0-uVO"/>
+                                    <constraint firstAttribute="width" constant="256" id="Kdt-Ej-OeM"/>
+                                </constraints>
                             </slider>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Установите актуальное время действия вашего поинта" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="263" translatesAutoresizingMaskIntoConstraints="NO" id="tXV-93-33x">
-                                <rect key="frame" x="29" y="90" width="263" height="57"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Установите актуальное время действия вашего поинта" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="264" translatesAutoresizingMaskIntoConstraints="NO" id="tXV-93-33x">
+                                <rect key="frame" x="28" y="85" width="264" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="264" id="7qJ-2E-AkC"/>
+                                    <constraint firstAttribute="height" constant="57" id="ndf-ez-qNi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nkk-TC-7q8">
-                                <rect key="frame" x="92" y="159" width="139" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nkk-TC-7q8">
+                                <rect key="frame" x="91" y="153" width="138" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="hQi-Wn-hGx"/>
+                                    <constraint firstAttribute="width" constant="138" id="zLT-3f-iAg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <state key="normal" title="Опубликовать" backgroundImage="green_btn.png">
                                     <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -110,65 +126,89 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nkk-TC-7q8" firstAttribute="top" secondItem="tXV-93-33x" secondAttribute="bottom" constant="11" id="9x5-Lr-sVC"/>
+                            <constraint firstAttribute="centerX" secondItem="nkk-TC-7q8" secondAttribute="centerX" id="GT9-HX-0lw"/>
+                            <constraint firstItem="tXV-93-33x" firstAttribute="top" secondItem="MLS-E9-Pf0" secondAttribute="bottom" constant="7" id="Nhz-JK-yqF"/>
+                            <constraint firstItem="MLS-E9-Pf0" firstAttribute="top" secondItem="1mX-xx-3Qa" secondAttribute="top" constant="48" id="WPJ-kZ-AF7"/>
+                            <constraint firstAttribute="height" constant="215" id="Xe3-UL-X3Q"/>
+                            <constraint firstAttribute="centerX" secondItem="tXV-93-33x" secondAttribute="centerX" id="dQ2-iP-E8k"/>
+                            <constraint firstAttribute="width" constant="320" id="mTg-Ux-pXf"/>
+                            <constraint firstAttribute="centerX" secondItem="MLS-E9-Pf0" secondAttribute="centerX" id="qgt-fh-TIj"/>
+                        </constraints>
                     </view>
-                    <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s2a-9C-wZ6">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2a-9C-wZ6">
                         <rect key="frame" x="0.0" y="408" width="320" height="215"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Если вы удалите текущий поинт сейчасс, то сможете опубликовать новый только через час. Хотите удалить его?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="KxF-iX-zFR">
                                 <rect key="frame" x="30" y="7" width="260" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" red="0.89721145069999997" green="0.01936017336" blue="0.14202212589999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aj3-L2-t2u">
                                 <rect key="frame" x="90" y="113" width="139" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <state key="normal" title="Удалить поинт" backgroundImage="green_btn.png">
                                     <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted" title="Удалить поинт" backgroundImage="green_btn_pressed.png"/>
-                                <connections>
-                                    <action selector="deleteSettTap:" destination="B7C-Rk-Jqu" eventType="touchUpInside" id="5u9-cv-1n0"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x4s-tk-4AG">
-                                <rect key="frame" x="119" y="163" width="82" height="30"/>
+                                <rect key="frame" x="119" y="161" width="82" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <state key="normal" title="Отменить">
                                     <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted" title="Отменить"/>
-                                <connections>
-                                    <action selector="cancelSettTap:" destination="B7C-Rk-Jqu" eventType="touchUpInside" id="Nrr-Su-DZC"/>
-                                </connections>
+                                <state key="highlighted" title="Отменить">
+                                    <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="0.5" colorSpace="calibratedRGB"/>
+                                </state>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="320" id="RQq-Bo-Xhe"/>
+                            <constraint firstAttribute="height" constant="215" id="dW5-Sf-pBg"/>
+                        </constraints>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="1mX-xx-3Qa" firstAttribute="leading" secondItem="B7C-Rk-Jqu" secondAttribute="leading" id="0mV-hp-yGf"/>
                 <constraint firstItem="TfR-Za-la0" firstAttribute="top" secondItem="B7C-Rk-Jqu" secondAttribute="top" constant="245" id="1cN-XY-uYX"/>
                 <constraint firstItem="HfE-sU-Wr3" firstAttribute="leading" secondItem="B7C-Rk-Jqu" secondAttribute="leading" constant="20" id="5FV-jg-fuj"/>
                 <constraint firstAttribute="centerX" secondItem="HfE-sU-Wr3" secondAttribute="centerX" id="5yi-jX-zmj"/>
+                <constraint firstItem="PRn-Mu-tVe" firstAttribute="top" secondItem="TfR-Za-la0" secondAttribute="bottom" constant="30" id="BwM-17-dJ5"/>
                 <constraint firstItem="GRk-BE-bsn" firstAttribute="leading" secondItem="B7C-Rk-Jqu" secondAttribute="leading" constant="8" id="Byz-M9-whu"/>
+                <constraint firstItem="1mX-xx-3Qa" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" constant="22" id="Efk-kK-rdw"/>
+                <constraint firstAttribute="centerX" secondItem="s2a-9C-wZ6" secondAttribute="centerX" id="HV7-Zc-bmY"/>
+                <constraint firstItem="1mX-xx-3Qa" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" priority="750" constant="32" id="KcS-PD-a5B"/>
                 <constraint firstAttribute="centerX" secondItem="PRn-Mu-tVe" secondAttribute="centerX" id="Pei-Xa-if2"/>
+                <constraint firstItem="s2a-9C-wZ6" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" constant="22" id="RSR-2z-Sr6"/>
+                <constraint firstItem="RoZ-6z-yzU" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" priority="750" constant="35" id="Rl4-zO-n4a"/>
                 <constraint firstItem="HfE-sU-Wr3" firstAttribute="top" secondItem="B7C-Rk-Jqu" secondAttribute="top" constant="7" id="S07-4W-Zle"/>
+                <constraint firstAttribute="centerX" secondItem="Ud8-cD-fuE" secondAttribute="centerX" id="TAB-qj-NGT"/>
                 <constraint firstAttribute="trailing" secondItem="HfE-sU-Wr3" secondAttribute="trailing" constant="20" id="YRt-jn-0l3"/>
+                <constraint firstItem="Ud8-cD-fuE" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" priority="750" constant="35" id="ZOw-bJ-93b"/>
                 <constraint firstItem="RoZ-6z-yzU" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" constant="19" id="f71-ot-Tkn"/>
                 <constraint firstItem="GRk-BE-bsn" firstAttribute="top" secondItem="HfE-sU-Wr3" secondAttribute="bottom" constant="14" id="fvj-Ey-QOs"/>
                 <constraint firstAttribute="centerX" secondItem="TfR-Za-la0" secondAttribute="centerX" id="j9k-Xb-Hef"/>
-                <constraint firstItem="PRn-Mu-tVe" firstAttribute="top" secondItem="GRk-BE-bsn" secondAttribute="bottom" constant="19" id="jPE-2I-hMe"/>
+                <constraint firstAttribute="trailing" secondItem="1mX-xx-3Qa" secondAttribute="trailing" id="jwf-BF-Mod"/>
                 <constraint firstAttribute="trailing" secondItem="GRk-BE-bsn" secondAttribute="trailing" constant="8" id="pI8-wa-2Jv"/>
+                <constraint firstItem="Ud8-cD-fuE" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" constant="19" id="pcf-sK-GRm"/>
+                <constraint firstItem="GRk-BE-bsn" firstAttribute="top" secondItem="B7C-Rk-Jqu" secondAttribute="top" priority="750" id="qlR-eb-sIs"/>
                 <constraint firstAttribute="centerX" secondItem="RoZ-6z-yzU" secondAttribute="centerX" id="rqw-sA-xx9"/>
+                <constraint firstItem="TfR-Za-la0" firstAttribute="top" secondItem="B7C-Rk-Jqu" secondAttribute="top" priority="750" constant="168" id="szx-9v-vxg"/>
+                <constraint firstItem="s2a-9C-wZ6" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" priority="750" constant="32" id="vlR-9m-zqD"/>
+                <constraint firstItem="PRn-Mu-tVe" firstAttribute="top" secondItem="TfR-Za-la0" secondAttribute="bottom" priority="750" constant="8" id="xvC-eb-WdU"/>
             </constraints>
             <size key="customSize" width="244" height="51"/>
             <connections>
@@ -186,6 +226,13 @@
                 <outlet property="publishBtn" destination="RoZ-6z-yzU" id="Dwb-ia-e4Z"/>
                 <outlet property="publishSettBtn" destination="nkk-TC-7q8" id="mQs-OQ-nWw"/>
                 <outlet property="yourPointLabel" destination="HfE-sU-Wr3" id="w8s-rl-PeE"/>
+                <outletCollection property="constraintFor4inch" destination="fvj-Ey-QOs" id="Cxk-Cj-pMS"/>
+                <outletCollection property="constraintFor4inch" destination="1cN-XY-uYX" id="AcP-0k-Y7G"/>
+                <outletCollection property="constraintFor4inch" destination="BwM-17-dJ5" id="Ydb-t4-kj3"/>
+                <outletCollection property="constraintFor4inch" destination="f71-ot-Tkn" id="6TI-L0-peE"/>
+                <outletCollection property="constraintFor4inch" destination="Efk-kK-rdw" id="sWf-JE-HEc"/>
+                <outletCollection property="constraintFor4inch" destination="pcf-sK-GRm" id="LdL-H9-dyk"/>
+                <outletCollection property="constraintFor4inch" destination="RSR-2z-Sr6" id="WdP-QR-68a"/>
             </connections>
         </collectionViewCell>
     </objects>

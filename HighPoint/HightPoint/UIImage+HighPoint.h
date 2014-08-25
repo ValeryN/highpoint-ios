@@ -16,7 +16,11 @@
 - (UIImage*) hp_maskImageWithPattern: (UIImage*) image;
 - (UIImage*) hp_applyBlurWithRadius: (CGFloat) blurRadius;
 
+- (CIImage *)hp_applyBlurWithRadiusWithCIImage:(CGFloat)blurRadius;
+
 - (UIImage *)addBlendToPhoto;
 
 - (UIImage*) hp_imageWithGaussianBlur: (NSInteger) blurRadius;
+
+- (UIImage *)resizeImageToSize:(CGSize)dstSize;
 @end

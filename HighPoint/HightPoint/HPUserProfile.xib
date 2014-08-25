@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPUserProfileViewController">
             <connections>
-                <outlet property="backButton" destination="XZU-1O-Uva" id="n4A-Dd-duz"/>
-                <outlet property="barTitle" destination="uQd-Sr-hZ3" id="bie-d9-10X"/>
-                <outlet property="carousel" destination="RMK-HY-SN3" id="JzY-c3-uVV"/>
-                <outlet property="collectionView" destination="c5z-xG-Gas" id="13t-xE-jvn"/>
-                <outlet property="downButton" destination="Vft-km-owA" id="ZNq-fn-dcs"/>
-                <outlet property="infoTableView" destination="Pdk-6r-A7z" id="t4G-gB-hdy"/>
-                <outlet property="segmentControl" destination="Jqx-nE-8ny" id="bEQ-MO-ZpP"/>
+                <outlet property="segmentControl" destination="iAh-vJ-seE" id="Rox-9V-Be8"/>
                 <outlet property="view" destination="iN0-l3-epB" id="xiT-FE-yFD"/>
             </connections>
         </placeholder>
@@ -20,86 +14,18 @@
         <view tag="666" contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="48" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Pdk-6r-A7z">
-                    <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                    <color key="sectionIndexBackgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
-                </tableView>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RMK-HY-SN3" customClass="iCarousel">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                </view>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D2k-5y-4ck" userLabel="barView View">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bar_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="pcG-5t-nAG">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vft-km-owA">
-                            <rect key="frame" x="12" y="37" width="23" height="12"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <state key="normal" backgroundImage="Down.png">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="downButtonTap:" destination="-1" eventType="touchUpInside" id="kXs-a4-Zh7"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XZU-1O-Uva">
-                            <rect key="frame" x="17" y="30" width="12" height="23"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" backgroundImage="Back.png">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="highlighted" backgroundImage="Back Tap.png"/>
-                            <connections>
-                                <action selector="backButtonTap:" destination="-1" eventType="touchUpInside" id="PKO-bq-mHK"/>
-                            </connections>
-                        </button>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Jqx-nE-8ny">
-                            <rect key="frame" x="68" y="26" width="184" height="29"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="Фотоальбом"/>
-                                <segment title="Информация"/>
-                            </segments>
-                            <color key="tintColor" red="0.36470588240000001" green="0.72941176470000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="segmentedControlValueDidChange:" destination="-1" eventType="valueChanged" id="Krw-Hr-dUQ"/>
-                            </connections>
-                        </segmentedControl>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQd-Sr-hZ3">
-                            <rect key="frame" x="86" y="31" width="149" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
-                <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="c5z-xG-Gas">
-                    <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <collectionViewLayout key="collectionViewLayout" id="oXH-Va-WXc" customClass="RACollectionViewReorderableTripletLayout"/>
-                    <cells/>
-                </collectionView>
-            </subviews>
             <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
+        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="iAh-vJ-seE">
+            <rect key="frame" x="0.0" y="0.0" width="184" height="29"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <segments>
+                <segment title="Фотоальбом"/>
+                <segment title="Информация"/>
+            </segments>
+            <color key="tintColor" red="0.36470588240000001" green="0.72941176470000002" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
+        </segmentedControl>
     </objects>
-    <resources>
-        <image name="Back Tap.png" width="24" height="46"/>
-        <image name="Back.png" width="24" height="46"/>
-        <image name="Down.png" width="46" height="24"/>
-        <image name="bar_background.png" width="640" height="129"/>
-    </resources>
 </document>

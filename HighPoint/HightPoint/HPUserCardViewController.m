@@ -195,6 +195,7 @@
 
 - (void) backbuttonTaped: (id) sender
 {
+    self.usersCollectionView.delegate = nil;
     [self.navigationController popViewControllerAnimated: YES];
     if ([self.delegate respondsToSelector:@selector(syncronizePosition:)]) {
         [self.delegate syncronizePosition:self.currentIndex];

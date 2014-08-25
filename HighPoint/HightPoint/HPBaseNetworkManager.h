@@ -29,11 +29,13 @@ typedef enum {
 - (void) makeRegistrationRequest:(NSDictionary*) param;
 - (void) makeUpdateCurrentUserFilterSettingsRequest:(NSDictionary*) param;
 - (void) makeReferenceRequest:(NSDictionary*) param;
+- (void) getPointLikesRequest: (NSNumber *) pointId;
 - (void) makePointLikeRequest:(NSNumber*) pointId;
 - (void) makePointUnLikeRequest:(NSNumber*) pointId;
 - (void) getPopularCitiesRequest;
 - (void) getApplicationSettingsRequest;
 - (void) getCurrentUserRequest;
+- (void) getUserInfoRequest: (NSNumber *) userId;
 - (void) addEducationRequest:(NSDictionary*) param;
 - (void) deleteEducationItemRequest:(NSString*) ids;
 - (void) findSchoolsRequest:(NSDictionary*) param;

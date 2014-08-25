@@ -32,7 +32,8 @@
 typedef enum {
     CurrentUserType = 1,
     MainListUserType,
-    ContactUserType
+    ContactUserType,
+    PointLikeUserType
 } UserType;
 
 typedef void (^complationBlock) (id object);
@@ -49,10 +50,12 @@ typedef void (^complationBlock) (id object);
 - (void)removeAndSaveUserFilter;
 - (UserFilter*) getUserFilter;
 - (void)setAndSaveCityToUserFilter:(City *) city;
+- (void)updateCityAtUserFilter:(City *)city;
 - (NSFetchedResultsController*) applicationSettingFetchResultsController;
 - (void) createAndSaveUserEntity:(NSDictionary *)param forUserType:(UserType) type  withComplation:(complationBlock) block;
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 - (NSFetchedResultsController*) allUsersWithPointFetchResultsController;
+- (NSFetchedResultsController *)allUsersPointLikesResultsController;
 - (User*) getCurrentUser;
 - (User*) getUserForId:(NSNumber*) id_;
 - (void)deleteAndSaveCurrentUser;
@@ -79,6 +82,11 @@ typedef void (^complationBlock) (id object);
 - (void)deleteAndSaveCareerEntityFromUser:(NSArray *) ids;
 - (void)createAndSaveCompany:(NSDictionary *)param withComplation:(complationBlock) block;
 - (Company *) createTempCompany :(NSDictionary *) param;
+
+- (void)deleteAndSaveUserPointForUser:(User *)globalUser;
+
+- (void)updateAndSaveVisibility:(UserVisibilityType)visibilityType forUser:(User *)globalUser;
+
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
 - (void)setAndSavePointLiked: (NSNumber *) pointId : (BOOL) isLiked;
 - (AppSetting*) getAppSettings;
@@ -112,6 +120,6 @@ typedef void (^complationBlock) (id object);
 - (void)createAndSaveChatEntity: (User *)user withMessages: (NSArray *) messages withComplation:(complationBlock) block;
 - (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
 - (Chat *) getChatByUserId :(NSNumber *) userId;
-- (NSFetchedResultsController *) getSelectedUserById:(NSNumber*) id_;
+- (User *) getSelectedUserById:(NSNumber*) id_;
 
 @end

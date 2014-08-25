@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -10,18 +10,28 @@
             <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qdj-5B-PZH" userLabel="Avatar - Image View">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qdj-5B-PZH" userLabel="Avatar - Image View">
                     <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Userpic Shape Green.png" translatesAutoresizingMaskIntoConstraints="NO" id="HeJ-6r-B9Z" userLabel="Border - Image View">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Userpic Shape Green.png" translatesAutoresizingMaskIntoConstraints="NO" id="HeJ-6r-B9Z" userLabel="Border - Image View">
                     <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Qdj-5B-PZH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="9RG-nf-Sgg"/>
+                <constraint firstAttribute="bottom" secondItem="HeJ-6r-B9Z" secondAttribute="bottom" id="O1U-PB-A4j"/>
+                <constraint firstItem="Qdj-5B-PZH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="T2w-qv-O98"/>
+                <constraint firstAttribute="trailing" secondItem="Qdj-5B-PZH" secondAttribute="trailing" id="VYJ-gJ-d9Z"/>
+                <constraint firstItem="HeJ-6r-B9Z" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Xr6-e0-4SU"/>
+                <constraint firstAttribute="bottom" secondItem="Qdj-5B-PZH" secondAttribute="bottom" id="bAy-cz-6PB"/>
+                <constraint firstAttribute="trailing" secondItem="HeJ-6r-B9Z" secondAttribute="trailing" id="kJf-ak-RGV"/>
+                <constraint firstItem="HeJ-6r-B9Z" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="pbN-fd-f0a"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="avatar" destination="Qdj-5B-PZH" id="lO6-hw-n3f"/>

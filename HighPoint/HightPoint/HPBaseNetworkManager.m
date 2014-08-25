@@ -109,6 +109,10 @@ static HPBaseNetworkManager *networkManager;
 }
 # pragma mark -
 # pragma mark http requests
+
+
+#pragma mark - auth
+
 - (void) makeAutorizationRequest:(NSDictionary*) param {
     NSString *url = nil;
     url = [URLs getServerURL];
@@ -128,17 +132,27 @@ static HPBaseNetworkManager *networkManager;
         if(jsonData) {
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
             [UserTokenUtils setUserToken:[[jsonDict objectForKey:@"data"] objectForKey:@"token"]];
-            }
+            NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@1,@"status", nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateAuthView object:nil userInfo:options];
+        } else {
+            NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@0,@"status", nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateAuthView object:nil userInfo:options];
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //if([self isTaskArrayEmpty:manager]) {
         //    NSLog(@"Stop Queue");
         //}
+        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@0,@"status", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateAuthView object:nil userInfo:options];
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
 
     }];
 }
+
+#pragma mark - registration
+
 - (void) makeRegistrationRequest:(NSDictionary*) param {
     NSString *url = nil;
     url = [URLs getServerURL];
@@ -162,93 +176,9 @@ static HPBaseNetworkManager *networkManager;
         //[alert show];
     }];
 }
-- (void) getGeoLocation:(NSDictionary*) param : (int) mode {
-    NSString *url = nil;
-    url = [URLs getServerURL];
-    url = [url stringByAppendingString:kGeoLocationRequest];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    //[self addTaskToArray:manager];
-    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"GEOLOCATION -->: %@", operation.responseString);
-        //if([self isTaskArrayEmpty:manager]) {
-        //    NSLog(@"Stop Queue");
-        //}
-        NSError *error = nil;
-        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
-        if(jsonData) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                     options:kNilOptions
-                                                                       error:&error];
-            if(jsonDict) {
-                NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
-
-                switch (mode) {
-
-                    case 0: {
-                        for(NSDictionary *dict in cities) {
-                            [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:nil];
-                        }
-
-                        NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
-                        for (int i = 0; i < users.count; i++) {
-                            NSLog(@"city id = %@", ((User*)[users objectAtIndex:i]).cityId);
-                            City * city = [[DataStorage sharedDataStorage]  getCityById:((User*)[users objectAtIndex:i]).cityId];
-                            NSLog(@"city name = %@", city.cityName);
-                            [[DataStorage sharedDataStorage] setAndSaveCityToUser:((User *) [users objectAtIndex:i]).userId :city];
-                        }
-
-                        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
-                                                                                                             object:nil
-                                                                                                           userInfo:nil]];
-                        break;
-                    }
-
-                    case 1: {
-                        for(NSDictionary *dict in cities) {
-                            [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:nil];
-                        }
-
-                        User *current = [[DataStorage sharedDataStorage] getCurrentUser];
-                        City * city = [[DataStorage sharedDataStorage]  getCityById:current.cityId];
-                        [[DataStorage sharedDataStorage] setAndSaveCityToUser:current.userId :city];
-                        break;
-                    }
-
-                    case 2: {
-                        if(cities.count == 1) {
-                            [[DataStorage sharedDataStorage] createAndSaveCity:cities[0] popular:NO withComplation:^(City *city) {
-                                if (city) {
-                                    [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:city];
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:nil];
-                                }
-                            }];
-                        }
-                        else if(cities.count>1){
-#ifdef DEBUG
-                            @throw [NSException exceptionWithName:@"" reason:@"Someone lied to me" userInfo:nil];
-#endif
-                        }
-                        break;
-                    }
-
-                    default:
-                        break;
-                }
 
 
-            }
-            else NSLog(@"Error, no valid data");
-
-        }
-
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error.localizedDescription);
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //[alert show];
-
-    }];
-}
+#pragma mark - points
 
 - (void) getPointsRequest:(NSInteger) lastPoint {
     NSString *url = nil;
@@ -306,6 +236,9 @@ static HPBaseNetworkManager *networkManager;
     }];
 
 }
+
+#pragma mark - users
+
 - (void) getUsersRequest:(NSInteger) lastUser {
     ///v201405/users
     NSString *url = nil;
@@ -351,6 +284,39 @@ static HPBaseNetworkManager *networkManager;
     }];
 }
 
+#pragma mark - user info 
+
+
+- (void) getUserInfoRequest: (NSNumber *) userId {
+    NSString *url = nil;
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys: userId, @"id", nil];
+    url = [URLs getServerURL];
+    url =  [url stringByAppendingString:[NSString stringWithFormat:kUserInfoRequest, [userId stringValue]]];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [self addTaskToArray:manager];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"USER INFO REQUEST -->: %@", operation.responseString);
+        NSLog(@"USER INFO");
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:nil withComplation:nil];
+
+            }
+            else NSLog(@"Error, no valid data");
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+    }];
+}
+
+#pragma mark - current user
+
 - (void) getCurrentUserRequest {
     NSString *url = nil;
     url = [URLs getServerURL];
@@ -390,6 +356,10 @@ static HPBaseNetworkManager *networkManager;
 
     }];
 }
+
+
+#pragma mark - geolocation
+
 - (void) findGeoLocation:(NSDictionary*) param {
     NSString *url = nil;
     url = [URLs getServerURL];
@@ -439,6 +409,137 @@ static HPBaseNetworkManager *networkManager;
     }];
 }
 
+- (void) getGeoLocation:(NSDictionary*) param : (int) mode {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:kGeoLocationRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    //[self addTaskToArray:manager];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"GEOLOCATION -->: %@", operation.responseString);
+        //if([self isTaskArrayEmpty:manager]) {
+        //    NSLog(@"Stop Queue");
+        //}
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
+                
+                switch (mode) {
+                        
+                    case 0: {
+                        for(NSDictionary *dict in cities) {
+                            [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:nil];
+                        }
+                        
+                        NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
+                        for (int i = 0; i < users.count; i++) {
+                            NSLog(@"city id = %@", ((User*)[users objectAtIndex:i]).cityId);
+                            City * city = [[DataStorage sharedDataStorage]  getCityById:((User*)[users objectAtIndex:i]).cityId];
+                            NSLog(@"city name = %@", city.cityName);
+                            [[DataStorage sharedDataStorage] setAndSaveCityToUser:((User *) [users objectAtIndex:i]).userId :city];
+                        }
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
+                                                                                                             object:nil
+                                                                                                           userInfo:nil]];
+                        break;
+                    }
+                        
+                    case 1: {
+                        for(NSDictionary *dict in cities) {
+                            [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:nil];
+                        }
+                        
+                        User *current = [[DataStorage sharedDataStorage] getCurrentUser];
+                        City * city = [[DataStorage sharedDataStorage]  getCityById:current.cityId];
+                        [[DataStorage sharedDataStorage] setAndSaveCityToUser:current.userId :city];
+                        break;
+                    }
+                        
+                    case 2: {
+                        if(cities.count == 1) {
+                            [[DataStorage sharedDataStorage] createAndSaveCity:cities[0] popular:NO withComplation:^(City *city) {
+                                if (city) {
+                                    [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:city];
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:nil];
+                                }
+                            }];
+                        }
+                        else if(cities.count>1){
+#ifdef DEBUG
+                            @throw [NSException exceptionWithName:@"" reason:@"Someone lied to me" userInfo:nil];
+#endif
+                        }
+                        break;
+                    }
+                        
+                    default:
+                        break;
+                }
+                
+                
+            }
+            else NSLog(@"Error, no valid data");
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //[alert show];
+        
+    }];
+}
+
+
+
+#pragma mark - get point likes
+
+- (void) getPointLikesRequest: (NSNumber *) pointId {
+    NSString *url = nil;
+    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys: pointId, @"id", nil];
+    url = [URLs getServerURL];
+    url =  [url stringByAppendingString:[NSString stringWithFormat:kPointLikesRequest, [pointId stringValue]]];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [self addTaskToArray:manager];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"POINT LIKES REQUEST -->: %@", operation.responseString);
+        NSLog(@"POINT LIKES");
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                
+                for(NSDictionary *dict in usr) {
+                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:PointLikeUserType withComplation:nil];
+                }
+                
+                if([self isTaskArrayEmpty:manager]) {
+                    NSLog(@"Stop Queue");
+                    [self makeTownByIdRequest];
+                }
+            }
+            else NSLog(@"Error, no valid data");
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if([self isTaskArrayEmpty:manager]) {
+            NSLog(@"Stop Queue");
+            [self makeTownByIdRequest];
+        }
+        NSLog(@"Error: %@", error.localizedDescription);
+    }];
+}
 
 
 #pragma mark - popular cities
@@ -1279,11 +1380,14 @@ static HPBaseNetworkManager *networkManager;
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
+
             NSArray *jsonArray = [[[NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error] objectForKey:@"data"] objectForKey:@"messages"];
             for (NSDictionary * msg in jsonArray) {
                 [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:[msg objectForKey:@"sourceId"] andMessageType:UnreadMessageType withComplation:nil];
+
+            
             }
             if(jsonArray) {
                 if([self isTaskArrayEmpty:manager]) {
@@ -1292,7 +1396,6 @@ static HPBaseNetworkManager *networkManager;
                 }
             }
             else NSLog(@"Error, no valid data");
-
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);

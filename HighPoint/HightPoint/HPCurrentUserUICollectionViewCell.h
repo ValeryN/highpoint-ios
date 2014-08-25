@@ -10,18 +10,13 @@
 #import "User.h"
 #import "City.h"
 
+@protocol HPCurrentUserUICollectionViewCellDelegate <NSObject>
+@required
+- (void) updateUserVisibility:(UserVisibilityType) visibilityType forUser:(User*) user;
+@end
+
 @interface HPCurrentUserUICollectionViewCell : UICollectionViewCell
-
-@property (weak, nonatomic) IBOutlet UILabel *yourProfilelabel;
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-@property (weak, nonatomic) IBOutlet UILabel *userInfoLabel;
-@property (weak, nonatomic) IBOutlet UIButton *visibleBtn;
-@property (weak, nonatomic) IBOutlet UIButton *lockBtn;
-@property (weak, nonatomic) IBOutlet UIButton *invisibleBtn;
-@property (weak, nonatomic) IBOutlet UILabel *visibilityInfoLabel;
-
-
-
-- (void) configureCell : (User *) user ;
+@property (nonatomic, retain) User* currentUser;
+@property (nonatomic, weak) id<HPCurrentUserUICollectionViewCellDelegate> delegate;
 
 @end

@@ -220,6 +220,23 @@
                 [self.menSw setOn:YES];
             }
         }
+        if (uf.city) {
+            [self.townSwitch setOn:YES];
+            self.guideLabel1.hidden = YES;
+            self.guideLabel2.hidden = YES;
+            self.guideLabel3.hidden = YES;
+            self.guideLabel4.hidden = YES;
+            self.townsTableView.hidden = NO;
+            self.townLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
+        } else {
+            [self.townSwitch setOn:NO];
+            self.guideLabel1.hidden = NO;
+            self.guideLabel2.hidden = NO;
+            self.guideLabel3.hidden = NO;
+            self.guideLabel4.hidden = NO;
+            self.townsTableView.hidden = YES;
+            self.townLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4];
+        }
     } else {
         [self.womenSw setOn:YES];
         self.oldRangeSlider.lowerValue = 20.0;
@@ -241,7 +258,12 @@
     if (self.menSw.isOn) {
         [genderArr addObject:[NSNumber numberWithFloat:1]];
     }
-    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders", [NSArray arrayWithObjects: uf.city.cityId, nil], @"cityIds", nil];
+    NSArray *filterCities;
+    if (self.townSwitch.isOn) {
+        filterCities = [NSArray arrayWithObjects: uf.city.cityId, nil];
+    }
+    NSLog(@"city for filter send = %@", filterCities);
+    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders", filterCities, @"cityIds", nil];
     [[DataStorage sharedDataStorage] createAndSaveUserFilterEntity:filterParams withComplation:nil];
     [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
 }

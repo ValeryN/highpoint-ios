@@ -36,12 +36,11 @@
 
 - (void)drawRect:(CGRect)rect {
     
-	[[UIColor redColor] setFill];
-    
 
-    CGRect roundedRect = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, 78, floorf(self.bounds.size.height * 0.8));
+
+    CGRect roundedRect = CGRectMake(self.bounds.origin.x+0.5, self.bounds.origin.y+0.5, 82, 36);
     
-    UIBezierPath *roundedRectPath = [UIBezierPath bezierPathWithRoundedRect:roundedRect cornerRadius:6.0];
+    UIBezierPath *roundedRectFillPath = [UIBezierPath bezierPathWithRoundedRect:roundedRect cornerRadius:6.0];
     UIBezierPath *arrowPath = [UIBezierPath bezierPath];
     CGFloat midX = CGRectGetMidX(roundedRect);
     CGPoint p0 = CGPointMake(midX, CGRectGetMaxY(roundedRect) + 5);
@@ -49,12 +48,23 @@
     [arrowPath addLineToPoint:CGPointMake((midX - 5.0), CGRectGetMaxY(roundedRect))];
     [arrowPath addLineToPoint:CGPointMake((midX + 5.0), CGRectGetMaxY(roundedRect))];
     [arrowPath closePath];
-    
+    roundedRectFillPath.lineWidth = 1;
     // Attach the arrow path to the rounded rect
-    [roundedRectPath appendPath:arrowPath];
-    
-    [roundedRectPath fill];
-    
+    [roundedRectFillPath appendPath:arrowPath];
+    UIBezierPath * removePath = [[UIBezierPath alloc] init];
+
+    [removePath moveToPoint:(CGPoint){p0.x,p0.y-0.5f}];
+    [removePath addLineToPoint:CGPointMake((midX - 5.0), CGRectGetMaxY(roundedRect)-0.5f)];
+    [removePath addLineToPoint:CGPointMake((midX + 5.0), CGRectGetMaxY(roundedRect)-0.5f)];
+    [arrowPath closePath];
+    [[UIColor whiteColor] setStroke];
+    [roundedRectFillPath stroke];
+    [[UIColor colorWithRed:30.f/255.f green:29.f/255.f blue:48.f/255.f alpha:1] setFill];
+    [removePath fill];
+
+
+
+
 
     if (self.text) {
         [[UIColor colorWithRed: 230.0 / 255.0
@@ -64,8 +74,12 @@
         CGSize s = [_text sizeWithFont:self.font];
         CGFloat yOffset = (roundedRect.size.height - s.height) / 2;
         CGRect textRect = CGRectMake(roundedRect.origin.x, yOffset, roundedRect.size.width, s.height);
-        
+
         [_text drawInRect:textRect
+                 withFont:self.font
+            lineBreakMode:UILineBreakModeWordWrap
+                alignment:UITextAlignmentCenter];
+        [_text drawInRect:(CGRect){textRect.origin.x+0.3f,textRect.origin.y,textRect.size}
                  withFont:self.font
             lineBreakMode:UILineBreakModeWordWrap
                 alignment:UITextAlignmentCenter];
@@ -88,7 +102,7 @@
 
 
 - (void) constructSlider {
-    timePopupView = [[HPSliderTimeView alloc] initWithFrame:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, 38, floorf(self.bounds.size.height * 0.8))];
+    timePopupView = [[HPSliderTimeView alloc] initWithFrame:CGRectMake(self.bounds.origin.x, self.bounds.origin.y, 44, 40)];
     timePopupView.backgroundColor = [UIColor clearColor];
     timePopupView.alpha = 1.0;
     [self addSubview:timePopupView];
@@ -97,8 +111,8 @@
 
 - (void)_positionAndUpdatePopupView {
     CGRect _thumbRect = self.thumbRect;
-    CGRect popupRect = CGRectOffset(CGRectMake(_thumbRect.origin.x, _thumbRect.origin.y, 38, _thumbRect.size.height), 0, -floorf(_thumbRect.size.height * 1.5));
-    timePopupView.frame = CGRectInset(popupRect, -20, -10);
+    CGRect popupRect = CGRectOffset(CGRectMake(_thumbRect.origin.x, _thumbRect.origin.y, 44, _thumbRect.size.height), 0, -(11+_thumbRect.size.height));
+    timePopupView.frame = CGRectInset(popupRect, -27, -10);
     timePopupView.value = (NSInteger)self.value;
 }
 
