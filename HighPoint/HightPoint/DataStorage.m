@@ -142,7 +142,6 @@ static DataStorage *dataStorage;
                 } else {
                     filter.city = nil;
                 }
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCity object:self userInfo:nil];
                 [self addSaveOperationToBottomInContext:context];
             }
             if ([fetchedObjects count] > 1) {

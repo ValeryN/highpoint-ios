@@ -18,6 +18,7 @@
                 <outlet property="oldLabelVal" destination="7iS-aS-FOf" id="IcW-bh-KH5"/>
                 <outlet property="oldRangeSlider" destination="yKW-ZT-DBr" id="lvt-8d-JYr"/>
                 <outlet property="townLabel" destination="3Oo-UO-GVm" id="XMn-wQ-Vi5"/>
+                <outlet property="townSwitch" destination="Tt6-QE-bd2" id="6oa-Xx-beT"/>
                 <outlet property="townsTableView" destination="4U6-vD-cMC" id="A0v-zP-tOy"/>
                 <outlet property="view" destination="iN0-l3-epB" id="FTe-70-CKa"/>
                 <outlet property="womenLabel" destination="MCv-Af-oXs" id="CL5-VC-8lV"/>
