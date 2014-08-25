@@ -9,7 +9,7 @@
 #ifndef HighPoint_URLs_h
 #define HighPoint_URLs_h
 
-static NSString * const kAPIBaseURLString = @"146.185.141.21";
+static NSString * const kAPIBaseURLString = @"127.0.0.1";
 
 #endif
 

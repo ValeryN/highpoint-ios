@@ -31,12 +31,12 @@
 {
     [super viewDidLoad];
     [self.navigationController setNavigationBarHidden:YES];
-
     [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
     [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
     [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
     [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
+    [[HPBaseNetworkManager sharedNetworkManager] getPointLikesRequest:@1];
     [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
     

@@ -293,7 +293,6 @@
 		CDA17039198246B600173D1C /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = CDA17030198246B600173D1C /* CHANGELOG */; };
 		CDA1703A198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset in Resources */ = {isa = PBXBuildFile; fileRef = CDA17031198246B600173D1C /* de.bitstadium.HockeySDK-iOS-3.5.6.docset */; };
 		CDA1703B198246B600173D1C /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA17033198246B600173D1C /* HockeySDK.framework */; };
-		CDA1703C198246B600173D1C /* HockeySDK.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CDA17035198246B600173D1C /* HockeySDK.xcconfig */; };
 		CDA1703D198246B600173D1C /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CDA17036198246B600173D1C /* HockeySDKResources.bundle */; };
 		CDA1703E198246B600173D1C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = CDA17037198246B600173D1C /* LICENSE */; };
 		CDA1703F198246B600173D1C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CDA17038198246B600173D1C /* README.md */; };
@@ -318,7 +317,6 @@
 		CDA44BBE19A5E8EA00E33230 /* HPAuthorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA44BBD19A5E8EA00E33230 /* HPAuthorizationViewController.m */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
-		CDB9527619A1CFEF00238DFC /* Blend 5X@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB9527519A1CFEF00238DFC /* Blend 5X@2x.png */; };
 		CDB9527D19A1F87D00238DFC /* HPSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB9527C19A1F87D00238DFC /* HPSplashViewController.m */; };
 		CDB9528019A21DF300238DFC /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB9527F19A21DF300238DFC /* User.m */; };
 		CDC009931990C5ED00B3FF75 /* curruser_point_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDC009921990C5ED00B3FF75 /* curruser_point_new.png */; };
@@ -1950,7 +1948,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = J67Y29BQR7;
+						DevelopmentTeam = B9639RHZFT;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -2087,7 +2085,6 @@
 				3BE83C08197902950043E03E /* Photos_R.png in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
 				3BE9DE3C197FD8F300AFA641 /* 19.jpg in Resources */,
-				CDA1703C198246B600173D1C /* HockeySDK.xcconfig in Resources */,
 				CD9E788A1977C6FE0064E2AF /* Point Notice.png in Resources */,
 				CDA317CD19768EDC00F04DA2 /* delete_point.png in Resources */,
 				CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */,
@@ -2149,7 +2146,6 @@
 				CDF9745F196E8C4C0064ED04 /* Lock.png in Resources */,
 				3BE9DE41197FD8F300AFA641 /* 5.jpg in Resources */,
 				3BCB5B0B192F946B00E5DCA9 /* Back.png in Resources */,
-				CDB9527619A1CFEF00238DFC /* Blend 5X@2x.png in Resources */,
 				3B3170AD191B88E000B72AC1 /* Userpic-Mask.png in Resources */,
 				4C8096B1193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */,
 				3B6DB4A718FFC24D00C26A50 /* Images.xcassets in Resources */,
@@ -2536,6 +2532,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = HighPoint;
 				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework\"/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2569,6 +2566,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = HighPoint;
 				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework\"/**";
 				WRAPPER_EXTENSION = app;
 			};

@@ -52,9 +52,9 @@ static NSString * const kUserMessagesRequest = @"/v201405/users/%@/messages";
 static NSString * const kUnreadMessagesRequest = @"/v201405/messages/unread";
 static NSString * const kSendMessageToUserRequest = @"/v201405/users/%@/messages/add";
 static NSString * const kSendMessagesToUserRequest = @"/v201405/users/%@/messages/add";
-
 static NSString * const kPopularCitiesRequest = @"/v201405/geo/cities/popular";
-
+static NSString * const kPointLikesRequest = @"/v201405/points/%@/liked";
+static NSString * const kUserInfoRequest = @"/v201405/users/%@";
 
 
 //socket io constants

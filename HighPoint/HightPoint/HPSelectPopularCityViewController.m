@@ -145,7 +145,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     City *cityForFilter = [self.popularCities objectAtIndex:indexPath.row];
-    [[DataStorage sharedDataStorage]  setAndSaveCityToUserFilter:cityForFilter];
+    [[DataStorage sharedDataStorage] updateCityAtUserFilter:cityForFilter];
     [self checkMarksReload];
     [self.navigationController popViewControllerAnimated: YES];
 }

@@ -31,6 +31,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *menLabel;
 @property (nonatomic, weak) IBOutlet UILabel *womenLabel;
 @property (nonatomic, weak) IBOutlet UILabel *oldLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *townSwitch;
 
 @property (nonatomic, weak) IBOutlet UILabel *townLabel;
 @property (nonatomic, weak) IBOutlet UILabel *guideLabel1;
