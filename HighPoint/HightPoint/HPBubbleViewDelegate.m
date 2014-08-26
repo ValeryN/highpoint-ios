@@ -106,7 +106,7 @@
 
 - (void)bubbleView:(HEBubbleView *)bubbleView deleteItemWithIndex:(NSInteger)index{
      if(self.deleteBubbleBlock)
-         self.deleteBubbleBlock
+         self.deleteBubbleBlock;
 }
 
 - (void)bubbleView:(HEBubbleView *) bubbleView insertBubbleWithText:(NSString*) text{
