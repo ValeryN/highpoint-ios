@@ -5,6 +5,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class User;
 
-@interface HPUserProfileInfoEditTabViewController : UITableViewController
+
+@interface HPUserProfileInfoEditTabViewController : UITableViewController <NSFetchedResultsControllerDelegate>
 @end

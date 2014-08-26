@@ -35,6 +35,11 @@
     [menu setMenuVisible:YES animated:YES];
 
 }
+- (void)setRetainDelegate:(NSObject <HEBubbleViewDelegate, HEBubbleViewDataSource> *)retainDelegate {
+    _retainDelegate = retainDelegate;
+    self.bubbleDelegate = retainDelegate;
+    self.bubbleDataSource = retainDelegate;
+}
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
     return NO;

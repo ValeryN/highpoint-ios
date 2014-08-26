@@ -36,7 +36,7 @@
 #define CONSTRAINT_GREENBUTTON_FROM_BOTTOM 47.0
 #define CONSTRAINT_TRASHBUTTON_FROM_LEFT 274.0
 #define FIRST_ROW_HEIGHT_CONST 90.0
-#define BIBBLE_VIEW_WIDTH_CONST 290.0
+#define BUBBLE_VIEW_WIDTH_CONST 290.0
 //==============================================================================
 
 @interface HPUserProfileViewController()
@@ -465,7 +465,7 @@
 //            forControlEvents: UIControlEventTouchUpInside];
 //        [cell.contentView addSubview:deleteButton];
 //
-//        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(41.0, shift + 20.0, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+//        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(41.0, shift + 20.0, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
 //        bubbleView.layer.cornerRadius = 1;
 //        bubbleView.bubbleDataSource = self;
 //        bubbleView.bubbleDelegate = self;
@@ -504,7 +504,7 @@
 //    }
 //
 //    CGFloat shift = 10.0;
-//    HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(41.0, shift, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+//    HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(41.0, shift, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
 //    bubbleView.layer.cornerRadius = 1;
 //    bubbleView.bubbleDataSource = self;
 //    bubbleView.bubbleDelegate = self;
@@ -538,7 +538,7 @@
 //    CGSize constrainedSize = CGSizeMake(300.0  , 9999);
 //    int index = 0;
 //    for(NSArray *dict in dataSource) {
-//        UILabel *textLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, shift, BIBBLE_VIEW_WIDTH_CONST - 40, 60.0)];
+//        UILabel *textLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, shift, BUBBLE_VIEW_WIDTH_CONST - 40, 60.0)];
 //        textLabel1.backgroundColor = [UIColor clearColor];
 //        textLabel1.numberOfLines = 0;
 //        textLabel1.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
@@ -578,7 +578,7 @@
 //        [cell.contentView addSubview:deleteButton];
 //
 //
-//        UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, shift + h1, BIBBLE_VIEW_WIDTH_CONST- 40, 60.0)];
+//        UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, shift + h1, BUBBLE_VIEW_WIDTH_CONST- 40, 60.0)];
 //        textLabel2.backgroundColor = [UIColor clearColor];
 //        textLabel2.numberOfLines = 0;
 //        textLabel2.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
@@ -591,7 +591,7 @@
 //        textLabel2.frame = tempRect;
 //        [cell.contentView addSubview:textLabel2];
 //
-//        UILabel *textLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, shift + h1 + h2, BIBBLE_VIEW_WIDTH_CONST- 40, 60.0)];
+//        UILabel *textLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, shift + h1 + h2, BUBBLE_VIEW_WIDTH_CONST- 40, 60.0)];
 //        textLabel3.backgroundColor = [UIColor clearColor];
 //        textLabel3.numberOfLines = 0;
 //        textLabel3.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
@@ -631,7 +631,7 @@
 //    CGFloat totalHeight = 20.0;
 //    for(int i = 0; i< keys.count; i++) {
 //        //add block label
-//        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(41.0, totalHeight + 20.0, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+//        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(41.0, totalHeight + 20.0, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
 //        bubbleView.layer.cornerRadius = 1;
 //        bubbleView.bubbleDataSource = self;
 //        bubbleView.bubbleDelegate = self;
@@ -649,7 +649,7 @@
 //}
 //- (CGFloat) getThirdRowHeight {
 //    CGFloat totalHeight = 20.0;
-//    HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(41.0, totalHeight, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+//    HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(41.0, totalHeight, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
 //    bubbleView.layer.cornerRadius = 1;
 //    bubbleView.bubbleDataSource = self;
 //    bubbleView.bubbleDelegate = self;
@@ -700,7 +700,7 @@
 //    CGFloat totalHeight = 0.0;
 //    for(NSString *val in content) {
 //        totalRowWidth = totalRowWidth + ceil([val sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"FuturaPT-Book" size:16.0]}].width + 14);
-//        if (totalRowWidth > BIBBLE_VIEW_WIDTH_CONST) {
+//        if (totalRowWidth > BUBBLE_VIEW_WIDTH_CONST) {
 //            totalHeight = totalHeight + 80;
 //            totalRowWidth = 0.0;
 //        }

@@ -5,22 +5,43 @@
 
 #import "HPBubbleViewDelegate.h"
 #import "PSMenuItem.h"
+#import "HPHEBubbleView.h"
 
 
 @implementation HPBubbleViewDelegate {
 
 }
 
+- (instancetype)initWithBubbleView:(HPHEBubbleView *)bubbleView {
+    self = [super init];
+    if (self) {
+        self.bubbleView = bubbleView;
+    }
+
+    return self;
+}
+
++ (instancetype)delegateWithBubbleView:(HPHEBubbleView *)bubbleView {
+    return [[self alloc] initWithBubbleView:bubbleView];
+}
+
 
 - (NSInteger)numberOfItemsInBubbleView:(HEBubbleView *)bubbleView {
-    return self.dataSource.count+1;
+    id <NSFetchedResultsSectionInfo> sectionInfo =
+            [[self dataSource] sections][0];
+
+    return [sectionInfo numberOfObjects]+1;
+}
+
+- (id) getNSManagedObjectAtIndex:(NSInteger) index{
+    return [self.dataSource objectAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
 }
 
 - (NSString*) textStringForIndex:(NSInteger) index inBubbleView:(HEBubbleView *)bubbleView {
     if([self isLastElementForIndex:index inBubbleView:bubbleView])
         return self.addTextString;
-
-    return self.dataSource[(NSUInteger) index];
+    NSAssert(self.getTextInfo,@"function getTextInfo from NSManagedObject requered");
+    return self.getTextInfo([self getNSManagedObjectAtIndex:index]);
 }
 
 - (BOOL) isLastElementForIndex:(NSInteger) index inBubbleView:(HEBubbleView *)bubbleView{
@@ -51,14 +72,6 @@
             }
         }];
         textField.delegate = self;
-        @weakify(self);
-        [[[self rac_signalForSelector:@selector(textFieldShouldReturn:) fromProtocol:@protocol(UITextFieldDelegate)] takeUntil:[self rac_willDeallocSignal]] subscribeNext:^(RACTuple *tuple) {
-            @strongify(self);
-            RACTupleUnpack(UITextField * textField1) = tuple;
-            [self bubbleView:bubbleView insertBubbleWithText:textField1.text];
-            textField1.text = @"";
-            [textField1 resignFirstResponder];
-        }];
         bubble.userInfo[@"textField"] = textField;
     }
     else{
@@ -88,6 +101,14 @@
     return bubble;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self bubbleView:self.bubbleView insertBubbleWithText:textField.text];
+    textField.text = @"";
+    [textField resignFirstResponder];
+    [textField removeFromSuperview];
+    return NO;
+}
+
 -(BOOL)bubbleView:(HEBubbleView *)bubbleView shouldShowMenuForBubbleItemAtIndex:(NSInteger)index
 {
     return ![self isLastElementForIndex:index inBubbleView:bubbleView];
@@ -106,11 +127,13 @@
 
 - (void)bubbleView:(HEBubbleView *)bubbleView deleteItemWithIndex:(NSInteger)index{
      if(self.deleteBubbleBlock)
-         self.deleteBubbleBlock;
+         self.deleteBubbleBlock([self getNSManagedObjectAtIndex:index]);
+
 }
 
 - (void)bubbleView:(HEBubbleView *) bubbleView insertBubbleWithText:(NSString*) text{
     if(self.insertTextBlock)
         self.insertTextBlock(text);
 }
+
 @end

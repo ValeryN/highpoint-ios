@@ -27,7 +27,7 @@
 #define GREEN_BUTTON_BOTTOM 20
 #define PHOTOS_NUMBER 4
 #define SPACE_BETWEEN_PHOTOS 20
-#define BIBBLE_VIEW_WIDTH_CONST 290.0
+#define BUBBLE_VIEW_WIDTH_CONST 290.0
 
 #define CONSTRAINT_GREEN_BTN_TOP 434.0;
 #define CONSTRAINT_ICON_IMAGE_TOP 310.0;
@@ -758,7 +758,7 @@
         //CGFloat calcHeight = [self calculateSectionHeight:[self.placeCityDataSource objectForKey:key]] + 20;
         textLabel.text = key;
         [cell.contentView addSubview:textLabel];
-        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(10.0, shift + 20.0, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(10.0, shift + 20.0, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
         bubbleView.layer.cornerRadius = 1;
         bubbleView.bubbleDataSource = self;
         bubbleView.bubbleDelegate = self;
@@ -806,7 +806,7 @@
     }
     
     CGFloat shift = 10.0;
-    HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(10.0, shift, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+    HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(10.0, shift, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
     bubbleView.layer.cornerRadius = 1;
     bubbleView.bubbleDataSource = self;
     bubbleView.bubbleDelegate = self;
@@ -876,7 +876,7 @@
         CGFloat totalHeight = 20.0;
         for(int i = 0; i< keys.count; i++) {
             //add block label
-            HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(15.0, totalHeight + 20.0, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+            HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(15.0, totalHeight + 20.0, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
             bubbleView.layer.cornerRadius = 1;
             bubbleView.bubbleDataSource = self;
             bubbleView.bubbleDelegate = self;
@@ -913,7 +913,7 @@
 - (CGFloat) getThirdRowHeight {
     if(self.languages.count > 0) {
         CGFloat totalHeight = 20.0;
-        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(15.0, totalHeight, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
+        HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(15.0, totalHeight, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
         bubbleView.layer.cornerRadius = 1;
         bubbleView.bubbleDataSource = self;
         bubbleView.bubbleDelegate = self;

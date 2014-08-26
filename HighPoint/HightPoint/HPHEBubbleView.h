@@ -6,7 +6,10 @@
 #import <Foundation/Foundation.h>
 #import "HEBubbleView.h"
 
+@class HPBubbleViewDelegate;
+
 
 @interface HPHEBubbleView : HEBubbleView
+@property (nonatomic, retain) NSObject<HEBubbleViewDelegate,HEBubbleViewDataSource>* retainDelegate;
 - (void) didHideMenuController;
 @end

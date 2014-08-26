@@ -683,18 +683,18 @@ static DataStorage *dataStorage;
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
-- (void)addAndSavePlaceEntity:(NSDictionary *)param forUser:(User *)user {
+- (void)addAndSavePlaceEntity:(NSDictionary *)param forUser:(User *)globalUser {
     [self.backgroundOperationQueue addOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         Place *pl = [self createPlaceEntity:param];
         //User *currentUser = [self getCurrentUser];
-
+        User* user = [globalUser moveToContext:context];
         NSMutableArray *places = [[user.place allObjects] mutableCopy];
         if (places != nil) {
-            [places addObject:pl];
+            [places addObject:[pl moveToContext:context]];
         } else {
             places = [[NSMutableArray alloc] init];
         }
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             user.place = [NSSet setWithArray:places];
             [self addSaveOperationToBottomInContext:context];

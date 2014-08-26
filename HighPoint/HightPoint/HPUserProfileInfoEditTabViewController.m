@@ -7,6 +7,7 @@
 #import "HPUserProfileTableHeaderView.h"
 #import "HPUserProfileFirstRowTableViewCell.h"
 #import "HPUserInfoSecondRowTableViewCell.h"
+#import "User.h"
 #import "HEBubbleView.h"
 #import "HPAddNewTownCellView.h"
 #import "MinEntertainmentPrice.h"
@@ -15,23 +16,20 @@
 #import "HPBubbleViewDelegate.h"
 #import "HPHEBubbleView.h"
 #import "PSMenuItem.h"
+#import "DataStorage.h"
 
 @interface HPUserProfileInfoEditTabViewController ()
-@property(nonatomic, strong) NSArray *userDataSource;
-@property(nonatomic, strong) NSMutableDictionary *placeCityDataSource;
-@property(nonatomic, strong) NSMutableArray *languages;
-@property(nonatomic, strong) NSMutableArray *educationDataSource;
-@property(nonatomic, strong) NSMutableArray *carrierDataSource;
 @property(strong, nonatomic) User *user;
+
 @property(nonatomic, weak) IBOutlet UITableView *editInfoTableView;
 
-@property(nonatomic, retain) NSMutableDictionary *bubbleViewsDelegate;
+@property(nonatomic, retain) NSMutableDictionary *bubbleViewsCache;
+@property(nonatomic, retain) NSFetchedResultsController *favoritePlaceFetchedResultController;
+@property(nonatomic, retain) NSFetchedResultsController *educationFetchedResultController;
+@property(nonatomic, retain) NSFetchedResultsController *careerFetchedResultController;
 @end
 
-#define CONSTRAINT_GREENBUTTON_FROM_BOTTOM 47.0
-#define CONSTRAINT_TRASHBUTTON_FROM_LEFT 274.0
-#define FIRST_ROW_HEIGHT_CONST 90.0
-#define BIBBLE_VIEW_WIDTH_CONST 290.0
+#define BUBBLE_VIEW_WIDTH_CONST 290.0
 
 typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     UserProfileCellTypeSpending,
@@ -39,180 +37,141 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     UserProfileCellTypeLanguages,
     UserProfileCellTypeEducation,
     UserProfileCellTypeCareer,
-    //
-            UserProfileCellCount
+
+    UserProfileCellCount
 };
 
 @implementation HPUserProfileInfoEditTabViewController
 
+- (NSFetchedResultsController *)favoritePlaceFetchedResultController {
+    if (!_favoritePlaceFetchedResultController) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Place"];
+        [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"cityId" ascending:YES]]];
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user == %@", self.user]];
+        _favoritePlaceFetchedResultController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext threadContext] sectionNameKeyPath:@"cityId" cacheName:nil];
+        if (![_favoritePlaceFetchedResultController performFetch:nil]) {
+            NSAssert(false, @"Error occurred");
+        }
+        _favoritePlaceFetchedResultController.delegate = self;
+    }
+    return _favoritePlaceFetchedResultController;
+}
+
+- (NSFetchedResultsController *)educationFetchedResultController {
+    if (!_educationFetchedResultController) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Education"];
+        [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"fromYear" ascending:YES]]];
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user == %@", self.user]];
+        _educationFetchedResultController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext threadContext] sectionNameKeyPath:nil cacheName:nil];
+        if (![_educationFetchedResultController performFetch:nil]) {
+            NSAssert(false, @"Error occurred");
+        }
+        _educationFetchedResultController.delegate = self;
+    }
+    return _educationFetchedResultController;
+}
+
+- (NSFetchedResultsController *)careerFetchedResultController {
+    if (!_careerFetchedResultController) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Career"];
+        [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"fromYear" ascending:YES]]];
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user == %@", self.user]];
+        _careerFetchedResultController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext threadContext] sectionNameKeyPath:nil cacheName:nil];
+        if (![_careerFetchedResultController performFetch:nil]) {
+            NSAssert(false, @"Error occurred");
+        }
+        _careerFetchedResultController.delegate = self;
+    }
+    return _careerFetchedResultController;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.userDataSource = @[@"РАСХОДЫ", @"ЛЮБИМЫЕ МЕСТА", @"ЯЗЫКИ", @"ОБРАЗОВАНИЕ", @"КАРЬЕРА"];
-    NSMutableArray *place1 = [NSMutableArray arrayWithArray:@[@"Dulwich Park", @"Greenwich", @"Covent Garden", @"Borough Market", @"The Hob", @"Добавить место"]];
-    NSMutableArray *place2 = [NSMutableArray arrayWithArray:@[@"Notre Dame", @"De la Concorde", @"De la Bastille", @"Brasserie Bofinger", @"Promenade Plantee", @"Добавить место"]];
-    NSMutableArray *place3 = [NSMutableArray arrayWithArray:@[@"Anthology Film Archives", @"Bamonte's", @"Housing Works Bookstore Cafe", @"Shopsin's", @"The Hog Pit", @"Добавить место"]];
-    self.placeCityDataSource = [NSMutableDictionary dictionaryWithDictionary:@{@"London" : place1, @"Paris" : place2, @"New York" : place3}];
-    NSArray *ed1 = @[@"Академия гос. службы", @"Руководитель", @"c 1917"];
-    NSArray *ed2 = @[@"МФТИ", @"Физик-лирик", @"c 2004"];
-    NSArray *ed3 = @[@"Кыштымский заборостроительный техникум", @"Сортировщик 6 разряда", @"c 2010"];
-    self.educationDataSource = [NSMutableArray arrayWithArray:@[ed1, ed2, ed3]];
-    ed1 = @[@"Правительство", @"Председатель", @""];
-    ed2 = @[@"Администрация Кыштымского района", @"Начальник департамента", @""];
-    ed3 = @[@"ЖЭУ №5", @"Сантехник", @""];
-    self.carrierDataSource = [NSMutableArray arrayWithArray:@[ed1, ed2, ed3]];
-
-    self.languages = [NSMutableArray arrayWithArray:@[@"Русский", @"Английский", @"Албанский", @"Китайский", @"Хинди", @"Добавить язык"]];
-    [self.editInfoTableView reloadData];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPUserProfileFirstRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"UserProfileCellTypeSpending"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"HPUserInfoSecondRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"HPUserInfoSecondRowTableViewCell"];
+    self.user = [DataStorage sharedDataStorage].getCurrentUser;
 }
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    //return [[UIView alloc] initWithFrame:CGRectZero];
+    NSArray *sectionsArray = @[@"РАСХОДЫ", @"ЛЮБИМЫЕ МЕСТА", @"ЯЗЫКИ", @"ОБРАЗОВАНИЕ", @"КАРЬЕРА"];
     HPUserProfileTableHeaderView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"HPUserProfileTableHeaderView" owner:self options:nil] objectAtIndex:0];
-    headerView.backgroundColor = [UIColor colorWithRed:30.0 / 255.0 green:29.0 / 255.0 blue:48.0 / 255.0 alpha:1.0];
+    headerView.backgroundColor = [UIColor colorWithRed:30.0f / 255.0f green:29.0f / 255.0f blue:48.0f / 255.0f alpha:1.0];
     headerView.headerTextLabel.backgroundColor = [UIColor clearColor];
     headerView.headerTextLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:15.0];
-    headerView.headerTextLabel.textColor = [UIColor colorWithRed:230.0 / 255.0 green:236.0 / 255.0 blue:242.0 / 255.0 alpha:1.0];
-    headerView.headerTextLabel.text = [self.userDataSource objectAtIndex:section];
+    headerView.headerTextLabel.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
+    headerView.headerTextLabel.text = sectionsArray[(NSUInteger) section];
+
+    UIView *separator = [[UIView alloc] initWithFrame:(CGRect) {13, 47.5f, 294, 0.5f}];
+    separator.backgroundColor = [UIColor colorWithRed:230.f / 255.f green:236.f / 255.f blue:242.f / 255.f alpha:0.25];
+    [headerView addSubview:separator];
     return headerView;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //static NSString *townCellIdentifier = @"FirstRowCellIdent";
-    static NSString *cellIdentifier1 = @"CellIdent1";
-    static NSString *cellIdentifier2 = @"CellIdent2";
-    static NSString *cellIdentifier3 = @"CellIdent3";
-    static NSString *cellIdentifier4 = @"CellIdent4";
-    static NSString *cellIdentifier5 = @"CellIdent5";
-
-    if (indexPath.row == 0 && indexPath.section == 0) {
-        HPUserProfileFirstRowTableViewCell *townCell;
-        townCell = (HPUserProfileFirstRowTableViewCell *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier1];
-        if (townCell == nil) {
-            townCell = [[HPUserProfileFirstRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier1];
-
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserProfileFirstRowTableViewCell" owner:nil options:nil];
-
-            for (id currentObject in topLevelObjects) {
-                if ([currentObject isKindOfClass:[HPUserProfileFirstRowTableViewCell class]]) {
-                    townCell = (HPUserProfileFirstRowTableViewCell *) currentObject;
-                    break;
-                }
-            }
-        }
-        townCell.contentView.backgroundColor = [UIColor colorWithRed:30.0 / 255.0 green:29.0 / 255.0 blue:48.0 / 255.0 alpha:1.0];
-        return [self configureFirstCell:townCell];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[self getCellIdentifierForIndexPath:indexPath]];
+    cell.contentView.backgroundColor = [UIColor colorWithRed:30.0f / 255.0f green:29.0f / 255.0f blue:48.0f / 255.0f alpha:1.0];
+    switch ([self getCellTypeForIndexPath:indexPath]) {
+        case UserProfileCellTypeSpending:
+            [self configureFirstCell:cell];
+            break;
+        case UserProfileCellTypeFavoritePlaces:
+            [self configureFavoritePlaceCell:cell withIndexPath:indexPath];
+            break;
+        case UserProfileCellTypeLanguages:
+            [self configureThirdCell:cell];
+            break;
+        case UserProfileCellTypeEducation:
+        case UserProfileCellTypeCareer:
+            [self configureEducationOrCareerCell:cell forIndexPath:indexPath];
+            break;
+        case UserProfileCellCount:
+            break;
     }
-    else if (indexPath.row == 0 && indexPath.section == 1) {
-        HPUserInfoSecondRowTableViewCell *townCell;
-        townCell = (HPUserInfoSecondRowTableViewCell *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier2];
-        if (townCell == nil) {
-            townCell = [[HPUserInfoSecondRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier2];
 
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoSecondRowTableViewCell" owner:nil options:nil];
-
-            for (id currentObject in topLevelObjects) {
-                if ([currentObject isKindOfClass:[HPUserInfoSecondRowTableViewCell class]]) {
-                    townCell = (HPUserInfoSecondRowTableViewCell *) currentObject;
-                    break;
-                }
-            }
-        }
-        townCell.contentView.backgroundColor = [UIColor colorWithRed:30.0 / 255.0 green:29.0 / 255.0 blue:48.0 / 255.0 alpha:1.0];
-        return [self configureSecondCell:townCell];
-    }
-    else if (indexPath.row == 0 && indexPath.section == 2) {
-        HPUserInfoSecondRowTableViewCell *townCell;
-        townCell = (HPUserInfoSecondRowTableViewCell *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier3];
-        if (townCell == nil) {
-            townCell = [[HPUserInfoSecondRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier3];
-
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoSecondRowTableViewCell" owner:nil options:nil];
-
-            for (id currentObject in topLevelObjects) {
-                if ([currentObject isKindOfClass:[HPUserInfoSecondRowTableViewCell class]]) {
-                    townCell = (HPUserInfoSecondRowTableViewCell *) currentObject;
-                    break;
-                }
-            }
-        }
-        townCell.contentView.backgroundColor = [UIColor colorWithRed:30.0 / 255.0 green:29.0 / 255.0 blue:48.0 / 255.0 alpha:1.0];
-        return [self configureThirdCell:townCell];
-    }
-    else if (indexPath.row == 0 && indexPath.section == 3) {
-        HPUserInfoSecondRowTableViewCell *townCell;
-        townCell = (HPUserInfoSecondRowTableViewCell *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier4];
-        if (townCell == nil) {
-            townCell = [[HPUserInfoSecondRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier4];
-
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoSecondRowTableViewCell" owner:nil options:nil];
-
-            for (id currentObject in topLevelObjects) {
-                if ([currentObject isKindOfClass:[HPUserInfoSecondRowTableViewCell class]]) {
-                    townCell = (HPUserInfoSecondRowTableViewCell *) currentObject;
-                    break;
-                }
-            }
-        }
-        townCell.contentView.backgroundColor = [UIColor colorWithRed:30.0 / 255.0 green:29.0 / 255.0 blue:48.0 / 255.0 alpha:1.0];
-        return [self configureFourCell:townCell];
-    }
-    else if (indexPath.row == 0 && indexPath.section == 4) {
-
-        HPUserInfoSecondRowTableViewCell *townCell;
-        townCell = (HPUserInfoSecondRowTableViewCell *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier5];
-        if (townCell == nil) {
-            townCell = [[HPUserInfoSecondRowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier5];
-
-            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HPUserInfoSecondRowTableViewCell" owner:nil options:nil];
-
-            for (id currentObject in topLevelObjects) {
-                if ([currentObject isKindOfClass:[HPUserInfoSecondRowTableViewCell class]]) {
-                    townCell = (HPUserInfoSecondRowTableViewCell *) currentObject;
-                    break;
-                }
-            }
-            townCell.contentView.backgroundColor = [UIColor colorWithRed:30.0 / 255.0 green:29.0 / 255.0 blue:48.0 / 255.0 alpha:1.0];
-            UITableViewCell *cell = [self configureFifthCell:townCell];
-            return cell;
-        }
-
-        townCell.contentView.backgroundColor = [UIColor colorWithRed:30.0 / 255.0 green:29.0 / 255.0 blue:48.0 / 255.0 alpha:1.0];
-        return townCell;
-    }
-    return nil;
-
+    return cell;
 }
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    switch ((UserProfileCellType) section) {
+        case UserProfileCellTypeSpending:
+            return 1;
+        case UserProfileCellTypeFavoritePlaces:
+            return [[self favoritePlaceFetchedResultController] sections].count + 1;
+        case UserProfileCellTypeLanguages:
+            return 1;
+        case UserProfileCellTypeEducation:
+            return ((id <NSFetchedResultsSectionInfo>) [[self educationFetchedResultController] sections][0]).numberOfObjects + 1;
+        case UserProfileCellTypeCareer:
+            return ((id <NSFetchedResultsSectionInfo>) [[self careerFetchedResultController] sections][0]).numberOfObjects + 1;
+        default:
+            return 0;
+    }
 }
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-//}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return self.userDataSource.count;
+    return UserProfileCellCount;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0 && indexPath.section == 0) {
-        return [self getFirstRowHeight];
+    switch ([self getCellTypeForIndexPath:indexPath]) {
+        case UserProfileCellTypeSpending:
+            return [self getFirstRowHeight];
+        case UserProfileCellTypeFavoritePlaces:
+            return [self getSecondRowHeightWithIndexPath:indexPath];
+        case UserProfileCellTypeLanguages:
+            return [self getThirdRowHeight];
+        case UserProfileCellTypeEducation:
+            return [self getHeightForEducationOrCareerCellWithIndexPath:indexPath];
+        case UserProfileCellTypeCareer:
+            return [self getHeightForEducationOrCareerCellWithIndexPath:indexPath];
+        case UserProfileCellCount:
+            break;
     }
-    else if (indexPath.row == 0 && indexPath.section == 1) {
-        return [self getSecondRowHeight];
-    }
-    else if (indexPath.row == 0 && indexPath.section == 2) {
-        return [self getThirdRowHeight];
-    }
-    else if (indexPath.row == 0 && indexPath.section == 3) {
-        return [self getFourRowHeight];
-    }
-    else if (indexPath.row == 0 && indexPath.section == 4) {
-        return [self getFifthRowHeight];
-    }
-    else return 100;
+    return 0;
 }
 
 #pragma mark -
@@ -244,144 +203,112 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 }
 
 //user favorite places
-- (UITableViewCell *)configureSecondCell:(UITableViewCell *)cell {
-
+- (UITableViewCell *)configureFavoritePlaceCell:(UITableViewCell *)cell withIndexPath:(NSIndexPath *)indexPath {
     for (UIView *v in  [cell.contentView subviews]) {
         [v removeFromSuperview];
     }
-    //[cell.contentView addSubview:t];
-    NSArray *keys = [self.placeCityDataSource allKeys];
-    CGFloat shift = 10.0;
-    NSInteger bubbleTag = 0;
-    for (NSString *key in keys) {
-        //add block label
-        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(46.0, shift, cell.contentView.frame.size.width - 26, 20.0)];
+
+    if ([self isLastCellInSectionWithIndexPath:indexPath]) {
+        //Last add row
+        HPAddNewTownCellView *customView = [HPAddNewTownCellView createView];
+        CGRect viewFrame = customView.frame;
+        customView.label.text = @"Добавить город";
+        viewFrame.origin.x = 0;
+        viewFrame.origin.y = 0;
+        customView.frame = viewFrame;
+        customView.delegate = self;
+        [cell.contentView addSubview:customView];
+    }
+    else {
+        //City row
+        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 10, cell.contentView.frame.size.width - 26, 20.0)];
         textLabel.backgroundColor = [UIColor clearColor];
-        textLabel.numberOfLines = 0;
         textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
         textLabel.textColor = [UIColor colorWithRed:230.0 / 255.0 green:236.0 / 255.0 blue:242.0 / 255.0 alpha:1.0];
         textLabel.textAlignment = NSTextAlignmentLeft;
-        textLabel.text = key;
-        textLabel.tag = 21000 + bubbleTag;
+        textLabel.text = @"Город хрен достанешь из Place";
         [cell.contentView addSubview:textLabel];
 
         UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        deleteButton.frame = CGRectMake(12, shift, 22.0, 22.0);
+        deleteButton.frame = CGRectMake(12, 10, 22.0, 22.0);
         [deleteButton setBackgroundImage:[UIImage imageNamed:@"Remove"] forState:UIControlStateNormal];
         [deleteButton setBackgroundImage:[UIImage imageNamed:@"Remove Tap"] forState:UIControlStateHighlighted];
-        deleteButton.tag = 21000 + bubbleTag;
         [deleteButton addTarget:self
                          action:@selector(deletePlace:)
                forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:deleteButton];
 
-        HEBubbleView *bubbleView = [[HPHEBubbleView alloc] initWithFrame:CGRectMake(41.0, shift + 20.0, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
-        bubbleView.layer.cornerRadius = 1;
-        bubbleView.bubbleDataSource = [self getBubbleViewDelegateForCellType:UserProfileCellTypeFavoritePlaces];
-        bubbleView.bubbleDelegate =  [self getBubbleViewDelegateForCellType:UserProfileCellTypeFavoritePlaces];
-        //self.bubbleView.selectionStyle = HEBubbleViewSelectionStyleNone;
-        bubbleView.backgroundColor = [UIColor clearColor];
-        bubbleView.itemHeight = 20.0;
-        bubbleView.itemPadding = 5.0;
-        bubbleView.tag = bubbleTag;
+        HEBubbleView *bubbleView = [self bubbleViewForFavoritePlaceAtIndexPath:indexPath];
+        if (bubbleView.superview)
+            [bubbleView removeFromSuperview];
 
-        bubbleTag++;
-        [bubbleView reloadData];
-        //CGSize s = bubbleView.contentSize;
-        CGRect rect = bubbleView.frame;
-        rect.size.height = bubbleView.contentSize.height;
-        bubbleView.frame = rect;
         [cell.contentView addSubview:bubbleView];
-        shift = shift + bubbleView.frame.size.height + 20.0;
     }
-    //add new town
-    HPAddNewTownCellView *customView = [HPAddNewTownCellView createView];
-    CGRect viewFrame = customView.frame;
-    customView.label.text = @"Добавить город";
-    viewFrame.origin.x = 0;
-    viewFrame.origin.y = shift;
-    customView.frame = viewFrame;
-    customView.delegate = self;
-    [cell.contentView addSubview:customView];
+
     return cell;
-}
-
-- (HPBubbleViewDelegate *)getBubbleViewDelegateForCellType:(UserProfileCellType)cellType {
-    if (!self.bubbleViewsDelegate)
-        self.bubbleViewsDelegate = [NSMutableDictionary new];
-
-    if (!self.bubbleViewsDelegate[@(cellType)]) {
-        HPBubbleViewDelegate* delegate = [HPBubbleViewDelegate new];
-        delegate.dataSource = @[@"Test",@"Test2"];
-        delegate.addTextString = @"Добавить место";
-        self.bubbleViewsDelegate[@(cellType)] = delegate;
-
-    }
-    return self.bubbleViewsDelegate[@(cellType)];
 }
 
 //user languages
 - (UITableViewCell *)configureThirdCell:(UITableViewCell *)cell {
-
-    for (UIView *v in  [cell.contentView subviews]) {
-        if (v.tag != 7007)
-            [v removeFromSuperview];
+    for (UIView *v in [cell.contentView subviews]) {
+        [v removeFromSuperview];
     }
 
-    CGFloat shift = 10.0;
-    HEBubbleView *bubbleView = [[HPHEBubbleView alloc] initWithFrame:CGRectMake(41.0, shift, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
-    bubbleView.layer.cornerRadius = 1;
-    bubbleView.bubbleDataSource = self;
-    bubbleView.bubbleDelegate = self;
-    //self.bubbleView.selectionStyle = HEBubbleViewSelectionStyleNone;
-    bubbleView.backgroundColor = [UIColor clearColor];
-    bubbleView.itemHeight = 20.0;
-    bubbleView.itemPadding = 5.0;
-    bubbleView.tag = 1001;
-    [bubbleView reloadData];
-    //CGSize s = bubbleView.contentSize;
-    CGRect rect = bubbleView.frame;
-    rect.size.height = bubbleView.contentSize.height;
-    bubbleView.frame = rect;
+    HEBubbleView *bubbleView = [self bubbleViewLanguages];
+    if (bubbleView.superview)
+        [bubbleView removeFromSuperview];
+
     [cell.contentView addSubview:bubbleView];
     return cell;
 }
 
-- (UITableViewCell *)configureFourCell:(UITableViewCell *)cell {
-    return [self configureCell:cell forDataSource:self.educationDataSource andText:@"Добавить учебное заведение"];
-}
+- (void)configureEducationOrCareerCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
 
-- (UITableViewCell *)configureFifthCell:(UITableViewCell *)cell {
-    return [self configureCell:cell forDataSource:self.carrierDataSource andText:@"Добавить достижение"];
-}
-
-- (UITableViewCell *)configureCell:(UITableViewCell *)cell forDataSource:(NSArray *)dataSource andText:(NSString *)text {
     for (UIView *v in  [cell.contentView subviews]) {
-        if (v.tag != 7007)
-            [v removeFromSuperview];
+        [v removeFromSuperview];
     }
 
-    CGFloat shift = 5.0;
-    //cell.cellTextLabel.hidden = YES;
-    CGSize constrainedSize = CGSizeMake(300.0, 9999);
-    int index = 0;
-    for (NSArray *dict in dataSource) {
-        UILabel *textLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, shift, BIBBLE_VIEW_WIDTH_CONST - 40, 60.0)];
+    if ([self isLastCellInSectionWithIndexPath:indexPath]) {
+        HPAddNewTownCellView *customView = [HPAddNewTownCellView createView];
+        customView.frame = CGRectMake(0, 0, 320, 46);
+        CGRect viewFrame = customView.frame;
+        customView.label.text = ([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation) ? @"Добавить учебное заведение" : @"Добавить достижение";
+        viewFrame.origin.x = 0;
+        viewFrame.origin.y = 0;
+        customView.frame = viewFrame;
+        customView.delegate = self;
+        [cell.contentView addSubview:customView];
+    }
+    else {
+        NSString *name;
+        NSString *position;
+        NSString *years;
+        NSManagedObject *object;
+        if ([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation) {
+            Education *education = [[self educationFetchedResultController] objectAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row inSection:0]];
+            name = education.school.name;
+            position = education.speciality.name;
+            years = [NSString stringWithFormat:@"(%@ - %@)", education.fromYear, education.toYear];
+            object = education;
+        }
+        else {
+            Career *career = [[self careerFetchedResultController] objectAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row inSection:0]];
+            name = career.company.name;
+            position = career.careerpost.name;
+            years = [NSString stringWithFormat:@"(%@ - %@)", career.fromYear, career.toYear];
+            object = career;
+        }
+
+        UILabel *textLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0, BUBBLE_VIEW_WIDTH_CONST - 40, 60.0)];
         textLabel1.backgroundColor = [UIColor clearColor];
         textLabel1.numberOfLines = 0;
         textLabel1.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
         textLabel1.textColor = [UIColor colorWithRed:230.0 / 255.0 green:236.0 / 255.0 blue:242.0 / 255.0 alpha:1.0];
         textLabel1.textAlignment = NSTextAlignmentLeft;
-        textLabel1.text = [dict objectAtIndex:0];
+        textLabel1.text = name;
 
-        if ([text isEqualToString:@"Добавить учебное заведение"]) {
-            textLabel1.tag = 23000 + index;
-        }
-        if ([text isEqualToString:@"Добавить достижение"]) {
-            textLabel1.tag = 24000 + index;
-        }
 
-        CGFloat h1 = [self GetSizeOfLabelForGivenText:textLabel1 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:constrainedSize].height;
+        CGFloat h1 = [self GetSizeOfLabelForGivenText:textLabel1 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
         CGRect tempRect = textLabel1.frame;
         tempRect.size.height = h1;
         textLabel1.frame = tempRect;
@@ -389,106 +316,73 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 
 
         UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        deleteButton.frame = CGRectMake(12, shift, 22.0, 22.0);
+        deleteButton.frame = CGRectMake(12, 0, 22.0, 22.0);
         [deleteButton setBackgroundImage:[UIImage imageNamed:@"Remove"] forState:UIControlStateNormal];
         [deleteButton setBackgroundImage:[UIImage imageNamed:@"Remove Tap"] forState:UIControlStateHighlighted];
         [deleteButton addTarget:self
                          action:@selector(deleteEducationOrWork:)
                forControlEvents:UIControlEventTouchUpInside];
 
-        if ([text isEqualToString:@"Добавить учебное заведение"]) {
-            deleteButton.tag = 23000 + index;
-        }
-        if ([text isEqualToString:@"Добавить достижение"]) {
-            deleteButton.tag = 24000 + index;
-        }
-
         [cell.contentView addSubview:deleteButton];
 
 
-        UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, shift + h1, BIBBLE_VIEW_WIDTH_CONST - 40, 60.0)];
+        UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0 + h1, BUBBLE_VIEW_WIDTH_CONST - 40, 60.0)];
         textLabel2.backgroundColor = [UIColor clearColor];
         textLabel2.numberOfLines = 0;
         textLabel2.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
         textLabel2.textColor = [UIColor colorWithRed:230.0 / 255.0 green:236.0 / 255.0 blue:242.0 / 255.0 alpha:1.0];
         textLabel2.textAlignment = NSTextAlignmentLeft;
-        textLabel2.text = [dict objectAtIndex:1];
-        CGFloat h2 = [self GetSizeOfLabelForGivenText:textLabel2 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:constrainedSize].height;
+        textLabel2.text = position;
+        CGFloat h2 = [self GetSizeOfLabelForGivenText:textLabel2 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
         tempRect = textLabel2.frame;
         tempRect.size.height = h2;
         textLabel2.frame = tempRect;
         [cell.contentView addSubview:textLabel2];
 
-        UILabel *textLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, shift + h1 + h2, BIBBLE_VIEW_WIDTH_CONST - 40, 60.0)];
+        UILabel *textLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0 + h1 + h2, BUBBLE_VIEW_WIDTH_CONST - 40, 60.0)];
         textLabel3.backgroundColor = [UIColor clearColor];
         textLabel3.numberOfLines = 0;
         textLabel3.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
         textLabel3.textColor = [UIColor colorWithRed:230.0 / 255.0 green:236.0 / 255.0 blue:242.0 / 255.0 alpha:1.0];
         textLabel3.textAlignment = NSTextAlignmentLeft;
-        textLabel3.text = [dict objectAtIndex:2];
-        CGFloat h3 = [self GetSizeOfLabelForGivenText:textLabel3 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:constrainedSize].height;
+        textLabel3.text = years;
+        CGFloat h3 = [self GetSizeOfLabelForGivenText:textLabel3 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
         tempRect = textLabel3.frame;
         tempRect.size.height = h3;
         textLabel3.frame = tempRect;
         [cell.contentView addSubview:textLabel3];
-        index++;
-
-
-        shift = shift + h1 + h2 + h3;
     }
-    HPAddNewTownCellView *customView = [HPAddNewTownCellView createView];
 
-    customView.frame = CGRectMake(0, 0, 320, 46);
-    CGRect viewFrame = customView.frame;
-    customView.label.text = text;
-    viewFrame.origin.x = 0;
-    viewFrame.origin.y = shift;
-    customView.frame = viewFrame;
-    customView.delegate = self;
-    [cell.contentView addSubview:customView];
-    return cell;
 }
 
 #pragma mark -
 #pragma mark - calculate table row height
 
 - (CGFloat)getFirstRowHeight {
-    return FIRST_ROW_HEIGHT_CONST;
+    return 90;
 }
 
-- (CGFloat)getSecondRowHeight {
-    NSArray *keys = [self.placeCityDataSource allKeys];
-    NSInteger bubbleTag = 0;
-    CGFloat totalHeight = 20.0;
-    for (int i = 0; i < keys.count; i++) {
-        //add block label
-        HEBubbleView *bubbleView = [[HPHEBubbleView alloc] initWithFrame:CGRectMake(41.0, totalHeight + 20.0, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
-        bubbleView.layer.cornerRadius = 1;
-        bubbleView.bubbleDataSource = self;
-        bubbleView.bubbleDelegate = self;
-        bubbleView.itemHeight = 20.0;
-        bubbleView.itemPadding = 5.0;
-        bubbleView.tag = bubbleTag;
-        bubbleTag++;
+- (CGFloat)getSecondRowHeightWithIndexPath:(NSIndexPath *)indexPath {
+    if ([self isLastCellInSectionWithIndexPath:indexPath]) {
+        return 40;
+    }
+    else {
+        CGFloat totalHeight = 30.0;
+        HEBubbleView *bubbleView = [self bubbleViewForFavoritePlaceAtIndexPath:indexPath];
         [bubbleView reloadData];
         CGRect rect = bubbleView.frame;
         rect.size.height = bubbleView.contentSize.height;
         bubbleView.frame = rect;
-        totalHeight = totalHeight + bubbleView.frame.size.height + 20.0;
+        totalHeight = bubbleView.frame.size.height + totalHeight;
+        //return 99.0;
+        return totalHeight;
     }
-    return totalHeight + 48.0;
+
 }
 
 - (CGFloat)getThirdRowHeight {
     CGFloat totalHeight = 20.0;
-    HEBubbleView *bubbleView = [[HPHEBubbleView alloc] initWithFrame:CGRectMake(41.0, totalHeight, BIBBLE_VIEW_WIDTH_CONST, 50.0)];
-    bubbleView.layer.cornerRadius = 1;
-    bubbleView.bubbleDataSource = self;
-    bubbleView.bubbleDelegate = self;
-    bubbleView.itemHeight = 20.0;
-    bubbleView.itemPadding = 5.0;
-    bubbleView.tag = 1001;
-
+    HEBubbleView *bubbleView = [self bubbleViewLanguages];
     [bubbleView reloadData];
     CGRect rect = bubbleView.frame;
     rect.size.height = bubbleView.contentSize.height;
@@ -498,37 +392,42 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     return totalHeight;
 }
 
-- (CGFloat)getFourRowHeight {
 
-    return [self getHeightForDataSource:self.educationDataSource];
-}
+- (CGFloat)getHeightForEducationOrCareerCellWithIndexPath:(NSIndexPath *)indexPath {
+    if ([self isLastCellInSectionWithIndexPath:indexPath])
+        return 48;
 
-- (CGFloat)getFifthRowHeight {
-    return [self getHeightForDataSource:self.carrierDataSource];
-}
-
-- (CGFloat)getHeightForDataSource:(NSArray *)dataSource {
-    CGFloat totalHeight = 0.0;
-    CGSize constrainedSize = CGSizeMake(300.0, 9999);
-    for (NSArray *dict in dataSource) {
-        UILabel *textLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0, 300.0, 20.0)];
-        textLabel1.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
-        textLabel1.textAlignment = NSTextAlignmentLeft;
-        textLabel1.text = [dict objectAtIndex:0];
-        CGFloat h1 = [self GetSizeOfLabelForGivenText:textLabel1 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:constrainedSize].height;
-        UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0, 300.0, 20.0)];
-        textLabel2.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
-        textLabel2.textAlignment = NSTextAlignmentLeft;
-        textLabel2.text = [dict objectAtIndex:1];
-        CGFloat h2 = [self GetSizeOfLabelForGivenText:textLabel2 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:constrainedSize].height;
-        UILabel *textLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0, 300.0, 20.0)];
-        textLabel3.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
-        textLabel3.textAlignment = NSTextAlignmentLeft;
-        textLabel3.text = [dict objectAtIndex:2];
-        CGFloat h3 = [self GetSizeOfLabelForGivenText:textLabel3 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:constrainedSize].height;
-        totalHeight = totalHeight + h1 + h2 + h3 + 5;
+    NSString *name;
+    NSString *position;
+    NSString *years;
+    if ([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation) {
+        Education *education = [[self educationFetchedResultController] objectAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row inSection:0]];
+        name = education.school.name;
+        position = education.speciality.name;
+        years = [NSString stringWithFormat:@"(%@ - %@)", education.fromYear, education.toYear];
     }
-    return totalHeight + 48;
+    else {
+        Career *career = [[self careerFetchedResultController] objectAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row inSection:0]];
+        name = career.company.name;
+        position = career.careerpost.name;
+        years = [NSString stringWithFormat:@"(%@ - %@)", career.fromYear, career.toYear];
+    }
+    UILabel *textLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0, 300.0, 20.0)];
+    textLabel1.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
+    textLabel1.textAlignment = NSTextAlignmentLeft;
+    textLabel1.text = name;
+    CGFloat h1 = [self GetSizeOfLabelForGivenText:textLabel1 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
+    UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0, 300.0, 20.0)];
+    textLabel2.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
+    textLabel2.textAlignment = NSTextAlignmentLeft;
+    textLabel2.text = position;
+    CGFloat h2 = [self GetSizeOfLabelForGivenText:textLabel2 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
+    UILabel *textLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0, 300.0, 20.0)];
+    textLabel3.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
+    textLabel3.textAlignment = NSTextAlignmentLeft;
+    textLabel3.text = years;
+    CGFloat h3 = [self GetSizeOfLabelForGivenText:textLabel3 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
+    return h1 + h2 + h3 + 5;
 }
 
 - (CGFloat)calculateSectionHeight:(NSArray *)content {
@@ -536,7 +435,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     CGFloat totalHeight = 0.0;
     for (NSString *val in content) {
         totalRowWidth = totalRowWidth + ceil([val sizeWithAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:16.0]}].width + 14);
-        if (totalRowWidth > BIBBLE_VIEW_WIDTH_CONST) {
+        if (totalRowWidth > BUBBLE_VIEW_WIDTH_CONST) {
             totalHeight = totalHeight + 80;
             totalRowWidth = 0.0;
         }
@@ -556,4 +455,116 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 }
 
 
+- (UserProfileCellType)getCellTypeForIndexPath:(NSIndexPath *)indexPath {
+    return (UserProfileCellType) (indexPath.section);
+}
+
+- (NSString *)getCellIdentifierForIndexPath:(NSIndexPath *)path {
+    switch ([self getCellTypeForIndexPath:path]) {
+        case UserProfileCellTypeSpending:
+            return @"UserProfileCellTypeSpending";
+        default:
+            return @"HPUserInfoSecondRowTableViewCell";
+    }
+};
+
+- (HPHEBubbleView *)bubbleViewForFavoritePlaceAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *keyPath = [NSString stringWithFormat:@"city_%d", indexPath.row];
+    if (!self.bubbleViewsCache)
+        self.bubbleViewsCache = [NSMutableDictionary new];
+
+    if (!self.bubbleViewsCache[keyPath]) {
+        HPHEBubbleView *bubbleView = [[HPHEBubbleView alloc] initWithFrame:CGRectMake(41.0, 10 + 20.0, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
+        bubbleView.layer.cornerRadius = 1;
+        bubbleView.backgroundColor = [UIColor clearColor];
+        bubbleView.itemHeight = 20.0;
+        bubbleView.itemPadding = 5.0;
+
+        HPBubbleViewDelegate *delegate = [[HPBubbleViewDelegate alloc] initWithBubbleView:bubbleView];
+        Place *place = [[self favoritePlaceFetchedResultController] objectAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:indexPath.row]];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Place"];
+        [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user == %@ && cityId = %@", self.user, place.cityId]];
+        NSFetchedResultsController *placeByCityController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext threadContext] sectionNameKeyPath:nil cacheName:nil];
+        if (![placeByCityController performFetch:nil]) {
+            NSAssert(false, @"Error occurred");
+        }
+
+        delegate.dataSource = placeByCityController;
+        placeByCityController.delegate = self;
+        delegate.addTextString = @"Добавить место";
+        delegate.getTextInfo = ^NSString *(Place *object) {
+            return object.name;
+        };
+        @weakify(self);
+        delegate.insertTextBlock = ^(NSString *string) {
+            @strongify(self);
+            [[DataStorage sharedDataStorage] addAndSavePlaceEntity:@{@"id" : @(999), @"cityId" : place.cityId, @"name" : string} forUser:self.user];
+        };
+
+        delegate.deleteBubbleBlock = ^(Place *object) {
+            if (object) {
+                [[DataStorage sharedDataStorage] deleteAndSavePlaceEntityFromUser:@[object.id_]];
+            }
+        };
+
+        bubbleView.retainDelegate = delegate;
+        self.bubbleViewsCache[keyPath] = bubbleView;
+    }
+
+    [self.bubbleViewsCache[keyPath] reloadData];
+    return self.bubbleViewsCache[keyPath];
+}
+
+- (HPHEBubbleView *)bubbleViewLanguages {
+    NSString *keyPath = [NSString stringWithFormat:@"languages"];
+    if (!self.bubbleViewsCache)
+        self.bubbleViewsCache = [NSMutableDictionary new];
+
+    if (!self.bubbleViewsCache[keyPath]) {
+        HPHEBubbleView *bubbleView = [[HPHEBubbleView alloc] initWithFrame:CGRectMake(41.0, 0, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
+        bubbleView.layer.cornerRadius = 1;
+        bubbleView.backgroundColor = [UIColor clearColor];
+        bubbleView.itemHeight = 20.0;
+        bubbleView.itemPadding = 5.0;
+
+        HPBubbleViewDelegate *delegate = [[HPBubbleViewDelegate alloc] initWithBubbleView:bubbleView];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Language"];
+        [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user == %@", self.user]];
+        NSFetchedResultsController *languageController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext threadContext] sectionNameKeyPath:nil cacheName:nil];
+        if (![languageController performFetch:nil]) {
+            NSAssert(false, @"Error occurred");
+        }
+
+        delegate.dataSource = languageController;
+        languageController.delegate = self;
+        delegate.addTextString = @"Добавить язык";
+        delegate.getTextInfo = ^NSString *(Language *object) {
+            return object.name;
+        };
+        delegate.insertTextBlock = ^(NSString *string) {
+            [[DataStorage sharedDataStorage] addAndSaveLanguageEntityForUser:@{@"_id" : @(0001), @"name" : string}];
+        };
+        delegate.deleteBubbleBlock = ^(Language *object) {
+            if (object) {
+                [[DataStorage sharedDataStorage] deleteAndSaveLanguageEntityFromUser:@[object.id_]];
+            }
+        };
+
+        bubbleView.retainDelegate = delegate;
+        self.bubbleViewsCache[keyPath] = bubbleView;
+    }
+
+    [self.bubbleViewsCache[keyPath] reloadData];
+    return self.bubbleViewsCache[keyPath];
+}
+
+- (BOOL)isLastCellInSectionWithIndexPath:(NSIndexPath *)indexPath {
+    return [self tableView:self.tableView numberOfRowsInSection:indexPath.section] - indexPath.row == 1;
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self.editInfoTableView reloadData];
+}
 @end
