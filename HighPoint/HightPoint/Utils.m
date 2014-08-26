@@ -246,7 +246,11 @@
     NSString *age = @"";
     if (filter.minAge && filter.maxAge) {
         if ([filter.minAge integerValue] != [filter.maxAge integerValue]) {
-            age = [NSString stringWithFormat:@"%@-%@", filter.minAge, filter.maxAge];
+            if (([filter.minAge integerValue]  == 18)&& [filter.maxAge integerValue] == 60 ) {
+                age = @"";
+            } else {
+                age = [NSString stringWithFormat:@"%@-%@", filter.minAge, filter.maxAge];
+            }
         } else {
             age = [NSString stringWithFormat:@"%@", filter.minAge];
         }
@@ -261,7 +265,13 @@
     }
     NSString *town = filter.city ? filter.city.cityName :@"";
     NSString *sep = ((age.length > 0) && town.length > 0)? @"," : @"";
-    return [NSString stringWithFormat:@"%@,%@%@%@", genders, age, sep, town];
+    if ((age.length == 0) && !filter.city) {
+        town = @"из всех городов";
+    }
+    
+    NSString *sep0 = ((age.length == 0) &&(!filter.city)) ? @" " : @",";
+    
+    return [NSString stringWithFormat:@"%@%@%@%@%@", genders, sep0, age, sep, town];
 }
 + (NSString*) deleteLastChar:(NSMutableString*) str {
     if(str.length > 0) {

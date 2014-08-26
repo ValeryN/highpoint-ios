@@ -51,6 +51,7 @@ typedef void (^complationBlock) (id object);
 - (UserFilter*) getUserFilter;
 - (void)setAndSaveCityToUserFilter:(City *) city;
 - (void)updateCityAtUserFilter:(City *)city;
+- (void) updateUserFilterEntity : (NSDictionary *) param;
 - (NSFetchedResultsController*) applicationSettingFetchResultsController;
 - (void) createAndSaveUserEntity:(NSDictionary *)param forUserType:(UserType) type  withComplation:(complationBlock) block;
 - (NSFetchedResultsController*) allUsersFetchResultsController;

@@ -250,7 +250,8 @@
 
 #pragma mark - save filters 
 
-- (void) saveFilter {
+
+- (NSDictionary *) saveFilterToDB {
     NSMutableArray *genderArr = [[NSMutableArray alloc] init];
     if (self.womenSw.isOn) {
         [genderArr addObject:[NSNumber numberWithFloat:2]];
@@ -261,11 +262,18 @@
     NSArray *filterCities;
     if (self.townSwitch.isOn) {
         filterCities = [NSArray arrayWithObjects: uf.city.cityId, nil];
+    } else {
+        filterCities = nil;
     }
     NSLog(@"city for filter send = %@", filterCities);
     NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithFloat:self.oldRangeSlider.upperValue], @"maxAge",[NSNumber numberWithFloat:self.oldRangeSlider.lowerValue], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders", filterCities, @"cityIds", nil];
-    [[DataStorage sharedDataStorage] createAndSaveUserFilterEntity:filterParams withComplation:nil];
-    [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
+    [[DataStorage sharedDataStorage] updateUserFilterEntity:filterParams];
+    return filterParams;
+}
+
+- (void) saveFilter {
+    NSDictionary *param = [self saveFilterToDB];
+    [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:param];
 }
 
 #pragma mark - table view
@@ -306,6 +314,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self saveFilterToDB];
     HPSelectPopularCityViewController *cityVC = [[HPSelectPopularCityViewController alloc] initWithNibName: @"HPSelectPopularCityViewController" bundle: nil];
     self.savedDelegate = self.navigationController.delegate;
     self.navigationController.delegate = nil;

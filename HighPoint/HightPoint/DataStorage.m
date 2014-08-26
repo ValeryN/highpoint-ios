@@ -124,6 +124,37 @@ static DataStorage *dataStorage;
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
+- (void) updateUserFilterEntity : (NSDictionary *) param {
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+    UserFilter *uf = [self getUserFilter];
+    if (!uf) {
+        uf = (UserFilter *) [NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:context];
+    }
+    uf.maxAge = param[@"maxAge"];
+    uf.minAge = param[@"minAge"];
+    uf.viewType = param[@"viewType"];
+    NSMutableArray *arr = [NSMutableArray new];
+    for (NSNumber *p in param[@"genders"]) {
+        Gender *gender = (Gender *) [NSEntityDescription insertNewObjectForEntityForName:@"Gender" inManagedObjectContext:context];
+        gender.genderType = p;
+        [arr addObject:gender];
+    }
+    NSArray *citiesArr = param[@"cityIds"];
+    if ([citiesArr isKindOfClass:[NSArray class]]) {
+        if (citiesArr.count > 0) {
+            City *city = [[DataStorage sharedDataStorage] getCityById:citiesArr[0]];
+            [[DataStorage sharedDataStorage] updateCityAtUserFilter:city];
+        } else {
+            [[DataStorage sharedDataStorage] updateCityAtUserFilter:nil];
+        }
+    } else {
+        [[DataStorage sharedDataStorage] updateCityAtUserFilter:nil];
+    }
+    uf.gender = [NSSet setWithArray:arr];
+    return;
+
+}
+
 - (void)setAndSaveCityToUserFilter:(City *)globalCity {
     [self.backgroundOperationQueue addOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
@@ -150,7 +181,6 @@ static DataStorage *dataStorage;
         }];
     }];
 }
-
 
 - (void)updateCityAtUserFilter:(City *)city {
     UserFilter *filter = [self getUserFilter];
