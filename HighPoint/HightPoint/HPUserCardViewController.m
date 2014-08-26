@@ -24,7 +24,7 @@
 #import "NotificationsConstants.h"
 #import "ModalAnimation.h"
 #import "HPUserCardUICollectionViewCell.h"
-
+#import "HPChatListViewController.h"
 
 //#define ICAROUSEL_ITEMS_COUNT 50
 //#define ICAROUSEL_ITEMS_WIDTH 264.0
@@ -126,6 +126,7 @@
     int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:nil];
     if (msgsCount > 0) {
         self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%d", msgsCount]];
+        self.notificationView.userInteractionEnabled = NO;
     }
 }
 
@@ -190,7 +191,8 @@
 #pragma mark - Tap events -
 - (void) chatsListTaped: (id) sender
 {
-    NSLog(@"ChatsList taped");
+    HPChatListViewController* chatList = [[HPChatListViewController alloc] initWithNibName: @"HPChatListViewController" bundle: nil];
+    [self.navigationController pushViewController:chatList animated:YES];
 }
 
 - (void) backbuttonTaped: (id) sender
