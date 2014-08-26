@@ -264,12 +264,13 @@
         }
     }
     NSString *town = filter.city ? filter.city.cityName :@"";
-    NSString *sep = ((age.length > 0) && town.length > 0)? @"," : @"";
+    NSString *sep = ((age.length > 0) && town.length > 0)? @", " : @"";
     if ((age.length == 0) && !filter.city) {
         town = @"из всех городов";
     }
     
-    NSString *sep0 = ((age.length == 0) &&(!filter.city)) ? @" " : @",";
+    
+    NSString *sep0 = ((age.length == 0) &&(!filter.city)) ? @" " : @", ";
     
     return [NSString stringWithFormat:@"%@%@%@%@%@", genders, sep0, age, sep, town];
 }
