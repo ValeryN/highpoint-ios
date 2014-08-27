@@ -86,6 +86,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     [self.tableView registerNib:[UINib nibWithNibName:@"HPUserProfileFirstRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"UserProfileCellTypeSpending"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPUserInfoSecondRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"HPUserInfoSecondRowTableViewCell"];
     self.user = [DataStorage sharedDataStorage].getCurrentUser;
+    NSAssert(self.user, @"CurrentUser is nil");
 }
 
 
@@ -222,7 +223,15 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
         textLabel.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
         textLabel.textAlignment = NSTextAlignmentLeft;
-        textLabel.text = @"Город хрен достанешь из Place";
+
+        RAC(textLabel,text) = [[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+            NSString* sectionCityId = ((id <NSFetchedResultsSectionInfo>)[[self favoritePlaceFetchedResultController] sections][(NSUInteger) indexPath.row]).name;
+            City* city = [[DataStorage sharedDataStorage] getCityById:@(sectionCityId.integerValue)];
+            [subscriber sendNext:city.cityName?:@"Неизвестный город"];
+            [subscriber sendCompleted];
+            return nil;
+        }] takeUntil:cell.rac_prepareForReuseSignal] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]];
+
         [cell.contentView addSubview:textLabel];
 
         UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -559,6 +568,6 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    [self.editInfoTableView reloadData];
+    [self.tableView reloadData];
 }
 @end
