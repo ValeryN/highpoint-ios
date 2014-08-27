@@ -344,27 +344,32 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         [animationLayer addSubview:textLabel2];
         [animationLayer addSubview:textLabel3];
         [cell.contentView addSubview:animationLayer];
-        //Resize textLabel to show performDeleteButton
-        CGRect initialFrame = animationLayer.frame;
-        [[RACObserve(deleteButton, selected) takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(NSNumber *selected) {
-            [UIView animateWithDuration:0.3 animations:^{
-                if (selected.boolValue) {
-                    animationLayer.frame = (CGRect) {initialFrame.origin, BUBBLE_VIEW_WIDTH_CONST - 40 - 60, initialFrame.size.height};
-                }
-                else {
-                    animationLayer.frame = initialFrame;
-                }
-            }];
-        }];
 
         UIButton *realDelete = [self rightPerformDeleteButton];
         realDelete.hidden = YES;
+        BOOL cellWithAnimation = (textLabel1.frame.size.width >BUBBLE_VIEW_WIDTH_CONST - 40.0f - 60.0f)||(textLabel2.frame.size.width >BUBBLE_VIEW_WIDTH_CONST - 40.0f - 60.0f)||(textLabel2.frame.size.width >BUBBLE_VIEW_WIDTH_CONST - 40.0f - 60.0f);
         RAC(realDelete, hidden) = [[RACObserve(deleteButton, selected) not] flattenMap:^RACStream *(NSNumber *value) {
-            if (!value.boolValue) {
+            if (!value.boolValue && cellWithAnimation) {
                 return [[RACSignal return:value] delay:0.3];
             }
             else return [RACSignal return:value];
         }];
+
+        if(cellWithAnimation){
+            //Resize textLabel to show performDeleteButton
+            CGRect initialFrame = animationLayer.frame;
+            [[RACObserve(deleteButton, selected) takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(NSNumber *selected) {
+                [UIView animateWithDuration:0.3 animations:^{
+                    if (selected.boolValue) {
+                        animationLayer.frame = (CGRect) {initialFrame.origin, BUBBLE_VIEW_WIDTH_CONST - 40 - 60, initialFrame.size.height};
+                    }
+                    else {
+                        animationLayer.frame = initialFrame;
+                    }
+                }];
+            }];
+        }
+
         [[[realDelete rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(id x) {
             if ([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation) {
                 [[DataStorage sharedDataStorage] deleteAndSaveEducationEntityFromUser:@[((Education *) object).id_]];
