@@ -81,7 +81,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
             [self configureFavoritePlaceCell:cell withIndexPath:indexPath];
             break;
         case UserProfileCellTypeLanguages:
-            [self configureThirdCell:cell];
+            [self configureLanguageCell:cell];
             break;
         case UserProfileCellTypeEducation:
         case UserProfileCellTypeCareer:
@@ -124,7 +124,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         case UserProfileCellTypeFavoritePlaces:
             return [self getSecondRowHeightWithIndexPath:indexPath];
         case UserProfileCellTypeLanguages:
-            return [self getThirdRowHeight];
+            return [self getLanguageRowHeight];
         case UserProfileCellTypeEducation:
             return [self getHeightForEducationOrCareerCellWithIndexPath:indexPath];
         case UserProfileCellTypeCareer:
@@ -229,7 +229,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 }
 
 //user languages
-- (UITableViewCell *)configureThirdCell:(UITableViewCell *)cell {
+- (UITableViewCell *)configureLanguageCell:(UITableViewCell *)cell {
     for (UIView *v in [cell.contentView subviews]) {
         [v removeFromSuperview];
     }
@@ -383,15 +383,13 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 
 }
 
-- (CGFloat)getThirdRowHeight {
-    CGFloat totalHeight = 20.0;
+- (CGFloat)getLanguageRowHeight {
     HEBubbleView *bubbleView = [self bubbleViewLanguages];
     [bubbleView reloadData];
     CGRect rect = bubbleView.frame;
     rect.size.height = bubbleView.contentSize.height;
     bubbleView.frame = rect;
-    totalHeight = bubbleView.frame.size.height + totalHeight;
-    return totalHeight;
+    return bubbleView.frame.size.height + bubbleView.frame.origin.y;
 }
 
 
@@ -593,7 +591,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         self.bubbleViewsCache = [NSMutableDictionary new];
 
     if (!self.bubbleViewsCache[keyPath]) {
-        HPHEBubbleView *bubbleView = [[HPHEBubbleView alloc] initWithFrame:CGRectMake(41.0, 0, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
+        HPHEBubbleView *bubbleView = [[HPHEBubbleView alloc] initWithFrame:CGRectMake(41.0, 10, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
         bubbleView.layer.cornerRadius = 1;
         bubbleView.backgroundColor = [UIColor clearColor];
         bubbleView.itemHeight = 20.0;
