@@ -4,9 +4,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HPUserProfileFirstRowTableViewCell.h"
 
 @class User;
 
 
-@interface HPUserProfileInfoEditTabViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@interface HPUserProfileInfoEditTabViewController : UITableViewController <NSFetchedResultsControllerDelegate, HPUserProfileFirstRowTableViewCellDelegate>
 @end

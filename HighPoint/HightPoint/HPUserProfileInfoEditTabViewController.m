@@ -5,9 +5,6 @@
 
 #import "HPUserProfileInfoEditTabViewController.h"
 #import "HPUserProfileTableHeaderView.h"
-#import "HPUserProfileFirstRowTableViewCell.h"
-#import "HPUserInfoSecondRowTableViewCell.h"
-#import "User.h"
 #import "HEBubbleView.h"
 #import "HPAddNewTownCellView.h"
 #import "MinEntertainmentPrice.h"
@@ -15,7 +12,6 @@
 #import "NSManagedObjectContext+HighPoint.h"
 #import "HPBubbleViewDelegate.h"
 #import "HPHEBubbleView.h"
-#import "PSMenuItem.h"
 #import "DataStorage.h"
 
 @interface HPUserProfileInfoEditTabViewController ()
@@ -95,7 +91,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     NSArray *sectionsArray = @[@"РАСХОДЫ", @"ЛЮБИМЫЕ МЕСТА", @"ЯЗЫКИ", @"ОБРАЗОВАНИЕ", @"КАРЬЕРА"];
-    HPUserProfileTableHeaderView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"HPUserProfileTableHeaderView" owner:self options:nil] objectAtIndex:0];
+    HPUserProfileTableHeaderView *headerView = [[NSBundle mainBundle] loadNibNamed:@"HPUserProfileTableHeaderView" owner:self options:nil][0];
     headerView.backgroundColor = [UIColor colorWithRed:30.0f / 255.0f green:29.0f / 255.0f blue:48.0f / 255.0f alpha:1.0];
     headerView.headerTextLabel.backgroundColor = [UIColor clearColor];
     headerView.headerTextLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:15.0];
@@ -114,7 +110,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     cell.contentView.backgroundColor = [UIColor colorWithRed:30.0f / 255.0f green:29.0f / 255.0f blue:48.0f / 255.0f alpha:1.0];
     switch ([self getCellTypeForIndexPath:indexPath]) {
         case UserProfileCellTypeSpending:
-            [self configureFirstCell:cell];
+            [self configureFirstCell:(HPUserProfileFirstRowTableViewCell *) cell];
             break;
         case UserProfileCellTypeFavoritePlaces:
             [self configureFavoritePlaceCell:cell withIndexPath:indexPath];
@@ -184,12 +180,12 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     cell.cellTextLabel.backgroundColor = [UIColor clearColor];
     cell.cellTextLabel.numberOfLines = 0;
     cell.cellTextLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
-    cell.cellTextLabel.textColor = [UIColor colorWithRed:230.0 / 255.0 green:236.0 / 255.0 blue:242.0 / 255.0 alpha:1.0];
+    cell.cellTextLabel.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
     cell.cellTextLabel.textAlignment = NSTextAlignmentLeft;
     cell.delegate = self;
     cell.user = self.user;
     [cell configureSlider:NO];
-    //[cell.contentView addSubview:textLabel];
+
     NSMutableString *text;
     if ([self.user.gender intValue] == 2) {
         text = [NSMutableString stringWithString:@"Привыкла"];
@@ -224,7 +220,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 10, cell.contentView.frame.size.width - 26, 20.0)];
         textLabel.backgroundColor = [UIColor clearColor];
         textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
-        textLabel.textColor = [UIColor colorWithRed:230.0 / 255.0 green:236.0 / 255.0 blue:242.0 / 255.0 alpha:1.0];
+        textLabel.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
         textLabel.textAlignment = NSTextAlignmentLeft;
         textLabel.text = @"Город хрен достанешь из Place";
         [cell.contentView addSubview:textLabel];
@@ -299,11 +295,11 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
             object = career;
         }
 
-        UILabel *textLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0, BUBBLE_VIEW_WIDTH_CONST - 40, 60.0)];
+        UILabel *textLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0, (CGFloat) (BUBBLE_VIEW_WIDTH_CONST - 40), 60.0)];
         textLabel1.backgroundColor = [UIColor clearColor];
         textLabel1.numberOfLines = 0;
         textLabel1.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
-        textLabel1.textColor = [UIColor colorWithRed:230.0 / 255.0 green:236.0 / 255.0 blue:242.0 / 255.0 alpha:1.0];
+        textLabel1.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
         textLabel1.textAlignment = NSTextAlignmentLeft;
         textLabel1.text = name;
 
@@ -326,11 +322,11 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         [cell.contentView addSubview:deleteButton];
 
 
-        UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0 + h1, BUBBLE_VIEW_WIDTH_CONST - 40, 60.0)];
+        UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0 + h1, (CGFloat) (BUBBLE_VIEW_WIDTH_CONST - 40.0), 60.0)];
         textLabel2.backgroundColor = [UIColor clearColor];
         textLabel2.numberOfLines = 0;
         textLabel2.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
-        textLabel2.textColor = [UIColor colorWithRed:230.0 / 255.0 green:236.0 / 255.0 blue:242.0 / 255.0 alpha:1.0];
+        textLabel2.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
         textLabel2.textAlignment = NSTextAlignmentLeft;
         textLabel2.text = position;
         CGFloat h2 = [self GetSizeOfLabelForGivenText:textLabel2 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
@@ -339,11 +335,11 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         textLabel2.frame = tempRect;
         [cell.contentView addSubview:textLabel2];
 
-        UILabel *textLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0 + h1 + h2, BUBBLE_VIEW_WIDTH_CONST - 40, 60.0)];
+        UILabel *textLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0 + h1 + h2, (CGFloat) (BUBBLE_VIEW_WIDTH_CONST - 40.0), 60.0)];
         textLabel3.backgroundColor = [UIColor clearColor];
         textLabel3.numberOfLines = 0;
         textLabel3.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
-        textLabel3.textColor = [UIColor colorWithRed:230.0 / 255.0 green:236.0 / 255.0 blue:242.0 / 255.0 alpha:1.0];
+        textLabel3.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
         textLabel3.textAlignment = NSTextAlignmentLeft;
         textLabel3.text = years;
         CGFloat h3 = [self GetSizeOfLabelForGivenText:textLabel3 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
@@ -388,7 +384,6 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     rect.size.height = bubbleView.contentSize.height;
     bubbleView.frame = rect;
     totalHeight = bubbleView.frame.size.height + totalHeight;
-    //return 99.0;
     return totalHeight;
 }
 
@@ -434,13 +429,12 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     CGFloat totalRowWidth = 0.0;
     CGFloat totalHeight = 0.0;
     for (NSString *val in content) {
-        totalRowWidth = totalRowWidth + ceil([val sizeWithAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:16.0]}].width + 14);
+        totalRowWidth = (CGFloat) (totalRowWidth + ceil([val sizeWithAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:16.0]}].width + 14));
         if (totalRowWidth > BUBBLE_VIEW_WIDTH_CONST) {
             totalHeight = totalHeight + 80;
             totalRowWidth = 0.0;
         }
     }
-    NSLog(@"%f", totalHeight);
     return totalHeight;
 }
 
@@ -474,7 +468,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         self.bubbleViewsCache = [NSMutableDictionary new];
 
     if (!self.bubbleViewsCache[keyPath]) {
-        HPHEBubbleView *bubbleView = [[HPHEBubbleView alloc] initWithFrame:CGRectMake(41.0, 10 + 20.0, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
+        HPHEBubbleView *bubbleView = [[HPHEBubbleView alloc] initWithFrame:CGRectMake(41.0, 30.0, BUBBLE_VIEW_WIDTH_CONST, 50.0)];
         bubbleView.layer.cornerRadius = 1;
         bubbleView.backgroundColor = [UIColor clearColor];
         bubbleView.itemHeight = 20.0;
