@@ -1112,7 +1112,7 @@ static DataStorage *dataStorage;
         if (type == CurrentUserType) {
             user.isCurrentUser = @YES;
         }
-        else user.isCurrentUser = @NO;
+        //else user.isCurrentUser = @NO;
         if (type == MainListUserType) {
             user.isItFromMainList = @YES;
         }
