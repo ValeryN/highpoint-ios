@@ -135,6 +135,7 @@
 
 - (void)showCurrentUserProfileViewController {
     HPUserProfileViewController *uiController = [[HPUserProfileViewController alloc] initWithNibName:@"HPUserProfile" bundle:nil];
+    uiController.user = self.currentUser;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:uiController];
     uiController.transitioningDelegate = self;
     uiController.modalPresentationStyle = UIModalPresentationCustom;

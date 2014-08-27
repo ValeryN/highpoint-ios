@@ -9,5 +9,6 @@
 @class User;
 
 
-@interface HPUserProfileInfoEditTabViewController : UITableViewController <NSFetchedResultsControllerDelegate, HPUserProfileFirstRowTableViewCellDelegate>
+@interface HPUserProfileInfoEditTabViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@property(strong, nonatomic) User *user;
 @end

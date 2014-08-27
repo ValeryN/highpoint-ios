@@ -67,7 +67,14 @@ typedef void (^complationBlock) (id object);
 - (Place *) createPlaceEntity:(NSDictionary *)param;
 //- (void)addAndSavePlaceEntityForUser:(NSDictionary *) param;
 - (void)addAndSavePlaceEntity:(NSDictionary *)param forUser:(User*) user;
-- (void)deleteAndSavePlaceEntityFromUser:(NSArray *) id;
+- (void)deleteAndSavePlaceEntityFromUserWithIds:(NSArray *) id;
+
+- (void)deleteAndSavePlaceEntityForCurrentUserWithCity:(City *)globalCity;
+
+- (void)setAndSaveCurrentUserMaxEntertainmentPrice:(NSNumber *)number;
+
+- (void)setAndSaveCurrentUserMinEntertainmentPrice:(NSNumber *)number;
+
 - (Place *) createTempPlace :(NSDictionary *) param;
 - (Education*) createEducationEntity:(NSDictionary *)param;
 - (void)deleteAndSaveEducationEntityFromUser:(NSArray *) ids;

@@ -9,13 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "NMRangeSlider.h"
 #import "User.h"
-@protocol  HPUserProfileFirstRowTableViewCellDelegate <NSObject>
-- (void) sliderValueChange:(NMRangeSlider*) sender;
-@end
 
 @interface HPUserProfileFirstRowTableViewCell : UITableViewCell
 @property (nonatomic, weak) IBOutlet UILabel *cellTextLabel;
-@property (nonatomic, weak) id<HPUserProfileFirstRowTableViewCellDelegate> delegate;
 @property (nonatomic, weak) IBOutlet NMRangeSlider *oldRangeSlider;
 @property (nonatomic, strong) User *user;
 - (void) configureSlider:(BOOL) hidden;

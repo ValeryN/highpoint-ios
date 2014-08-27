@@ -886,7 +886,7 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
-                    [[DataStorage sharedDataStorage] deleteAndSavePlaceEntityFromUser:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
+                    [[DataStorage sharedDataStorage] deleteAndSavePlaceEntityFromUserWithIds:[[jsonDict objectForKey:@"data"] objectForKey:@"ids"]];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);

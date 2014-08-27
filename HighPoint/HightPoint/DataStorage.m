@@ -702,7 +702,7 @@ static DataStorage *dataStorage;
     }];
 }
 
-- (void)deleteAndSavePlaceEntityFromUser:(NSArray *)ids {
+- (void)deleteAndSavePlaceEntityFromUserWithIds:(NSArray *)ids {
     [self.backgroundOperationQueue addOperationWithBlock:^{
         User *currentUser = [self getCurrentUser];
         NSMutableArray *placesItems = [[currentUser.place allObjects] mutableCopy];
@@ -724,6 +724,42 @@ static DataStorage *dataStorage;
     }];
 }
 
+- (void)deleteAndSavePlaceEntityForCurrentUserWithCity:(City *) globalCity {
+    [self.backgroundOperationQueue addOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+
+        City* city = [globalCity moveToContext:context];
+        User *currentUser = [self getCurrentUser];
+        NSArray * returnArray = [[currentUser.place allObjects] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cityId != %@",city.cityId]];
+
+        [context performBlockAndWait:^{
+            currentUser.place = [NSSet setWithArray:returnArray];
+            [self addSaveOperationToBottomInContext:context];
+        }];
+    }];
+}
+
+- (void) setAndSaveCurrentUserMaxEntertainmentPrice:(NSNumber*) number{
+    [self.backgroundOperationQueue addOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        User *currentUser = [self getCurrentUser];
+        [context performBlockAndWait:^{
+            currentUser.maxentertainment.amount = number;
+            [self addSaveOperationToBottomInContext:context];
+        }];
+    }];
+}
+
+- (void) setAndSaveCurrentUserMinEntertainmentPrice:(NSNumber*) number{
+    [self.backgroundOperationQueue addOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        User *currentUser = [self getCurrentUser];
+        [context performBlockAndWait:^{
+            currentUser.minentertainment.amount = number;
+            [self addSaveOperationToBottomInContext:context];
+        }];
+    }];
+}
 - (Place *)createTempPlace:(NSDictionary *)param {
     NSEntityDescription *myPlaceEntity = [NSEntityDescription entityForName:@"Place" inManagedObjectContext:[NSManagedObjectContext threadContext]];
     Place *placeEnt = [[Place alloc] initWithEntity:myPlaceEntity insertIntoManagedObjectContext:nil];
