@@ -143,7 +143,7 @@
         <attribute name="favoriteCityIds" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="favoritePlaceIds" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gender" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="isCurrentUser" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isCurrentUser" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="isItFromContact" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isItFromMainList" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isItFromPointLike" optional="YES" attributeType="Boolean" syncable="YES"/>

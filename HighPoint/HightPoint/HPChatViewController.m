@@ -59,6 +59,8 @@
     self.chatTableView.dataSource = self;
     msgs = [[NSArray alloc] init];
     self.currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+    NSLog(@"current user for msg = %@", self.currentUser.userId);
+    
     self.msgTextView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
     [self.msgTextView hp_tuneForTextViewMsgText];
     // Do any additional setup after loading the view from its nib.
