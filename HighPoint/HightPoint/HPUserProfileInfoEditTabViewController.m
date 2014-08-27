@@ -643,7 +643,4 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     [self.tableView reloadData];
 }
 
-- (void)sliderValueChange:(NMRangeSlider *)sender {
-
-}
 @end

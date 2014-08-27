@@ -39,10 +39,11 @@
 #define BUBBLE_VIEW_WIDTH_CONST 290.0
 //==============================================================================
 
-@interface HPUserProfileViewController()
-@property (nonatomic, retain) HPUserProfileInfoEditTabViewController *infoEditTabViewController;
-@property (nonatomic, retain) HPUserProfilePhotoAlbumTabViewController *photoAlbumTabViewController;
+@interface HPUserProfileViewController ()
+@property(nonatomic, retain) HPUserProfileInfoEditTabViewController *infoEditTabViewController;
+@property(nonatomic, retain) HPUserProfilePhotoAlbumTabViewController *photoAlbumTabViewController;
 @end
+
 @implementation HPUserProfileViewController
 
 //==============================================================================
@@ -50,8 +51,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-
-
 
 
     [self configureNavigationBar];
@@ -89,6 +88,7 @@
                                      alpha: 1.0];
     */
 }
+
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
 
@@ -96,30 +96,32 @@
             0.0,
             self.bottomLayoutGuide.length,
             0.0);
-
-    self.infoEditTabViewController.tableView.contentInset = self.infoEditTabViewController.tableView.scrollIndicatorInsets = insets;
-    self.photoAlbumTabViewController.collectionView.contentInset = self.photoAlbumTabViewController.collectionView.scrollIndicatorInsets = insets;
+    if (self.infoEditTabViewController.tableView.contentInset.top == 0)
+        self.infoEditTabViewController.tableView.contentInset = self.infoEditTabViewController.tableView.scrollIndicatorInsets = insets;
+    if (self.photoAlbumTabViewController.collectionView.contentInset.top == 0)
+        self.photoAlbumTabViewController.collectionView.contentInset = self.photoAlbumTabViewController.collectionView.scrollIndicatorInsets = insets;
 }
-- (void) configurePhotoTab{
+
+- (void)configurePhotoTab {
     self.photoAlbumTabViewController = [[HPUserProfilePhotoAlbumTabViewController alloc] initWithNibName:@"HPUserProfilePhotoAlbumTabViewController" bundle:nil];
     [self addChildViewController:self.photoAlbumTabViewController];
     self.photoAlbumTabViewController.view.frame = self.view.frame;
 
     [self.view addSubview:self.photoAlbumTabViewController.view];
-    RAC(self.photoAlbumTabViewController.view,hidden) = [RACObserve(self, segmentControl.selectedSegmentIndex) map:^id(NSNumber * value) {
-        return @(value.unsignedIntegerValue==1);
+    RAC(self.photoAlbumTabViewController.view, hidden) = [RACObserve(self, segmentControl.selectedSegmentIndex) map:^id(NSNumber *value) {
+        return @(value.unsignedIntegerValue == 1);
     }];
 }
 
-- (void) configureInfoTab{
+- (void)configureInfoTab {
     self.infoEditTabViewController = [[HPUserProfileInfoEditTabViewController alloc] initWithNibName:@"HPUserProfileInfoEditTabViewController" bundle:nil];
     self.infoEditTabViewController.user = self.user;
     [self addChildViewController:self.infoEditTabViewController];
     self.infoEditTabViewController.view.frame = self.view.frame;
     [self.view addSubview:self.infoEditTabViewController.view];
 
-    RAC(self.infoEditTabViewController.view,hidden) = [RACObserve(self, segmentControl.selectedSegmentIndex) map:^id(NSNumber * value) {
-        return @(value.unsignedIntegerValue==0);
+    RAC(self.infoEditTabViewController.view, hidden) = [RACObserve(self, segmentControl.selectedSegmentIndex) map:^id(NSNumber *value) {
+        return @(value.unsignedIntegerValue == 0);
     }];
 }
 
