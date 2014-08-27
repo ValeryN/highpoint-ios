@@ -62,6 +62,7 @@
     [self resetNavigationBarButtons];
 
     self.currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+    NSLog(@"current user info appear = %@", self.currentUser.userId);
 }
 
 
