@@ -25,7 +25,7 @@
 @property(nonatomic, retain) NSFetchedResultsController *careerFetchedResultController;
 @end
 
-#define BUBBLE_VIEW_WIDTH_CONST 290.0
+#define BUBBLE_VIEW_WIDTH_CONST 290.0f
 
 typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     UserProfileCellTypeSpending,
@@ -224,10 +224,10 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         textLabel.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
         textLabel.textAlignment = NSTextAlignmentLeft;
 
-        RAC(textLabel,text) = [[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-            NSString* sectionCityId = ((id <NSFetchedResultsSectionInfo>)[[self favoritePlaceFetchedResultController] sections][(NSUInteger) indexPath.row]).name;
-            City* city = [[DataStorage sharedDataStorage] getCityById:@(sectionCityId.integerValue)];
-            [subscriber sendNext:city.cityName?:@"Неизвестный город"];
+        RAC(textLabel, text) = [[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+            NSString *sectionCityId = ((id <NSFetchedResultsSectionInfo>) [[self favoritePlaceFetchedResultController] sections][(NSUInteger) indexPath.row]).name;
+            City *city = [[DataStorage sharedDataStorage] getCityById:@(sectionCityId.integerValue)];
+            [subscriber sendNext:city.cityName ?: @"Неизвестный город"];
             [subscriber sendCompleted];
             return nil;
         }] takeUntil:cell.rac_prepareForReuseSignal] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]];
@@ -304,61 +304,110 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
             object = career;
         }
 
-        UILabel *textLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0, (CGFloat) (BUBBLE_VIEW_WIDTH_CONST - 40), 60.0)];
+        UIButton *deleteButton = [self leftPreDeleteButton];
+        [cell.contentView addSubview:deleteButton];
+
+        UILabel *textLabel1 = [[UILabel alloc] initWithFrame:(CGRect) {0, 5, BUBBLE_VIEW_WIDTH_CONST - 40, 9999}];
         textLabel1.backgroundColor = [UIColor clearColor];
         textLabel1.numberOfLines = 0;
         textLabel1.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
         textLabel1.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
         textLabel1.textAlignment = NSTextAlignmentLeft;
         textLabel1.text = name;
+        [textLabel1 sizeToFit];
 
 
-        CGFloat h1 = [self GetSizeOfLabelForGivenText:textLabel1 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
-        CGRect tempRect = textLabel1.frame;
-        tempRect.size.height = h1;
-        textLabel1.frame = tempRect;
-        [cell.contentView addSubview:textLabel1];
-
-
-        UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        deleteButton.frame = CGRectMake(12, 0, 22.0, 22.0);
-        [deleteButton setBackgroundImage:[UIImage imageNamed:@"Remove"] forState:UIControlStateNormal];
-        [deleteButton setBackgroundImage:[UIImage imageNamed:@"Remove Tap"] forState:UIControlStateHighlighted];
-        [deleteButton addTarget:self
-                         action:@selector(deleteEducationOrWork:)
-               forControlEvents:UIControlEventTouchUpInside];
-
-        [cell.contentView addSubview:deleteButton];
-
-
-        UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0 + h1, (CGFloat) (BUBBLE_VIEW_WIDTH_CONST - 40.0), 60.0)];
+        UILabel *textLabel2 = [[UILabel alloc] initWithFrame:(CGRect) {0, textLabel1.frame.size.height, BUBBLE_VIEW_WIDTH_CONST - 40.0f, 9999}];
         textLabel2.backgroundColor = [UIColor clearColor];
         textLabel2.numberOfLines = 0;
         textLabel2.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
         textLabel2.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
         textLabel2.textAlignment = NSTextAlignmentLeft;
         textLabel2.text = position;
-        CGFloat h2 = [self GetSizeOfLabelForGivenText:textLabel2 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
-        tempRect = textLabel2.frame;
-        tempRect.size.height = h2;
-        textLabel2.frame = tempRect;
+        [textLabel2 sizeToFit];
         [cell.contentView addSubview:textLabel2];
 
-        UILabel *textLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(46.0, 0 + h1 + h2, (CGFloat) (BUBBLE_VIEW_WIDTH_CONST - 40.0), 60.0)];
+        UILabel *textLabel3 = [[UILabel alloc] initWithFrame:(CGRect) {0, textLabel1.frame.size.height + textLabel2.frame.size.height, BUBBLE_VIEW_WIDTH_CONST - 40.0f, 9999}];
         textLabel3.backgroundColor = [UIColor clearColor];
         textLabel3.numberOfLines = 0;
         textLabel3.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
         textLabel3.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
         textLabel3.textAlignment = NSTextAlignmentLeft;
         textLabel3.text = years;
-        CGFloat h3 = [self GetSizeOfLabelForGivenText:textLabel3 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
-        tempRect = textLabel3.frame;
-        tempRect.size.height = h3;
-        textLabel3.frame = tempRect;
+        [textLabel3 sizeToFit];
         [cell.contentView addSubview:textLabel3];
+
+        //Need for correct work with animation
+        UIView *animationLayer = [[UIView alloc] initWithFrame:(CGRect) {46.0, 0, BUBBLE_VIEW_WIDTH_CONST - 40.0f, textLabel1.frame.size.height + textLabel2.frame.size.height + textLabel3.frame.size.height}];
+        animationLayer.clipsToBounds = YES;
+        [animationLayer addSubview:textLabel1];
+        [animationLayer addSubview:textLabel2];
+        [animationLayer addSubview:textLabel3];
+        [cell.contentView addSubview:animationLayer];
+        //Resize textLabel to show performDeleteButton
+        CGRect initialFrame = animationLayer.frame;
+        [[RACObserve(deleteButton, selected) takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(NSNumber *selected) {
+            [UIView animateWithDuration:0.3 animations:^{
+                if (selected.boolValue) {
+                    animationLayer.frame = (CGRect) {initialFrame.origin, BUBBLE_VIEW_WIDTH_CONST - 40 - 60, initialFrame.size.height};
+                }
+                else {
+                    animationLayer.frame = initialFrame;
+                }
+            }];
+        }];
+
+        UIButton *realDelete = [self rightPerformDeleteButton];
+        realDelete.hidden = YES;
+        RAC(realDelete, hidden) = [[RACObserve(deleteButton, selected) not] flattenMap:^RACStream *(NSNumber *value) {
+            if (!value.boolValue) {
+                return [[RACSignal return:value] delay:0.3];
+            }
+            else return [RACSignal return:value];
+        }];
+        [[[realDelete rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(id x) {
+            if ([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation) {
+                [[DataStorage sharedDataStorage] deleteAndSaveEducationEntityFromUser:@[((Education *) object).id_]];
+            }
+            else {
+                [[DataStorage sharedDataStorage] deleteAndSaveCareerEntityFromUser:@[((Career *) object).id_]];
+            }
+        }];
+        [cell.contentView addSubview:realDelete];
     }
 
 }
+
+- (UIButton *)rightPerformDeleteButton {
+    UIButton *realDelete = [[UIButton alloc] initWithFrame:CGRectMake(240, -5, 70, 40)];
+    [realDelete setContentMode:UIViewContentModeScaleAspectFit];
+    realDelete.titleLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16];
+    [realDelete setTitle:@"Удалить" forState:UIControlStateNormal];
+    [realDelete setTitle:@"Удалить" forState:UIControlStateHighlighted];
+    [realDelete setTitleColor:[UIColor colorWithRed:255.0f / 255.0f green:102.0f / 255.0f blue:112.0f / 255.0f alpha:1] forState:UIControlStateNormal];
+    [realDelete setTitleColor:[UIColor colorWithRed:255.0f / 255.0f green:102.0f / 255.0f blue:112.0f / 255.0f alpha:1] forState:UIControlStateHighlighted];
+    return realDelete;
+}
+
+- (UIButton *)leftPreDeleteButton {
+    UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    deleteButton.frame = CGRectMake(0, 0, 44.0, 44.0);
+    [deleteButton setImage:[UIImage imageNamed:@"Remove"] forState:UIControlStateNormal];
+    [deleteButton setImage:[UIImage imageNamed:@"Remove Tap"] forState:UIControlStateHighlighted];
+    [[deleteButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *button) {
+        button.selected = !button.selected;
+        if (button.selected) {
+            [button setImage:[UIImage imageNamed:@"Cancel"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"Cancel Tap"] forState:UIControlStateHighlighted];
+        }
+        else {
+            [button setImage:[UIImage imageNamed:@"Remove"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"Remove Tap"] forState:UIControlStateHighlighted];
+        }
+    }];
+    return deleteButton;
+}
+
 
 #pragma mark -
 #pragma mark - calculate table row height
@@ -416,22 +465,25 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         position = career.careerpost.name;
         years = [NSString stringWithFormat:@"(%@ - %@)", career.fromYear, career.toYear];
     }
-    UILabel *textLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0, 300.0, 20.0)];
+    UILabel *textLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, (BUBBLE_VIEW_WIDTH_CONST - 40.0f), 9999.0)];
+    textLabel1.numberOfLines = 0;
     textLabel1.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
     textLabel1.textAlignment = NSTextAlignmentLeft;
     textLabel1.text = name;
-    CGFloat h1 = [self GetSizeOfLabelForGivenText:textLabel1 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
-    UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0, 300.0, 20.0)];
+    [textLabel1 sizeToFit];
+    UILabel *textLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, (BUBBLE_VIEW_WIDTH_CONST - 40.0f), 9999.0)];
     textLabel2.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
+    textLabel2.numberOfLines = 0;
     textLabel2.textAlignment = NSTextAlignmentLeft;
     textLabel2.text = position;
-    CGFloat h2 = [self GetSizeOfLabelForGivenText:textLabel2 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
-    UILabel *textLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0, 300.0, 20.0)];
+    [textLabel2 sizeToFit];
+    UILabel *textLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, (BUBBLE_VIEW_WIDTH_CONST - 40.0f), 9999.0)];
     textLabel3.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
     textLabel3.textAlignment = NSTextAlignmentLeft;
     textLabel3.text = years;
-    CGFloat h3 = [self GetSizeOfLabelForGivenText:textLabel3 Font:[UIFont fontWithName:@"FuturaPT-Book" size:16.0] Size:CGSizeMake(300.0, 9999)].height;
-    return h1 + h2 + h3 + 5;
+    textLabel3.numberOfLines = 0;
+    [textLabel3 sizeToFit];
+    return textLabel1.frame.size.height + textLabel2.frame.size.height + textLabel3.frame.size.height + 5;
 }
 
 - (CGFloat)calculateSectionHeight:(NSArray *)content {
