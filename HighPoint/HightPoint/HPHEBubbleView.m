@@ -18,6 +18,8 @@
 
     [self becomeFirstResponder];
 
+    [self.activeBubble setSelected:NO animated:YES];
+    self.activeBubble = nil;
 
     PSMenuItem *actionCopy = [[PSMenuItem alloc] initWithTitle:@"Copy" block:^{
         UIPasteboard *pb = [UIPasteboard generalPasteboard];
@@ -28,7 +30,6 @@
     menu.menuItems = [menuItems arrayByAddingObject:actionCopy];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didHideMenuController) name:UIMenuControllerDidHideMenuNotification object:menu];
-
     self.activeBubble = item;
 
     [menu setTargetRect:item.frame inView:item.superview];

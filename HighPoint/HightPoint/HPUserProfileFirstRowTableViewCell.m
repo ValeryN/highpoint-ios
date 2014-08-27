@@ -25,8 +25,8 @@
     if(!hidden) {
         self.oldRangeSlider.backgroundColor = [UIColor clearColor];
         //self.oldRangeSlider.trackBackgroundImage = [UIImage imageNamed: @"Progress Line"];
-        self.oldRangeSlider.minimumValue = 18;
-        self.oldRangeSlider.maximumValue = 60;
+        self.oldRangeSlider.minimumValue = 100;
+        self.oldRangeSlider.maximumValue = 100000;
         
         self.oldRangeSlider.lowerValue = [self.user.minentertainment.amount intValue];
         self.oldRangeSlider.upperValue = [self.user.maxentertainment.amount intValue];

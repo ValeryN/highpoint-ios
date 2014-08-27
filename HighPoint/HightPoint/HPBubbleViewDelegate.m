@@ -6,6 +6,7 @@
 #import "HPBubbleViewDelegate.h"
 #import "PSMenuItem.h"
 #import "HPHEBubbleView.h"
+#import "HPHEBubbleViewItem.h"
 
 
 @implementation HPBubbleViewDelegate {
@@ -52,30 +53,25 @@
 
     NSString *itemIdentifier = @"bubble";
 
-    HEBubbleViewItem *bubble = [bubbleView dequeueItemUsingReuseIdentifier:itemIdentifier];
-    UITextField * textField;
+    HPHEBubbleViewItem *bubble = (HPHEBubbleViewItem *) [bubbleView dequeueItemUsingReuseIdentifier:itemIdentifier];
     if (!bubble) {
-        bubble = [[HEBubbleViewItem alloc] initWithReuseIdentifier:itemIdentifier];
-        textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 100, 28)];
+        bubble = [[HPHEBubbleViewItem alloc] initWithReuseIdentifier:itemIdentifier];
+        bubble.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 100, 28)];
         [[RACObserve(bubble.textLabel,frame) distinctUntilChanged] subscribeNext:^(NSValue * x) {
-            textField.frame = x.CGRectValue;
+            bubble.textField.frame = x.CGRectValue;
         }];
-        [bubble insertSubview:textField aboveSubview:bubble.textLabel];
-        textField.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
-        textField.textColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:1];
-        [[textField rac_signalForControlEvents:UIControlEventEditingDidBegin] subscribeNext:^(id x) {
+        [bubble insertSubview:bubble.textField aboveSubview:bubble.textLabel];
+        bubble.textField.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
+        bubble.textField.textColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:1];
+        [[bubble.textField rac_signalForControlEvents:UIControlEventEditingDidBegin] subscribeNext:^(id x) {
             bubble.textLabel.hidden = YES;
         }];
-        [[textField rac_signalForControlEvents:UIControlEventEditingDidEnd] subscribeNext:^(UITextField * textField1) {
+        [[bubble.textField rac_signalForControlEvents:UIControlEventEditingDidEnd] subscribeNext:^(UITextField * textField1) {
             if([textField1.text isEqualToString:@""]) {
                 bubble.textLabel.hidden = NO;
             }
         }];
-        textField.delegate = self;
-        bubble.userInfo[@"textField"] = textField;
-    }
-    else{
-        textField = bubble.userInfo[@"textField"];
+        bubble.textField.delegate = self;
     }
 
     bubble.unselectedBGColor = [UIColor clearColor];
@@ -86,7 +82,7 @@
         bubble.selectedBorderColor = [UIColor colorWithRed:255.0f/255.0f green:102.0f/255.0f blue:112.0f/255.0f alpha:1];
         bubble.selectedBGColor = [UIColor clearColor];//[UIColor colorWithRed:0.784 green:0.847 blue:0.910 alpha:1];
         bubble.selectedTextColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:1];
-        textField.hidden = YES;
+        bubble.textField.hidden = YES;
     }
     else{
         bubble.unselectedBorderColor = [UIColor clearColor];
@@ -94,7 +90,7 @@
         bubble.selectedBorderColor = [UIColor clearColor];
         bubble.selectedBGColor = [UIColor clearColor];
         bubble.selectedTextColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:0.4];
-        textField.hidden = NO;
+        bubble.textField.hidden = NO;
     }
 
     bubble.textLabel.text = [self textStringForIndex:index inBubbleView:bubbleView];

@@ -506,7 +506,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         };
 
         delegate.deleteBubbleBlock = ^(Place *object) {
-            if (object) {
+            if (object.id_) {
                 [[DataStorage sharedDataStorage] deleteAndSavePlaceEntityFromUser:@[object.id_]];
             }
         };
@@ -550,7 +550,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
             [[DataStorage sharedDataStorage] addAndSaveLanguageEntityForUser:@{@"_id" : @(0001), @"name" : string}];
         };
         delegate.deleteBubbleBlock = ^(Language *object) {
-            if (object) {
+            if (object.id_) {
                 [[DataStorage sharedDataStorage] deleteAndSaveLanguageEntityFromUser:@[object.id_]];
             }
         };

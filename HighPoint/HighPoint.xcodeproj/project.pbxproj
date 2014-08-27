@@ -245,6 +245,7 @@
 		7C5F7BBD7015D433D0D69AC0 /* HPUserProfileInfoEditTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7247CB61482010C7BBC3 /* HPUserProfileInfoEditTabViewController.m */; };
 		7C5F7C658C5746D3BF22FEC9 /* HPUserProfileInfoEditTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7F0253B8B9515C30D81E /* HPUserProfileInfoEditTabViewController.xib */; };
 		7C5F7D6BA2F7A7A1F69CD0F9 /* HPUserProfileTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F788AEA6CCF8DB315766E /* HPUserProfileTableHeaderView.m */; };
+		7C5F7EA6A679F1D7A1338BE8 /* HPHEBubbleViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7362A22A9AB0E359D898 /* HPHEBubbleViewItem.m */; };
 		7C5F7F8EA181FF6B301EC198 /* HPImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7CC7149A27F47DFCF3C5 /* HPImageCollectionViewCell.xib */; };
 		7C5F7FA72DC5AA259D946392 /* HPUserProfilePhotoAlbumTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F79FBC553B622AE95FF32 /* HPUserProfilePhotoAlbumTabViewController.xib */; };
 		7C5F7FB884D405670F8B16E7 /* HPUserProfileTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7931BE2436B8E5002A6D /* HPUserProfileTableHeaderView.xib */; };
@@ -725,12 +726,14 @@
 		7C5F727D5ACE12CAC506BCCA /* NSManagedObject+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+HighPoint.h"; sourceTree = "<group>"; };
 		7C5F73499DE47F24BB401634 /* HPUserProfileСarouselModeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPUserProfileСarouselModeViewController.m"; sourceTree = "<group>"; };
 		7C5F735C20D5CB8513398F5E /* HPAddNewTownCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAddNewTownCellView.h; sourceTree = "<group>"; };
+		7C5F7362A22A9AB0E359D898 /* HPHEBubbleViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPHEBubbleViewItem.m; sourceTree = "<group>"; };
 		7C5F737FC05CCF1E394F5604 /* UINavigationBar+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+HighPoint.m"; sourceTree = "<group>"; };
 		7C5F73B28B4784B3764684CA /* NSManagedObjectContext+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+HighPoint.h"; sourceTree = "<group>"; };
 		7C5F74B47B9910711C74A35F /* HPUserProfileFirstRowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfileFirstRowTableViewCell.xib; sourceTree = "<group>"; };
 		7C5F759EF310328097A08FC6 /* UITextView+HPRacSignal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HPRacSignal.m"; sourceTree = "<group>"; };
 		7C5F766850D0D8278F9215E9 /* HPImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPImageCollectionViewCell.h; sourceTree = "<group>"; };
 		7C5F768EDADC3E4C6E7F2202 /* HPBubbleViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPBubbleViewDelegate.h; sourceTree = "<group>"; };
+		7C5F773EF93854F594166206 /* HPHEBubbleViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPHEBubbleViewItem.h; sourceTree = "<group>"; };
 		7C5F77B8A8491B5BFFB82FC4 /* HPImageCollectionViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPImageCollectionViewHeader.xib; sourceTree = "<group>"; };
 		7C5F77C71335DFAD0C776965 /* HPImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPImageCollectionViewCell.m; sourceTree = "<group>"; };
 		7C5F77FC4F83B6ED0CECB26E /* HPUserProfileInfoEditTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserProfileInfoEditTabViewController.h; sourceTree = "<group>"; };
@@ -1716,6 +1719,8 @@
 				7C5F7931BE2436B8E5002A6D /* HPUserProfileTableHeaderView.xib */,
 				7C5F74B47B9910711C74A35F /* HPUserProfileFirstRowTableViewCell.xib */,
 				7C5F7F0253B8B9515C30D81E /* HPUserProfileInfoEditTabViewController.xib */,
+				7C5F7362A22A9AB0E359D898 /* HPHEBubbleViewItem.m */,
+				7C5F773EF93854F594166206 /* HPHEBubbleViewItem.h */,
 			);
 			name = "Profile Edit";
 			sourceTree = "<group>";
@@ -1964,7 +1969,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = B9639RHZFT;
+						DevelopmentTeam = J67Y29BQR7;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -2380,6 +2385,7 @@
 				7C5F7D6BA2F7A7A1F69CD0F9 /* HPUserProfileTableHeaderView.m in Sources */,
 				7C5F766542796FD121405C2B /* HPUserProfilePhotoAlbumTabViewController.m in Sources */,
 				7C5F77FD3DAF62EFAC1609D5 /* HPUserProfileСarouselModeViewController.m in Sources */,
+				7C5F7EA6A679F1D7A1338BE8 /* HPHEBubbleViewItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
