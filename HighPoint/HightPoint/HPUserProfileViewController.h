@@ -23,7 +23,7 @@
 //==============================================================================
 //==============================================================================
 
-@interface HPUserProfileViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, iCarouselDelegate, iCarouselDataSource, HEBubbleViewDataSource, HEBubbleViewDelegate, HPAddPhotoMenuViewControllerDelegate, UITextFieldDelegate, HPAddNewTownViewDelegate, HPSelectTownViewControllerDelegate, HPAddEducationViewControllerDelegate, HPBubbleTextFieldDelegate>
+@interface HPUserProfileViewController : UIViewController <HEBubbleViewDataSource, HEBubbleViewDelegate, HPAddPhotoMenuViewControllerDelegate, UITextFieldDelegate, HPAddNewTownViewDelegate, HPSelectTownViewControllerDelegate, HPAddEducationViewControllerDelegate, HPBubbleTextFieldDelegate>
 @property (nonatomic, weak) IBOutlet UIButton *downButton;
 @property (nonatomic, weak) IBOutlet UIButton *backButton;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *segmentControl;
@@ -46,10 +46,6 @@
 @property (nonatomic, assign) NSInteger prepareForDeleteIndex;
 @property (nonatomic, assign) NSInteger backSpaceTapCount;
 @property (nonatomic, strong) HPBubbleTextField *currentBubbleTextField;
-@property (weak, nonatomic) IBOutlet iCarousel *carousel;
 @property(nonatomic, strong) HPAddPhotoMenuViewController *addPhotoViewController;
-//////////////////////
-- (IBAction)downButtonTap:(id)sender;
-- (IBAction)backButtonTap:(id)sender;
-- (IBAction)segmentedControlValueDidChange:(id)sender;
+
 @end
