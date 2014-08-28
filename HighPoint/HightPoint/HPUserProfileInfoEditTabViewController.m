@@ -386,7 +386,6 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     else {
         CGFloat totalHeight = 30.0;
         HEBubbleView *bubbleView = [self bubbleViewForFavoritePlaceAtIndexPath:indexPath];
-        [bubbleView reloadData];
         CGRect rect = bubbleView.frame;
         rect.size.height = bubbleView.contentSize.height;
         bubbleView.frame = rect;
@@ -399,7 +398,6 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 
 - (CGFloat)getLanguageRowHeight {
     HEBubbleView *bubbleView = [self bubbleViewLanguages];
-    [bubbleView reloadData];
     CGRect rect = bubbleView.frame;
     rect.size.height = bubbleView.contentSize.height;
     bubbleView.frame = rect;
@@ -543,7 +541,6 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         }
 
         delegate.dataSource = placeByCityController;
-        placeByCityController.delegate = self;
         delegate.addTextString = @"Добавить место";
         delegate.getTextInfo = ^NSString *(Place *object) {
             return object.name;
@@ -551,7 +548,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         @weakify(self);
         delegate.insertTextBlock = ^(NSString *string) {
             @strongify(self);
-            [[DataStorage sharedDataStorage] addAndSavePlaceEntity:@{@"id" : @(999), @"cityId" : place.cityId, @"name" : string} forUser:self.user];
+            [[DataStorage sharedDataStorage] addAndSavePlaceEntity:@{@"id" : @(rand()%1000), @"cityId" : place.cityId, @"name" : string} forUser:self.user];
         };
 
         delegate.deleteBubbleBlock = ^(Place *object) {
@@ -561,10 +558,10 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         };
 
         bubbleView.retainDelegate = delegate;
+        [bubbleView reloadData];
         self.bubbleViewsCache[keyPath] = bubbleView;
     }
 
-    [self.bubbleViewsCache[keyPath] reloadData];
     return self.bubbleViewsCache[keyPath];
 }
 
@@ -621,13 +618,12 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         }
 
         delegate.dataSource = languageController;
-        languageController.delegate = self;
         delegate.addTextString = @"Добавить язык";
         delegate.getTextInfo = ^NSString *(Language *object) {
             return object.name;
         };
         delegate.insertTextBlock = ^(NSString *string) {
-            [[DataStorage sharedDataStorage] addAndSaveLanguageEntityForUser:@{@"_id" : @(0001), @"name" : string}];
+            [[DataStorage sharedDataStorage] addAndSaveLanguageEntityForUser:@{@"_id" : @(rand()%1000), @"name" : string}];
         };
         delegate.deleteBubbleBlock = ^(Language *object) {
             if (object.id_) {
@@ -647,7 +643,13 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 #pragma mark delegates
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    [self.tableView reloadData];
+    if(controller == self.favoritePlaceFetchedResultController){
+        //Don't reload cell,  only height for correct work with bubble view
+        [self.tableView beginUpdates];[self.tableView endUpdates];
+    }
+    else {
+        [self.tableView reloadData];
+    }
 }
 
 @end

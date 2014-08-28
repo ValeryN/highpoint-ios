@@ -8,6 +8,10 @@
 #import "HPHEBubbleView.h"
 #import "HPHEBubbleViewItem.h"
 
+@interface HPBubbleViewDelegate ()
+@property(nonatomic) BOOL needToReloadAfterControllerComplete;
+@property(nonatomic, retain) NSMutableArray *indexedArrayOfBubbleViewItem;
+@end
 
 @implementation HPBubbleViewDelegate {
 
@@ -17,6 +21,7 @@
     self = [super init];
     if (self) {
         self.bubbleView = bubbleView;
+        self.indexedArrayOfBubbleViewItem = [NSMutableArray new];
     }
 
     return self;
@@ -26,6 +31,10 @@
     return [[self alloc] initWithBubbleView:bubbleView];
 }
 
+- (void)setDataSource:(NSFetchedResultsController *)dataSource {
+    _dataSource = dataSource;
+    dataSource.delegate = self;
+}
 
 - (NSInteger)numberOfItemsInBubbleView:(HEBubbleView *)bubbleView {
     id <NSFetchedResultsSectionInfo> sectionInfo =
@@ -50,13 +59,18 @@
 }
 
 - (HEBubbleViewItem *)bubbleView:(HEBubbleView *)bubbleView bubbleItemForIndex:(NSInteger)index {
-
-    NSString *itemIdentifier = @"bubble";
+    NSString *itemIdentifier;
+    if (![self isLastElementForIndex:index inBubbleView:bubbleView]) {
+        itemIdentifier = @"bubble";
+    }
+    else {
+        itemIdentifier = @"bubbleAdd";
+    }
 
     HPHEBubbleViewItem *bubble = (HPHEBubbleViewItem *) [bubbleView dequeueItemUsingReuseIdentifier:itemIdentifier];
     if (!bubble) {
         bubble = [[HPHEBubbleViewItem alloc] initWithReuseIdentifier:itemIdentifier];
-        bubble.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 100, 28)];
+        bubble.textField = [[HPBubbleTextField alloc] initWithFrame:CGRectMake(0, 0, 100, 28)];
         [[RACObserve(bubble.textLabel,frame) distinctUntilChanged] subscribeNext:^(NSValue * x) {
             bubble.textField.frame = x.CGRectValue;
         }];
@@ -66,11 +80,43 @@
         [[bubble.textField rac_signalForControlEvents:UIControlEventEditingDidBegin] subscribeNext:^(id x) {
             bubble.textLabel.hidden = YES;
         }];
+
+        UIColor * caretColor = bubble.textField.tintColor;
         [[bubble.textField rac_signalForControlEvents:UIControlEventEditingDidEnd] subscribeNext:^(UITextField * textField1) {
+            bubble.textField.tintColor = caretColor;
+            [self.bubbleView.activeBubble setSelected:NO animated:NO];
+            self.bubbleView.activeBubble = nil;
             if([textField1.text isEqualToString:@""]) {
                 bubble.textLabel.hidden = NO;
             }
         }];
+
+
+        @weakify(self);
+        [bubble.textField.backSpaceSignal subscribeNext:^(id x) {
+            @strongify(self);
+            if ([bubble.textField.text isEqualToString:@""] && [self numberOfItemsInBubbleView:self.bubbleView] > 1) {
+                if(!self.bubbleView.activeBubble) {
+                    bubble.textField.tintColor = [UIColor clearColor];
+                    self.bubbleView.activeBubble = self.indexedArrayOfBubbleViewItem[(NSUInteger) (bubble.index - 1)];
+                    [self.bubbleView.activeBubble setSelected:YES animated:YES];
+
+                    [[[bubble.textField.rac_textSignal skip:1] take:1] subscribeNext:^(id x) {
+                        bubble.textField.tintColor = caretColor;
+                        [self.bubbleView.activeBubble setSelected:NO animated:YES];
+                        self.bubbleView.activeBubble = nil;
+
+                    }];
+                }
+                else {
+                    bubble.textField.tintColor = caretColor;
+                    [self.bubbleView.activeBubble setSelected:NO animated:NO];
+                    self.bubbleView.activeBubble = nil;
+                    [self bubbleView:bubbleView deleteItemWithIndex:[self numberOfItemsInBubbleView:self.bubbleView] - 2];
+                }
+            }
+        }];
+
         bubble.textField.delegate = self;
     }
 
@@ -94,14 +140,21 @@
     }
 
     bubble.textLabel.text = [self textStringForIndex:index inBubbleView:bubbleView];
+
+    if (self.indexedArrayOfBubbleViewItem.count > index) {
+        [self.indexedArrayOfBubbleViewItem removeObjectAtIndex:(NSUInteger) index];
+    }
+    [self.indexedArrayOfBubbleViewItem insertObject:bubble atIndex:(NSUInteger) index];
+
     return bubble;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self bubbleView:self.bubbleView insertBubbleWithText:textField.text];
-    textField.text = @"";
+    if (![textField.text isEqualToString:@""]) {
+        [self bubbleView:self.bubbleView insertBubbleWithText:textField.text];
+        textField.text = @"";
+    }
     [textField resignFirstResponder];
-    [textField removeFromSuperview];
     return NO;
 }
 
@@ -122,8 +175,10 @@
 }
 
 - (void)bubbleView:(HEBubbleView *)bubbleView deleteItemWithIndex:(NSInteger)index{
-     if(self.deleteBubbleBlock)
+    if (self.deleteBubbleBlock) {
          self.deleteBubbleBlock([self getNSManagedObjectAtIndex:index]);
+    }
+
 
 }
 
@@ -132,4 +187,23 @@
         self.insertTextBlock(text);
 }
 
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+    switch (type) {
+        case NSFetchedResultsChangeInsert:
+        case NSFetchedResultsChangeMove:
+        case NSFetchedResultsChangeUpdate:
+            self.needToReloadAfterControllerComplete = YES;
+
+        case NSFetchedResultsChangeDelete:
+            [self.bubbleView removeItemAtIndex:indexPath.row animated:YES];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    if (self.needToReloadAfterControllerComplete) {
+        [self.bubbleView reloadData];
+        self.needToReloadAfterControllerComplete = NO;
+    }
+}
 @end

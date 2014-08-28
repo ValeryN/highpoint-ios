@@ -23,7 +23,7 @@
 //==============================================================================
 //==============================================================================
 
-@interface HPUserProfileViewController : UIViewController <HEBubbleViewDataSource, HEBubbleViewDelegate, HPAddPhotoMenuViewControllerDelegate, UITextFieldDelegate, HPAddNewTownViewDelegate, HPSelectTownViewControllerDelegate, HPAddEducationViewControllerDelegate, HPBubbleTextFieldDelegate>
+@interface HPUserProfileViewController : UIViewController <HEBubbleViewDataSource, HEBubbleViewDelegate, HPAddPhotoMenuViewControllerDelegate, UITextFieldDelegate, HPAddNewTownViewDelegate, HPSelectTownViewControllerDelegate, HPAddEducationViewControllerDelegate>
 @property (nonatomic, weak) IBOutlet UIButton *downButton;
 @property (nonatomic, weak) IBOutlet UIButton *backButton;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *segmentControl;

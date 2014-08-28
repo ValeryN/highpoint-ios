@@ -9,21 +9,21 @@
 #import "HPBubbleTextField.h"
 
 @implementation HPBubbleTextField
-
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        @weakify(self);
+        self.backSpaceSignal = [RACSubject subject];
     }
+
     return self;
 }
+
+
+
 - (void)deleteBackward {
+    [self.backSpaceSignal sendNext:@YES];
     [super deleteBackward];
-    
-    if ([_backSpaceDelegate respondsToSelector:@selector(backSpaceTap)]){
-        [_backSpaceDelegate backSpaceTap];
-    }
 }
 
 /*
