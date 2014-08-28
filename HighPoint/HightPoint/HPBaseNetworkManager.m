@@ -162,12 +162,10 @@ static HPBaseNetworkManager *networkManager;
 
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", operation.responseString);
-        NSError *error = nil;
+       // NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                     options:kNilOptions
-                                                                       error:&error];
+          //  NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
         }
         //NSMutableDictionary *parsedDictionary = [NSMutableDictionary new];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -1610,8 +1608,8 @@ static HPBaseNetworkManager *networkManager;
 
     if([packet.name isEqualToString:@"message"])
     {
-        NSArray* args = packet.args;
-        NSDictionary* arg = args[0];
+       // NSArray* args = packet.args;
+       // NSDictionary* arg = args[0];
     }
 
     if ([packet.name isEqualToString:kMeUpdate]) {

@@ -111,15 +111,12 @@ typedef void (^complationBlock) (id object);
 - (void)deleteAndSaveAllContacts;
 - (NSFetchedResultsController*) getAllContactsFetchResultsController;
 
-- (void) deleteContact : (NSNumber *) contactId;
 - (NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
 - (void) linkParameter:(NSDictionary*) param toUser:(User*) user;
 - (Message *) createMessage :(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes) type;
 - (int) allUnreadMessagesCount : (User *) user;
-- (Chat *) createChatEntity: (User *)user : (NSArray *) messages;
 - (Chat *) getChatByUserId :(NSNumber *) userId;
 - (NSDictionary*) prepareParamFromUser:(User*) user;
-- (void) saveContext;
 
 - (void)deleteAndSaveContact: (NSNumber *) contactId;
 - (void)createAndSaveMessage:(NSDictionary *)param  forUserId:(NSNumber*) keyId  andMessageType:(MessageTypes) type withComplation:(complationBlock) block;
