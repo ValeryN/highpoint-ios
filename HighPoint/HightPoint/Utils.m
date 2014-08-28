@@ -48,7 +48,7 @@
     CGFloat width;
     if ([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
     {
-        width = [text sizeWithFont:[UIFont fontWithName:@"FuturaPT-Light" size:18.0f ]].width;
+        width = [text sizeWithAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }].width;
     }
     else
     {
