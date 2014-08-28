@@ -65,14 +65,14 @@
     NSAttributedString *str1;
     NSAttributedString *str2;
     if(self.isItForEducation) {
-        str = [[NSAttributedString alloc] initWithString:@"Название учебного заведения" attributes:@{ UITextAttributeTextColor : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
-        str1 = [[NSAttributedString alloc] initWithString:@"Специальность" attributes:@{ UITextAttributeTextColor : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
-        str2 = [[NSAttributedString alloc] initWithString:@"Годы обучения" attributes:@{ UITextAttributeTextColor : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
+        str = [[NSAttributedString alloc] initWithString:@"Название учебного заведения" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
+        str1 = [[NSAttributedString alloc] initWithString:@"Специальность" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
+        str2 = [[NSAttributedString alloc] initWithString:@"Годы обучения" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
         
     } else {
-        str = [[NSAttributedString alloc] initWithString:@"Место работы" attributes:@{ UITextAttributeTextColor : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
-        str1 = [[NSAttributedString alloc] initWithString:@"Должность" attributes:@{ UITextAttributeTextColor : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
-        str2 = [[NSAttributedString alloc] initWithString:@"Годы работы" attributes:@{ UITextAttributeTextColor : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
+        str = [[NSAttributedString alloc] initWithString:@"Место работы" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
+        str1 = [[NSAttributedString alloc] initWithString:@"Должность" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
+        str2 = [[NSAttributedString alloc] initWithString:@"Годы работы" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4], NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0] }];
     }
     self.firstRow.attributedPlaceholder = str;
     self.secondRow.attributedPlaceholder = str1;
