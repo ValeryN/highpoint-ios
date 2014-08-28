@@ -12,4 +12,5 @@
 
 - (void) hp_tuneForSearchTextFieldInContactList :(NSString*) placeholderText;
 
+- (RACSignal *)rac_textReturnSignal;
 @end

@@ -7,9 +7,16 @@
 //
 
 #import "UITextField+HighPoint.h"
+#import "NSObject+RACDescription.h"
+#import "RACDelegateProxy.h"
 
 @implementation UITextField (HighPoint)
+static void RACUseDelegateProxy(UITextView*self) {
+    if (self.delegate == self.rac_delegateProxy) return;
 
+    self.rac_delegateProxy.rac_proxiedDelegate = self.delegate;
+    self.delegate = (id)self.rac_delegateProxy;
+}
 
 - (void) hp_tuneForSearchTextFieldInContactList :(NSString*) placeholderText
 {
@@ -20,6 +27,18 @@
                                          alpha: 1.0];
     self.textColor = textColor;
     self.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholderText attributes:@{NSForegroundColorAttributeName: textColor}];
+}
+
+- (RACSignal *)rac_textReturnSignal {
+    @weakify(self);
+    return [[[[RACSignal
+            defer:^{
+                @strongify(self);
+                return [RACSignal return:self];
+            }]
+            concat:[self rac_signalForControlEvents:UIControlEventEditingDidEndOnExit]]
+            takeUntil:self.rac_willDeallocSignal]
+            setNameWithFormat:@"%@ -rac_keyboardReturnSignal", [self rac_description]];
 }
 
 @end
