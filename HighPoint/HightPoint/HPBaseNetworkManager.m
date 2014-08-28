@@ -669,7 +669,7 @@ static HPBaseNetworkManager *networkManager;
                 } else {
 
                 NSLog(@"Error: %@", error.localizedDescription);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+               // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
             }
         }
@@ -704,7 +704,7 @@ static HPBaseNetworkManager *networkManager;
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+               // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
             }
         }
@@ -741,7 +741,7 @@ static HPBaseNetworkManager *networkManager;
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+               // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
             }
         }
@@ -853,7 +853,7 @@ static HPBaseNetworkManager *networkManager;
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+               // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
             }
         }
@@ -890,7 +890,7 @@ static HPBaseNetworkManager *networkManager;
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+              //  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
             }
         }
@@ -966,7 +966,7 @@ static HPBaseNetworkManager *networkManager;
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+               // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
             }
         }
@@ -1004,7 +1004,7 @@ static HPBaseNetworkManager *networkManager;
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+               // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
             }
         }
@@ -1163,7 +1163,7 @@ static HPBaseNetworkManager *networkManager;
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+              //  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
             }
         }
@@ -1199,7 +1199,7 @@ static HPBaseNetworkManager *networkManager;
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+              //  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
             }
         }
