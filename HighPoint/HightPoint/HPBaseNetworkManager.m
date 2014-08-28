@@ -207,7 +207,7 @@ static HPBaseNetworkManager *networkManager;
                 }
                 NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 for(NSString *key in usr) {
-                    NSDictionary *dict = [usr objectForKey:key];
+                  //  NSDictionary *dict = [usr objectForKey:key];
 
                    // [self getGeoLocation:param];
                     [[DataStorage sharedDataStorage] createAndSaveUserEntity:[usr objectForKey:key] forUserType:MainListUserType withComplation:nil];
@@ -305,7 +305,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:nil withComplation:nil];
+                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:0 withComplation:nil];
 
             }
             else NSLog(@"Error, no valid data");
