@@ -6,9 +6,11 @@
 #import "HPSearchCityViewController.h"
 #import "HPBaseNetworkManager.h"
 #import "UITextField+HighPoint.h"
+#import "City.h"
 
 @interface HPSearchCityViewController()
 @property (nonatomic, weak) IBOutlet UITextField * searchBar;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem * cancelBarButton;
 @property(nonatomic, retain) NSMutableDictionary *cacheDictionary;
 @end
 
@@ -16,6 +18,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    RACChannelTo(self,selectRowSignal) = RACChannelTo(self,returnSignal);
+    self.navigationItem.leftBarButtonItem = [self barItemCancelEditText];
 
     [self.searchBar.rac_textReturnSignal subscribeNext:^(UITextField *x) {
         [x resignFirstResponder];
@@ -30,6 +35,7 @@
 
     [self configureTableViewWithSignal:tableViewSignal andTemplateCell:[UINib nibWithNibName:@"HPSearchCityCell" bundle:nil]];
 
+    [self.searchBar becomeFirstResponder];
 }
 
 - (RACSignal *) getCitiesBySearchString:(NSString*) string{
@@ -41,6 +47,20 @@
     }
 
     return self.cacheDictionary[string];
+}
+
+
+- (UIBarButtonItem *)barItemCancelEditText {
+    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] init];
+    leftBarItem.title = @"Отменить";
+    [leftBarItem setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18]} forState:UIControlStateNormal];
+    @weakify(self);
+    leftBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        @strongify(self)
+        [self.navigationController popViewControllerAnimated:YES];
+        return [RACSignal empty];
+    }];
+    return leftBarItem;
 }
 
 @end

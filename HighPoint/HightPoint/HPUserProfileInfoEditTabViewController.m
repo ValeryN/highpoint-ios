@@ -141,6 +141,10 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         if([self isLastCellInSectionWithIndexPath:indexPath]){
             HPSearchCityViewController * searchCityViewController = [[HPSearchCityViewController alloc] initWithNibName:@"HPSearchCityViewController" bundle:nil];
             [self.navigationController pushViewController:searchCityViewController animated:YES];
+            [[RACObserve(searchCityViewController, returnSignal) flatten] subscribeNext:^(City* city) {
+                [searchCityViewController.navigationController popViewControllerAnimated:YES];
+
+            }];
         }
     }
 }

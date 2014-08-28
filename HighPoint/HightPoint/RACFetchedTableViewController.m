@@ -21,9 +21,21 @@
         [self.tableView reloadData];
     }];
 
+    if (self.tableView.delegate == nil)
+        self.tableView.delegate = self;
+
+    NSObject <UITableViewDelegate> *delegate = self.tableView.delegate;
+    self.tableView.delegate = nil;
+    self.selectRowSignal = [[delegate rac_signalForSelector:@selector(tableView:didSelectRowAtIndexPath:) fromProtocol:@protocol(UITableViewDelegate)] map:^id(RACTuple *value) {
+        RACTupleUnpack(UITableView *tableView, NSIndexPath *indexPath) = value;
+        return [[self data] objectAtIndexPath:indexPath];
+    }];
+    self.tableView.delegate = delegate;
+
     _templateCell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
     [self.tableView registerNib:templateCellNib forCellReuseIdentifier:_templateCell.reuseIdentifier];
     self.tableView.rowHeight = _templateCell.bounds.size.height;
+
     self.tableView.dataSource = self;
 }
 

@@ -11,5 +11,6 @@
 @end
 
 @interface RACTableViewController : UITableViewController
+@property (nonatomic, retain) RACSignal * selectRowSignal;
 - (void)configureTableViewWithSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib;
 @end
