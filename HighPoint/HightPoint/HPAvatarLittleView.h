@@ -18,6 +18,5 @@
 - (void) initObjects : (UIImage *) image;
 - (void) makeOnline;
 - (void) makeOffline;
-- (void) privacyLevel;
 
 @end

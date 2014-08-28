@@ -104,7 +104,7 @@
     CGFloat width;
     if ([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
     {
-        width = [text sizeWithFont:[UIFont fontWithName:@"FuturaPT-Book" size:16.0 ]].width;
+        width = [text sizeWithAttributes: @{NSFontAttributeName: [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ]}].width;
     }
     else
     {
@@ -151,7 +151,7 @@
     CGFloat width;
     if ([[UIDevice currentDevice].systemVersion floatValue] < 7.0)
     {
-        width = [text sizeWithFont:[UIFont fontWithName:@"FuturaPT-Book" size:16.0 ]].width;
+        width = [text sizeWithAttributes: @{NSFontAttributeName: [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ]}].width;
     }
     else
     {
