@@ -332,7 +332,7 @@
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.4
                           delay:0.0
-                        options: UIViewAnimationCurveEaseOut
+                        options: UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          weakSelf.msgBottomView.frame = newFrame;
                      }
@@ -353,7 +353,7 @@
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.2
                           delay:0.0
-                        options: UIViewAnimationCurveEaseOut
+                        options: UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          weakSelf.msgBottomView.frame = newFrame;
                      }
@@ -427,7 +427,7 @@
         NSDate *dateRepresentingThisDay = [self.sortedDays objectAtIndex:indexPath.section];
         NSArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
         Message *msg = [msgsOnThisDay objectAtIndex:indexPath.row];
-        msgCell.delegate = self;
+        //msgCell.delegate = self;
         msgCell.currentUserId = self.currentUser.userId;
         [msgCell configureSelfWithMsg:msg];
         return msgCell;
@@ -464,8 +464,12 @@
     NSArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
     Message *msg = [msgsOnThisDay objectAtIndex:indexPath.row];
     UIFont *cellFont = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
-    CGSize constraintSize = CGSizeMake(250.0f, 1000);
-    CGSize labelSize = [msg.text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    CGSize constraintSize = CGSizeMake(250.0f, 1000.0f);
+    CGRect textRect = [msg.text boundingRectWithSize:constraintSize
+                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                          attributes:@{NSFontAttributeName:cellFont}
+                                             context:nil];
+    CGSize labelSize = textRect.size;
     return labelSize.height + 40;
 }
 
@@ -490,7 +494,7 @@
     
     
     dateLabel.text = [self getDateString:[self.sortedDays objectAtIndex:section]];
-    [dateLabel setTextAlignment:UITextAlignmentCenter];
+    [dateLabel setTextAlignment:NSTextAlignmentCenter];
     dateLabel.textColor = [UIColor grayColor];
     [dateLabel hp_tuneForHeaderAndInfoInMessagesList];
     [headerView addSubview:dateLabel];

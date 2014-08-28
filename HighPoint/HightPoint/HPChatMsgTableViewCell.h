@@ -14,7 +14,6 @@
 @interface HPChatMsgTableViewCell : UITableViewCell <UIScrollViewDelegate>
 
 
-@property (weak, nonatomic) id <HPChatViewControllerProtocol> delegate;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UITextView * msgTextView;
 @property (strong, nonatomic) NSNumber * currentUserId;
