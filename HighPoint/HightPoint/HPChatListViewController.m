@@ -120,7 +120,8 @@
     self.navigationItem.title = @"";
     self.searchTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 25, 270, 30)];
     [self.searchTextField hp_tuneForSearchTextFieldInContactList :NSLocalizedString(@"SEARCH_FIELD_PLACEHOLDER", nil)];
-    [self.navigationItem.leftBarButtonItem initWithCustomView:self.searchTextField];
+    UIBarButtonItem *leftItem = [self.navigationItem.leftBarButtonItem initWithCustomView:self.searchTextField];
+    self.navigationItem.leftBarButtonItem = leftItem;
     [self showCoverView];
     [self.searchTextField becomeFirstResponder];
     self.searchTextField.delegate = self;
@@ -304,7 +305,7 @@
             break;
 
         case NSFetchedResultsChangeUpdate: {
-            [self configureCell:[self.chatListTableView cellForRowAtIndexPath:indexPath] withIndexPath:indexPath];
+            [self configureCell:(HPChatTableViewCell *)[self.chatListTableView cellForRowAtIndexPath:indexPath] withIndexPath:indexPath];
         }
             break;
 
