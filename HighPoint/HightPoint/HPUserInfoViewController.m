@@ -309,16 +309,10 @@
 
 - (void) createSegmentedController
 {
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                [UIFont fontWithName:@"FuturaPT-Light" size:15], UITextAttributeFont,
-                                [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0], UITextAttributeTextColor, nil];
-    
-    NSDictionary *highlightedAttributes = [NSDictionary
-                                           dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"FuturaPT-Light" size:15], UITextAttributeFont, [UIColor colorWithRed:80.0/255.0 green:226.0/255.0 blue:193.0/255.0 alpha:1.0], UITextAttributeTextColor, nil];
-    
-    [self.navSegmentedController setTitleTextAttributes:highlightedAttributes  forState:UIControlStateNormal];
-    [self.navSegmentedController setTitleTextAttributes: attributes forState:UIControlStateSelected];
-    
+    [self.navSegmentedController setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:15],
+                                                          NSForegroundColorAttributeName : [UIColor colorWithRed:80.0/255.0 green:226.0/255.0 blue:193.0/255.0 alpha:1.0] } forState:UIControlStateNormal];
+    [self.navSegmentedController setTitleTextAttributes: @{ NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:15],
+                                                            NSForegroundColorAttributeName : [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0] } forState:UIControlStateSelected];
 }
 
 -(IBAction)segmentedControlValueDidChange:(UISegmentedControl *)segment
