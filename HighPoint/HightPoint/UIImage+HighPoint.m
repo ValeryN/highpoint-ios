@@ -6,17 +6,14 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import "UIImage+HighPoint.h"
 #import "UIImage+StackBlur.h"
 #import "UIDevice+HighPoint.h"
 
-//==============================================================================
 
 @implementation UIImage (HighPoint)
 
-//==============================================================================
 
 - (UIImage*) hp_maskImageWithPattern: (UIImage*) pattern
 {
@@ -41,7 +38,6 @@
     return returnImage;
 }
 
-//==============================================================================
 
 - (UIImage *)hp_applyBlurWithRadius:(CGFloat)blurRadius {
     CIImage *originalImage = [CIImage imageWithCGImage:self.CGImage];
@@ -84,7 +80,6 @@
     return newImage;
 }
 
-//==============================================================================
 
 - (UIImage *)hp_imageWithGaussianBlur:(NSInteger)blurRadius {
     return [self stackBlur:blurRadius];
