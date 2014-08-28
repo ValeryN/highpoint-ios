@@ -13,6 +13,7 @@
 #import "HPBubbleViewDelegate.h"
 #import "HPHEBubbleView.h"
 #import "DataStorage.h"
+#import "HPSearchCityViewController.h"
 
 @interface HPUserProfileInfoEditTabViewController ()
 
@@ -135,6 +136,15 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     return 0;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeFavoritePlaces){
+        if([self isLastCellInSectionWithIndexPath:indexPath]){
+            HPSearchCityViewController * searchCityViewController = [[HPSearchCityViewController alloc] initWithNibName:@"HPSearchCityViewController" bundle:nil];
+            [self.navigationController pushViewController:searchCityViewController animated:YES];
+        }
+    }
+}
+
 - (BOOL)isLastCellInSectionWithIndexPath:(NSIndexPath *)indexPath {
     return [self tableView:self.tableView numberOfRowsInSection:indexPath.section] - indexPath.row == 1;
 }
@@ -185,7 +195,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         viewFrame.origin.x = 0;
         viewFrame.origin.y = 0;
         customView.frame = viewFrame;
-        customView.delegate = self;
+        customView.userInteractionEnabled = NO;
         [cell.contentView addSubview:customView];
     }
     else {
