@@ -52,7 +52,7 @@
     @weakify(self);
     leftBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
         @strongify(self)
-        [self.navigationController popViewControllerAnimated:NO];
+        [self.navigationController popViewControllerAnimated:YES];
         return [RACSignal empty];
     }];
     return leftBarItem;

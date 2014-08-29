@@ -141,7 +141,7 @@ static NSString *cellID = @"cellID";
         HPUserProfileСarouselModeViewController* carouselViewController = [[HPUserProfileСarouselModeViewController alloc] initWithNibName:@"HPUserProfileСarouselModeViewController" bundle:nil];
         carouselViewController.photosArray = _photosArray;
         carouselViewController.selectedPhoto = indexPath.row;
-        [self.navigationController pushViewController:carouselViewController animated:NO];
+        [self.navigationController pushViewController:carouselViewController animated:YES];
 //        [self.carousel scrollToItemAtIndex:indexPath.row animated:NO];
 //
 //        [UIView transitionWithView:self.view
