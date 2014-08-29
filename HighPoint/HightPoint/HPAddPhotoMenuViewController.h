@@ -21,6 +21,7 @@
 
 @property (strong, nonatomic) UIImage *screenShoot;
 @property (strong, nonatomic) UIImageView *backGroundView;
+@property (strong, nonatomic) UIView *darkBgView;
 
 @property (weak, nonatomic) IBOutlet UIButton *takePhoto;
 @property (weak, nonatomic) IBOutlet UIButton *pickPhoto;

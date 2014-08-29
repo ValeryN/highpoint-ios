@@ -13,7 +13,9 @@
 #import "UIDevice+HighPoint.h"
 #import "UIImage+HighPoint.h"
 
-#define CONSTRAINT_TOP_FOR_CANCELL 422.0
+#define CONSTRAINT_TOP_FOR_CANCEL 433.0
+#define CONSTRAINT_TOP_FOR_CHOOSE_PHOTO 378.0
+#define CONSTRAINT_TOP_FOR_TAKE_PHOTO 330.0
 
 @interface HPAddPhotoMenuViewController ()
 
@@ -58,8 +60,24 @@
                                                                  toItem: self.view
                                                               attribute: NSLayoutAttributeTop
                                                              multiplier: 1.0
-                                                               constant: CONSTRAINT_TOP_FOR_CANCELL]];
-        }
+                                                               constant: CONSTRAINT_TOP_FOR_CANCEL]];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.pickPhoto
+                                                              attribute: NSLayoutAttributeTop
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: self.view
+                                                              attribute: NSLayoutAttributeTop
+                                                             multiplier: 1.0
+                                                               constant: CONSTRAINT_TOP_FOR_CHOOSE_PHOTO]];
+        
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.takePhoto
+                                                              attribute: NSLayoutAttributeTop
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: self.view
+                                                              attribute: NSLayoutAttributeTop
+                                                             multiplier: 1.0
+                                                               constant: CONSTRAINT_TOP_FOR_TAKE_PHOTO]];
+    }
 }
 - (void)didReceiveMemoryWarning
 {
@@ -76,12 +94,18 @@
     self.backGroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
     self.backGroundView.image = [self.screenShoot hp_applyBlurWithRadius:2];
     [self.view insertSubview:self.backGroundView atIndex:0];
-    self.view.backgroundColor = [UIColor blackColor];
+    
+    self.darkBgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.darkBgView.backgroundColor = [UIColor colorWithRed:30.f / 255.f green:29.f / 255.f blue:48.f / 255.f alpha:0.9];
+    [self.backGroundView addSubview:self.darkBgView];
+
 }
 
 - (void) hideView {
     [self.backGroundView removeFromSuperview];
     self.backGroundView = nil;
+    [self.darkBgView removeFromSuperview];
+    self.darkBgView = nil;
     if([self.delegate respondsToSelector:@selector(viewWillBeHidden:)]) {
         [self.delegate viewWillBeHidden:nil];
         //animation support if need
