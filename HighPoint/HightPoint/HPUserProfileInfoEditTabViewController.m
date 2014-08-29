@@ -636,7 +636,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
             return object.name;
         };
         delegate.insertTextBlock = ^(NSString *string) {
-            [[DataStorage sharedDataStorage] addAndSaveLanguageEntityForUser:@{@"_id" : @(rand()%1000), @"name" : string}];
+            [[DataStorage sharedDataStorage] addAndSaveLanguageEntityForUser:@{@"id" : @(rand()%1000), @"name" : string}];
         };
         delegate.deleteBubbleBlock = ^(Language *object) {
             if (object.id_) {
