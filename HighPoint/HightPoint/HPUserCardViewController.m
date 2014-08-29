@@ -71,7 +71,7 @@
     
     NSLog(@"current = %d", self.current);
     if (self.current == 0) {
-        [self.usersCollectionView setContentOffset:CGPointMake(0, -64) animated:NO];
+       // [self.usersCollectionView setContentOffset:CGPointMake(0, ) animated:NO];
     } else {
         
         if (![UIDevice hp_isWideScreen]) {
@@ -79,9 +79,9 @@
         }
         
         if (self.usersCollectionView.contentSize.height <= 428 * (self.current - 1) ) {
-            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 192) animated:NO];
+            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 128) animated:NO];
         } else {
-            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) -64) animated:NO];
+            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current)) animated:NO];
         }
     }
     isFirstLoad = NO;
@@ -299,14 +299,14 @@
     float pageWidth = 418 + 10; // h + space
     float newTargetOffset = 0;
     if (targetOffset > currentOffset){
-        newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth - 64;
+        newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth ;
     } else {
-        newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth - 64;
+        newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth;
     }
     if (newTargetOffset < 0) {
-        newTargetOffset = -64;
+        newTargetOffset = 0;
     } else if (newTargetOffset >= (scrollView.contentSize.height - 400)) {
-        newTargetOffset = scrollView.contentSize.height + 64;
+        newTargetOffset = scrollView.contentSize.height;
     }
     
     targetContentOffset->y = currentOffset;
