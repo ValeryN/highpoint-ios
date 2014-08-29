@@ -116,8 +116,8 @@
 		3BCB5B01192F76D200E5DCA9 /* Progress Line.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BCB5B00192F76D200E5DCA9 /* Progress Line.png */; };
 		3BCB5B03192F8B2F00E5DCA9 /* Next.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BCB5B02192F8B2F00E5DCA9 /* Next.png */; };
 		3BCB5B07192F8D3500E5DCA9 /* HPSelectTownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCB5B06192F8D3500E5DCA9 /* HPSelectTownViewController.m */; };
-		3BCB5B0A192F946B00E5DCA9 /* Back Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BCB5B08192F946B00E5DCA9 /* Back Tap.png */; };
-		3BCB5B0B192F946B00E5DCA9 /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BCB5B09192F946B00E5DCA9 /* Back.png */; };
+		3BCB5B0A192F946B00E5DCA9 /* Back Tap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BCB5B08192F946B00E5DCA9 /* Back Tap@2x.png */; };
+		3BCB5B0B192F946B00E5DCA9 /* Back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BCB5B09192F946B00E5DCA9 /* Back@2x.png */; };
 		3BD12E5A192DFE380026BA11 /* HPFilterSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD12E59192DFE380026BA11 /* HPFilterSettingsViewController.m */; };
 		3BDA4C6219064AC900EF6619 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDA4C5019064AC900EF6619 /* AFHTTPRequestOperation.m */; };
 		3BDA4C6319064AC900EF6619 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDA4C5219064AC900EF6619 /* AFHTTPRequestOperationManager.m */; };
@@ -579,8 +579,8 @@
 		3BCB5B02192F8B2F00E5DCA9 /* Next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Next.png; sourceTree = "<group>"; };
 		3BCB5B05192F8D3500E5DCA9 /* HPSelectTownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSelectTownViewController.h; sourceTree = "<group>"; };
 		3BCB5B06192F8D3500E5DCA9 /* HPSelectTownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSelectTownViewController.m; sourceTree = "<group>"; };
-		3BCB5B08192F946B00E5DCA9 /* Back Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back Tap.png"; sourceTree = "<group>"; };
-		3BCB5B09192F946B00E5DCA9 /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
+		3BCB5B08192F946B00E5DCA9 /* Back Tap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back Tap@2x.png"; sourceTree = "<group>"; };
+		3BCB5B09192F946B00E5DCA9 /* Back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back@2x.png"; sourceTree = "<group>"; };
 		3BD12E58192DFE380026BA11 /* HPFilterSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPFilterSettingsViewController.h; sourceTree = "<group>"; };
 		3BD12E59192DFE380026BA11 /* HPFilterSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPFilterSettingsViewController.m; sourceTree = "<group>"; };
 		3BDA4C4F19064AC900EF6619 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -1098,8 +1098,8 @@
 				CDFA8A19196BEA6200D04451 /* Switcher-R.png */,
 				3BB5E86B1936121F00DDF5F9 /* bar_background.png */,
 				3BB5E8691935FD5500DDF5F9 /* Down@2x.png */,
-				3BCB5B08192F946B00E5DCA9 /* Back Tap.png */,
-				3BCB5B09192F946B00E5DCA9 /* Back.png */,
+				3BCB5B08192F946B00E5DCA9 /* Back Tap@2x.png */,
+				3BCB5B09192F946B00E5DCA9 /* Back@2x.png */,
 				3BCB5B02192F8B2F00E5DCA9 /* Next.png */,
 				3BCB5B00192F76D200E5DCA9 /* Progress Line.png */,
 				3B3170C1191BC82A00B72AC1 /* Blend 5X@2x.png */,
@@ -2151,7 +2151,7 @@
 				CD9E788A1977C6FE0064E2AF /* Point Notice.png in Resources */,
 				CDA317CD19768EDC00F04DA2 /* delete_point.png in Resources */,
 				CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */,
-				3BCB5B0A192F946B00E5DCA9 /* Back Tap.png in Resources */,
+				3BCB5B0A192F946B00E5DCA9 /* Back Tap@2x.png in Resources */,
 				3B298FD0192F476100BEC2AA /* slider-metal-track@2x.png in Resources */,
 				CDFA8A06196BDF7C00D04451 /* HPChatListViewController.xib in Resources */,
 				3B298FB9192F476100BEC2AA /* slider-default-handle-highlighted.png in Resources */,
@@ -2209,7 +2209,7 @@
 				3B298FD2192F476100BEC2AA /* slider-metal-trackBackground@2x.png in Resources */,
 				CDF9745F196E8C4C0064ED04 /* Lock.png in Resources */,
 				3BE9DE41197FD8F300AFA641 /* 5.jpg in Resources */,
-				3BCB5B0B192F946B00E5DCA9 /* Back.png in Resources */,
+				3BCB5B0B192F946B00E5DCA9 /* Back@2x.png in Resources */,
 				3B3170AD191B88E000B72AC1 /* Userpic-Mask.png in Resources */,
 				4C8096B1193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */,
 				3B6DB4A718FFC24D00C26A50 /* Images.xcassets in Resources */,

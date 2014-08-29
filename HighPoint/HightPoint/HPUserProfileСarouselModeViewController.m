@@ -5,9 +5,13 @@
 
 #import "HPUserProfileСarouselModeViewController.h"
 #import "iCarousel.h"
+#import "UIDevice+HighPoint.h"
 
 @interface HPUserProfileСarouselModeViewController()
 @property (nonatomic, weak) IBOutlet iCarousel* carousel;
+@property (nonatomic) BOOL fullScreenMode;
+@property (nonatomic, weak) IBOutlet UIButton * setUserPicButton;
+@property (nonatomic, weak) IBOutlet UIButton * deletePicButton;
 @end
 
 
@@ -25,11 +29,36 @@
         self.navigationItem.title = [NSString stringWithFormat:@"%d из %d",self.carousel.currentItemIndex + 1, photosArray.count];
     }];
 
+    [RACObserve(self, fullScreenMode) subscribeNext:^(NSNumber * fullScreenMode) {
+        @strongify(self);
+        [self.navigationController setNavigationBarHidden:fullScreenMode.boolValue animated:YES];
+        [UIView animateWithDuration:0.3 animations:^{
+            self.setUserPicButton.alpha = fullScreenMode.boolValue?0:1.0f;
+            self.deletePicButton.alpha = fullScreenMode.boolValue?0:1.0f;
+        }];
+    }];
     [self.carousel scrollToItemAtIndex:self.selectedPhoto animated:NO];
-
+    self.navigationItem.leftBarButtonItem = [self leftBarButtonItem];
 }
 
+- (UIBarButtonItem *)leftBarButtonItem {
+    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] init];
+    if ([UIDevice hp_isIOS6]) {
+        leftBarItem.image = [UIImage imageNamed:@"Back"];
+    }
+    else {
+        leftBarItem.image = [[UIImage imageNamed:@"Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+    @weakify(self);
+    leftBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        @strongify(self)
+        [self.navigationController popViewControllerAnimated:NO];
+        return [RACSignal empty];
+    }];
+    return leftBarItem;
+}
 
+#pragma mark Carousel delegate
 - (NSUInteger)numberOfItemsInCarousel: (iCarousel*) carousel
 {
     return _photosArray.count;
@@ -37,7 +66,7 @@
 
 - (UIView*)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
 {
-    view = [[UIImageView alloc] initWithImage: [_photosArray objectAtIndex:index]];
+    view = [[UIImageView alloc] initWithImage:_photosArray[index]];
     CGRect rect = CGRectMake([UIScreen mainScreen].bounds.size.width, 0, 320.0, 200);
 
     view.contentMode = UIViewContentModeScaleAspectFill;
@@ -49,18 +78,9 @@
 }
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index{
-    //self.tapState = !self.tapState;
-    //if(self.tapState) {
-    //    [self moveGreenButtonDown];
-    //    [self movePhotoViewToLeft];
-    //    [self hideTopBar];
-    //} else {
-    //    [self moveGreenButtonUp];
-    //    [self movePhotoViewToRight];
-    //    [self showTopBar];
-    //}
-
+   self.fullScreenMode = !self.fullScreenMode;
  }
+
 - (CGFloat)carousel: (iCarousel *)carousel valueForOption: (iCarouselOption)option withDefault:(CGFloat)value
 {
     switch (option)
@@ -74,7 +94,7 @@
         case iCarouselOptionCount:
             return 10;
         case iCarouselOptionSpacing:
-            return value * 1.3;
+            return value * 1.3f;
         default:
             return value;
     }
