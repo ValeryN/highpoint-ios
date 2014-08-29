@@ -14,6 +14,25 @@
 @implementation UIButton (HighPoint)
 
 
+- (void) setHighlightedBackground:(UIColor*)highlightedBackground {
+    UIColor* defaultBackgroundColor = self.backgroundColor;
+    @weakify(self);
+    [RACObserve(self, highlighted) subscribeNext:^(NSNumber * highlighted) {
+        @strongify(self);
+        if(highlighted.boolValue){
+            self.backgroundColor = highlightedBackground;
+        }
+        else{
+            self.backgroundColor = defaultBackgroundColor;
+        }
+    }];
+}
+
+- (UIColor *) highlightedBackground
+{
+    return [UIColor clearColor];
+}
+
 - (void) hp_tuneFontForSwitch
 {
     self.titleLabel.font = [UIFont fontWithName: @"FuturaPT-Light" size: 18.0];

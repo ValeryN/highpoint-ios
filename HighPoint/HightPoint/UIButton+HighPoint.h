@@ -14,6 +14,8 @@
 
 @interface UIButton (HighPoint)
 
+- (void)setHighlightedBackground:(UIColor *)highlightedBackground;
+
 - (void) hp_tuneFontForSwitch;
 - (void) hp_tuneFontForGreenButton;
 

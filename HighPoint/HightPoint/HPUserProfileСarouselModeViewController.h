@@ -6,5 +6,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface HPUserProfileСarouselModeViewController : NSObject
+@interface HPUserProfileСarouselModeViewController : UIViewController
+@property (nonatomic, retain) NSArray* photosArray;
+@property (nonatomic) NSInteger selectedPhoto;
 @end
