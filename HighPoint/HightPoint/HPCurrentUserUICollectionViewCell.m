@@ -13,6 +13,7 @@
 #import "SDWebImageManager.h"
 #import "Avatar.h"
 #import "UserPoint.h"
+#import "HPCurrentUserViewController.h"
 
 #define AVATAR_BLUR_RADIUS 10.0
 
@@ -27,8 +28,6 @@
 
 @property(nonatomic, strong) IBOutletCollection(NSLayoutConstraint) NSArray *constraintFor4inch;
 @property(nonatomic, weak) IBOutlet NSLayoutConstraint *bottomPositionNameConstraint;
-
-@property(nonatomic, retain) RACSignal *userAvatarSignal;
 @end
 
 @implementation HPCurrentUserUICollectionViewCell
@@ -130,25 +129,10 @@
 }
 
 - (void)configureAvatarImageView {
-    self.userAvatarSignal = [[RACObserve(self, currentUser.avatar.originalImageSrc) flattenMap:^RACStream *(NSString *avatarUrl) {
-        return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
-                             options:0
-                            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                            }
-                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                               if (image) {
-                                   [subscriber sendNext:image];
-                                   [subscriber sendCompleted];
-                               }
-                           }];
-            return nil;
-        }];
-    }] replayLast];
+
     self.avatarImageView.layer.cornerRadius = 5;
     self.avatarImageView.layer.masksToBounds = YES;
-    RAC(self.avatarImageView, image) = [[[[RACSignal combineLatest:@[[self userAvatarSignal], RACObserve(self, currentUser.visibility)]] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]] map:^id(RACTuple *x) {
+    RAC(self.avatarImageView, image) = [[[[RACSignal combineLatest:@[RACObserve(self, delegate.avatarSignal).flatten, RACObserve(self, currentUser.visibility)]] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]] map:^id(RACTuple *x) {
         RACTupleUnpack(UIImage *avatarImage, NSNumber *visibility) = x;
         if (visibility.unsignedIntegerValue == UserVisibilityVisible) {
             return avatarImage;

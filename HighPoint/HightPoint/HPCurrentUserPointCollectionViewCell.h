@@ -10,6 +10,7 @@
 #import "HPSlider.h"
 
 @class User;
+@class HPCurrentUserViewController;
 
 @protocol HPCurrentUserPointCollectionViewCellDelegate <NSObject>
 @required
@@ -24,7 +25,7 @@
 
 @interface HPCurrentUserPointCollectionViewCell : UICollectionViewCell <UITextViewDelegate, UIGestureRecognizerDelegate>
 
-@property (assign, nonatomic) id<HPCurrentUserPointCollectionViewCellDelegate> delegate;
+@property (assign, nonatomic) HPCurrentUserViewController* delegate;
 @property (nonatomic) BOOL editUserPointMode;
 @property (nonatomic, retain) User* currentUser;
 
