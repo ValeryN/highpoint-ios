@@ -72,7 +72,7 @@
 // Use existing opacity as is
     [self drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
 // Apply supplied opacity
-    [blendImage drawInRect:CGRectMake(0,newSize.height-blendImage.size.height/2,newSize.width,blendImage.size.height/2) blendMode:kCGBlendModeNormal alpha:0.75];
+    [blendImage drawInRect:CGRectMake(0,newSize.height-blendImage.size.height/2,newSize.width,blendImage.size.height/2) blendMode:kCGBlendModeNormal alpha:1.0];
 
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
 
