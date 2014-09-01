@@ -115,6 +115,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Down.png" width="46" height="24"/>
+        <image name="Down.png" width="23" height="12"/>
     </resources>
 </document>

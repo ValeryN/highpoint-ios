@@ -93,6 +93,7 @@ static HPBaseNetworkManager *networkManager;
         }
     }
     if ([ids length] > 0) {
+        NSLog(@"TOWNS --> %@", ids);
         ids = [ids substringToIndex:[ids length] - 1];
     }
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"cityIds", nil];
@@ -526,17 +527,23 @@ static HPBaseNetworkManager *networkManager;
                         
                     case 0: {
                         for(NSDictionary *dict in cities) {
-                            [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:nil];
+                            [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:^(City *city) {
+                                NSArray *users = [[DataStorage sharedDataStorage] getUsersForCityId: city.cityId];
+                                for(User *user in users) {
+                                    NSLog(@"user name city name %@ %@", user.name, city.cityName);
+                                    [[DataStorage sharedDataStorage] setAndSaveCityToUser:user.userId forCity:city];
+                                }
+                            }];
                         }
                         
-                        NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
+                        /*
                         for (int i = 0; i < users.count; i++) {
                             NSLog(@"city id = %@", ((User*)[users objectAtIndex:i]).cityId);
                             City * city = [[DataStorage sharedDataStorage]  getCityById:((User*)[users objectAtIndex:i]).cityId];
                             NSLog(@"city name = %@", city.cityName);
                             [[DataStorage sharedDataStorage] setAndSaveCityToUser:((User *) [users objectAtIndex:i]).userId :city];
                         }
-                        
+                        */
                         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
                                                                                                              object:nil
                                                                                                            userInfo:nil]];
@@ -550,7 +557,7 @@ static HPBaseNetworkManager *networkManager;
                         
                         User *current = [[DataStorage sharedDataStorage] getCurrentUser];
                         City * city = [[DataStorage sharedDataStorage]  getCityById:current.cityId];
-                        [[DataStorage sharedDataStorage] setAndSaveCityToUser:current.userId :city];
+                        [[DataStorage sharedDataStorage] setAndSaveCityToUser:current.userId forCity:city];
                         break;
                     }
                         
