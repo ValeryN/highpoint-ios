@@ -262,12 +262,10 @@
             }
             else {
                 self.bottomView.hidden = NO;
-                self.bottomLikedView.hidden = NO;
                 self.personalDataLabel.text = NSLocalizedString(@"YOUR_POINT_LIKES", nil);
                 self.personalDataDownImgView.hidden = YES;
             }
         } else {
-            self.bottomLikedView.hidden = YES;
             self.bottomView.hidden = NO;
             self.personalDataLabel.text = NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
             self.personalDataDownImgView.hidden = NO;
@@ -287,9 +285,15 @@
         return nil;
     }] replayLast];
 
-    RAC(self.bottomNobodyLikeLabel, hidden) = [self.randomUsersForLikes map:^id(NSArray *value) {
-        return @(value.count > 0);
+    RACSignal* nobodyLikeYourPost = [self.randomUsersForLikes map:^id(NSArray *value) {
+        return @(value.count == 0);
     }];
+    RACSignal * needShowLikesOfYourPost = [RACObserve(self, pageController.currentPage) map:^id(NSNumber * index) {
+        return @(index.intValue == 0);
+    }];
+
+    RAC(self, bottomNobodyLikeLabel.hidden) = [[[RACSignal combineLatest:@[nobodyLikeYourPost, needShowLikesOfYourPost]] and] not];
+    RAC(self, bottomLikedView.hidden) = [[[RACSignal combineLatest:@[[nobodyLikeYourPost not], needShowLikesOfYourPost]] and] not];
 
     [self.randomUsersForLikes subscribeNext:^(NSArray *usersArray) {
         @strongify(self);
