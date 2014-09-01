@@ -63,8 +63,7 @@
 }
 
 - (void)configureAvatarSignal {
-    self.avatarSignal = [[[RACSignal combineLatest:@[RACObserve(self, currentUser), RACObserve(self, currentUser.avatar.originalImageSrc)]] flattenMap:^RACStream *(RACTuple *x) {
-        RACTupleUnpack(User *user, NSString *avatarUrl) = x;
+    self.avatarSignal = [[[RACObserve(self, currentUser.avatar.originalImageSrc) distinctUntilChanged] flattenMap:^RACStream *(NSString *avatarUrl) {
         return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
             SDWebImageManager *manager = [SDWebImageManager sharedManager];
             [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
@@ -168,6 +167,7 @@
 
 - (void)showLikedUserPointViewController {
     HPPointLikesViewController *plController = [[HPPointLikesViewController alloc] initWithNibName:@"HPPointLikesViewController" bundle:nil];
+    plController.user = self.currentUser;
     [self.navigationController pushViewController:plController animated:YES];
 }
 
@@ -252,19 +252,6 @@
 
 - (void)configureBottomMenu {
     @weakify(self);
-    //Signals
-    self.usersLikeYourPost = [[[[[RACObserve(self, currentUser.point.pointId) filter:^BOOL(id value) {
-        return (value != nil);
-    }] distinctUntilChanged] flattenMap:^RACStream *(UserPoint *value) {
-        @strongify(self);
-        return [HPRequest getLikedUserOfPoint:self.currentUser.point];
-    }] flattenMap:^RACStream *(id value) {
-        if (value)
-            return [RACSignal return:value];
-        else
-            return [RACSignal empty];
-    }] replayLast];
-
 
     RACSignal *nobodyLikeYourPost = [self.usersLikeYourPost map:^id(NSArray *value) {
         return @(value.count == 0);
@@ -273,7 +260,7 @@
         return @(index.intValue == 0);
     }];
 
-    RACSignal *needShowBottomMenu = [[RACSignal combineLatest:@[RACObserve(self, pageController.currentPage), RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, currentUser.point)]] map:^id(id value) {
+    RACSignal *needShowBottomMenu = [[RACSignal combineLatest:@[RACObserve(self, pageController.currentPage), RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, currentUser.point.pointId)]] map:^id(id value) {
         RACTupleUnpack(NSNumber *index, NSNumber *editMode, UserPoint *userPoint) = value;
         return @((index.intValue == 0 && userPoint != nil) || index.intValue == 1);
     }];
@@ -391,5 +378,23 @@
 
 }
 
+- (RACSignal *)usersLikeYourPost {
+    if(!_usersLikeYourPost) {
+        @weakify(self);
+        RACSignal * getLikesFromServer  = [[[HPRequest getLikedUserOfPoint:self.currentUser.point] deliverOn:[RACScheduler scheduler]] flattenMap:^RACStream *(id value) {
+            if (value)
+                return [RACSignal return:value];
+            else
+                return [RACSignal empty];
+        }];
+
+        _usersLikeYourPost = [[[[[[[RACObserve(self, currentUser.point.pointId) deliverOn:[RACScheduler scheduler]] filter:^BOOL(id value) {
+            return (value != nil);
+        }] take:1] map:^id(id value) {
+            return self.currentUser.point.likedBy;
+        }] concat:getLikesFromServer] deliverOn:[RACScheduler mainThreadScheduler]] replayLast];
+    }
+    return _usersLikeYourPost;
+}
 
 @end

@@ -53,5 +53,6 @@
 @dynamic place;
 @dynamic point;
 @dynamic userfilter;
+@dynamic likedPosts;
 
 @end

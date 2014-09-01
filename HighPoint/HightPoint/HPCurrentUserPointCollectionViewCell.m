@@ -289,9 +289,9 @@
     self.avatarImageView.image = [UIImage imageNamed:@"no_image.png"];
     @weakify(self);
 
-    RAC(self.avatarImageView, image) = [[[RACObserve(self, delegate.avatarSignal).flatten subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]] map:^id(UIImage *avatarImage) {
+    RAC(self.avatarImageView, image) = [[[RACObserve(self, delegate.avatarSignal).flatten  deliverOn:[RACScheduler scheduler]] map:^id(UIImage *avatarImage) {
         return [avatarImage addBlendToPhoto];
-    }];
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 - (void)configurePublishButton {

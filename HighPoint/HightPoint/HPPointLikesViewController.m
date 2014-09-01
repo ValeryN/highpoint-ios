@@ -9,12 +9,29 @@
 #import "HPPointLikesViewController.h"
 #import "UINavigationController+HighPoint.h"
 #import "HPPointLikeCollectionViewCell.h"
+#import "User.h"
+#import "NSManagedObjectContext+HighPoint.h"
 
 @interface HPPointLikesViewController ()
-
+@property (weak, nonatomic) IBOutlet UICollectionView *likesCollectionView;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultController;
 @end
 
 @implementation HPPointLikesViewController
+
+- (NSFetchedResultsController *) fetchedResultController{
+    if (!_fetchedResultController){
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+        [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"ANY likedPosts == %@", self.user.point]];
+        _fetchedResultController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext threadContext] sectionNameKeyPath:nil cacheName:nil];
+        if (![_fetchedResultController performFetch:nil]) {
+            NSAssert(false, @"Error occurred");
+        }
+        _fetchedResultController.delegate = self;
+    }
+    return _fetchedResultController;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -85,11 +102,11 @@
 #pragma mark - UICollectionView Datasource
 // 1
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    return 25;
+    return ((id <NSFetchedResultsSectionInfo>) [[self fetchedResultController] sections][(NSUInteger) section]).numberOfObjects;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    return 1;
+    return [[self fetchedResultController] sections].count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -122,6 +139,11 @@
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0, 0, 0, 0);
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.likesCollectionView reloadData];
 }
 
 @end

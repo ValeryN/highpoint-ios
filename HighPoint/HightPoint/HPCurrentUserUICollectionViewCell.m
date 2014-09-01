@@ -132,7 +132,7 @@
 
     self.avatarImageView.layer.cornerRadius = 5;
     self.avatarImageView.layer.masksToBounds = YES;
-    RAC(self.avatarImageView, image) = [[[[RACSignal combineLatest:@[RACObserve(self, delegate.avatarSignal).flatten, RACObserve(self, currentUser.visibility)]] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]] map:^id(RACTuple *x) {
+    RAC(self.avatarImageView, image) = [[[[RACSignal combineLatest:@[RACObserve(self, delegate.avatarSignal).flatten, RACObserve(self, currentUser.visibility)]] deliverOn:[RACScheduler scheduler]] map:^id(RACTuple *x) {
         RACTupleUnpack(UIImage *avatarImage, NSNumber *visibility) = x;
         if (visibility.unsignedIntegerValue == UserVisibilityVisible) {
             return avatarImage;
@@ -140,7 +140,7 @@
         else {
             return [avatarImage hp_applyBlurWithRadius:AVATAR_BLUR_RADIUS];
         }
-    }];
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 - (void)configureCellInfoLabel {

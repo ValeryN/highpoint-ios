@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPPointLikesViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@class User;
 
-@property (weak, nonatomic) IBOutlet UICollectionView *likesCollectionView;
-
+@interface HPPointLikesViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, NSFetchedResultsControllerDelegate>
+@property (nonatomic, retain) User* user;
 @end
