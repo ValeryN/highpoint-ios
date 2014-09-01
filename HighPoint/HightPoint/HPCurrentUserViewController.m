@@ -250,28 +250,7 @@
 
 - (void)configureBottomMenu {
     @weakify(self);
-    [[RACSignal combineLatest:@[RACObserve(self, pageController.currentPage), RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, currentUser.point)]] subscribeNext:^(RACTuple *x) {
-        @strongify(self);
-        RACTupleUnpack(NSNumber *index, NSNumber *editMode, UserPoint *userPoint) = x;
-        if (index.intValue == 0) {
-            if (userPoint == nil) {
-                self.bottomView.hidden = YES;
-            }
-            else if (editMode.boolValue) {
-                self.bottomView.hidden = YES;
-            }
-            else {
-                self.bottomView.hidden = NO;
-                self.personalDataLabel.text = NSLocalizedString(@"YOUR_POINT_LIKES", nil);
-                self.personalDataDownImgView.hidden = YES;
-            }
-        } else {
-            self.bottomView.hidden = NO;
-            self.personalDataLabel.text = NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
-            self.personalDataDownImgView.hidden = NO;
-        }
-    }];
-
+    //Signals
     self.randomUsersForLikes = [[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
         int needCount = rand() % 4;
         NSMutableArray *array = [@[] mutableCopy];
@@ -285,13 +264,24 @@
         return nil;
     }] replayLast];
 
-    RACSignal* nobodyLikeYourPost = [self.randomUsersForLikes map:^id(NSArray *value) {
+    RACSignal *nobodyLikeYourPost = [self.randomUsersForLikes map:^id(NSArray *value) {
         return @(value.count == 0);
     }];
-    RACSignal * needShowLikesOfYourPost = [RACObserve(self, pageController.currentPage) map:^id(NSNumber * index) {
+    RACSignal *needShowLikesOfYourPost = [RACObserve(self, pageController.currentPage) map:^id(NSNumber *index) {
         return @(index.intValue == 0);
     }];
 
+    RACSignal *needShowBottomMenu = [[RACSignal combineLatest:@[RACObserve(self, pageController.currentPage), RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, currentUser.point)]] map:^id(id value) {
+        RACTupleUnpack(NSNumber *index, NSNumber *editMode, UserPoint *userPoint) = value;
+        return @((index.intValue == 0 && userPoint != nil) || index.intValue == 1);
+    }];
+
+    //Properties
+    RAC(self, personalDataLabel.text) = [RACObserve(self, pageController.currentPage) map:^id(NSNumber *index) {
+        return (index.intValue == 0) ? NSLocalizedString(@"YOUR_POINT_LIKES", nil) : NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
+    }];
+    RAC(self, personalDataDownImgView.hidden) = needShowLikesOfYourPost;
+    RAC(self, bottomView.hidden) = [needShowBottomMenu not];
     RAC(self, bottomNobodyLikeLabel.hidden) = [[[RACSignal combineLatest:@[nobodyLikeYourPost, needShowLikesOfYourPost]] and] not];
     RAC(self, bottomLikedView.hidden) = [[[RACSignal combineLatest:@[[nobodyLikeYourPost not], needShowLikesOfYourPost]] and] not];
 
