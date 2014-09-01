@@ -68,6 +68,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
     [self registerNotification];
     msgs = [[[DataStorage sharedDataStorage] getChatByUserId:self.contact.user.userId].message allObjects];
     [self initElements];
@@ -249,7 +250,12 @@
     avatarView.backgroundColor = [UIColor clearColor];
     self.avatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
     [avatarView addSubview: self.avatar];
+    
     UIBarButtonItem *avatarBarItem = [[UIBarButtonItem alloc]initWithCustomView:avatarView];
+    
+    UITapGestureRecognizer *singleTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserInfo:)];
+    [self.avatar addGestureRecognizer:singleTap];
     self.navigationItem.rightBarButtonItem = avatarBarItem;
     self.navigationItem.title = self.contact.user.name;
 }
@@ -270,6 +276,20 @@
     UIBarButtonItem* newbuttonItem = [[UIBarButtonItem alloc] initWithCustomView: newButton];
     
     return newbuttonItem;
+}
+
+
+- (void)showUserInfo :(UITapGestureRecognizer *)recognizer
+{
+    NSLog(@"show user info");
+    User * usr = [[DataStorage sharedDataStorage] getUserForId:self.contact.user.userId];
+    if(usr) {
+        [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
+    }
+    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
+    uiController.delegate = self;
+    uiController.user = usr;
+    [self.navigationController pushViewController:uiController animated:YES];
 }
 
 - (void) backbuttonTaped: (id) sender
