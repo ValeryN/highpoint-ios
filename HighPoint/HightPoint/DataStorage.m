@@ -2348,6 +2348,24 @@ static DataStorage *dataStorage;
 }
 
 
+
+- (void) setAndSaveUser: (User*) globalUser toLikePoint:(UserPoint*) globalPoint withComplationBlock:(complationBlock)block{
+    __weak typeof(self) weakSelf = self;
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        User* user = [globalUser moveToContext:context];
+        UserPoint* point = [globalPoint moveToContext:context];
+        [context performBlockAndWait:^{
+            point.likedBy = [point.likedBy setByAddingObject:user];
+            [weakSelf addSaveOperationToBottomInContext:context];
+            [weakSelf returnObject:user inComplationBlock:block];
+        }];
+    }];
+
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
+}
+
+
 - (void)addSaveOperationToBottomInContext:(NSManagedObjectContext *)context {
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         if (context.hasChanges) {
@@ -2378,6 +2396,9 @@ static DataStorage *dataStorage;
     operation.queuePriority = NSOperationQueuePriorityLow;
     [self.backgroundOperationQueue addOperation:operation];
 }
+
+
+
 
 
 @end

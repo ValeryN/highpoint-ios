@@ -7,6 +7,8 @@
 #import "HPBaseNetworkManager.h"
 #import "UITextField+HighPoint.h"
 #import "City.h"
+#import "HPRequest.h"
+#import "HPRequest+GeoLocations.h"
 
 @interface HPSearchCityViewController()
 @property (nonatomic, weak) IBOutlet UITextField * searchBar;
@@ -43,7 +45,7 @@
         self.cacheDictionary = [NSMutableDictionary new];
 
     if (!self.cacheDictionary[string]) {
-        self.cacheDictionary[string] = [[[HPBaseNetworkManager sharedNetworkManager] rac_findGeoLocationWithSearchString:string] replayLast];
+        self.cacheDictionary[string] = [[HPRequest findCitiesWithSearchString:string] replayLast];
     }
 
     return self.cacheDictionary[string];

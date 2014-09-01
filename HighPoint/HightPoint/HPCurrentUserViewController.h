@@ -14,5 +14,5 @@
 @class ModalAnimation;
 @interface HPCurrentUserViewController : UIViewController < UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPCurrentUserPointCollectionViewCellDelegate,HPCurrentUserUICollectionViewCellDelegate>
 @property(nonatomic, retain) RACSignal *avatarSignal;
-@property (nonatomic, retain) RACSignal * randomUsersForLikes;
+@property (nonatomic, retain) RACSignal *usersLikeYourPost;
 @end

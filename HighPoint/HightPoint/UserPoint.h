@@ -18,5 +18,6 @@
 @property (nonatomic, retain) NSString * pointText;
 @property (nonatomic, retain) NSNumber * pointUserId;
 @property (nonatomic, retain) NSString * pointValidTo;
+@property (nonatomic, retain) NSSet*    likedBy;
 
 @end

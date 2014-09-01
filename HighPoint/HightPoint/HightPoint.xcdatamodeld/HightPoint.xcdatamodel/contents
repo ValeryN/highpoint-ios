@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AppSetting" representedClassName="AppSetting" syncable="YES">
         <attribute name="avatarMaxFileSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="avatarMinImageHeight" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -160,6 +160,7 @@
         <relationship name="contact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Contact" inverseName="user" inverseEntity="Contact" syncable="YES"/>
         <relationship name="education" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Education" inverseName="user" inverseEntity="Education" syncable="YES"/>
         <relationship name="language" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Language" inverseName="user" inverseEntity="Language" syncable="YES"/>
+        <relationship name="likedPosts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserPoint" inverseName="likedBy" inverseEntity="UserPoint" syncable="YES"/>
         <relationship name="maxentertainment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MaxEntertainmentPrice" inverseName="user" inverseEntity="MaxEntertainmentPrice" syncable="YES"/>
         <relationship name="minentertainment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MinEntertainmentPrice" inverseName="user" inverseEntity="MinEntertainmentPrice" syncable="YES"/>
         <relationship name="place" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Place" inverseName="user" inverseEntity="Place" syncable="YES"/>
@@ -181,6 +182,7 @@
         <attribute name="pointText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pointUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="pointValidTo" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="likedBy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="likedPosts" inverseEntity="User" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="point" inverseEntity="User" syncable="YES"/>
     </entity>
     <elements>
@@ -203,8 +205,8 @@
         <element name="Region" positionX="538" positionY="-522" width="128" height="118"/>
         <element name="School" positionX="-0" positionY="-711" width="128" height="88"/>
         <element name="Speciality" positionX="-182" positionY="-621" width="128" height="88"/>
-        <element name="User" positionX="-36" positionY="-414" width="128" height="495"/>
+        <element name="User" positionX="-20" positionY="-531" width="128" height="508"/>
         <element name="UserFilter" positionX="538" positionY="-306" width="128" height="133"/>
-        <element name="UserPoint" positionX="295" positionY="-16" width="128" height="148"/>
+        <element name="UserPoint" positionX="324" positionY="36" width="128" height="163"/>
     </elements>
 </model>

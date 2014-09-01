@@ -17,5 +17,6 @@
 @dynamic pointText;
 @dynamic pointUserId;
 @dynamic pointValidTo;
+@dynamic likedBy;
 
 @end

@@ -16,6 +16,8 @@
 #import "HPAvatarView.h"
 #import "SDWebImageManager.h"
 #import "UINavigationBar+HighPoint.h"
+#import "HPRequest.h"
+#import "HPRequest+Points.h"
 
 
 @interface HPCurrentUserViewController ()
@@ -144,7 +146,7 @@
 - (IBAction)bottomTap:(id)sender {
     if (self.pageController.currentPage == 0) {
         @weakify(self);
-        [[self.randomUsersForLikes filter:^BOOL(NSArray *array) {
+        [[self.usersLikeYourPost filter:^BOOL(NSArray *array) {
             return array.count > 0;
         }] subscribeNext:^(id x) {
             @strongify(self);
@@ -251,20 +253,20 @@
 - (void)configureBottomMenu {
     @weakify(self);
     //Signals
-    self.randomUsersForLikes = [[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-        int needCount = rand() % 4;
-        NSMutableArray *array = [@[] mutableCopy];
-        while (array.count < needCount) {
-            User *user = [[DataStorage sharedDataStorage] getUserForId:@(101 + rand() % 14)];
-            if (user)
-                [array addObject:user];
-        }
-        [subscriber sendNext:array];
-        [subscriber sendCompleted];
-        return nil;
+    self.usersLikeYourPost = [[[[[RACObserve(self, currentUser.point.pointId) filter:^BOOL(id value) {
+        return (value != nil);
+    }] distinctUntilChanged] flattenMap:^RACStream *(UserPoint *value) {
+        @strongify(self);
+        return [HPRequest getLikedUserOfPoint:self.currentUser.point];
+    }] flattenMap:^RACStream *(id value) {
+        if (value)
+            return [RACSignal return:value];
+        else
+            return [RACSignal empty];
     }] replayLast];
 
-    RACSignal *nobodyLikeYourPost = [self.randomUsersForLikes map:^id(NSArray *value) {
+
+    RACSignal *nobodyLikeYourPost = [self.usersLikeYourPost map:^id(NSArray *value) {
         return @(value.count == 0);
     }];
     RACSignal *needShowLikesOfYourPost = [RACObserve(self, pageController.currentPage) map:^id(NSNumber *index) {
@@ -285,21 +287,22 @@
     RAC(self, bottomNobodyLikeLabel.hidden) = [[[RACSignal combineLatest:@[nobodyLikeYourPost, needShowLikesOfYourPost]] and] not];
     RAC(self, bottomLikedView.hidden) = [[[RACSignal combineLatest:@[[nobodyLikeYourPost not], needShowLikesOfYourPost]] and] not];
 
-    [self.randomUsersForLikes subscribeNext:^(NSArray *usersArray) {
+    [self.usersLikeYourPost subscribeNext:^(RACTuple *usersTuple) {
         @strongify(self);
         for (UIView *view in [self.bottomLikedView subviews])
             [view removeFromSuperview];
-        if(usersArray.count > 0) {
-            NSMutableArray * downloadQueue = [NSMutableArray new];
-            for(User* user in usersArray){
+        if (usersTuple.count > 0) {
+            NSArray *arraySlice = [usersTuple.allObjects subarrayWithRange:NSMakeRange(0, usersTuple.count > 4 ? 4 : usersTuple.count)];
+            NSMutableArray *downloadQueue = [NSMutableArray new];
+            for (User *user in arraySlice) {
                 [downloadQueue addObject:[self downloadImageForUser:user]];
             }
 
-            [[RACSignal zip:downloadQueue] subscribeNext:^(NSArray* imagesArray) {
+            [[RACSignal zip:downloadQueue] subscribeNext:^(NSArray *imagesArray) {
                 @strongify(self);
                 NSMutableDictionary *constraintViewDictionary = @{}.mutableCopy;
-                for (UIImage* image in imagesArray) {
-                    if(![image isEqual:@(NO)]) {
+                for (UIImage *image in imagesArray) {
+                    if (![image isEqual:@(NO)]) {
                         HPAvatarView *avatarView = [HPAvatarView createAvatar:image];
                         avatarView.frame = (CGRect) {0, 0, 33, 33};
                         avatarView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -307,7 +310,7 @@
                         [self.bottomLikedView addSubview:avatarView];
                     }
                 }
-                if(constraintViewDictionary.count) {
+                if (constraintViewDictionary.count) {
                     NSMutableString *horizontalConstraintFormat = @"H:".mutableCopy;
 
                     for (NSString *key in constraintViewDictionary) {

@@ -115,6 +115,9 @@ typedef void (^complationBlock) (id object);
 - (void) linkParameter:(NSDictionary*) param toUser:(User*) user;
 - (Message *) createMessage :(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes) type;
 - (int) allUnreadMessagesCount : (User *) user;
+
+- (void)setAndSaveUser:(User *)globalUser toLikePoint:(UserPoint *)globalPoint withComplationBlock:(complationBlock)block;
+
 - (Chat *) getChatByUserId :(NSNumber *) userId;
 - (NSDictionary*) prepareParamFromUser:(User*) user;
 

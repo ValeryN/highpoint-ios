@@ -51,6 +51,7 @@ typedef NS_ENUM(NSUInteger, UserVisibilityType){
 @property (nonatomic, retain) NSSet *place;
 @property (nonatomic, retain) UserPoint *point;
 @property (nonatomic, retain) UserFilter *userfilter;
+@property (nonatomic, retain) NSSet* likedPosts;
 @end
 
 @interface User (CoreDataGeneratedAccessors)
