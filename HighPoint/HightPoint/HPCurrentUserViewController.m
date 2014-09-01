@@ -263,11 +263,13 @@
             else {
                 self.bottomView.hidden = NO;
                 self.bottomLikedView.hidden = NO;
+                self.bottomNobodyLikeLabel.hidden = NO;
                 self.personalDataLabel.text = NSLocalizedString(@"YOUR_POINT_LIKES", nil);
                 self.personalDataDownImgView.hidden = YES;
             }
         } else {
             self.bottomLikedView.hidden = YES;
+            self.bottomNobodyLikeLabel.hidden = YES;
             self.bottomView.hidden = NO;
             self.personalDataLabel.text = NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
             self.personalDataDownImgView.hidden = NO;
