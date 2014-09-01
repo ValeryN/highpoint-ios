@@ -13,6 +13,7 @@
 #import "HPBubbleViewDelegate.h"
 #import "HPHEBubbleView.h"
 #import "DataStorage.h"
+#import "HPSearchCityViewController.h"
 
 @interface HPUserProfileInfoEditTabViewController ()
 
@@ -21,6 +22,7 @@
 @property(nonatomic, retain) NSFetchedResultsController *favoritePlaceFetchedResultController;
 @property(nonatomic, retain) NSFetchedResultsController *educationFetchedResultController;
 @property(nonatomic, retain) NSFetchedResultsController *careerFetchedResultController;
+@property(nonatomic, retain) NSMutableArray *favoriteCitiesArray;
 @end
 
 #define BUBBLE_VIEW_WIDTH_CONST 290.0f
@@ -41,6 +43,14 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPUserProfileFirstRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"UserProfileCellTypeSpending"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPUserInfoSecondRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"HPUserInfoSecondRowTableViewCell"];
+
+    //Особенности местного програмирования, чтобы достать города нужно быдлокодить свои join по таблицам
+    self.favoriteCitiesArray = [NSMutableArray new];
+    NSArray *cityIds = [[[self favoritePlaceFetchedResultController] fetchedObjects] valueForKeyPath:@"@distinctUnionOfObjects.cityId"];
+    for (NSNumber *cityId in cityIds) {
+        [self.favoriteCitiesArray addObject:[[DataStorage sharedDataStorage] getCityById:cityId]];
+    }
+
     NSAssert(self.user, @"CurrentUser is nil");
 }
 
@@ -100,7 +110,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         case UserProfileCellTypeSpending:
             return 1;
         case UserProfileCellTypeFavoritePlaces:
-            return [[self favoritePlaceFetchedResultController] sections].count + 1;
+            return self.favoriteCitiesArray.count + 1;
         case UserProfileCellTypeLanguages:
             return 1;
         case UserProfileCellTypeEducation:
@@ -133,6 +143,21 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
             break;
     }
     return 0;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeFavoritePlaces){
+        if([self isLastCellInSectionWithIndexPath:indexPath]){
+            HPSearchCityViewController * searchCityViewController = [[HPSearchCityViewController alloc] initWithNibName:@"HPSearchCityViewController" bundle:nil];
+            [self.navigationController pushViewController:searchCityViewController animated:YES];
+            @weakify(self);
+            [[RACObserve(searchCityViewController, returnSignal) flatten] subscribeNext:^(City* city) {
+                @strongify(self);
+                [searchCityViewController.navigationController popViewControllerAnimated:YES];
+                [self addCityToTableView:city];
+            }];
+        }
+    }
 }
 
 - (BOOL)isLastCellInSectionWithIndexPath:(NSIndexPath *)indexPath {
@@ -173,6 +198,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 
 //user favorite places
 - (UITableViewCell *)configureFavoritePlaceCell:(UITableViewCell *)cell withIndexPath:(NSIndexPath *)indexPath {
+    @weakify(self);
     for (UIView *v in  [cell.contentView subviews]) {
         [v removeFromSuperview];
     }
@@ -185,7 +211,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         viewFrame.origin.x = 0;
         viewFrame.origin.y = 0;
         customView.frame = viewFrame;
-        customView.delegate = self;
+        customView.userInteractionEnabled = NO;
         [cell.contentView addSubview:customView];
     }
     else {
@@ -197,6 +223,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         textLabel.textAlignment = NSTextAlignmentLeft;
 
         RAC(textLabel, text) = [[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+            @strongify(self);
             City *city = [self getCityForIndexPath:indexPath];
             [subscriber sendNext:city.cityName ?: @"Неизвестный город"];
             [subscriber sendCompleted];
@@ -214,8 +241,10 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         [cell.contentView addSubview:realDelete];
 
         [[[realDelete rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(id x) {
+            @strongify(self);
             City *city = [self getCityForIndexPath:indexPath];
             [[DataStorage sharedDataStorage] deleteAndSavePlaceEntityForCurrentUserWithCity:city];
+            [self removeCityFromTableView:city];
         }];
 
         HEBubbleView *bubbleView = [self bubbleViewForFavoritePlaceAtIndexPath:indexPath];
@@ -372,7 +401,6 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     else {
         CGFloat totalHeight = 30.0;
         HEBubbleView *bubbleView = [self bubbleViewForFavoritePlaceAtIndexPath:indexPath];
-        [bubbleView reloadData];
         CGRect rect = bubbleView.frame;
         rect.size.height = bubbleView.contentSize.height;
         bubbleView.frame = rect;
@@ -385,7 +413,6 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 
 - (CGFloat)getLanguageRowHeight {
     HEBubbleView *bubbleView = [self bubbleViewLanguages];
-    [bubbleView reloadData];
     CGRect rect = bubbleView.frame;
     rect.size.height = bubbleView.contentSize.height;
     bubbleView.frame = rect;
@@ -449,8 +476,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 #pragma mark getters
 
 - (City *)getCityForIndexPath:(NSIndexPath *)indexPath {
-    NSString *sectionCityId = ((id <NSFetchedResultsSectionInfo>) [[self favoritePlaceFetchedResultController] sections][(NSUInteger) indexPath.row]).name;
-    return [[DataStorage sharedDataStorage] getCityById:@(sectionCityId.integerValue)];
+    return self.favoriteCitiesArray[(NSUInteger) indexPath.row];
 }
 
 - (NSFetchedResultsController *)favoritePlaceFetchedResultController {
@@ -519,17 +545,15 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         bubbleView.itemPadding = 5.0;
 
         HPBubbleViewDelegate *delegate = [[HPBubbleViewDelegate alloc] initWithBubbleView:bubbleView];
-        Place *place = [[self favoritePlaceFetchedResultController] objectAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:indexPath.row]];
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Place"];
         [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
-        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user == %@ && cityId = %@", self.user, place.cityId]];
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user == %@ && cityId = %@", self.user, city.cityId]];
         NSFetchedResultsController *placeByCityController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext threadContext] sectionNameKeyPath:nil cacheName:nil];
         if (![placeByCityController performFetch:nil]) {
             NSAssert(false, @"Error occurred");
         }
 
         delegate.dataSource = placeByCityController;
-        placeByCityController.delegate = self;
         delegate.addTextString = @"Добавить место";
         delegate.getTextInfo = ^NSString *(Place *object) {
             return object.name;
@@ -537,7 +561,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         @weakify(self);
         delegate.insertTextBlock = ^(NSString *string) {
             @strongify(self);
-            [[DataStorage sharedDataStorage] addAndSavePlaceEntity:@{@"id" : @(999), @"cityId" : place.cityId, @"name" : string} forUser:self.user];
+            [[DataStorage sharedDataStorage] addAndSavePlaceEntity:@{@"id" : @(rand() % 1000), @"cityId" : city.cityId, @"name" : string} forUser:self.user];
         };
 
         delegate.deleteBubbleBlock = ^(Place *object) {
@@ -547,10 +571,10 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         };
 
         bubbleView.retainDelegate = delegate;
+        [bubbleView reloadData];
         self.bubbleViewsCache[keyPath] = bubbleView;
     }
 
-    [self.bubbleViewsCache[keyPath] reloadData];
     return self.bubbleViewsCache[keyPath];
 }
 
@@ -607,13 +631,12 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         }
 
         delegate.dataSource = languageController;
-        languageController.delegate = self;
         delegate.addTextString = @"Добавить язык";
         delegate.getTextInfo = ^NSString *(Language *object) {
             return object.name;
         };
         delegate.insertTextBlock = ^(NSString *string) {
-            [[DataStorage sharedDataStorage] addAndSaveLanguageEntityForUser:@{@"_id" : @(0001), @"name" : string}];
+            [[DataStorage sharedDataStorage] addAndSaveLanguageEntityForUser:@{@"id" : @(rand()%1000), @"name" : string}];
         };
         delegate.deleteBubbleBlock = ^(Language *object) {
             if (object.id_) {
@@ -633,7 +656,37 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 #pragma mark delegates
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    [self.tableView reloadData];
+    if(controller == self.favoritePlaceFetchedResultController){
+        //Don't reload cell,  only height for correct work with bubble view
+        [self.tableView beginUpdates];[self.tableView endUpdates];
+    }
+    else {
+        [self.tableView reloadData];
+    }
+}
+
+#pragma mark tableView Methods
+
+- (void)removeCityFromTableView:(City *)city {
+    NSMutableArray *contents = [self mutableArrayValueForKey:@keypath(self, favoriteCitiesArray)];
+    [self.tableView beginUpdates];
+
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[contents indexOfObject:city] inSection:UserProfileCellTypeFavoritePlaces];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+
+    [contents removeObject:city];
+    [self.tableView endUpdates];
+}
+
+- (void)addCityToTableView:(City *)city {
+    [self.tableView beginUpdates];
+    NSMutableArray *contents = [self mutableArrayValueForKey:@keypath(self, favoriteCitiesArray)];
+    if(![contents containsObject:city]) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:contents.count inSection:UserProfileCellTypeFavoritePlaces];
+        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [contents addObject:city];
+    }
+    [self.tableView endUpdates];
 }
 
 @end

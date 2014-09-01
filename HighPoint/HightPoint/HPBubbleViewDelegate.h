@@ -10,7 +10,7 @@
 @class HPHEBubbleView;
 
 
-@interface HPBubbleViewDelegate : NSObject <HEBubbleViewDelegate,HEBubbleViewDataSource, HPBubbleTextFieldDelegate, UITextFieldDelegate, NSFetchedResultsControllerDelegate>
+@interface HPBubbleViewDelegate : NSObject <HEBubbleViewDelegate,HEBubbleViewDataSource, UITextFieldDelegate, NSFetchedResultsControllerDelegate>
 @property (nonatomic, weak) HPHEBubbleView* bubbleView;
 @property (nonatomic, retain) NSFetchedResultsController* dataSource;
 @property (nonatomic, retain) NSString* addTextString;

@@ -29,6 +29,7 @@
 #define SWITCH_BOTTOM_SHIFT 16
 #define HIDE_FILTER_ANIMATION_SPEED 0.5
 #define PORTION_OF_DATA 7
+#define CONSTRAINT_TABLEVIEW_HEIGHT 416
 #define kNavBarDefaultPosition CGPointMake(160,64)
 
 @implementation HPRootViewController {
@@ -45,7 +46,16 @@
     [self createSwitch];
     [self addPullToRefresh];
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
-    
+    if (![UIDevice hp_isWideScreen])
+    {
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.mainListTable
+                                                              attribute: NSLayoutAttributeHeight
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: nil
+                                                              attribute: NSLayoutAttributeHeight
+                                                             multiplier: 1.0
+                                                               constant: CONSTRAINT_TABLEVIEW_HEIGHT]];
+    }
 }
 
 

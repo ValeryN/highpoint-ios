@@ -68,6 +68,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
     [self registerNotification];
     msgs = [[[DataStorage sharedDataStorage] getChatByUserId:self.contact.user.userId].message allObjects];
     [self initElements];
@@ -249,7 +250,12 @@
     avatarView.backgroundColor = [UIColor clearColor];
     self.avatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
     [avatarView addSubview: self.avatar];
+    
     UIBarButtonItem *avatarBarItem = [[UIBarButtonItem alloc]initWithCustomView:avatarView];
+    
+    UITapGestureRecognizer *singleTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserInfo:)];
+    [self.avatar addGestureRecognizer:singleTap];
     self.navigationItem.rightBarButtonItem = avatarBarItem;
     self.navigationItem.title = self.contact.user.name;
 }
@@ -270,6 +276,20 @@
     UIBarButtonItem* newbuttonItem = [[UIBarButtonItem alloc] initWithCustomView: newButton];
     
     return newbuttonItem;
+}
+
+
+- (void)showUserInfo :(UITapGestureRecognizer *)recognizer
+{
+    NSLog(@"show user info");
+    User * usr = [[DataStorage sharedDataStorage] getUserForId:self.contact.user.userId];
+    if(usr) {
+        [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
+    }
+    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
+    uiController.delegate = self;
+    uiController.user = usr;
+    [self.navigationController pushViewController:uiController animated:YES];
 }
 
 - (void) backbuttonTaped: (id) sender
@@ -332,7 +352,7 @@
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.4
                           delay:0.0
-                        options: UIViewAnimationCurveEaseOut
+                        options: UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          weakSelf.msgBottomView.frame = newFrame;
                      }
@@ -353,7 +373,7 @@
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.2
                           delay:0.0
-                        options: UIViewAnimationCurveEaseOut
+                        options: UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          weakSelf.msgBottomView.frame = newFrame;
                      }
@@ -427,7 +447,7 @@
         NSDate *dateRepresentingThisDay = [self.sortedDays objectAtIndex:indexPath.section];
         NSArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
         Message *msg = [msgsOnThisDay objectAtIndex:indexPath.row];
-        msgCell.delegate = self;
+        //msgCell.delegate = self;
         msgCell.currentUserId = self.currentUser.userId;
         [msgCell configureSelfWithMsg:msg];
         return msgCell;
@@ -464,8 +484,12 @@
     NSArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
     Message *msg = [msgsOnThisDay objectAtIndex:indexPath.row];
     UIFont *cellFont = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
-    CGSize constraintSize = CGSizeMake(250.0f, 1000);
-    CGSize labelSize = [msg.text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    CGSize constraintSize = CGSizeMake(250.0f, 1000.0f);
+    CGRect textRect = [msg.text boundingRectWithSize:constraintSize
+                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                          attributes:@{NSFontAttributeName:cellFont}
+                                             context:nil];
+    CGSize labelSize = textRect.size;
     return labelSize.height + 40;
 }
 
@@ -490,7 +514,7 @@
     
     
     dateLabel.text = [self getDateString:[self.sortedDays objectAtIndex:section]];
-    [dateLabel setTextAlignment:UITextAlignmentCenter];
+    [dateLabel setTextAlignment:NSTextAlignmentCenter];
     dateLabel.textColor = [UIColor grayColor];
     [dateLabel hp_tuneForHeaderAndInfoInMessagesList];
     [headerView addSubview:dateLabel];

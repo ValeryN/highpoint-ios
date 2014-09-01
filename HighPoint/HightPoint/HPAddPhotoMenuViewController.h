@@ -13,7 +13,7 @@
 - (void)viewWillBeHidden:(UIImage*) img;
 @end
 
-@interface HPAddPhotoMenuViewController : UIViewController <GreenButtonProtocol,UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface HPAddPhotoMenuViewController : UIViewController <UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
@@ -21,6 +21,7 @@
 
 @property (strong, nonatomic) UIImage *screenShoot;
 @property (strong, nonatomic) UIImageView *backGroundView;
+@property (strong, nonatomic) UIView *darkBgView;
 
 @property (weak, nonatomic) IBOutlet UIButton *takePhoto;
 @property (weak, nonatomic) IBOutlet UIButton *pickPhoto;

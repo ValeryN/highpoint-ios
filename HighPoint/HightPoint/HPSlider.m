@@ -62,27 +62,23 @@
     [[UIColor colorWithRed:30.f/255.f green:29.f/255.f blue:48.f/255.f alpha:1] setFill];
     [removePath fill];
 
-
-
-
-
     if (self.text) {
-        [[UIColor colorWithRed: 230.0 / 255.0
+        UIColor *fontColor = [UIColor colorWithRed: 230.0 / 255.0
                          green: 236.0 / 255.0
                           blue: 242.0 / 255.0
-                         alpha: 1.0] set];
-        CGSize s = [_text sizeWithFont:self.font];
+                         alpha: 1.0];
+        CGSize s = [_text sizeWithAttributes:@{ NSFontAttributeName : self.font}];
         CGFloat yOffset = (roundedRect.size.height - s.height) / 2;
         CGRect textRect = CGRectMake(roundedRect.origin.x, yOffset, roundedRect.size.width, s.height);
-
-        [_text drawInRect:textRect
-                 withFont:self.font
-            lineBreakMode:UILineBreakModeWordWrap
-                alignment:UITextAlignmentCenter];
-        [_text drawInRect:(CGRect){textRect.origin.x+0.3f,textRect.origin.y,textRect.size}
-                 withFont:self.font
-            lineBreakMode:UILineBreakModeWordWrap
-                alignment:UITextAlignmentCenter];
+        
+        NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        paragraphStyle.alignment = NSTextAlignmentCenter;
+        NSDictionary *attributes = @{ NSFontAttributeName: self.font,
+                                      NSParagraphStyleAttributeName: paragraphStyle,
+                                      NSForegroundColorAttributeName: fontColor };
+        [_text drawInRect:textRect withAttributes:attributes];
+        [_text drawInRect:(CGRect){textRect.origin.x+0.3f,textRect.origin.y,textRect.size} withAttributes:attributes];
     }
 }
 

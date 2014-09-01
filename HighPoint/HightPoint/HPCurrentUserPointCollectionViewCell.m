@@ -14,6 +14,7 @@
 #import "UIImageView+WebCache.h"
 #import "Avatar.h"
 #import "UserPoint.h"
+#import "HPCurrentUserViewController.h"
 #import <Smartling.i18n/SLLocalization.h>
 
 #define POINT_LENGTH 140
@@ -287,12 +288,9 @@
     self.avatarImageView.layer.cornerRadius = 5;
     self.avatarImageView.image = [UIImage imageNamed:@"no_image.png"];
     @weakify(self);
-    [RACObserve(self, currentUser) subscribeNext:^(User *currentUser) {
-        @strongify(self);
-        [self.avatarImageView setImageWithURL:[NSURL URLWithString:currentUser.avatar.squareImageSrc ?: currentUser.avatar.originalImageSrc] placeholderImage:[UIImage imageNamed:@"no_image.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-            @strongify(self);
-            self.avatarImageView.image = [image addBlendToPhoto];
-        }];
+
+    RAC(self.avatarImageView, image) = [[[RACObserve(self, delegate.avatarSignal).flatten subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]] map:^id(UIImage *avatarImage) {
+        return [avatarImage addBlendToPhoto];
     }];
 }
 

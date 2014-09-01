@@ -6,7 +6,9 @@
 #import <Foundation/Foundation.h>
 #import "HEBubbleViewItem.h"
 
+@class HPBubbleTextField;
+
 
 @interface HPHEBubbleViewItem : HEBubbleViewItem
-@property(nonatomic, retain) UITextField* textField;
+@property(nonatomic, retain) HPBubbleTextField* textField;
 @end

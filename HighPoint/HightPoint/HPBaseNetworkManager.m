@@ -163,12 +163,10 @@ static HPBaseNetworkManager *networkManager;
 
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", operation.responseString);
-        NSError *error = nil;
+       // NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                     options:kNilOptions
-                                                                       error:&error];
+          //  NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
         }
         //NSMutableDictionary *parsedDictionary = [NSMutableDictionary new];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -208,7 +206,7 @@ static HPBaseNetworkManager *networkManager;
                 }
                 NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 for(NSString *key in usr) {
-                    NSDictionary *dict = [usr objectForKey:key];
+                  //  NSDictionary *dict = [usr objectForKey:key];
 
                    // [self getGeoLocation:param];
                     [[DataStorage sharedDataStorage] createAndSaveUserEntity:[usr objectForKey:key] forUserType:MainListUserType withComplation:nil];
@@ -306,7 +304,7 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:nil withComplation:nil];
+                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:0 withComplation:nil];
 
             }
             else NSLog(@"Error, no valid data");
@@ -360,6 +358,100 @@ static HPBaseNetworkManager *networkManager;
 
 
 #pragma mark - geolocation
+
+- (RACSignal *)rac_findGeoLocationWithSearchString:(NSString *)string {
+
+    RACSignal *getDataFromServer = [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+        //Запрос данных с сервера
+        NSString *url = nil;
+        url = [URLs getServerURL];
+        url = [url stringByAppendingString:kGeoLocationFindRequest];
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        manager.responseSerializer = [AFHTTPResponseSerializer new];
+        AFHTTPRequestOperation *operation = [manager GET:url
+                                              parameters:@{@"query" : string, @"limit" : @20}
+                                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                     NSData *jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+                                                     if (jsonData) {
+                                                         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                                                                  options:kNilOptions
+                                                                                                                    error:nil];
+                                                         if (jsonDict) {
+                                                             //Получаем JSON и если он пропарсился отправляем на проверку
+                                                             [subscriber sendNext:jsonDict];
+                                                             [subscriber sendCompleted];
+                                                         }
+                                                         else {
+                                                             [subscriber sendError:[NSError errorWithDomain:@"Json parse error" code:500 userInfo:nil]];
+                                                         }
+                                                     }
+                                                     else {
+                                                         [subscriber sendError:[NSError errorWithDomain:@"No data return" code:400 userInfo:nil]];
+                                                     }
+                                                 }
+                                                 failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                     [subscriber sendError:error];
+                                                 }];
+        return [RACDisposable disposableWithBlock:^{
+            [operation cancel];
+        }];
+    }];
+
+    RACSignal *validateServerData = [[getDataFromServer flattenMap:^RACStream *(NSDictionary *value) {
+        //Проверяем масив городов что он есть, и является массивом
+        if ([value isKindOfClass:[NSDictionary class]]) {
+            if ([value[@"data"] isKindOfClass:[NSDictionary class]]) {
+                if ([value[@"data"][@"cities"] isKindOfClass:[NSArray class]]) {
+                    return [RACSignal return:value[@"data"][@"cities"]];
+                }
+            }
+            if ([value[@"data"] isKindOfClass:[NSNull class]]) {
+                return [RACSignal empty];
+            }
+        }
+
+        return [RACSignal error:[NSError errorWithDomain:@"Not valid json data" code:400 userInfo:value]];
+    }] map:^id(NSArray *value) {
+        return [value.rac_sequence filter:^BOOL(NSDictionary *value) {
+            //Проверяем валидные поля каждого элемента и игнорируем все которые не валидны
+            if (![value[@"id"] isKindOfClass:[NSNumber class]])
+                return NO;
+            if (![value[@"enName"] isKindOfClass:[NSString class]])
+                return NO;
+            if (![value[@"name"] isKindOfClass:[NSString class]])
+                return NO;
+            if (![value[@"nameForms"] isKindOfClass:[NSArray class]] && ![value[@"nameForms"] isKindOfClass:[NSNull class]])
+                return NO;
+            if (![value[@"regionId"] isKindOfClass:[NSNumber class]])
+                return NO;
+            return YES;
+        }].array;
+    }];
+
+    RACSignal *saveValidDataDataBase = [[validateServerData map:^RACStream *(NSArray *value) {
+        return [value.rac_sequence map:^id(NSDictionary *cityDict) {
+            return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+                //Записывем каждый элемент
+                [[DataStorage sharedDataStorage] createAndSaveCity:cityDict popular:NO withComplation:^(City *object) {
+                    if (object) {
+                        //Пробрасываем дальнейшие данные не JSON а уже City
+                        [subscriber sendNext:object];
+                        [subscriber sendCompleted];
+                    }
+                    else {
+                        [subscriber sendNext:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
+                    }
+                }];
+                return nil;
+            }];
+        }].array;
+    }] flattenMap:^RACStream *(NSArray *value) {
+        //Обеденяем все элементы и сохраняем
+        return [RACSignal zip:value];
+    }];
+
+    return saveValidDataDataBase;
+}
 
 - (void) findGeoLocation:(NSDictionary*) param {
     NSString *url = nil;
@@ -1617,8 +1709,8 @@ static HPBaseNetworkManager *networkManager;
 
     if([packet.name isEqualToString:@"message"])
     {
-        NSArray* args = packet.args;
-        NSDictionary* arg = args[0];
+       // NSArray* args = packet.args;
+       // NSDictionary* arg = args[0];
     }
 
     if ([packet.name isEqualToString:kMeUpdate]) {

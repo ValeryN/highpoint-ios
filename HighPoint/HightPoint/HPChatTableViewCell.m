@@ -61,11 +61,31 @@
     [deleteButton hp_tuneForDeleteBtnInContactList];
     [self.scrollViewButtonView addSubview:buttonBackView];
 
-    UIView *scrollViewContentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))];//CGRectGetHeight(self.bounds)
-    [self.scrollView addSubview:scrollViewContentView];
-    scrollViewContentView.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0f];
-    self.scrollViewContentView = scrollViewContentView;
+   self.scrollViewContentViewForElements = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))];//CGRectGetHeight(self.bounds)
+    [self.scrollView addSubview:self.scrollViewContentViewForElements];
+    self.scrollViewContentViewForElements.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0f];
+    self.scrollViewContentView = self.scrollViewContentViewForElements;
 
+    self.sepTop = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 640, 1)];
+    self.sepTop.backgroundColor = [UIColor colorWithRed: 230.0 / 255.0
+                                                  green: 236.0 / 255.0
+                                                   blue: 242.0 / 255.0
+                                                  alpha: 0.2];
+    [scrollView addSubview:self.sepTop];
+    
+    self.sepBottom = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.bounds)-1, 640, 1)];
+    self.sepBottom.backgroundColor = [UIColor colorWithRed: 230.0 / 255.0
+                                                     green: 236.0 / 255.0
+                                                      blue: 242.0 / 255.0
+                                                     alpha: 0.2];
+    [scrollView addSubview:self.sepBottom];
+    
+    
+    
+    self.sepTop.hidden = YES;
+    self.sepBottom.hidden = YES;
+    
+    self.scrollView.delegate = self;
     
     [self.avatarView removeFromSuperview];
     [self.scrollViewContentView addSubview: self.avatarView];
@@ -87,9 +107,31 @@
 }
 -(void)prepareForReuse {
     [super prepareForReuse];
-    //[self removePanGesture];
+    self.sepTop.hidden = YES;
+    self.sepBottom.hidden = YES;
     [self.scrollView setContentOffset:CGPointZero animated:NO];
+    
 }
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.x < 120) {
+        self.sepTop.hidden = YES;
+        self.sepBottom.hidden = YES;
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.sepTop.hidden = NO;
+    self.sepBottom.hidden = NO;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (scrollView.contentOffset.x == 0.0) {
+        self.sepTop.hidden = YES;
+        self.sepBottom.hidden = YES;
+    }
+}
+
 
 - (void)deleteChat:(TLSwipeForOptionsCell *)cell {
     NSLog(@"delete");

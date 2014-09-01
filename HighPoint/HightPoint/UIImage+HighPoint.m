@@ -6,17 +6,14 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import "UIImage+HighPoint.h"
 #import "UIImage+StackBlur.h"
 #import "UIDevice+HighPoint.h"
 
-//==============================================================================
 
 @implementation UIImage (HighPoint)
 
-//==============================================================================
 
 - (UIImage*) hp_maskImageWithPattern: (UIImage*) pattern
 {
@@ -41,7 +38,6 @@
     return returnImage;
 }
 
-//==============================================================================
 
 - (UIImage *)hp_applyBlurWithRadius:(CGFloat)blurRadius {
     CIImage *originalImage = [CIImage imageWithCGImage:self.CGImage];
@@ -76,7 +72,7 @@
 // Use existing opacity as is
     [self drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
 // Apply supplied opacity
-    [blendImage drawInRect:CGRectMake(0,newSize.height-blendImage.size.height/2,newSize.width,blendImage.size.height/2) blendMode:kCGBlendModeNormal alpha:0.75];
+    [blendImage drawInRect:CGRectMake(0,newSize.height-blendImage.size.height/2,newSize.width,blendImage.size.height/2) blendMode:kCGBlendModeNormal alpha:1.0];
 
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
 
@@ -84,7 +80,6 @@
     return newImage;
 }
 
-//==============================================================================
 
 - (UIImage *)hp_imageWithGaussianBlur:(NSInteger)blurRadius {
     return [self stackBlur:blurRadius];

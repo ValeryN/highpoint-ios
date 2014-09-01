@@ -4,6 +4,7 @@
 //
 
 #import "HPHEBubbleViewItem.h"
+#import "HPBubbleTextField.h"
 
 
 @implementation HPHEBubbleViewItem {

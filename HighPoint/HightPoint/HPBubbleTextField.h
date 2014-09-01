@@ -8,11 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol HPBubbleTextFieldDelegate <NSObject>
-@optional
-- (void)backSpaceTap;
-@end
+
 
 @interface HPBubbleTextField : UITextField <UIKeyInput>
-@property (nonatomic, assign) id<HPBubbleTextFieldDelegate> backSpaceDelegate;
+@property (nonatomic, retain) RACSubject * backSpaceSignal;
 @end

@@ -35,6 +35,9 @@ typedef enum {
 - (void) getPopularCitiesRequest;
 - (void) getApplicationSettingsRequest;
 - (void) getCurrentUserRequest;
+
+- (RACSignal *)rac_findGeoLocationWithSearchString:(NSString *)string;
+
 - (void) getUserInfoRequest: (NSNumber *) userId;
 - (void) addEducationRequest:(NSDictionary*) param;
 - (void) deleteEducationItemRequest:(NSString*) ids;

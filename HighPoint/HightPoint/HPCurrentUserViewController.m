@@ -42,6 +42,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+
     [self.currentUserCollectionView registerNib:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"UserCardIdentif"];
     [self.currentUserCollectionView registerNib:[UINib nibWithNibName:@"HPCurrentUserUICollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"CurrentUserCollectionCell"];
     [self.currentUserCollectionView registerNib:[UINib nibWithNibName:@"HPCurrentUserPointCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"CurrentUserPointIdentif"];
@@ -55,14 +57,34 @@
     [self configureCurrentUsersForCells];
     [self configureBottomMenu];
     [self configurePageControl];
+    [self configureAvatarSignal];
+}
+
+- (void)configureAvatarSignal {
+    self.avatarSignal = [[[RACSignal combineLatest:@[RACObserve(self, currentUser), RACObserve(self, currentUser.avatar.originalImageSrc)]] flattenMap:^RACStream *(RACTuple *x) {
+        RACTupleUnpack(User *user, NSString *avatarUrl) = x;
+        return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
+                             options:0
+                            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                            }
+                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                               if (image) {
+                                   [subscriber sendNext:image];
+                                   [subscriber sendCompleted];
+                               }
+                           }];
+            return nil;
+        }];
+    }] replayLast];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self resetNavigationBarButtons];
 
-    self.currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
-    NSLog(@"current user info appear = %@", self.currentUser.userId);
+
 }
 
 
@@ -241,11 +263,13 @@
             else {
                 self.bottomView.hidden = NO;
                 self.bottomLikedView.hidden = NO;
+                self.bottomNobodyLikeLabel.hidden = NO;
                 self.personalDataLabel.text = NSLocalizedString(@"YOUR_POINT_LIKES", nil);
                 self.personalDataDownImgView.hidden = YES;
             }
         } else {
             self.bottomLikedView.hidden = YES;
+            self.bottomNobodyLikeLabel.hidden = YES;
             self.bottomView.hidden = NO;
             self.personalDataLabel.text = NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
             self.personalDataDownImgView.hidden = NO;
@@ -341,11 +365,11 @@
 }
 
 - (void)configureCurrentUsersForCells {
-    [[RACSignal zip:@[RACObserve(self, currentUser), RACObserve(self, cellPoint)]] subscribeNext:^(RACTuple *x) {
+    [[RACSignal combineLatest:@[RACObserve(self, currentUser), RACObserve(self, cellPoint)]] subscribeNext:^(RACTuple *x) {
         RACTupleUnpack(User *currentUser, HPCurrentUserPointCollectionViewCell *cellPoint) = x;
         cellPoint.currentUser = currentUser;
     }];
-    [[RACSignal zip:@[RACObserve(self, currentUser), RACObserve(self, cellUser)]] subscribeNext:^(RACTuple *x) {
+    [[RACSignal combineLatest:@[RACObserve(self, currentUser), RACObserve(self, cellUser)]] subscribeNext:^(RACTuple *x) {
         RACTupleUnpack(User *currentUser, HPCurrentUserUICollectionViewCell *cellUser) = x;
         cellUser.currentUser = currentUser;
     }];

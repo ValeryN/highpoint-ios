@@ -296,10 +296,11 @@
         if (selectionStyle == HEBubbleViewSelectionStyleNone) {
             bubble.highlightTouches = NO;
         }
-        
-        CGFloat bubbleWidth = [bubble.textLabel.text sizeWithFont:bubble.textLabel.font constrainedToSize:CGSizeMake(100000, itemHeight)].width+2*bubble.bubbleTextLabelPadding;
-        
-        
+        CGRect bubbleRect = [bubble.textLabel.text boundingRectWithSize: CGSizeMake(100000, itemHeight)
+                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                          attributes:@{NSFontAttributeName:bubble.textLabel.font}
+                                                                context:nil];
+        CGFloat bubbleWidth = bubbleRect.size.width+2 * bubble.bubbleTextLabelPadding;
         // if bubble width is bigger than frame width cut it off...
         
         if (bubbleWidth >= self.frame.size.width-2*itemPadding) {

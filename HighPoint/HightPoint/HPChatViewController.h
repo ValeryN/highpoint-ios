@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HPAvatarLittleView.h"
 #import "User.h"
-
+#import "HPUserInfoViewController.h"
 
 @protocol HPChatViewControllerProtocol <NSObject>
 
@@ -17,7 +17,7 @@
 
 @end
 
-@interface HPChatViewController : UIViewController <UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
+@interface HPChatViewController : UIViewController <UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, HPUserInfoViewControllerDelegate, UIGestureRecognizerDelegate>
 
 
 @property (strong, nonatomic) HPAvatarLittleView *avatar;

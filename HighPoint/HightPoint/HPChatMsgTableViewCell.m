@@ -78,8 +78,12 @@
 #pragma mark - count size 
 - (CGSize) getCellSize : (Message *) msg {
     UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:18.0];
-    CGSize constraintSize = CGSizeMake(250.0f, 600);
-    CGSize labelSize = [msg.text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    CGSize constraintSize = CGSizeMake(250.0f, 1000.0f);
+    CGRect textRect = [msg.text boundingRectWithSize:constraintSize
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                      attributes:@{NSFontAttributeName:cellFont}
+                                         context:nil];
+    CGSize labelSize = textRect.size;
     return labelSize;
 }
 
