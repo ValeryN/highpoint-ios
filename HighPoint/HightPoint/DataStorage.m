@@ -1386,7 +1386,32 @@ static DataStorage *dataStorage;
         }
     }];
 }
-
+- (NSArray*) getUsersForCityId:(NSNumber*) cityId {
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
+    [request setEntity:entity];
+    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"cityId  = %d", [cityId intValue]];
+    
+    @try {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+        [request setPredicate:predicate];
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    
+    NSError *error = nil;
+    [request setFetchLimit:1];
+    NSArray *array = [context executeFetchRequest:request error:&error];
+    return array;
+}
 
 - (User *)getUserForId:(NSNumber *)id_ {
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
@@ -1843,7 +1868,7 @@ static DataStorage *dataStorage;
     return controller;
 }
 
-- (void)setAndSaveCityToUser:(NSNumber *)userId :(City *)city {
+- (void)setAndSaveCityToUser:(NSNumber *)userId forCity:(City *)city {
     [self.backgroundOperationQueue addOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         User *user = [self getUserForId:userId];

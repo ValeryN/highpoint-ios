@@ -15,6 +15,7 @@
 
 + (NSString *) getServerURL; {
     NSString *serverUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"serverURL"];
+    //serverUrl = @"192.168.0.137";
     if (serverUrl.length < 7) {
         serverUrl = [NSString stringWithFormat:@"http://%@:3002", kAPIBaseURLString];
     } else  {

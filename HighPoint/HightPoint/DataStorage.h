@@ -103,7 +103,7 @@ typedef void (^complationBlock) (id object);
 - (City *) createTempCity :(NSDictionary *) param;
 - (City *) getCityById : (NSNumber *) cityId;
 - (void)insertAndSaveCityObjectToContext: (City *) city withComplation:(complationBlock) block;
-- (void)setAndSaveCityToUser: (NSNumber *) userId : (City *) city;
+- (void)setAndSaveCityToUser: (NSNumber *) userId forCity: (City *) city;
 - (void) removeCityObjectById : (City *)city;
 - (void)removeAndSaveCitiesFromUserFilter;
 - (void) deleteAllCities;
@@ -126,5 +126,5 @@ typedef void (^complationBlock) (id object);
 - (void)createAndSaveChatEntity: (User *)user withMessages: (NSArray *) messages withComplation:(complationBlock) block;
 - (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
 - (User *) getSelectedUserById:(NSNumber*) id_;
-
+- (NSArray*) getUsersForCityId:(NSNumber*) cityId;
 @end
