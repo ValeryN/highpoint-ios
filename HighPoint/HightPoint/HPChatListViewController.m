@@ -249,7 +249,7 @@
 #pragma mark - cover view
 - (void) showCoverView {
     if (!self.coverView) {
-        self.coverView = [[UIView alloc] initWithFrame:self.view.frame];
+        self.coverView = [[UIView alloc] initWithFrame:self.chatListTableView.frame];
         self.coverView.backgroundColor = [UIColor colorWithRed: 30.0 / 255.0
                                                          green: 29.0 / 255.0
                                                           blue: 48.0 / 255.0

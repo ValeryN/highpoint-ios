@@ -15,7 +15,7 @@
 
 
 
-@protocol HPChatTableViewCellDelegate <TLSwipeForOptionsCellDelegate, UIGestureRecognizerDelegate>
+@protocol HPChatTableViewCellDelegate <TLSwipeForOptionsCellDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate>
 
 - (void)deleteChat:(TLSwipeForOptionsCell *)cell;
 - (void)cellDidTap:(TLSwipeForOptionsCell *)cell;
@@ -45,6 +45,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *currentUserMsgLabel;
 @property (weak, nonatomic) IBOutlet UIView *myAvatarView;
 
+@property (strong, nonatomic) UIView *scrollViewContentViewForElements;
+@property (strong, nonatomic) UIView *sepTop;
+@property (strong, nonatomic) UIView *sepBottom;
 
 - (void) fillCell : (Contact *) contact;
 - (void) setup;
