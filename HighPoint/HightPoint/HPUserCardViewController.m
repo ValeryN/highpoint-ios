@@ -55,6 +55,7 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
+    self.navigationController.navigationBar.translucent = NO;
     [self registerNotification];
     if (self.onlyWithPoints) {
         usersArr = [[[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController] fetchedObjects];
