@@ -14,6 +14,7 @@
 #import "HPHEBubbleView.h"
 #import "DataStorage.h"
 #import "HPSearchCityViewController.h"
+#import "HPAddEducationViewController.h"
 
 @interface HPUserProfileInfoEditTabViewController ()
 
@@ -158,6 +159,20 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
             }];
         }
     }
+    if([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation){
+        if([self isLastCellInSectionWithIndexPath:indexPath]){
+            HPAddEducationViewController * searchCityViewController = [[HPAddEducationViewController alloc] initWithNibName:@"HPAddEducationViewController" bundle:nil];
+            [self.navigationController pushViewController:searchCityViewController animated:YES];
+            /*
+            @weakify(self);
+            [[RACObserve(searchCityViewController, returnSignal) flatten] subscribeNext:^(City* city) {
+                @strongify(self);
+                [searchCityViewController.navigationController popViewControllerAnimated:YES];
+                [self addCityToTableView:city];
+            }];
+            */
+        }
+    }
 }
 
 - (BOOL)isLastCellInSectionWithIndexPath:(NSIndexPath *)indexPath {
@@ -279,13 +294,13 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 
     if ([self isLastCellInSectionWithIndexPath:indexPath]) {
         HPAddNewTownCellView *customView = [HPAddNewTownCellView createView];
+        customView.userInteractionEnabled = NO;
         customView.frame = CGRectMake(0, 0, 320, 46);
         CGRect viewFrame = customView.frame;
         customView.label.text = ([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation) ? @"Добавить учебное заведение" : @"Добавить достижение";
         viewFrame.origin.x = 0;
         viewFrame.origin.y = 0;
         customView.frame = viewFrame;
-        customView.delegate = self;
         [cell.contentView addSubview:customView];
     }
     else {

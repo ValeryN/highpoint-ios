@@ -14,9 +14,7 @@
 @end
 
 @interface HPAddEducationViewController : UIViewController <UITextFieldDelegate>
-@property (nonatomic, strong) IBOutlet UITextField *firstRow;
-@property (nonatomic, strong) IBOutlet UITextField *secondRow;
-@property (nonatomic, strong) IBOutlet UITextField *thirdRow;
+
 
 @property (nonatomic, assign) BOOL isItForEducation;
 

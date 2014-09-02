@@ -8,8 +8,12 @@
 
 #import "HPAddEducationViewController.h"
 #import "Utils.h"
-@interface HPAddEducationViewController ()
+#import "UITextField+HighPoint.h"
 
+@interface HPAddEducationViewController ()
+@property (nonatomic, strong) IBOutlet UITextField *firstRow;
+@property (nonatomic, strong) IBOutlet UITextField *secondRow;
+@property (nonatomic, strong) IBOutlet UITextField *thirdRow;
 @end
 
 @implementation HPAddEducationViewController
@@ -26,22 +30,61 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
-    
-    
-    self.firstRow.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0];
-    self.secondRow.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0];
-    self.thirdRow.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0];
-    
-    self.firstRow.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
-    self.secondRow.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
-    self.thirdRow.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
-    
-    self.firstRow.delegate = self;
-    self.secondRow.delegate = self;
-    self.thirdRow.delegate = self;
+    self.navigationItem.leftBarButtonItem = [self barItemBackButton];
+    self.navigationItem.rightBarButtonItem  = [self barItemPublish];
+    self.firstRow.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.firstRow.placeholder attributes:@{NSForegroundColorAttributeName: [self.firstRow.textColor colorWithAlphaComponent:0.4]}];
+    [[self.firstRow rac_textReturnSignal] subscribeNext:^(id x) {
+         [self.secondRow becomeFirstResponder];
+    }];
+    self.secondRow.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.secondRow.placeholder attributes:@{NSForegroundColorAttributeName: [self.secondRow.textColor colorWithAlphaComponent:0.4]}];
+    [[self.firstRow rac_textReturnSignal] subscribeNext:^(id x) {
+        [self.secondRow becomeFirstResponder];
+    }];
+    self.thirdRow.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.thirdRow.placeholder attributes:@{NSForegroundColorAttributeName: [self.thirdRow.textColor colorWithAlphaComponent:0.4]}];
+    [[self.firstRow rac_textReturnSignal] subscribeNext:^(id x) {
+        [self.secondRow becomeFirstResponder];
+    }];
+
     // Do any additional setup after loading the view from its nib.
 }
+
+- (UIBarButtonItem *)barItemPublish {
+    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] init];
+    rightBarItem.title = @"Готово";
+    @weakify(self);
+    [rightBarItem setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:18]} forState:UIControlStateNormal];
+    [rightBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:80.f / 255.f green:227.f / 255.f blue:194.f / 255.f alpha:0.4]} forState:UIControlStateDisabled];
+    rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:[self canCreateEducation] signalBlock:^RACSignal *(id input) {
+        @strongify(self)
+        [self.navigationController popViewControllerAnimated:YES];
+        return [RACSignal empty];
+    }];
+    return rightBarItem;
+}
+
+- (UIBarButtonItem *)barItemBackButton {
+    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] init];
+    leftBarItem.title = @"Отменить";
+    @weakify(self);
+    [leftBarItem setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18]} forState:UIControlStateNormal];
+    leftBarItem.rac_command = [[RACCommand alloc] initWithEnabled:[RACSignal return:@YES] signalBlock:^RACSignal *(id input) {
+        @strongify(self)
+        [self.navigationController popViewControllerAnimated:YES];
+        return [RACSignal empty];
+    }];
+    return leftBarItem;
+}
+
+- (void) createEducation{
+
+}
+
+- (RACSignal *) canCreateEducation{
+    return [RACSignal return:@(YES)];
+}
+
+
+/*
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [Utils configureNavigationBar:self.navigationController];
@@ -60,6 +103,7 @@
     [self configurePlaceholders];
     [self registerNotification];
 }
+
 - (void) configurePlaceholders {
     NSAttributedString *str;
     NSAttributedString *str1;
@@ -203,5 +247,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+*/
 @end
