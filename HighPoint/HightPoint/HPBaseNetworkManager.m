@@ -408,7 +408,42 @@ static HPBaseNetworkManager *networkManager;
 
     }];
 }
+- (void) getGeoLocationForPlaces:(NSDictionary*) param withBlock:(complationBlock)block {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:kGeoLocationRequest];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"GEOLOCATION -->: %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
+                    for(NSDictionary *dict in cities) {
+                        [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:^(City *city) {
+                        }];
+                    }
+                block (@"success");
+                }
+            else {NSLog(@"Error, no valid data");
+                block(@"Error");
+            }
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //[alert show];
+        block(@"Error");
+        
+    }];
 
+}
 - (void) getGeoLocation:(NSDictionary*) param : (int) mode {
     NSString *url = nil;
     url = [URLs getServerURL];
@@ -669,13 +704,28 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-
-                    [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user];
+                NSArray *places = [[jsonDict objectForKey:@"data"] objectForKey:@"places"];
+                NSMutableString *str = [NSMutableString new];
+                for(NSDictionary *d in places) {
+                    City *city = [[DataStorage sharedDataStorage] getCityById:d[@"cityId"]];
+                    if(city == nil) {
+                        [str appendFormat:@"%d,", [d[@"cityId"] intValue]];
+                    }
+                }
+                //str = [NSMutableString stringWithString:@"1,2,3,4,5,6"];
+                if(str.length > 0) {
+                    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:str, @"cityIds", nil];
+                    [self getGeoLocationForPlaces:param withBlock:^(NSString* result) {
+                        NSLog(@"RES -> %@", result);
+                        [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user];
+                    }];
+                }
+                else [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user];
                 
-                } else {
-
+            } else {
+                
                 NSLog(@"Error: %@", error.localizedDescription);
-               // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 //[alert show];
             }
         }
@@ -683,7 +733,7 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"Error: %@", error.localizedDescription);
         //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         //[alert show];
-
+        
     }];
 }
 #pragma mark - education

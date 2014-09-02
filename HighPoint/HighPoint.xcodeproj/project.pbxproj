@@ -98,6 +98,8 @@
 		3B6DB4B918FFC24D00C26A50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B6DB4B718FFC24D00C26A50 /* InfoPlist.strings */; };
 		3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6DB4BA18FFC24D00C26A50 /* HightPointTests.m */; };
 		3B6DB4C518FFC33900C26A50 /* Storyboard_568.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B6DB4C418FFC33900C26A50 /* Storyboard_568.storyboard */; };
+		3B6F95DC19B5AEA10095E7BF /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F95DB19B5AEA10095E7BF /* Place.m */; };
+		3B6F95E519B5AEFF0095E7BF /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F95E419B5AEFF0095E7BF /* City.m */; };
 		3B9C74961990B495006ADAE7 /* HPBubbleTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9C74951990B495006ADAE7 /* HPBubbleTextField.m */; };
 		3B9C749B1990FB7E006ADAE7 /* HPMakeAvatarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9C74991990FB7E006ADAE7 /* HPMakeAvatarViewController.m */; };
 		3B9C749C1990FB7E006ADAE7 /* HPMakeAvatarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B9C749A1990FB7E006ADAE7 /* HPMakeAvatarViewController.xib */; };
@@ -282,7 +284,6 @@
 		CD4CA3C2198111550016DF7E /* HPChatOptionsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4CA3C0198111550016DF7E /* HPChatOptionsTableViewCell.m */; };
 		CD4CA3C3198111550016DF7E /* HPChatOptionsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD4CA3C1198111550016DF7E /* HPChatOptionsTableViewCell.xib */; };
 		CD55FD1119792025003EE9E9 /* Language.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1019792025003EE9E9 /* Language.m */; };
-		CD55FD17197925E3003EE9E9 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD16197925E3003EE9E9 /* Place.m */; };
 		CD55FD2019792C2F003EE9E9 /* CareerPost.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD1F19792C2F003EE9E9 /* CareerPost.m */; };
 		CD55FD2319792C30003EE9E9 /* Company.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD2219792C30003EE9E9 /* Company.m */; };
 		CD55FD2919792C30003EE9E9 /* School.m in Sources */ = {isa = PBXBuildFile; fileRef = CD55FD2819792C30003EE9E9 /* School.m */; };
@@ -299,7 +300,6 @@
 		CD9E78891977C6FE0064E2AF /* Point Notice Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CD9E78861977C6FE0064E2AF /* Point Notice Tap.png */; };
 		CD9E788A1977C6FE0064E2AF /* Point Notice.png in Resources */ = {isa = PBXBuildFile; fileRef = CD9E78871977C6FE0064E2AF /* Point Notice.png */; };
 		CD9E788B1977C6FE0064E2AF /* Point.png in Resources */ = {isa = PBXBuildFile; fileRef = CD9E78881977C6FE0064E2AF /* Point.png */; };
-		CDA0A0AC1999D1760017D35B /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA0A0AB1999D1760017D35B /* City.m */; };
 		CDA0A0B01999DAC10017D35B /* HPSelectPopularCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA0A0AE1999DAC10017D35B /* HPSelectPopularCityViewController.m */; };
 		CDA0A0B11999DAC10017D35B /* HPSelectPopularCityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA0A0AF1999DAC10017D35B /* HPSelectPopularCityViewController.xib */; };
 		CDA0A0B41999E55B0017D35B /* UserFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA0A0B31999E55B0017D35B /* UserFilter.m */; };
@@ -555,6 +555,10 @@
 		3B6DB4B818FFC24D00C26A50 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3B6DB4BA18FFC24D00C26A50 /* HightPointTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HightPointTests.m; sourceTree = "<group>"; };
 		3B6DB4C418FFC33900C26A50 /* Storyboard_568.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard_568.storyboard; sourceTree = "<group>"; };
+		3B6F95DA19B5AEA10095E7BF /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
+		3B6F95DB19B5AEA10095E7BF /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
+		3B6F95E319B5AEFF0095E7BF /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
+		3B6F95E419B5AEFF0095E7BF /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		3B8CEF60195D9576005E85D8 /* NotificationsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsConstants.h; sourceTree = "<group>"; };
 		3B9C74941990B495006ADAE7 /* HPBubbleTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPBubbleTextField.h; sourceTree = "<group>"; };
 		3B9C74951990B495006ADAE7 /* HPBubbleTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPBubbleTextField.m; sourceTree = "<group>"; };
@@ -822,8 +826,6 @@
 		CD4CA3C1198111550016DF7E /* HPChatOptionsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatOptionsTableViewCell.xib; sourceTree = "<group>"; };
 		CD55FD0F19792025003EE9E9 /* Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Language.h; sourceTree = "<group>"; };
 		CD55FD1019792025003EE9E9 /* Language.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Language.m; sourceTree = "<group>"; };
-		CD55FD15197925E3003EE9E9 /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
-		CD55FD16197925E3003EE9E9 /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
 		CD55FD1E19792C2F003EE9E9 /* CareerPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CareerPost.h; sourceTree = "<group>"; };
 		CD55FD1F19792C2F003EE9E9 /* CareerPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CareerPost.m; sourceTree = "<group>"; };
 		CD55FD2119792C30003EE9E9 /* Company.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Company.h; sourceTree = "<group>"; };
@@ -849,8 +851,6 @@
 		CD9E78861977C6FE0064E2AF /* Point Notice Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice Tap.png"; sourceTree = "<group>"; };
 		CD9E78871977C6FE0064E2AF /* Point Notice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Point Notice.png"; sourceTree = "<group>"; };
 		CD9E78881977C6FE0064E2AF /* Point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Point.png; sourceTree = "<group>"; };
-		CDA0A0AA1999D1760017D35B /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
-		CDA0A0AB1999D1760017D35B /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		CDA0A0AD1999DAC10017D35B /* HPSelectPopularCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSelectPopularCityViewController.h; sourceTree = "<group>"; };
 		CDA0A0AE1999DAC10017D35B /* HPSelectPopularCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSelectPopularCityViewController.m; sourceTree = "<group>"; };
 		CDA0A0AF1999DAC10017D35B /* HPSelectPopularCityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSelectPopularCityViewController.xib; sourceTree = "<group>"; };
@@ -1413,6 +1413,10 @@
 		3BDA4C441906461900EF6619 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				3B6F95E319B5AEFF0095E7BF /* City.h */,
+				3B6F95E419B5AEFF0095E7BF /* City.m */,
+				3B6F95DA19B5AEA10095E7BF /* Place.h */,
+				3B6F95DB19B5AEA10095E7BF /* Place.m */,
 				3BA665F619A4B30800618E97 /* Education.h */,
 				3BA665F719A4B30800618E97 /* Education.m */,
 				CDB9527E19A21DF300238DFC /* User.h */,
@@ -1439,8 +1443,6 @@
 				3B39D2F1195C3090002520B9 /* AppSetting.m */,
 				CD55FD0F19792025003EE9E9 /* Language.h */,
 				CD55FD1019792025003EE9E9 /* Language.m */,
-				CD55FD15197925E3003EE9E9 /* Place.h */,
-				CD55FD16197925E3003EE9E9 /* Place.m */,
 				CD55FD2D19792C30003EE9E9 /* Career.h */,
 				CD55FD2E19792C30003EE9E9 /* Career.m */,
 				CD55FD2A19792C30003EE9E9 /* Speciality.h */,
@@ -1453,8 +1455,6 @@
 				CD55FD1F19792C2F003EE9E9 /* CareerPost.m */,
 				CDC2D7CD1988E33C0002B196 /* Chat.h */,
 				CDC2D7CE1988E33C0002B196 /* Chat.m */,
-				CDA0A0AA1999D1760017D35B /* City.h */,
-				CDA0A0AB1999D1760017D35B /* City.m */,
 				CDA0A0B21999E55B0017D35B /* UserFilter.h */,
 				CDA0A0B31999E55B0017D35B /* UserFilter.m */,
 			);
@@ -2346,17 +2346,16 @@
 				3B6DB4A518FFC24D00C26A50 /* HightPoint.xcdatamodeld in Sources */,
 				3BE83C1619796B2A0043E03E /* HEBubbleViewItem.m in Sources */,
 				3BDA4C9519064E5900EF6619 /* SDWebImagePrefetcher.m in Sources */,
-				CDA0A0AC1999D1760017D35B /* City.m in Sources */,
 				3BDA4CA8190660B400EF6619 /* SRWebSocket.m in Sources */,
 				3B9C749B1990FB7E006ADAE7 /* HPMakeAvatarViewController.m in Sources */,
 				4C8096A9193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				4CA7B63B195C379000DC9D52 /* HPAvatarView.m in Sources */,
 				3B6DB4A218FFC24D00C26A50 /* HPAppDelegate.m in Sources */,
 				3B39D31D195C3122002520B9 /* SocketIOTransportWebsocket.m in Sources */,
+				3B6F95DC19B5AEA10095E7BF /* Place.m in Sources */,
 				3BE83C1519796B2A0043E03E /* HEBubbleView.m in Sources */,
 				4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
 				4CDC98B619517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
-				CD55FD17197925E3003EE9E9 /* Place.m in Sources */,
 				3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */,
 				3BB5E8681935F43700DDF5F9 /* ModalAnimation.m in Sources */,
 				CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */,
@@ -2421,6 +2420,7 @@
 				3B298FD3192F476100BEC2AA /* NMRangeSlider.m in Sources */,
 				CD55FD2019792C2F003EE9E9 /* CareerPost.m in Sources */,
 				CDC2D7CF1988E33C0002B196 /* Chat.m in Sources */,
+				3B6F95E519B5AEFF0095E7BF /* City.m in Sources */,
 				3B39D2F8195C3091002520B9 /* MinEntertainmentPrice.m in Sources */,
 				3B31709D191B6B5200B72AC1 /* HPMainViewListTableViewCell.m in Sources */,
 				3B39D31A195C3122002520B9 /* SocketIO.m in Sources */,
