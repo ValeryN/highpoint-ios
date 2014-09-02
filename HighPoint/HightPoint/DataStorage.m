@@ -1698,6 +1698,8 @@ static DataStorage *dataStorage;
     NSMutableArray *languages = [NSMutableArray new];
     for (NSDictionary *d in [param objectForKey:@"places"]) {
         Place *pl = [self createPlaceEntity:d];
+        City *c = [self getCityById:pl.cityId];
+        pl.city = c;
         [places addObject:pl];
     }
     user.place = [NSSet setWithArray:places];
@@ -1708,7 +1710,7 @@ static DataStorage *dataStorage;
     user.language = [NSSet setWithArray:languages];
 
 
-    [context saveWithErrorHandler];
+    //[context saveWithErrorHandler];
 }
 
 

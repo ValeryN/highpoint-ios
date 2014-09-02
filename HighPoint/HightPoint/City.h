@@ -2,14 +2,14 @@
 //  City.h
 //  HighPoint
 //
-//  Created by Julia Pozdnyakova on 12.08.14.
+//  Created by Andrey Anisimov on 02.09.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class User, UserFilter;
+@class Place, User, UserFilter;
 
 @interface City : NSManagedObject
 
@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSNumber * isPopular;
 @property (nonatomic, retain) NSSet *user;
 @property (nonatomic, retain) UserFilter *userfilter;
+@property (nonatomic, retain) NSSet *place;
 @end
 
 @interface City (CoreDataGeneratedAccessors)
@@ -29,5 +30,10 @@
 - (void)removeUserObject:(User *)value;
 - (void)addUser:(NSSet *)values;
 - (void)removeUser:(NSSet *)values;
+
+- (void)addPlaceObject:(Place *)value;
+- (void)removePlaceObject:(Place *)value;
+- (void)addPlace:(NSSet *)values;
+- (void)removePlace:(NSSet *)values;
 
 @end
