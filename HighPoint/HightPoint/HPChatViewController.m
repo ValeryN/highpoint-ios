@@ -242,9 +242,9 @@
 #pragma mark - navigation bar
 - (void) createNavigationItem
 {
-    UIBarButtonItem* backButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Back.png"]
-                                                     highlighedImage: [UIImage imageNamed:@"Back Tap.png"]
-                                                              action: @selector(backbuttonTaped:)];
+    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Back.png"]
+                                                     highlighedImage:[UIImage imageNamed:@"Back Tap.png"]
+                                                              action:@selector(backButtonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
     UIView *avatarView = [[UIView alloc] initWithFrame:CGRectMake(0, 15, 36.0f, 36.0f)];
     avatarView.backgroundColor = [UIColor clearColor];

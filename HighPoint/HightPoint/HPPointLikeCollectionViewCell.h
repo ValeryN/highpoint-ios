@@ -8,14 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "HPAvatarView.h"
+#import "RACFetchedCollectionViewController.h"
 
-@interface HPPointLikeCollectionViewCell : UICollectionViewCell
+@class User;
 
-@property (nonatomic, weak) HPAvatarView* avatar;
-@property (weak, nonatomic) IBOutlet UIView *avatarView;
-
-
-- (void) configureCell;
-
-
+@interface HPPointLikeCollectionViewCell : UICollectionViewCell<RACCollectionViewCellProtocol>
+- (void)bindViewModel:(User *)viewModel;
 @end

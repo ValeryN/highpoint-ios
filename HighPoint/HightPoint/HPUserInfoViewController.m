@@ -340,9 +340,9 @@
 - (void) createNavigationItem
 {
 
-    UIBarButtonItem* backButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Down.png"]
-                                                     highlighedImage: [UIImage imageNamed:@"Down Tap.png"]
-                                                              action: @selector(backbuttonTaped:)];
+    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Down.png"]
+                                                     highlighedImage:[UIImage imageNamed:@"Down Tap.png"]
+                                                              action:@selector(backButtonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
 }
 - (UIBarButtonItem*) createBarButtonItemWithImage: (UIImage*) image

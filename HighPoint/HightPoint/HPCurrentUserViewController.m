@@ -18,6 +18,7 @@
 #import "UINavigationBar+HighPoint.h"
 #import "HPRequest.h"
 #import "HPRequest+Points.h"
+#import "User+UserImage.h"
 
 
 @interface HPCurrentUserViewController ()
@@ -63,39 +64,17 @@
 }
 
 - (void)configureAvatarSignal {
-    self.avatarSignal = [[[RACObserve(self, currentUser.avatar.originalImageSrc) distinctUntilChanged] flattenMap:^RACStream *(NSString *avatarUrl) {
-        return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
-                             options:0
-                            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                            }
-                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                               if (image) {
-                                   [subscriber sendNext:image];
-                                   [subscriber sendCompleted];
-                               }
-                           }];
-            return nil;
-        }];
+    @weakify(self);
+    self.avatarSignal = [[[RACObserve(self, currentUser.avatar.originalImageSrc) distinctUntilChanged] flattenMap:^RACStream *(id value) {
+        @strongify(self);
+        return [self.currentUser userImageSignal];
     }] replayLast];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [self.navigationController.navigationBar configureOpaqueNavigationBar];
     [super viewWillAppear:animated];
     [self resetNavigationBarButtons];
-
-
-}
-
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - UICollectionView Datasource
@@ -168,7 +147,10 @@
 - (void)showLikedUserPointViewController {
     HPPointLikesViewController *plController = [[HPPointLikesViewController alloc] initWithNibName:@"HPPointLikesViewController" bundle:nil];
     plController.user = self.currentUser;
-    [self.navigationController pushViewController:plController animated:YES];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:plController];
+    plController.transitioningDelegate = self;
+    plController.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)createPointWithPointText:(NSString *)text andTime:(NSNumber *)time forUser:(User *)user {
@@ -280,70 +262,39 @@
             [view removeFromSuperview];
         if (usersTuple.count > 0) {
             NSArray *arraySlice = [usersTuple.allObjects subarrayWithRange:NSMakeRange(0, usersTuple.count > 4 ? 4 : usersTuple.count)];
-            NSMutableArray *downloadQueue = [NSMutableArray new];
+
+            @strongify(self);
+            NSMutableDictionary *constraintViewDictionary = @{}.mutableCopy;
             for (User *user in arraySlice) {
-                [downloadQueue addObject:[self downloadImageForUser:user]];
+                HPAvatarView *avatarView = [HPAvatarView avatarViewWithUser:user];
+                avatarView.frame = (CGRect) {0, 0, 33, 33};
+                avatarView.translatesAutoresizingMaskIntoConstraints = NO;
+                constraintViewDictionary[[NSString stringWithFormat:@"avatarView_%d", rand() % 100000]] = avatarView;
+                [self.bottomLikedView addSubview:avatarView];
             }
+            if (constraintViewDictionary.count) {
+                NSMutableString *horizontalConstraintFormat = @"H:".mutableCopy;
 
-            [[RACSignal zip:downloadQueue] subscribeNext:^(NSArray *imagesArray) {
-                @strongify(self);
-                NSMutableDictionary *constraintViewDictionary = @{}.mutableCopy;
-                for (UIImage *image in imagesArray) {
-                    if (![image isEqual:@(NO)]) {
-                        HPAvatarView *avatarView = [HPAvatarView createAvatar:image];
-                        avatarView.frame = (CGRect) {0, 0, 33, 33};
-                        avatarView.translatesAutoresizingMaskIntoConstraints = NO;
-                        constraintViewDictionary[[NSString stringWithFormat:@"avatarView_%d", rand() % 100000]] = avatarView;
-                        [self.bottomLikedView addSubview:avatarView];
-                    }
-                }
-                if (constraintViewDictionary.count) {
-                    NSMutableString *horizontalConstraintFormat = @"H:".mutableCopy;
-
-                    for (NSString *key in constraintViewDictionary) {
-                        [self.bottomLikedView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[%@(32)]", key]
-                                                                                                     options:NSLayoutFormatAlignAllCenterY
-                                                                                                     metrics:nil
-                                                                                                       views:constraintViewDictionary]];
-                        [horizontalConstraintFormat appendFormat:@"[%@(32)]-(4)-", key];
-
-
-                    }
-                    [horizontalConstraintFormat appendString:@"|"];
-                    [self.bottomLikedView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:horizontalConstraintFormat
-                                                                                                 options:0
+                for (NSString *key in constraintViewDictionary) {
+                    [self.bottomLikedView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[%@(32)]", key]
+                                                                                                 options:NSLayoutFormatAlignAllCenterY
                                                                                                  metrics:nil
                                                                                                    views:constraintViewDictionary]];
+                    [horizontalConstraintFormat appendFormat:@"[%@(32)]-(4)-", key];
+
+
                 }
-            }];
+                [horizontalConstraintFormat appendString:@"|"];
+                [self.bottomLikedView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:horizontalConstraintFormat
+                                                                                             options:0
+                                                                                             metrics:nil
+                                                                                               views:constraintViewDictionary]];
+            }
 
         }
 
 
     }];
-}
-
-- (RACSignal *) downloadImageForUser:(User*) user{
-    return [[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        id <SDWebImageOperation> operation = [manager downloadWithURL:[NSURL URLWithString:user.avatar.originalImageSrc]
-                                                             options:0
-                                                            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                                            }
-                                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                               if (image) {
-                                                                   [subscriber sendNext:image];
-                                                                   [subscriber sendCompleted];
-                                                               }
-                                                               else {
-                                                                   NSLog(@"Failed download %@",user.avatar.originalImageSrc);
-                                                                   [subscriber sendError:error];
-                                                               }
-                                                           }];
-        return [RACDisposable disposableWithBlock:^{
-            [operation cancel];
-        }];
-    }] retry:2] catchTo:[RACSignal return:@(NO)]];
 }
 
 - (void)configureCurrentUsersForCells {
@@ -378,6 +329,8 @@
 
 }
 
+#pragma mark RACSignals
+
 - (RACSignal *)usersLikeYourPost {
     if(!_usersLikeYourPost) {
         @weakify(self);
@@ -396,5 +349,6 @@
     }
     return _usersLikeYourPost;
 }
+
 
 @end

@@ -236,6 +236,7 @@
 		7C5F72A33A196DC86D178705 /* HPRequest+CurrentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7D947CEDD44E62AE75D1 /* HPRequest+CurrentUser.m */; };
 		7C5F72C1B20D7E68C509326C /* HPAddNewTownCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7C3009D552BF1237415F /* HPAddNewTownCellView.xib */; };
 		7C5F7420DDAB6520655789FC /* HPUserProfileFirstRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F74B47B9910711C74A35F /* HPUserProfileFirstRowTableViewCell.xib */; };
+		7C5F7480837E3E6BA3B091EA /* User+UserImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F753D1A2E16BBA4315A06 /* User+UserImage.m */; };
 		7C5F75DC9BB6704C60E0AF91 /* HPHEBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F705E33D3BD2BDD1103A5 /* HPHEBubbleView.m */; };
 		7C5F76088D0BD5D1E77DE872 /* HPRequest+Points.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F79C13A2C3CCD63E275CF /* HPRequest+Points.m */; };
 		7C5F763B6E244F2FFC517A12 /* NSManagedObject+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7CB7951BC9745387D6CC /* NSManagedObject+HighPoint.m */; };
@@ -256,6 +257,7 @@
 		7C5F7B8DF4D8E5D3CDF17849 /* HPSearchCityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F787632F7CC034624FEB2 /* HPSearchCityViewController.xib */; };
 		7C5F7BBD7015D433D0D69AC0 /* HPUserProfileInfoEditTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7247CB61482010C7BBC3 /* HPUserProfileInfoEditTabViewController.m */; };
 		7C5F7C658C5746D3BF22FEC9 /* HPUserProfileInfoEditTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7F0253B8B9515C30D81E /* HPUserProfileInfoEditTabViewController.xib */; };
+		7C5F7CB9D9398A3579B340C8 /* RACFetchedCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7EF040173F22819BDD4D /* RACFetchedCollectionViewController.m */; };
 		7C5F7D1FB28DC01E5FFD33DF /* HPSearchCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F716F09BF960DBC78C606 /* HPSearchCityViewController.m */; };
 		7C5F7D6BA2F7A7A1F69CD0F9 /* HPUserProfileTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F788AEA6CCF8DB315766E /* HPUserProfileTableHeaderView.m */; };
 		7C5F7EA6A679F1D7A1338BE8 /* HPHEBubbleViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7362A22A9AB0E359D898 /* HPHEBubbleViewItem.m */; };
@@ -753,6 +755,7 @@
 		7C5F73C934BCABFC7B0524D9 /* HPCityValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCityValidator.h; sourceTree = "<group>"; };
 		7C5F74B47B9910711C74A35F /* HPUserProfileFirstRowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfileFirstRowTableViewCell.xib; sourceTree = "<group>"; };
 		7C5F751ED05C8645A77E206E /* HPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRequest.h; sourceTree = "<group>"; };
+		7C5F753D1A2E16BBA4315A06 /* User+UserImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+UserImage.m"; sourceTree = "<group>"; };
 		7C5F75530D834FC7A1F5DF7B /* HPValidatorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPValidatorProtocol.h; sourceTree = "<group>"; };
 		7C5F7566517F0FB2EEE84EC4 /* RACFetchedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACFetchedTableViewController.m; sourceTree = "<group>"; };
 		7C5F759EF310328097A08FC6 /* UITextView+HPRacSignal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HPRacSignal.m"; sourceTree = "<group>"; };
@@ -765,6 +768,7 @@
 		7C5F77C71335DFAD0C776965 /* HPImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPImageCollectionViewCell.m; sourceTree = "<group>"; };
 		7C5F77FC4F83B6ED0CECB26E /* HPUserProfileInfoEditTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserProfileInfoEditTabViewController.h; sourceTree = "<group>"; };
 		7C5F7805CBD859484CBCDF67 /* HPSearchCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSearchCityViewController.h; sourceTree = "<group>"; };
+		7C5F785C1F16A29EE63BC8D3 /* User+UserImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "User+UserImage.h"; sourceTree = "<group>"; };
 		7C5F787632F7CC034624FEB2 /* HPSearchCityViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPSearchCityViewController.xib; sourceTree = "<group>"; };
 		7C5F788AEA6CCF8DB315766E /* HPUserProfileTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserProfileTableHeaderView.m; sourceTree = "<group>"; };
 		7C5F78C239B7D4D6BDCF0053 /* RACTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACTableViewController.m; sourceTree = "<group>"; };
@@ -784,12 +788,14 @@
 		7C5F7CB7951BC9745387D6CC /* NSManagedObject+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+HighPoint.m"; sourceTree = "<group>"; };
 		7C5F7CC7149A27F47DFCF3C5 /* HPImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		7C5F7CD845A3D7F53CBF860F /* HPUserProfilePhotoAlbumTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserProfilePhotoAlbumTabViewController.m; sourceTree = "<group>"; };
+		7C5F7D0B7D92387D4D5A39C0 /* RACFetchedCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACFetchedCollectionViewController.h; sourceTree = "<group>"; };
 		7C5F7D27B41303630CF7B9AD /* CALayer+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+HighPoint.m"; sourceTree = "<group>"; };
 		7C5F7D7AC05E0DA825BBA943 /* HPRequest+Points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPRequest+Points.h"; sourceTree = "<group>"; };
 		7C5F7D947CEDD44E62AE75D1 /* HPRequest+CurrentUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPRequest+CurrentUser.m"; sourceTree = "<group>"; };
 		7C5F7E481483B0971ECBF37B /* UINavigationBar+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+HighPoint.h"; sourceTree = "<group>"; };
 		7C5F7E661E5D1302339969AC /* HPUserValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserValidator.m; sourceTree = "<group>"; };
 		7C5F7E898B8FAEDA3EE33BA1 /* HPRequest+GeoLocations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPRequest+GeoLocations.m"; sourceTree = "<group>"; };
+		7C5F7EF040173F22819BDD4D /* RACFetchedCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACFetchedCollectionViewController.m; sourceTree = "<group>"; };
 		7C5F7F0253B8B9515C30D81E /* HPUserProfileInfoEditTabViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfileInfoEditTabViewController.xib; sourceTree = "<group>"; };
 		7C5F7F2E3B26E823B3734ABD /* Blend 4X@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blend 4X@2x.png"; sourceTree = "<group>"; };
 		7C5F7F301D738FAB617FC7E5 /* NSManagedObjectContext+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+HighPoint.m"; sourceTree = "<group>"; };
@@ -1457,6 +1463,8 @@
 				CDA0A0AB1999D1760017D35B /* City.m */,
 				CDA0A0B21999E55B0017D35B /* UserFilter.h */,
 				CDA0A0B31999E55B0017D35B /* UserFilter.m */,
+				7C5F753D1A2E16BBA4315A06 /* User+UserImage.m */,
+				7C5F785C1F16A29EE63BC8D3 /* User+UserImage.h */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -1681,6 +1689,8 @@
 				7C5F72B3F429363DD1851AE9 /* RACTableViewController.h */,
 				7C5F7566517F0FB2EEE84EC4 /* RACFetchedTableViewController.m */,
 				7C5F72E15153FFA4E1BB4024 /* RACFetchedTableViewController.h */,
+				7C5F7EF040173F22819BDD4D /* RACFetchedCollectionViewController.m */,
+				7C5F7D0B7D92387D4D5A39C0 /* RACFetchedCollectionViewController.h */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -2490,6 +2500,8 @@
 				7C5F76088D0BD5D1E77DE872 /* HPRequest+Points.m in Sources */,
 				7C5F71A300BE276405905A9B /* HPUserValidator.m in Sources */,
 				7C5F7F869A9F7D9797A3CA3A /* HPCityValidator.m in Sources */,
+				7C5F7CB9D9398A3579B340C8 /* RACFetchedCollectionViewController.m in Sources */,
+				7C5F7480837E3E6BA3B091EA /* User+UserImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

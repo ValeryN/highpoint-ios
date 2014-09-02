@@ -10,23 +10,24 @@
 
 #import "HPAvatarView.h"
 #import "UIImage+HighPoint.h"
+#import "User.h"
+#import "User+UserImage.h"
 
 //==============================================================================
-
+@interface HPAvatarView()
+@property (nonatomic, weak) IBOutlet UIView* mainView;
+@property (nonatomic, weak) IBOutlet UIImageView* avatar;
+@property (nonatomic, weak) IBOutlet UIImageView* avatarBorder;
+@end
 @implementation HPAvatarView
 
 //==============================================================================
 
-+ (HPAvatarView*) createAvatar :(UIImage *) image
++ (HPAvatarView*) avatarViewWithUser:(User*) user
 {
-    NSArray* nibs = [[NSBundle mainBundle] loadNibNamed: @"HPAvatarView" owner: self options: nil];
-    if ([nibs[0] isKindOfClass:[HPAvatarView class]] == NO)
-        return nil;
-    
-    HPAvatarView* avatar = (HPAvatarView*)nibs[0];
-    [avatar initObjects:image];
-    
-    return avatar;
+    HPAvatarView* avatarView = [[self alloc] initWithFrame:(CGRect){0,0,88,88}];
+    avatarView.user = user;
+    return avatarView;
 }
 
 //==============================================================================
@@ -34,11 +35,9 @@
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder: aDecoder];
-    if (self == nil)
-        return nil;
-    
-    [self initObjects:nil];
-    
+    if (self) {
+        [self sharedInit];
+    }
     return self;
 }
 
@@ -47,47 +46,42 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
-        [self initObjects: nil];
+        [self sharedInit];
     }
     return self;
 }
 
+- (void) sharedInit{
+    [[NSBundle mainBundle] loadNibNamed: @"HPAvatarView" owner: self options: nil];
+    self.mainView.frame = (CGRect){0,0,self.frame.size};
+    [self addSubview:self.mainView];
 
-- (void) initObjects : (UIImage *) image
-{
-    UIImage* userAvatar = image;
-    UIImage* userAvatarWithMask = [userAvatar hp_maskImageWithPattern: [UIImage imageNamed: @"Userpic Mask"]];
-    _avatar.image = userAvatarWithMask;
+    RAC(self,avatar.image) = [[[[[[RACObserve(self, user) deliverOn:[RACScheduler scheduler]] filter:^BOOL(id value) {
+        return value!=nil;
+    }] flattenMap:^RACStream *(User *value) {
+        return [RACSignal zip:@[[RACSignal return:value.visibility], [value userImageSignal]]];
+    }] map:^id(RACTuple *value) {
+        RACTupleUnpack(NSNumber *visibility, UIImage *userAvatar) = value;
+        switch ((UserVisibilityType) visibility.intValue) {
+            case UserVisibilityVisible:
+                return userAvatar;
+            case UserVisibilityBlur:
+            case UserVisibilityHidden:
+                return [userAvatar hp_imageWithGaussianBlur:10];
+        }
+        return nil;
+    }] map:^id(UIImage * value) {
+        return [value hp_maskImageWithPattern: [UIImage imageNamed: @"Userpic Mask"]];;
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
+
+    RAC(self,avatarBorder.image) = [[[RACObserve(self, user.online) deliverOn:[RACScheduler scheduler]] map:^id(NSNumber * online) {
+        if(online.boolValue){
+            return [UIImage imageNamed: @"Userpic Shape Green"];
+        }
+        else{
+            return [UIImage imageNamed: @"Userpic Shape Red"];
+        }
+    }] deliverOn:[RACScheduler mainThreadScheduler]];
 }
-
-#pragma mark - online
-
-- (void) makeOnline
-{
-    _avatarBorder.image = [UIImage imageNamed: @"Userpic Shape Green"];
-}
-
-- (void) makeOffline
-{
-    _avatarBorder.image = [UIImage imageNamed: @"Userpic Shape Red"];
-}
-
-#pragma mark - privacy
-
-- (void) privacyLevel
-{
-    [self blurUserImage:[UIImage imageNamed:@"img_sample1.png"]];
-}
-
-- (void) blurUserImage :(UIImage *) image
-{
-    UIImage* userAvatar = image;
-    userAvatar = [userAvatar hp_imageWithGaussianBlur: 10];
-    UIImage* userAvatarWithMask = [userAvatar hp_maskImageWithPattern: [UIImage imageNamed: @"Userpic Mask"]];
-    _avatar.image = userAvatarWithMask;
-}
-
-
 
 @end
