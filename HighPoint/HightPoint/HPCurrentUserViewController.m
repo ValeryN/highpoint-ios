@@ -235,9 +235,13 @@
 - (void)configureBottomMenu {
     @weakify(self);
 
-    RACSignal *nobodyLikeYourPost = [self.usersLikeYourPost map:^id(NSArray *value) {
-        return @(value.count == 0);
+    RACSignal *yourHavePoint = [RACObserve(self, currentUser.point) map:^id(id value) {
+        return @(value!=nil);
     }];
+    //По умолчанию никто не любит твой пост, как мило =)
+    RACSignal *nobodyLikeYourPost = [[RACSignal return:@YES] concat:[self.usersLikeYourPost map:^id(NSArray *value) {
+        return @(value.count == 0);
+    }]];
     RACSignal *needShowLikesOfYourPost = [RACObserve(self, pageController.currentPage) map:^id(NSNumber *index) {
         return @(index.intValue == 0);
     }];
@@ -251,10 +255,11 @@
     RAC(self, personalDataLabel.text) = [RACObserve(self, pageController.currentPage) map:^id(NSNumber *index) {
         return (index.intValue == 0) ? NSLocalizedString(@"YOUR_POINT_LIKES", nil) : NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
     }];
+
     RAC(self, personalDataDownImgView.hidden) = needShowLikesOfYourPost;
     RAC(self, bottomView.hidden) = [needShowBottomMenu not];
-    RAC(self, bottomNobodyLikeLabel.hidden) = [[[RACSignal combineLatest:@[nobodyLikeYourPost, needShowLikesOfYourPost]] and] not];
-    RAC(self, bottomLikedView.hidden) = [[[RACSignal combineLatest:@[[nobodyLikeYourPost not], needShowLikesOfYourPost]] and] not];
+    RAC(self, bottomNobodyLikeLabel.hidden) = [[[RACSignal combineLatest:@[yourHavePoint ,nobodyLikeYourPost, needShowLikesOfYourPost]] and] not];
+    RAC(self, bottomLikedView.hidden) = [[[RACSignal combineLatest:@[yourHavePoint, [nobodyLikeYourPost not], needShowLikesOfYourPost]] and] not];
 
     [self.usersLikeYourPost subscribeNext:^(RACTuple *usersTuple) {
         @strongify(self);
@@ -341,11 +346,11 @@
                 return [RACSignal empty];
         }];
 
-        _usersLikeYourPost = [[[[[[[RACObserve(self, currentUser.point.pointId) deliverOn:[RACScheduler scheduler]] filter:^BOOL(id value) {
+        _usersLikeYourPost = [[[[[[[[RACObserve(self, currentUser.point.pointId) deliverOn:[RACScheduler scheduler]] filter:^BOOL(id value) {
             return (value != nil);
         }] take:1] map:^id(id value) {
             return self.currentUser.point.likedBy;
-        }] concat:getLikesFromServer] deliverOn:[RACScheduler mainThreadScheduler]] replayLast];
+        }] concat:getLikesFromServer] deliverOn:[RACScheduler mainThreadScheduler]] replayLast] catchTo:[RACSignal empty]];
     }
     return _usersLikeYourPost;
 }

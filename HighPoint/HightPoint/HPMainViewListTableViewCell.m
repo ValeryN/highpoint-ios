@@ -26,6 +26,14 @@ static HPMainViewListTableViewCell* _prevCell;
 
 @implementation HPMainViewListTableViewCell
 
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if(self){
+        [self createAvatar];
+    }
+    return self;
+}
+
 - (void) configureCell:(User*) user
 {
     [self.firstLabel hp_tuneForUserListCellName];
@@ -43,8 +51,9 @@ static HPMainViewListTableViewCell* _prevCell;
         [self.showPointGroup setHidden:YES];
     }
     self.point.text = user.point.pointText;
-    [self createAvatar];
-    
+
+    self.avatar.user = user;
+
     [self addGestureRecognizer];
     if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
         self.privacyLabel.hidden = NO;
@@ -79,7 +88,6 @@ static HPMainViewListTableViewCell* _prevCell;
 
 - (void) createAvatar
 {
-    [_avatar removeFromSuperview];
     _avatar = [HPAvatarView avatarViewWithUser:[[DataStorage sharedDataStorage] getCurrentUser]];
     [_mainInfoGroup addSubview: _avatar];
     _avatar.translatesAutoresizingMaskIntoConstraints = NO;
@@ -116,12 +124,13 @@ static HPMainViewListTableViewCell* _prevCell;
 - (void) vibrateThePoint
 {
     self.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
-
+    @weakify(self);
     [UIView animateWithDuration: SHOWPOINT_VIBRATE_DURATION / 2
                           delay: 0
                         options: UIViewAnimationOptionCurveLinear
                      animations: ^
      {
+         @strongify(self);
          CGRect rect = self.mainInfoGroup.frame;
          rect.origin.x = 0;
          self.mainInfoGroup.frame = rect;
@@ -133,12 +142,14 @@ static HPMainViewListTableViewCell* _prevCell;
                              options: UIViewAnimationOptionCurveLinear
                           animations: ^
           {
+              @strongify(self);
               CGRect rect = self.mainInfoGroup.frame;
               rect.origin.x = 12;
               self.mainInfoGroup.frame = rect;
           }
                           completion: ^(BOOL finished)
           {
+              @strongify(self);
               self.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
           }];
      }];
@@ -148,16 +159,18 @@ static HPMainViewListTableViewCell* _prevCell;
 - (void) showPoint
 {
     self.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
-
+    @weakify(self);
     [UIView animateWithDuration: HALFHIDE_MAININFO_DURATION
                           delay: 0
                         options: UIViewAnimationOptionCurveLinear
                      animations: ^
      {
+         @strongify(self);
          [self halfhideMaininfo];
      }
                      completion: ^(BOOL finished)
      {
+         @strongify(self);
          [self showpointCompletely];
      }];
 }
@@ -165,16 +178,19 @@ static HPMainViewListTableViewCell* _prevCell;
 
 - (void) hidePoint
 {
+    @weakify(self);
     self.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
     [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
                           delay: 0
                         options: UIViewAnimationOptionCurveLinear
                      animations: ^
      {
+         @strongify(self);
          [self fadeawayPointText];
      }
                      completion: ^(BOOL finished)
      {
+         @strongify(self);
          [self showMainInfo];
          [HPMainViewListTableViewCell makeCellReleased];
      }];
@@ -186,11 +202,13 @@ static HPMainViewListTableViewCell* _prevCell;
 
 - (void) showpointCompletely
 {
+    @weakify(self);
     [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
                           delay: 0
                         options: UIViewAnimationOptionCurveLinear
                      animations: ^
      {
+         @strongify(self);
          [self fullhideMaininfo];
      }
                      completion: ^(BOOL finished)
@@ -225,11 +243,13 @@ static HPMainViewListTableViewCell* _prevCell;
 
 - (void) showMainInfo
 {
+    @weakify(self);
     [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
                           delay: 0
                         options: UIViewAnimationOptionCurveLinear
                      animations: ^
      {
+         @strongify(self);
          self.point.alpha = 0.0;
          
          CGRect rect = self.mainInfoGroup.frame;
