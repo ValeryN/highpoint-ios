@@ -8,6 +8,8 @@
 
 //==============================================================================
 
+#define IMAGE_PLACEHOLDER @"img_sample1.png"
+
 #import "HPAvatarView.h"
 #import "UIImage+HighPoint.h"
 #import "User.h"
@@ -53,20 +55,16 @@
     return self;
 }
 
-- (void)setUser:(User *)user {
-    self.avatar.image = nil;
-    _user = user;
-}
-
 - (void) sharedInit{
     [[NSBundle mainBundle] loadNibNamed: @"HPAvatarView" owner: self options: nil];
     self.mainView.frame = (CGRect){0,0,self.frame.size};
     [self addSubview:self.mainView];
 
-    RAC(self,avatar.image) = [[[[[[RACObserve(self, user) deliverOn:[RACScheduler scheduler]] filter:^BOOL(id value) {
+    RACSignal *getAvatarImage =
+    RAC(self,avatar.image) = [[[[[[[RACObserve(self, user) distinctUntilChanged] deliverOn:[RACScheduler scheduler]] filter:^BOOL(id value) {
         return value!=nil;
     }] flattenMap:^RACStream *(User *value) {
-        return [[RACSignal zip:@[[RACSignal return:value.visibility], [value userImageSignal]]] deliverOn:[RACScheduler scheduler]];
+        return [[RACSignal return:[RACTuple tupleWithObjects:@0,[UIImage imageNamed:IMAGE_PLACEHOLDER],nil]] concat: [[RACSignal zip:@[[RACSignal return:value.visibility], [value userImageSignal]]] deliverOn:[RACScheduler scheduler]]];
     }] map:^id(RACTuple *value) {
         RACTupleUnpack(NSNumber *visibility, UIImage *userAvatar) = value;
         switch ((UserVisibilityType) visibility.intValue) {

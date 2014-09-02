@@ -196,7 +196,7 @@
     [self.navigationController pushViewController:chatList animated:YES];
 }
 
-- (void) backbuttonTaped: (id) sender
+- (void) backButtonTaped: (id) sender
 {
     self.usersCollectionView.delegate = nil;
     [self.navigationController popViewControllerAnimated: YES];

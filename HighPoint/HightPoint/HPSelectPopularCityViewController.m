@@ -87,7 +87,7 @@
     return newbuttonItem;
 }
 
-- (void) backbuttonTaped: (id) sender
+- (void) backButtonTaped: (id) sender
 {
     [self.navigationController popViewControllerAnimated: YES];
 }

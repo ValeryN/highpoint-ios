@@ -292,7 +292,7 @@
     [self.navigationController pushViewController:uiController animated:YES];
 }
 
-- (void) backbuttonTaped: (id) sender
+- (void) backButtonTaped: (id) sender
 {
     [self.navigationController popViewControllerAnimated: YES];
 }
