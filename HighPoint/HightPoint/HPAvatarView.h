@@ -10,18 +10,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class User;
+
 //==============================================================================
 
 @interface HPAvatarView : UIView
++ (HPAvatarView *)avatarViewWithUser:(User *)user;
 
-+ (HPAvatarView*) createAvatar :(UIImage *) image;
-
-@property (nonatomic, weak) IBOutlet UIImageView* avatar;
-@property (nonatomic, weak) IBOutlet UIImageView* avatarBorder;
-
-- (void) initObjects : (UIImage *) image;
-- (void) makeOnline;
-- (void) makeOffline;
-- (void) privacyLevel;
-
+@property (nonatomic, retain) User* user;
 @end

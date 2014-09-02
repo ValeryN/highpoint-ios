@@ -115,9 +115,9 @@
     [chatlistButton.customView addSubview: _notificationView];
     self.navigationItem.rightBarButtonItem = chatlistButton;
     
-    UIBarButtonItem* backButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Close.png"]
-                                                     highlighedImage: [UIImage imageNamed:@"Close Tap.png"]
-                                                              action: @selector(backbuttonTaped:)];
+    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Close.png"]
+                                                     highlighedImage:[UIImage imageNamed:@"Close Tap.png"]
+                                                              action:@selector(backButtonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
 }

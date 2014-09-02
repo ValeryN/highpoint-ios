@@ -15,8 +15,10 @@
 }
 - (void)configureTableViewWithSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
     _data = [NSArray array];
+    @weakify(self);
     [source subscribeNext:^(id x) {
-        _data = x;
+        @strongify(self);
+        self.data = x;
         [self.tableView reloadData];
     }];
 
@@ -26,6 +28,7 @@
     NSObject <UITableViewDelegate> *delegate = self.tableView.delegate;
     self.tableView.delegate = nil;
     self.selectRowSignal = [[delegate rac_signalForSelector:@selector(tableView:didSelectRowAtIndexPath:) fromProtocol:@protocol(UITableViewDelegate)] map:^id(RACTuple *value) {
+        @strongify(self);
         RACTupleUnpack(UITableView *tableView, NSIndexPath *indexPath) = value;
         return _data[(NSUInteger) indexPath.row];
     }];

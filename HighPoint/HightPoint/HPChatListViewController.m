@@ -85,9 +85,9 @@
     self.navigationItem.rightBarButtonItem = searchButton;
     
     
-    UIBarButtonItem* backButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Close.png"]
-                                                     highlighedImage: [UIImage imageNamed:@"Close Tap.png"]
-                                                              action: @selector(backbuttonTaped:)];
+    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Close.png"]
+                                                     highlighedImage:[UIImage imageNamed:@"Close Tap.png"]
+                                                              action:@selector(backButtonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
     self.navigationItem.title = NSLocalizedString(@"CHAT_LIST_TITLE", nil);
 }
@@ -168,9 +168,6 @@
 
 - (void) configureCell:(HPChatTableViewCell *) chatCell withIndexPath:(NSIndexPath *) indexPath{
 
-    if (indexPath.row == 3) {
-        [chatCell.avatar privacyLevel];
-    }
     Contact * contact = [contactsController objectAtIndexPath:indexPath];
     int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:contact.user];
     if(msgsCount > 0) {

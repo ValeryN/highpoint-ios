@@ -64,9 +64,9 @@
 #pragma mark - navigation bar
 - (void) createNavigationItem
 {
-    UIBarButtonItem* backButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Back.png"]
-                                                     highlighedImage: [UIImage imageNamed:@"Back Tap.png"]
-                                                              action: @selector(backbuttonTaped:)];
+    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Back.png"]
+                                                     highlighedImage:[UIImage imageNamed:@"Back Tap.png"]
+                                                              action:@selector(backButtonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
 }
 

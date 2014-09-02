@@ -13,6 +13,7 @@
 #import "HPMainViewListTableViewCell+HighPoint.h"
 #import "User.h"
 #import "City.h"
+#import "DataStorage.h"
 
 
 #define HALFHIDE_MAININFO_DURATION 0.1
@@ -50,16 +51,10 @@ static HPMainViewListTableViewCell* _prevCell;
         self.secondLabel.hidden = YES;
         self.firstLabel.hidden = YES;
         [self setPrivacyText:user];
-        [_avatar privacyLevel];
     } else {
         self.privacyLabel.hidden = YES;
         self.secondLabel.hidden = NO;
         self.firstLabel.hidden = NO;
-    }
-    if ([user.online isEqualToNumber:@1]) {
-        [self.avatar makeOnline];
-    } else {
-        [self.avatar makeOffline];
     }
 }
 
@@ -85,7 +80,7 @@ static HPMainViewListTableViewCell* _prevCell;
 - (void) createAvatar
 {
     [_avatar removeFromSuperview];
-    _avatar = [HPAvatarView createAvatar: [UIImage imageNamed: @"img_sample1"]];
+    _avatar = [HPAvatarView avatarViewWithUser:[[DataStorage sharedDataStorage] getCurrentUser]];
     [_mainInfoGroup addSubview: _avatar];
     _avatar.translatesAutoresizingMaskIntoConstraints = NO;
 

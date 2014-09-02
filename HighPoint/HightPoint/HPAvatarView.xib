@@ -4,9 +4,15 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPAvatarView">
+            <connections>
+                <outlet property="avatar" destination="Qdj-5B-PZH" id="dWf-cv-6HA"/>
+                <outlet property="avatarBorder" destination="HeJ-6r-B9Z" id="08s-Tn-srT"/>
+                <outlet property="mainView" destination="iN0-l3-epB" id="vgc-Sn-Dbs"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="HPAvatarView">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -33,10 +39,6 @@
                 <constraint firstItem="HeJ-6r-B9Z" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="pbN-fd-f0a"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="avatar" destination="Qdj-5B-PZH" id="lO6-hw-n3f"/>
-                <outlet property="avatarBorder" destination="HeJ-6r-B9Z" id="qAE-hP-AoO"/>
-            </connections>
         </view>
     </objects>
     <resources>

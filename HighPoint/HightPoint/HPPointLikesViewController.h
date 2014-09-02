@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RACFetchedCollectionViewController.h"
 
 @class User;
 
-@interface HPPointLikesViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, NSFetchedResultsControllerDelegate>
+@interface HPPointLikesViewController : RACFetchedCollectionViewController <NSFetchedResultsControllerDelegate>
 @property (nonatomic, retain) User* user;
 @end

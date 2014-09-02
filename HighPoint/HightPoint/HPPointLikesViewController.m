@@ -7,13 +7,12 @@
 //
 
 #import "HPPointLikesViewController.h"
-#import "UINavigationController+HighPoint.h"
 #import "HPPointLikeCollectionViewCell.h"
 #import "User.h"
 #import "NSManagedObjectContext+HighPoint.h"
+#import "UINavigationBar+HighPoint.h"
 
 @interface HPPointLikesViewController ()
-@property (weak, nonatomic) IBOutlet UICollectionView *likesCollectionView;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultController;
 @end
 
@@ -33,43 +32,25 @@
     return _fetchedResultController;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.likesCollectionView.delegate = self;
-    self.likesCollectionView.dataSource = self;
-    
-    [self.likesCollectionView registerNib:[UINib nibWithNibName:@"HPPointLikeCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"PointLikesCell"];
-
-}
-
-- (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self configureNabBar];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
+    [self configureCollectionViewWithSignal:RACObserve(self, fetchedResultController) andTemplateCell:[UINib nibWithNibName:@"HPPointLikeCollectionViewCell" bundle:nil]];
+    [self configureNavigationBar];
 }
 
 #pragma mark - navigation bar
 
-- (void) configureNabBar {
-    [self.navigationController setNavigationBarHidden:NO];
+- (void)configureNavigationBar {
+
+    [RACObserve(self, navigationController.navigationBar) subscribeNext:^(UINavigationBar * x) {
+        [x configureTranslucentNavigationBar];
+    }];
+
     self.navigationItem.title = NSLocalizedString(@"POINT_LIKES_TITLE", nil);
-    UIBarButtonItem* backButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Down.png"]
-                                                     highlighedImage: [UIImage imageNamed:@"Down Tap.png"]
-                                                              action: @selector(backbuttonTaped:)];
+    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Down.png"]
+                                                     highlighedImage:[UIImage imageNamed:@"Down Tap.png"]
+                                                              action:@selector(backButtonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
 }
 
@@ -85,65 +66,21 @@
                   action: action
         forControlEvents: UIControlEventTouchUpInside];
     
-    UIBarButtonItem* newbuttonItem = [[UIBarButtonItem alloc] initWithCustomView: newButton];
+    UIBarButtonItem*newButtonItem = [[UIBarButtonItem alloc] initWithCustomView: newButton];
     
-    return newbuttonItem;
+    return newButtonItem;
 }
 
-- (void) backbuttonTaped: (id) sender
+- (void)backButtonTaped: (id) sender
 {
-    [self.navigationController popViewControllerAnimated: YES];
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-
-#pragma mark - uicollection view
 
 #pragma mark - UICollectionView Datasource
-// 1
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    return ((id <NSFetchedResultsSectionInfo>) [[self fetchedResultController] sections][(NSUInteger) section]).numberOfObjects;
-}
 
-- (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
-    return [[self fetchedResultController] sections].count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    HPPointLikeCollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"PointLikesCell" forIndexPath:indexPath];
-    [cell configureCell];
-    return cell;
-}
-
-/*- (UICollectionReusableView *)collectionView:
- (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
- {
- return [[UICollectionReusableView alloc] init];
- }*/
-
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    // TODO: Select Item
-}
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO: Deselect item
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(106, 100);
-}
-
-
-- (UIEdgeInsets)collectionView:
-(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    [self.likesCollectionView reloadData];
-}
 
 @end

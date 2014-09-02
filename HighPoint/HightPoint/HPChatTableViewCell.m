@@ -151,7 +151,7 @@
     self.msgCountView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:102.0/255.0 blue:112.0/255.0 alpha:1.0f];
     self.msgCountView.layer.cornerRadius = 12;
     [self.avatar removeFromSuperview];
-    self.avatar = [HPAvatarView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
+    self.avatar = [HPAvatarView avatarViewWithUser:contact.user];
     [self.avatarView addSubview: self.avatar];
     self.myAvatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
     [self.myAvatarView addSubview: self.myAvatar];
@@ -168,12 +168,7 @@
         self.msgFromMyself.hidden = YES;
         self.currentUserMsgLabel.text = contact.lastmessage.text;
     }
-    
-    if ([contact.user.online isEqualToNumber:@1]) {
-        [self.avatar makeOnline];
-    } else {
-        [self.avatar makeOffline];
-    }
+
     NSLog(@"contact name = %@ with id = %@", contact.user.name, contact.user.userId);
 }
 
