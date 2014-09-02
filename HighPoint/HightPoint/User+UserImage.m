@@ -13,14 +13,21 @@
 @implementation User (UserImage)
 - (RACSignal *) userImageSignal
 {
+    //return [RACSignal return:[UIImage imageNamed:@"img_sample1.png"]];
     User* userInContext = [self moveToContext:[NSManagedObjectContext threadContext]];
     NSString* avatarUrl = userInContext.avatar.originalImageSrc;
+    SDWebImageOptions options = SDWebImageProgressiveDownload|SDWebImageRefreshCached;
+    if(userInContext.isCurrentUser.boolValue) {
+        options |= SDWebImageDownloaderHighPriority;
+    }
     @weakify(self);
     return [[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
         @strongify(self);
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        manager.imageDownloader.maxConcurrentDownloads = 100;
+
         id <SDWebImageOperation> operation = [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
-                                                              options:SDWebImageHighPriority
+                                                              options: options
                                                              progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                                                              }
                                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
