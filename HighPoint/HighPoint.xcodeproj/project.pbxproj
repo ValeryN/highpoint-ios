@@ -229,9 +229,11 @@
 		4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 		4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
+		7C5F708CC4C988ACCA477EFA /* HPAddCareerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7FF673DC33F2497A845C /* HPAddCareerViewController.xib */; };
 		7C5F70A1024B63C54A2AD91E /* HPBubbleViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F795D29A7BAC67A795B6A /* HPBubbleViewDelegate.m */; };
 		7C5F70D60BEAC6FE1A60484D /* HPUserProfileFirstRowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F70D88543B31AA3E4B7FD /* HPUserProfileFirstRowTableViewCell.m */; };
 		7C5F71A300BE276405905A9B /* HPUserValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7E661E5D1302339969AC /* HPUserValidator.m */; };
+		7C5F71AA70A2396390631A2B /* HPAddCareerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7E1C6C28AE52E4529676 /* HPAddCareerViewController.m */; };
 		7C5F71B018047BEC2C554C2C /* HPSearchCityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F764DEE3495556650470B /* HPSearchCityCell.m */; };
 		7C5F7281799A75B9D2E54697 /* HPAddEducationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7EE5776FCBD5418D2AE9 /* HPAddEducationViewController.m */; };
 		7C5F72A33A196DC86D178705 /* HPRequest+CurrentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7D947CEDD44E62AE75D1 /* HPRequest+CurrentUser.m */; };
@@ -795,9 +797,11 @@
 		7C5F7D27B41303630CF7B9AD /* CALayer+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+HighPoint.m"; sourceTree = "<group>"; };
 		7C5F7D7AC05E0DA825BBA943 /* HPRequest+Points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPRequest+Points.h"; sourceTree = "<group>"; };
 		7C5F7D947CEDD44E62AE75D1 /* HPRequest+CurrentUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPRequest+CurrentUser.m"; sourceTree = "<group>"; };
+		7C5F7E1C6C28AE52E4529676 /* HPAddCareerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddCareerViewController.m; sourceTree = "<group>"; };
 		7C5F7E481483B0971ECBF37B /* UINavigationBar+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+HighPoint.h"; sourceTree = "<group>"; };
 		7C5F7E661E5D1302339969AC /* HPUserValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserValidator.m; sourceTree = "<group>"; };
 		7C5F7E898B8FAEDA3EE33BA1 /* HPRequest+GeoLocations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPRequest+GeoLocations.m"; sourceTree = "<group>"; };
+		7C5F7EC5663B7A742FDBE164 /* HPAddCareerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAddCareerViewController.h; sourceTree = "<group>"; };
 		7C5F7EE5776FCBD5418D2AE9 /* HPAddEducationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddEducationViewController.m; sourceTree = "<group>"; };
 		7C5F7EF040173F22819BDD4D /* RACFetchedCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACFetchedCollectionViewController.m; sourceTree = "<group>"; };
 		7C5F7F0253B8B9515C30D81E /* HPUserProfileInfoEditTabViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfileInfoEditTabViewController.xib; sourceTree = "<group>"; };
@@ -805,6 +809,7 @@
 		7C5F7F301D738FAB617FC7E5 /* NSManagedObjectContext+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+HighPoint.m"; sourceTree = "<group>"; };
 		7C5F7F66F87601728B0A1A88 /* HPHEBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPHEBubbleView.h; sourceTree = "<group>"; };
 		7C5F7FB3529CC358A40A80A8 /* HPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRequest.m; sourceTree = "<group>"; };
+		7C5F7FF673DC33F2497A845C /* HPAddCareerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPAddCareerViewController.xib; sourceTree = "<group>"; };
 		CD002F8B1998A04100C2093A /* privacy_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = privacy_new.png; sourceTree = "<group>"; };
 		CD08B825198B68750006AF4A /* HPUserCardUICollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserCardUICollectionViewCell.h; sourceTree = "<group>"; };
 		CD08B826198B68750006AF4A /* HPUserCardUICollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserCardUICollectionViewCell.m; sourceTree = "<group>"; };
@@ -1798,6 +1803,7 @@
 				7C5F773EF93854F594166206 /* HPHEBubbleViewItem.h */,
 				7C5F7C0B1BCA4F51AC1303FB /* Search City */,
 				7C5F7B38F6F1DD42D5020CD6 /* Add education */,
+				7C5F7F5CFE25788582B010E8 /* Add career */,
 			);
 			name = "Profile Edit";
 			sourceTree = "<group>";
@@ -1823,6 +1829,16 @@
 				4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */,
 			);
 			name = "Search City";
+			sourceTree = "<group>";
+		};
+		7C5F7F5CFE25788582B010E8 /* Add career */ = {
+			isa = PBXGroup;
+			children = (
+				7C5F7EC5663B7A742FDBE164 /* HPAddCareerViewController.h */,
+				7C5F7FF673DC33F2497A845C /* HPAddCareerViewController.xib */,
+				7C5F7E1C6C28AE52E4529676 /* HPAddCareerViewController.m */,
+			);
+			name = "Add career";
 			sourceTree = "<group>";
 		};
 		CD4CA1841980DFB40016DF7E /* ChatViewController */ = {
@@ -2322,6 +2338,7 @@
 				7C5F7FA72DC5AA259D946392 /* HPUserProfilePhotoAlbumTabViewController.xib in Resources */,
 				7C5F7B8DF4D8E5D3CDF17849 /* HPSearchCityViewController.xib in Resources */,
 				7C5F77DB5C20393EC9BDC1B2 /* HPAddEducationViewController.xib in Resources */,
+				7C5F708CC4C988ACCA477EFA /* HPAddCareerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2502,6 +2519,7 @@
 				7C5F7CB9D9398A3579B340C8 /* RACFetchedCollectionViewController.m in Sources */,
 				7C5F7480837E3E6BA3B091EA /* User+UserImage.m in Sources */,
 				7C5F7281799A75B9D2E54697 /* HPAddEducationViewController.m in Sources */,
+				7C5F71AA70A2396390631A2B /* HPAddCareerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
