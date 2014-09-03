@@ -25,6 +25,15 @@
     [super viewDidLoad];
     self.deletedPhotoIndex = [NSMutableArray new];
 
+    [self configureCarouserView];
+    [self configureNavigationBar];
+    [self configureFullScreenMode];
+    [self configureDeleteButton];
+
+    [self.carousel scrollToItemAtIndex:self.selectedPhoto animated:NO];
+
+}
+- (void) configureCarouserView{
     @weakify(self);
     RACSignal * carouselDidScroll = [[self rac_signalForSelector:@selector(carouselDidScroll:) fromProtocol:@protocol(iCarouselDelegate)] takeUntil:self.rac_willDeallocSignal];
     self.selectedPhotoSignal= [[carouselDidScroll map:^id(id value) {
@@ -32,12 +41,9 @@
         return @(self.carousel.currentItemIndex);
     }] replayLast];
 
-    [self configureNavigationBar];
-    [self configureFullScreenMode];
-    [self configureDeleteButton];
-
-    [self.carousel scrollToItemAtIndex:self.selectedPhoto animated:NO];
-
+    [RACObserve(self, deletedPhotoIndex) subscribeNext:^(id x) {
+        [self.carousel reloadData];
+    }];
 }
 
 - (void) configureNavigationBar
@@ -113,6 +119,11 @@
     view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 
     view.frame = rect;
+
+    if([self.deletedPhotoIndex containsObject:@(index)]){
+        return [[UIView alloc] init];
+    }
+
     return view;
 }
 
