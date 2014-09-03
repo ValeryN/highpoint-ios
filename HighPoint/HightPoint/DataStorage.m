@@ -1455,6 +1455,8 @@ static DataStorage *dataStorage;
     [self.backgroundOperationQueue addOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
 
+        //POINTS -->: {"data":{"points":[{"id":"1","createdAt":"2014444","userId":"1"}]}}
+        
         [context performBlockAndWait:^{
             UserPoint *userPoint = [self getPointForId:param[@"id"]];
             if (!userPoint) {
