@@ -13,32 +13,32 @@
 @implementation RACTableViewController {
 
 }
-- (void)configureTableViewWithSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
+- (void)configureTable:(UITableView*) tableView viewWithSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
     _data = [NSArray array];
     @weakify(self);
     [source subscribeNext:^(id x) {
         @strongify(self);
         self.data = x;
-        [self.tableView reloadData];
+        [tableView reloadData];
     }];
 
-    if (self.tableView.delegate == nil)
-        self.tableView.delegate = self;
+    if (tableView.delegate == nil)
+        tableView.delegate = self;
 
-    NSObject <UITableViewDelegate> *delegate = self.tableView.delegate;
-    self.tableView.delegate = nil;
+    NSObject <UITableViewDelegate> *delegate = tableView.delegate;
+    tableView.delegate = nil;
     self.selectRowSignal = [[delegate rac_signalForSelector:@selector(tableView:didSelectRowAtIndexPath:) fromProtocol:@protocol(UITableViewDelegate)] map:^id(RACTuple *value) {
         @strongify(self);
         RACTupleUnpack(UITableView *tableView, NSIndexPath *indexPath) = value;
         return _data[(NSUInteger) indexPath.row];
     }];
-    self.tableView.delegate = delegate;
+    tableView.delegate = delegate;
 
     _templateCell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
-    [self.tableView registerNib:templateCellNib forCellReuseIdentifier:_templateCell.reuseIdentifier];
-    self.tableView.rowHeight = _templateCell.bounds.size.height;
+    [tableView registerNib:templateCellNib forCellReuseIdentifier:_templateCell.reuseIdentifier];
+    tableView.rowHeight = _templateCell.bounds.size.height;
 
-    self.tableView.dataSource = self;
+    tableView.dataSource = self;
 
 }
 
