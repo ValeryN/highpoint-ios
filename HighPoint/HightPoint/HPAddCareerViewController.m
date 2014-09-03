@@ -26,16 +26,19 @@
 
 - (void)viewDidLoad
 {
+    @weakify(self);
     [super viewDidLoad];
     self.navigationItem.leftBarButtonItem = [self barItemBackButton];
     self.navigationItem.rightBarButtonItem  = [self barItemPublish];
     self.firstRow.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.firstRow.placeholder attributes:@{NSForegroundColorAttributeName: [self.firstRow.textColor colorWithAlphaComponent:0.4]}];
     [[self.firstRow rac_textReturnSignal] subscribeNext:^(UITextField * textField) {
+        @strongify(self)
         [textField resignFirstResponder];
         [self.secondRow becomeFirstResponder];
     }];
     self.secondRow.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.secondRow.placeholder attributes:@{NSForegroundColorAttributeName: [self.secondRow.textColor colorWithAlphaComponent:0.4]}];
     [[self.secondRow rac_textReturnSignal] subscribeNext:^(UITextField * textField) {
+        @strongify(self)
         [textField resignFirstResponder];
         [self createCareer];
         [self.navigationController popViewControllerAnimated:YES];
