@@ -8,15 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol  HPAddEducationViewControllerDelegate <NSObject>
-- (void) newEducationSelected:(NSArray*) edu;
-- (void) newWorkPlaceSelected:(NSArray*) place;
-@end
-
-@interface HPAddEducationViewController : UIViewController <UITextFieldDelegate>
-
-
-@property (nonatomic, assign) BOOL isItForEducation;
-
-@property (nonatomic, weak) id<HPAddEducationViewControllerDelegate> delegate;
+@interface HPAddEducationViewController : UIViewController
+@property (nonatomic, retain) RACSubject *returnSignal;
 @end
