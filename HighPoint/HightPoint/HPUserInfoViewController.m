@@ -342,7 +342,7 @@
 
     UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Down.png"]
                                                      highlighedImage:[UIImage imageNamed:@"Down Tap.png"]
-                                                              action:@selector(backButtonTaped:)];
+                                                              action:@selector(backbuttonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
 }
 - (UIBarButtonItem*) createBarButtonItemWithImage: (UIImage*) image
