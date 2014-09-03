@@ -1134,6 +1134,7 @@ static DataStorage *dataStorage;
 
 - (void)createAndSaveUserEntity:(NSDictionary *)param forUserType:(UserType)type withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
+    __block User *returnUser = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         User *user;
@@ -1310,8 +1311,12 @@ static DataStorage *dataStorage;
         if (point && [user.isItFromMainList boolValue]) {
             user.point = point;
         }
+        
+        returnUser = user;
+        
         [self addSaveOperationToBottomInContext:context];
-        [self returnObject:user inComplationBlock:block];
+        
+        [self returnObject:returnUser inComplationBlock:block];
 
     }];
 

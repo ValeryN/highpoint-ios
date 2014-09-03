@@ -1674,8 +1674,8 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"me update args = %@", packet.args);
         NSDictionary *jsonDict = [packet.args objectAtIndex:0];
         if(jsonDict) {
-            [[DataStorage sharedDataStorage] deleteAllCities];
-            [[DataStorage sharedDataStorage] deleteAndSaveCurrentUser];
+            [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:CurrentUserType withComplation: nil];
+            [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:[[DataStorage sharedDataStorage] getCurrentUser]]];
         } else {
             NSLog(@"Error, no valid data");
         }
