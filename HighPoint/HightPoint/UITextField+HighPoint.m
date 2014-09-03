@@ -30,15 +30,7 @@ static void RACUseDelegateProxy(UITextView*self) {
 }
 
 - (RACSignal *)rac_textReturnSignal {
-    @weakify(self);
-    return [[[[RACSignal
-            defer:^{
-                @strongify(self);
-                return [RACSignal return:self];
-            }]
-            concat:[self rac_signalForControlEvents:UIControlEventEditingDidEndOnExit]]
-            takeUntil:self.rac_willDeallocSignal]
-            setNameWithFormat:@"%@ -rac_keyboardReturnSignal", [self rac_description]];
+    return [[[self rac_signalForControlEvents:UIControlEventEditingDidEndOnExit] takeUntil:self.rac_willDeallocSignal] setNameWithFormat:@"%@ -rac_keyboardReturnSignal", [self rac_description]];
 }
 
 @end
