@@ -5,11 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPAddEducationViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPAddCareerViewController">
             <connections>
-                <outlet property="firstRow" destination="8Zi-Ti-OWi" id="baa-NN-sZX"/>
-                <outlet property="secondRow" destination="XTJ-Aj-S5A" id="En8-y6-bqH"/>
-                <outlet property="thirdRow" destination="ElF-gq-5it" id="o3Z-g3-SqJ"/>
+                <outlet property="firstRow" destination="8Zi-Ti-OWi" id="0Ni-9M-ctJ"/>
+                <outlet property="secondRow" destination="XTJ-Aj-S5A" id="dPX-GW-JS0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -33,13 +32,6 @@
                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                     <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Годы обучения" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ElF-gq-5it">
-                    <rect key="frame" x="14" y="180" width="288" height="48"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Vk-mn-OgL">
                     <rect key="frame" x="14" y="117" width="320" height="0.5"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -47,11 +39,6 @@
                 </view>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2TX-6N-GrY">
                     <rect key="frame" x="14" y="172" width="320" height="0.5"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
-                </view>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ubH-tu-k7S">
-                    <rect key="frame" x="14" y="227" width="320" height="0.5"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                 </view>
