@@ -1590,9 +1590,11 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([[jsonDict objectForKey:@"data"] objectForKey:@"messages"]) {
+                
+                NSArray *messages = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
+                if (messages && (![messages isKindOfClass:[NSNull class]])) {
                     User *user = [[DataStorage sharedDataStorage] getUserForId:userId];
-                    [[DataStorage sharedDataStorage] createAndSaveChatEntity:user withMessages:[[jsonDict objectForKey:@"data"] objectForKey:@"messages"] withComplation:nil];
+                    [[DataStorage sharedDataStorage] createAndSaveChatEntity:user withMessages:messages withComplation:nil];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
