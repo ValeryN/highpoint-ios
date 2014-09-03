@@ -12,6 +12,9 @@
 @property (nonatomic) BOOL fullScreenMode;
 @property (nonatomic, weak) IBOutlet UIButton * setUserPicButton;
 @property (nonatomic, weak) IBOutlet UIButton * deletePicButton;
+@property(nonatomic, retain) NSMutableArray *deletedPhotoIndex;
+
+@property (nonatomic, retain) RACSignal * selectedPhotoSignal;
 @end
 
 
@@ -20,15 +23,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.deletedPhotoIndex = [NSMutableArray new];
 
     @weakify(self);
     RACSignal * carouselDidScroll = [[self rac_signalForSelector:@selector(carouselDidScroll:) fromProtocol:@protocol(iCarouselDelegate)] takeUntil:self.rac_willDeallocSignal];
-    [[RACSignal combineLatest:@[carouselDidScroll,RACObserve(self,photosArray)]] subscribeNext:^(RACTuple * x) {
+    self.selectedPhotoSignal= [[carouselDidScroll map:^id(id value) {
         @strongify(self);
-        RACTupleUnpack(NSObject *offset,NSArray * photosArray) = x;
-        self.navigationItem.title = [NSString stringWithFormat:@"%d из %d",self.carousel.currentItemIndex + 1, photosArray.count];
-    }];
+        return @(self.carousel.currentItemIndex);
+    }] replayLast];
 
+    [self configureNavigationBar];
+    [self configureFullScreenMode];
+    [self configureDeleteButton];
+
+    [self.carousel scrollToItemAtIndex:self.selectedPhoto animated:NO];
+
+}
+
+- (void) configureNavigationBar
+{
+    @weakify(self);
+    [[RACSignal combineLatest:@[self.selectedPhotoSignal, RACObserve(self, photosArray)]] subscribeNext:^(RACTuple *x) {
+        @strongify(self);
+        RACTupleUnpack(NSNumber *selectedIndex, NSArray *photosArray) = x;
+        self.navigationItem.title = [NSString stringWithFormat:@"%d из %d", selectedIndex.intValue + 1, photosArray.count];
+    }];
+    self.navigationItem.leftBarButtonItem = [self leftBarButtonItem];
+}
+
+- (void) configureFullScreenMode{
+    @weakify(self);
     [RACObserve(self, fullScreenMode) subscribeNext:^(NSNumber * fullScreenMode) {
         @strongify(self);
         [self.navigationController setNavigationBarHidden:fullScreenMode.boolValue animated:YES];
@@ -37,8 +61,23 @@
             self.deletePicButton.alpha = fullScreenMode.boolValue?0:1.0f;
         }];
     }];
-    [self.carousel scrollToItemAtIndex:self.selectedPhoto animated:NO];
-    self.navigationItem.leftBarButtonItem = [self leftBarButtonItem];
+}
+
+- (void) configureDeleteButton{
+    @weakify(self);
+    RACSignal *showDeleteFunctionSignal = [[RACSignal combineLatest:@[self.selectedPhotoSignal, RACObserve(self, deletedPhotoIndex)]] map:^id(RACTuple *value) {
+        RACTupleUnpack(NSNumber *selectedPhoto, NSArray *deletedArray) = value;
+        return @(![deletedArray containsObject:selectedPhoto]);
+    }];
+    RAC(self, setUserPicButton.hidden) = [showDeleteFunctionSignal not];
+    RAC(self, deletePicButton.hidden) = [showDeleteFunctionSignal not];
+    [[[self.deletePicButton rac_signalForControlEvents:UIControlEventTouchUpInside] map:^id(id value) {
+        @strongify(self);
+        return @(self.carousel.currentItemIndex);
+    }] subscribeNext:^(NSNumber *selectedPhoto) {
+        @strongify(self);
+        [self deletePhotoAtIndex:selectedPhoto];
+    }];
 }
 
 - (UIBarButtonItem *)leftBarButtonItem {
@@ -105,6 +144,15 @@
     return 320;
 }
 
+- (void)deletePhotoAtIndex:(NSNumber *)number {
+    NSMutableArray *contents = [self mutableArrayValueForKey:@keypath(self, deletedPhotoIndex)];
+    [contents addObject:number];
+}
+
+- (void)cancelDeletePhotoAtIndex:(NSNumber *)number {
+    NSMutableArray *contents = [self mutableArrayValueForKey:@keypath(self, deletedPhotoIndex)];
+    [contents removeObject:number];
+}
 
 
 @end
