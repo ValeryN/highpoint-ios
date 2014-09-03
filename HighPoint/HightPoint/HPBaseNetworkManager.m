@@ -1477,7 +1477,7 @@ static HPBaseNetworkManager *networkManager;
     [self addTaskToArray:manager];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"GET CONTACTS -->: %@", operation.responseString);
+        NSLog(@"GET CONTACTS -->: %@", operation.responseString);
         NSLog(@"GET CONTACTS");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -1501,16 +1501,22 @@ static HPBaseNetworkManager *networkManager;
                                 break;
                             }
                         }
-                        
-                        if ([self isTaskArrayEmpty:manager]) {
-                            NSLog(@"Stop Queue");
-                            [self makeTownByIdRequest];
-                        }
                     }];
+                }
+                if ([self isTaskArrayEmpty:manager]) {
+                    NSLog(@"Stop Queue");
+                    [self makeTownByIdRequest];
                 }
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
             }
-            else NSLog(@"Error, no valid data");
+            else {
+                NSLog(@"Error, no valid data");
+                if ([self isTaskArrayEmpty:manager]) {
+                    NSLog(@"Stop Queue");
+                    [self makeTownByIdRequest];
+                }
+
+            }
 
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -1520,8 +1526,8 @@ static HPBaseNetworkManager *networkManager;
             [self makeTownByIdRequest];
         }
         NSLog(@"Error: %@", error.localizedDescription);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alert show];
 
     }];
 }
