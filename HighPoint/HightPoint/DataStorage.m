@@ -1866,6 +1866,10 @@ static DataStorage *dataStorage;
         [context performBlockAndWait:^{
             NSFetchRequest *allUsers = [[NSFetchRequest alloc] init];
             [allUsers setEntity:[NSEntityDescription entityForName:@"User" inManagedObjectContext:context]];
+            NSMutableString *predicateString = [NSMutableString string];
+            [predicateString appendFormat:@"isCurrentUser != 1"];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+            [allUsers setPredicate:predicate];
             [allUsers setIncludesPropertyValues:NO];
             NSError *error = nil;
             NSArray *users = [context executeFetchRequest:allUsers error:&error];
