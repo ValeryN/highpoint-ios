@@ -425,10 +425,12 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
+                if (cities && (![cities isKindOfClass:[NSNull class]])) {
                     for(NSDictionary *dict in cities) {
                         [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:^(City *city) {
                         }];
                     }
+                }
                 block (@"success");
                 }
             else {NSLog(@"Error, no valid data");
@@ -599,9 +601,12 @@ static HPBaseNetworkManager *networkManager;
         if(jsonData) {
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
             NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
-            for(NSDictionary *dict in cities) {
-                [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:YES withComplation:nil];
+            if (cities && (![cities isKindOfClass:[NSNull class]])) {
+                for(NSDictionary *dict in cities) {
+                    [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:YES withComplation:nil];
+                }
             }
+
         } else {
             NSLog(@"Error, no valid data");
         }
