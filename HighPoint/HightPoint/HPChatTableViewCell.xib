@@ -19,11 +19,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="UQX-cY-ebh" userLabel="Button View">
-                                <rect key="frame" x="200" y="0.0" width="120" height="104"/>
+                                <rect key="frame" x="200" y="0.0" width="120" height="103"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="w1X-ZL-K0g">
-                                        <rect key="frame" x="0.0" y="0.0" width="120" height="104"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="103"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="0.40000000000000002" blue="0.4392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
@@ -33,7 +33,7 @@
                                         </state>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="pPw-MV-G0V" userLabel="Content View">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
@@ -136,7 +136,6 @@
                 <outlet property="myAvatar" destination="Maa-nk-PjC" id="qxL-SR-Tu5"/>
                 <outlet property="scrollView" destination="zcL-Gz-ZWG" id="7d9-ya-EBZ"/>
                 <outlet property="scrollViewButtonView" destination="UQX-cY-ebh" id="PbP-VY-Nvl"/>
-                <outlet property="scrollViewContentView" destination="pPw-MV-G0V" id="vdS-bq-y7N"/>
                 <outlet property="sepBottom" destination="MXd-TS-W36" id="Q4d-eD-DVY"/>
                 <outlet property="sepTop" destination="z7G-cv-jHC" id="UaY-lg-1zx"/>
                 <outlet property="userAgeAndLocationLabel" destination="7jr-UG-2UU" id="7w9-zf-AcA"/>

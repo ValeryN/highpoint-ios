@@ -14,13 +14,11 @@
 #import "DataStorage.h"
 
 @interface HPChatTableViewCell ()
-@property(nonatomic, weak) id <HPChatTableViewCellDelegate> delegate;
 
 @property(nonatomic, strong) UITapGestureRecognizer *tap_Gesture;
 
 
 @property(weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property(nonatomic, weak) IBOutlet UIView *scrollViewContentView;
 @property(nonatomic, weak) IBOutlet UIView *scrollViewButtonView;
 
 @property(weak, nonatomic) IBOutlet HPAvatarView *avatarView;
@@ -56,7 +54,6 @@
 
 - (void)setup {
     self.scrollView.delegate = self;
-
     [self addPanGesture];
 }
 
@@ -95,10 +92,6 @@
 
 
 - (void)deleteChat:(TLSwipeForOptionsCell *)cell {
-    NSLog(@"delete");
-    if ([self.delegate respondsToSelector:@selector(deleteChat:)]) {
-        [self.delegate deleteChat:self];
-    }
     [self.scrollView setContentOffset:CGPointZero animated:YES];
 }
 
