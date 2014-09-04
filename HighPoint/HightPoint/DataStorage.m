@@ -16,6 +16,9 @@
 
 
 static DataStorage *dataStorage;
+@interface DataStorage()
+@property(nonatomic, retain) User* currentUser;
+@end
 
 @implementation DataStorage
 + (DataStorage *)sharedDataStorage {
@@ -1324,34 +1327,51 @@ static DataStorage *dataStorage;
 }
 
 - (User *)getCurrentUser {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
+    User* user = self.currentUser;
+    if(!user) {
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
+        [request setEntity:entity];
+        NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
+        [sortDescriptors addObject:sortDescriptor];
+        [request setSortDescriptors:sortDescriptors];
 
-    NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"isCurrentUser  = %d", 1];
+        NSMutableString *predicateString = [NSMutableString string];
+        [predicateString appendFormat:@"isCurrentUser  = %d", 1];
 
-    @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        @try {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+            [request setPredicate:predicate];
+        }
+        @catch (NSException *exception) {
+            return nil;
+        }
+
+
+        NSError *error = nil;
+        [request setFetchLimit:1];
+        NSArray *array = [context executeFetchRequest:request error:&error];
+        if ([array count] == 1) {
+            user = array[0];
+            self.currentUser = user;
+        }
+        else
+            NSAssert(false, @"2 текущих пользователя, как мило");
     }
-    @catch (NSException *exception) {
-        return nil;
+    return user;
+}
+
+- (User*)currentUser {
+    User* user = nil;
+    if(_currentUser && !_currentUser.isFault){
+        user = [_currentUser moveToContext:[NSManagedObjectContext threadContext]];
+        if(user.isFault){
+            user = nil;
+        }
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    return user;
 }
 
 - (void)deleteAndSaveCurrentUser {

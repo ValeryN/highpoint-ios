@@ -40,6 +40,7 @@ typedef void (^complationBlock) (id object);
 
 @interface DataStorage : NSObject
 @property (nonatomic, retain) NSOperationQueue *backgroundOperationQueue;
+
 + (DataStorage*) sharedDataStorage;
 - (void) createUser:(NSDictionary*) param;
 - (void)createAndSavePoint:(NSDictionary*) param;

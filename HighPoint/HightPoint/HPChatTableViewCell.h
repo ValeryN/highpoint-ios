@@ -11,8 +11,7 @@
 #import "HPAvatarView.h"
 #import "HPAvatarLittleView.h"
 #import "Contact.h"
-
-
+#import "RACTableViewController.h"
 
 
 @protocol HPChatTableViewCellDelegate <TLSwipeForOptionsCellDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate>
@@ -22,32 +21,9 @@
 
 @end
 
-@interface HPChatTableViewCell : TLSwipeForOptionsCell <UIScrollViewDelegate>
-
-@property (nonatomic, weak) id<HPChatTableViewCellDelegate> delegate;
-
-@property(nonatomic, strong) UITapGestureRecognizer *tap_Gesture;
-
-@property (nonatomic, weak) HPAvatarView* avatar;
-@property (weak, nonatomic) IBOutlet UIView *avatarView;
+@interface HPChatTableViewCell : TLSwipeForOptionsCell <UIScrollViewDelegate,RACTableViewCellProtocol>
 
 
-@property (weak, nonatomic) IBOutlet UIView *msgToYouView;
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *userAgeAndLocationLabel;
-@property (weak, nonatomic) IBOutlet UILabel *currentMsgLabel;
-
-@property (weak, nonatomic) IBOutlet UIView *msgCountView;
-@property (weak, nonatomic) IBOutlet UILabel *msgCountLabel;
-
-@property (nonatomic, weak) HPAvatarLittleView* myAvatar;
-@property (weak, nonatomic) IBOutlet UIView *msgFromMyself;
-@property (weak, nonatomic) IBOutlet UILabel *currentUserMsgLabel;
-@property (weak, nonatomic) IBOutlet UIView *myAvatarView;
-
-@property (strong, nonatomic) UIView *scrollViewContentViewForElements;
-@property (strong, nonatomic) UIView *sepTop;
-@property (strong, nonatomic) UIView *sepBottom;
 
 - (void) fillCell : (Contact *) contact;
 - (void) setup;
