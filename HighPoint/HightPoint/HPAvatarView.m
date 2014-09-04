@@ -60,10 +60,10 @@
     self.mainView.frame = (CGRect){0,0,self.frame.size};
     [self addSubview:self.mainView];
 
-    RAC(self,avatar.image) = [[[[[[RACObserve(self, user) distinctUntilChanged] deliverOn:[RACScheduler scheduler]] filter:^BOOL(id value) {
+    RAC(self,avatar.image) = [[[[[RACObserve(self, user) distinctUntilChanged] filter:^BOOL(id value) {
         return value!=nil;
     }] flattenMap:^RACStream *(User *value) {
-        return [[RACSignal combineLatest:@[[RACSignal return:value.visibility], [value userImageSignal]]] deliverOn:[RACScheduler scheduler]];
+        return [[RACSignal combineLatest:@[[RACSignal return:value.visibility], [[value userImageSignal] takeUntil:[RACObserve(self, user) skip:1]]]] deliverOn:[RACScheduler scheduler]];
     }] map:^id(RACTuple *value) {
         RACTupleUnpack(NSNumber *visibility, UIImage *userAvatar) = value;
         switch ((UserVisibilityType) visibility.intValue) {

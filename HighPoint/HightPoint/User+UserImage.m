@@ -9,8 +9,8 @@
 #import "NSManagedObject+HighPoint.h"
 #import "NSManagedObjectContext+HighPoint.h"
 
-#define IMAGE_NOT_DOWNLOADED @"img_sample1.png"
-#define IMAGE_ERROR_DOWNLOAD @"img_sample.png"
+#define IMAGE_NOT_DOWNLOADED @"transparentflower.png"
+#define IMAGE_ERROR_DOWNLOAD @"error-256.png"
 
 @implementation User (UserImage)
 - (RACSignal *) userImageSignal

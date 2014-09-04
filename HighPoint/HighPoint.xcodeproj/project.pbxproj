@@ -237,6 +237,7 @@
 		7C5F71AA70A2396390631A2B /* HPAddCareerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7E1C6C28AE52E4529676 /* HPAddCareerViewController.m */; };
 		7C5F71B018047BEC2C554C2C /* HPSearchCityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F764DEE3495556650470B /* HPSearchCityCell.m */; };
 		7C5F7281799A75B9D2E54697 /* HPAddEducationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7EE5776FCBD5418D2AE9 /* HPAddEducationViewController.m */; };
+		7C5F728F826F062A2340064C /* error-256@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F74D937BE232CC1EF6E4B /* error-256@2x.png */; };
 		7C5F72A33A196DC86D178705 /* HPRequest+CurrentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7D947CEDD44E62AE75D1 /* HPRequest+CurrentUser.m */; };
 		7C5F72C1B20D7E68C509326C /* HPAddNewTownCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7C3009D552BF1237415F /* HPAddNewTownCellView.xib */; };
 		7C5F7420DDAB6520655789FC /* HPUserProfileFirstRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F74B47B9910711C74A35F /* HPUserProfileFirstRowTableViewCell.xib */; };
@@ -259,6 +260,7 @@
 		7C5F79EC9D12BAAA275ED2C1 /* CALayer+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7D27B41303630CF7B9AD /* CALayer+HighPoint.m */; };
 		7C5F79F487D68A326256AFD1 /* NSManagedObjectContext+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7F301D738FAB617FC7E5 /* NSManagedObjectContext+HighPoint.m */; };
 		7C5F7B370D3AE224778EA669 /* HPImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F77C71335DFAD0C776965 /* HPImageCollectionViewCell.m */; };
+		7C5F7B3C22E090C468F05B5A /* transparentflower@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F79A39A4A85160DD2ACCD /* transparentflower@2x.png */; };
 		7C5F7B8DF4D8E5D3CDF17849 /* HPSearchCityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F787632F7CC034624FEB2 /* HPSearchCityViewController.xib */; };
 		7C5F7BBD7015D433D0D69AC0 /* HPUserProfileInfoEditTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7247CB61482010C7BBC3 /* HPUserProfileInfoEditTabViewController.m */; };
 		7C5F7C658C5746D3BF22FEC9 /* HPUserProfileInfoEditTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7F0253B8B9515C30D81E /* HPUserProfileInfoEditTabViewController.xib */; };
@@ -760,6 +762,7 @@
 		7C5F73B28B4784B3764684CA /* NSManagedObjectContext+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+HighPoint.h"; sourceTree = "<group>"; };
 		7C5F73C934BCABFC7B0524D9 /* HPCityValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCityValidator.h; sourceTree = "<group>"; };
 		7C5F74B47B9910711C74A35F /* HPUserProfileFirstRowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfileFirstRowTableViewCell.xib; sourceTree = "<group>"; };
+		7C5F74D937BE232CC1EF6E4B /* error-256@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error-256@2x.png"; sourceTree = "<group>"; };
 		7C5F751ED05C8645A77E206E /* HPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRequest.h; sourceTree = "<group>"; };
 		7C5F753D1A2E16BBA4315A06 /* User+UserImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+UserImage.m"; sourceTree = "<group>"; };
 		7C5F75530D834FC7A1F5DF7B /* HPValidatorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPValidatorProtocol.h; sourceTree = "<group>"; };
@@ -782,6 +785,7 @@
 		7C5F790EC367E7519CDD2D48 /* HPUserProfileTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserProfileTableHeaderView.h; sourceTree = "<group>"; };
 		7C5F7931BE2436B8E5002A6D /* HPUserProfileTableHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfileTableHeaderView.xib; sourceTree = "<group>"; };
 		7C5F795D29A7BAC67A795B6A /* HPBubbleViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPBubbleViewDelegate.m; sourceTree = "<group>"; };
+		7C5F79A39A4A85160DD2ACCD /* transparentflower@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "transparentflower@2x.png"; sourceTree = "<group>"; };
 		7C5F79C13A2C3CCD63E275CF /* HPRequest+Points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPRequest+Points.m"; sourceTree = "<group>"; };
 		7C5F79FBC553B622AE95FF32 /* HPUserProfilePhotoAlbumTabViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfilePhotoAlbumTabViewController.xib; sourceTree = "<group>"; };
 		7C5F7A163EB31DC0BF53E4DC /* HPAddNewTownCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddNewTownCellView.m; sourceTree = "<group>"; };
@@ -1136,6 +1140,8 @@
 				3B318655191A6C6D0000DD8B /* Notice-R.png */,
 				3B318652191A674A0000DD8B /* Notice-C.png */,
 				7C5F7F2E3B26E823B3734ABD /* Blend 4X@2x.png */,
+				7C5F74D937BE232CC1EF6E4B /* error-256@2x.png */,
+				7C5F79A39A4A85160DD2ACCD /* transparentflower@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -2088,7 +2094,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = B9639RHZFT;
+						DevelopmentTeam = J67Y29BQR7;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -2343,6 +2349,8 @@
 				7C5F7B8DF4D8E5D3CDF17849 /* HPSearchCityViewController.xib in Resources */,
 				7C5F77DB5C20393EC9BDC1B2 /* HPAddEducationViewController.xib in Resources */,
 				7C5F708CC4C988ACCA477EFA /* HPAddCareerViewController.xib in Resources */,
+				7C5F728F826F062A2340064C /* error-256@2x.png in Resources */,
+				7C5F7B3C22E090C468F05B5A /* transparentflower@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
