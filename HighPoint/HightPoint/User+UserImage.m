@@ -9,14 +9,16 @@
 #import "NSManagedObject+HighPoint.h"
 #import "NSManagedObjectContext+HighPoint.h"
 
+#define IMAGE_NOT_DOWNLOADED @"img_sample1.png"
+#define IMAGE_ERROR_DOWNLOAD @"img_sample.png"
 
 @implementation User (UserImage)
 - (RACSignal *) userImageSignal
 {
-    //return [RACSignal return:[UIImage imageNamed:@"img_sample1.png"]];
+    //return [RACSignal return:[UIImage imageNamed:@".png"]];
     User* userInContext = [self moveToContext:[NSManagedObjectContext threadContext]];
     NSString* avatarUrl = userInContext.avatar.originalImageSrc;
-    SDWebImageOptions options = SDWebImageProgressiveDownload|SDWebImageRefreshCached;
+    SDWebImageOptions options = 0;
     if(userInContext.isCurrentUser.boolValue) {
         options |= SDWebImageDownloaderHighPriority;
     }
@@ -25,7 +27,7 @@
         @strongify(self);
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         manager.imageDownloader.maxConcurrentDownloads = 100;
-
+        [subscriber sendNext:[UIImage imageNamed:IMAGE_NOT_DOWNLOADED]];
         id <SDWebImageOperation> operation = [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
                                                               options: options
                                                              progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -46,6 +48,6 @@
         return [RACDisposable disposableWithBlock:^{
             [operation cancel];
         }];
-    }] retry:2] catchTo:[RACSignal empty]];
+    }] retry:2] catchTo:[RACSignal return:[UIImage imageNamed:IMAGE_ERROR_DOWNLOAD]]];
 }
 @end

@@ -60,11 +60,10 @@
     self.mainView.frame = (CGRect){0,0,self.frame.size};
     [self addSubview:self.mainView];
 
-    RACSignal *getAvatarImage =
-    RAC(self,avatar.image) = [[[[[[[RACObserve(self, user) distinctUntilChanged] deliverOn:[RACScheduler scheduler]] filter:^BOOL(id value) {
+    RAC(self,avatar.image) = [[[[[[RACObserve(self, user) distinctUntilChanged] deliverOn:[RACScheduler scheduler]] filter:^BOOL(id value) {
         return value!=nil;
     }] flattenMap:^RACStream *(User *value) {
-        return [[RACSignal return:[RACTuple tupleWithObjects:@0,[UIImage imageNamed:IMAGE_PLACEHOLDER],nil]] concat: [[RACSignal zip:@[[RACSignal return:value.visibility], [value userImageSignal]]] deliverOn:[RACScheduler scheduler]]];
+        return [[RACSignal combineLatest:@[[RACSignal return:value.visibility], [value userImageSignal]]] deliverOn:[RACScheduler scheduler]];
     }] map:^id(RACTuple *value) {
         RACTupleUnpack(NSNumber *visibility, UIImage *userAvatar) = value;
         switch ((UserVisibilityType) visibility.intValue) {
@@ -75,13 +74,20 @@
                 return [userAvatar hp_imageWithGaussianBlur:10];
         }
         return nil;
-    }] map:^id(UIImage * value) {
-        return [value hp_maskImageWithPattern: [UIImage imageNamed: @"Userpic Mask"]];;
     }] deliverOn:[RACScheduler mainThreadScheduler]];
+
+    @weakify(self);
+    [RACObserve(self.avatar, bounds) subscribeNext:^(id x) {
+        @strongify(self);
+        CALayer *maskLayer = [CALayer layer];
+        maskLayer.frame = self.avatar.bounds;
+        [maskLayer setContents:(id)[[UIImage imageNamed: @"Userpic-Mask"] resizeImageToSize:self.avatar.bounds.size].CGImage];
+        self.avatar.layer.mask = maskLayer;
+    }];
+
 
     self.borderGreen = [UIImage imageNamed:@"Userpic Shape Green"];
     self.borderRed = [UIImage imageNamed:@"Userpic Shape Red"];
-    @weakify(self);
     RAC(self,avatarBorder.image) = [[[RACObserve(self, user.online) deliverOn:[RACScheduler scheduler]] map:^id(NSNumber * online) {
         @strongify(self);
         if(online.boolValue){
