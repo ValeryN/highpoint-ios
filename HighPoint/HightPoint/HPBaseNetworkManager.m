@@ -257,14 +257,20 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
-
-                for(NSDictionary *dict in usr) {
-                    //NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
-                    //[self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:MainListUserType withComplation:nil];
+                NSDictionary *poi = [[jsonDict objectForKey:@"data"] objectForKey:@"points"];
+                if (poi && (![poi isKindOfClass:[NSNull class]])) {
+                    
+                    for (NSString* key in [poi allKeys]) {
+                        NSDictionary *point = [poi objectForKey:key];
+                        [[DataStorage sharedDataStorage] createAndSavePoint:point];
+                    }
                 }
-
+                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                if (usr && (![usr isKindOfClass:[NSNull class]])) {
+                    for(NSDictionary *dict in usr) {
+                        [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:MainListUserType withComplation:nil];
+                    }
+                }
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
@@ -1491,7 +1497,6 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                [[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
                 NSArray *users = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 NSDictionary *lastMsgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
                 for (int i = 0; i < users.count; i++) {

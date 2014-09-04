@@ -1860,6 +1860,26 @@ static DataStorage *dataStorage;
 }
 
 
+- (void)deleteAndSaveAllUsers {
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        [context performBlockAndWait:^{
+            NSFetchRequest *allUsers = [[NSFetchRequest alloc] init];
+            [allUsers setEntity:[NSEntityDescription entityForName:@"User" inManagedObjectContext:context]];
+            [allUsers setIncludesPropertyValues:NO];
+            NSError *error = nil;
+            NSArray *users = [context executeFetchRequest:allUsers error:&error];
+            //error handling goes here
+            for (User *usr in users) {
+                [context deleteObject:usr];
+            }
+            [self addSaveOperationToBottomInContext:context];
+        }];
+    }];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
+}
+
+
 - (NSFetchedResultsController *)applicationSettingFetchResultsController {
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -2406,7 +2426,23 @@ static DataStorage *dataStorage;
     [self.backgroundOperationQueue addOperation:operation];
 }
 
-
+- (void)deleteAndSaveAllMessages {
+    [self.backgroundOperationQueue addOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        [context performBlockAndWait:^{
+            NSFetchRequest *allMessages = [[NSFetchRequest alloc] init];
+            [allMessages setEntity:[NSEntityDescription entityForName:@"Message" inManagedObjectContext:context]];
+            [allMessages setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+            NSError *error = nil;
+            NSArray *messages = [context executeFetchRequest:allMessages error:&error];
+            //error handling goes here
+            for (Message *msg in messages) {
+                [context deleteObject:msg];
+            }
+            [self addSaveOperationToBottomInContext:context];
+        }];
+    }];
+}
 
 
 

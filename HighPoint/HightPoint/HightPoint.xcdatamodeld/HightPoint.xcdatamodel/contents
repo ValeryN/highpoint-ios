@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AppSetting" representedClassName="AppSetting" syncable="YES">
         <attribute name="avatarMaxFileSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="avatarMinImageHeight" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -166,7 +166,7 @@
         <relationship name="maxentertainment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MaxEntertainmentPrice" inverseName="user" inverseEntity="MaxEntertainmentPrice" syncable="YES"/>
         <relationship name="minentertainment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MinEntertainmentPrice" inverseName="user" inverseEntity="MinEntertainmentPrice" syncable="YES"/>
         <relationship name="place" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Place" inverseName="user" inverseEntity="Place" syncable="YES"/>
-        <relationship name="point" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserPoint" inverseName="user" inverseEntity="UserPoint" syncable="YES"/>
+        <relationship name="point" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="UserPoint" inverseName="user" inverseEntity="UserPoint" syncable="YES"/>
         <relationship name="userfilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserFilter" inverseName="user" inverseEntity="UserFilter" syncable="YES"/>
     </entity>
     <entity name="UserFilter" representedClassName="UserFilter" syncable="YES">
