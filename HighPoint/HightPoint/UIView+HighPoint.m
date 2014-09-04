@@ -16,4 +16,7 @@
     self.layer.masksToBounds = YES;
 }
 
++ (UIView*) viewWithNibName:(NSString*) nibName{
+    return (UIView *) [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil][0];
+}
 @end
