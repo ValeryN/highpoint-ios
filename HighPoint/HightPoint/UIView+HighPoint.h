@@ -10,6 +10,8 @@
 
 @interface UIView (HighPoint)
 
++ (UIView *)viewWithNibName:(NSString *)nibName;
+
 - (void) hp_roundViewWithRadius: (CGFloat) radius;
 
 @end
