@@ -11,6 +11,7 @@
 #import "HPRootViewController.h"
 #import "NotificationsConstants.h"
 #import "HPAppDelegate.h"
+#import "DataStorage.h"
 
 @interface HPSplashViewController ()
 
@@ -31,6 +32,9 @@
 {
     [super viewDidLoad];
     [self.navigationController setNavigationBarHidden:YES];
+    [[DataStorage sharedDataStorage] deleteAndSaveAllUsers];
+    [[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
+    [[DataStorage sharedDataStorage] deleteAndSaveAllMessages];
     [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
     [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
     [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];

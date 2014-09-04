@@ -57,6 +57,7 @@ typedef void (^complationBlock) (id object);
 - (NSFetchedResultsController*) allUsersFetchResultsController;
 - (NSFetchedResultsController*) allUsersWithPointFetchResultsController;
 - (NSFetchedResultsController *)allUsersPointLikesResultsController;
+- (void)deleteAndSaveAllUsers;
 - (User*) getCurrentUser;
 - (User*) getUserForId:(NSNumber*) id_;
 - (void)deleteAndSaveCurrentUser;
@@ -123,6 +124,7 @@ typedef void (^complationBlock) (id object);
 
 - (void)deleteAndSaveContact: (NSNumber *) contactId;
 - (void)createAndSaveMessage:(NSDictionary *)param  forUserId:(NSNumber*) keyId  andMessageType:(MessageTypes) type withComplation:(complationBlock) block;
+- (void)deleteAndSaveAllMessages;
 - (void)createAndSaveChatEntity: (User *)user withMessages: (NSArray *) messages withComplation:(complationBlock) block;
 - (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
 - (User *) getSelectedUserById:(NSNumber*) id_;
