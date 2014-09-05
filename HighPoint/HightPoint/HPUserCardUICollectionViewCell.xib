@@ -18,6 +18,10 @@
                         <rect key="frame" x="5" y="8" width="310" height="310"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Blend 5X.png" translatesAutoresizingMaskIntoConstraints="NO" id="sjw-2R-mbx">
+                        <rect key="frame" x="5" y="190" width="310" height="128"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Анастасия, 24 года, Эдинбург" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpO-gG-wdI">
                         <rect key="frame" x="5" y="330" width="310" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -94,6 +98,7 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="Blend 5X.png" width="320" height="160"/>
         <image name="Camera Small.png" width="29" height="25"/>
         <image name="Heart" width="24" height="20"/>
         <image name="Heart Tap" width="24" height="20"/>
