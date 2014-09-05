@@ -2,7 +2,7 @@
 //  User.h
 //  HighPoint
 //
-//  Created by Julia Pozdnyakova on 25.08.14.
+//  Created by Julia Pozdnyakova on 05.09.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -23,8 +23,8 @@ typedef NS_ENUM(NSUInteger, UserVisibilityType){
 
 @property (nonatomic, retain) NSNumber * age;
 @property (nonatomic, retain) NSNumber * cityId;
-@property (nonatomic, retain) NSString * createdAt;
-@property (nonatomic, retain) NSString * dateOfBirth;
+@property (nonatomic, retain) NSDate * createdAt;
+@property (nonatomic, retain) NSDate * dateOfBirth;
 @property (nonatomic, retain) NSString * email;
 @property (nonatomic, retain) NSString * favoriteCityIds;
 @property (nonatomic, retain) NSString * favoritePlaceIds;
@@ -32,13 +32,13 @@ typedef NS_ENUM(NSUInteger, UserVisibilityType){
 @property (nonatomic, retain) NSNumber * isCurrentUser;
 @property (nonatomic, retain) NSNumber * isItFromContact;
 @property (nonatomic, retain) NSNumber * isItFromMainList;
+@property (nonatomic, retain) NSNumber * isItFromPointLike;
 @property (nonatomic, retain) NSString * languageIds;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * nameForms;
 @property (nonatomic, retain) NSNumber * online;
 @property (nonatomic, retain) NSNumber * userId;
 @property (nonatomic, retain) NSNumber * visibility;
-@property (nonatomic, retain) NSNumber * isItFromPointLike;
 @property (nonatomic, retain) Avatar *avatar;
 @property (nonatomic, retain) NSSet *career;
 @property (nonatomic, retain) Chat *chat;
@@ -46,12 +46,12 @@ typedef NS_ENUM(NSUInteger, UserVisibilityType){
 @property (nonatomic, retain) Contact *contact;
 @property (nonatomic, retain) NSSet *education;
 @property (nonatomic, retain) NSSet *language;
+@property (nonatomic, retain) NSSet *likedPosts;
 @property (nonatomic, retain) MaxEntertainmentPrice *maxentertainment;
 @property (nonatomic, retain) MinEntertainmentPrice *minentertainment;
 @property (nonatomic, retain) NSSet *place;
 @property (nonatomic, retain) UserPoint *point;
 @property (nonatomic, retain) UserFilter *userfilter;
-@property (nonatomic, retain) NSSet* likedPosts;
 @end
 
 @interface User (CoreDataGeneratedAccessors)
@@ -70,6 +70,11 @@ typedef NS_ENUM(NSUInteger, UserVisibilityType){
 - (void)removeLanguageObject:(Language *)value;
 - (void)addLanguage:(NSSet *)values;
 - (void)removeLanguage:(NSSet *)values;
+
+- (void)addLikedPostsObject:(UserPoint *)value;
+- (void)removeLikedPostsObject:(UserPoint *)value;
+- (void)addLikedPosts:(NSSet *)values;
+- (void)removeLikedPosts:(NSSet *)values;
 
 - (void)addPlaceObject:(Place *)value;
 - (void)removePlaceObject:(Place *)value;

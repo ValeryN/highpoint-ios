@@ -1144,6 +1144,10 @@ static DataStorage *dataStorage;
     __weak typeof(self) weakSelf = self;
     __block User *returnUser = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSDateFormatter *dft = [[NSDateFormatter alloc] init];
+        [dft setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"yyyy-MM-dd"];
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         User *user;
 
@@ -1171,9 +1175,9 @@ static DataStorage *dataStorage;
         if (param[@"cityId"])
             user.cityId = [param[@"cityId"] convertToNSNumber];
         if (param[@"createdAt"])
-            user.createdAt = param[@"createdAt"];
+            user.createdAt = [dft dateFromString: param[@"createdAt"]];
         if (param[@"dateOfBirth"])
-            user.dateOfBirth = param[@"dateOfBirth"];
+            user.dateOfBirth =[df dateFromString: param[@"dateOfBirth"]];
         if (param[@"email"])
             user.email = [param[@"email"] convertToNSString];
         if (param[@"gender"])
@@ -1358,9 +1362,11 @@ static DataStorage *dataStorage;
         if ([array count] == 1) {
             user = array[0];
             self.currentUser = user;
+        } else {
+            NSLog(@"users count = %lu", (unsigned long)[array count]);
         }
-        else
-            NSAssert(false, @"2 текущих пользователя, как мило");
+        //else
+         //   NSAssert(false, @"2 текущих пользователя, как мило");
     }
     return user;
 }

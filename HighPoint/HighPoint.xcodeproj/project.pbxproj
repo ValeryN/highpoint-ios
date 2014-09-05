@@ -339,11 +339,11 @@
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 		CDB9527D19A1F87D00238DFC /* HPSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB9527C19A1F87D00238DFC /* HPSplashViewController.m */; };
-		CDB9528019A21DF300238DFC /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB9527F19A21DF300238DFC /* User.m */; };
 		CDBB915619B9BA1900546853 /* UserPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915519B9BA1900546853 /* UserPoint.m */; };
 		CDBB915919B9C14000546853 /* NSString+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915819B9C14000546853 /* NSString+Convert.m */; };
 		CDBB915C19B9C26A00546853 /* NSNumber+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915B19B9C26A00546853 /* NSNumber+Convert.m */; };
 		CDBB915F19B9C5CC00546853 /* NSNull+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915E19B9C5CC00546853 /* NSNull+Convert.m */; };
+		CDBB916219B9D39F00546853 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB916119B9D39F00546853 /* User.m */; };
 		CDC009931990C5ED00B3FF75 /* curruser_point_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDC009921990C5ED00B3FF75 /* curruser_point_new.png */; };
 		CDC009961990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */; };
 		CDC009981990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC009971990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib */; };
@@ -913,8 +913,6 @@
 		CDB9527519A1CFEF00238DFC /* Blend 5X@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blend 5X@2x.png"; sourceTree = "<group>"; };
 		CDB9527B19A1F87D00238DFC /* HPSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSplashViewController.h; sourceTree = "<group>"; };
 		CDB9527C19A1F87D00238DFC /* HPSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSplashViewController.m; sourceTree = "<group>"; };
-		CDB9527E19A21DF300238DFC /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		CDB9527F19A21DF300238DFC /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		CDBB915419B9BA1900546853 /* UserPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPoint.h; sourceTree = "<group>"; };
 		CDBB915519B9BA1900546853 /* UserPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPoint.m; sourceTree = "<group>"; };
 		CDBB915719B9C14000546853 /* NSString+Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Convert.h"; sourceTree = "<group>"; };
@@ -923,6 +921,8 @@
 		CDBB915B19B9C26A00546853 /* NSNumber+Convert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+Convert.m"; sourceTree = "<group>"; };
 		CDBB915D19B9C5CC00546853 /* NSNull+Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+Convert.h"; sourceTree = "<group>"; };
 		CDBB915E19B9C5CC00546853 /* NSNull+Convert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+Convert.m"; sourceTree = "<group>"; };
+		CDBB916019B9D39F00546853 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		CDBB916119B9D39F00546853 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		CDC009921990C5ED00B3FF75 /* curruser_point_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = curruser_point_new.png; sourceTree = "<group>"; };
 		CDC009941990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserPointCollectionViewCell.h; sourceTree = "<group>"; };
 		CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserPointCollectionViewCell.m; sourceTree = "<group>"; };
@@ -1430,14 +1430,14 @@
 		3BDA4C441906461900EF6619 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				CDBB916019B9D39F00546853 /* User.h */,
+				CDBB916119B9D39F00546853 /* User.m */,
 				3B6F95E319B5AEFF0095E7BF /* City.h */,
 				3B6F95E419B5AEFF0095E7BF /* City.m */,
 				3B6F95DA19B5AEA10095E7BF /* Place.h */,
 				3B6F95DB19B5AEA10095E7BF /* Place.m */,
 				3BA665F619A4B30800618E97 /* Education.h */,
 				3BA665F719A4B30800618E97 /* Education.m */,
-				CDB9527E19A21DF300238DFC /* User.h */,
-				CDB9527F19A21DF300238DFC /* User.m */,
 				3BA4E6761998D0AD002A3A0D /* Contact.h */,
 				3BA4E6771998D0AD002A3A0D /* Contact.m */,
 				3BA4E6731998D08C002A3A0D /* Message.h */,
@@ -2475,6 +2475,7 @@
 				3BA384081924CDBC00EFC749 /* ScaleAnimation.m in Sources */,
 				3B298FD3192F476100BEC2AA /* NMRangeSlider.m in Sources */,
 				CD55FD2019792C2F003EE9E9 /* CareerPost.m in Sources */,
+				CDBB916219B9D39F00546853 /* User.m in Sources */,
 				CDC2D7CF1988E33C0002B196 /* Chat.m in Sources */,
 				3B6F95E519B5AEFF0095E7BF /* City.m in Sources */,
 				3B39D2F8195C3091002520B9 /* MinEntertainmentPrice.m in Sources */,
@@ -2506,7 +2507,6 @@
 				3BA4E6781998D0AD002A3A0D /* Contact.m in Sources */,
 				444D91AB19A1F9750034FF5D /* UIFont+IBCustomFonts.m in Sources */,
 				CD08B830198B7E200006AF4A /* HPUICollectionViewFlowLayout.m in Sources */,
-				CDB9528019A21DF300238DFC /* User.m in Sources */,
 				CD6D7A90197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m in Sources */,
 				CD4CA3BD19810F7C0016DF7E /* HPChatMsgTableViewCell.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
