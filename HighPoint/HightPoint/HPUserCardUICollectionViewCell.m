@@ -13,6 +13,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "HPBaseNetworkManager.h"
 #import "UIImage+HighPoint.h"
+#import "SDWebImageManager.h"
+#import "Avatar.h"
 
 #define AVATAR_BLUR_RADIUS 10.0
 
@@ -57,6 +59,7 @@
     self.avatarImageView.image = [UIImage imageNamed:@"img_sample1.png"];
     NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
     self.userInfoLabel.text = [NSString stringWithFormat:@"%@, %@ лет, %@", user.name, user.age, cityName];
+    [self loadAvatar:user];
     [self addSubview:pointTextView];
     [self.heartBtn setSelected:[user.point.pointLiked boolValue]];
     [self setAvatarVisibilityBlur:user];
@@ -64,12 +67,32 @@
 }
 
 
+#pragma mark - avatar
+
+- (void) loadAvatar : (User *) user {
+    NSString* avatarUrl = user.avatar.originalImageSrc;
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
+                     options:0
+                    progress:^(NSInteger receivedSize, NSInteger expectedSize)
+     {
+         // progression tracking code
+     }
+                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
+     {
+         if (image)
+         {
+             self.avatarImageView.image = image;
+         }
+     }];
+}
+
 #pragma mark - privacy
 
 - (void) setAvatarVisibilityBlur :(User *) user {
     if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
         self.avatarImageView.image = [self.avatarImageView.image hp_imageWithGaussianBlur: AVATAR_BLUR_RADIUS];
-    } 
+    }
 }
 
 - (void) setPrivacyText :(User *) user {
