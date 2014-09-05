@@ -178,12 +178,12 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="userfilter" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="UserPoint" representedClassName="UserPoint" syncable="YES">
-        <attribute name="pointCreatedAt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pointCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="pointId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="pointLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="pointText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pointUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="pointValidTo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pointValidTo" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="likedBy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="likedPosts" inverseEntity="User" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="point" inverseEntity="User" syncable="YES"/>
     </entity>

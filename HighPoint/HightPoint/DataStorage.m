@@ -1474,10 +1474,9 @@ static DataStorage *dataStorage;
 - (void)createAndSavePoint:(NSDictionary *)param {
     [self.backgroundOperationQueue addOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-
-        //POINTS -->: {"data":{"points":[{"id":"1","createdAt":"2014444","userId":"1"}]}}
-        
         [context performBlockAndWait:^{
+            NSDateFormatter *df = [[NSDateFormatter alloc] init];
+            [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
             UserPoint *userPoint = [self getPointForId:param[@"id"]];
             if (!userPoint) {
                 userPoint = (UserPoint *) [NSEntityDescription insertNewObjectForEntityForName:@"UserPoint" inManagedObjectContext:context];
@@ -1486,11 +1485,11 @@ static DataStorage *dataStorage;
             if (param[@"id"])
                 userPoint.pointId = param[@"id"];
 
-            userPoint.pointCreatedAt = param[@"createdAt"];
+            userPoint.pointCreatedAt = [df dateFromString:param[@"createdAt"]];
             userPoint.pointLiked = param[@"liked"];
             userPoint.pointText = param[@"text"];
             userPoint.pointUserId = param[@"userId"];
-            userPoint.pointValidTo = param[@"validTo"];
+            userPoint.pointValidTo =  [df dateFromString:param[@"validTo"]];
             User *user = [self getSelectedUserById:param[@"userId"]];
             user.point = userPoint;
             [self addSaveOperationToBottomInContext:context];
