@@ -128,7 +128,7 @@
                 RACTupleUnpack(NSNumber *editMode, NSNumber *showCount, UserPoint* point) = x;
                 @strongify(self);
                 if(point){
-                    int hourActive = rand()%12;
+                    int hourActive = self.pointTimeSlider.value;
                     NSString* stringFormat = SLPluralizedString(@"POINT_WILL_ACTIVE",hourActive, nil);
                     return [RACSignal return:[NSString stringWithFormat:stringFormat, hourActive]];
 
