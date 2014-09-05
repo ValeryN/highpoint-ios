@@ -129,26 +129,16 @@
     return _contactsController;
 }
 
-
-#pragma mark - table view
-
-//- (void)configureCell:(HPChatTableViewCell *)chatCell withIndexPath:(NSIndexPath *)indexPath {
-//
-//    Contact *contact = [self.contactsController objectAtIndexPath:indexPath];
-//    int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:contact.user];
-//    if (msgsCount > 0) {
-//        chatCell.msgCountView.hidden = NO;
-//        chatCell.msgCountLabel.text = [NSString stringWithFormat:@"%d", msgsCount];
-//    } else {
-//        chatCell.msgCountView.hidden = YES;
-//    }
-//    chatCell.indexPath = [indexPath copy];
-//    chatCell.currentMsgLabel.text = contact.lastmessage.text;
-//    chatCell.currentUserMsgLabel.text = contact.lastmessage.text;
-//    [chatCell fillCell:contact];
-//}
-
-
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HPChatTableViewCell* cell = (HPChatTableViewCell *) [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    //Fix tableView select with scroll
+    @weakify(self);
+    [[[cell.tap_Gesture.rac_gestureSignal takeUntil:cell.rac_prepareForReuseSignal] takeUntil:[self rac_willDeallocSignal]] subscribeNext:^(id x) {
+        @strongify(self);
+        [self tableView:tableView didSelectRowAtIndexPath:indexPath];
+    }];
+    return cell;
+}
 
 #pragma mark - cover view
 

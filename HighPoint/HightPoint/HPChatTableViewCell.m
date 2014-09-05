@@ -7,19 +7,23 @@
 //
 
 #import "HPChatTableViewCell.h"
-#import "UILabel+HighPoint.h"
 #import "User.h"
 #import "Message.h"
 #import "City.h"
 #import "DataStorage.h"
+#import "NSManagedObject+HighPoint.h"
+#import "NSManagedObjectContext+HighPoint.h"
 
 @interface HPChatTableViewCell ()
 
-@property(nonatomic, strong) UITapGestureRecognizer *tap_Gesture;
-
-
+@property(nonatomic, weak) Contact *contact;
 @property(weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property(nonatomic, weak) IBOutlet UIView *scrollViewButtonView;
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedPropertyInspection"
+//Need by superclass, IBOutlet to xib
+@property(weak, nonatomic) IBOutlet UIView *scrollViewButtonView;
+#pragma clang diagnostic pop
 
 @property(weak, nonatomic) IBOutlet HPAvatarView *avatarView;
 
@@ -31,30 +35,77 @@
 @property(weak, nonatomic) IBOutlet UIView *msgCountView;
 @property(weak, nonatomic) IBOutlet UILabel *msgCountLabel;
 
-@property(nonatomic, weak) IBOutlet HPAvatarView *myAvatar;
+@property(weak, nonatomic) IBOutlet HPAvatarView *myAvatar;
 @property(weak, nonatomic) IBOutlet UIView *msgFromMyself;
 @property(weak, nonatomic) IBOutlet UILabel *currentUserMsgLabel;
 
-@property(strong, nonatomic) IBOutlet UIView *sepTop;
-@property(strong, nonatomic) IBOutlet UIView *sepBottom;
+@property(weak, nonatomic) IBOutlet UIView *sepTop;
+@property(weak, nonatomic) IBOutlet UIView *sepBottom;
+
 @end
 
 @implementation HPChatTableViewCell
 
 - (void)awakeFromNib {
-    [self setup];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
-- (void)setup {
     self.scrollView.delegate = self;
-    [self addPanGesture];
+    self.tap_Gesture = [UITapGestureRecognizer new];
+    [self.scrollView addGestureRecognizer:self.tap_Gesture];
+    [self configureSeparatorLines];
+    [self configureCellView];
+}
+
+- (void)configureCellView {
+    //self.myAvatar.user = [[DataStorage sharedDataStorage] getCurrentUser];
+
+    RACSignal *myMessageLastSignal = [[RACSignal combineLatest:@[[RACObserve(self, contact.user.userId) distinctUntilChanged], [RACObserve(self, contact.lastmessage.destinationId) distinctUntilChanged]]] map:^id(RACTuple *value) {
+        RACTupleUnpack(NSNumber *contactId, NSNumber *messageDestinationId) = value;
+        return @([contactId isEqualToNumber:messageDestinationId?:@(0)]);
+    }];
+
+    @weakify(self);
+    RACSignal * unreadMessageCountSignal = [[RACObserve(self, contact.lastmessage) distinctUntilChanged] flattenMap:^RACStream *(id value) {
+        return [[RACSignal return:@(0)]
+                concat:[[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+                    @strongify(self);
+                    [subscriber sendNext:@([[DataStorage sharedDataStorage] allUnreadMessagesCount:[self.contact.user moveToContext:[NSManagedObjectContext threadContext]]])];
+                    [subscriber sendCompleted];
+                    return nil;
+                }] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]] takeUntil:[self rac_prepareForReuseSignal]]];
+    }];
+
+    RAC(self, msgCountView.hidden) = [unreadMessageCountSignal map:^id(NSNumber *value) {
+        return @(value.integerValue == 0);
+    }];
+
+    RAC(self, msgCountLabel.text) = [unreadMessageCountSignal map:^id(NSNumber *value) {
+        return value.stringValue;
+    }];
+
+
+    RAC(self, avatarView.user) = RACObserve(self, contact.user);
+
+
+    RAC(self, userNameLabel.text) = RACObserve(self, contact.user.name);
+
+    RAC(self, userAgeAndLocationLabel.text) = [[RACSignal combineLatest:@[[RACObserve(self, contact.user.city.cityName) distinctUntilChanged], [RACObserve(self, contact.user.age) distinctUntilChanged]]] map:^id(RACTuple *value) {
+        RACTupleUnpack(NSString *city, NSString *age) = value;
+        return [NSString stringWithFormat:@"%@ лет, %@", age, city ?: NSLocalizedString(@"UNKNOWN_CITY_ID", nil)];;
+    }];
+
+
+    RAC(self, currentMsgLabel.hidden) = myMessageLastSignal;
+    RAC(self, msgFromMyself.hidden) = [myMessageLastSignal not];
+    RAC(self, currentMsgLabel.text) = RACObserve(self, contact.lastmessage.text);
+    RAC(self, currentUserMsgLabel.text) = RACObserve(self, contact.lastmessage.text);
+}
+
+- (void)configureSeparatorLines {
+    RACSignal *showSeparatorLinesSignal = [RACObserve(self, scrollView.contentOffset) map:^id(NSValue *value) {
+        CGPoint size = [value CGPointValue];
+        return @(size.x > 0);
+    }];
+    RAC(self, sepTop.hidden) = [showSeparatorLinesSignal not];
+    RAC(self, sepBottom.hidden) = [showSeparatorLinesSignal not];
 }
 
 - (int)returnCatchWidth {
@@ -63,92 +114,18 @@
 
 - (void)prepareForReuse {
     [super prepareForReuse];
-    self.sepTop.hidden = YES;
-    self.sepBottom.hidden = YES;
     if (self.scrollView.contentOffset.x != 0) {
         [self.scrollView setContentOffset:CGPointZero animated:NO];
     }
-
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (scrollView.contentOffset.x < 120) {
-        self.sepTop.hidden = YES;
-        self.sepBottom.hidden = YES;
-    }
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    self.sepTop.hidden = NO;
-    self.sepBottom.hidden = NO;
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (scrollView.contentOffset.x == 0.0) {
-        self.sepTop.hidden = YES;
-        self.sepBottom.hidden = YES;
-    }
+- (void)bindViewModel:(Contact *)contact {
+    self.contact = contact;
 }
 
 
-- (void)deleteChat:(TLSwipeForOptionsCell *)cell {
-    [self.scrollView setContentOffset:CGPointZero animated:YES];
+- (void) dealloc{
+    NSLog(@"Dealloc cell");
 }
-
-
-- (void)fillCell:(Contact *)contact {
-    [self.userNameLabel hp_tuneForUserNameInContactList];
-    [self.userAgeAndLocationLabel hp_tuneForUserDetailsInContactList];
-    [self.currentMsgLabel hp_tuneForMessageInContactList];
-    [self.currentUserMsgLabel hp_tuneForMessageInContactList];
-    [self.msgCountLabel hp_tuneForMessageCountInContactList];
-    self.msgCountView.backgroundColor = [UIColor colorWithRed:255.0 / 255.0 green:102.0 / 255.0 blue:112.0 / 255.0 alpha:1.0f];
-    self.msgCountView.layer.cornerRadius = 12;
-    self.avatarView.user = contact.user;
-    self.myAvatar.user = [[DataStorage sharedDataStorage] getCurrentUser];
-    self.userNameLabel.text = contact.user.name;
-    NSString *cityName = contact.user.city.cityName ? contact.user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
-    self.userAgeAndLocationLabel.text = [NSString stringWithFormat:@"%@ лет, %@", contact.user.age, cityName];
-    if ([contact.user.userId intValue] == [contact.lastmessage.destinationId intValue]) {
-        self.currentMsgLabel.hidden = YES;
-        self.msgFromMyself.hidden = NO;
-        self.currentMsgLabel.text = contact.lastmessage.text;
-    } else {
-        self.currentMsgLabel.hidden = NO;
-        self.msgFromMyself.hidden = YES;
-        self.currentUserMsgLabel.text = contact.lastmessage.text;
-    }
-
-}
-
-
-#pragma mark -
-#pragma mark - UITapGestureRecognizer Methods
-
-- (void)addPanGesture {
-    if (self.tap_Gesture == nil) {
-        self.tap_Gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
-
-        self.tap_Gesture.cancelsTouchesInView = NO;
-        self.tap_Gesture.numberOfTouchesRequired = 1;
-        self.tap_Gesture.numberOfTapsRequired = 1;
-        [self.tap_Gesture setDelegate:self];
-        [self.contentView addGestureRecognizer:self.tap_Gesture];
-    }
-}
-
-- (void)tapGesture:(UITapGestureRecognizer *)recognizer {
-    CGPoint p = [recognizer locationInView:self.scrollViewButtonView];
-    if (p.x < 0) {
-        if ([self.delegate respondsToSelector:@selector(cellDidTap:)])
-            [self.delegate cellDidTap:self];
-    }
-}
-
-
-- (void)bindViewModel:(Contact *)viewModel {
-    [self fillCell:viewModel];
-}
-
 
 @end

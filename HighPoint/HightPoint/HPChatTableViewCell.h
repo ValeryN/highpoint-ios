@@ -14,18 +14,7 @@
 #import "RACTableViewController.h"
 
 
-@protocol HPChatTableViewCellDelegate <TLSwipeForOptionsCellDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate>
-
-- (void)deleteChat:(TLSwipeForOptionsCell *)cell;
-- (void)cellDidTap:(TLSwipeForOptionsCell *)cell;
-
-@end
-
 @interface HPChatTableViewCell : TLSwipeForOptionsCell <UIScrollViewDelegate,RACTableViewCellProtocol>
-
-
-
-- (void) fillCell : (Contact *) contact;
-- (void) setup;
+@property(nonatomic, strong) UITapGestureRecognizer *tap_Gesture;
 
 @end
