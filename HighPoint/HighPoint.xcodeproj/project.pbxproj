@@ -341,6 +341,9 @@
 		CDB9527D19A1F87D00238DFC /* HPSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB9527C19A1F87D00238DFC /* HPSplashViewController.m */; };
 		CDB9528019A21DF300238DFC /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB9527F19A21DF300238DFC /* User.m */; };
 		CDBB915619B9BA1900546853 /* UserPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915519B9BA1900546853 /* UserPoint.m */; };
+		CDBB915919B9C14000546853 /* NSString+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915819B9C14000546853 /* NSString+Convert.m */; };
+		CDBB915C19B9C26A00546853 /* NSNumber+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915B19B9C26A00546853 /* NSNumber+Convert.m */; };
+		CDBB915F19B9C5CC00546853 /* NSNull+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915E19B9C5CC00546853 /* NSNull+Convert.m */; };
 		CDC009931990C5ED00B3FF75 /* curruser_point_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDC009921990C5ED00B3FF75 /* curruser_point_new.png */; };
 		CDC009961990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */; };
 		CDC009981990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC009971990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib */; };
@@ -914,6 +917,12 @@
 		CDB9527F19A21DF300238DFC /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		CDBB915419B9BA1900546853 /* UserPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPoint.h; sourceTree = "<group>"; };
 		CDBB915519B9BA1900546853 /* UserPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPoint.m; sourceTree = "<group>"; };
+		CDBB915719B9C14000546853 /* NSString+Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Convert.h"; sourceTree = "<group>"; };
+		CDBB915819B9C14000546853 /* NSString+Convert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Convert.m"; sourceTree = "<group>"; };
+		CDBB915A19B9C26A00546853 /* NSNumber+Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+Convert.h"; sourceTree = "<group>"; };
+		CDBB915B19B9C26A00546853 /* NSNumber+Convert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+Convert.m"; sourceTree = "<group>"; };
+		CDBB915D19B9C5CC00546853 /* NSNull+Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+Convert.h"; sourceTree = "<group>"; };
+		CDBB915E19B9C5CC00546853 /* NSNull+Convert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+Convert.m"; sourceTree = "<group>"; };
 		CDC009921990C5ED00B3FF75 /* curruser_point_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = curruser_point_new.png; sourceTree = "<group>"; };
 		CDC009941990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserPointCollectionViewCell.h; sourceTree = "<group>"; };
 		CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserPointCollectionViewCell.m; sourceTree = "<group>"; };
@@ -1732,6 +1741,12 @@
 				7C5F7E481483B0971ECBF37B /* UINavigationBar+HighPoint.h */,
 				7C5F7D27B41303630CF7B9AD /* CALayer+HighPoint.m */,
 				7C5F7A3AE61FDEA00F1DD2A6 /* CALayer+HighPoint.h */,
+				CDBB915719B9C14000546853 /* NSString+Convert.h */,
+				CDBB915819B9C14000546853 /* NSString+Convert.m */,
+				CDBB915A19B9C26A00546853 /* NSNumber+Convert.h */,
+				CDBB915B19B9C26A00546853 /* NSNumber+Convert.m */,
+				CDBB915D19B9C5CC00546853 /* NSNull+Convert.h */,
+				CDBB915E19B9C5CC00546853 /* NSNull+Convert.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -2398,9 +2413,11 @@
 				3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */,
 				3BB5E8681935F43700DDF5F9 /* ModalAnimation.m in Sources */,
 				CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */,
+				CDBB915919B9C14000546853 /* NSString+Convert.m in Sources */,
 				3B3170B7191BA56900B72AC1 /* HPSwitchViewController.m in Sources */,
 				CD55FD2F19792C30003EE9E9 /* Career.m in Sources */,
 				3BDA4C9819064E5900EF6619 /* UIImage+MultiFormat.m in Sources */,
+				CDBB915F19B9C5CC00546853 /* NSNull+Convert.m in Sources */,
 				CDA0A0B41999E55B0017D35B /* UserFilter.m in Sources */,
 				3B39D322195C5B33002520B9 /* Country.m in Sources */,
 				3BDA4C9919064E5900EF6619 /* UIImage+WebP.m in Sources */,
@@ -2500,6 +2517,7 @@
 				3B31864B191A408B0000DD8B /* Utils.m in Sources */,
 				3BDCB215197E820E003D7ECD /* HPUserInfoSecondRowTableViewCell.m in Sources */,
 				3BDA4C8F19064E5900EF6619 /* SDImageCache.m in Sources */,
+				CDBB915C19B9C26A00546853 /* NSNumber+Convert.m in Sources */,
 				3B39D31B195C3122002520B9 /* SocketIOJSONSerialization.m in Sources */,
 				CD68A9C4196D0DE80090D6D1 /* TLSwipeForOptionsCell.m in Sources */,
 				7C5F79F487D68A326256AFD1 /* NSManagedObjectContext+HighPoint.m in Sources */,

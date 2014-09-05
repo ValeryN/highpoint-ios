@@ -14,6 +14,11 @@
 #import "NSManagedObject+HighPoint.h"
 #import "NSManagedObjectContext+HighPoint.h"
 
+#import "NSNumber+Convert.h"
+#import "NSString+Convert.h"
+
+
+
 
 static DataStorage *dataStorage;
 @interface DataStorage()
@@ -1147,7 +1152,7 @@ static DataStorage *dataStorage;
             user = (User *) [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
         }
         if (param[@"id"])
-            user.userId = param[@"id"];
+            user.userId = [param[@"id"] convertToNSNumber];
         //user type
         if (type == CurrentUserType) {
             user.isCurrentUser = @YES;
@@ -1165,7 +1170,7 @@ static DataStorage *dataStorage;
         }
         //else user.isItFromContact = [NSNumber numberWithBool:NO];
         if (param[@"name"])
-            user.name = param[@"name"];
+            user.name = [param[@"name"] convertToNSString];
         if (param[@"cityId"])
             user.cityId = param[@"cityId"];
         if (param[@"createdAt"])
@@ -1483,12 +1488,12 @@ static DataStorage *dataStorage;
 
             }
             if (param[@"id"])
-                userPoint.pointId = param[@"id"];
+                userPoint.pointId = [param[@"id"] convertToNSNumber];
 
             userPoint.pointCreatedAt = [df dateFromString:param[@"createdAt"]];
             userPoint.pointLiked = param[@"liked"];
             userPoint.pointText = param[@"text"];
-            userPoint.pointUserId = param[@"userId"];
+            userPoint.pointUserId = [param[@"userId"] convertToNSNumber];
             userPoint.pointValidTo =  [df dateFromString:param[@"validTo"]];
             User *user = [self getSelectedUserById:param[@"userId"]];
             user.point = userPoint;
@@ -1942,15 +1947,15 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             City *cityEnt;
-            cityEnt = [self getCityById:param[@"id"]];
+            cityEnt = [self getCityById:[param[@"id"] convertToNSNumber]];
             if (!cityEnt) {
                 cityEnt = (City *) [NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:context];
             }
-            cityEnt.cityEnName = param[@"enName"];
-            cityEnt.cityId = param[@"id"];
-            cityEnt.cityName = param[@"name"];
+            cityEnt.cityEnName = [param[@"enName"] convertToNSString];
+            cityEnt.cityId = [param[@"id"] convertToNSNumber];
+            cityEnt.cityName = [param[@"name"] convertToNSString];
             cityEnt.cityNameForms = param[@"nameForms"];
-            cityEnt.cityRegionId = param[@"regionId"];
+            cityEnt.cityRegionId = [param[@"regionId"] convertToNSNumber];
             if (isPopular) {
                 cityEnt.isPopular = @(isPopular);
             }
@@ -2332,7 +2337,7 @@ static DataStorage *dataStorage;
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     Message *msgEnt = (Message *) [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    msgEnt.bindedUserId = userId;
+    msgEnt.bindedUserId = [userId convertToNSNumber];
 
     if (type == HistoryMessageType) {
         msgEnt.historyMessage = @YES;
@@ -2343,14 +2348,14 @@ static DataStorage *dataStorage;
     if (type == UnreadMessageType) {
         msgEnt.unreadMessage = @YES;
     }
-    msgEnt.id_ = param[@"id"];
+    msgEnt.id_ = [param[@"id"] convertToNSNumber];
     msgEnt.createdAt = [df dateFromString:param[@"createdAt"]];
     msgEnt.destinationId = param[@"destinationId"];
     if (![param[@"readAt"] isKindOfClass:[NSNull class]]) {
         msgEnt.readAt = [df dateFromString:param[@"readAt"]];
     }
-    msgEnt.sourceId = param[@"sourceId"];
-    msgEnt.text = param[@"text"];
+    msgEnt.sourceId = [param[@"sourceId"] convertToNSNumber];
+    msgEnt.text = [param[@"text"] convertToNSString];
     return msgEnt;
 }
 
