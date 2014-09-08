@@ -118,5 +118,10 @@
     [self.scrollView scrollRectToVisible:CGRectMake(point.x,0,360, 99) animated:YES];
 }
 
+- (void) bindViewModel: (id) viewModel
+{
+
+}
+
 
 @end

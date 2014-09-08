@@ -19,19 +19,15 @@
 #import "NotificationsConstants.h"
 #import "Constants.h"
 #import "UIViewController+HighPoint.h"
+#import "NSManagedObjectContext+HighPoint.h"
 
 
-#define KEYBOARD_HEIGHT 216
-#define MSGS_TEST_COUNT 11
-#define MAX_COMMENT_LENGTH 250
-
-#define CONSTRAINT_TOP_BOTTOMVIEW 431
-#define CONSTRAINT_TOP_ACTIVITYBOTTOM 400
 
 @interface HPChatViewController () {
     NSArray *msgs;
     BOOL isFirstLoad;
 }
+@property (nonatomic, retain) NSFetchedResultsController* messagesController;
 @property (strong, nonatomic) HPAvatarLittleView *avatar;
 @property (strong, nonatomic) UIView *avatarView;
 @property (weak, nonatomic) IBOutlet UITableView *chatTableView;
@@ -50,10 +46,6 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityIndicator;
 
 //sorting
-
-
-@property (strong, nonatomic) NSMutableDictionary *sections;
-@property (strong, nonatomic) NSArray *sortedDays;
 @end
 
 
@@ -73,13 +65,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self configureTableView: self.chatTableView withSignal: [RACSignal return: nil] andTemplateCell: [UINib nibWithNibName: @"HPChatMsgsTableViewCell" bundle: nil]];
-
-    isFirstLoad = YES;
-    [self createNavigationItem];
-    self.chatTableView.delegate = self;
-    self.chatTableView.dataSource = self;
-    msgs = [[NSArray alloc] init];
+    [self configureTableView: self.chatTableView withSignal: [RACSignal return: self.messagesController] andTemplateCell: [UINib nibWithNibName: @"HPChatMsgTableViewCell" bundle: nil]];
     
     self.msgTextView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
     [self.msgTextView hp_tuneForTextViewMsgText];
@@ -107,12 +93,38 @@
     self.navigationItem.title = self.contact.user.name;
 }
 
+- (NSFetchedResultsController*) messagesController
+{
+    if(!_messagesController){
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
+        [request setEntity:entity];
+        NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+        [sortDescriptors addObject:sortDescriptor];
+        [request setSortDescriptors:sortDescriptors];
+
+
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"chat.user = %@", self.contact.user];
+            [request setPredicate:predicate];
+
+
+
+        _messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
+        NSError *error = nil;
+        if (![_messagesController performFetch:&error]) {
+            return nil;
+        }
+    }
+    return _messagesController;
+}
 /*
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
     [self registerNotification];
-    msgs = [[[DataStorage sharedDataStorage] getChatByUserId:self.contact.user.userId].message allObjects];
+    msgs = [.message allObjects];
     [self initElements];
     [self fixSelfConstraint];
     [self sortMessages];
