@@ -55,15 +55,21 @@
 }
 
 - (void)configureCellView {
-    self.myAvatar.user = [[DataStorage sharedDataStorage] getCurrentUser];
-
-    RACSignal *myMessageLastSignal = [[RACSignal combineLatest:@[[RACObserve(self, contact.user.userId) distinctUntilChanged], [RACObserve(self, contact.lastmessage.destinationId) distinctUntilChanged]]] map:^id(RACTuple *value) {
-        RACTupleUnpack(NSNumber *contactId, NSNumber *messageDestinationId) = value;
-        return @([contactId isEqualToNumber:messageDestinationId?:@(0)]);
-    }];
-
     @weakify(self);
-    RACSignal * unreadMessageCountSignal = [[RACObserve(self, contact.lastmessage) distinctUntilChanged] flattenMap:^RACStream *(id value) {
+
+    RACSignal *contactUserSignal = [RACObserve(self, contact.user) replayLast];
+    RACSignal *contactUserIdSignal = [[contactUserSignal map:^id(User* value) {
+        return value.userId;
+    }] distinctUntilChanged];
+    RACSignal *lastMessageSignal = [RACObserve(self, contact.lastmessage.text) replayLast];
+    RACSignal *ageSignal = [contactUserSignal map:^id(User*user) {
+        return user.age;
+    }];
+    RACSignal *myMessageLastSignal = [[[RACSignal combineLatest:@[contactUserIdSignal, [RACObserve(self, contact.lastmessage.destinationId) distinctUntilChanged]]] map:^id(RACTuple *value) {
+        RACTupleUnpack(NSNumber *contactId, NSNumber *messageDestinationId) = value;
+        return @([contactId isEqualToNumber:messageDestinationId ?: @(0)]);
+    }] replayLast];
+    RACSignal * unreadMessageCountSignal = [[[RACObserve(self, contact.lastmessage) distinctUntilChanged] flattenMap:^RACStream *(id value) {
         @strongify(self);
         return [[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
             @strongify(self);
@@ -72,32 +78,28 @@
             [subscriber sendCompleted];
             return nil;
         }] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]] takeUntil:[self rac_prepareForReuseSignal]];
-    }];
+    }] replayLast];
 
+
+    self.myAvatar.user = [[DataStorage sharedDataStorage] getCurrentUser];
     RAC(self, msgCountView.hidden) = [unreadMessageCountSignal map:^id(NSNumber *value) {
         return @(value.integerValue == 0);
     }];
-
     RAC(self, msgCountLabel.text) = [unreadMessageCountSignal map:^id(NSNumber *value) {
         return value.stringValue;
     }];
-
-
-    RAC(self, avatarView.user) = RACObserve(self, contact.user);
-
-
-    RAC(self, userNameLabel.text) = RACObserve(self, contact.user.name);
-
-    RAC(self, userAgeAndLocationLabel.text) = [[RACSignal combineLatest:@[[RACObserve(self, contact.user.city.cityName) distinctUntilChanged], [RACObserve(self, contact.user.age) distinctUntilChanged]]] map:^id(RACTuple *value) {
+    RAC(self, avatarView.user) = contactUserSignal;
+    RAC(self, userNameLabel.text) = [contactUserSignal map:^id(User* user) {
+        return user.name;
+    }];
+    RAC(self, userAgeAndLocationLabel.text) = [[RACSignal combineLatest:@[[RACObserve(self, contact.user.city.cityName) distinctUntilChanged], [ageSignal distinctUntilChanged]]] map:^id(RACTuple *value) {
         RACTupleUnpack(NSString *city, NSString *age) = value;
         return [NSString stringWithFormat:@"%@ лет, %@", age, city ?: NSLocalizedString(@"UNKNOWN_CITY_ID", nil)];;
     }];
-
-
     RAC(self, currentMsgLabel.hidden) = myMessageLastSignal;
     RAC(self, msgFromMyself.hidden) = [myMessageLastSignal not];
-    RAC(self, currentMsgLabel.text) = RACObserve(self, contact.lastmessage.text);
-    RAC(self, currentUserMsgLabel.text) = RACObserve(self, contact.lastmessage.text);
+    RAC(self, currentMsgLabel.text) = lastMessageSignal;
+    RAC(self, currentUserMsgLabel.text) = lastMessageSignal;
 }
 
 - (void)configureSeparatorLines {
