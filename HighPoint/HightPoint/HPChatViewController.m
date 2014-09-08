@@ -18,7 +18,7 @@
 #import "HPBaseNetworkManager.h"
 #import "NotificationsConstants.h"
 #import "Constants.h"
-
+#import "UIViewController+HighPoint.h"
 
 
 #define KEYBOARD_HEIGHT 216
@@ -32,7 +32,28 @@
     NSArray *msgs;
     BOOL isFirstLoad;
 }
+@property (strong, nonatomic) HPAvatarLittleView *avatar;
+@property (strong, nonatomic) UIView *avatarView;
+@property (weak, nonatomic) IBOutlet UITableView *chatTableView;
 
+
+//bottom view
+@property (weak, nonatomic) IBOutlet UIView *msgBottomView;
+@property (weak, nonatomic) IBOutlet UIButton *msgAddBtn;
+@property (weak, nonatomic) IBOutlet UITextView *msgTextView;
+@property (weak, nonatomic) IBOutlet UIView *bgBottomView;
+
+
+//retry
+
+@property (weak, nonatomic) IBOutlet UIButton *retryBtn;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityIndicator;
+
+//sorting
+
+
+@property (strong, nonatomic) NSMutableDictionary *sections;
+@property (strong, nonatomic) NSArray *sortedDays;
 @end
 
 
@@ -52,20 +73,41 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self configureTableView: self.chatTableView withSignal: [RACSignal return: nil] andTemplateCell: [UINib nibWithNibName: @"HPChatMsgsTableViewCell" bundle: nil]];
+
     isFirstLoad = YES;
     [self createNavigationItem];
-    self.msgTextView.delegate = self;
     self.chatTableView.delegate = self;
     self.chatTableView.dataSource = self;
     msgs = [[NSArray alloc] init];
-    self.currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
-    NSLog(@"current user for msg = %@", self.currentUser.userId);
     
     self.msgTextView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
     [self.msgTextView hp_tuneForTextViewMsgText];
     // Do any additional setup after loading the view from its nib.
 }
 
+#pragma mark - navigation bar
+- (void) createNavigationItem
+{
+    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Back.png"]
+                                                     highlighedImage:[UIImage imageNamed:@"Back Tap.png"]
+                                                              action:@selector(backButtonTaped:)];
+    self.navigationItem.leftBarButtonItem = backButton;
+    UIView *avatarView = [[UIView alloc] initWithFrame:CGRectMake(0, 15, 36.0f, 36.0f)];
+    avatarView.backgroundColor = [UIColor clearColor];
+    self.avatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
+    [avatarView addSubview: self.avatar];
+
+    UIBarButtonItem *avatarBarItem = [[UIBarButtonItem alloc]initWithCustomView:avatarView];
+
+    UITapGestureRecognizer *singleTap =
+            [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserInfo:)];
+    [self.avatar addGestureRecognizer:singleTap];
+    self.navigationItem.rightBarButtonItem = avatarBarItem;
+    self.navigationItem.title = self.contact.user.name;
+}
+
+/*
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
@@ -239,26 +281,7 @@
 }
 
 
-#pragma mark - navigation bar
-- (void) createNavigationItem
-{
-    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Back.png"]
-                                                     highlighedImage:[UIImage imageNamed:@"Back Tap.png"]
-                                                              action:@selector(backButtonTaped:)];
-    self.navigationItem.leftBarButtonItem = backButton;
-    UIView *avatarView = [[UIView alloc] initWithFrame:CGRectMake(0, 15, 36.0f, 36.0f)];
-    avatarView.backgroundColor = [UIColor clearColor];
-    self.avatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
-    [avatarView addSubview: self.avatar];
-    
-    UIBarButtonItem *avatarBarItem = [[UIBarButtonItem alloc]initWithCustomView:avatarView];
-    
-    UITapGestureRecognizer *singleTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserInfo:)];
-    [self.avatar addGestureRecognizer:singleTap];
-    self.navigationItem.rightBarButtonItem = avatarBarItem;
-    self.navigationItem.title = self.contact.user.name;
-}
+
 
 
 - (UIBarButtonItem*) createBarButtonItemWithImage: (UIImage*) image
@@ -525,5 +548,5 @@
     return UITableViewCellEditingStyleNone;
 }
 
-
+*/
 @end

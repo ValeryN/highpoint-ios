@@ -9,38 +9,40 @@
 @interface RACFetchedTableViewController ()
 @property(nonatomic, retain) NSFetchedResultsController *data;
 @property(nonatomic, retain) NSString *cellIdentifier;
+@property(nonatomic, weak) UITableView* rac_tableView;
 @end
 
 @implementation RACFetchedTableViewController {
 
 }
-- (void)configureTableViewWithSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
+- (void)configureTableView:(UITableView*) tableView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
+    self.rac_tableView = tableView;
     _data = nil;
     @weakify(self);
     [source subscribeNext:^(id x) {
         @strongify(self);
         self.data = x;
         self.data.delegate = self;
-        [self.tableView reloadData];
+        [tableView reloadData];
     }];
 
-    if (self.tableView.delegate == nil)
-        self.tableView.delegate = self;
+    if (tableView.delegate == nil)
+        tableView.delegate = self;
 
-    NSObject <UITableViewDelegate> *delegate = self.tableView.delegate;
-    self.tableView.delegate = nil;
+    NSObject <UITableViewDelegate> *delegate = tableView.delegate;
+    tableView.delegate = nil;
     self.selectRowSignal = [[delegate rac_signalForSelector:@selector(tableView:didSelectRowAtIndexPath:) fromProtocol:@protocol(UITableViewDelegate)] map:^id(RACTuple *value) {
         @strongify(self);
         RACTupleUnpack(UITableView *tableView, NSIndexPath *indexPath) = value;
         return [[self data] objectAtIndexPath:indexPath];
     }];
-    self.tableView.delegate = delegate;
+    tableView.delegate = delegate;
     UITableViewCell * cell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
     self.cellIdentifier = cell.reuseIdentifier;
-    [self.tableView registerNib:templateCellNib forCellReuseIdentifier:self.cellIdentifier];
-    self.tableView.rowHeight = cell.bounds.size.height;
+    [tableView registerNib:templateCellNib forCellReuseIdentifier:self.cellIdentifier];
+    tableView.rowHeight = cell.bounds.size.height;
 
-    self.tableView.dataSource = self;
+    tableView.dataSource = self;
 }
 
 #pragma mark - UITableViewDataSource
@@ -61,7 +63,7 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-    [self.tableView beginUpdates];
+    [self.rac_tableView beginUpdates];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo
@@ -69,23 +71,23 @@
 {
     switch (type) {
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            [self.rac_tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            [self.rac_tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
         case NSFetchedResultsChangeMove:
             NSAssert(false, @"Not implemented");
             break;
         case NSFetchedResultsChangeUpdate:
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            [self.rac_tableView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath
      forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
-    UITableView *tableView = self.tableView;
+    UITableView *tableView = self.rac_tableView;
 
     switch (type) {
         case NSFetchedResultsChangeInsert:
@@ -108,6 +110,6 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    [self.tableView endUpdates];
+    [self.rac_tableView endUpdates];
 }
 @end

@@ -10,38 +10,10 @@
 #import "HPAvatarLittleView.h"
 #import "User.h"
 #import "HPUserInfoViewController.h"
-
-@protocol HPChatViewControllerProtocol <NSObject>
-
-- (void) scrollCellsForTimeShowing : (CGPoint) point;
-
-@end
-
-@interface HPChatViewController : UIViewController <UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, HPUserInfoViewControllerDelegate, UIGestureRecognizerDelegate>
+#import "RACFetchedTableViewController.h"
 
 
-@property (strong, nonatomic) HPAvatarLittleView *avatar;
-@property (strong, nonatomic) UIView *avatarView;
-@property (weak, nonatomic) IBOutlet UITableView *chatTableView;
+@interface HPChatViewController : RACFetchedTableViewController
 @property (strong, nonatomic) Contact *contact;
-@property (strong, nonatomic) User *currentUser;
-
-//bottom view
-@property (weak, nonatomic) IBOutlet UIView *msgBottomView;
-@property (weak, nonatomic) IBOutlet UIButton *msgAddBtn;
-@property (weak, nonatomic) IBOutlet UITextView *msgTextView;
-@property (weak, nonatomic) IBOutlet UIView *bgBottomView;
-
-
-//retry
-
-@property (weak, nonatomic) IBOutlet UIButton *retryBtn;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityIndicator;
-
-//sorting
-
-
-@property (strong, nonatomic) NSMutableDictionary *sections;
-@property (strong, nonatomic) NSArray *sortedDays;
 
 @end

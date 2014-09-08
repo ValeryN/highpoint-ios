@@ -15,6 +15,7 @@
 
 @interface HPChatListViewController ()
 @property(nonatomic, retain) NSFetchedResultsController *contactsController;
+@property(nonatomic, weak) IBOutlet UITableView *tableView;
 @property(nonatomic) BOOL searchMode;
 @property(strong, nonatomic) UITextField *searchTextField;
 @property(strong, nonatomic) UIView *coverView;
@@ -27,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self configureTableViewWithSignal:RACObserve(self, contactsController) andTemplateCell:[UINib nibWithNibName:@"HPChatTableViewCell" bundle:nil]];
+    [self configureTableView:self.tableView withSignal:RACObserve(self, contactsController) andTemplateCell:[UINib nibWithNibName:@"HPChatTableViewCell" bundle:nil]];
     @weakify(self);
     [self.selectRowSignal subscribeNext:^(Contact *contact) {
         @strongify(self);

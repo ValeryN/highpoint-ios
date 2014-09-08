@@ -7,19 +7,34 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPChatListViewController">
             <connections>
-                <outlet property="view" destination="Hjc-jf-j1x" id="gMy-xN-SgW"/>
+                <outlet property="tableView" destination="Hjc-jf-j1x" id="FCJ-zR-ckG"/>
+                <outlet property="view" destination="mcZ-I0-zhJ" id="jNV-O7-ANC"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" id="Hjc-jf-j1x">
+        <view contentMode="scaleToFill" id="mcZ-I0-zhJ">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
-            <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <connections>
-                <outlet property="dataSource" destination="-1" id="9NU-yq-f8s"/>
-                <outlet property="delegate" destination="-1" id="kgn-2L-MUT"/>
-            </connections>
-        </tableView>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Hjc-jf-j1x">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="9NU-yq-f8s"/>
+                        <outlet property="delegate" destination="-1" id="kgn-2L-MUT"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Hjc-jf-j1x" firstAttribute="leading" secondItem="mcZ-I0-zhJ" secondAttribute="leading" id="DGW-ef-Z06"/>
+                <constraint firstItem="Hjc-jf-j1x" firstAttribute="top" secondItem="mcZ-I0-zhJ" secondAttribute="top" id="FEX-EI-Ufg"/>
+                <constraint firstAttribute="trailing" secondItem="Hjc-jf-j1x" secondAttribute="trailing" id="KVa-5t-QqX"/>
+                <constraint firstAttribute="bottom" secondItem="Hjc-jf-j1x" secondAttribute="bottom" id="NG3-ef-BU9"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
     </objects>
 </document>
