@@ -8,7 +8,7 @@
 
 @interface RACFetchedTableViewController ()
 @property(nonatomic, retain) NSFetchedResultsController *data;
-@property(nonatomic, retain) UITableViewCell *templateCell;
+@property(nonatomic, retain) NSString *cellIdentifier;
 @end
 
 @implementation RACFetchedTableViewController {
@@ -35,10 +35,10 @@
         return [[self data] objectAtIndexPath:indexPath];
     }];
     self.tableView.delegate = delegate;
-
-    _templateCell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
-    [self.tableView registerNib:templateCellNib forCellReuseIdentifier:_templateCell.reuseIdentifier];
-    self.tableView.rowHeight = _templateCell.bounds.size.height;
+    UITableViewCell * cell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
+    self.cellIdentifier = cell.reuseIdentifier;
+    [self.tableView registerNib:templateCellNib forCellReuseIdentifier:self.cellIdentifier];
+    self.tableView.rowHeight = cell.bounds.size.height;
 
     self.tableView.dataSource = self;
 }
@@ -54,7 +54,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id <RACTableViewCellProtocol> cell = [tableView dequeueReusableCellWithIdentifier:_templateCell.reuseIdentifier];
+    id <RACTableViewCellProtocol> cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier];
     [cell bindViewModel:[[self data] objectAtIndexPath:indexPath]];
     return (UITableViewCell *) cell;
 }
