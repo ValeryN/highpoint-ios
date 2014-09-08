@@ -257,6 +257,12 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
+                if ([[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
+                    if([self isTaskArrayEmpty:manager]) {
+                        NSLog(@"Stop Queue");
+                    }
+                    return;
+                }
                 NSDictionary *poi = [[jsonDict objectForKey:@"data"] objectForKey:@"points"];
                 if (poi && (![poi isKindOfClass:[NSNull class]])) {
                     
@@ -472,6 +478,9 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
+                if ([[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
+                    return;
+                }
                 NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
                 
                 switch (mode) {
@@ -606,13 +615,14 @@ static HPBaseNetworkManager *networkManager;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
-            NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
-            if (cities && (![cities isKindOfClass:[NSNull class]])) {
-                for(NSDictionary *dict in cities) {
-                    [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:YES withComplation:nil];
+            if (![[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
+                NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
+                if (cities && (![cities isKindOfClass:[NSNull class]])) {
+                    for(NSDictionary *dict in cities) {
+                        [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:YES withComplation:nil];
+                    }
                 }
             }
-
         } else {
             NSLog(@"Error, no valid data");
         }
@@ -1452,6 +1462,12 @@ static HPBaseNetworkManager *networkManager;
             NSArray *jsonArray = [[[NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error] objectForKey:@"data"] objectForKey:@"messages"];
+            if ([jsonArray isKindOfClass:[NSNull class]]) {
+                if([self isTaskArrayEmpty:manager]) {
+                    NSLog(@"Stop Queue");
+                }
+                return;
+            }
             for (NSDictionary * msg in jsonArray) {
                 [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:[msg objectForKey:@"sourceId"] andMessageType:UnreadMessageType withComplation:nil];
 
