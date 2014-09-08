@@ -579,11 +579,11 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
-                
-                for(NSDictionary *dict in usr) {
-                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:PointLikeUserType withComplation:nil];
+                if (![usr isKindOfClass:[NSNull class]]) {
+                    for(NSDictionary *dict in usr) {
+                        [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:PointLikeUserType withComplation:nil];
+                    } 
                 }
-                
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
