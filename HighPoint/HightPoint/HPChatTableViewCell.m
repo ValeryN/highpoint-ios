@@ -125,8 +125,4 @@
 }
 
 
-- (void) dealloc{
-    NSLog(@"Dealloc cell");
-}
-
 @end
