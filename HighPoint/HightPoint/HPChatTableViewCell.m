@@ -55,7 +55,7 @@
 }
 
 - (void)configureCellView {
-    //self.myAvatar.user = [[DataStorage sharedDataStorage] getCurrentUser];
+    self.myAvatar.user = [[DataStorage sharedDataStorage] getCurrentUser];
 
     RACSignal *myMessageLastSignal = [[RACSignal combineLatest:@[[RACObserve(self, contact.user.userId) distinctUntilChanged], [RACObserve(self, contact.lastmessage.destinationId) distinctUntilChanged]]] map:^id(RACTuple *value) {
         RACTupleUnpack(NSNumber *contactId, NSNumber *messageDestinationId) = value;
@@ -64,13 +64,14 @@
 
     @weakify(self);
     RACSignal * unreadMessageCountSignal = [[RACObserve(self, contact.lastmessage) distinctUntilChanged] flattenMap:^RACStream *(id value) {
-        return [[RACSignal return:@(0)]
-                concat:[[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-                    @strongify(self);
-                    [subscriber sendNext:@([[DataStorage sharedDataStorage] allUnreadMessagesCount:[self.contact.user moveToContext:[NSManagedObjectContext threadContext]]])];
-                    [subscriber sendCompleted];
-                    return nil;
-                }] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]] takeUntil:[self rac_prepareForReuseSignal]]];
+        @strongify(self);
+        return [[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+            @strongify(self);
+            [subscriber sendNext:@(0)];
+            [subscriber sendNext:@([[DataStorage sharedDataStorage] allUnreadMessagesCount:[self.contact.user moveToContext:[NSManagedObjectContext threadContext]]])];
+            [subscriber sendCompleted];
+            return nil;
+        }] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]] takeUntil:[self rac_prepareForReuseSignal]];
     }];
 
     RAC(self, msgCountView.hidden) = [unreadMessageCountSignal map:^id(NSNumber *value) {

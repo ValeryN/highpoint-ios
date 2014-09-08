@@ -126,6 +126,8 @@
 - (void) updateNotificationViewCount {
     int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:nil];
     if (msgsCount > 0) {
+        if(self.notificationView)
+            [self.notificationView removeFromSuperview];
         self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%d", msgsCount]];
         self.notificationView.userInteractionEnabled = NO;
     }

@@ -17,5 +17,5 @@
 @interface HPAvatarView : UIView
 + (HPAvatarView *)avatarViewWithUser:(User *)user;
 
-@property (nonatomic, retain) User* user;
+@property (nonatomic, weak) User* user;
 @end

@@ -22,6 +22,7 @@
 @property (nonatomic, weak) IBOutlet UIImageView* avatarBorder;
 @property (nonatomic, retain) UIImage * borderGreen;
 @property (nonatomic, retain) UIImage * borderRed;
+@property (nonatomic, retain) UIImage* maskLayer;
 @end
 @implementation HPAvatarView
 
@@ -59,10 +60,12 @@
     [[NSBundle mainBundle] loadNibNamed: @"HPAvatarView" owner: self options: nil];
     self.mainView.frame = (CGRect){0,0,self.frame.size};
     [self addSubview:self.mainView];
-
+    @weakify(self);
+    
     RAC(self,avatar.image) = [[[[[RACObserve(self, user) distinctUntilChanged] filter:^BOOL(id value) {
         return value!=nil;
     }] flattenMap:^RACStream *(User *value) {
+        @strongify(self);
         return [[RACSignal combineLatest:@[[RACSignal return:value.visibility], [[value userImageSignal] takeUntil:[RACObserve(self, user) skip:1]]]] deliverOn:[RACScheduler scheduler]];
     }] map:^id(RACTuple *value) {
         RACTupleUnpack(NSNumber *visibility, UIImage *userAvatar) = value;
@@ -76,7 +79,7 @@
         return nil;
     }] deliverOn:[RACScheduler mainThreadScheduler]];
 
-    @weakify(self);
+    
     [RACObserve(self.avatar, bounds) subscribeNext:^(id x) {
         @strongify(self);
         CALayer *maskLayer = [CALayer layer];
