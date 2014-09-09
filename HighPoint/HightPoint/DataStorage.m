@@ -1136,18 +1136,20 @@ static DataStorage *dataStorage;
         if([param[@"originalImage"] isKindOfClass:[NSDictionary class]]) {
             avatar.originalImgHeight = [param[@"originalImage"] objectForKey:@"height"];
             avatar.originalImgWidth = [param[@"originalImage"] objectForKey:@"width"];
-            avatar.originalImgSrc = [param[@"originalImage"] objectForKey:@"src"];
+            //avatar.originalImgSrc = [param[@"originalImage"] objectForKey:@"src"];
+            avatar.originalImgSrc = [[param[@"originalImage"] objectForKey:@"src"] stringByAppendingString:@"?size=s640"];
         }
     }
     else {
-        avatar.originalImgSrc = param[@"src"];
+        //avatar.originalImgSrc = param[@"src"];
         avatar.originalImgHeight = param[@"height"];
         avatar.originalImgHeight = param[@"width"];
+        avatar.originalImgSrc = [param[@"src"] stringByAppendingString:@"?size=s640"];
     }
     
 
+
     //tmpFix
-    //avatar.originalImageSrc = [param[@"src"] stringByAppendingString:@"?size=s640"];
     return avatar;
 }
 
