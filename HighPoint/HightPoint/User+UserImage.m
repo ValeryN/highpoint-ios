@@ -17,10 +17,8 @@
 {
     //return [RACSignal return:[UIImage imageNamed:@".png"]];
     User* userInContext = [self moveToContext:[NSManagedObjectContext threadContext]];
-
     NSString* avatarUrl = userInContext.avatar.originalImgSrc;
-    SDWebImageOptions options = SDWebImageProgressiveDownload|SDWebImageRefreshCached;
-
+    SDWebImageOptions options = 0;
     if(userInContext.isCurrentUser.boolValue) {
         options |= SDWebImageDownloaderHighPriority;
     }
@@ -28,21 +26,13 @@
     return [[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
         @strongify(self);
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
-
-        manager.imageDownloader.maxConcurrentDownloads = 1;
-
-
         manager.imageDownloader.maxConcurrentDownloads = 100;
         [subscriber sendNext:[UIImage imageNamed:IMAGE_NOT_DOWNLOADED]];
-
         id <SDWebImageOperation> operation = [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
-                                                              options: SDWebImageRetryFailed
+                                                              options: options
                                                              progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                                                 NSLog(@"%d", receivedSize);
                                                              }
                                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                                
-                                                                NSLog(@"%@", error.localizedDescription);
                                                                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                                                     @strongify(self);
                                                                     if (image) {
