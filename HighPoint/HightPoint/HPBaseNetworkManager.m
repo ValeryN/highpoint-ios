@@ -1684,7 +1684,43 @@ static HPBaseNetworkManager *networkManager;
 }
 
 
-
+- (void) deletePhotoRequest : (NSNumber *) photoId {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:[NSString stringWithFormat:kDeletePhotoRequest, [photoId stringValue]]];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         NSLog(@"DELETE PHOTO: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if (operation.response.statusCode == 403) {
+                    //access denied
+                    return;
+                }
+                if (operation.response.statusCode == 404) {
+                    //not found
+                    return;
+                }
+                NSNumber *deletedId = [[jsonDict objectForKey:@"data"] objectForKey:@"id"];
+                if (deletedId) {
+                    //delete photo by id
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+    }];
+}
 
 # pragma mark -
 # pragma mark socket io methods
