@@ -1637,6 +1637,55 @@ static HPBaseNetworkManager *networkManager;
     }];
 }
 
+
+#pragma mark - photo
+
+- (void) setUserAvatarRequest : (UIImage *) image {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:kUploadAvatarRequest];
+    NSData *imageData = UIImagePNGRepresentation(image);
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageData
+                                    name:@"image"
+                                fileName:@"name" mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"UPLOAD AVATAR: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if (operation.response.statusCode == 403) {
+                NSNumber *errorCode = [jsonDict objectForKey:@"error"];
+                if ([errorCode isEqualToValue:@8]) {
+                    // show wrong file format error
+                }
+                if ([errorCode isEqualToValue:@9]) {
+                    // show too large file error
+                }
+                if ([errorCode isEqualToValue:@10]) {
+                    // show too small file error
+                }
+            } else {
+                if(jsonDict) {
+                    NSDictionary *avatar = [jsonDict objectForKey:@"data"];
+                    //save avatar for current user
+                }
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+}
+
+
+
+
 # pragma mark -
 # pragma mark socket io methods
 //param - dict with keys host, port, user
