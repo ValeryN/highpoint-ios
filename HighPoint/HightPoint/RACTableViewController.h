@@ -10,7 +10,7 @@
 - (void)bindViewModel:(id)viewModel;
 @end
 
-@interface RACTableViewController : UITableViewController
+@interface RACTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, retain) RACSignal * selectRowSignal;
-- (void)configureTableViewWithSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib;
+- (void)configureTable:(UITableView *)tableView viewWithSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib;
 @end

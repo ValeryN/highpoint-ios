@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface RACFetchedTableViewController : UITableViewController
+@interface RACFetchedTableViewController : UIViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, retain) RACSignal * selectRowSignal;
-- (void)configureTableViewWithSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib;
+- (void)configureTableView:(UITableView*) tableView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib;
 @end

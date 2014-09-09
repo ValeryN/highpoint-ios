@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "Message.h"
 #import "HPChatViewController.h"
+#import "RACTableViewController.h"
 
 
-@interface HPChatMsgTableViewCell : UITableViewCell <UIScrollViewDelegate>
+@interface HPChatMsgTableViewCell : UITableViewCell <RACTableViewCellProtocol>
 
 
 @property (strong, nonatomic) UIScrollView *scrollView;

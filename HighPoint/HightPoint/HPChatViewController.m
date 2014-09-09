@@ -18,21 +18,34 @@
 #import "HPBaseNetworkManager.h"
 #import "NotificationsConstants.h"
 #import "Constants.h"
+#import "UIViewController+HighPoint.h"
+#import "NSManagedObjectContext+HighPoint.h"
 
 
-
-#define KEYBOARD_HEIGHT 216
-#define MSGS_TEST_COUNT 11
-#define MAX_COMMENT_LENGTH 250
-
-#define CONSTRAINT_TOP_BOTTOMVIEW 431
-#define CONSTRAINT_TOP_ACTIVITYBOTTOM 400
 
 @interface HPChatViewController () {
     NSArray *msgs;
     BOOL isFirstLoad;
 }
+@property (nonatomic, retain) NSFetchedResultsController* messagesController;
+@property (strong, nonatomic) HPAvatarLittleView *avatar;
+@property (strong, nonatomic) UIView *avatarView;
+@property (weak, nonatomic) IBOutlet UITableView *chatTableView;
 
+
+//bottom view
+@property (weak, nonatomic) IBOutlet UIView *msgBottomView;
+@property (weak, nonatomic) IBOutlet UIButton *msgAddBtn;
+@property (weak, nonatomic) IBOutlet UITextView *msgTextView;
+@property (weak, nonatomic) IBOutlet UIView *bgBottomView;
+
+
+//retry
+
+@property (weak, nonatomic) IBOutlet UIButton *retryBtn;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityIndicator;
+
+//sorting
 @end
 
 
@@ -52,25 +65,66 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    isFirstLoad = YES;
-    [self createNavigationItem];
-    self.msgTextView.delegate = self;
-    self.chatTableView.delegate = self;
-    self.chatTableView.dataSource = self;
-    msgs = [[NSArray alloc] init];
-    self.currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
-    NSLog(@"current user for msg = %@", self.currentUser.userId);
+    [self configureTableView: self.chatTableView withSignal: [RACSignal return: self.messagesController] andTemplateCell: [UINib nibWithNibName: @"HPChatMsgTableViewCell" bundle: nil]];
     
     self.msgTextView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
     [self.msgTextView hp_tuneForTextViewMsgText];
     // Do any additional setup after loading the view from its nib.
 }
 
+#pragma mark - navigation bar
+- (void) createNavigationItem
+{
+    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Back.png"]
+                                                     highlighedImage:[UIImage imageNamed:@"Back Tap.png"]
+                                                              action:@selector(backButtonTaped:)];
+    self.navigationItem.leftBarButtonItem = backButton;
+    UIView *avatarView = [[UIView alloc] initWithFrame:CGRectMake(0, 15, 36.0f, 36.0f)];
+    avatarView.backgroundColor = [UIColor clearColor];
+    self.avatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
+    [avatarView addSubview: self.avatar];
+
+    UIBarButtonItem *avatarBarItem = [[UIBarButtonItem alloc]initWithCustomView:avatarView];
+
+    UITapGestureRecognizer *singleTap =
+            [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserInfo:)];
+    [self.avatar addGestureRecognizer:singleTap];
+    self.navigationItem.rightBarButtonItem = avatarBarItem;
+    self.navigationItem.title = self.contact.user.name;
+}
+
+- (NSFetchedResultsController*) messagesController
+{
+    if(!_messagesController){
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
+        [request setEntity:entity];
+        NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+        [sortDescriptors addObject:sortDescriptor];
+        [request setSortDescriptors:sortDescriptors];
+
+
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"chat.user = %@", self.contact.user];
+            [request setPredicate:predicate];
+
+
+
+        _messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
+        NSError *error = nil;
+        if (![_messagesController performFetch:&error]) {
+            return nil;
+        }
+    }
+    return _messagesController;
+}
+/*
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
     [self registerNotification];
-    msgs = [[[DataStorage sharedDataStorage] getChatByUserId:self.contact.user.userId].message allObjects];
+    msgs = [.message allObjects];
     [self initElements];
     [self fixSelfConstraint];
     [self sortMessages];
@@ -239,26 +293,7 @@
 }
 
 
-#pragma mark - navigation bar
-- (void) createNavigationItem
-{
-    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Back.png"]
-                                                     highlighedImage:[UIImage imageNamed:@"Back Tap.png"]
-                                                              action:@selector(backButtonTaped:)];
-    self.navigationItem.leftBarButtonItem = backButton;
-    UIView *avatarView = [[UIView alloc] initWithFrame:CGRectMake(0, 15, 36.0f, 36.0f)];
-    avatarView.backgroundColor = [UIColor clearColor];
-    self.avatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
-    [avatarView addSubview: self.avatar];
-    
-    UIBarButtonItem *avatarBarItem = [[UIBarButtonItem alloc]initWithCustomView:avatarView];
-    
-    UITapGestureRecognizer *singleTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserInfo:)];
-    [self.avatar addGestureRecognizer:singleTap];
-    self.navigationItem.rightBarButtonItem = avatarBarItem;
-    self.navigationItem.title = self.contact.user.name;
-}
+
 
 
 - (UIBarButtonItem*) createBarButtonItemWithImage: (UIImage*) image
@@ -525,5 +560,5 @@
     return UITableViewCellEditingStyleNone;
 }
 
-
+*/
 @end

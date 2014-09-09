@@ -16,30 +16,46 @@
 
 //==============================================================================
 
-- (void) hp_setNavigationItemPropertiesFromOtherItem: (UINavigationItem*) navItem
-{
+- (void)hp_setNavigationItemPropertiesFromOtherItem:(UINavigationItem *)navItem {
     // WORKAROUND: we can't link UINavigationItem to UIViewController from IB, and navigationItem property in UIViewController is readonly
     self.navigationItem.title = navItem.title;
     self.navigationItem.prompt = navItem.prompt;
     self.navigationItem.hidesBackButton = navItem.hidesBackButton;
-    if (navItem.backBarButtonItem != nil) 
-    {
+    if (navItem.backBarButtonItem != nil) {
         self.navigationItem.backBarButtonItem = navItem.backBarButtonItem;
     }
-    if (navItem.leftBarButtonItem != nil)
-    {
+    if (navItem.leftBarButtonItem != nil) {
         self.navigationItem.leftBarButtonItem = navItem.leftBarButtonItem;
     }
-    if (navItem.rightBarButtonItem != nil)
-    {
+    if (navItem.rightBarButtonItem != nil) {
         self.navigationItem.rightBarButtonItem = navItem.rightBarButtonItem;
     }
-    if (navItem.titleView != nil)
-    {
+    if (navItem.titleView != nil) {
         self.navigationItem.titleView = navItem.titleView;
     }
 }
 
 //==============================================================================
 
+- (UIBarButtonItem *)createBarButtonItemWithImage:(UIImage *)image
+                                  highlighedImage:(UIImage *)highlighedImage
+                                           action:(SEL)action {
+
+    UIButton *newButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    newButton.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+    [newButton setBackgroundImage:image forState:UIControlStateNormal];
+    [newButton setBackgroundImage:highlighedImage forState:UIControlStateHighlighted];
+
+
+    UIBarButtonItem *newbuttonItem = [[UIBarButtonItem alloc] initWithCustomView:newButton];
+    if (action && [self respondsToSelector:action]) {
+        [newButton addTarget:self
+                      action:action
+            forControlEvents:UIControlEventTouchUpInside];
+    }
+    RACChannelTo(newButton, rac_command) = RACChannelTo(newbuttonItem, rac_command);
+
+    return newbuttonItem;
+
+}
 @end

@@ -15,6 +15,7 @@
 #import "DataStorage.h"
 #import "HPSearchCityViewController.h"
 #import "HPAddEducationViewController.h"
+#import "HPAddCareerViewController.h"
 
 @interface HPUserProfileInfoEditTabViewController ()
 
@@ -159,18 +160,24 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
             }];
         }
     }
+
     if([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation){
         if([self isLastCellInSectionWithIndexPath:indexPath]){
-            HPAddEducationViewController * searchCityViewController = [[HPAddEducationViewController alloc] initWithNibName:@"HPAddEducationViewController" bundle:nil];
-            [self.navigationController pushViewController:searchCityViewController animated:YES];
-            /*
-            @weakify(self);
-            [[RACObserve(searchCityViewController, returnSignal) flatten] subscribeNext:^(City* city) {
-                @strongify(self);
-                [searchCityViewController.navigationController popViewControllerAnimated:YES];
-                [self addCityToTableView:city];
+            HPAddEducationViewController *addEducationViewController = [[HPAddEducationViewController alloc] initWithNibName:@"HPAddEducationViewController" bundle:nil];
+            [addEducationViewController.returnSignal subscribeNext:^(RACTuple * x) {
+                RACTupleUnpack(NSString* educationName, NSString* specialityName, NSString* year) = x;
             }];
-            */
+            [self.navigationController pushViewController:addEducationViewController animated:YES];
+        }
+    }
+
+    if([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeCareer){
+        if([self isLastCellInSectionWithIndexPath:indexPath]){
+            HPAddCareerViewController *addCareerViewController = [[HPAddCareerViewController alloc] initWithNibName:@"HPAddCareerViewController" bundle:nil];
+            [addCareerViewController.returnSignal subscribeNext:^(RACTuple * x) {
+                RACTupleUnpack(NSString* educationName, NSString* specialityName) = x;
+            }];
+            [self.navigationController pushViewController:addCareerViewController animated:YES];
         }
     }
 }

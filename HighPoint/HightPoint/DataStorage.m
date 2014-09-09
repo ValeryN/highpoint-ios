@@ -14,8 +14,16 @@
 #import "NSManagedObject+HighPoint.h"
 #import "NSManagedObjectContext+HighPoint.h"
 
+#import "NSNumber+Convert.h"
+#import "NSString+Convert.h"
+
+
+
 
 static DataStorage *dataStorage;
+@interface DataStorage()
+@property(nonatomic, retain) User* currentUser;
+@end
 
 @implementation DataStorage
 + (DataStorage *)sharedDataStorage {
@@ -62,15 +70,15 @@ static DataStorage *dataStorage;
 
 - (MaxEntertainmentPrice *)createMaxPrice:(NSDictionary *)param {
     MaxEntertainmentPrice *maxP = (MaxEntertainmentPrice *) [NSEntityDescription insertNewObjectForEntityForName:@"MaxEntertainmentPrice" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    maxP.amount = param[@"amount"];
-    maxP.currency = param[@"currency"];
+    maxP.amount = [param[@"amount"] convertToNSNumber];
+    maxP.currency = [param[@"currency"] convertToNSString];
     return maxP;
 }
 
 - (MinEntertainmentPrice *)createMinPrice:(NSDictionary *)param {
     MinEntertainmentPrice *minP = (MinEntertainmentPrice *) [NSEntityDescription insertNewObjectForEntityForName:@"MinEntertainmentPrice" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    minP.amount = param[@"amount"];
-    minP.currency = param[@"currency"];
+    minP.amount = [param[@"amount"] convertToNSNumber];
+    minP.currency = [param[@"currency"] convertToNSString];
     return minP;
 }
 
@@ -84,9 +92,9 @@ static DataStorage *dataStorage;
         uf = (UserFilter *) [NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:context];
     }
 
-    uf.maxAge = param[@"maxAge"];
-    uf.minAge = param[@"minAge"];
-    uf.viewType = param[@"viewType"];
+    uf.maxAge = [param[@"maxAge"] convertToNSNumber];
+    uf.minAge = [param[@"minAge"] convertToNSNumber];
+    uf.viewType = [param[@"viewType"] convertToNSNumber];
 
     NSMutableArray *arr = [NSMutableArray new];
     for (NSNumber *p in param[@"genders"]) {
@@ -130,9 +138,9 @@ static DataStorage *dataStorage;
     if (!uf) {
         uf = (UserFilter *) [NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:context];
     }
-    uf.maxAge = param[@"maxAge"];
-    uf.minAge = param[@"minAge"];
-    uf.viewType = param[@"viewType"];
+    uf.maxAge = [param[@"maxAge"] convertToNSNumber];
+    uf.minAge = [param[@"minAge"] convertToNSNumber];
+    uf.viewType = [param[@"viewType"] convertToNSNumber];
     NSMutableArray *arr = [NSMutableArray new];
     for (NSNumber *p in param[@"genders"]) {
         Gender *gender = (Gender *) [NSEntityDescription insertNewObjectForEntityForName:@"Gender" inManagedObjectContext:context];
@@ -469,8 +477,8 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             School *school = (School *) [NSEntityDescription insertNewObjectForEntityForName:@"School" inManagedObjectContext:context];
-            school.name = param[@"name"];
-            school.id_ = param[@"id"];
+            school.name = [param[@"name"] convertToNSString];
+            school.id_ = [param[@"id"] convertToNSNumber];
             [self addSaveOperationToBottomInContext:context];
             returnSchool = school;
             [self returnObject:returnSchool inComplationBlock:block];
@@ -575,8 +583,8 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             Speciality *spec = (Speciality *) [NSEntityDescription insertNewObjectForEntityForName:@"Speciality" inManagedObjectContext:context];
-            spec.name = param[@"name"];
-            spec.id_ = param[@"id"];
+            spec.name = [param[@"name"] convertToNSString];
+            spec.id_ = [param[@"id"] convertToNSNumber];
             [self addSaveOperationToBottomInContext:context];
             returnSpec = spec;
             [self returnObject:returnSpec inComplationBlock:block];
@@ -663,9 +671,9 @@ static DataStorage *dataStorage;
 
 - (Place *)createPlaceEntity:(NSDictionary *)param {
     Place *pl = (Place *) [NSEntityDescription insertNewObjectForEntityForName:@"Place" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    pl.id_ = param[@"id"];
-    pl.cityId = param[@"cityId"];
-    pl.name = param[@"name"];
+    pl.id_ = [param[@"id"] convertToNSNumber];
+    pl.cityId = [param[@"cityId"] convertToNSNumber];
+    pl.name = [param[@"name"] convertToNSString];
     return pl;
 }
 
@@ -907,8 +915,8 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             CareerPost *postEnt = (CareerPost *) [NSEntityDescription insertNewObjectForEntityForName:@"CareerPost" inManagedObjectContext:context];
-            postEnt.name = param[@"name"];
-            postEnt.id_ = param[@"id"];
+            postEnt.name = [param[@"name"] convertToNSString];
+            postEnt.id_ = [param[@"id"] convertToNSNumber];
             [self addSaveOperationToBottomInContext:context];
             returCpost = postEnt;
             [self returnObject:returCpost inComplationBlock:block];
@@ -1011,8 +1019,8 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             Company *companyEnt = (Company *) [NSEntityDescription insertNewObjectForEntityForName:@"Company" inManagedObjectContext:context];
-            companyEnt.name = param[@"name"];
-            companyEnt.id_ = param[@"id"];
+            companyEnt.name = [param[@"name"] convertToNSString];
+            companyEnt.id_ = [param[@"id"] convertToNSNumber];
             [self addSaveOperationToBottomInContext:context];
             returnCompany = companyEnt;
             [self returnObject:returnCompany inComplationBlock:block];
@@ -1149,56 +1157,58 @@ static DataStorage *dataStorage;
 
 - (void)createAndSaveUserEntity:(NSDictionary *)param forUserType:(UserType)type withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
+    __block User *returnUser = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSDateFormatter *dft = [[NSDateFormatter alloc] init];
+        [dft setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"yyyy-MM-dd"];
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         User *user;
 
-        user = [weakSelf getUserForId:param[@"id"]];
+        user = [weakSelf getUserForId:[param[@"id"] convertToNSNumber]];
         if (!user) {
             user = (User *) [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
         }
         if (param[@"id"])
-            user.userId = param[@"id"];
+            user.userId = [param[@"id"] convertToNSNumber];
         //user type
         if (type == CurrentUserType) {
             user.isCurrentUser = @YES;
         }
-       // else user.isCurrentUser = @NO;
         if (type == MainListUserType) {
             user.isItFromMainList = @YES;
         }
-        //else user.isItFromMainList =[NSNumber numberWithBool:NO];
         if (type == ContactUserType) {
             user.isItFromContact = @YES;
         }
         if (type == PointLikeUserType) {
             user.isItFromPointLike = @YES;
         }
-        //else user.isItFromContact = [NSNumber numberWithBool:NO];
         if (param[@"name"])
-            user.name = param[@"name"];
+            user.name = [param[@"name"] convertToNSString];
         if (param[@"cityId"])
-            user.cityId = param[@"cityId"];
+            user.cityId = [param[@"cityId"] convertToNSNumber];
         if (param[@"createdAt"])
-            user.createdAt = param[@"createdAt"];
+            user.createdAt = [dft dateFromString: param[@"createdAt"]];
         if (param[@"dateOfBirth"])
-            user.dateOfBirth = param[@"dateOfBirth"];
+            user.dateOfBirth =[df dateFromString: param[@"dateOfBirth"]];
         if (param[@"email"])
-            user.email = param[@"email"];
+            user.email = [param[@"email"] convertToNSString];
         if (param[@"gender"])
-            user.gender = param[@"gender"];
+            user.gender = [param[@"gender"] convertToNSNumber];
         if (param[@"visibility"]) {
-            user.visibility = param[@"visibility"];
+            user.visibility = [param[@"visibility"] convertToNSNumber];
         }
         if (param[@"online"]) {
-            user.online = param[@"online"];
+            user.online = [param[@"online"] convertToNSNumber];
         }
         if (param[@"avatar"]) {
             user.avatar = [self createAvatarEntity:param[@"avatar"]];
             user.avatar.user = user;
         }
         if (param[@"age"])
-            user.age = param[@"age"];
+            user.age = [param[@"age"] convertToNSNumber];
         if ([param[@"education"] isKindOfClass:[NSDictionary class]]) {
             if (![param[@"education"] isKindOfClass:[NSNull class]]) {
                 Education *ed = [self createEducationEntity:param[@"education"]];
@@ -1325,8 +1335,12 @@ static DataStorage *dataStorage;
         if (point && [user.isItFromMainList boolValue]) {
             user.point = point;
         }
+        
+        returnUser = user;
+        
         [self addSaveOperationToBottomInContext:context];
-        [self returnObject:user inComplationBlock:block];
+        
+        [self returnObject:returnUser inComplationBlock:block];
 
     }];
 
@@ -1334,34 +1348,53 @@ static DataStorage *dataStorage;
 }
 
 - (User *)getCurrentUser {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
+    User* user = self.currentUser;
+    if(!user) {
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
+        [request setEntity:entity];
+        NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
+        [sortDescriptors addObject:sortDescriptor];
+        [request setSortDescriptors:sortDescriptors];
 
-    NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"isCurrentUser  = %d", 1];
+        NSMutableString *predicateString = [NSMutableString string];
+        [predicateString appendFormat:@"isCurrentUser  = %d", 1];
 
-    @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        @try {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+            [request setPredicate:predicate];
+        }
+        @catch (NSException *exception) {
+            return nil;
+        }
+
+
+        NSError *error = nil;
+        [request setFetchLimit:1];
+        NSArray *array = [context executeFetchRequest:request error:&error];
+        if ([array count] == 1) {
+            user = array[0];
+            self.currentUser = user;
+        } else {
+            NSLog(@"users count = %lu", (unsigned long)[array count]);
+        }
+        //else
+         //   NSAssert(false, @"2 текущих пользователя, как мило");
     }
-    @catch (NSException *exception) {
-        return nil;
+    return user;
+}
+
+- (User*)currentUser {
+    User* user = nil;
+    if(_currentUser && !_currentUser.isFault){
+        user = [_currentUser moveToContext:[NSManagedObjectContext threadContext]];
+        if(user.isFault){
+            user = nil;
+        }
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    return user;
 }
 
 - (void)deleteAndSaveCurrentUser {
@@ -1464,21 +1497,22 @@ static DataStorage *dataStorage;
 - (void)createAndSavePoint:(NSDictionary *)param {
     [self.backgroundOperationQueue addOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-
         [context performBlockAndWait:^{
+            NSDateFormatter *df = [[NSDateFormatter alloc] init];
+            [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
             UserPoint *userPoint = [self getPointForId:param[@"id"]];
             if (!userPoint) {
                 userPoint = (UserPoint *) [NSEntityDescription insertNewObjectForEntityForName:@"UserPoint" inManagedObjectContext:context];
 
             }
             if (param[@"id"])
-                userPoint.pointId = param[@"id"];
+                userPoint.pointId = [param[@"id"] convertToNSNumber];
 
-            userPoint.pointCreatedAt = param[@"createdAt"];
-            userPoint.pointLiked = param[@"liked"];
-            userPoint.pointText = param[@"text"];
-            userPoint.pointUserId = param[@"userId"];
-            userPoint.pointValidTo = param[@"validTo"];
+            userPoint.pointCreatedAt = [df dateFromString:param[@"createdAt"]];
+            userPoint.pointLiked = [param[@"liked"] convertToNSNumber];
+            userPoint.pointText = [param[@"text"] convertToNSString];
+            userPoint.pointUserId = [[param[@"userId"] convertToNSNumber] convertToNSNumber];
+            userPoint.pointValidTo =  [df dateFromString:param[@"validTo"]];
             User *user = [self getSelectedUserById:param[@"userId"]];
             user.point = userPoint;
             [self addSaveOperationToBottomInContext:context];
@@ -1741,15 +1775,15 @@ static DataStorage *dataStorage;
             settings.avatarMaxFileSize = [param[@"avatar"] objectForKey:@"maxFileSize"];
             if ([[param[@"avatar"] objectForKey:@"minImageSize"] isKindOfClass:[NSArray class]]) {
                 if ([[param[@"avatar"] objectForKey:@"minImageSize"] count] == 2) {
-                    settings.avatarMinImageWidth = [[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:0];//minImageSize
-                    settings.avatarMinImageHeight = [[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:1];
+                    settings.avatarMinImageWidth = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:0] convertToNSNumber];//minImageSize
+                    settings.avatarMinImageHeight = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:1] convertToNSNumber];
                 }
             }
-            settings.pointMaxPeriod = [param[@"point"] objectForKey:@"maxPeriod"];
-            settings.pointMinPeriod = [param[@"point"] objectForKey:@"minPeriod"];
+            settings.pointMaxPeriod = [[param[@"point"] objectForKey:@"maxPeriod"] convertToNSNumber];
+            settings.pointMinPeriod = [[param[@"point"] objectForKey:@"minPeriod"] convertToNSNumber];
             if ([param[@"webSocketUrls"] isKindOfClass:[NSArray class]]) {
                 if ([param[@"webSocketUrls"] count] == 1)
-                    settings.webSoketUrl = [param[@"webSocketUrls"] objectAtIndex:0];
+                    settings.webSoketUrl = [[param[@"webSocketUrls"] objectAtIndex:0] convertToNSString];
             }
             //settings.webSoketUrl = [param objectForKey:@"webSocketUrls"];
             [self addSaveOperationToBottomInContext:context];
@@ -1868,6 +1902,30 @@ static DataStorage *dataStorage;
 }
 
 
+- (void)deleteAndSaveAllUsers {
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        [context performBlockAndWait:^{
+            NSFetchRequest *allUsers = [[NSFetchRequest alloc] init];
+            [allUsers setEntity:[NSEntityDescription entityForName:@"User" inManagedObjectContext:context]];
+            NSMutableString *predicateString = [NSMutableString string];
+            [predicateString appendFormat:@"isCurrentUser != 1"];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+            [allUsers setPredicate:predicate];
+            [allUsers setIncludesPropertyValues:NO];
+            NSError *error = nil;
+            NSArray *users = [context executeFetchRequest:allUsers error:&error];
+            //error handling goes here
+            for (User *usr in users) {
+                [context deleteObject:usr];
+            }
+            [self addSaveOperationToBottomInContext:context];
+        }];
+    }];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
+}
+
+
 - (NSFetchedResultsController *)applicationSettingFetchResultsController {
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -1907,15 +1965,15 @@ static DataStorage *dataStorage;
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         [context performBlockAndWait:^{
             City *cityEnt;
-            cityEnt = [self getCityById:param[@"id"]];
+            cityEnt = [self getCityById:[param[@"id"] convertToNSNumber]];
             if (!cityEnt) {
                 cityEnt = (City *) [NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:context];
             }
-            cityEnt.cityEnName = param[@"enName"];
-            cityEnt.cityId = param[@"id"];
-            cityEnt.cityName = param[@"name"];
+            cityEnt.cityEnName = [param[@"enName"] convertToNSString];
+            cityEnt.cityId = [param[@"id"] convertToNSNumber];
+            cityEnt.cityName = [param[@"name"] convertToNSString];
             cityEnt.cityNameForms = param[@"nameForms"];
-            cityEnt.cityRegionId = param[@"regionId"];
+            cityEnt.cityRegionId = [param[@"regionId"] convertToNSNumber];
             if (isPopular) {
                 cityEnt.isPopular = @(isPopular);
             }
@@ -2297,7 +2355,7 @@ static DataStorage *dataStorage;
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     Message *msgEnt = (Message *) [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    msgEnt.bindedUserId = userId;
+    msgEnt.bindedUserId = [userId convertToNSNumber];
 
     if (type == HistoryMessageType) {
         msgEnt.historyMessage = @YES;
@@ -2308,14 +2366,14 @@ static DataStorage *dataStorage;
     if (type == UnreadMessageType) {
         msgEnt.unreadMessage = @YES;
     }
-    msgEnt.id_ = param[@"id"];
+    msgEnt.id_ = [param[@"id"] convertToNSNumber];
     msgEnt.createdAt = [df dateFromString:param[@"createdAt"]];
     msgEnt.destinationId = param[@"destinationId"];
     if (![param[@"readAt"] isKindOfClass:[NSNull class]]) {
         msgEnt.readAt = [df dateFromString:param[@"readAt"]];
     }
-    msgEnt.sourceId = param[@"sourceId"];
-    msgEnt.text = param[@"text"];
+    msgEnt.sourceId = [param[@"sourceId"] convertToNSNumber];
+    msgEnt.text = [param[@"text"] convertToNSString];
     return msgEnt;
 }
 
@@ -2414,7 +2472,23 @@ static DataStorage *dataStorage;
     [self.backgroundOperationQueue addOperation:operation];
 }
 
-
+- (void)deleteAndSaveAllMessages {
+    [self.backgroundOperationQueue addOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        [context performBlockAndWait:^{
+            NSFetchRequest *allMessages = [[NSFetchRequest alloc] init];
+            [allMessages setEntity:[NSEntityDescription entityForName:@"Message" inManagedObjectContext:context]];
+            [allMessages setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+            NSError *error = nil;
+            NSArray *messages = [context executeFetchRequest:allMessages error:&error];
+            //error handling goes here
+            for (Message *msg in messages) {
+                [context deleteObject:msg];
+            }
+            [self addSaveOperationToBottomInContext:context];
+        }];
+    }];
+}
 
 
 

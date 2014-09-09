@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPUserProfileСarouselModeViewController">
             <connections>
+                <outlet property="cancelDeleteButton" destination="Blk-3h-DDz" id="Rur-aP-WMF"/>
                 <outlet property="carousel" destination="48q-MP-xkT" id="nz1-lY-Rti"/>
                 <outlet property="deletePicButton" destination="pJE-zl-Fyp" id="6jl-9f-jcu"/>
                 <outlet property="setUserPicButton" destination="o4t-We-fQL" id="VZv-2t-3IP"/>
@@ -69,13 +70,38 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Blk-3h-DDz">
+                    <rect key="frame" x="205" y="518" width="85" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="84Z-HJ-G33"/>
+                        <constraint firstAttribute="width" constant="85" id="TuC-W9-Ds4"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                    <state key="normal" title="Отменить">
+                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="highlightedBackground">
+                            <color key="value" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="layer.borderUIColor">
+                            <color key="value" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="1"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="16"/>
+                    </userDefinedRuntimeAttributes>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="48q-MP-xkT" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="0w8-zh-HhS"/>
                 <constraint firstAttribute="bottom" secondItem="48q-MP-xkT" secondAttribute="bottom" id="6rr-mi-G1Z"/>
+                <constraint firstAttribute="bottom" secondItem="Blk-3h-DDz" secondAttribute="bottom" constant="20" id="7mM-Pv-K4s"/>
                 <constraint firstAttribute="bottom" secondItem="o4t-We-fQL" secondAttribute="bottom" constant="20" id="An4-s5-q6Y"/>
                 <constraint firstItem="o4t-We-fQL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="Pbz-bK-vqx"/>
+                <constraint firstAttribute="trailing" secondItem="Blk-3h-DDz" secondAttribute="trailing" constant="30" id="dY4-Yp-lat"/>
                 <constraint firstAttribute="trailing" secondItem="pJE-zl-Fyp" secondAttribute="trailing" constant="20" id="g33-W9-I7R"/>
                 <constraint firstItem="48q-MP-xkT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qbc-0r-bqt"/>
                 <constraint firstItem="o4t-We-fQL" firstAttribute="centerY" secondItem="pJE-zl-Fyp" secondAttribute="centerY" id="tA8-Uy-FT8"/>

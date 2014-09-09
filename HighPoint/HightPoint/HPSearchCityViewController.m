@@ -11,8 +11,8 @@
 #import "HPRequest+GeoLocations.h"
 
 @interface HPSearchCityViewController()
+@property (nonatomic, weak) IBOutlet UITableView* resultTableView;
 @property (nonatomic, weak) IBOutlet UITextField * searchBar;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem * cancelBarButton;
 @property(nonatomic, retain) NSMutableDictionary *cacheDictionary;
 @end
 
@@ -20,6 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
 
     RACChannelTo(self,selectRowSignal) = RACChannelTo(self,returnSignal);
     self.navigationItem.leftBarButtonItem = [self barItemCancelEditText];
@@ -35,7 +36,7 @@
         return [RACSignal empty];
     }];
 
-    [self configureTableViewWithSignal:tableViewSignal andTemplateCell:[UINib nibWithNibName:@"HPSearchCityCell" bundle:nil]];
+    [self configureTable:self.resultTableView viewWithSignal:tableViewSignal andTemplateCell:[UINib nibWithNibName:@"HPSearchCityCell" bundle:nil]];
 
     [self.searchBar becomeFirstResponder];
 }

@@ -11,6 +11,10 @@
 #import "User.h"
 #import "NSManagedObjectContext+HighPoint.h"
 #import "UINavigationBar+HighPoint.h"
+#import "HPBaseNetworkManager.h"
+#import "HPUserInfoViewController.h"
+#import "DataStorage.h"
+
 
 @interface HPPointLikesViewController ()
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultController;
@@ -37,6 +41,11 @@
     [super viewDidLoad];
     [self configureCollectionViewWithSignal:RACObserve(self, fetchedResultController) andTemplateCell:[UINib nibWithNibName:@"HPPointLikeCollectionViewCell" bundle:nil]];
     [self configureNavigationBar];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
 }
 
 #pragma mark - navigation bar
@@ -82,5 +91,16 @@
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    User * usr = [[self.fetchedResultController fetchedObjects] objectAtIndex:indexPath.row];
+    if(usr) {
+        [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
+    }
+    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
+    uiController.delegate = self;
+    uiController.user = [[self.fetchedResultController fetchedObjects] objectAtIndex:indexPath.row];
+    [self.navigationController pushViewController:uiController animated:YES];
+}
 
 @end

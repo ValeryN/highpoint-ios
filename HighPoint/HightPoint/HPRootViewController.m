@@ -124,6 +124,8 @@
     self.navigationController.delegate = self;
     int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount : nil];
     if (msgsCount > 0) {
+        if(self.notificationView)
+            [self.notificationView removeFromSuperview];
         self.notificationView = nil;
         self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%d", msgsCount]];
         self.notificationView.userInteractionEnabled = NO;

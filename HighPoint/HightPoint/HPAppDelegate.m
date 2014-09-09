@@ -53,6 +53,9 @@
         self.window.rootViewController = authViewController;
         self.navigationController = [[UINavigationController alloc] initWithRootViewController:authViewController];
     }
+
+    [self managedObjectContext];
+
     [self.navigationController hp_configureNavigationBar];
     
     [self.window setRootViewController:self.navigationController];

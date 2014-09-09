@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) NSNumber * bindedUserId;
 @property (nonatomic, retain) NSDate * createdAt;
+@property (nonatomic, retain) NSString* createdAtDaySection;
 @property (nonatomic, retain) NSNumber * destinationId;
 @property (nonatomic, retain) NSNumber * id_;
 @property (nonatomic, retain) NSString * messageBody;

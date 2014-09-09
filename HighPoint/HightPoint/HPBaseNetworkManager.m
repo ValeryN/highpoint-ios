@@ -1,4 +1,4 @@
-//
+  //
 //  HPBaseNetworkManager.m
 //  HightPoint
 //
@@ -187,7 +187,7 @@ static HPBaseNetworkManager *networkManager;
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [self addTaskToArray:manager];
     [manager GET:url parameters:[Utils getParameterForPointsRequest:lastPoint] success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"POINTS -->: %@", operation.responseString);
+        NSLog(@"POINTS -->: %@", operation.responseString);
         NSLog(@"POINTS");
         //if([self isTaskArrayEmpty:manager]) {
         //    NSLog(@"Stop Queue");
@@ -199,18 +199,19 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                //[[DataStorage sharedDataStorage] createUserEntity:jsonDict];
                 NSArray *poi = [[jsonDict objectForKey:@"data"] objectForKey:@"points"];
-                for(NSDictionary *dict in poi) {
-                    [[DataStorage sharedDataStorage] createAndSavePoint:dict];
+                if (poi && (![poi isKindOfClass:[NSNull class]])) {
+                    for(NSDictionary *dict in poi) {
+                        [[DataStorage sharedDataStorage] createAndSavePoint:dict];
+                    }
                 }
                 NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
-                for(NSString *key in usr) {
-                  //  NSDictionary *dict = [usr objectForKey:key];
-
-                   // [self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:[usr objectForKey:key] forUserType:MainListUserType withComplation:nil];
+                if (usr && (![usr isKindOfClass:[NSNull class]])) {
+                    for(NSString *key in usr) {
+                        [[DataStorage sharedDataStorage] createAndSaveUserEntity:[usr objectForKey:key] forUserType:MainListUserType withComplation:nil];
+                    }
                 }
+
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
@@ -256,14 +257,26 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
-
-                for(NSDictionary *dict in usr) {
-                    //NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:[[dict objectForKey:@"cityId"] stringValue] , @"city_ids", nil];
-                    //[self getGeoLocation:param];
-                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:MainListUserType withComplation:nil];
+                if ([[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
+                    if([self isTaskArrayEmpty:manager]) {
+                        NSLog(@"Stop Queue");
+                    }
+                    return;
                 }
-
+                NSDictionary *poi = [[jsonDict objectForKey:@"data"] objectForKey:@"points"];
+                if (poi && (![poi isKindOfClass:[NSNull class]])) {
+                    
+                    for (NSString* key in [poi allKeys]) {
+                        NSDictionary *point = [poi objectForKey:key];
+                        [[DataStorage sharedDataStorage] createAndSavePoint:point];
+                    }
+                }
+                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                if (usr && (![usr isKindOfClass:[NSNull class]])) {
+                    for(NSDictionary *dict in usr) {
+                        [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:MainListUserType withComplation:nil];
+                    }
+                }
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
@@ -326,7 +339,7 @@ static HPBaseNetworkManager *networkManager;
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"GET CURRENT USER JSON: %@", operation.responseString);
+        NSLog(@"GET CURRENT USER JSON: %@", operation.responseString);
         NSLog(@"GET CURRENT USER JSON");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -424,10 +437,12 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
+                if (cities && (![cities isKindOfClass:[NSNull class]])) {
                     for(NSDictionary *dict in cities) {
                         [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:^(City *city) {
                         }];
                     }
+                }
                 block (@"success");
                 }
             else {NSLog(@"Error, no valid data");
@@ -463,6 +478,9 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
+                if ([[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
+                    return;
+                }
                 NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
                 
                 switch (mode) {
@@ -561,11 +579,11 @@ static HPBaseNetworkManager *networkManager;
                                                                        error:&error];
             if(jsonDict) {
                 NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
-                
-                for(NSDictionary *dict in usr) {
-                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:PointLikeUserType withComplation:nil];
+                if (![usr isKindOfClass:[NSNull class]]) {
+                    for(NSDictionary *dict in usr) {
+                        [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:PointLikeUserType withComplation:nil];
+                    } 
                 }
-                
                 if([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
@@ -597,9 +615,13 @@ static HPBaseNetworkManager *networkManager;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
-            NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
-            for(NSDictionary *dict in cities) {
-                [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:YES withComplation:nil];
+            if (![[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
+                NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
+                if (cities && (![cities isKindOfClass:[NSNull class]])) {
+                    for(NSDictionary *dict in cities) {
+                        [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:YES withComplation:nil];
+                    }
+                }
             }
         } else {
             NSLog(@"Error, no valid data");
@@ -1440,6 +1462,12 @@ static HPBaseNetworkManager *networkManager;
             NSArray *jsonArray = [[[NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error] objectForKey:@"data"] objectForKey:@"messages"];
+            if ([jsonArray isKindOfClass:[NSNull class]]) {
+                if([self isTaskArrayEmpty:manager]) {
+                    NSLog(@"Stop Queue");
+                }
+                return;
+            }
             for (NSDictionary * msg in jsonArray) {
                 [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:[msg objectForKey:@"sourceId"] andMessageType:UnreadMessageType withComplation:nil];
 
@@ -1476,7 +1504,7 @@ static HPBaseNetworkManager *networkManager;
     [self addTaskToArray:manager];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //NSLog(@"GET CONTACTS -->: %@", operation.responseString);
+        NSLog(@"GET CONTACTS -->: %@", operation.responseString);
         NSLog(@"GET CONTACTS");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -1485,7 +1513,6 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                [[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
                 NSArray *users = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 NSDictionary *lastMsgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
                 for (int i = 0; i < users.count; i++) {
@@ -1500,16 +1527,22 @@ static HPBaseNetworkManager *networkManager;
                                 break;
                             }
                         }
-                        
-                        if ([self isTaskArrayEmpty:manager]) {
-                            NSLog(@"Stop Queue");
-                            [self makeTownByIdRequest];
-                        }
                     }];
+                }
+                if ([self isTaskArrayEmpty:manager]) {
+                    NSLog(@"Stop Queue");
+                    [self makeTownByIdRequest];
                 }
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
             }
-            else NSLog(@"Error, no valid data");
+            else {
+                NSLog(@"Error, no valid data");
+                if ([self isTaskArrayEmpty:manager]) {
+                    NSLog(@"Stop Queue");
+                    [self makeTownByIdRequest];
+                }
+
+            }
 
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -1519,8 +1552,8 @@ static HPBaseNetworkManager *networkManager;
             [self makeTownByIdRequest];
         }
         NSLog(@"Error: %@", error.localizedDescription);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alert show];
 
     }];
 }
@@ -1583,9 +1616,11 @@ static HPBaseNetworkManager *networkManager;
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if ([[jsonDict objectForKey:@"data"] objectForKey:@"messages"]) {
+                
+                NSArray *messages = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
+                if (messages && (![messages isKindOfClass:[NSNull class]])) {
                     User *user = [[DataStorage sharedDataStorage] getUserForId:userId];
-                    [[DataStorage sharedDataStorage] createAndSaveChatEntity:user withMessages:[[jsonDict objectForKey:@"data"] objectForKey:@"messages"] withComplation:nil];
+                    [[DataStorage sharedDataStorage] createAndSaveChatEntity:user withMessages:messages withComplation:nil];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -1599,6 +1634,92 @@ static HPBaseNetworkManager *networkManager;
 //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 //        [alert show];
 
+    }];
+}
+
+
+#pragma mark - photo
+
+- (void) setUserAvatarRequest : (UIImage *) image {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:kUploadAvatarRequest];
+    NSData *imageData = UIImagePNGRepresentation(image);
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageData
+                                    name:@"image"
+                                fileName:@"name" mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"UPLOAD AVATAR: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if (operation.response.statusCode == 403) {
+                NSNumber *errorCode = [jsonDict objectForKey:@"error"];
+                if ([errorCode isEqualToValue:@8]) {
+                    // show wrong file format error
+                }
+                if ([errorCode isEqualToValue:@9]) {
+                    // show too large file error
+                }
+                if ([errorCode isEqualToValue:@10]) {
+                    // show too small file error
+                }
+            } else {
+                if(jsonDict) {
+                    NSDictionary *avatar = [jsonDict objectForKey:@"data"];
+                    //save avatar for current user
+                }
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+}
+
+
+- (void) deletePhotoRequest : (NSNumber *) photoId {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:[NSString stringWithFormat:kDeletePhotoRequest, [photoId stringValue]]];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFHTTPRequestSerializer new];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         NSLog(@"DELETE PHOTO: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if (operation.response.statusCode == 403) {
+                    //access denied
+                    return;
+                }
+                if (operation.response.statusCode == 404) {
+                    //not found
+                    return;
+                }
+                NSNumber *deletedId = [[jsonDict objectForKey:@"data"] objectForKey:@"id"];
+                if (deletedId) {
+                    //delete photo by id
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
     }];
 }
 
@@ -1674,8 +1795,8 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"me update args = %@", packet.args);
         NSDictionary *jsonDict = [packet.args objectAtIndex:0];
         if(jsonDict) {
-            [[DataStorage sharedDataStorage] deleteAllCities];
-            [[DataStorage sharedDataStorage] deleteAndSaveCurrentUser];
+            [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:CurrentUserType withComplation: nil];
+            [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:[[DataStorage sharedDataStorage] getCurrentUser]]];
         } else {
             NSLog(@"Error, no valid data");
         }

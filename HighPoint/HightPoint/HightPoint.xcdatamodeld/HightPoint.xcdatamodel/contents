@@ -93,6 +93,7 @@
     <entity name="Message" representedClassName="Message" syncable="YES">
         <attribute name="bindedUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="createdAtDaySection" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="destinationId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="historyMessage" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -138,8 +139,8 @@
     <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="age" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="cityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="createdAt" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="dateOfBirth" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="dateOfBirth" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="favoriteCityIds" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="favoritePlaceIds" optional="YES" attributeType="String" syncable="YES"/>
@@ -165,7 +166,7 @@
         <relationship name="maxentertainment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MaxEntertainmentPrice" inverseName="user" inverseEntity="MaxEntertainmentPrice" syncable="YES"/>
         <relationship name="minentertainment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MinEntertainmentPrice" inverseName="user" inverseEntity="MinEntertainmentPrice" syncable="YES"/>
         <relationship name="place" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Place" inverseName="user" inverseEntity="Place" syncable="YES"/>
-        <relationship name="point" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserPoint" inverseName="user" inverseEntity="UserPoint" syncable="YES"/>
+        <relationship name="point" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="UserPoint" inverseName="user" inverseEntity="UserPoint" syncable="YES"/>
         <relationship name="userfilter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserFilter" inverseName="user" inverseEntity="UserFilter" syncable="YES"/>
     </entity>
     <entity name="UserFilter" representedClassName="UserFilter" syncable="YES">
@@ -177,12 +178,12 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="userfilter" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="UserPoint" representedClassName="UserPoint" syncable="YES">
-        <attribute name="pointCreatedAt" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pointCreatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="pointId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="pointLiked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="pointText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pointUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="pointValidTo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pointValidTo" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="likedBy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="likedPosts" inverseEntity="User" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="point" inverseEntity="User" syncable="YES"/>
     </entity>
@@ -191,16 +192,16 @@
         <element name="Avatar" positionX="-209" positionY="-270" width="128" height="210"/>
         <element name="Career" positionX="-146" positionY="20" width="128" height="163"/>
         <element name="CareerPost" positionX="-389" positionY="-90" width="128" height="88"/>
-        <element name="Chat" positionX="331" positionY="225" width="128" height="73"/>
+        <element name="Chat" positionX="486" positionY="225" width="128" height="73"/>
         <element name="City" positionX="639" positionY="-36" width="128" height="178"/>
         <element name="Company" positionX="-360" positionY="117" width="128" height="88"/>
         <element name="Contact" positionX="-110" positionY="261" width="128" height="73"/>
         <element name="Country" positionX="153" positionY="-486" width="128" height="103"/>
-        <element name="Education" positionX="144" positionY="-331" width="128" height="163"/>
+        <element name="Education" positionX="160" positionY="-369" width="128" height="163"/>
         <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
         <element name="Language" positionX="-396" positionY="-279" width="128" height="88"/>
         <element name="MaxEntertainmentPrice" positionX="27" positionY="-0" width="128" height="88"/>
-        <element name="Message" positionX="520" positionY="225" width="128" height="253"/>
+        <element name="Message" positionX="693" positionY="189" width="128" height="268"/>
         <element name="MinEntertainmentPrice" positionX="493" positionY="-153" width="128" height="88"/>
         <element name="Place" positionX="45" positionY="167" width="128" height="118"/>
         <element name="Region" positionX="538" positionY="-522" width="128" height="118"/>

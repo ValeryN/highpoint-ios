@@ -8,13 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "HPChatTableViewCell.h"
+#import "RACFetchedTableViewController.h"
 
-@interface HPChatListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate, HPChatTableViewCellDelegate, NSFetchedResultsControllerDelegate>
+@interface HPChatListViewController : RACFetchedTableViewController
 
 
-@property (weak, nonatomic) IBOutlet UITableView *chatListTableView;
-@property (strong, nonatomic) UITextField *searchTextField;
-@property (strong, nonatomic) UIView *coverView;
 
 
 @end
