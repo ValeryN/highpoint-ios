@@ -1,4 +1,4 @@
-//
+  //
 //  HPBaseNetworkManager.m
 //  HightPoint
 //
@@ -1690,8 +1690,9 @@ static HPBaseNetworkManager *networkManager;
     url = [url stringByAppendingString:[NSString stringWithFormat:kDeletePhotoRequest, [photoId stringValue]]];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFHTTPRequestSerializer new];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
          NSLog(@"DELETE PHOTO: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
