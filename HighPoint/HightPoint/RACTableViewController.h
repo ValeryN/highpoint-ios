@@ -8,6 +8,8 @@
 
 @protocol RACTableViewCellProtocol
 - (void)bindViewModel:(id)viewModel;
+@optional
++ (CGFloat) heightForRowWithModel:(id) model;
 @end
 
 @interface RACTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>

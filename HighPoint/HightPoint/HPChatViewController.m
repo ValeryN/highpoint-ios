@@ -7,95 +7,84 @@
 //
 
 #import "HPChatViewController.h"
-#import "UINavigationController+HighPoint.h"
-#import "HPChatMsgTableViewCell.h"
-#import "HPChatOptionsTableViewCell.h"
-#import "UILabel+HighPoint.h"
-#import "UITextView+HightPoint.h"
-#import "UIDevice+HighPoint.h"
-#import "HPBaseNetworkManager.h"
 #import "DataStorage.h"
-#import "HPBaseNetworkManager.h"
-#import "NotificationsConstants.h"
-#import "Constants.h"
 #import "UIViewController+HighPoint.h"
 #import "NSManagedObjectContext+HighPoint.h"
+#import "HPAvatarView.h"
 
 
+@interface HPChatViewController ()
 
-@interface HPChatViewController () {
-    NSArray *msgs;
-    BOOL isFirstLoad;
-}
-@property (nonatomic, retain) NSFetchedResultsController* messagesController;
-@property (strong, nonatomic) HPAvatarLittleView *avatar;
-@property (strong, nonatomic) UIView *avatarView;
-@property (weak, nonatomic) IBOutlet UITableView *chatTableView;
+@property(strong, nonatomic) HPAvatarView *avatar;
+@property(strong, nonatomic) UIView *avatarView;
+@property(weak, nonatomic) IBOutlet UITableView *chatTableView;
 
 
 //bottom view
-@property (weak, nonatomic) IBOutlet UIView *msgBottomView;
-@property (weak, nonatomic) IBOutlet UIButton *msgAddBtn;
-@property (weak, nonatomic) IBOutlet UITextView *msgTextView;
-@property (weak, nonatomic) IBOutlet UIView *bgBottomView;
+@property(weak, nonatomic) IBOutlet UIView *msgBottomView;
+@property(weak, nonatomic) IBOutlet UIButton *msgAddBtn;
+@property(weak, nonatomic) IBOutlet UITextView *msgTextView;
+@property(weak, nonatomic) IBOutlet UIView *bgBottomView;
 
 
-//retry
+@property(weak, nonatomic) IBOutlet UIButton *retryBtn;
+@property(weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityIndicator;
 
-@property (weak, nonatomic) IBOutlet UIButton *retryBtn;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityIndicator;
-
-//sorting
+@property(nonatomic) int tableViewOffset;
 @end
 
 
 @implementation HPChatViewController
 
 
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    [self configureTableView: self.chatTableView withSignal: [RACSignal return: self.messagesController] andTemplateCell: [UINib nibWithNibName: @"HPChatMsgTableViewCell" bundle: nil]];
-    
-    self.msgTextView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
-    [self.msgTextView hp_tuneForTextViewMsgText];
+    [self scrollTableToBottomOnLoad];
+    [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
+    [self configureNavigationBar];
+
+
     // Do any additional setup after loading the view from its nib.
 }
 
+- (void)scrollTableToBottomOnLoad {
+    @weakify(self);
+    [[[RACSignal zip:@[[self.chatTableView rac_signalForSelector:@selector(reloadData)],[self rac_signalForSelector:@selector(updateViewConstraints)]]] take:1] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.chatTableView setContentOffset:CGPointMake(0, CGFLOAT_MAX)];
+    }];
+}
+
+- (void)updateViewConstraints {
+    [super updateViewConstraints];
+}
+
 #pragma mark - navigation bar
-- (void) createNavigationItem
-{
-    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Back.png"]
+
+- (void)configureNavigationBar {
+    UIBarButtonItem *backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Back.png"]
                                                      highlighedImage:[UIImage imageNamed:@"Back Tap.png"]
                                                               action:@selector(backButtonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
     UIView *avatarView = [[UIView alloc] initWithFrame:CGRectMake(0, 15, 36.0f, 36.0f)];
     avatarView.backgroundColor = [UIColor clearColor];
-    self.avatar = [HPAvatarLittleView createAvatar: [UIImage imageNamed:@"img_sample1.png"]];
-    [avatarView addSubview: self.avatar];
+    self.avatar = [HPAvatarView avatarViewWithUser:[[DataStorage sharedDataStorage] getCurrentUser]];
+    self.avatar.frame = (CGRect) {0, 0, 36, 36};
+    [avatarView addSubview:self.avatar];
+    UIBarButtonItem *avatarBarItem = [[UIBarButtonItem alloc] initWithCustomView:avatarView];
 
-    UIBarButtonItem *avatarBarItem = [[UIBarButtonItem alloc]initWithCustomView:avatarView];
-
-    UITapGestureRecognizer *singleTap =
-            [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserInfo:)];
-    [self.avatar addGestureRecognizer:singleTap];
     self.navigationItem.rightBarButtonItem = avatarBarItem;
     self.navigationItem.title = self.contact.user.name;
 }
 
-- (NSFetchedResultsController*) messagesController
-{
-    if(!_messagesController){
+- (void) backButtonTaped:(id) sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (RACSignal *)messagesController {
+    return [[RACSignal combineLatest:@[RACObserve(self, tableViewOffset), [self totalCountOfMessages]]] flattenMap:^id(id value) {
+        RACTupleUnpack(NSNumber *offset, NSNumber *totalCount) = value;
+
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
@@ -104,21 +93,45 @@
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
         [sortDescriptors addObject:sortDescriptor];
         [request setSortDescriptors:sortDescriptors];
+        request.fetchBatchSize = 20;
+        NSInteger calcOffset = (totalCount.intValue - 20 - offset.intValue);
+        request.fetchOffset = (NSUInteger) (calcOffset > 0 ? calcOffset : 0);
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"chat.user = %@", self.contact.user];
+        [request setPredicate:predicate];
 
-
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"chat.user = %@", self.contact.user];
-            [request setPredicate:predicate];
-
-
-
-        _messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
+        NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
         NSError *error = nil;
-        if (![_messagesController performFetch:&error]) {
-            return nil;
+        if (![messagesController performFetch:&error]) {
+            return [RACSignal error:error];
         }
-    }
-    return _messagesController;
+        return [RACSignal return:messagesController];
+    }];
 }
+
+- (RACSignal *)totalCountOfMessages {
+    @weakify(self);
+    return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+        @strongify(self);
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        NSError *error = nil;
+
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
+        [request setEntity:entity];
+        NSMutableArray *sortDescriptors = [NSMutableArray array];
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+        [sortDescriptors addObject:sortDescriptor];
+        [request setSortDescriptors:sortDescriptors];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"chat.user = %@", self.contact.user];
+        [request setPredicate:predicate];
+
+        [subscriber sendNext:@([context countForFetchRequest:request error:&error])];
+        [subscriber sendCompleted];
+
+        return nil;
+    }];
+}
+
 /*
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

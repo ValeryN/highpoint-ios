@@ -5,19 +5,29 @@
 
 #import "RACFetchedTableViewController.h"
 #import "RACTableViewController.h"
+#import "HPChatMsgTableViewCell.h"
 
 @interface RACFetchedTableViewController ()
 @property(nonatomic, retain) NSFetchedResultsController *data;
 @property(nonatomic, retain) NSString *cellIdentifier;
 @property(nonatomic, weak) UITableView* rac_tableView;
+@property(nonatomic, retain) Class cellClass;
+@property(nonatomic) CGFloat rowHeight;
 @end
 
 @implementation RACFetchedTableViewController {
 
 }
 - (void)configureTableView:(UITableView*) tableView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
+    UITableViewCell * cell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
+    self.cellClass = cell.class;
+    self.cellIdentifier = cell.reuseIdentifier;
+
     self.rac_tableView = tableView;
     _data = nil;
+
+    tableView.dataSource = self;
+
     @weakify(self);
     [source subscribeNext:^(id x) {
         @strongify(self);
@@ -37,12 +47,17 @@
         return [[self data] objectAtIndexPath:indexPath];
     }];
     tableView.delegate = delegate;
-    UITableViewCell * cell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
-    self.cellIdentifier = cell.reuseIdentifier;
-    [tableView registerNib:templateCellNib forCellReuseIdentifier:self.cellIdentifier];
-    tableView.rowHeight = cell.bounds.size.height;
 
-    tableView.dataSource = self;
+    [tableView registerNib:templateCellNib forCellReuseIdentifier:self.cellIdentifier];
+
+    if(![cell.class respondsToSelector:@selector(heightForRowWithModel:)]) {
+        tableView.rowHeight = cell.bounds.size.height;
+        self.rowHeight = cell.bounds.size.height;;
+    }
+    else{
+        tableView.estimatedRowHeight = cell.bounds.size.height;
+    }
+
 }
 
 #pragma mark - UITableViewDataSource
@@ -59,6 +74,16 @@
     id <RACTableViewCellProtocol> cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier];
     [cell bindViewModel:[[self data] objectAtIndexPath:indexPath]];
     return (UITableViewCell *) cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
+        NSObject <RACTableViewCellProtocol>* cell = (id <RACTableViewCellProtocol>) self.cellClass;
+        return [cell.class heightForRowWithModel:[[self data] objectAtIndexPath:indexPath]];
+    }
+    else{
+        return self.rowHeight;
+    }
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller

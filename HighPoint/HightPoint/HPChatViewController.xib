@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -8,12 +8,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPChatViewController">
             <connections>
                 <outlet property="bgBottomView" destination="7Gj-3y-HMd" id="QhH-a2-bAk"/>
-                <outlet property="bottomActivityIndicator" destination="Pjs-V0-xuf" id="zrB-Jt-84n"/>
                 <outlet property="chatTableView" destination="dkt-NG-g9o" id="F8f-ak-e9b"/>
                 <outlet property="msgAddBtn" destination="aaG-4U-B78" id="RBg-9g-DDg"/>
                 <outlet property="msgBottomView" destination="KyZ-ZJ-pRW" id="j4x-wb-mUO"/>
                 <outlet property="msgTextView" destination="dfn-79-WvO" id="zKP-Nk-DSM"/>
-                <outlet property="retryBtn" destination="90v-yw-ra4" id="Ort-Hs-qaQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,13 +20,17 @@
             <rect key="frame" x="0.0" y="64" width="320" height="504"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="20" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="dkt-NG-g9o">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="white" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="100" sectionHeaderHeight="20" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="dkt-NG-g9o">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="454"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="kLC-lq-uGD"/>
+                        <outlet property="delegate" destination="-1" id="fhn-4c-Xpe"/>
+                    </connections>
                 </tableView>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KyZ-ZJ-pRW">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KyZ-ZJ-pRW">
                     <rect key="frame" x="0.0" y="454" width="320" height="49"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
@@ -58,27 +60,19 @@
                         </textView>
                     </subviews>
                     <color key="backgroundColor" red="0.1333333333" green="0.1764705882" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="49" id="LgB-9e-H42"/>
+                    </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="90v-yw-ra4">
-                    <rect key="frame" x="15" y="292" width="291" height="67"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Попробовать еще раз">
-                        <color key="titleColor" red="0.87058823529999996" green="0.38431372549999998" blue="0.38431372549999998" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="retryBtnTap:" destination="-1" eventType="touchUpInside" id="anp-eK-hwr"/>
-                    </connections>
-                </button>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Pjs-V0-xuf">
-                    <rect key="frame" x="150" y="430" width="20" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="Pjs-V0-xuf" secondAttribute="bottom" constant="54" id="6L6-hw-FY8"/>
+                <constraint firstAttribute="trailing" secondItem="KyZ-ZJ-pRW" secondAttribute="trailing" id="Fyj-Nk-qyf"/>
                 <constraint firstItem="dkt-NG-g9o" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="NRb-Pf-ZLm"/>
+                <constraint firstItem="KyZ-ZJ-pRW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="TzS-HY-osK"/>
+                <constraint firstAttribute="trailing" secondItem="dkt-NG-g9o" secondAttribute="trailing" id="gmy-8M-45q"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="KyZ-ZJ-pRW" secondAttribute="bottom" constant="1" id="jzy-cu-dn1"/>
+                <constraint firstItem="dkt-NG-g9o" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="nHG-wS-ft3"/>
                 <constraint firstAttribute="bottom" secondItem="KyZ-ZJ-pRW" secondAttribute="bottom" constant="1" id="sUo-C2-TjT"/>
                 <constraint firstAttribute="bottom" secondItem="dkt-NG-g9o" secondAttribute="bottom" constant="50" id="wGQ-9y-7RG"/>
             </constraints>

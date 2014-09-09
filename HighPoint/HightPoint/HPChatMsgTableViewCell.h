@@ -13,12 +13,5 @@
 
 
 @interface HPChatMsgTableViewCell : UITableViewCell <RACTableViewCellProtocol>
-
-
-@property (strong, nonatomic) UIScrollView *scrollView;
-@property (strong, nonatomic) UITextView * msgTextView;
-@property (strong, nonatomic) NSNumber * currentUserId;
-
-- (void) configureSelfWithMsg : (Message *) msg;
-- (void) scrollCellForTimeShowingCell :(CGPoint) point;
++ (CGFloat) heightForRowWithModel:(id) model;
 @end

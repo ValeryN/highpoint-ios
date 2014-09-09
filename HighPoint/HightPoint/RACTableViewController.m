@@ -4,6 +4,7 @@
 //
 
 #import "RACTableViewController.h"
+#import "HPChatMsgTableViewCell.h"
 
 @interface RACTableViewController ()
 @property(nonatomic, retain) NSArray *data;
@@ -36,7 +37,10 @@
 
     _templateCell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
     [tableView registerNib:templateCellNib forCellReuseIdentifier:_templateCell.reuseIdentifier];
-    tableView.rowHeight = _templateCell.bounds.size.height;
+
+    if(![_templateCell.class respondsToSelector:@selector(heightForRowWithModel:)]) {
+        tableView.rowHeight = _templateCell.bounds.size.height;
+    }
 
     tableView.dataSource = self;
 
@@ -54,4 +58,13 @@
     return (UITableViewCell *) cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if([_templateCell respondsToSelector:@selector(heightForRowWithModel:)]) {
+        NSObject <RACTableViewCellProtocol>* cell = (id <RACTableViewCellProtocol>) _templateCell;
+        return [cell.class heightForRowWithModel:_data[(NSUInteger) indexPath.row]];
+    }
+    else{
+        return _templateCell.bounds.size.height;
+    }
+}
 @end
