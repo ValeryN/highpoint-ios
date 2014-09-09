@@ -13,6 +13,7 @@
 		3B0B9207197D364E00910475 /* HPUserInfoTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B0B9206197D364E00910475 /* HPUserInfoTableHeaderView.xib */; };
 		3B105E9B1987D22100BF4C32 /* Trash Tap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B105E991987D22000BF4C32 /* Trash Tap@2x.png */; };
 		3B105E9C1987D22100BF4C32 /* Trash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B105E9A1987D22100BF4C32 /* Trash@2x.png */; };
+		3B12005719BF08F8003A8BFF /* Avatar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B12005619BF08F8003A8BFF /* Avatar.m */; };
 		3B298FB9192F476100BEC2AA /* slider-default-handle-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B298F9B192F476100BEC2AA /* slider-default-handle-highlighted.png */; };
 		3B298FBA192F476100BEC2AA /* slider-default-handle-highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B298F9C192F476100BEC2AA /* slider-default-handle-highlighted@2x.png */; };
 		3B298FBB192F476100BEC2AA /* slider-default-handle.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B298F9D192F476100BEC2AA /* slider-default-handle.png */; };
@@ -65,7 +66,11 @@
 		3B39D2F5195C3091002520B9 /* MaxEntertainmentPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D2F4195C3091002520B9 /* MaxEntertainmentPrice.m */; };
 		3B39D2F8195C3091002520B9 /* MinEntertainmentPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D2F7195C3091002520B9 /* MinEntertainmentPrice.m */; };
 		3B39D301195C3091002520B9 /* Gender.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D300195C3091002520B9 /* Gender.m */; };
+
+		3B39D30D195C3091002520B9 /* UserPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D30C195C3091002520B9 /* UserPoint.m */; };
+
 		3B39D307195C3091002520B9 /* Avatar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D306195C3091002520B9 /* Avatar.m */; };
+
 		3B39D31A195C3122002520B9 /* SocketIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D310195C3122002520B9 /* SocketIO.m */; };
 		3B39D31B195C3122002520B9 /* SocketIOJSONSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D312195C3122002520B9 /* SocketIOJSONSerialization.m */; };
 		3B39D31C195C3122002520B9 /* SocketIOPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D314195C3122002520B9 /* SocketIOPacket.m */; };
@@ -452,6 +457,8 @@
 		3B0B9206197D364E00910475 /* HPUserInfoTableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoTableHeaderView.xib; sourceTree = "<group>"; };
 		3B105E991987D22000BF4C32 /* Trash Tap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trash Tap@2x.png"; sourceTree = "<group>"; };
 		3B105E9A1987D22100BF4C32 /* Trash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trash@2x.png"; sourceTree = "<group>"; };
+		3B12005519BF08F8003A8BFF /* Avatar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Avatar.h; sourceTree = "<group>"; };
+		3B12005619BF08F8003A8BFF /* Avatar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Avatar.m; sourceTree = "<group>"; };
 		3B298F9B192F476100BEC2AA /* slider-default-handle-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default-handle-highlighted.png"; sourceTree = "<group>"; };
 		3B298F9C192F476100BEC2AA /* slider-default-handle-highlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default-handle-highlighted@2x.png"; sourceTree = "<group>"; };
 		3B298F9D192F476100BEC2AA /* slider-default-handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default-handle.png"; sourceTree = "<group>"; };
@@ -1255,6 +1262,8 @@
 				3B31864C191A493F0000DD8B /* Resources */,
 				3B6DB4A618FFC24D00C26A50 /* Images.xcassets */,
 				3B6DB4A318FFC24D00C26A50 /* HightPoint.xcdatamodeld */,
+				3B12005519BF08F8003A8BFF /* Avatar.h */,
+				3B12005619BF08F8003A8BFF /* Avatar.m */,
 				3B6DB49818FFC24D00C26A50 /* Supporting Files */,
 				3B6DB4C418FFC33900C26A50 /* Storyboard_568.storyboard */,
 			);
@@ -2401,7 +2410,6 @@
 				3BDA4C9219064E5900EF6619 /* SDWebImageDownloader.m in Sources */,
 				3BDA4C6719064AC900EF6619 /* AFURLConnectionOperation.m in Sources */,
 				CD7C99621973C10500F1AAAB /* HPAddPhotoMenuViewController.m in Sources */,
-				3B39D307195C3091002520B9 /* Avatar.m in Sources */,
 				3B6DB4A518FFC24D00C26A50 /* HightPoint.xcdatamodeld in Sources */,
 				3BE83C1619796B2A0043E03E /* HEBubbleViewItem.m in Sources */,
 				3BDA4C9519064E5900EF6619 /* SDWebImagePrefetcher.m in Sources */,
@@ -2424,6 +2432,7 @@
 				3BDA4C9819064E5900EF6619 /* UIImage+MultiFormat.m in Sources */,
 				CDBB915F19B9C5CC00546853 /* NSNull+Convert.m in Sources */,
 				CDA0A0B41999E55B0017D35B /* UserFilter.m in Sources */,
+				3B12005719BF08F8003A8BFF /* Avatar.m in Sources */,
 				3B39D322195C5B33002520B9 /* Country.m in Sources */,
 				3BDA4C9919064E5900EF6619 /* UIImage+WebP.m in Sources */,
 				CD55FD2319792C30003EE9E9 /* Company.m in Sources */,

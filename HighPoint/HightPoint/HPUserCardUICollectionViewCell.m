@@ -70,7 +70,7 @@
 #pragma mark - avatar
 
 - (void) loadAvatar : (User *) user {
-    NSString* avatarUrl = user.avatar.originalImageSrc;
+    NSString* avatarUrl = user.avatar.originalImgSrc;
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
                      options:0

@@ -2,7 +2,7 @@
 //  Avatar.h
 //  HighPoint
 //
-//  Created by Andrey Anisimov on 26.06.14.
+//  Created by Andrey Anisimov on 09.09.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -13,17 +13,16 @@
 
 @interface Avatar : NSManagedObject
 
-@property (nonatomic, retain) NSString * highCrop;
-@property (nonatomic, retain) NSNumber * highImageHeight;
-@property (nonatomic, retain) NSString * highImageSrc;
-@property (nonatomic, retain) NSNumber * highImageWidth;
-@property (nonatomic, retain) NSNumber * originalImageHeight;
-@property (nonatomic, retain) NSString * originalImageSrc;
-@property (nonatomic, retain) NSNumber * originalImageWidth;
-@property (nonatomic, retain) NSString * squareCrop;
-@property (nonatomic, retain) NSNumber * squareImageHeight;
-@property (nonatomic, retain) NSString * squareImageSrc;
-@property (nonatomic, retain) NSNumber * squareImageWidth;
+@property (nonatomic, retain) NSNumber * cropLeft;
+@property (nonatomic, retain) NSNumber * cropTop;
+@property (nonatomic, retain) NSNumber * cropWidth;
+@property (nonatomic, retain) NSNumber * cropHeight;
+@property (nonatomic, retain) NSString * encodedImgSrc;
+@property (nonatomic, retain) NSNumber * encodedImgWidth;
+@property (nonatomic, retain) NSNumber * encodedImgHeight;
+@property (nonatomic, retain) NSNumber * originalImgHeight;
+@property (nonatomic, retain) NSNumber * originalImgWidth;
+@property (nonatomic, retain) NSString * originalImgSrc;
 @property (nonatomic, retain) User *user;
 
 @end
