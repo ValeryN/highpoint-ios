@@ -65,7 +65,7 @@
 
 - (void)configureAvatarSignal {
     @weakify(self);
-    self.avatarSignal = [[[RACObserve(self, currentUser.avatar.originalImageSrc) distinctUntilChanged] flattenMap:^RACStream *(id value) {
+    self.avatarSignal = [[[RACObserve(self, currentUser.avatar.originalImgSrc) distinctUntilChanged] flattenMap:^RACStream *(id value) {
         @strongify(self);
         return [self.currentUser userImageSignal];
     }] replayLast];

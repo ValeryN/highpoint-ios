@@ -1111,20 +1111,35 @@ static DataStorage *dataStorage;
 #warning Исправьте метод!
 - (Avatar *)createAvatarEntity:(NSDictionary *)param {
     Avatar *avatar = (Avatar *) [NSEntityDescription insertNewObjectForEntityForName:@"Avatar" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    avatar.highCrop = param[@"highCrop"];
-    avatar.highImageSrc = [param[@"highImage"] objectForKey:@"src"];
-    avatar.highImageHeight = [param[@"highImage"] objectForKey:@"height"];
-    avatar.highImageWidth = [param[@"highImage"] objectForKey:@"width"];
-    avatar.squareCrop = param[@"squareCrop"];
-    avatar.originalImageSrc = [param[@"originalImage"] objectForKey:@"src"];
-    avatar.originalImageHeight = [param[@"originalImage"] objectForKey:@"height"];
-    avatar.originalImageWidth = [param[@"originalImage"] objectForKey:@"width"];
-    avatar.squareImageSrc = [param[@"squareImage"] objectForKey:@"src"];
-    avatar.squareImageHeight = [param[@"squarelImage"] objectForKey:@"height"];
-    avatar.squareImageWidth = [param[@"squareImage"] objectForKey:@"width"];
+    
+    if(param[@"crop"] && param[@"image"] && param[@"originalImage"]) {
+        
+        if([param[@"crop"] isKindOfClass:[NSDictionary class]]) {
+            avatar.cropHeight = [param[@"crop"] objectForKey:@"height"];
+            avatar.cropWidth = [param[@"crop"] objectForKey:@"width"];
+            avatar.cropLeft = [param[@"crop"] objectForKey:@"left"];
+            avatar.cropTop = [param[@"crop"] objectForKey:@"top"];
+        }
+        if([param[@"image"] isKindOfClass:[NSDictionary class]]) {
+            avatar.encodedImgHeight = [param[@"image"] objectForKey:@"height"];
+            avatar.encodedImgWidth = [param[@"image"] objectForKey:@"width"];
+            avatar.encodedImgSrc = [param[@"image"] objectForKey:@"src"];
+        }
+        if([param[@"originalImage"] isKindOfClass:[NSDictionary class]]) {
+            avatar.originalImgHeight = [param[@"originalImage"] objectForKey:@"height"];
+            avatar.originalImgWidth = [param[@"originalImage"] objectForKey:@"width"];
+            avatar.originalImgSrc = [param[@"originalImage"] objectForKey:@"src"];
+        }
+    }
+    else {
+        avatar.originalImgSrc = param[@"src"];
+        avatar.originalImgHeight = param[@"height"];
+        avatar.originalImgHeight = param[@"width"];
+    }
+    
 
     //tmpFix
-    avatar.originalImageSrc = [param[@"src"] stringByAppendingString:@"?size=s640"];
+    //avatar.originalImageSrc = [param[@"src"] stringByAppendingString:@"?size=s640"];
     return avatar;
 }
 
