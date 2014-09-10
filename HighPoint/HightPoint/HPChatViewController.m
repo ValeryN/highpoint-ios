@@ -114,7 +114,7 @@
         [sortDescriptors addObject:sortDescriptor];
         [request setSortDescriptors:sortDescriptors];
         request.fetchBatchSize = 20;
-        request.fetchLimit = (NSUInteger) (NUMBER_PER_PAGE_LOAD + self.tableViewOffset);
+
         NSInteger calcOffset = (totalCount.intValue - NUMBER_PER_PAGE_LOAD - offset.intValue);
         request.fetchOffset = (NSUInteger) (calcOffset > 0 ? calcOffset : 0);
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"chat.user = %@", self.contact.user];
