@@ -11,6 +11,8 @@
 #import "UIViewController+HighPoint.h"
 #import "NSManagedObjectContext+HighPoint.h"
 #import "HPAvatarView.h"
+#import "HPRequest.h"
+#import "HPRequest+Users.h"
 
 
 @interface HPChatViewController ()
@@ -31,20 +33,28 @@
 @property(weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityIndicator;
 
 @property(nonatomic) int tableViewOffset;
+@property(nonatomic, retain) NSFetchedResultsController * totalCountMonitorinFetchController;
+@property(nonatomic, retain) NSObject<NSFetchedResultsControllerDelegate>* totalCountMonitorinFetchControllerDelegate;
 @end
 
 
-#define NUMBER_PER_PAGE_LOAD 5
-#define MIN_SCROLLTOP_PIXEL_TO_LOAD 20.f
+#define NUMBER_PER_PAGE_LOAD 20
+#define MIN_SCROLLTOP_PIXEL_TO_LOAD 50.f
 @implementation HPChatViewController
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.cachedCellHeightByModelId = YES;
     [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
     [self configureInfinityTableView];
     [self configureNavigationBar];
+    [[[self offsetDateSignal] distinctUntilChanged] subscribeNext:^(Message * x) {
+            //В базе осталось на один экран или меньше, стоит запросить их с сервера
+            [[HPRequest getMessagesForUser:[[DataStorage sharedDataStorage] getUserForId:x.bindedUserId] afterMessage:x] subscribeNext:^(id x) {
 
+            }];
+    }];
 
     // Do any additional setup after loading the view from its nib.
 }
@@ -101,9 +111,8 @@
 
 - (RACSignal *)messagesController {
     @weakify(self);
-    return [[RACSignal combineLatest:@[RACObserve(self, tableViewOffset), [self totalCountOfMessages]]] flattenMap:^id(id value) {
+    return [[self offsetDateSignal] flattenMap:^id(Message* firstMessage) {
         @strongify(self);
-        RACTupleUnpack(NSNumber *offset, NSNumber *totalCount) = value;
 
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -115,9 +124,8 @@
         [request setSortDescriptors:sortDescriptors];
         request.fetchBatchSize = 20;
 
-        NSInteger calcOffset = (totalCount.intValue - NUMBER_PER_PAGE_LOAD - offset.intValue);
-        request.fetchOffset = (NSUInteger) (calcOffset > 0 ? calcOffset : 0);
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"chat.user = %@", self.contact.user];
+
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@ AND createdAt >= %@", self.contact.user.userId,firstMessage.createdAt];
         [request setPredicate:predicate];
 
         NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
@@ -125,13 +133,48 @@
         if (![messagesController performFetch:&error]) {
             return [RACSignal error:error];
         }
+
         return [RACSignal return:messagesController];
+    }];
+
+}
+- (RACSignal *) offsetDateSignal
+{
+    return [[RACSignal combineLatest:@[RACObserve(self, tableViewOffset), [self totalCountOfMessages]]] map:^id(id value) {
+        RACTupleUnpack(NSNumber *offset, NSNumber *totalCount) = value;
+
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
+        [request setEntity:entity];
+        NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+        [sortDescriptors addObject:sortDescriptor];
+        [request setSortDescriptors:sortDescriptors];
+        request.fetchBatchSize = 20;
+        NSInteger calcOffset = (totalCount.intValue - NUMBER_PER_PAGE_LOAD - offset.intValue);
+        request.fetchOffset = (NSUInteger) (calcOffset > 0 ? calcOffset : 0);
+        request.fetchLimit = 1;
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@", self.contact.user.userId];
+        [request setPredicate:predicate];
+
+        NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
+        NSError *error = nil;
+        if (![messagesController performFetch:&error]) {
+            NSLog(@"error get date");
+        }
+
+
+        if( messagesController.fetchedObjects.count > 0) {
+            return messagesController.fetchedObjects.firstObject;
+        }
+        return nil;
     }];
 }
 
 - (RACSignal *)totalCountOfMessages {
     @weakify(self);
-    return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+    return [[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
         @strongify(self);
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         NSError *error = nil;
@@ -143,14 +186,21 @@
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
         [sortDescriptors addObject:sortDescriptor];
         [request setSortDescriptors:sortDescriptors];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"chat.user = %@", self.contact.user];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@", self.contact.user.userId];
         [request setPredicate:predicate];
 
-        [subscriber sendNext:@([context countForFetchRequest:request error:&error])];
-        [subscriber sendCompleted];
-
+        self.totalCountMonitorinFetchController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
+        if (![self.totalCountMonitorinFetchController performFetch:&error]) {
+            [subscriber sendError:error];
+        }
+        self.totalCountMonitorinFetchControllerDelegate = (NSObject <NSFetchedResultsControllerDelegate> *) [NSObject new];
+        [[self.totalCountMonitorinFetchControllerDelegate rac_signalForSelector:@selector(controllerDidChangeContent:) fromProtocol:@protocol(NSFetchedResultsControllerDelegate)] subscribeNext:^(id x) {
+            [subscriber sendNext:@(self.totalCountMonitorinFetchController.fetchedObjects.count)];
+        }];
+        self.totalCountMonitorinFetchController.delegate = self.totalCountMonitorinFetchControllerDelegate;
+        [subscriber sendNext:@(self.totalCountMonitorinFetchController.fetchedObjects.count)];
         return nil;
-    }];
+    }] takeUntil:[self rac_willDeallocSignal]];
 }
 
 /*

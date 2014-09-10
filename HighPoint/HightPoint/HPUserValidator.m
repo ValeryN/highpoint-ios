@@ -19,15 +19,15 @@
         return NO;
     if (![dictionary[@"cityId"] isKindOfClass:[NSNumber class]])
         return NO;
-    if (![dictionary[@"cityName"] isKindOfClass:[NSString class]]  && ![dictionary[@"cityName"] isKindOfClass:[NSNull class]] && dictionary[@"cityName"])
+    if (![dictionary[@"cityName"] isKindOfClass:[NSString class]] && ![dictionary[@"cityName"] isKindOfClass:[NSNull class]] && dictionary[@"cityName"])
         return NO;
     if (![dictionary[@"education"] isKindOfClass:[NSArray class]] && ![dictionary[@"education"] isKindOfClass:[NSNull class]] && dictionary[@"education"])
         return NO;
     if (![dictionary[@"email"] isKindOfClass:[NSString class]] && ![dictionary[@"email"] isKindOfClass:[NSNull class]] && dictionary[@"email"])
         return NO;
-    if (![dictionary[@"favoriteCityIds"] isKindOfClass:[NSArray class]]  && ![dictionary[@"favoriteCityIds"] isKindOfClass:[NSNull class]] && dictionary[@"favoriteCityIds"])
+    if (![dictionary[@"favoriteCityIds"] isKindOfClass:[NSArray class]] && ![dictionary[@"favoriteCityIds"] isKindOfClass:[NSNull class]] && dictionary[@"favoriteCityIds"])
         return NO;
-    if (![dictionary[@"favoritePlaceIds"] isKindOfClass:[NSArray class]]  && ![dictionary[@"favoritePlaceIds"] isKindOfClass:[NSNull class]] && dictionary[@"favoritePlaceIds"])
+    if (![dictionary[@"favoritePlaceIds"] isKindOfClass:[NSArray class]] && ![dictionary[@"favoritePlaceIds"] isKindOfClass:[NSNull class]] && dictionary[@"favoritePlaceIds"])
         return NO;
     if (![dictionary[@"gender"] isKindOfClass:[NSNumber class]])
         return NO;
@@ -46,7 +46,7 @@
     if (![dictionary[@"visibility"] isKindOfClass:[NSNumber class]])
         return NO;
 
-    return YES;
+    return dictionary != nil;
 }
 
 @end

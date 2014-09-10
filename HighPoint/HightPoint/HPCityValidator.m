@@ -20,7 +20,8 @@
         return NO;
     if (![dictionary[@"regionId"] isKindOfClass:[NSNumber class]])
         return NO;
-    return YES;
+
+    return dictionary != nil;
 }
 
 @end

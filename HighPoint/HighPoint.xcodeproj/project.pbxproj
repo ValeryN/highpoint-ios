@@ -262,12 +262,14 @@
 		7C5F79F487D68A326256AFD1 /* NSManagedObjectContext+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7F301D738FAB617FC7E5 /* NSManagedObjectContext+HighPoint.m */; };
 		7C5F7B370D3AE224778EA669 /* HPImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F77C71335DFAD0C776965 /* HPImageCollectionViewCell.m */; };
 		7C5F7B3C22E090C468F05B5A /* transparentflower@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F79A39A4A85160DD2ACCD /* transparentflower@2x.png */; };
+		7C5F7B52631787BB99EE7962 /* HPRequest+Users.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7A880E78E425DF2258B3 /* HPRequest+Users.m */; };
 		7C5F7B8DF4D8E5D3CDF17849 /* HPSearchCityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F787632F7CC034624FEB2 /* HPSearchCityViewController.xib */; };
 		7C5F7BBD7015D433D0D69AC0 /* HPUserProfileInfoEditTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7247CB61482010C7BBC3 /* HPUserProfileInfoEditTabViewController.m */; };
 		7C5F7C658C5746D3BF22FEC9 /* HPUserProfileInfoEditTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7F0253B8B9515C30D81E /* HPUserProfileInfoEditTabViewController.xib */; };
 		7C5F7CB9D9398A3579B340C8 /* RACFetchedCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7EF040173F22819BDD4D /* RACFetchedCollectionViewController.m */; };
 		7C5F7D1FB28DC01E5FFD33DF /* HPSearchCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F716F09BF960DBC78C606 /* HPSearchCityViewController.m */; };
 		7C5F7D6BA2F7A7A1F69CD0F9 /* HPUserProfileTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F788AEA6CCF8DB315766E /* HPUserProfileTableHeaderView.m */; };
+		7C5F7E98F6854F5FBA41DCDE /* HPMessageValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F723A77FC99E169F73496 /* HPMessageValidator.m */; };
 		7C5F7EA6A679F1D7A1338BE8 /* HPHEBubbleViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7362A22A9AB0E359D898 /* HPHEBubbleViewItem.m */; };
 		7C5F7F869A9F7D9797A3CA3A /* HPCityValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F73720D0B9F25137AA95E /* HPCityValidator.m */; };
 		7C5F7F8EA181FF6B301EC198 /* HPImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7CC7149A27F47DFCF3C5 /* HPImageCollectionViewCell.xib */; };
@@ -756,7 +758,10 @@
 		7C5F714907A20072CF50C98A /* UITextView+HPRacSignal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+HPRacSignal.h"; sourceTree = "<group>"; };
 		7C5F716F09BF960DBC78C606 /* HPSearchCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSearchCityViewController.m; sourceTree = "<group>"; };
 		7C5F7193F33CC4D047145D65 /* HPAddEducationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAddEducationViewController.h; sourceTree = "<group>"; };
+		7C5F71A01EE66993DB4C0254 /* HPRequest+Users.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPRequest+Users.h"; sourceTree = "<group>"; };
+		7C5F723A77FC99E169F73496 /* HPMessageValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPMessageValidator.m; sourceTree = "<group>"; };
 		7C5F7247CB61482010C7BBC3 /* HPUserProfileInfoEditTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserProfileInfoEditTabViewController.m; sourceTree = "<group>"; };
+		7C5F725CA10D817EEA4C9EC3 /* HPMessageValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPMessageValidator.h; sourceTree = "<group>"; };
 		7C5F727D5ACE12CAC506BCCA /* NSManagedObject+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+HighPoint.h"; sourceTree = "<group>"; };
 		7C5F72A56CFAA4F5DBBBC043 /* HPUserValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserValidator.h; sourceTree = "<group>"; };
 		7C5F72B3F429363DD1851AE9 /* RACTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACTableViewController.h; sourceTree = "<group>"; };
@@ -797,6 +802,7 @@
 		7C5F79FBC553B622AE95FF32 /* HPUserProfilePhotoAlbumTabViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfilePhotoAlbumTabViewController.xib; sourceTree = "<group>"; };
 		7C5F7A163EB31DC0BF53E4DC /* HPAddNewTownCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddNewTownCellView.m; sourceTree = "<group>"; };
 		7C5F7A3AE61FDEA00F1DD2A6 /* CALayer+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+HighPoint.h"; sourceTree = "<group>"; };
+		7C5F7A880E78E425DF2258B3 /* HPRequest+Users.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPRequest+Users.m"; sourceTree = "<group>"; };
 		7C5F7B15DE78F6BE1E7DB9BA /* HPRequest+CurrentUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPRequest+CurrentUser.h"; sourceTree = "<group>"; };
 		7C5F7B1F5B835B3E2B0FCC2B /* HPUserProfileСarouselModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPUserProfileСarouselModeViewController.h"; sourceTree = "<group>"; };
 		7C5F7B335D7677C539340AD7 /* HPRequest+GeoLocations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPRequest+GeoLocations.h"; sourceTree = "<group>"; };
@@ -1784,6 +1790,8 @@
 				7C5F79C13A2C3CCD63E275CF /* HPRequest+Points.m */,
 				7C5F7D7AC05E0DA825BBA943 /* HPRequest+Points.h */,
 				7C5F7545A79171BAE0130F8F /* Validator */,
+				7C5F7A880E78E425DF2258B3 /* HPRequest+Users.m */,
+				7C5F71A01EE66993DB4C0254 /* HPRequest+Users.h */,
 			);
 			name = Requests;
 			sourceTree = "<group>";
@@ -1796,6 +1804,8 @@
 				7C5F75530D834FC7A1F5DF7B /* HPValidatorProtocol.h */,
 				7C5F73720D0B9F25137AA95E /* HPCityValidator.m */,
 				7C5F73C934BCABFC7B0524D9 /* HPCityValidator.h */,
+				7C5F723A77FC99E169F73496 /* HPMessageValidator.m */,
+				7C5F725CA10D817EEA4C9EC3 /* HPMessageValidator.h */,
 			);
 			name = Validator;
 			sourceTree = "<group>";
@@ -2561,6 +2571,8 @@
 				7C5F7281799A75B9D2E54697 /* HPAddEducationViewController.m in Sources */,
 				7C5F71AA70A2396390631A2B /* HPAddCareerViewController.m in Sources */,
 				40314B3D2DFFC91E7BA6686C /* Message+SectionIdentifier.m in Sources */,
+				7C5F7B52631787BB99EE7962 /* HPRequest+Users.m in Sources */,
+				7C5F7E98F6854F5FBA41DCDE /* HPMessageValidator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
