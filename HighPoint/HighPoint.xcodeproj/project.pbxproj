@@ -66,11 +66,7 @@
 		3B39D2F5195C3091002520B9 /* MaxEntertainmentPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D2F4195C3091002520B9 /* MaxEntertainmentPrice.m */; };
 		3B39D2F8195C3091002520B9 /* MinEntertainmentPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D2F7195C3091002520B9 /* MinEntertainmentPrice.m */; };
 		3B39D301195C3091002520B9 /* Gender.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D300195C3091002520B9 /* Gender.m */; };
-
-		3B39D30D195C3091002520B9 /* UserPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D30C195C3091002520B9 /* UserPoint.m */; };
-
-		3B39D307195C3091002520B9 /* Avatar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D306195C3091002520B9 /* Avatar.m */; };
-
+		3B39D307195C3091002520B9 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 3B39D306195C3091002520B9 /* Avatar.m */; };
 		3B39D31A195C3122002520B9 /* SocketIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D310195C3122002520B9 /* SocketIO.m */; };
 		3B39D31B195C3122002520B9 /* SocketIOJSONSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D312195C3122002520B9 /* SocketIOJSONSerialization.m */; };
 		3B39D31C195C3122002520B9 /* SocketIOPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D314195C3122002520B9 /* SocketIOPacket.m */; };

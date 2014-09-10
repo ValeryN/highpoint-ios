@@ -7,7 +7,6 @@
 //
 
 #import "HPChatMsgTableViewCell.h"
-#import <QuartzCore/QuartzCore.h>
 
 @interface HPChatMsgTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *textMessageLabel;
@@ -16,9 +15,6 @@
 @end
 
 @implementation HPChatMsgTableViewCell
-- (void)awakeFromNib {
-    [super awakeFromNib];
-}
 //- (void)awakeFromNib
 //{
 //    self.scrollView = [[UIScrollView alloc] init];
@@ -131,8 +127,9 @@
 }
 
 + (CGFloat)heightForRowWithModel:(Message*)model {
-    return [model.text boundingRectWithSize:(CGSize){276,9999} options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"FuturaPT-Book" size:18.0]} context:nil].size.height+25;
+    return [model.text boundingRectWithSize:(CGSize){276,9999} options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"FuturaPT-Book" size:18.0]} context:nil].size.height+100;
 }
 
 
 @end
+

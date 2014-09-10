@@ -54,9 +54,6 @@
         tableView.rowHeight = cell.bounds.size.height;
         self.rowHeight = cell.bounds.size.height;;
     }
-    else{
-        tableView.estimatedRowHeight = cell.bounds.size.height;
-    }
 
 }
 

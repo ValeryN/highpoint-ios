@@ -34,24 +34,42 @@
 @end
 
 
+#define NUMBER_PER_PAGE_LOAD 5
+#define MIN_SCROLLTOP_PIXEL_TO_LOAD 20.f
 @implementation HPChatViewController
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self scrollTableToBottomOnLoad];
     [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
+    [self configureInfinityTableView];
     [self configureNavigationBar];
 
 
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void)scrollTableToBottomOnLoad {
+- (void)configureInfinityTableView {
     @weakify(self);
-    [[[RACSignal zip:@[[self.chatTableView rac_signalForSelector:@selector(reloadData)],[self rac_signalForSelector:@selector(updateViewConstraints)]]] take:1] subscribeNext:^(id x) {
+
+    [[RACObserve(self.chatTableView, contentSize) combinePreviousWithStart:[NSValue valueWithCGSize:(CGSize){0, 0}] reduce:^id(id previous, id current) {
+        CGFloat prevHeight = [previous CGSizeValue].height;
+        CGFloat newHeight = [current CGSizeValue].height;
+        return @(newHeight - prevHeight);
+    }] subscribeNext:^(NSNumber * x) {
         @strongify(self);
-        [self.chatTableView setContentOffset:CGPointMake(0, CGFLOAT_MAX)];
+        self.chatTableView.contentOffset = (CGPoint){0,self.chatTableView.contentOffset.y + x.floatValue};
+    }];
+
+    [[[[[RACObserve(self.chatTableView, contentOffset) map:^id(id value) {
+        CGFloat offset = [value CGPointValue].y;
+        return @(offset);
+    }] map:^id(NSNumber * value) {
+        return @(value.floatValue < MIN_SCROLLTOP_PIXEL_TO_LOAD);
+    }] distinctUntilChanged] skip:1]  subscribeNext:^(NSNumber * x) {
+        @strongify(self);
+        if(x.boolValue)
+            self.tableViewOffset += NUMBER_PER_PAGE_LOAD;
     }];
 }
 
@@ -82,7 +100,9 @@
 }
 
 - (RACSignal *)messagesController {
+    @weakify(self);
     return [[RACSignal combineLatest:@[RACObserve(self, tableViewOffset), [self totalCountOfMessages]]] flattenMap:^id(id value) {
+        @strongify(self);
         RACTupleUnpack(NSNumber *offset, NSNumber *totalCount) = value;
 
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
@@ -94,7 +114,8 @@
         [sortDescriptors addObject:sortDescriptor];
         [request setSortDescriptors:sortDescriptors];
         request.fetchBatchSize = 20;
-        NSInteger calcOffset = (totalCount.intValue - 20 - offset.intValue);
+        request.fetchLimit = (NSUInteger) (NUMBER_PER_PAGE_LOAD + self.tableViewOffset);
+        NSInteger calcOffset = (totalCount.intValue - NUMBER_PER_PAGE_LOAD - offset.intValue);
         request.fetchOffset = (NSUInteger) (calcOffset > 0 ? calcOffset : 0);
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"chat.user = %@", self.contact.user];
         [request setPredicate:predicate];
