@@ -2191,7 +2191,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = B9639RHZFT;
+						DevelopmentTeam = J67Y29BQR7;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -2798,7 +2798,7 @@
 					"$(PROJECT_DIR)/HightPoint/External/HockeySDK-iOS/HockeySDK.embeddedframework",
 					"$(PROJECT_DIR)/HightPoint/External/i18n",
 				);
-				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HightPoint/HighPoint-Prefix.pch";
 				HEADER_SEARCH_PATHS = (

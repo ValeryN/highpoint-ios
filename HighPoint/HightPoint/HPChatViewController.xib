@@ -12,6 +12,7 @@
                 <outlet property="msgAddBtn" destination="aaG-4U-B78" id="RBg-9g-DDg"/>
                 <outlet property="msgBottomView" destination="KyZ-ZJ-pRW" id="j4x-wb-mUO"/>
                 <outlet property="msgTextView" destination="dfn-79-WvO" id="zKP-Nk-DSM"/>
+                <outlet property="tableHeaderView" destination="e6q-Uy-KkU" id="gzg-hE-8BC"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -75,6 +76,18 @@
             <connections>
                 <action selector="backgroundTap:" destination="-1" eventType="touchUpInside" id="bsg-rx-2Ca"/>
             </connections>
+        </view>
+        <view contentMode="scaleToFill" id="e6q-Uy-KkU">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="xtP-p3-i24">
+                    <rect key="frame" x="150" y="12" width="20" height="20"/>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-304" y="162"/>
         </view>
     </objects>
     <resources>

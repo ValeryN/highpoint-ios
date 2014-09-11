@@ -2503,6 +2503,7 @@ static DataStorage *dataStorage;
 
 
 - (void)addSaveOperationToBottomInContext:(NSManagedObjectContext *)context {
+    //NSLog(@"%@",[NSThread callStackSymbols]);
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         if (context.hasChanges) {
             [context performBlockAndWait:^{

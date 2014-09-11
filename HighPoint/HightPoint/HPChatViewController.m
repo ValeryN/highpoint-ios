@@ -20,7 +20,7 @@
 @property(strong, nonatomic) HPAvatarView *avatar;
 @property(strong, nonatomic) UIView *avatarView;
 @property(weak, nonatomic) IBOutlet UITableView *chatTableView;
-
+@property(weak, nonatomic) IBOutlet UIView* tableHeaderView;
 
 //bottom view
 @property(weak, nonatomic) IBOutlet UIView *msgBottomView;
@@ -29,8 +29,6 @@
 @property(weak, nonatomic) IBOutlet UIView *bgBottomView;
 
 
-@property(weak, nonatomic) IBOutlet UIButton *retryBtn;
-@property(weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityIndicator;
 
 @property(nonatomic) NSDate *minimumViewedDate;
 @end
@@ -44,6 +42,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.chatTableView.tableHeaderView = self.tableHeaderView;
     self.cachedCellHeightByModelId = YES;
     [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
     [self configureInfinityTableView];
@@ -75,17 +74,18 @@
         [self checkIfNeedLoadNewMessagesFromServer];
     }];
 
-    [[[[contentOffsetSignal map:^id(id value) {
-        @strongify(self);
-        CGFloat offset = [value CGPointValue].y;
-        return @(offset < -self.chatTableView.contentInset.top);;
-    }] distinctUntilChanged] filter:^BOOL(NSNumber *x) {
-        return x.boolValue;
-    }] subscribeNext:^(NSNumber *x) {
-        @strongify(self);
-        self.minimumViewedDate = [self getDateOffsetAfterDate:self.minimumViewedDate andNumberPerPage:NUMBER_PER_PAGE_LOAD];
-        [self checkIfNeedLoadNewMessagesFromServer];
-    }];
+
+//    [[[[contentOffsetSignal map:^id(id value) {
+//        @strongify(self);
+//        CGFloat offset = [value CGPointValue].y;
+//        return @(offset < -self.chatTableView.contentInset.top);;
+//    }] distinctUntilChanged] filter:^BOOL(NSNumber *x) {
+//        return x.boolValue;
+//    }] subscribeNext:^(NSNumber *x) {
+//        @strongify(self);
+//        self.minimumViewedDate = [self getDateOffsetAfterDate:self.minimumViewedDate andNumberPerPage:NUMBER_PER_PAGE_LOAD];
+//        [self checkIfNeedLoadNewMessagesFromServer];
+//    }];
 }
 
 - (void)updateViewConstraints {
