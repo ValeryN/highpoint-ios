@@ -15,10 +15,10 @@
 
     if (!tmp)
     {
-        NSDateFormatter* dateFormatter = [NSDateFormatter new];
-        [dateFormatter setDateFormat: @"yyyy-MM-dd"];
-        tmp = [dateFormatter stringFromDate: self.createdAt];
-        [self setPrimitiveValue: tmp forKey: @"createdAtDaySection"];
+        tmp = [Message createdAtSectionIdentifierGenerateFromDate:self.createdAt];
+        [self willChangeValueForKey: @"createdAtDaySection"];
+        [self setPrimitiveValue:tmp  forKey: @"createdAtDaySection"];
+        [self didChangeValueForKey: @"createdAtDaySection"];
     }
     return tmp;
 }
@@ -28,7 +28,13 @@
     [self willChangeValueForKey: @"createdAt"];
     [self setPrimitiveValue: createdAt forKey: @"createdAt"];
     [self didChangeValueForKey: @"createdAt"];
-    [self setValue: nil forKey: @"createdAtDaySection"];
+    self.createdAtDaySection = [Message createdAtSectionIdentifierGenerateFromDate:createdAt];
+}
+
++ (NSString *) createdAtSectionIdentifierGenerateFromDate:(NSDate*) date{
+    NSDateFormatter* dateFormatter = [NSDateFormatter new];
+    [dateFormatter setDateFormat: @"yyyy-MM-dd"];
+    return  [dateFormatter stringFromDate: date];
 }
 
 @end

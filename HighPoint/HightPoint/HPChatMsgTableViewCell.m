@@ -7,6 +7,8 @@
 //
 
 #import "HPChatMsgTableViewCell.h"
+#import "NSManagedObjectContext+HighPoint.h"
+#import "NSManagedObject+HighPoint.h"
 
 @interface HPChatMsgTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *textMessageLabel;
@@ -127,7 +129,8 @@
 }
 
 + (CGFloat)heightForRowWithModel:(Message*)model {
-    return [model.text boundingRectWithSize:(CGSize){276,9999} options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"FuturaPT-Book" size:18.0]} context:nil].size.height+25;
+    NSManagedObjectContext * context = [NSManagedObjectContext threadContext];
+    return [((Message*)[model moveToContext:context]).text boundingRectWithSize:(CGSize){276,9999} options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"FuturaPT-Book" size:18.0]} context:nil].size.height+25;
 }
 
 

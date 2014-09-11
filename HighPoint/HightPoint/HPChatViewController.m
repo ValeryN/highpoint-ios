@@ -32,14 +32,13 @@
 @property(weak, nonatomic) IBOutlet UIButton *retryBtn;
 @property(weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityIndicator;
 
-@property(nonatomic) int tableViewOffset;
-@property(nonatomic, retain) NSFetchedResultsController * totalCountMonitorinFetchController;
-@property(nonatomic, retain) NSObject<NSFetchedResultsControllerDelegate>* totalCountMonitorinFetchControllerDelegate;
+@property(nonatomic) NSDate *minimumViewedDate;
 @end
 
 
 #define NUMBER_PER_PAGE_LOAD 20
-#define MIN_SCROLLTOP_PIXEL_TO_LOAD 50.f
+#define MIN_SCROLLTOP_PIXEL_TO_LOAD 400.f
+
 @implementation HPChatViewController
 
 
@@ -49,12 +48,6 @@
     [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
     [self configureInfinityTableView];
     [self configureNavigationBar];
-    [[[self offsetDateSignal] distinctUntilChanged] subscribeNext:^(Message * x) {
-            //В базе осталось на один экран или меньше, стоит запросить их с сервера
-            [[HPRequest getMessagesForUser:[[DataStorage sharedDataStorage] getUserForId:x.bindedUserId] afterMessage:x] subscribeNext:^(id x) {
-
-            }];
-    }];
 
     // Do any additional setup after loading the view from its nib.
 }
@@ -62,24 +55,36 @@
 - (void)configureInfinityTableView {
     @weakify(self);
 
-    [[RACObserve(self.chatTableView, contentSize) combinePreviousWithStart:[NSValue valueWithCGSize:(CGSize){0, 0}] reduce:^id(id previous, id current) {
+    [[RACObserve(self.chatTableView, contentSize) combinePreviousWithStart:[NSValue valueWithCGSize:(CGSize) {0, 0}] reduce:^id(id previous, id current) {
         CGFloat prevHeight = [previous CGSizeValue].height;
         CGFloat newHeight = [current CGSizeValue].height;
         return @(newHeight - prevHeight);
-    }] subscribeNext:^(NSNumber * x) {
+    }] subscribeNext:^(NSNumber *x) {
         @strongify(self);
-        self.chatTableView.contentOffset = (CGPoint){0,self.chatTableView.contentOffset.y + x.floatValue};
+        self.chatTableView.contentOffset = (CGPoint) {0, self.chatTableView.contentOffset.y + x.floatValue};
+    }];
+    RACSignal *contentOffsetSignal = [RACObserve(self.chatTableView, contentOffset) replayLast];
+    [[[[contentOffsetSignal map:^id(id value) {
+        CGFloat offset = [value CGPointValue].y;
+        return @(offset < MIN_SCROLLTOP_PIXEL_TO_LOAD);;
+    }] distinctUntilChanged] filter:^BOOL(NSNumber *x) {
+        return x.boolValue;
+    }] subscribeNext:^(NSNumber *x) {
+        @strongify(self);
+        self.minimumViewedDate = [self getDateOffsetAfterDate:self.minimumViewedDate andNumberPerPage:NUMBER_PER_PAGE_LOAD];
+        [self checkIfNeedLoadNewMessagesFromServer];
     }];
 
-    [[[[[RACObserve(self.chatTableView, contentOffset) map:^id(id value) {
-        CGFloat offset = [value CGPointValue].y;
-        return @(offset);
-    }] map:^id(NSNumber * value) {
-        return @(value.floatValue < MIN_SCROLLTOP_PIXEL_TO_LOAD);
-    }] distinctUntilChanged] skip:1]  subscribeNext:^(NSNumber * x) {
+    [[[[contentOffsetSignal map:^id(id value) {
         @strongify(self);
-        if(x.boolValue)
-            self.tableViewOffset += NUMBER_PER_PAGE_LOAD;
+        CGFloat offset = [value CGPointValue].y;
+        return @(offset < -self.chatTableView.contentInset.top);;
+    }] distinctUntilChanged] filter:^BOOL(NSNumber *x) {
+        return x.boolValue;
+    }] subscribeNext:^(NSNumber *x) {
+        @strongify(self);
+        self.minimumViewedDate = [self getDateOffsetAfterDate:self.minimumViewedDate andNumberPerPage:NUMBER_PER_PAGE_LOAD];
+        [self checkIfNeedLoadNewMessagesFromServer];
     }];
 }
 
@@ -105,104 +110,101 @@
     self.navigationItem.title = self.contact.user.name;
 }
 
-- (void) backButtonTaped:(id) sender{
+
+- (void)backButtonTaped:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (RACSignal *)messagesController {
     @weakify(self);
-    return [[self offsetDateSignal] flattenMap:^id(Message* firstMessage) {
-        @strongify(self);
+    return [RACObserve(self, minimumViewedDate) flattenMap:^id(NSDate *minDate) {
+        return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+            @strongify(self);
 
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
-        [request setEntity:entity];
-        NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
-        [sortDescriptors addObject:sortDescriptor];
-        [request setSortDescriptors:sortDescriptors];
-        request.fetchBatchSize = 20;
+            NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+            NSFetchRequest *request = [[NSFetchRequest alloc] init];
+            NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
+            [request setEntity:entity];
+            NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+            [sortDescriptors addObject:sortDescriptor];
+            [request setSortDescriptors:sortDescriptors];
+            request.fetchBatchSize = 20;
 
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@ AND createdAt >= %@", self.contact.user.userId, minDate ?: [NSDate date]];
+            [request setPredicate:predicate];
 
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@ AND createdAt >= %@", self.contact.user.userId,firstMessage.createdAt];
-        [request setPredicate:predicate];
+            NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
 
-        NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
-        NSError *error = nil;
-        if (![messagesController performFetch:&error]) {
-            return [RACSignal error:error];
-        }
-
-        return [RACSignal return:messagesController];
-    }];
-
-}
-- (RACSignal *) offsetDateSignal
-{
-    return [[RACSignal combineLatest:@[RACObserve(self, tableViewOffset), [self totalCountOfMessages]]] map:^id(id value) {
-        RACTupleUnpack(NSNumber *offset, NSNumber *totalCount) = value;
-
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
-        [request setEntity:entity];
-        NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
-        [sortDescriptors addObject:sortDescriptor];
-        [request setSortDescriptors:sortDescriptors];
-        request.fetchBatchSize = 20;
-        NSInteger calcOffset = (totalCount.intValue - NUMBER_PER_PAGE_LOAD - offset.intValue);
-        request.fetchOffset = (NSUInteger) (calcOffset > 0 ? calcOffset : 0);
-        request.fetchLimit = 1;
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@", self.contact.user.userId];
-        [request setPredicate:predicate];
-
-        NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
-        NSError *error = nil;
-        if (![messagesController performFetch:&error]) {
-            NSLog(@"error get date");
-        }
-
-
-        if( messagesController.fetchedObjects.count > 0) {
-            return messagesController.fetchedObjects.firstObject;
-        }
-        return nil;
-    }];
-}
-
-- (RACSignal *)totalCountOfMessages {
-    @weakify(self);
-    return [[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-        @strongify(self);
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        NSError *error = nil;
-
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
-        [request setEntity:entity];
-        NSMutableArray *sortDescriptors = [NSMutableArray array];
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
-        [sortDescriptors addObject:sortDescriptor];
-        [request setSortDescriptors:sortDescriptors];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@", self.contact.user.userId];
-        [request setPredicate:predicate];
-
-        self.totalCountMonitorinFetchController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
-        if (![self.totalCountMonitorinFetchController performFetch:&error]) {
-            [subscriber sendError:error];
-        }
-        self.totalCountMonitorinFetchControllerDelegate = (NSObject <NSFetchedResultsControllerDelegate> *) [NSObject new];
-        [[self.totalCountMonitorinFetchControllerDelegate rac_signalForSelector:@selector(controllerDidChangeContent:) fromProtocol:@protocol(NSFetchedResultsControllerDelegate)] subscribeNext:^(id x) {
-            [subscriber sendNext:@(self.totalCountMonitorinFetchController.fetchedObjects.count)];
+            [context performBlock:^{
+                NSError *error = nil;
+                if (![messagesController performFetch:&error]) {
+                    [subscriber sendNext:error];
+                }
+                [subscriber sendNext:messagesController];
+                [subscriber sendCompleted];
+            }];
+            return nil;
         }];
-        self.totalCountMonitorinFetchController.delegate = self.totalCountMonitorinFetchControllerDelegate;
-        [subscriber sendNext:@(self.totalCountMonitorinFetchController.fetchedObjects.count)];
-        return nil;
-    }] takeUntil:[self rac_willDeallocSignal]];
+    }];
+
 }
 
+- (NSDate *)getDateOffsetAfterDate:(NSDate *)date andNumberPerPage:(NSUInteger)numberPerPage {
+    if (date == nil) {
+        date = [NSDate date];
+    }
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
+    [request setEntity:entity];
+    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    request.fetchBatchSize = 1;
+    request.fetchLimit = numberPerPage;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@ and createdAt < %@", self.contact.user.userId, date];
+    [request setPredicate:predicate];
+
+    NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
+    NSError *error = nil;
+    if (![messagesController performFetch:&error]) {
+        NSLog(@"error get date");
+    }
+
+    if (messagesController.fetchedObjects.count > 0) {
+        return ((Message *) messagesController.fetchedObjects.lastObject).createdAt;
+    }
+
+    return date;
+}
+
+- (void)checkIfNeedLoadNewMessagesFromServer {
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
+    [request setEntity:entity];
+    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+    [sortDescriptors addObject:sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    request.fetchLimit = 1;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@", self.contact.user.userId];
+    [request setPredicate:predicate];
+
+    Message *minMessageFromServer;
+    NSArray *resultArray = [context executeFetchRequest:request error:nil];
+    if (resultArray.count > 0) {
+        minMessageFromServer = resultArray[0];
+    }
+    @weakify(self);
+    [[HPRequest getMessagesForUser:self.contact.user afterMessage:minMessageFromServer] subscribeCompleted:^{
+        @strongify(self);
+        if (self.chatTableView.contentOffset.y < MIN_SCROLLTOP_PIXEL_TO_LOAD)
+            self.minimumViewedDate = [self getDateOffsetAfterDate:self.minimumViewedDate andNumberPerPage:NUMBER_PER_PAGE_LOAD];
+    }];
+}
 /*
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

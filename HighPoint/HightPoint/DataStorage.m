@@ -1499,10 +1499,10 @@ static DataStorage *dataStorage;
 - (void)createAndSavePoint:(NSDictionary *)param {
     [self.backgroundOperationQueue addOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        __block UserPoint *userPoint = [self getPointForId:param[@"id"]];
         [context performBlockAndWait:^{
             NSDateFormatter *df = [[NSDateFormatter alloc] init];
             [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-            UserPoint *userPoint = [self getPointForId:param[@"id"]];
             if (!userPoint) {
                 userPoint = (UserPoint *) [NSEntityDescription insertNewObjectForEntityForName:@"UserPoint" inManagedObjectContext:context];
 
@@ -2080,9 +2080,11 @@ static DataStorage *dataStorage;
     }
 
 
-    NSError *error = nil;
     [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
+    __block NSArray *array;
+    [context performBlockAndWait:^{
+        array = [context executeFetchRequest:request error:nil];
+    }];
 
     if ([array count] > 0) {
         return array[0];

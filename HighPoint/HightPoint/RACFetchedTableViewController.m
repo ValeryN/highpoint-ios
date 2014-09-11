@@ -14,6 +14,7 @@
 @property(nonatomic, retain) Class cellClass;
 @property(nonatomic) CGFloat rowHeight;
 @property(nonatomic, retain) NSMutableDictionary *sizesCache;
+@property(nonatomic, retain) NSMutableDictionary *sizeCacheByObjectId;
 @end
 
 @implementation RACFetchedTableViewController {
@@ -22,6 +23,7 @@
 - (void)configureTableView:(UITableView *)tableView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
     if (self.cachedCellHeightByModelId) {
         self.sizesCache = [NSMutableDictionary new];
+        self.sizeCacheByObjectId = [NSMutableDictionary new];
     }
     UITableViewCell *cell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
     self.cellClass = cell.class;
@@ -33,11 +35,34 @@
     tableView.dataSource = self;
 
     @weakify(self);
-    [source subscribeNext:^(id x) {
+    [source subscribeNext:^(NSFetchedResultsController* x) {
         @strongify(self);
-        self.data = x;
-        self.data.delegate = self;
-        [tableView reloadData];
+        if (self.cachedCellHeightByModelId && [cell.class respondsToSelector:@selector(heightForRowWithModel:)]) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                NSMutableDictionary *newSizesDict = [NSMutableDictionary new];
+                for(Message* message in x.fetchedObjects)
+                {
+                    NSManagedObjectID *objectID = message.objectID;
+                    if(!self.sizeCacheByObjectId[objectID]){
+                        self.sizeCacheByObjectId[objectID] = @([cell.class heightForRowWithModel:message]);
+                    }
+                    NSString* key = [self.class stringRepresentationIndexPath:[x indexPathForObject:message]];
+                    newSizesDict[key] = self.sizeCacheByObjectId[objectID];
+                }
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    @strongify(self);
+                    self.data = x;
+                    self.sizesCache = newSizesDict;
+                    [tableView reloadData];
+                });
+            });
+        }
+        else {
+            self.data = x;
+            self.data.delegate = self;
+            [tableView reloadData];
+        }
     }];
 
     if (tableView.delegate == nil)
@@ -80,13 +105,12 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
         if (self.cachedCellHeightByModelId) {
-            NSManagedObjectID *objectID = ((NSManagedObject *) [[self data] objectAtIndexPath:indexPath]).objectID;
-            NSString *stringObjectId = [objectID URIRepresentation].absoluteString;
-            if (!self.sizesCache[stringObjectId]) {
+            NSString* key = [self.class stringRepresentationIndexPath:indexPath];
+            if (!self.sizesCache[key]) {
                 NSObject <RACTableViewCellProtocol> *cell = (id <RACTableViewCellProtocol>) self.cellClass;
-                self.sizesCache[stringObjectId] = @([cell.class heightForRowWithModel:[[self data] objectAtIndexPath:indexPath]]);
+                self.sizesCache[key] = @([cell.class heightForRowWithModel:[[self data] objectAtIndexPath:indexPath]]);
             }
-            return ((NSNumber *) self.sizesCache[stringObjectId]).floatValue;
+            return ((NSNumber *) self.sizesCache[key]).floatValue;
         }
         else {
             NSObject <RACTableViewCellProtocol> *cell = (id <RACTableViewCellProtocol>) self.cellClass;
@@ -106,6 +130,7 @@
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id)sectionInfo
            atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+    self.sizesCache = [NSMutableDictionary new];
     switch (type) {
         case NSFetchedResultsChangeInsert:
             [self.rac_tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
@@ -146,5 +171,8 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.rac_tableView endUpdates];
+}
++ (NSString*) stringRepresentationIndexPath:(NSIndexPath *) path{
+    return  [NSString stringWithFormat:@"%d,%d",path.section,path.item];
 }
 @end
