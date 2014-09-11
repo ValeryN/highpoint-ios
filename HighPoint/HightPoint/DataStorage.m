@@ -1391,7 +1391,7 @@ static DataStorage *dataStorage;
 
 - (User*)currentUser {
     User* user = nil;
-    if(_currentUser && !_currentUser.isFault){
+    if(_currentUser && !_currentUser.isFault && [NSThread mainThread]){
         user = [_currentUser moveToContext:[NSManagedObjectContext threadContext]];
         if(user.isFault){
             user = nil;
