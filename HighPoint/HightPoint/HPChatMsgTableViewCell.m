@@ -7,7 +7,6 @@
 //
 
 #import "HPChatMsgTableViewCell.h"
-#import <QuartzCore/QuartzCore.h>
 
 @interface HPChatMsgTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *textMessageLabel;
@@ -16,9 +15,6 @@
 @end
 
 @implementation HPChatMsgTableViewCell
-- (void)awakeFromNib {
-    [super awakeFromNib];
-}
 //- (void)awakeFromNib
 //{
 //    self.scrollView = [[UIScrollView alloc] init];
@@ -136,3 +132,4 @@
 
 
 @end
+

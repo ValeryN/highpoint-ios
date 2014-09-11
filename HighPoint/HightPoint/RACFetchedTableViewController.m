@@ -10,16 +10,20 @@
 @interface RACFetchedTableViewController ()
 @property(nonatomic, retain) NSFetchedResultsController *data;
 @property(nonatomic, retain) NSString *cellIdentifier;
-@property(nonatomic, weak) UITableView* rac_tableView;
+@property(nonatomic, weak) UITableView *rac_tableView;
 @property(nonatomic, retain) Class cellClass;
 @property(nonatomic) CGFloat rowHeight;
+@property(nonatomic, retain) NSMutableDictionary *sizesCache;
 @end
 
 @implementation RACFetchedTableViewController {
 
 }
-- (void)configureTableView:(UITableView*) tableView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
-    UITableViewCell * cell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
+- (void)configureTableView:(UITableView *)tableView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
+    if (self.cachedCellHeightByModelId) {
+        self.sizesCache = [NSMutableDictionary new];
+    }
+    UITableViewCell *cell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
     self.cellClass = cell.class;
     self.cellIdentifier = cell.reuseIdentifier;
 
@@ -50,12 +54,9 @@
 
     [tableView registerNib:templateCellNib forCellReuseIdentifier:self.cellIdentifier];
 
-    if(![cell.class respondsToSelector:@selector(heightForRowWithModel:)]) {
+    if (![cell.class respondsToSelector:@selector(heightForRowWithModel:)]) {
         tableView.rowHeight = cell.bounds.size.height;
         self.rowHeight = cell.bounds.size.height;;
-    }
-    else{
-        tableView.estimatedRowHeight = cell.bounds.size.height;
     }
 
 }
@@ -77,23 +78,34 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
-        NSObject <RACTableViewCellProtocol>* cell = (id <RACTableViewCellProtocol>) self.cellClass;
-        return [cell.class heightForRowWithModel:[[self data] objectAtIndexPath:indexPath]];
+    if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
+        if (self.cachedCellHeightByModelId) {
+            NSManagedObjectID *objectID = ((NSManagedObject *) [[self data] objectAtIndexPath:indexPath]).objectID;
+            NSString *stringObjectId = [objectID URIRepresentation].absoluteString;
+            if (!self.sizesCache[stringObjectId]) {
+                NSObject <RACTableViewCellProtocol> *cell = (id <RACTableViewCellProtocol>) self.cellClass;
+                self.sizesCache[stringObjectId] = @([cell.class heightForRowWithModel:[[self data] objectAtIndexPath:indexPath]]);
+            }
+            return ((NSNumber *) self.sizesCache[stringObjectId]).floatValue;
+        }
+        else {
+            NSObject <RACTableViewCellProtocol> *cell = (id <RACTableViewCellProtocol>) self.cellClass;
+            CGFloat height = [cell.class heightForRowWithModel:[[self data] objectAtIndexPath:indexPath]];
+            return height;
+        }
+
     }
-    else{
+    else {
         return self.rowHeight;
     }
 }
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     [self.rac_tableView beginUpdates];
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo
-           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
-{
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id)sectionInfo
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
     switch (type) {
         case NSFetchedResultsChangeInsert:
             [self.rac_tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
@@ -110,8 +122,7 @@
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath
-     forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
-{
+     forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
     UITableView *tableView = self.rac_tableView;
 
     switch (type) {
@@ -133,8 +144,7 @@
     }
 }
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.rac_tableView endUpdates];
 }
 @end

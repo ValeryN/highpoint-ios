@@ -9,4 +9,5 @@
 @interface RACFetchedTableViewController : UIViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, retain) RACSignal * selectRowSignal;
 - (void)configureTableView:(UITableView*) tableView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib;
+@property (nonatomic) BOOL cachedCellHeightByModelId;
 @end
