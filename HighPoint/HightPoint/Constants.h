@@ -57,6 +57,7 @@ static NSString * const kPointLikesRequest = @"/v201405/points/%@/liked";
 static NSString * const kUserInfoRequest = @"/v201405/users/%@";
 static NSString * const kUploadAvatarRequest = @"/v201405/me/avatar/add";
 static NSString * const kDeletePhotoRequest = @"/v201405/photos/%@/remove";
+static NSString * const kGetUserPhotoRequest = @"/v201405/me/photos";
 
 
 //socket io constants

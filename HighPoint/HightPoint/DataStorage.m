@@ -13,7 +13,7 @@
 #import <objc/runtime.h>
 #import "NSManagedObject+HighPoint.h"
 #import "NSManagedObjectContext+HighPoint.h"
-
+#import "Photo.h"
 #import "NSNumber+Convert.h"
 #import "NSString+Convert.h"
 
@@ -1763,8 +1763,35 @@ static DataStorage *dataStorage;
 
     //[context saveWithErrorHandler];
 }
+#pragma mark -
+#pragma mark application photo entity
+- (void)createAndSavePhotoEntity:(NSDictionary *)param {
+     __weak typeof(self) weakSelf = self;
+    [self.backgroundOperationQueue addOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        [context performBlockAndWait:^{
+            Photo *photo = (Photo *) [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:context];
+            photo.photoId = [[param objectForKey:@"id"] convertToNSNumber];
+            photo.photoPosition =[[param objectForKey:@"position"] convertToNSNumber];
+            if([[param objectForKey:@"title"] isKindOfClass:[NSString class]]) {
+                photo.photoTitle = [param objectForKey:@"title"];
+            }
+            User *user = [weakSelf getCurrentUser];
+            photo.userId = user.userId;
+            if([[param objectForKey:@"image"] isKindOfClass:[NSDictionary class]]) {
+                photo.imgeHeight =[[[param objectForKey:@"image"] objectForKey:@"height"] convertToNSNumber];
+                photo.imgeWidth =[[[param objectForKey:@"image"] objectForKey:@"width"] convertToNSNumber];
+                if([[[param objectForKey:@"image"] objectForKey:@"src"] isKindOfClass:[NSString class]]) {
+                    photo.imgeSrc = [[param objectForKey:@"image"] objectForKey:@"src"];
+                }
 
-
+            }
+        }];
+    }];
+}
+- (void)deletePhotos {
+    
+}
 #pragma mark -
 #pragma mark application settings entity
 
@@ -1777,10 +1804,39 @@ static DataStorage *dataStorage;
             settings.avatarMaxFileSize = [param[@"avatar"] objectForKey:@"maxFileSize"];
             if ([[param[@"avatar"] objectForKey:@"minImageSize"] isKindOfClass:[NSArray class]]) {
                 if ([[param[@"avatar"] objectForKey:@"minImageSize"] count] == 2) {
-                    settings.avatarMinImageWidth = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:0] convertToNSNumber];//minImageSize
-                    settings.avatarMinImageHeight = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:1] convertToNSNumber];
+                    settings.avatarMinImageHeight = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:0] convertToNSNumber];//minImageSize
+                    settings.avatarMinImageWidth = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:1] convertToNSNumber];
                 }
             }
+            if ([[param[@"avatar"] objectForKey:@"minCropSize"] isKindOfClass:[NSArray class]]) {
+                if ([[param[@"avatar"] objectForKey:@"minCropSize"] count] == 2) {
+                    settings.avatarMinImageHeight = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:0] convertToNSNumber];
+                    settings.avatarMinImageWidth = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:1] convertToNSNumber];
+                }
+            }
+            
+            if ([[param[@"avatar"] objectForKey:@"minImageSize"] isKindOfClass:[NSDictionary class]])    {
+                settings.avatarMinImageWidth = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectForKey:@"width"] convertToNSNumber];
+                settings.avatarMinImageHeight = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectForKey:@"height"] convertToNSNumber];
+            }
+            if ([[param[@"avatar"] objectForKey:@"minCropSize"] isKindOfClass:[NSDictionary class]])    {
+                settings.avatarMinCropSizeHeight = [[[param[@"avatar"] objectForKey:@"minCropSize"] objectForKey:@"height"] convertToNSNumber];
+                settings.avatarMinCropSizeWidth = [[[param[@"avatar"] objectForKey:@"minCropSize"] objectForKey:@"width"] convertToNSNumber];
+            }
+            if ([[param[@"photo"] objectForKey:@"minImageSize"] isKindOfClass:[NSArray class]]) {
+                if ([[param[@"photo"] objectForKey:@"minImageSize"] count] == 2) {
+                    settings.photoMinImageHeight = [[[param[@"photo"] objectForKey:@"minImageSize"] objectAtIndex:0] convertToNSNumber];//minImageSize
+                    settings.photoMinImageWidth = [[[param[@"photo"] objectForKey:@"minImageSize"] objectAtIndex:1] convertToNSNumber];
+                }
+            }
+            if ([[param[@"photo"] objectForKey:@"minImageSize"] isKindOfClass:[NSDictionary class]])    {
+                settings.photoMinImageWidth = [[[param[@"photo"] objectForKey:@"minImageSize"] objectForKey:@"width"] convertToNSNumber];
+                settings.photoMinImageHeight = [[[param[@"photo"] objectForKey:@"minImageSize"] objectForKey:@"height"] convertToNSNumber];
+            }
+            
+            settings.photoMaxFileSize = [param[@"photo"] objectForKey:@"maxFileSize"];
+            
+            
             settings.pointMaxPeriod = [[param[@"point"] objectForKey:@"maxPeriod"] convertToNSNumber];
             settings.pointMinPeriod = [[param[@"point"] objectForKey:@"minPeriod"] convertToNSNumber];
             if ([param[@"webSocketUrls"] isKindOfClass:[NSArray class]]) {

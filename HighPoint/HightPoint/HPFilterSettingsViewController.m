@@ -9,7 +9,7 @@
 #import "HPFilterSettingsViewController.h"
 #import "Utils.h"
 #import "DataStorage.h"
-#import "HPBaseNetworkManager.h"
+#import "HPBaseNetworkManager+CurrentUser.h"
 #import "Gender.h"
 #import "HPCityTableViewCell.h"
 #import "NotificationsConstants.h"

@@ -2,7 +2,7 @@
 //  AppSetting.m
 //  HighPoint
 //
-//  Created by Andrey Anisimov on 26.06.14.
+//  Created by Andrey Anisimov on 10.09.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -17,5 +17,10 @@
 @dynamic pointMaxPeriod;
 @dynamic pointMinPeriod;
 @dynamic webSoketUrl;
+@dynamic avatarMinCropSizeWidth;
+@dynamic avatarMinCropSizeHeight;
+@dynamic photoMaxFileSize;
+@dynamic photoMinImageHeight;
+@dynamic photoMinImageWidth;
 
 @end

@@ -20,7 +20,9 @@
 #import "User.h"
 #import "UIButton+HighPoint.h"
 
-#import "HPBaseNetworkManager.h"
+#import "HPBaseNetworkManager+Users.h"
+#import "HPBaseNetworkManager+Points.h"
+#import "HPBaseNetworkManager+Reference.h"
 #import "NotificationsConstants.h"
 #import "ModalAnimation.h"
 #import "HPUserCardUICollectionViewCell.h"

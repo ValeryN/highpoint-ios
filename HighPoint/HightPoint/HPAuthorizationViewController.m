@@ -7,10 +7,10 @@
 //
 
 #import "HPAuthorizationViewController.h"
-#import "HPBaseNetworkManager.h"
+//#import "HPBaseNetworkManager.h"
 #import "NotificationsConstants.h"
 #import "HPSplashViewController.h"
-
+#import "HPBaseNetworkManager+AuthorizationAndRegistration.h"
 
 @interface HPAuthorizationViewController ()
 

@@ -8,6 +8,13 @@
 
 #import "HPSplashViewController.h"
 #import "HPBaseNetworkManager.h"
+#import "HPBaseNetworkManager+ApplicationSettings.h"
+#import "HPBaseNetworkManager+CurrentUser.h"
+#import "HPBaseNetworkManager+Contacts.h"
+#import "HPBaseNetworkManager+Messages.h"
+#import "HPBaseNetworkManager+Users.h"
+#import "HPBaseNetworkManager+Points.h"
+#import "HPBaseNetworkManager+Geo.h"
 #import "HPRootViewController.h"
 #import "NotificationsConstants.h"
 #import "HPAppDelegate.h"
@@ -43,6 +50,8 @@
     [[HPBaseNetworkManager sharedNetworkManager] getPointLikesRequest:@1];
     [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
     [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
+    [[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequest];
+    [[HPBaseNetworkManager sharedNetworkManager] getUserPhotoRequest];
     
 }
 
