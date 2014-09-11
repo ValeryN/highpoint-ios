@@ -1769,6 +1769,7 @@ static DataStorage *dataStorage;
      __weak typeof(self) weakSelf = self;
     [self.backgroundOperationQueue addOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        User *user = [weakSelf getCurrentUser];
         [context performBlockAndWait:^{
             Photo *photo = (Photo *) [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:context];
             photo.photoId = [[param objectForKey:@"id"] convertToNSNumber];
@@ -1776,7 +1777,6 @@ static DataStorage *dataStorage;
             if([[param objectForKey:@"title"] isKindOfClass:[NSString class]]) {
                 photo.photoTitle = [param objectForKey:@"title"];
             }
-            User *user = [weakSelf getCurrentUser];
             photo.userId = user.userId;
             if([[param objectForKey:@"image"] isKindOfClass:[NSDictionary class]]) {
                 photo.imgeHeight =[[[param objectForKey:@"image"] objectForKey:@"height"] convertToNSNumber];
