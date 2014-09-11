@@ -13,7 +13,7 @@
 #import <objc/runtime.h>
 #import "NSManagedObject+HighPoint.h"
 #import "NSManagedObjectContext+HighPoint.h"
-
+#import "Photo.h"
 #import "NSNumber+Convert.h"
 #import "NSString+Convert.h"
 
@@ -1763,8 +1763,35 @@ static DataStorage *dataStorage;
 
     //[context saveWithErrorHandler];
 }
+#pragma mark -
+#pragma mark application photo entity
+- (void)createAndSavePhotoEntity:(NSDictionary *)param {
+     __weak typeof(self) weakSelf = self;
+    [self.backgroundOperationQueue addOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        [context performBlockAndWait:^{
+            Photo *photo = (Photo *) [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:context];
+            photo.photoId = [[param objectForKey:@"id"] convertToNSNumber];
+            photo.photoPosition =[[param objectForKey:@"position"] convertToNSNumber];
+            if([[param objectForKey:@"title"] isKindOfClass:[NSString class]]) {
+                photo.photoTitle = [param objectForKey:@"title"];
+            }
+            User *user = [weakSelf getCurrentUser];
+            photo.userId = user.userId;
+            if([[param objectForKey:@"image"] isKindOfClass:[NSDictionary class]]) {
+                photo.imgeHeight =[[[param objectForKey:@"image"] objectForKey:@"height"] convertToNSNumber];
+                photo.imgeWidth =[[[param objectForKey:@"image"] objectForKey:@"width"] convertToNSNumber];
+                if([[[param objectForKey:@"image"] objectForKey:@"src"] isKindOfClass:[NSString class]]) {
+                    photo.imgeSrc = [[param objectForKey:@"image"] objectForKey:@"src"];
+                }
 
-
+            }
+        }];
+    }];
+}
+- (void)deletePhotos {
+    
+}
 #pragma mark -
 #pragma mark application settings entity
 

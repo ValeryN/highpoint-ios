@@ -117,6 +117,15 @@
         <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="minentertainment" inverseEntity="User" syncable="YES"/>
     </entity>
+    <entity name="Photo" representedClassName="Photo" syncable="YES">
+        <attribute name="imgeHeight" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="imgeSrc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imgeWidth" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="photoId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="photoPosition" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="photoTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="Place" representedClassName="Place" syncable="YES">
         <attribute name="cityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -215,5 +224,6 @@
         <element name="User" positionX="-20" positionY="-531" width="128" height="508"/>
         <element name="UserFilter" positionX="538" positionY="-306" width="128" height="133"/>
         <element name="UserPoint" positionX="324" positionY="36" width="128" height="163"/>
+        <element name="Photo" positionX="-198" positionY="-567" width="128" height="150"/>
     </elements>
 </model>

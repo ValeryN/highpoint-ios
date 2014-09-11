@@ -130,4 +130,5 @@ typedef void (^complationBlock) (id object);
 - (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
 - (User *) getSelectedUserById:(NSNumber*) id_;
 - (NSArray*) getUsersForCityId:(NSNumber*) cityId;
+- (void)createAndSavePhotoEntity:(NSDictionary *)param;
 @end

@@ -444,7 +444,16 @@
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                
+                if([[jsonDict objectForKey:@"data"] isKindOfClass:[NSDictionary class]]) {
+                    
+                    if([[[jsonDict objectForKey:@"data"] objectForKey:@"photos"] isKindOfClass:[NSArray class]]) {
+                        for(id d in [[jsonDict objectForKey:@"data"] objectForKey:@"photos"]) {
+                            if([d isKindOfClass:[NSDictionary class]]) {
+                                [[DataStorage sharedDataStorage] createAndSavePhotoEntity:d];
+                            }
+                        }
+                    }
+                }
                 
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
