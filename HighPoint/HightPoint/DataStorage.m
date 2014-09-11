@@ -681,8 +681,9 @@ static DataStorage *dataStorage;
     __block Place *returnPlace = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        Place *pl = [self createPlaceEntity:param];
         [context performBlockAndWait:^{
-            Place *pl = [self createPlaceEntity:param];
+
             [self addSaveOperationToBottomInContext:context];
             returnPlace = pl;
             [self returnObject:returnPlace inComplationBlock:block];
@@ -1500,6 +1501,7 @@ static DataStorage *dataStorage;
     [self.backgroundOperationQueue addOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
         __block UserPoint *userPoint = [self getPointForId:param[@"id"]];
+        User *user = [self getSelectedUserById:param[@"userId"]];
         [context performBlockAndWait:^{
             NSDateFormatter *df = [[NSDateFormatter alloc] init];
             [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
@@ -1515,7 +1517,6 @@ static DataStorage *dataStorage;
             userPoint.pointText = [param[@"text"] convertToNSString];
             userPoint.pointUserId = [[param[@"userId"] convertToNSNumber] convertToNSNumber];
             userPoint.pointValidTo =  [df dateFromString:param[@"validTo"]];
-            User *user = [self getSelectedUserById:param[@"userId"]];
             user.point = userPoint;
             [self addSaveOperationToBottomInContext:context];
 
@@ -2021,9 +2022,9 @@ static DataStorage *dataStorage;
 - (void)createAndSaveCity:(NSDictionary *)param popular:(BOOL)isPopular withComplation:(complationBlock)block {
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        __block City *cityEnt;
+        cityEnt = [self getCityById:[param[@"id"] convertToNSNumber]];
         [context performBlockAndWait:^{
-            City *cityEnt;
-            cityEnt = [self getCityById:[param[@"id"] convertToNSNumber]];
             if (!cityEnt) {
                 cityEnt = (City *) [NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:context];
             }
@@ -2169,9 +2170,9 @@ static DataStorage *dataStorage;
 - (void)createAndSaveContactEntity:(User *)glovaluser forMessage:(Message *)globallastMessage withComplation:(complationBlock)block {
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        __block Contact *contactEnt;
+        contactEnt = [self getContactById:glovaluser.userId];
         [context performBlockAndWait:^{
-            Contact *contactEnt;
-            contactEnt = [self getContactById:glovaluser.userId];
             if (!contactEnt) {
                 contactEnt = (Contact *) [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:context];
             }
@@ -2337,11 +2338,11 @@ static DataStorage *dataStorage;
     __block Chat *returnChat = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        User *user = [globalUser moveToContext:context];
+        __block  Chat *chatEnt;
+        NSLog(@"create chat entity for user = %@", user.userId);
+        chatEnt = [weakSelf getChatByUserId:user.userId];
         [context performBlockAndWait:^{
-            User *user = [globalUser moveToContext:context];
-            Chat *chatEnt;
-            NSLog(@"create chat entity for user = %@", user.userId);
-            chatEnt = [weakSelf getChatByUserId:user.userId];
             if (!chatEnt) {
                 chatEnt = (Chat *) [NSEntityDescription insertNewObjectForEntityForName:@"Chat" inManagedObjectContext:context];
             }
@@ -2442,8 +2443,8 @@ static DataStorage *dataStorage;
     __block Message *returnMessage = nil;
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
         NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        returnMessage = [weakSelf createMessage:param forUserId:userId andMessageType:type];
         [context performBlockAndWait:^{
-            returnMessage = [weakSelf createMessage:param forUserId:userId andMessageType:type];
             [weakSelf addSaveOperationToBottomInContext:context];
             [weakSelf returnObject:returnMessage inComplationBlock:block];
         }];
