@@ -9,7 +9,7 @@
 #import "HPSelectTownViewController.h"
 #import "Utils.h"
 #import "HPTownTableViewCell.h"
-#import "HPBaseNetworkManager.h"
+#import "HPBaseNetworkManager+Geo.h"
 #import "NotificationsConstants.h"
 #import "DataStorage.h"
 

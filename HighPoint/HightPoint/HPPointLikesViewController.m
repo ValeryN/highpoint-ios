@@ -11,7 +11,7 @@
 #import "User.h"
 #import "NSManagedObjectContext+HighPoint.h"
 #import "UINavigationBar+HighPoint.h"
-#import "HPBaseNetworkManager.h"
+#import "HPBaseNetworkManager+Reference.h"
 #import "HPUserInfoViewController.h"
 #import "DataStorage.h"
 

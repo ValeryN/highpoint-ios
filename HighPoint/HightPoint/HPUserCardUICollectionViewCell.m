@@ -11,7 +11,7 @@
 #import "UILabel+HighPoint.h"
 #import "UIButton+HighPoint.h"
 #import <QuartzCore/QuartzCore.h>
-#import "HPBaseNetworkManager.h"
+#import "HPBaseNetworkManager+Points.h"
 #import "UIImage+HighPoint.h"
 #import "SDWebImageManager.h"
 #import "Avatar.h"

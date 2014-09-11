@@ -8,7 +8,9 @@
 
 
 #import "HPRootViewController.h"
-#import "HPBaseNetworkManager.h"
+#import "HPBaseNetworkManager+CurrentUser.h"
+#import "HPBaseNetworkManager+Users.h"
+#import "HPBaseNetworkManager+Points.h"
 #import "HPMainViewListTableViewCell.h"
 #import "Utils.h"
 #import "UIImage+HighPoint.h"

@@ -2,7 +2,7 @@
 //  AppSetting.h
 //  HighPoint
 //
-//  Created by Andrey Anisimov on 26.06.14.
+//  Created by Andrey Anisimov on 10.09.14.
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
@@ -18,5 +18,10 @@
 @property (nonatomic, retain) NSNumber * pointMaxPeriod;
 @property (nonatomic, retain) NSNumber * pointMinPeriod;
 @property (nonatomic, retain) NSString * webSoketUrl;
+@property (nonatomic, retain) NSNumber * avatarMinCropSizeWidth;
+@property (nonatomic, retain) NSNumber * avatarMinCropSizeHeight;
+@property (nonatomic, retain) NSNumber * photoMaxFileSize;
+@property (nonatomic, retain) NSNumber * photoMinImageHeight;
+@property (nonatomic, retain) NSNumber * photoMinImageWidth;
 
 @end
