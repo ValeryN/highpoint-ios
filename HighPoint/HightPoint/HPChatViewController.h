@@ -15,5 +15,5 @@
 
 @interface HPChatViewController : RACFetchedTableViewController
 @property (strong, nonatomic) Contact *contact;
-
+@property (nonatomic) CGFloat offsetX;
 @end

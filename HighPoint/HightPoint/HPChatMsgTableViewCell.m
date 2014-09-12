@@ -9,130 +9,63 @@
 #import "HPChatMsgTableViewCell.h"
 #import "NSManagedObjectContext+HighPoint.h"
 #import "NSManagedObject+HighPoint.h"
+#import "DataStorage.h"
 
-@interface HPChatMsgTableViewCell()
-@property (weak, nonatomic) IBOutlet UILabel *textMessageLabel;
-//@property (strong, nonatomic) UITextView * msgTextView;
-@property (strong, nonatomic) NSNumber * currentUserId;
+@interface HPChatMsgTableViewCell ()
+@property(weak, nonatomic) IBOutlet UILabel *textMessageLabel;
+@property(weak, nonatomic) Message *message;
 @end
 
 @implementation HPChatMsgTableViewCell
-//- (void)awakeFromNib
-//{
-//    self.scrollView = [[UIScrollView alloc] init];
-//    self.scrollView.showsHorizontalScrollIndicator = NO;
-//    self.scrollView.delegate = self;
-//}
-//
-//- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-//{
-//    [super setSelected:selected animated:animated];
-//}
-//
-//
-//- (void) configureSelfWithMsg : (Message *) msg {
-//    CGSize labelSize = [self getCellSize:msg];
-//    self.contentView.frame = CGRectMake(0, 0, 320,labelSize.height + 32);
-//    self.scrollView.frame = CGRectMake(0, 0, 320,labelSize.height + 32);
-//    [self.scrollView setContentSize:CGSizeMake(360, labelSize.height + 32)];
-//    [self.contentView addSubview:self.scrollView];
-//    [self addMsgView: msg];
-//    [self.scrollView scrollRectToVisible:CGRectMake(40,0,360, 99) animated:NO];
-//}
-//
-//#pragma mark - msg area configure
-//
-//- (void) addMsgView : (Message*) msg {
-//    [self.msgTextView removeFromSuperview];
-//    CGSize labelSize = [self getCellSize:msg];
-//
-//    if ([msg.sourceId isEqualToNumber:self.currentUserId]) {
-//        int width = 250;
-//        if (labelSize.width < 250) {
-//            width = labelSize.width;
-//        }
-//        self.msgTextView = [[UITextView alloc] initWithFrame:CGRectMake(60, 8, width, labelSize.height + 25)];
-//        self.msgTextView.backgroundColor = [UIColor colorWithRed: 230.0 / 255.0
-//                                                           green: 230.0 / 255.0
-//                                                            blue: 242.0 / 255.0
-//                                                           alpha: 1.0];
-//    } else {
-//
-//        int width = 250;
-//        if (labelSize.width < 250) {
-//            width = labelSize.width;
-//        }
-//
-//
-//        self.msgTextView = [[UITextView alloc] initWithFrame:CGRectMake(100 + 250 - width, 8, width, labelSize.height + 25)];
-//        self.msgTextView.backgroundColor = [UIColor colorWithRed: 80.0 / 255.0
-//                                                           green: 227.0 / 255.0
-//                                                            blue: 194.0 / 255.0
-//                                                           alpha: 1.0];
-//    }
-//
-//    self.msgTextView.userInteractionEnabled = NO;
-//    self.scrollView.userInteractionEnabled = NO;
-//    self.msgTextView.text = msg.text;
-//    self.msgTextView.font = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
-//    self.msgTextView.layer.cornerRadius = 15;
-//    [self.scrollView addSubview:self.msgTextView];
-//}
-//
-//
-//#pragma mark - count size
-//- (CGSize) getCellSize : (Message *) msg {
-//    UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:18.0];
-//    CGSize constraintSize = CGSizeMake(250.0f, 1000.0f);
-//    CGRect textRect = [msg.text boundingRectWithSize:constraintSize
-//                                         options:NSStringDrawingUsesLineFragmentOrigin
-//                                      attributes:@{NSFontAttributeName:cellFont}
-//                                         context:nil];
-//    CGSize labelSize = textRect.size;
-//    return labelSize;
-//}
-//
-//#pragma mark - scroll view delegate
-//-(void)scrollViewDidScroll:(UIScrollView *)sender
-//{
-//    NSLog(@"content offset = %f", self.scrollView.contentOffset.x);
-//    if (self.scrollView.contentOffset.x > 40) {
-//        self.scrollView.contentOffset = CGPointMake(40, self.scrollView.contentOffset.y);
-//    }
-//    if (self.scrollView.contentOffset.x < -16) {
-//        self.scrollView.contentOffset = CGPointMake(-16, self.scrollView.contentOffset.y);
-//    }
-//
-////    if ([self.delegate respondsToSelector:@selector(scrollCellsForTimeShowing:)]) {
-////        [self.delegate scrollCellsForTimeShowing:self.scrollView.contentOffset];
-////    }
-//
-//    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-//    [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.0];
-//}
-//
-//-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-//{
-//    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-//    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//        [self.scrollView scrollRectToVisible:CGRectMake(40,0,360, 99) animated:NO];
-//    } completion:NULL];
-//}
-//
-//- (void) scrollCellForTimeShowingCell :(CGPoint) point {
-//    [self.scrollView scrollRectToVisible:CGRectMake(point.x,0,360, 99) animated:YES];
-//}
 
-- (void) bindViewModel: (Message*) viewModel
-{
-   self.textMessageLabel.text = viewModel.text;
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    User* currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+    RACSignal *messageSignal = RACObserve(self, message);
+    RACSignal *offsetSignal = RACObserve(self, tableViewController.offsetX);
+    RACSignal *isCurrentUserMessage = [messageSignal map:^id(Message* value) {
+        return @([value.sourceId isEqualToNumber:currentUser.userId]);
+    }];
+    @weakify(self);
+    RAC(self,textMessageLabel.frame) = [isCurrentUserMessage flattenMap:^RACStream *(NSNumber * value) {
+        @strongify(self);
+        if(value.boolValue) {
+            return [[[offsetSignal map:^id(NSNumber * offset) {
+                return @(offset.floatValue + 10.f);
+            }] map:^id(NSNumber * left) {
+                @strongify(self);
+                CGRect rect = (CGRect){left.floatValue,self.textMessageLabel.frame.origin.y,self.textMessageLabel.frame.size};
+                return [NSValue valueWithCGRect:rect];
+            }] takeUntil:[self rac_prepareForReuseSignal]];
+        }
+        else{
+            return [[[messageSignal map:^id(Message* message) {
+                return @(310 - [HPChatMsgTableViewCell sizeOfTextInModel:message].width);
+            }]  map:^id(NSNumber * left) {
+                @strongify(self);
+                CGRect rect = (CGRect){left.floatValue,self.textMessageLabel.frame.origin.y,self.textMessageLabel.frame.size};
+                return [NSValue valueWithCGRect:rect];
+            }] takeUntil:[self rac_prepareForReuseSignal]];
+        }
+    }];
+    RAC(self,textMessageLabel.text) = [messageSignal map:^id(Message * value) {
+        return value.text;
+    }];
 }
 
-+ (CGFloat)heightForRowWithModel:(Message*)model {
-    NSManagedObjectContext * context = [NSManagedObjectContext threadContext];
-    return [((Message*)[model moveToContext:context]).text boundingRectWithSize:(CGSize){276,9999} options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"FuturaPT-Book" size:18.0]} context:nil].size.height+25;
+
+- (void)bindViewModel:(Message *)viewModel {
+    self.message = viewModel;
 }
 
++ (CGFloat)heightForRowWithModel:(Message *)model {
+    return [self sizeOfTextInModel:model].height + 25;
+}
+
++ (CGSize) sizeOfTextInModel:(Message *)model {
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+    return [((Message *) [model moveToContext:context]).text boundingRectWithSize:(CGSize) {245, 9999} options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:18.0]} context:nil].size;
+}
 
 @end
 

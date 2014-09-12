@@ -13,6 +13,8 @@
 #import "HPAvatarView.h"
 #import "HPRequest.h"
 #import "HPRequest+Users.h"
+#import "HPChatMsgTableViewCell.h"
+#import "HPHorizontalPanGestureRecognizer.h"
 
 
 @interface HPChatViewController ()
@@ -20,14 +22,13 @@
 @property(strong, nonatomic) HPAvatarView *avatar;
 @property(strong, nonatomic) UIView *avatarView;
 @property(weak, nonatomic) IBOutlet UITableView *chatTableView;
-@property(weak, nonatomic) IBOutlet UIView* tableHeaderView;
+@property(weak, nonatomic) IBOutlet UIView *tableHeaderView;
 
 //bottom view
 @property(weak, nonatomic) IBOutlet UIView *msgBottomView;
 @property(weak, nonatomic) IBOutlet UIButton *msgAddBtn;
 @property(weak, nonatomic) IBOutlet UITextView *msgTextView;
 @property(weak, nonatomic) IBOutlet UIView *bgBottomView;
-
 
 
 @property(nonatomic) NSDate *minimumViewedDate;
@@ -47,8 +48,37 @@
     [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
     [self configureInfinityTableView];
     [self configureNavigationBar];
-
+    [self configureOffsetTableViewGesture];
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void)configureOffsetTableViewGesture {
+    @weakify(self);
+    HPHorizontalPanGestureRecognizer *panGestureRecognizer = [[HPHorizontalPanGestureRecognizer alloc] init];
+    __block CGFloat startLocation = 0;
+    [[panGestureRecognizer rac_gestureSignal] subscribeNext:^(HPHorizontalPanGestureRecognizer *x) {
+        @strongify(self);
+        switch (x.state) {
+            case UIGestureRecognizerStatePossible:
+                break;
+            case UIGestureRecognizerStateBegan:
+                startLocation = [x locationInView:x.view].x;
+                break;
+            case UIGestureRecognizerStateChanged: {
+                CGFloat offset = [x locationInView:x.view].x - startLocation;
+                if (offset > 0) {
+                    self.offsetX = offset > 40 ? 40 : offset;
+                }
+            }
+                break;
+            case UIGestureRecognizerStateEnded:
+            case UIGestureRecognizerStateCancelled:
+            case UIGestureRecognizerStateFailed:
+                self.offsetX = 0;
+                break;
+        }
+    }];
+    [self.chatTableView addGestureRecognizer:panGestureRecognizer];
 }
 
 - (void)configureInfinityTableView {
@@ -74,18 +104,6 @@
         [self checkIfNeedLoadNewMessagesFromServer];
     }];
 
-
-//    [[[[contentOffsetSignal map:^id(id value) {
-//        @strongify(self);
-//        CGFloat offset = [value CGPointValue].y;
-//        return @(offset < -self.chatTableView.contentInset.top);;
-//    }] distinctUntilChanged] filter:^BOOL(NSNumber *x) {
-//        return x.boolValue;
-//    }] subscribeNext:^(NSNumber *x) {
-//        @strongify(self);
-//        self.minimumViewedDate = [self getDateOffsetAfterDate:self.minimumViewedDate andNumberPerPage:NUMBER_PER_PAGE_LOAD];
-//        [self checkIfNeedLoadNewMessagesFromServer];
-//    }];
 }
 
 - (void)updateViewConstraints {
@@ -205,6 +223,13 @@
             self.minimumViewedDate = [self getDateOffsetAfterDate:self.minimumViewedDate andNumberPerPage:NUMBER_PER_PAGE_LOAD];
     }];
 }
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HPChatMsgTableViewCell *cell = (HPChatMsgTableViewCell *) [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    cell.tableViewController = self;
+    return cell;
+}
+
 /*
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
