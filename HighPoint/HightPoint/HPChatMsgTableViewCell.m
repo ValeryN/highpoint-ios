@@ -13,6 +13,9 @@
 
 @interface HPChatMsgTableViewCell ()
 @property(weak, nonatomic) IBOutlet UILabel *textMessageLabel;
+@property(weak, nonatomic) IBOutlet UIView *backgroundOfMessage;
+
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *leftConstraint;
 @property(weak, nonatomic) Message *message;
 @end
 
@@ -20,35 +23,45 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    User* currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
-    RACSignal *messageSignal = RACObserve(self, message);
-    RACSignal *offsetSignal = RACObserve(self, tableViewController.offsetX);
-    RACSignal *isCurrentUserMessage = [messageSignal map:^id(Message* value) {
+    User *currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+    RACSignal *messageSignal = [RACObserve(self, message) replayLast];
+    RACSignal *offsetSignal = [RACObserve(self, tableViewController.offsetX) replayLast];
+    RACSignal *isCurrentUserMessage = [[[messageSignal filter:^BOOL(id value) {
+        return value!=nil;
+    }] map:^id(Message *value) {
         return @([value.sourceId isEqualToNumber:currentUser.userId]);
-    }];
+    }] replayLast];
+
     @weakify(self);
-    RAC(self,textMessageLabel.frame) = [isCurrentUserMessage flattenMap:^RACStream *(NSNumber * value) {
+    RAC(self, leftConstraint.constant) = [isCurrentUserMessage flattenMap:^RACStream *(NSNumber *value) {
         @strongify(self);
-        if(value.boolValue) {
-            return [[[offsetSignal map:^id(NSNumber * offset) {
-                return @(offset.floatValue + 10.f);
-            }] map:^id(NSNumber * left) {
-                @strongify(self);
-                CGRect rect = (CGRect){left.floatValue,self.textMessageLabel.frame.origin.y,self.textMessageLabel.frame.size};
-                return [NSValue valueWithCGRect:rect];
+        if (value.boolValue) {
+            return [[messageSignal map:^id(Message *message) {
+                return @(290 - 8 - [HPChatMsgTableViewCell sizeOfTextInModel:message].width);
             }] takeUntil:[self rac_prepareForReuseSignal]];
+        }
+        else {
+            return [[offsetSignal map:^id(NSNumber *offset) {
+                return @(offset.floatValue + 8.f);
+            }] takeUntil:[self rac_prepareForReuseSignal]];
+        }
+    }];
+
+    [[RACObserve(self, leftConstraint.constant) distinctUntilChanged] subscribeNext:^(id x) {
+        @strongify(self);
+        [self setNeedsUpdateConstraints];
+    }];
+
+    RAC(self, backgroundOfMessage.backgroundColor) = [isCurrentUserMessage map:^id(NSNumber * value) {
+        if(value.boolValue){
+            return [UIColor colorWithRed:80.f/255.f green:227.f/255.f blue:194.f/255.f alpha:1];
         }
         else{
-            return [[[messageSignal map:^id(Message* message) {
-                return @(310 - [HPChatMsgTableViewCell sizeOfTextInModel:message].width);
-            }]  map:^id(NSNumber * left) {
-                @strongify(self);
-                CGRect rect = (CGRect){left.floatValue,self.textMessageLabel.frame.origin.y,self.textMessageLabel.frame.size};
-                return [NSValue valueWithCGRect:rect];
-            }] takeUntil:[self rac_prepareForReuseSignal]];
+            return [UIColor colorWithRed:230.f/255.f green:236.f/255.f blue:242.f/255.f alpha:1];
         }
     }];
-    RAC(self,textMessageLabel.text) = [messageSignal map:^id(Message * value) {
+
+    RAC(self, textMessageLabel.text) = [messageSignal map:^id(Message *value) {
         return value.text;
     }];
 }
@@ -59,12 +72,12 @@
 }
 
 + (CGFloat)heightForRowWithModel:(Message *)model {
-    return [self sizeOfTextInModel:model].height + 25;
+    return [self sizeOfTextInModel:model].height + 10;
 }
 
-+ (CGSize) sizeOfTextInModel:(Message *)model {
++ (CGSize)sizeOfTextInModel:(Message *)model {
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    return [((Message *) [model moveToContext:context]).text boundingRectWithSize:(CGSize) {245, 9999} options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:18.0]} context:nil].size;
+    return [((Message *) [model moveToContext:context]).text boundingRectWithSize:(CGSize) {225, 9999} options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:18.0]} context:nil].size;
 }
 
 @end
