@@ -39,21 +39,13 @@
         @strongify(self);
         if (self.cachedCellHeightByModelId && [cell.class respondsToSelector:@selector(heightForRowWithModel:)]) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                NSMutableDictionary *newSizesDict = [NSMutableDictionary new];
-                for(Message* message in x.fetchedObjects)
-                {
-                    NSManagedObjectID *objectID = message.objectID;
-                    if(!self.sizeCacheByObjectId[objectID]){
-                        self.sizeCacheByObjectId[objectID] = @([cell.class heightForRowWithModel:message]);
-                    }
-                    NSString* key = [self.class stringRepresentationIndexPath:[x indexPathForObject:message]];
-                    newSizesDict[key] = self.sizeCacheByObjectId[objectID];
-                }
+                @strongify(self);
+                NSMutableDictionary * dictionary = [self calculateHeightBeforeLoading:x];
 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     @strongify(self);
                     self.data = x;
-                    self.sizesCache = newSizesDict;
+                    self.sizesCache = dictionary;
                     [tableView reloadData];
                 });
             });
@@ -83,7 +75,20 @@
         tableView.rowHeight = cell.bounds.size.height;
         self.rowHeight = cell.bounds.size.height;;
     }
+}
 
+- (NSMutableDictionary *) calculateHeightBeforeLoading:(NSFetchedResultsController*)resultsController {
+    NSMutableDictionary *newSizesDict = [NSMutableDictionary new];
+    for(Message* message in resultsController.fetchedObjects)
+    {
+        NSManagedObjectID *objectID = message.objectID;
+        if(!self.sizeCacheByObjectId[objectID]){
+            self.sizeCacheByObjectId[objectID] = @([self.cellClass heightForRowWithModel:message]);
+        }
+        NSString* key = [self.class stringRepresentationIndexPath:[resultsController indexPathForObject:message]];
+        newSizesDict[key] = self.sizeCacheByObjectId[objectID];
+    }
+    return newSizesDict;
 }
 
 #pragma mark - UITableViewDataSource

@@ -14,8 +14,10 @@
 @interface HPChatMsgTableViewCell ()
 @property(weak, nonatomic) IBOutlet UILabel *textMessageLabel;
 @property(weak, nonatomic) IBOutlet UIView *backgroundOfMessage;
+@property(weak, nonatomic) IBOutlet UILabel *timeLabel;
 
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *leftConstraint;
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *timeConstraint;
 @property(weak, nonatomic) Message *message;
 @end
 
@@ -24,6 +26,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     User *currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+    NSDateFormatter * timeFormatter = [[NSDateFormatter alloc] init];
+    [timeFormatter setDateFormat:@"hh:mm"];
     RACSignal *messageSignal = [RACObserve(self, message) replayLast];
     RACSignal *offsetSignal = [RACObserve(self, tableViewController.offsetX) replayLast];
     RACSignal *isCurrentUserMessage = [[[messageSignal filter:^BOOL(id value) {
@@ -32,6 +36,7 @@
         return @([value.sourceId isEqualToNumber:currentUser.userId]);
     }] replayLast];
 
+    //Configure position of bubble
     @weakify(self);
     RAC(self, leftConstraint.constant) = [isCurrentUserMessage flattenMap:^RACStream *(NSNumber *value) {
         @strongify(self);
@@ -42,16 +47,16 @@
         }
         else {
             return [[offsetSignal map:^id(NSNumber *offset) {
-                return @(offset.floatValue + 8.f);
+                return @(offset.floatValue + 4.f);
             }] takeUntil:[self rac_prepareForReuseSignal]];
         }
     }];
-
     [[RACObserve(self, leftConstraint.constant) distinctUntilChanged] subscribeNext:^(id x) {
         @strongify(self);
         [self setNeedsUpdateConstraints];
     }];
 
+    //Configure color of bubble
     RAC(self, backgroundOfMessage.backgroundColor) = [isCurrentUserMessage map:^id(NSNumber * value) {
         if(value.boolValue){
             return [UIColor colorWithRed:80.f/255.f green:227.f/255.f blue:194.f/255.f alpha:1];
@@ -61,8 +66,17 @@
         }
     }];
 
+    //Configure bubble text
     RAC(self, textMessageLabel.text) = [messageSignal map:^id(Message *value) {
         return value.text;
+    }];
+
+    //Configure time label
+    RAC(self, timeConstraint.constant) = [offsetSignal map:^id(NSNumber * value) {
+        return @(value.floatValue-30);
+    }];
+    RAC(self, timeLabel.text) = [messageSignal map:^id(Message* value) {
+        return [timeFormatter stringFromDate:value.createdAt];
     }];
 }
 

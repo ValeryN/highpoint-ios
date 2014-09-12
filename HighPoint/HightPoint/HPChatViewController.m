@@ -15,6 +15,7 @@
 #import "HPRequest+Users.h"
 #import "HPChatMsgTableViewCell.h"
 #import "HPHorizontalPanGestureRecognizer.h"
+#import "NSManagedObject+HighPoint.h"
 
 
 @interface HPChatViewController ()
@@ -32,6 +33,7 @@
 
 
 @property(nonatomic) NSDate *minimumViewedDate;
+@property(nonatomic, retain) NSMutableDictionary *sizeCacheByObjectId;
 @end
 
 
@@ -67,7 +69,7 @@
             case UIGestureRecognizerStateChanged: {
                 CGFloat offset = [x locationInView:x.view].x - startLocation;
                 if (offset > 0) {
-                    self.offsetX = offset > 40 ? 40 : offset;
+                    self.offsetX = offset > 50 ? 50 : offset;
                 }
             }
                 break;
@@ -230,9 +232,29 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
+- (NSMutableDictionary *)calculateHeightBeforeLoading:(NSFetchedResultsController *)resultsController {
+    NSMutableDictionary *newSizesDict = [NSMutableDictionary new];
+    BOOL lastMessageMine = NO;
+    User *currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+    for (Message *message in resultsController.fetchedObjects) {
+        BOOL messageByMine = [((Message*)[message moveToContext:[NSManagedObjectContext threadContext]]).sourceId isEqualToNumber:currentUser.userId];
+        NSManagedObjectID *objectID = message.objectID;
+        if (!self.sizeCacheByObjectId[objectID]) {
+            self.sizeCacheByObjectId[objectID] = @([HPChatMsgTableViewCell heightForRowWithModel:message]);
+        }
+        NSString *key = [self.class stringRepresentationIndexPath:[resultsController indexPathForObject:message]];
+        if (lastMessageMine == messageByMine) {
+            newSizesDict[key] = self.sizeCacheByObjectId[objectID];
+        }
+        else {
+            lastMessageMine = messageByMine;
+            newSizesDict[key] = @(((NSNumber *)self.sizeCacheByObjectId[objectID]).floatValue + 10);
+        }
+    }
+    return newSizesDict;
 }
+
 /*
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

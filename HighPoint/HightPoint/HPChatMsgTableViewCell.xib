@@ -3,6 +3,7 @@
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -16,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Rg-Cu-eU6">
-                        <rect key="frame" x="8" y="10" width="245" height="68"/>
+                        <rect key="frame" x="8" y="15" width="245" height="68"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Супер крутое сообщение. Привет, а у тебя как дела?" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="225" translatesAutoresizingMaskIntoConstraints="NO" id="4mN-PI-Bki">
                                 <rect key="frame" x="10" y="2" width="225" height="63"/>
@@ -39,11 +40,22 @@
                             <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="10"/>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fAX-DJ-lO3" userLabel="Time Label">
+                        <rect key="frame" x="-52" y="40" width="39" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="39" id="zaj-Tn-URg"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                        <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
+                    <constraint firstItem="4mN-PI-Bki" firstAttribute="centerY" secondItem="fAX-DJ-lO3" secondAttribute="centerY" id="1sW-WP-548"/>
                     <constraint firstItem="1Rg-Cu-eU6" firstAttribute="leading" secondItem="WHe-9O-HzV" secondAttribute="leadingMargin" id="azR-v9-Kmx"/>
-                    <constraint firstItem="1Rg-Cu-eU6" firstAttribute="top" secondItem="WHe-9O-HzV" secondAttribute="topMargin" priority="800" constant="2" id="pxa-fT-cTU"/>
+                    <constraint firstItem="fAX-DJ-lO3" firstAttribute="centerX" secondItem="WHe-9O-HzV" secondAttribute="leadingMargin" constant="-40" id="b4K-dY-Be8"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="1Rg-Cu-eU6" secondAttribute="bottom" constant="2" id="gr2-7R-dg8"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -51,8 +63,10 @@
                 <outlet property="backgroundOfMessage" destination="1Rg-Cu-eU6" id="v10-jJ-JeB"/>
                 <outlet property="leftConstraint" destination="azR-v9-Kmx" id="szZ-RI-Dcl"/>
                 <outlet property="textMessageLabel" destination="4mN-PI-Bki" id="Hne-HI-Lcb"/>
+                <outlet property="timeConstraint" destination="b4K-dY-Be8" id="sSV-P9-uid"/>
+                <outlet property="timeLabel" destination="fAX-DJ-lO3" id="JPN-xN-JGe"/>
             </connections>
-            <point key="canvasLocation" x="140" y="180"/>
+            <point key="canvasLocation" x="140" y="179"/>
         </tableViewCell>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
