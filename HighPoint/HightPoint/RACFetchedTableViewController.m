@@ -78,16 +78,19 @@
 }
 
 - (NSMutableDictionary *) calculateHeightBeforeLoading:(NSFetchedResultsController*)resultsController {
-    NSMutableDictionary *newSizesDict = [NSMutableDictionary new];
+    __block NSMutableDictionary *newSizesDict = [NSMutableDictionary new];
+    NSOperationQueue * operationQueue = [NSOperationQueue new];
+    operationQueue.maxConcurrentOperationCount = 20;
     for(Message* message in resultsController.fetchedObjects)
-    {
-        NSManagedObjectID *objectID = message.objectID;
-        if(!self.sizeCacheByObjectId[objectID]){
-            self.sizeCacheByObjectId[objectID] = @([self.cellClass heightForRowWithModel:message]);
-        }
-        NSString* key = [self.class stringRepresentationIndexPath:[resultsController indexPathForObject:message]];
-        newSizesDict[key] = self.sizeCacheByObjectId[objectID];
-    }
+        [operationQueue addOperationWithBlock:^{
+            NSManagedObjectID *objectID = message.objectID;
+            if(!self.sizeCacheByObjectId[objectID]){
+                self.sizeCacheByObjectId[objectID] = @([self.cellClass heightForRowWithModel:message]);
+            }
+            NSString* key = [self.class stringRepresentationIndexPath:[resultsController indexPathForObject:message]];
+            newSizesDict[key] = self.sizeCacheByObjectId[objectID];
+        }];
+    [operationQueue waitUntilAllOperationsAreFinished];
     return newSizesDict;
 }
 
