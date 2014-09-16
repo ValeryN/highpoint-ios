@@ -12,5 +12,5 @@
 
 + (NSString *)stringRepresentationIndexPath:(NSIndexPath *)path;
 
-@property (nonatomic) BOOL cachedCellHeightByModelId;
+@property (nonatomic) BOOL cachedCellHeight;
 @end

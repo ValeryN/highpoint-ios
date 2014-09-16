@@ -2553,6 +2553,16 @@ static DataStorage *dataStorage;
     }];
 }
 
+- (void) deleteAndSaveEntity:(NSManagedObject*) globalObject{
+    [self.backgroundOperationQueue addOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        [context performBlockAndWait:^{
+            NSManagedObject* object = [globalObject moveToContext:context];
+            [context deleteObject:object];
+            [self addSaveOperationToBottomInContext:context];
+        }];
+    }];
+}
 
 
 @end

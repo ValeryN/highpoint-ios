@@ -10,6 +10,7 @@
 #import "NSManagedObjectContext+HighPoint.h"
 #import "NSManagedObject+HighPoint.h"
 #import "DataStorage.h"
+#import "PSMenuItem.h"
 
 @interface HPChatMsgTableViewCell ()
 @property(weak, nonatomic) IBOutlet UILabel *textMessageLabel;
@@ -25,6 +26,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    [PSMenuItem installMenuHandlerForObject:self];
     User *currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
     NSDateFormatter * timeFormatter = [[NSDateFormatter alloc] init];
     [timeFormatter setDateFormat:@"hh:mm"];
@@ -78,6 +80,30 @@
     RAC(self, timeLabel.text) = [messageSignal map:^id(Message* value) {
         return [timeFormatter stringFromDate:value.createdAt];
     }];
+    UITapGestureRecognizer *tapGestureRecognizer = [UITapGestureRecognizer new];
+    [[tapGestureRecognizer rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        [self becomeFirstResponder];
+        UIMenuController * menuController = [UIMenuController sharedMenuController];
+        [menuController setTargetRect:self.backgroundOfMessage.frame inView:self];
+        PSMenuItem *actionDelete = [[PSMenuItem alloc] initWithTitle:@"Delete" block:^{
+            @strongify(self);
+            [[DataStorage sharedDataStorage] deleteAndSaveEntity:self.message];
+        }];
+        PSMenuItem *actionCopy = [[PSMenuItem alloc] initWithTitle:@"Copy" block:^{
+            @strongify(self);
+            UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
+            [pasteBoard setString:self.message.text];
+        }];
+        [menuController setMenuItems:@[
+                actionDelete,
+                actionCopy
+        ]];
+
+        menuController.arrowDirection = UIMenuControllerArrowDown;
+        [menuController setMenuVisible:YES animated:YES];
+    }];
+    [self addGestureRecognizer:tapGestureRecognizer];
 }
 
 
@@ -86,7 +112,7 @@
 }
 
 + (CGFloat)heightForRowWithModel:(Message *)model {
-    return [self sizeOfTextInModel:model].height + 10;
+    return [self sizeOfTextInModel:model].height + 15;
 }
 
 + (CGSize)sizeOfTextInModel:(Message *)model {

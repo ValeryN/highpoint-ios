@@ -50,7 +50,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstItem="4mN-PI-Bki" firstAttribute="centerY" secondItem="fAX-DJ-lO3" secondAttribute="centerY" id="1sW-WP-548"/>
                     <constraint firstItem="1Rg-Cu-eU6" firstAttribute="leading" secondItem="WHe-9O-HzV" secondAttribute="leadingMargin" id="azR-v9-Kmx"/>
@@ -58,7 +58,7 @@
                     <constraint firstAttribute="bottomMargin" secondItem="1Rg-Cu-eU6" secondAttribute="bottom" constant="2" id="gr2-7R-dg8"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
                 <outlet property="backgroundOfMessage" destination="1Rg-Cu-eU6" id="v10-jJ-JeB"/>
                 <outlet property="leftConstraint" destination="azR-v9-Kmx" id="szZ-RI-Dcl"/>

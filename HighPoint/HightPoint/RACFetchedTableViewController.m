@@ -13,17 +13,17 @@
 @property(nonatomic, weak) UITableView *rac_tableView;
 @property(nonatomic, retain) Class cellClass;
 @property(nonatomic) CGFloat rowHeight;
-@property(nonatomic, retain) NSMutableDictionary *sizesCache;
-@property(nonatomic, retain) NSMutableDictionary *sizeCacheByObjectId;
+
+@property(nonatomic, retain) NSMutableArray *sizesTmpArray;
+@property(nonatomic, retain) NSMutableArray *sizesArray;
 @end
 
 @implementation RACFetchedTableViewController {
 
 }
 - (void)configureTableView:(UITableView *)tableView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
-    if (self.cachedCellHeightByModelId) {
-        self.sizesCache = [NSMutableDictionary new];
-        self.sizeCacheByObjectId = [NSMutableDictionary new];
+    if (self.cachedCellHeight) {
+        self.sizesTmpArray = [NSMutableArray new];
     }
     UITableViewCell *cell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
     self.cellClass = cell.class;
@@ -35,18 +35,18 @@
     tableView.dataSource = self;
 
     @weakify(self);
-    [source subscribeNext:^(NSFetchedResultsController* x) {
+    [source subscribeNext:^(NSFetchedResultsController *x) {
         @strongify(self);
-        if (self.cachedCellHeightByModelId && [cell.class respondsToSelector:@selector(heightForRowWithModel:)]) {
+        if (self.cachedCellHeight && [cell.class respondsToSelector:@selector(heightForRowWithModel:)]) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 @strongify(self);
-                NSMutableDictionary * dictionary = [self calculateHeightBeforeLoading:x];
+                [self calculateHeightBeforeLoading:x];
 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     @strongify(self);
                     self.data = x;
-                    self.sizesCache = dictionary;
                     [tableView reloadData];
+                    self.data.delegate = self;
                 });
             });
         }
@@ -77,21 +77,18 @@
     }
 }
 
-- (NSMutableDictionary *) calculateHeightBeforeLoading:(NSFetchedResultsController*)resultsController {
-    __block NSMutableDictionary *newSizesDict = [NSMutableDictionary new];
-    NSOperationQueue * operationQueue = [NSOperationQueue new];
-    operationQueue.maxConcurrentOperationCount = 20;
-    for(Message* message in resultsController.fetchedObjects)
-        [operationQueue addOperationWithBlock:^{
+- (void)calculateHeightBeforeLoading:(NSFetchedResultsController *)resultsController {
+    @synchronized (self.sizesArray) {
+        [self deleteCacheAllHeight];
+        for (Message *message in resultsController.fetchedObjects) {
+            // [operationQueue addOperationWithBlock:^{
             NSManagedObjectID *objectID = message.objectID;
-            if(!self.sizeCacheByObjectId[objectID]){
-                self.sizeCacheByObjectId[objectID] = @([self.cellClass heightForRowWithModel:message]);
+            if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
+                [self insertHeight:[self.cellClass heightForRowWithModel:message] forIndexPath:[resultsController indexPathForObject:message]];
             }
-            NSString* key = [self.class stringRepresentationIndexPath:[resultsController indexPathForObject:message]];
-            newSizesDict[key] = self.sizeCacheByObjectId[objectID];
-        }];
-    [operationQueue waitUntilAllOperationsAreFinished];
-    return newSizesDict;
+        }
+        [self updateCacheHeight];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -112,13 +109,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
-        if (self.cachedCellHeightByModelId) {
-            NSString* key = [self.class stringRepresentationIndexPath:indexPath];
-            if (!self.sizesCache[key]) {
-                NSObject <RACTableViewCellProtocol> *cell = (id <RACTableViewCellProtocol>) self.cellClass;
-                self.sizesCache[key] = @([cell.class heightForRowWithModel:[[self data] objectAtIndexPath:indexPath]]);
-            }
-            return ((NSNumber *) self.sizesCache[key]).floatValue;
+        if (self.cachedCellHeight) {
+            return [self getCacheHeightForIndexPath:indexPath];
         }
         else {
             NSObject <RACTableViewCellProtocol> *cell = (id <RACTableViewCellProtocol>) self.cellClass;
@@ -138,12 +130,13 @@
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id)sectionInfo
            atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
-    self.sizesCache = [NSMutableDictionary new];
     switch (type) {
         case NSFetchedResultsChangeInsert:
+            [self insertSectionAtIndex:sectionIndex];
             [self.rac_tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
         case NSFetchedResultsChangeDelete:
+            [self deleteSectionAtIndex:sectionIndex];
             [self.rac_tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
         case NSFetchedResultsChangeMove:
@@ -160,9 +153,13 @@
 
     switch (type) {
         case NSFetchedResultsChangeInsert:
+            if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
+                [self insertHeight:[self.cellClass heightForRowWithModel:anObject] forIndexPath:indexPath];
+            }
             [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
         case NSFetchedResultsChangeDelete:
+            [self deleteHeightAtIndexPath:indexPath];
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
 
@@ -171,7 +168,11 @@
             break;
 
         case NSFetchedResultsChangeMove:
+            [self deleteHeightAtIndexPath:indexPath];
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
+                [self insertHeight:[self.cellClass heightForRowWithModel:anObject] forIndexPath:indexPath];
+            }
             [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
     }
@@ -180,7 +181,41 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.rac_tableView endUpdates];
 }
-+ (NSString*) stringRepresentationIndexPath:(NSIndexPath *) path{
-    return  [NSString stringWithFormat:@"%d,%d",path.section,path.item];
+
++ (NSString *)stringRepresentationIndexPath:(NSIndexPath *)path {
+    return [NSString stringWithFormat:@"%d,%d", path.section, path.item];
+}
+
+- (CGFloat)getCacheHeightForIndexPath:(NSIndexPath *)path {
+    return ((NSNumber *) self.sizesArray[(NSUInteger) path.section][(NSUInteger) path.row]).floatValue;
+}
+
+- (void)setHeight:(CGFloat)height forIndexPath:(NSIndexPath *)path {
+    self.sizesTmpArray[(NSUInteger) path.section][(NSUInteger) path.row] = @(height);
+}
+
+- (void)insertHeight:(CGFloat)height forIndexPath:(NSIndexPath *)path {
+    if (self.sizesTmpArray.count <= path.section)
+        [self insertSectionAtIndex:path.section];
+    [((NSMutableArray *) self.sizesTmpArray[(NSUInteger) path.section]) insertObject:@(height) atIndex:(NSUInteger) path.row];
+}
+
+- (void)deleteHeightAtIndexPath:(NSIndexPath *)path {
+    [((NSMutableArray *) self.sizesTmpArray[(NSUInteger) path.section]) removeObjectAtIndex:(NSUInteger) path.row];
+}
+
+- (void)insertSectionAtIndex:(NSInteger)index {
+    [self.sizesTmpArray insertObject:[NSMutableArray new] atIndex:(NSUInteger) index];
+}
+
+- (void)deleteSectionAtIndex:(NSInteger)index {
+    [self.sizesTmpArray removeObjectAtIndex:(NSUInteger) index];
+}
+
+- (void)deleteCacheAllHeight {
+    self.sizesTmpArray = [NSMutableArray new];
+}
+- (void)updateCacheHeight{
+    self.sizesArray = self.sizesTmpArray;
 }
 @end

@@ -126,6 +126,9 @@ typedef void (^complationBlock) (id object);
 - (void)deleteAndSaveContact: (NSNumber *) contactId;
 - (void)createAndSaveMessage:(NSDictionary *)param  forUserId:(NSNumber*) keyId  andMessageType:(MessageTypes) type withComplation:(complationBlock) block;
 - (void)deleteAndSaveAllMessages;
+
+- (void)deleteAndSaveEntity:(NSManagedObject *)globalObject;
+
 - (void)createAndSaveChatEntity: (User *)user withMessages: (NSArray *) messages withComplation:(complationBlock) block;
 - (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
 - (User *) getSelectedUserById:(NSNumber*) id_;
