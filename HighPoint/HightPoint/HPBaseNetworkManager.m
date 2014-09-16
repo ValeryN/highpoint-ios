@@ -99,7 +99,7 @@ static HPBaseNetworkManager *networkManager;
         ids = [ids substringToIndex:[ids length] - 1];
     }
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"cityIds", nil];
-    [self getGeoLocation:param:0];
+    [self getGeoLocation:param];
 
     param = [[NSDictionary alloc] initWithObjectsAndKeys:[[[URLs getServerURL] stringByReplacingOccurrencesOfString:@":3002" withString:@""] stringByReplacingOccurrencesOfString:@"http://" withString:@""],@"host", @"3002",@"port", nil];
     [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
@@ -215,8 +215,8 @@ static HPBaseNetworkManager *networkManager;
         NSLog(@"me update args = %@", packet.args);
         NSDictionary *jsonDict = [packet.args objectAtIndex:0];
         if(jsonDict) {
-            [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:CurrentUserType withComplation: nil];
-            [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:[[DataStorage sharedDataStorage] getCurrentUser]]];
+            //[[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:CurrentUserType withComplation: nil];
+            //[[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:[[DataStorage sharedDataStorage] getCurrentUser]]];
         } else {
             NSLog(@"Error, no valid data");
         }

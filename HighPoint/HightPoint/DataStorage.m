@@ -12,6 +12,7 @@
 #import "NotificationsConstants.h"
 #import <objc/runtime.h>
 #import "NSManagedObject+HighPoint.h"
+
 #import "NSManagedObjectContext+HighPoint.h"
 #import "Photo.h"
 #import "NSNumber+Convert.h"
@@ -32,6 +33,7 @@ static DataStorage *dataStorage;
         if (!dataStorage) {
             dispatch_once(&onceToken, ^{
                 dataStorage = [[DataStorage alloc] init];
+                /*
                 dataStorage.backgroundOperationQueue = [[NSOperationQueue alloc] init];
                 dataStorage.backgroundOperationQueue.maxConcurrentOperationCount = 1;
                 //Merge changes between context
@@ -46,37 +48,25 @@ static DataStorage *dataStorage;
                                             [moc mergeChangesFromContextDidSaveNotification:note];
                                         }];
                                 }];
+                 */
             });
         }
         return dataStorage;
     }
 }
 
-- (void)createUser:(NSDictionary *)param {
-    @throw [NSException exceptionWithName:@"ru.surfstudio.HighPoint.404" reason:@"Code not implemented" userInfo:param];
-}
-
-- (void)createUserInfo:(NSDictionary *)param {
-    @throw [NSException exceptionWithName:@"ru.surfstudio.HighPoint.404" reason:@"Code not implemented" userInfo:param];
-}
-
-- (void)createUserSettings:(NSDictionary *)param {
-    @throw [NSException exceptionWithName:@"ru.surfstudio.HighPoint.404" reason:@"Code not implemented" userInfo:param];
-}
-
-
 #pragma mark -
 #pragma mark maxEntertimentPrice
-
-- (MaxEntertainmentPrice *)createMaxPrice:(NSDictionary *)param {
-    MaxEntertainmentPrice *maxP = (MaxEntertainmentPrice *) [NSEntityDescription insertNewObjectForEntityForName:@"MaxEntertainmentPrice" inManagedObjectContext:[NSManagedObjectContext threadContext]];
+- (MaxEntertainmentPrice *)createMaxPrice:(NSDictionary *)param forContext:(NSManagedObjectContext*) context    {
+    MaxEntertainmentPrice *maxP = [MaxEntertainmentPrice createInContext:context];
     maxP.amount = [param[@"amount"] convertToNSNumber];
     maxP.currency = [param[@"currency"] convertToNSString];
     return maxP;
 }
-
-- (MinEntertainmentPrice *)createMinPrice:(NSDictionary *)param {
-    MinEntertainmentPrice *minP = (MinEntertainmentPrice *) [NSEntityDescription insertNewObjectForEntityForName:@"MinEntertainmentPrice" inManagedObjectContext:[NSManagedObjectContext threadContext]];
+#pragma mark -
+#pragma mark minEntertimentPrice
+- (MinEntertainmentPrice *)createMinPrice:(NSDictionary *)param forContext:(NSManagedObjectContext*) context{
+    MinEntertainmentPrice *minP = [MinEntertainmentPrice createInContext:context];
     minP.amount = [param[@"amount"] convertToNSNumber];
     minP.currency = [param[@"currency"] convertToNSString];
     return minP;
@@ -84,217 +74,146 @@ static DataStorage *dataStorage;
 
 #pragma mark -
 #pragma mark user filter
-
-- (UserFilter *)createUserFilterEntity:(NSDictionary *)param {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    UserFilter *uf = [self getUserFilter];
-    if (!uf) {
-        uf = (UserFilter *) [NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:context];
+- (UserFilter *)createUserFilterEntity:(NSDictionary *)param forContext:(NSManagedObjectContext*) context   {
+    UserFilter *uf;
+    NSArray *filters = [UserFilter findAllInContext:context];
+    if (filters.count == 0) {
+        uf = [UserFilter createInContext:context];
+    } else {
+        uf = filters[0];
     }
-
-    uf.maxAge = [param[@"maxAge"] convertToNSNumber];
-    uf.minAge = [param[@"minAge"] convertToNSNumber];
-    uf.viewType = [param[@"viewType"] convertToNSNumber];
-
+    uf.maxAge = [param[@"maxAge"]convertToNSNumber];
+    uf.minAge = [param[@"minAge"]convertToNSNumber];
+    uf.viewType = [param[@"viewType"]convertToNSNumber];
     NSMutableArray *arr = [NSMutableArray new];
     for (NSNumber *p in param[@"genders"]) {
-        Gender *gender = (Gender *) [NSEntityDescription insertNewObjectForEntityForName:@"Gender" inManagedObjectContext:context];
+        Gender *gender = [Gender createInContext:context];
         gender.genderType = p;
         [arr addObject:gender];
     }
-
     NSArray *citiesArr = param[@"cityIds"];
     if ([citiesArr isKindOfClass:[NSArray class]]) {
         if (citiesArr.count > 0) {
-            City *city = [[DataStorage sharedDataStorage] getCityById:citiesArr[0]];
-            [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:city];
+            NSArray *localPoints = [City findAllWithPredicate:[NSPredicate predicateWithFormat:@"cityId == %d", [citiesArr[0] intValue] ] inContext:context];
+            if(localPoints.count > 0)
+                uf.city = localPoints[0];
+            else uf.city = nil;
         } else {
-            [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:nil];
+            uf.city = nil;
         }
     } else {
-        [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:nil];
+        uf.city = nil;
     }
     uf.gender = [NSSet setWithArray:arr];
-
     return uf;
 }
 
-
-- (void)createAndSaveUserFilterEntity:(NSDictionary *)param withComplation:(complationBlock)block {
-    __weak typeof(self) weakSelf = self;
-    __block UserFilter *returnUf = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        returnUf = [weakSelf createUserFilterEntity:param];
-        [[NSManagedObjectContext threadContext] saveWithErrorHandler];
-        [self returnObject:returnUf inComplationBlock:block];
-    }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
-}
-
 - (void) updateUserFilterEntity : (NSDictionary *) param {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    UserFilter *uf = [self getUserFilter];
-    if (!uf) {
-        uf = (UserFilter *) [NSEntityDescription insertNewObjectForEntityForName:@"UserFilter" inManagedObjectContext:context];
-    }
-    uf.maxAge = [param[@"maxAge"] convertToNSNumber];
-    uf.minAge = [param[@"minAge"] convertToNSNumber];
-    uf.viewType = [param[@"viewType"] convertToNSNumber];
-    NSMutableArray *arr = [NSMutableArray new];
-    for (NSNumber *p in param[@"genders"]) {
-        Gender *gender = (Gender *) [NSEntityDescription insertNewObjectForEntityForName:@"Gender" inManagedObjectContext:context];
-        gender.genderType = p;
-        [arr addObject:gender];
-    }
-    NSArray *citiesArr = param[@"cityIds"];
-    if ([citiesArr isKindOfClass:[NSArray class]]) {
-        if (citiesArr.count > 0) {
-            City *city = [[DataStorage sharedDataStorage] getCityById:citiesArr[0]];
-            [[DataStorage sharedDataStorage] updateCityAtUserFilter:city];
-        } else {
-            [[DataStorage sharedDataStorage] updateCityAtUserFilter:nil];
-        }
-    } else {
-        [[DataStorage sharedDataStorage] updateCityAtUserFilter:nil];
-    }
-    uf.gender = [NSSet setWithArray:arr];
-    return;
-
-}
-
-- (void)setAndSaveCityToUserFilter:(City *)globalCity {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            City *city = [globalCity moveToContext:context];
-            NSArray *fetchedObjects;
-            NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
-            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"UserFilter" inManagedObjectContext:context];
-            [fetch setEntity:entityDescription];
-            NSError *error = nil;
-            fetchedObjects = [context executeFetchRequest:fetch error:&error];
-            if ([fetchedObjects count] == 1) {
-                UserFilter *filter = fetchedObjects[0];
-                if (city) {
-                    filter.city = city;
-                } else {
-                    filter.city = nil;
-                }
-                [self addSaveOperationToBottomInContext:context];
-            }
-            if ([fetchedObjects count] > 1) {
-                @throw [NSException exceptionWithName:@"ru.surfstudio.HighPoint.500" reason:@"Implicitly behavior!" userInfo:nil];
-            }
-        }];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [weakSelf createUserFilterEntity:param forContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
     }];
 }
-
+- (void)setAndSaveCityToUserFilter:(City *)globalCity {
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *filters = [UserFilter findAllInContext:localContext];
+        UserFilter *uf;
+        City *city = [globalCity MR_inContext:localContext];
+        if (filters.count > 0) {
+            uf = filters[0];
+        }
+        if (city) {
+            uf.city = city;
+        } else {
+            uf.city = nil;
+        }
+    } completion:^(BOOL success, NSError *error)    {
+    }];
+}
 - (void)updateCityAtUserFilter:(City *)city {
-    UserFilter *filter = [self getUserFilter];
-    if (city) {
-        filter.city = city;
-    } else {
-        filter.city = nil;
-    }
-    
+    [self setAndSaveCityToUserFilter:city];
 }
 
 - (void)removeAndSaveCitiesFromUserFilter {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            NSArray *fetchedObjects;
-            NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
-            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"UserFilter" inManagedObjectContext:context];
-            [fetch setEntity:entityDescription];
-            NSError *error = nil;
-            fetchedObjects = [context executeFetchRequest:fetch error:&error];
-            if ([fetchedObjects count] >= 1) {
-                UserFilter *filter = fetchedObjects[0];
-                filter.city = nil;
-                [self addSaveOperationToBottomInContext:context];
-            }
-        }];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *filters = [UserFilter findAllInContext:localContext];
+        UserFilter *uf;
+        if (filters.count > 0) {
+            uf = filters[0];
+        }
+        uf.city = nil;
+    } completion:^(BOOL success, NSError *error)    {
     }];
 }
-
-
 - (UserFilter *)getUserFilter {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSArray *fetchedObjects;
-    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"UserFilter" inManagedObjectContext:context];
-    [fetch setEntity:entityDescription];
-    NSError *error = nil;
-    fetchedObjects = [context executeFetchRequest:fetch error:&error];
-    if ([fetchedObjects count] >= 1) {
-        return fetchedObjects[0];
-    }
-    else {
-        return nil;
-    }
+    
+    NSArray *filters = [UserFilter findAllInContext:[NSManagedObjectContext MR_defaultContext]];
+    if (filters.count > 0) {
+        return filters[0];
+    } else return nil;
 }
-
 - (void)removeAndSaveUserFilter {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            NSFetchRequest *allFilters = [[NSFetchRequest alloc] init];
-            [allFilters setEntity:[NSEntityDescription entityForName:@"UserFilter" inManagedObjectContext:context]];
-            [allFilters setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-            NSError *error = nil;
-            NSArray *filters = [context executeFetchRequest:allFilters error:&error];
-            //error handling goes here
-            for (NSManagedObject *filter in filters) {
-                [context deleteObject:filter];
-            }
-            [self addSaveOperationToBottomInContext:context];
-        }];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *filters = [UserFilter findAllInContext:localContext];
+        if (filters.count > 0) {
+            [filters[0] deleteInContext:localContext];
+        }
+    } completion:^(BOOL success, NSError *error)    {
     }];
 }
 
 #pragma mark -
 #pragma mark education entity
 
-- (Education *)createEducationEntity:(NSDictionary *)param {
-    Education *edu = (Education *) [NSEntityDescription insertNewObjectForEntityForName:@"Education" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    edu.id_ = param[@"id"];
-    edu.fromYear = param[@"fromYear"];
-    edu.schoolId = param[@"schoolId"];
-    edu.specialityId = param[@"specialityId"];
-    edu.toYear = param[@"toYear"];
+- (Education *)createEducationEntity:(NSDictionary *)param forContext:(NSManagedObjectContext*) context{
+    Education *edu = [Education createInContext:context];
+    edu.id_ = [param[@"id"]convertToNSNumber];
+    edu.fromYear = [param[@"fromYear"]convertToNSNumber];
+    edu.schoolId = [param[@"schoolId"]convertToNSNumber];
+    edu.specialityId = [param[@"specialityId"]convertToNSNumber];
+    edu.toYear = [param[@"toYear"]convertToNSNumber];
     return edu;
 }
-
+- (User*) getCurrentUserForContext:(NSManagedObjectContext*) context {
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"isCurrentUser  = %d", 1];
+    NSPredicate *predicate;
+    @try {
+        predicate = [NSPredicate predicateWithFormat:predicateString];
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    if(predicate) {
+        NSArray *users = [User findAllWithPredicate:predicate inContext:context];
+        if(users.count > 0) return users[0];
+    } else return nil;
+}
 
 - (void)addAndSaveEducationEntityForUser:(NSDictionary *)param {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        Education *globalEd = [self createEducationEntity:param];
-        User *globalCurrentUser = [self getCurrentUser];
-        Education *ed = [globalEd moveToContext:context];
-        User *currentUser = [globalCurrentUser moveToContext:context];
-        NSMutableArray *education = [[currentUser.education allObjects] mutableCopy];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Education *ed = [weakSelf createEducationEntity:param forContext:localContext];
+        User *user = [weakSelf getCurrentUserForContext:localContext];
+        NSMutableArray *education = [[user.education allObjects] mutableCopy];
         if (education != nil) {
             [education addObject:ed];
         } else {
             education = [[NSMutableArray alloc] init];
         }
-        [context performBlockAndWait:^{
-            currentUser.education = [NSSet setWithArray:education];
-            [self addSaveOperationToBottomInContext:context];
-        }];
+        user.education = [NSSet setWithArray:education];
+    } completion:^(BOOL success, NSError *error)    {
     }];
 }
 
-
 - (void)deleteAndSaveEducationEntityFromUser:(NSArray *)ids {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        User *globalCurrentUser = [self getCurrentUser];
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        User *currentUser = [globalCurrentUser moveToContext:context];
-        NSMutableArray *educationItems = [[currentUser.education allObjects] mutableCopy];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        User *user = [weakSelf getCurrentUserForContext:localContext];
+        NSMutableArray *educationItems = [[user.education allObjects] mutableCopy];
         NSMutableArray *discardedItems = [NSMutableArray array];
         Education *item;
         for (item in educationItems) {
@@ -305,51 +224,40 @@ static DataStorage *dataStorage;
             }
         }
         [educationItems removeObjectsInArray:discardedItems];
-        [context performBlockAndWait:^{
-            currentUser.education = [NSSet setWithArray:educationItems];
-            [self addSaveOperationToBottomInContext:context];
-        }];
+        user.education = [NSSet setWithArray:educationItems];
+    } completion:^(BOOL success, NSError *error)    {
     }];
 }
-
 
 #pragma mark - language
 
-- (Language *)createLanguageEntity:(NSDictionary *)param {
-    Language *lan = (Language *) [NSEntityDescription insertNewObjectForEntityForName:@"Language" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    lan.id_ = param[@"id"];
-    lan.name = param[@"name"];
+- (Language *)createLanguageEntity:(NSDictionary *)param forContext:(NSManagedObjectContext*) context   {
+    Language *lan = [Language createInContext:context];
+    lan.id_ = [param[@"id"]convertToNSNumber];
+    lan.name = [param[@"name"]convertToNSString];
     return lan;
 }
-
 - (void)addAndSaveLanguageEntityForUser:(NSDictionary *)param {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        Language *globalLan = [self createLanguageEntity:param];
-        User *globalCurrentUser = [self getCurrentUser];
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        Language *lan = [globalLan moveToContext:context];
-        User *currentUser = [globalCurrentUser moveToContext:context];
-
-        NSMutableArray *languages = [[currentUser.language allObjects] mutableCopy];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User *user = [weakSelf getCurrentUserForContext:localContext];
+        Language *lng = [weakSelf createLanguageEntity:param forContext:localContext];
+        NSMutableArray *languages = [[user.language allObjects] mutableCopy];
         if (languages != nil) {
-            [languages addObject:lan];
+            [languages addObject:lng];
         } else {
             languages = [[NSMutableArray alloc] init];
         }
-        [context performBlockAndWait:^{
-            currentUser.language = [NSSet setWithArray:languages];
-            [self addSaveOperationToBottomInContext:context];
-        }];
+        user.language = [NSSet setWithArray:languages];
+    } completion:^(BOOL success, NSError *error)    {
     }];
+    
 }
-
-
 - (void)deleteAndSaveLanguageEntityFromUser:(NSArray *)ids {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        User *globalCurrentUser = [self getCurrentUser];
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        User *currentUser = [globalCurrentUser moveToContext:context];
-        NSMutableArray *languageItems = [[currentUser.language allObjects] mutableCopy];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User *user = [weakSelf getCurrentUserForContext:localContext];
+        NSMutableArray *languageItems = [[user.language allObjects] mutableCopy];
         NSMutableArray *discardedItems = [NSMutableArray array];
         Language *item;
         for (item in languageItems) {
@@ -360,360 +268,216 @@ static DataStorage *dataStorage;
             }
         }
         [languageItems removeObjectsInArray:discardedItems];
-        [context performBlockAndWait:^{
-            currentUser.language = [NSSet setWithArray:languageItems];
-            [self addSaveOperationToBottomInContext:context];
-        }];
+        user.language = [NSSet setWithArray:languageItems];
+    } completion:^(BOOL success, NSError *error)    {
     }];
 }
-
-- (Language *)createTempLanguage:(NSDictionary *)param {
-    NSEntityDescription *myLanguageEntity = [NSEntityDescription entityForName:@"Language" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    Language *lanEnt = [[Language alloc] initWithEntity:myLanguageEntity insertIntoManagedObjectContext:nil];
-    lanEnt.id_ = param[@"id"];
-    lanEnt.name = param[@"name"];
-    return lanEnt;
-}
-
-- (void)insertAndSaveLanguageObjectToContext:(Language *)globalLanguage withComplation:(complationBlock)block {
+- (void)createTempLanguage:(NSDictionary *)param withComplation:(complationBlock)block{
     __weak typeof(self) weakSelf = self;
-    __block Language *returnLanguage = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        Language *language = [globalLanguage moveToContext:context];
-        Language *lanEnt = [weakSelf getLanguageById:language.id_];
-        if (!lanEnt) {
-            [context performBlockAndWait:^{
-                [context insertObject:language];
-                [self addSaveOperationToBottomInContext:context];
-            }];
-            returnLanguage = language;
-        } else {
-            returnLanguage = lanEnt;
-        }
-        [self returnObject:returnLanguage inComplationBlock:block];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [weakSelf createLanguageEntity:param forContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        Language *lng = [weakSelf getLanguageById:param[@"id"] forContext:[NSManagedObjectContext MR_defaultContext]];
+        block(lng);
     }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
+}
+- (void)removeLanguageObjectById:(NSNumber *)langId {
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Language *lng = [weakSelf getLanguageById:langId forContext:localContext];
+        if(lng)
+            [lng deleteInContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
 
-- (void)removeLanguageObjectById:(Language *)language {
-    Language *lanEnt = [self getLanguageById:language.id_];
-    if (lanEnt) {
-        [[NSManagedObjectContext threadContext] deleteObject:lanEnt];
-    }
-}
-
-- (Language *)getLanguageById:(NSNumber *)postId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Language" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+- (Language *)getLanguageById:(NSNumber *)langId forContext:(NSManagedObjectContext*) context   {
+    
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"id_  = %@", postId];
-
+    [predicateString appendFormat:@"id_  = %d", [langId intValue]];
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    if(predicate) {
+        NSArray *lang = [Language findAllWithPredicate:predicate inContext:context];
+        if(lang.count > 0) return lang[0];
+    } else return nil;
+    
 }
-
-
 - (void)deleteAndSaveAllLanguages {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            NSFetchRequest *allLanguages = [[NSFetchRequest alloc] init];
-            [allLanguages setEntity:[NSEntityDescription entityForName:@"Language" inManagedObjectContext:context]];
-            [allLanguages setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-            NSError *error = nil;
-            NSArray *languages = [context executeFetchRequest:allLanguages error:&error];
-            //error handling goes here
-            for (Language *language in languages) {
-                [context deleteObject:language];
-            }
-            [self addSaveOperationToBottomInContext:context];
-        }];
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *lang = [Language findAllInContext:localContext];
+        for(Language *lng in lang) {
+            [lng deleteInContext:localContext];
+        }
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
-
+////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - school
 
-- (School *)createSchoolEntity:(NSDictionary *)param {
-    School *sch = (School *) [NSEntityDescription insertNewObjectForEntityForName:@"School" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    sch.id_ = param[@"id"];
-    sch.name = param[@"name"];
+- (School *)createSchoolEntity:(NSDictionary *)param forContext:(NSManagedObjectContext*) context{
+    School *sch = [School createInContext:context];
+    sch.id_ = [param[@"id"]convertToNSNumber];
+    sch.name = [param[@"name"]convertToNSString];
     return sch;
 }
-
-- (School *)createTempSchool:(NSDictionary *)param {
-    NSEntityDescription *mySchEntity = [NSEntityDescription entityForName:@"School" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    School *schEnt = [[School alloc] initWithEntity:mySchEntity insertIntoManagedObjectContext:nil];
-    schEnt.id_ = param[@"id"];
-    schEnt.name = param[@"name"];
-    return schEnt;
-}
-
-- (void)createAndSaveSchool:(NSDictionary *)param withComplation:(complationBlock)block {
-    __block School *returnSchool = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            School *school = (School *) [NSEntityDescription insertNewObjectForEntityForName:@"School" inManagedObjectContext:context];
-            school.name = [param[@"name"] convertToNSString];
-            school.id_ = [param[@"id"] convertToNSNumber];
-            [self addSaveOperationToBottomInContext:context];
-            returnSchool = school;
-            [self returnObject:returnSchool inComplationBlock:block];
-        }];
-    }];
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
-}
-
-- (void)insertAndSaveSchoolObjectToContext:(School *)globalSchool withComplation:(complationBlock)block {
+- (void)createTempSchool:(NSDictionary *)param withComplation:(complationBlock)block{
     __weak typeof(self) weakSelf = self;
-    __block School *returnSchool = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        School *school = [globalSchool moveToContext:context];
-        School *schEnt = [weakSelf getSchoolById:school.id_];
-        if (!schEnt) {
-            [context performBlockAndWait:^{
-                [context insertObject:school];
-                [self addSaveOperationToBottomInContext:context];
-            }];
-            returnSchool = school;
-        } else {
-            returnSchool = schEnt;
-        }
-        [self returnObject:returnSchool inComplationBlock:block];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [weakSelf createSchoolEntity:param forContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        School *sch = [weakSelf getSchoolById:param[@"id"] forContext:[NSManagedObjectContext MR_defaultContext]];
+        block(sch);
     }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
+    
+ }
+- (void)removeSchoolObjectById:(NSNumber*)schoolId {
+    
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        School *sch = [weakSelf getSchoolById:schoolId forContext:localContext];
+        if(sch)
+            [sch deleteInContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
 
-- (void)removeSchoolObjectById:(School *)school {
-    School *schEnt = [self getSchoolById:school.id_];
-    if (schEnt) {
-        [[NSManagedObjectContext threadContext] deleteObject:schEnt];
-    }
-}
-
-- (School *)getSchoolById:(NSNumber *)schoolId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"School" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+- (School *)getSchoolById:(NSNumber *)schoolId forContext:(NSManagedObjectContext*) context {
+    
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"id_  = %@", schoolId];
-
+    [predicateString appendFormat:@"id_  = %d", [schoolId intValue]];
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    if(predicate) {
+        NSArray *sch = [School findAllWithPredicate:predicate inContext:context];
+        if(sch.count > 0) return sch[0];
+    } else return nil;
 }
 
 - (void)deleteAllSchools {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *allSchools = [[NSFetchRequest alloc] init];
-    [allSchools setEntity:[NSEntityDescription entityForName:@"School" inManagedObjectContext:[NSManagedObjectContext threadContext]]];
-    [allSchools setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-    NSError *error = nil;
-    NSArray *schools = [context executeFetchRequest:allSchools error:&error];
-    //error handling goes here
-    for (School *sch in schools) {
-        [context deleteObject:sch];
-    }
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *schools = [School findAllInContext:localContext];
+        for(School *s in schools) {
+            [s deleteInContext:localContext];
+        }
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
-
+///////////////////////////////////////////////////////
 #pragma mark - specialities
 
-- (Speciality *)createSpecialityEntity:(NSDictionary *)param {
-    Speciality *sp = (Speciality *) [NSEntityDescription insertNewObjectForEntityForName:@"Speciality" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    sp.id_ = param[@"id"];
-    sp.name = param[@"name"];
+- (Speciality *)createSpecialityEntity:(NSDictionary *)param forContext:(NSManagedObjectContext*) context {
+    Speciality *sp = [Speciality createInContext:context];
+    sp.id_ = [param[@"id"]convertToNSNumber];
+    sp.name = [param[@"name"]convertToNSString];
     return sp;
 }
 
-- (Speciality *)createTempSpeciality:(NSDictionary *)param {
-    NSEntityDescription *mySchEntity = [NSEntityDescription entityForName:@"Speciality" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    Speciality *spEnt = [[Speciality alloc] initWithEntity:mySchEntity insertIntoManagedObjectContext:nil];
-    spEnt.id_ = param[@"id"];
-    spEnt.name = param[@"name"];
-    return spEnt;
-}
-
-- (void)createAndSaveSpeciality:(NSDictionary *)param withComplation:(complationBlock)block {
-    __block Speciality *returnSpec = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            Speciality *spec = (Speciality *) [NSEntityDescription insertNewObjectForEntityForName:@"Speciality" inManagedObjectContext:context];
-            spec.name = [param[@"name"] convertToNSString];
-            spec.id_ = [param[@"id"] convertToNSNumber];
-            [self addSaveOperationToBottomInContext:context];
-            returnSpec = spec;
-            [self returnObject:returnSpec inComplationBlock:block];
-        }];
-    }];
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
-}
-
-- (void)insertAndSaveSpecialityObjectToContext:(Speciality *)globalSpeciality withComplation:(complationBlock)block {
+- (void)createTempSpeciality:(NSDictionary *)param withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
-    __block Speciality *returnSpeciality = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        Speciality *speciality = [globalSpeciality moveToContext:context];
-        Speciality *spEnt = [weakSelf getSpecialityById:speciality.id_];
-        if (!spEnt) {
-            [context performBlockAndWait:^{
-                [context insertObject:speciality];
-                [self addSaveOperationToBottomInContext:context];
-            }];
-            returnSpeciality = speciality;
-        } else {
-            returnSpeciality = spEnt;
-        }
-        [self returnObject:returnSpeciality inComplationBlock:block];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [weakSelf createSpecialityEntity:param forContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        Speciality *sp = [weakSelf getSpecialityById:param[@"id"] forContext:[NSManagedObjectContext MR_defaultContext]];
+        block(sp);
     }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
+}
+- (void)removeSpecialityObjectById:(NSNumber *)specialityId {
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Speciality *sp = [weakSelf getSpecialityById:specialityId forContext:localContext];
+        if(sp)
+            [sp deleteInContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
 
-- (void)removeSpecialityObjectById:(Speciality *)speciality {
-    Speciality *spEnt = [self getSpecialityById:speciality.id_];
-    if (spEnt) {
-        [[NSManagedObjectContext threadContext] deleteObject:spEnt];
-    }
-}
-
-- (Speciality *)getSpecialityById:(NSNumber *)specId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Speciality" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+- (Speciality *)getSpecialityById:(NSNumber *)specId forContext:(NSManagedObjectContext*) context   {
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"id_  = %@", specId];
-
+    [predicateString appendFormat:@"id_  = %d", [specId intValue]];
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    if(predicate) {
+        NSArray *sch = [Speciality findAllWithPredicate:predicate inContext:context];
+        if(sch.count > 0) return sch[0];
+    } else return nil;
 }
 
 - (void)deleteAllSpeciality {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *allSpec = [[NSFetchRequest alloc] init];
-    [allSpec setEntity:[NSEntityDescription entityForName:@"Speciality" inManagedObjectContext:context]];
-    [allSpec setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-    NSError *error = nil;
-    NSArray *specialities = [context executeFetchRequest:allSpec error:&error];
-    //error handling goes here
-    for (Speciality *sp in specialities) {
-        [context deleteObject:sp];
-    }
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *specs = [Speciality findAllInContext:localContext];
+        for(Speciality *s in specs) {
+            [s deleteInContext:localContext];
+        }
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
 
-
+/////////////////////////////////////////////////////////////////
 #pragma mark - place
 
-- (Place *)createPlaceEntity:(NSDictionary *)param {
-    Place *pl = (Place *) [NSEntityDescription insertNewObjectForEntityForName:@"Place" inManagedObjectContext:[NSManagedObjectContext threadContext]];
+- (Place *)createPlaceEntity:(NSDictionary *)param forContext:(NSManagedObjectContext*) context{
+    Place *pl = [Place createInContext:context];
     pl.id_ = [param[@"id"] convertToNSNumber];
     pl.cityId = [param[@"cityId"] convertToNSNumber];
     pl.name = [param[@"name"] convertToNSString];
     return pl;
 }
 
-- (void)createAndSavePlace:(NSDictionary *)param withComplation:(complationBlock)block {
-    __block Place *returnPlace = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        Place *pl = [self createPlaceEntity:param];
-        [context performBlockAndWait:^{
-
-            [self addSaveOperationToBottomInContext:context];
-            returnPlace = pl;
-            [self returnObject:returnPlace inComplationBlock:block];
-        }];
-    }];
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
-}
-
 - (void)addAndSavePlaceEntity:(NSDictionary *)param forUser:(User *)globalUser {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        Place *pl = [self createPlaceEntity:param];
-        //User *currentUser = [self getCurrentUser];
-        User* user = [globalUser moveToContext:context];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Place *pl = [weakSelf createPlaceEntity:param forContext:localContext];
+        User* user = [globalUser MR_inContext:localContext];
         NSMutableArray *places = [[user.place allObjects] mutableCopy];
         if (places != nil) {
-            [places addObject:[pl moveToContext:context]];
+            [places addObject:pl];
         } else {
             places = [[NSMutableArray alloc] init];
         }
-        [context performBlockAndWait:^{
-            user.place = [NSSet setWithArray:places];
-            [self addSaveOperationToBottomInContext:context];
-        }];
+        user.place = [NSSet setWithArray:places];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 
 - (void)deleteAndSavePlaceEntityFromUserWithIds:(NSArray *)ids {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        User *currentUser = [self getCurrentUser];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User *currentUser = [weakSelf getCurrentUserForContext:localContext];
         NSMutableArray *placesItems = [[currentUser.place allObjects] mutableCopy];
         NSMutableArray *discardedItems = [NSMutableArray array];
         Place *item;
@@ -725,170 +489,135 @@ static DataStorage *dataStorage;
             }
         }
         [placesItems removeObjectsInArray:discardedItems];
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            currentUser.place = [NSSet setWithArray:placesItems];
-            [self addSaveOperationToBottomInContext:context];
-        }];
+        currentUser.place = [NSSet setWithArray:placesItems];
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 
 - (void)deleteAndSavePlaceEntityForCurrentUserWithCity:(City *) globalCity {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-
-        City* city = [globalCity moveToContext:context];
-        User *currentUser = [self getCurrentUser];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User *currentUser = [weakSelf getCurrentUserForContext:localContext];
+        City* city = [globalCity MR_inContext:localContext];
         NSArray * returnArray = [[currentUser.place allObjects] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cityId != %@",city.cityId]];
-
-        [context performBlockAndWait:^{
-            currentUser.place = [NSSet setWithArray:returnArray];
-            [self addSaveOperationToBottomInContext:context];
-        }];
+        currentUser.place = [NSSet setWithArray:returnArray];
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 
 - (void) setAndSaveCurrentUserMaxEntertainmentPrice:(NSNumber*) number{
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        User *currentUser = [self getCurrentUser];
-        [context performBlockAndWait:^{
-            currentUser.maxentertainment.amount = number;
-            [self addSaveOperationToBottomInContext:context];
-        }];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User *currentUser = [weakSelf getCurrentUserForContext:localContext];
+        currentUser.maxentertainment.amount = number;
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 
 - (void) setAndSaveCurrentUserMinEntertainmentPrice:(NSNumber*) number{
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        User *currentUser = [self getCurrentUser];
-        [context performBlockAndWait:^{
-            currentUser.minentertainment.amount = number;
-            [self addSaveOperationToBottomInContext:context];
-        }];
-    }];
-}
-- (Place *)createTempPlace:(NSDictionary *)param {
-    NSEntityDescription *myPlaceEntity = [NSEntityDescription entityForName:@"Place" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    Place *placeEnt = [[Place alloc] initWithEntity:myPlaceEntity insertIntoManagedObjectContext:nil];
-    placeEnt.id_ = param[@"id"];
-    placeEnt.cityId = param[@"cityId"];
-    placeEnt.name = param[@"name"];
-    return placeEnt;
-}
-
-- (void)insertAndSavePlaceObjectToContext:(Place *)globalPlace withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
-    __block Place *returnPlace = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        Place *place = [globalPlace moveToContext:context];
-        Place *placeEnt = [weakSelf getPlaceById:place.id_];
-        if (!placeEnt) {
-            [context performBlockAndWait:^{
-                [context insertObject:place];
-                [self addSaveOperationToBottomInContext:context];
-            }];
-            returnPlace = place;
-        } else {
-            returnPlace = placeEnt;
-        }
-        [self returnObject:returnPlace inComplationBlock:block];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User *currentUser = [weakSelf getCurrentUserForContext:localContext];
+        currentUser.minentertainment.amount = number;
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
+}
+- (void)createTempPlace:(NSDictionary *)param withComplation:(complationBlock)block {
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [weakSelf createPlaceEntity:param forContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        Place *placeEnt = [weakSelf getPlaceById:param[@"id"] forContext:[NSManagedObjectContext MR_defaultContext]];
+        block(placeEnt);
     }];
 
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
-- (void)removePlaceObjectById:(Place *)place {
-    Place *plEnt = [self getPlaceById:place.id_];
-    if (plEnt) {
-        [[NSManagedObjectContext threadContext] deleteObject:plEnt];
-    }
+- (void)removePlaceObjectById:(NSNumber *)placeId {
+   __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Place *plEnt = [weakSelf getPlaceById:placeId forContext:localContext];
+        if(plEnt)
+            [plEnt deleteInContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
 
-- (Place *)getPlaceById:(NSNumber *)postId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Place" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+- (Place *)getPlaceById:(NSNumber *)postId forContext:(NSManagedObjectContext*) context {
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"id_  = %@", postId];
-
+    [predicateString appendFormat:@"id_  = %d", [postId intValue]];
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    if(predicate) {
+        NSArray *pl = [Place findAllWithPredicate:predicate inContext:context];
+        if(pl.count > 0) return pl[0];
+    } else return nil;
 }
 
 
 - (void)deleteAllPlaces {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *allPlaces = [[NSFetchRequest alloc] init];
-    [allPlaces setEntity:[NSEntityDescription entityForName:@"Place" inManagedObjectContext:context]];
-    [allPlaces setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-    NSError *error = nil;
-    NSArray *places = [context executeFetchRequest:allPlaces error:&error];
-    //error handling goes here
-    for (Place *place in places) {
-        [context deleteObject:place];
-    }
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *places = [Place findAllInContext:localContext];
+        for(Place *p in places) {
+            [p deleteInContext:localContext];
+        }
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
 
 #pragma mark -
 #pragma mark career entity
 
-- (Career *)createCareerEntity:(NSDictionary *)param {
-    Career *car = (Career *) [NSEntityDescription insertNewObjectForEntityForName:@"Career" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    car.id_ = param[@"id"];
-    car.fromYear = param[@"fromYear"];
-    car.companyId = param[@"companyId"];
-    car.postId = param[@"postId"];
-    car.toYear = param[@"toYear"];
+- (Career *)createCareerEntity:(NSDictionary *)param forContext:(NSManagedObjectContext*) context   {
+    Career *car = [Career createInContext:context];
+    
+    car.id_ = [param[@"id"] convertToNSNumber];
+    car.fromYear = [param[@"fromYear"] convertToNSNumber];
+    car.companyId = [param[@"companyId"] convertToNSNumber];
+    car.postId = [param[@"postId"] convertToNSNumber];
+    car.toYear = [param[@"toYear"] convertToNSNumber];
     return car;
 }
 
 
 - (void)addAndSaveCareerEntityForUser:(NSDictionary *)param {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        Career *ca = [self createCareerEntity:param];
-        User *currentUser = [self getCurrentUser];
-        NSMutableArray *careerItems = [[currentUser.career allObjects] mutableCopy];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Career *ca = [weakSelf createCareerEntity:param forContext:localContext];
+        User* user = [weakSelf getCurrentUserForContext:localContext];
+        NSMutableArray *careerItems = [[user.career allObjects] mutableCopy];
         if (careerItems != nil) {
             [careerItems addObject:ca];
         } else {
             careerItems = [[NSMutableArray alloc] init];
         }
-
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            currentUser.career = [NSSet setWithArray:careerItems];
-            [self addSaveOperationToBottomInContext:context];
-        }];
+        user.career = [NSSet setWithArray:careerItems];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 
 - (void)deleteAndSaveCareerEntityFromUser:(NSArray *)ids {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        User *currentUser = [self getCurrentUser];
-        NSMutableArray *careerItems = [[currentUser.career allObjects] mutableCopy];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User* user = [weakSelf getCurrentUserForContext:localContext];
+        NSMutableArray *careerItems = [[user.career allObjects] mutableCopy];
         NSMutableArray *discardedItems = [NSMutableArray array];
         Career *item;
         for (item in careerItems) {
@@ -899,228 +628,143 @@ static DataStorage *dataStorage;
             }
         }
         [careerItems removeObjectsInArray:discardedItems];
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            currentUser.career = [NSSet setWithArray:careerItems];
-            [self addSaveOperationToBottomInContext:context];
-        }];
+        user.career = [NSSet setWithArray:careerItems];
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 
 
 #pragma mark - career-post
 
-- (void)createAndSaveCareerPost:(NSDictionary *)param withComplation:(complationBlock)block {
-    __block CareerPost *returCpost = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            CareerPost *postEnt = (CareerPost *) [NSEntityDescription insertNewObjectForEntityForName:@"CareerPost" inManagedObjectContext:context];
-            postEnt.name = [param[@"name"] convertToNSString];
-            postEnt.id_ = [param[@"id"] convertToNSNumber];
-            [self addSaveOperationToBottomInContext:context];
-            returCpost = postEnt;
-            [self returnObject:returCpost inComplationBlock:block];
-        }];
-    }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
-}
-
-- (CareerPost *)createTempCareerPost:(NSDictionary *)param {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    //NSEntityDescription *myCareerPostEntity = [NSEntityDescription entityForName:@"CareerPost" inManagedObjectContext:context];
-    CareerPost *postEnt = (CareerPost *) [NSEntityDescription insertNewObjectForEntityForName:@"CareerPost" inManagedObjectContext:context];
-    //CareerPost *postEnt = [[CareerPost alloc] initWithEntity:myCareerPostEntity insertIntoManagedObjectContext:nil];
-    postEnt.id_ = param[@"id"];
-    postEnt.name = param[@"name"];
+- (CareerPost*)createCareerPostEntity:(NSDictionary *)param forContext:(NSManagedObjectContext*) context {
+    CareerPost *postEnt = [CareerPost createInContext:context];
+    postEnt.name = [param[@"name"] convertToNSString];
+    postEnt.id_ = [param[@"id"] convertToNSNumber];
     return postEnt;
 }
 
-- (void)insertAndSaveCareerPostObjectToContext:(CareerPost *)globalcPost withComplation:(complationBlock)block {
+- (void)createTempCareerPost:(NSDictionary *)param withComplation:(complationBlock)block{
+    
     __weak typeof(self) weakSelf = self;
-    __block CareerPost *returnPost = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        CareerPost *cPost = [globalcPost moveToContext:context];
-        CareerPost *postEnt = [weakSelf getCareerPostById:cPost.id_];
-        if (!postEnt) {
-            [context performBlockAndWait:^{
-                [context insertObject:cPost];
-                [self addSaveOperationToBottomInContext:context];
-            }];
-            returnPost = cPost;
-        } else {
-            returnPost = postEnt;
-        }
-        [self returnObject:returnPost inComplationBlock:block];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [weakSelf createCareerPostEntity:param forContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        CareerPost *carPost = [weakSelf getCareerPostById:param[@"id"] forContext:[NSManagedObjectContext MR_defaultContext]];
+        block(carPost);
     }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
-- (void)removeCareerPostObjectById:(CareerPost *)cPost {
-    CareerPost *postEnt = [self getCareerPostById:cPost.id_];
-    if (postEnt) {
-        [[NSManagedObjectContext threadContext] deleteObject:postEnt];
-    }
+- (void)removeCareerPostObjectById:(NSNumber *)cPostId {
+    
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        CareerPost *postEnt = [weakSelf getCareerPostById:cPostId forContext:localContext];
+        if(postEnt)
+            [postEnt deleteInContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
 
-- (CareerPost *)getCareerPostById:(NSNumber *)postId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CareerPost" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+- (CareerPost *)getCareerPostById:(NSNumber *)postId forContext:(NSManagedObjectContext*) context   {
+    
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"id_  = %@", postId];
-
+    [predicateString appendFormat:@"id_  = %d", [postId intValue]];
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    if(predicate) {
+        NSArray *pl = [CareerPost findAllWithPredicate:predicate inContext:context];
+        if(pl.count > 0) return pl[0];
+    } else return nil;
 }
 
-
 - (void)deleteAllCareerPosts {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *allCareerPosts = [[NSFetchRequest alloc] init];
-    [allCareerPosts setEntity:[NSEntityDescription entityForName:@"CareerPost" inManagedObjectContext:context]];
-    [allCareerPosts setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-    NSError *error = nil;
-    NSArray *cPosts = [context executeFetchRequest:allCareerPosts error:&error];
-    //error handling goes here
-    for (CareerPost *post in cPosts) {
-        [context deleteObject:post];
-    }
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *posts = [CareerPost findAllInContext:localContext];
+        for(CareerPost *p in posts) {
+            [p deleteInContext:localContext];
+        }
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
 
 
 #pragma mark - company
 
-- (void)createAndSaveCompany:(NSDictionary *)param withComplation:(complationBlock)block {
-    __block Company *returnCompany = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            Company *companyEnt = (Company *) [NSEntityDescription insertNewObjectForEntityForName:@"Company" inManagedObjectContext:context];
-            companyEnt.name = [param[@"name"] convertToNSString];
-            companyEnt.id_ = [param[@"id"] convertToNSNumber];
-            [self addSaveOperationToBottomInContext:context];
-            returnCompany = companyEnt;
-            [self returnObject:returnCompany inComplationBlock:block];
-        }];
-    }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
-}
-
-- (Company *)createTempCompany:(NSDictionary *)param {
-    //NSEntityDescription *myCompanyEntity = [NSEntityDescription entityForName:@"Company" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    Company *companyEnt = (Company *) [NSEntityDescription insertNewObjectForEntityForName:@"Company" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    //Company *companyEnt = [[Company alloc] initWithEntity:myCompanyEntity insertIntoManagedObjectContext:nil];
-    companyEnt.id_ = param[@"id"];
-    companyEnt.name = param[@"name"];
+- (Company*)createCompanyEntity:(NSDictionary *)param  forContext:(NSManagedObjectContext*) context{
+    Company *companyEnt = [Company createInContext:context];
+    companyEnt.name = [param[@"name"] convertToNSString];
+    companyEnt.id_ = [param[@"id"] convertToNSNumber];
     return companyEnt;
 }
-
-- (void)insertAndSaveCompanyObjectToContext:(Company *)globalCompany withComplation:(complationBlock)block {
+- (void)createTempCompany:(NSDictionary *)param withComplation:(complationBlock)block  {
+    
     __weak typeof(self) weakSelf = self;
-    __block Company *returnCompany = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        Company *company = [globalCompany moveToContext:context];
-        Company *companyEnt = [weakSelf getCompanyById:company.id_];
-        if (!companyEnt) {
-            [context performBlockAndWait:^{
-                [context insertObject:company];
-                [self addSaveOperationToBottomInContext:context];
-            }];
-            returnCompany = company;
-        } else {
-            returnCompany = companyEnt;
-        }
-        [self returnObject:returnCompany inComplationBlock:block];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [weakSelf createCompanyEntity:param forContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        Company *companyEnt = [weakSelf getCompanyById:param[@"id"] forContext:[NSManagedObjectContext MR_defaultContext]];
+        block(companyEnt);
     }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
-
-- (void)removeCompanyObjectById:(Company *)company {
-    Company *companyEnt = [self getCompanyById:company.id_];
-    if (companyEnt) {
-        [[NSManagedObjectContext threadContext] deleteObject:companyEnt];
-    }
+- (void)removeCompanyObjectById:(NSNumber*)companyId {
+    
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Company *companyEnt = [weakSelf getCompanyById:companyId forContext:localContext];
+        if(companyEnt)
+            [companyEnt deleteInContext:localContext];
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
-
-- (Company *)getCompanyById:(NSNumber *)companyId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Company" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+- (Company *)getCompanyById:(NSNumber *)companyId forContext:(NSManagedObjectContext*) context{
+    
     NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"id_  = %@", companyId];
-
+    [predicateString appendFormat:@"id_  = %d", [companyId intValue]];
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    if(predicate) {
+        NSArray *pl = [Company findAllWithPredicate:predicate inContext:context];
+        if(pl.count > 0) return pl[0];
+    } else return nil;
 }
-
 - (void)deleteCompanyPosts {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *allCompanies = [[NSFetchRequest alloc] init];
-    [allCompanies setEntity:[NSEntityDescription entityForName:@"Company" inManagedObjectContext:context]];
-    [allCompanies setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-    NSError *error = nil;
-    NSArray *companies = [context executeFetchRequest:allCompanies error:&error];
-    //error handling goes here
-    for (Company *comp in companies) {
-        [context deleteObject:comp];
-    }
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *comp = [Company findAllInContext:localContext];
+        for(Company *p in comp) {
+            [p deleteInContext:localContext];
+        }
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
-
 
 #pragma mark -
 #pragma mark avatar entity
 
-#warning Исправьте метод!
-- (Avatar *)createAvatarEntity:(NSDictionary *)param {
-    Avatar *avatar = (Avatar *) [NSEntityDescription insertNewObjectForEntityForName:@"Avatar" inManagedObjectContext:[NSManagedObjectContext threadContext]];
+- (Avatar *)createAvatarEntity:(NSDictionary *)param forContext:(NSManagedObjectContext*) context{
     
+    Avatar *avatar = [Avatar createInContext:context];
     if(param[@"crop"] && param[@"image"] && param[@"originalImage"]) {
         
         if([param[@"crop"] isKindOfClass:[NSDictionary class]]) {
@@ -1147,207 +791,240 @@ static DataStorage *dataStorage;
         avatar.originalImgHeight = param[@"width"];
         avatar.originalImgSrc = [param[@"src"] stringByAppendingString:@"?size=s640"];
     }
-    
-
-
-    //tmpFix
     return avatar;
 }
 
 #pragma mark -
 #pragma mark current user entity
 
-
-- (void)createAndSaveUserEntity:(NSDictionary *)param forUserType:(UserType)type withComplation:(complationBlock)block {
+- (void)createAndSaveUserEntity:(NSMutableArray*) params forUserType:(UserType)type withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
-    __block User *returnUser = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext)    {
         NSDateFormatter *dft = [[NSDateFormatter alloc] init];
         [dft setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         [df setDateFormat:@"yyyy-MM-dd"];
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        User *user;
-
-        user = [weakSelf getUserForId:[param[@"id"] convertToNSNumber]];
-        if (!user) {
-            user = (User *) [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
-        }
-        if (param[@"id"])
-            user.userId = [param[@"id"] convertToNSNumber];
-        //user type
-        if (type == CurrentUserType) {
-            user.isCurrentUser = @YES;
-        }
-        if (type == MainListUserType) {
-            user.isItFromMainList = @YES;
-        }
-        if (type == ContactUserType) {
-            user.isItFromContact = @YES;
-        }
-        if (type == PointLikeUserType) {
-            user.isItFromPointLike = @YES;
-        }
-        if (param[@"name"])
-            user.name = [param[@"name"] convertToNSString];
-        if (param[@"cityId"])
-            user.cityId = [param[@"cityId"] convertToNSNumber];
-        if (param[@"createdAt"])
-            user.createdAt = [dft dateFromString: param[@"createdAt"]];
-        if (param[@"dateOfBirth"])
-            user.dateOfBirth =[df dateFromString: param[@"dateOfBirth"]];
-        if (param[@"email"])
-            user.email = [param[@"email"] convertToNSString];
-        if (param[@"gender"])
-            user.gender = [param[@"gender"] convertToNSNumber];
-        if (param[@"visibility"]) {
-            user.visibility = [param[@"visibility"] convertToNSNumber];
-        }
-        if (param[@"online"]) {
-            user.online = [param[@"online"] convertToNSNumber];
-        }
-        if (param[@"avatar"]) {
-            user.avatar = [self createAvatarEntity:param[@"avatar"]];
-            user.avatar.user = user;
-        }
-        if (param[@"age"])
-            user.age = [param[@"age"] convertToNSNumber];
-        if ([param[@"education"] isKindOfClass:[NSDictionary class]]) {
-            if (![param[@"education"] isKindOfClass:[NSNull class]]) {
-                Education *ed = [self createEducationEntity:param[@"education"]];
-                ed.user = user;
-                user.education = [NSSet setWithArray:@[ed]];
+        for(NSDictionary *param in params) {
+            
+            //NSDictionary *param;
+            //if([key isKindOfClass:[NSString class]]) {
+            //    param = [params objectForKey:key];
+            //} else if ([key isKindOfClass:[NSDictionary class]]) {
+            //    param = key;
+            //}
+            
+            User *user;
+            NSArray *localUsers = [User findAllWithPredicate:[NSPredicate predicateWithFormat:@"userId == %d", [param[@"id"] intValue] ] inContext:localContext];
+            if(localUsers.count >0) {
+                user = localUsers[0] ;
+            } else {
+                user = [User createInContext:localContext];
             }
-        } else if ([param[@"education"] isKindOfClass:[NSArray class]]) {
-            NSMutableArray *entArray = [NSMutableArray new];
-            for (NSDictionary *t in param[@"education"]) {
-                Education *ed = [self createEducationEntity:t];
-                ed.user = user;
-                [entArray addObject:[self createEducationEntity:t]];
+            
+            
+            if (param[@"id"])
+                user.userId = [param[@"id"] convertToNSNumber];
+            //user type
+            if (type == CurrentUserType) {
+                user.isCurrentUser = @YES;
             }
-            user.education = [NSSet setWithArray:entArray];
-        }
-        if ([param[@"career"] isKindOfClass:[NSDictionary class]]) {
-            if (![param[@"career"] isKindOfClass:[NSNull class]]) {
-                Career *ca = [self createCareerEntity:param[@"career"]];
-                ca.user = user;
-                user.career = [NSSet setWithArray:@[ca]];
+            if (type == MainListUserType) {
+                user.isItFromMainList = @YES;
             }
-        } else if ([param[@"career"] isKindOfClass:[NSArray class]]) {
-            NSMutableArray *entArray = [NSMutableArray new];
-            for (NSDictionary *t in param[@"career"]) {
-                Career *ca = [self createCareerEntity:t];
-                ca.user = user;
-                [entArray addObject:[self createCareerEntity:t]];
+            if (type == ContactUserType) {
+                user.isItFromContact = @YES;
             }
-            user.career = [NSSet setWithArray:entArray];
-        }
-        if ([param[@"languageIds"] isKindOfClass:[NSDictionary class]]) {
+            if (type == PointLikeUserType) {
+                user.isItFromPointLike = @YES;
+            }
+            if (param[@"name"])
+                user.name = [param[@"name"] convertToNSString];
+            if (param[@"cityId"])
+                user.cityId = [param[@"cityId"] convertToNSNumber];
+            if (param[@"createdAt"])
+                user.createdAt = [dft dateFromString: param[@"createdAt"]];
+            if (param[@"dateOfBirth"])
+                user.dateOfBirth =[df dateFromString: param[@"dateOfBirth"]];
+            if (param[@"email"])
+                user.email = [param[@"email"] convertToNSString];
+            if (param[@"gender"])
+                user.gender = [param[@"gender"] convertToNSNumber];
+            if (param[@"visibility"]) {
+                user.visibility = [param[@"visibility"] convertToNSNumber];
+            }
+            if (param[@"online"]) {
+                user.online = [param[@"online"] convertToNSNumber];
+            }
+            if (param[@"avatar"]) {
+                user.avatar = [weakSelf createAvatarEntity:param[@"avatar"] forContext:localContext];
+                user.avatar.user = user;
+            }
+            if (param[@"age"])
+                user.age = [param[@"age"] convertToNSNumber];
+            if ([param[@"education"] isKindOfClass:[NSDictionary class]]) {
+                if (![param[@"education"] isKindOfClass:[NSNull class]]) {
+                    Education *ed = [weakSelf createEducationEntity:param[@"education"] forContext:localContext];
+                    ed.user = user;
+                    user.education = [NSSet setWithArray:@[ed]];
+                }
+            } else if ([param[@"education"] isKindOfClass:[NSArray class]]) {
+                NSMutableArray *entArray = [NSMutableArray new];
+                for (NSDictionary *t in param[@"education"]) {
+                    Education *ed = [weakSelf createEducationEntity:t forContext:localContext] ;
+                    ed.user = user;
+                    [entArray addObject:ed];
+                }
+                user.education = [NSSet setWithArray:entArray];
+            }
+            if ([param[@"career"] isKindOfClass:[NSDictionary class]]) {
+                if (![param[@"career"] isKindOfClass:[NSNull class]]) {
+                    Career *ca = [weakSelf createCareerEntity:param[@"career"] forContext:localContext];
+                    ca.user = user;
+                    user.career = [NSSet setWithArray:@[ca]];
+                }
+            } else if ([param[@"career"] isKindOfClass:[NSArray class]]) {
+                NSMutableArray *entArray = [NSMutableArray new];
+                for (NSDictionary *t in param[@"career"]) {
+                    Career *ca = [weakSelf createCareerEntity:t forContext:localContext];
+                    ca.user = user;
+                    [entArray addObject:ca];
+                }
+                user.career = [NSSet setWithArray:entArray];
+            }
+            if ([param[@"languageIds"] isKindOfClass:[NSDictionary class]]) {
+                if (![param[@"languageIds"] isKindOfClass:[NSNull class]]) {
+                    Language *lan = [weakSelf createLanguageEntity:param[@"language"] forContext:localContext];
+                    lan.user = user;
+                    user.language = [NSSet setWithArray:@[lan]];
+                }
+            } else if ([param[@"languageIds"] isKindOfClass:[NSArray class]]) {
+                NSMutableArray *entArray = [NSMutableArray new];
+                for (NSDictionary *t in param[@"career"]) {
+                    Language *lan = [weakSelf createLanguageEntity:t forContext:localContext];
+                    lan.user = user;
+                    [entArray addObject:lan];
+                }
+                user.language = [NSSet setWithArray:entArray];
+            }
+            NSArray *cityIds;
+            NSMutableString *par;
+            if (![param[@"favoriteCityIds"] isKindOfClass:[NSNull class]]) {
+                cityIds = param[@"favoriteCityIds"];
+                par = [NSMutableString new];
+                for (NSNumber *n in cityIds) {
+                    [par appendFormat:@"%d;", [n intValue]];
+                }
+                if (par.length > 0) {
+                    NSRange rng;
+                    rng.location = par.length - 1;
+                    rng.length = 1;
+                    [par deleteCharactersInRange:rng];
+                    user.favoriteCityIds = par;
+                }
+            }
+            if (![param[@"favoritePlaceIds"] isKindOfClass:[NSNull class]]) {
+                cityIds = param[@"favoritePlaceIds"];
+                par = [NSMutableString new];
+                for (NSNumber *n in cityIds) {
+                    [par appendFormat:@"%d;", [n intValue]];
+                }
+                if (par.length > 0) {
+                    NSRange rng;
+                    rng.location = par.length - 1;
+                    rng.length = 1;
+                    [par deleteCharactersInRange:rng];
+                    user.favoritePlaceIds = par;
+                }
+            }
+            if (type == CurrentUserType) {
+                if (![param[@"filter"] isKindOfClass:[NSNull class]]) {
+                    UserFilter *uf = [weakSelf createUserFilterEntity:param[@"filter"] forContext:localContext];
+                    uf.user = user;
+                    user.userfilter = uf;
+                }
+            }
             if (![param[@"languageIds"] isKindOfClass:[NSNull class]]) {
-                Language *lan = [self createLanguageEntity:param[@"language"]];
-                lan.user = user;
-                user.language = [NSSet setWithArray:@[lan]];
+                cityIds = param[@"languageIds"];
+                par = [NSMutableString new];
+                for (NSNumber *n in cityIds) {
+                    [par appendFormat:@"%d;", [n intValue]];
+                }
+                if (par.length > 0) {
+                    NSRange rng;
+                    rng.location = par.length - 1;
+                    rng.length = 1;
+                    [par deleteCharactersInRange:rng];
+                    user.languageIds = par;
+                }
             }
-        } else if ([param[@"languageIds"] isKindOfClass:[NSArray class]]) {
-            NSMutableArray *entArray = [NSMutableArray new];
-            for (NSDictionary *t in param[@"career"]) {
-                Language *lan = [self createLanguageEntity:t];
-                lan.user = user;
-                [entArray addObject:[self createLanguageEntity:t]];
+            
+            if (![param[@"maxEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
+                MaxEntertainmentPrice *mxP = [weakSelf createMaxPrice:param[@"maxEntertainmentPrice"] forContext:localContext];
+                mxP.user = user;
+                user.maxentertainment = mxP;
             }
-            user.language = [NSSet setWithArray:entArray];
-        }
-        NSArray *cityIds;
-        NSMutableString *par;
-        if (![param[@"favoriteCityIds"] isKindOfClass:[NSNull class]]) {
-            cityIds = param[@"favoriteCityIds"];
-            par = [NSMutableString new];
-            for (NSNumber *n in cityIds) {
-                [par appendFormat:@"%d;", [n intValue]];
+            if (![param[@"minEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
+                MinEntertainmentPrice *mnP = [weakSelf createMinPrice:param[@"minEntertainmentPrice"] forContext:localContext];
+                mnP.user = user;
+                user.minentertainment = mnP;
             }
-            if (par.length > 0) {
-                NSRange rng;
-                rng.location = par.length - 1;
-                rng.length = 1;
-                [par deleteCharactersInRange:rng];
-                user.favoriteCityIds = par;
+            if (![param[@"nameForms"] isKindOfClass:[NSNull class]]) {
+                cityIds = param[@"nameForms"];
+                par = [NSMutableString new];
+                for (NSString *n in cityIds) {
+                    [par appendString:n];
+                    [par appendString:@";"];
+                }
+                if (par.length > 0) {
+                    NSRange rng;
+                    rng.location = par.length - 1;
+                    rng.length = 1;
+                    [par deleteCharactersInRange:rng];
+                    user.nameForms = par;
+                }
             }
-        }
-        if (![param[@"favoritePlaceIds"] isKindOfClass:[NSNull class]]) {
-            cityIds = param[@"favoritePlaceIds"];
-            par = [NSMutableString new];
-            for (NSNumber *n in cityIds) {
-                [par appendFormat:@"%d;", [n intValue]];
-            }
-            if (par.length > 0) {
-                NSRange rng;
-                rng.location = par.length - 1;
-                rng.length = 1;
-                [par deleteCharactersInRange:rng];
-                user.favoritePlaceIds = par;
-            }
-        }
-        if (type == CurrentUserType) {
-            if (![param[@"filter"] isKindOfClass:[NSNull class]]) {
-                UserFilter *uf = [self createUserFilterEntity:param[@"filter"]];
-                uf.user = user;
-                user.userfilter = uf;
+            NSArray *points = [UserPoint findAllWithPredicate:[NSPredicate predicateWithFormat:@"pointUserId == %d", [user.userId intValue] ] inContext:localContext];
+            if (points.count > 0 && [user.isItFromMainList boolValue]) {
+                user.point = points[0];
             }
         }
-        if (![param[@"languageIds"] isKindOfClass:[NSNull class]]) {
-            cityIds = param[@"languageIds"];
-            par = [NSMutableString new];
-            for (NSNumber *n in cityIds) {
-                [par appendFormat:@"%d;", [n intValue]];
-            }
-            if (par.length > 0) {
-                NSRange rng;
-                rng.location = par.length - 1;
-                rng.length = 1;
-                [par deleteCharactersInRange:rng];
-                user.languageIds = par;
-            }
-        }
-
-        if (![param[@"maxEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
-            MaxEntertainmentPrice *mxP = [self createMaxPrice:param[@"maxEntertainmentPrice"]];
-            mxP.user = user;
-            user.maxentertainment = mxP;
-        }
-        if (![param[@"minEntertainmentPrice"] isKindOfClass:[NSNull class]]) {
-            MinEntertainmentPrice *mnP = [self createMinPrice:param[@"minEntertainmentPrice"]];
-            mnP.user = user;
-            user.minentertainment = mnP;
-        }
-        if (![param[@"nameForms"] isKindOfClass:[NSNull class]]) {
-            cityIds = param[@"nameForms"];
-            par = [NSMutableString new];
-            for (NSString *n in cityIds) {
-                [par appendString:n];
-                [par appendString:@";"];
-            }
-            if (par.length > 0) {
-                NSRange rng;
-                rng.location = par.length - 1;
-                rng.length = 1;
-                [par deleteCharactersInRange:rng];
-                user.nameForms = par;
-            }
-        }
-        UserPoint *point = [[DataStorage sharedDataStorage] getPointForUserId:user.userId];
-        if (point && [user.isItFromMainList boolValue]) {
-            user.point = point;
-        }
+    } completion:^(BOOL success, NSError *error)    {
         
-        returnUser = user;
-        
-        [self addSaveOperationToBottomInContext:context];
-        
-        [self returnObject:returnUser inComplationBlock:block];
-
+        block(error);
     }];
+}
+#pragma mark -
+#pragma mark pointEntity
 
-    [self.backgroundOperationQueue addOperation:operation];
+- (void) createAndSavePoint:(NSArray*) array withComplation:(complationBlock)block{
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext)    {
+        for(NSDictionary *dict in array) {
+            UserPoint *localPoint;
+            NSDateFormatter *df = [[NSDateFormatter alloc] init];
+            [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+            NSArray *localPoints = [UserPoint findAllWithPredicate:[NSPredicate predicateWithFormat:@"pointId == %d", [dict[@"id"] intValue] ] inContext:localContext];
+            if(localPoints.count >0) {
+                localPoint = localPoints[0];
+            } else {
+                localPoint = [UserPoint createInContext:localContext];
+            }
+            
+            localPoint.pointCreatedAt = [df dateFromString:dict[@"createdAt"]];
+            localPoint.pointLiked = [dict[@"liked"] convertToNSNumber];
+            localPoint.pointText = [dict[@"text"] convertToNSString];
+            localPoint.pointUserId = [[dict[@"userId"] convertToNSNumber] convertToNSNumber];
+            localPoint.pointValidTo =  [df dateFromString:dict[@"validTo"]];
+            NSArray *localUsers = [User findAllWithPredicate:[NSPredicate predicateWithFormat:@"userId == %d", [dict[@"userId"] intValue] ] inContext:localContext];
+            if(localUsers.count >0) {
+                User* user = localUsers[0];
+                user.point = localPoint;
+            }
+        }
+    } completion:^(BOOL success, NSError *error)    {
+        //[[NSManagedObjectContext defaultContext] saveNestedContexts];
+        block(error);
+    }];
 }
 
 - (User *)getCurrentUser {
@@ -1401,259 +1078,125 @@ static DataStorage *dataStorage;
 }
 
 - (void)deleteAndSaveCurrentUser {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-        [request setEntity:entity];
-        NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
-        [sortDescriptors addObject:sortDescriptor];
-        [request setSortDescriptors:sortDescriptors];
-
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext)    {
+        
         NSMutableString *predicateString = [NSMutableString string];
         [predicateString appendFormat:@"isCurrentUser  = %d", 1];
-
+        NSPredicate *predicate;
         @try {
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-            [request setPredicate:predicate];
+            predicate = [NSPredicate predicateWithFormat:predicateString];
         }
         @catch (NSException *exception) {
-            return;
+            NSLog(@"predicate error");
         }
-
-
-        NSError *error = nil;
-        [request setFetchLimit:1];
-        NSArray *array = [context executeFetchRequest:request error:&error];
-
-        if ([array count] > 0) {
-            User *current = array[0];
-            [context deleteObject:current];
-            [self addSaveOperationToBottomInContext:context];
-            return;
-        } else {
-            return;
+        if(predicate) {
+            NSArray *users = [User  findAllSortedBy:@"userId" ascending:NO withPredicate:predicate inContext:localContext];
+            User *user = users[0];
+            [user deleteInContext:localContext];
         }
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 - (NSArray*) getUsersForCityId:(NSNumber*) cityId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
     
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"cityId  = %d", [cityId intValue]];
-    
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-    
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-    return array;
+    if(predicate) {
+        NSArray *users = [User  findAllSortedBy:@"userId" ascending:NO withPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
+        return users;
+    } else return nil;
 }
 
 - (User *)getUserForId:(NSNumber *)id_ {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"userId  = %d", [id_ intValue]];
-
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
-}
-
-#pragma mark -
-#pragma mark pointEntity
-
-- (void)createAndSavePoint:(NSDictionary *)param {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        __block UserPoint *userPoint = [self getPointForId:param[@"id"]];
-        User *user = [self getSelectedUserById:param[@"userId"]];
-        [context performBlockAndWait:^{
-            NSDateFormatter *df = [[NSDateFormatter alloc] init];
-            [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-            if (!userPoint) {
-                userPoint = (UserPoint *) [NSEntityDescription insertNewObjectForEntityForName:@"UserPoint" inManagedObjectContext:context];
-
-            }
-            if (param[@"id"])
-                userPoint.pointId = [param[@"id"] convertToNSNumber];
-
-            userPoint.pointCreatedAt = [df dateFromString:param[@"createdAt"]];
-            userPoint.pointLiked = [param[@"liked"] convertToNSNumber];
-            userPoint.pointText = [param[@"text"] convertToNSString];
-            userPoint.pointUserId = [[param[@"userId"] convertToNSNumber] convertToNSNumber];
-            userPoint.pointValidTo =  [df dateFromString:param[@"validTo"]];
-            user.point = userPoint;
-            [self addSaveOperationToBottomInContext:context];
-
-        }];
-    }];
+    if(predicate) {
+        NSArray *users = [User findAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
+        if(users.count > 0) return users[0];
+    } else return nil;
 }
 
 
-#warning Temp Where delete? Surfstudio write method!
 - (void)deleteAndSaveUserPointForUser:(User*) globalUser{
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-
-        [context performBlockAndWait:^{
-            User* user = [globalUser moveToContext:context];
-            user.point = nil;
-            [self addSaveOperationToBottomInContext:context];
-
-        }];
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User* user = [globalUser MR_inContext:localContext];
+        user.point = nil;
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 
 - (void) updateAndSaveVisibility:(UserVisibilityType) visibilityType forUser:(User*) globalUser{
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            User* user = [globalUser moveToContext:context];
-            user.visibility = @(visibilityType);
-            [self addSaveOperationToBottomInContext:context];
-        }];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User* user = [globalUser MR_inContext:localContext];
+        user.visibility = @(visibilityType);
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 
 - (UserPoint *)getPointForUserId:(NSNumber *)userId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"UserPoint" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"pointId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"pointUserId  = %d", [userId intValue]];
-
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
-
+    if(predicate) {
+        NSArray *sch = [UserPoint findAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
+        if(sch.count > 0) return sch[0];
+    } else return nil;
 }
 
 - (UserPoint *)getPointForId:(NSNumber *)id_ {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"UserPoint" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"pointId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"pointId  = %d", [id_ intValue]];
-
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    if(predicate) {
+        NSArray *sch = [UserPoint findAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
+        if(sch.count > 0) return sch[0];
+    } else return nil;
 }
 
 
 - (void)setAndSavePointLiked:(NSNumber *)pointId :(BOOL)isLiked {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"UserPoint" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"pointId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
-    NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"pointId  = %d", [pointId intValue]];
-
-    @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
-    }
-    @catch (NSException *exception) {
-        return;
-    }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0) {
-        UserPoint *globalPoint = array[0];
-        [self.backgroundOperationQueue addOperationWithBlock:^{
-            NSManagedObjectContext *backgroundContext = [NSManagedObjectContext threadContext];
-            [backgroundContext performBlockAndWait:^{
-                UserPoint *point = [globalPoint moveToContext:backgroundContext];
-                point.pointLiked = @(isLiked);
-                [backgroundContext saveWithErrorHandler];
-            }];
-        }];
-        return;
-    } else {
-        return;
-    }
+    UserPoint *globalPoint = [self getPointForId:pointId];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        UserPoint* point = [globalPoint MR_inContext:localContext];
+        point.pointLiked = @(isLiked);
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
 
 - (NSDictionary *)prepareParamFromUser:(User *)user {
@@ -1693,101 +1236,92 @@ static DataStorage *dataStorage;
     return param;
 }
 
-- (void)linkParameter:(NSDictionary *)param toUser:(User *)user {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    for (Career *car in  [user.career allObjects]) {
-        for (NSDictionary *d in [param objectForKey:@"careerPosts"]) {
-            if ([car.postId intValue] == [[d objectForKey:@"id"] intValue]) {
-
-                CareerPost *post = [self createTempCareerPost:d];
-                car.careerpost = post;
-                //[self createAndSaveCareerPost:d withComplation:^(CareerPost *carrierPost) {
-                //
-                //    [self addSaveOperationToBottomInContext:context];
-                //}];
+- (void)linkParameter:(NSDictionary *)param toUser:(User *)user withComplation:(complationBlock)block{
+     __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User *local_user = [user MR_inContext:localContext];
+        for (Career *car in  [user.career allObjects]) {
+            
+            Career *local  = [car MR_inContext:localContext];
+            for (NSDictionary *d in [param objectForKey:@"careerPosts"]) {
+                if ([local.postId intValue] == [[d objectForKey:@"id"] intValue]) {
+                    CareerPost *post = [weakSelf createCareerPostEntity:d forContext:localContext];
+                    local.careerpost = post;
+                }
             }
-        }
-        for (NSDictionary *d in [param objectForKey:@"companies"]) {
-            NSLog(@"%@", d);
-            if ([car.companyId intValue] == [[d objectForKey:@"id"] intValue]) {
-
-                Company *comp = [self createTempCompany:d];
-                car.company = comp;
-                //[self createAndSaveCompany:d withComplation:^(Company *company) {
-                //
-                //    [self addSaveOperationToBottomInContext:context];
-                //    NSLog(@"%@", car);
-                //}];
+            for (NSDictionary *d in [param objectForKey:@"companies"]) {
+                NSLog(@"%@", d);
+                if ([local.companyId intValue] == [[d objectForKey:@"id"] intValue]) {
+                    
+                    Company *comp = [weakSelf createCompanyEntity:d  forContext:localContext];
+                    local.company = comp;
+                }
             }
+            
         }
-
-    }
-    for (Education *edu in  [user.education allObjects]) {
-        for (NSDictionary *d in [param objectForKey:@"schools"]) {
-            if ([edu.schoolId intValue] == [[d objectForKey:@"id"] intValue]) {
-
-                [self createAndSaveSchool:d withComplation:^(School *school) {
-                    edu.school = school;
-                    NSLog(@"%@", edu);
-                    [self addSaveOperationToBottomInContext:context];
-
-                }];
+        for (Education *edu in  [user.education allObjects]) {
+            
+            Education *ed_local = [edu MR_inContext:localContext];
+            for (NSDictionary *d in [param objectForKey:@"schools"]) {
+                if ([ed_local.schoolId intValue] == [[d objectForKey:@"id"] intValue]) {
+                    School *school = [weakSelf createSchoolEntity:d forContext:localContext];
+                    ed_local.school = school;
+                }
             }
-        }
-        for (NSDictionary *d in [param objectForKey:@"specialities"]) {
-            if ([edu.specialityId intValue] == [[d objectForKey:@"id"] intValue]) {
-
-                [self createAndSaveSpeciality:d withComplation:^(Speciality *spec) {
-                    edu.speciality = spec;
-                    NSLog(@"%@", edu);
-                    [self addSaveOperationToBottomInContext:context];
-                }];
+            for (NSDictionary *d in [param objectForKey:@"specialities"]) {
+                if ([ed_local.specialityId intValue] == [[d objectForKey:@"id"] intValue]) {
+                    Speciality *spec = [weakSelf createSpecialityEntity:d forContext:localContext];
+                    ed_local.speciality = spec;
+                }
             }
+            NSLog(@"%@", edu);
         }
-        NSLog(@"%@", edu);
-    }
-    NSMutableArray *places = [NSMutableArray new];
-    NSMutableArray *languages = [NSMutableArray new];
-    for (NSDictionary *d in [param objectForKey:@"places"]) {
-        Place *pl = [self createPlaceEntity:d];
-        City *c = [self getCityById:pl.cityId];
-        pl.city = c;
-        [places addObject:pl];
-    }
-    user.place = [NSSet setWithArray:places];
-    for (NSDictionary *d in [param objectForKey:@"languages"]) {
-        Language *lng = [self createLanguageEntity:d];
-        [languages addObject:lng];
-    }
-    user.language = [NSSet setWithArray:languages];
-
-
-    //[context saveWithErrorHandler];
+        NSMutableArray *places = [NSMutableArray new];
+        NSMutableArray *languages = [NSMutableArray new];
+        for (NSDictionary *d in [param objectForKey:@"places"]) {
+            Place *pl = [weakSelf createPlaceEntity:d forContext:localContext];
+            City *c = [weakSelf getCityById:pl.cityId forContext:localContext];
+            pl.city = c;
+            [places addObject:pl];
+        }
+        local_user.place = [NSSet setWithArray:places];
+        for (NSDictionary *d in [param objectForKey:@"languages"]) {
+            Language *lng = [weakSelf createLanguageEntity:d forContext:localContext];
+            [languages addObject:lng];
+            
+        }
+        local_user.language = [NSSet setWithArray:languages];
+    } completion:^(BOOL success, NSError *error) {
+        
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateProfileData
+                                                                                             object:nil
+                                                                                           userInfo:nil]];
+    }];
+    
 }
+
 #pragma mark -
 #pragma mark application photo entity
 - (void)createAndSavePhotoEntity:(NSDictionary *)param {
      __weak typeof(self) weakSelf = self;
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        User *user = [weakSelf getCurrentUser];
-        [context performBlockAndWait:^{
-            Photo *photo = (Photo *) [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:context];
-            photo.photoId = [[param objectForKey:@"id"] convertToNSNumber];
-            photo.photoPosition =[[param objectForKey:@"position"] convertToNSNumber];
-            if([[param objectForKey:@"title"] isKindOfClass:[NSString class]]) {
-                photo.photoTitle = [param objectForKey:@"title"];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+    
+        User *user = [weakSelf getCurrentUserForContext:localContext];
+        Photo *photo = [Photo createInContext:localContext];
+        photo.photoId = [[param objectForKey:@"id"] convertToNSNumber];
+        photo.photoPosition =[[param objectForKey:@"position"] convertToNSNumber];
+        if([[param objectForKey:@"title"] isKindOfClass:[NSString class]]) {
+            photo.photoTitle = [param objectForKey:@"title"];
+        }
+        photo.userId = user.userId;
+        if([[param objectForKey:@"image"] isKindOfClass:[NSDictionary class]]) {
+            photo.imgeHeight =[[[param objectForKey:@"image"] objectForKey:@"height"] convertToNSNumber];
+            photo.imgeWidth =[[[param objectForKey:@"image"] objectForKey:@"width"] convertToNSNumber];
+            if([[[param objectForKey:@"image"] objectForKey:@"src"] isKindOfClass:[NSString class]]) {
+                photo.imgeSrc = [[param objectForKey:@"image"] objectForKey:@"src"];
             }
-            photo.userId = user.userId;
-            if([[param objectForKey:@"image"] isKindOfClass:[NSDictionary class]]) {
-                photo.imgeHeight =[[[param objectForKey:@"image"] objectForKey:@"height"] convertToNSNumber];
-                photo.imgeWidth =[[[param objectForKey:@"image"] objectForKey:@"width"] convertToNSNumber];
-                if([[[param objectForKey:@"image"] objectForKey:@"src"] isKindOfClass:[NSString class]]) {
-                    photo.imgeSrc = [[param objectForKey:@"image"] objectForKey:@"src"];
-                }
-
-            }
-        }];
+        }
+    } completion:^(BOOL success, NSError *error) {
     }];
 }
 - (void)deletePhotos {
@@ -1797,627 +1331,419 @@ static DataStorage *dataStorage;
 #pragma mark application settings entity
 
 - (void)createAndSaveApplicationSettingEntity:(NSDictionary *)param {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [self deleteAppSettings];
-        [context performBlockAndWait:^{
-            AppSetting *settings = (AppSetting *) [NSEntityDescription insertNewObjectForEntityForName:@"AppSetting" inManagedObjectContext:context];
-            settings.avatarMaxFileSize = [param[@"avatar"] objectForKey:@"maxFileSize"];
-            if ([[param[@"avatar"] objectForKey:@"minImageSize"] isKindOfClass:[NSArray class]]) {
-                if ([[param[@"avatar"] objectForKey:@"minImageSize"] count] == 2) {
-                    settings.avatarMinImageHeight = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:0] convertToNSNumber];//minImageSize
-                    settings.avatarMinImageWidth = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:1] convertToNSNumber];
+    
+    [self deleteAppSettings:^(NSError *error) {
+        if(!error) {
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                AppSetting *settings = [AppSetting createInContext:localContext];
+                settings.avatarMaxFileSize = [param[@"avatar"] objectForKey:@"maxFileSize"];
+                if ([[param[@"avatar"] objectForKey:@"minImageSize"] isKindOfClass:[NSArray class]]) {
+                    if ([[param[@"avatar"] objectForKey:@"minImageSize"] count] == 2) {
+                        settings.avatarMinImageHeight = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:0] convertToNSNumber];//minImageSize
+                        settings.avatarMinImageWidth = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:1] convertToNSNumber];
+                    }
                 }
-            }
-            if ([[param[@"avatar"] objectForKey:@"minCropSize"] isKindOfClass:[NSArray class]]) {
-                if ([[param[@"avatar"] objectForKey:@"minCropSize"] count] == 2) {
-                    settings.avatarMinImageHeight = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:0] convertToNSNumber];
-                    settings.avatarMinImageWidth = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:1] convertToNSNumber];
+                if ([[param[@"avatar"] objectForKey:@"minCropSize"] isKindOfClass:[NSArray class]]) {
+                    if ([[param[@"avatar"] objectForKey:@"minCropSize"] count] == 2) {
+                        settings.avatarMinImageHeight = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:0] convertToNSNumber];
+                        settings.avatarMinImageWidth = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectAtIndex:1] convertToNSNumber];
+                    }
                 }
-            }
-            
-            if ([[param[@"avatar"] objectForKey:@"minImageSize"] isKindOfClass:[NSDictionary class]])    {
-                settings.avatarMinImageWidth = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectForKey:@"width"] convertToNSNumber];
-                settings.avatarMinImageHeight = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectForKey:@"height"] convertToNSNumber];
-            }
-            if ([[param[@"avatar"] objectForKey:@"minCropSize"] isKindOfClass:[NSDictionary class]])    {
-                settings.avatarMinCropSizeHeight = [[[param[@"avatar"] objectForKey:@"minCropSize"] objectForKey:@"height"] convertToNSNumber];
-                settings.avatarMinCropSizeWidth = [[[param[@"avatar"] objectForKey:@"minCropSize"] objectForKey:@"width"] convertToNSNumber];
-            }
-            if ([[param[@"photo"] objectForKey:@"minImageSize"] isKindOfClass:[NSArray class]]) {
-                if ([[param[@"photo"] objectForKey:@"minImageSize"] count] == 2) {
-                    settings.photoMinImageHeight = [[[param[@"photo"] objectForKey:@"minImageSize"] objectAtIndex:0] convertToNSNumber];//minImageSize
-                    settings.photoMinImageWidth = [[[param[@"photo"] objectForKey:@"minImageSize"] objectAtIndex:1] convertToNSNumber];
+                
+                if ([[param[@"avatar"] objectForKey:@"minImageSize"] isKindOfClass:[NSDictionary class]])    {
+                    settings.avatarMinImageWidth = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectForKey:@"width"] convertToNSNumber];
+                    settings.avatarMinImageHeight = [[[param[@"avatar"] objectForKey:@"minImageSize"] objectForKey:@"height"] convertToNSNumber];
                 }
-            }
-            if ([[param[@"photo"] objectForKey:@"minImageSize"] isKindOfClass:[NSDictionary class]])    {
-                settings.photoMinImageWidth = [[[param[@"photo"] objectForKey:@"minImageSize"] objectForKey:@"width"] convertToNSNumber];
-                settings.photoMinImageHeight = [[[param[@"photo"] objectForKey:@"minImageSize"] objectForKey:@"height"] convertToNSNumber];
-            }
+                if ([[param[@"avatar"] objectForKey:@"minCropSize"] isKindOfClass:[NSDictionary class]])    {
+                    settings.avatarMinCropSizeHeight = [[[param[@"avatar"] objectForKey:@"minCropSize"] objectForKey:@"height"] convertToNSNumber];
+                    settings.avatarMinCropSizeWidth = [[[param[@"avatar"] objectForKey:@"minCropSize"] objectForKey:@"width"] convertToNSNumber];
+                }
+                if ([[param[@"photo"] objectForKey:@"minImageSize"] isKindOfClass:[NSArray class]]) {
+                    if ([[param[@"photo"] objectForKey:@"minImageSize"] count] == 2) {
+                        settings.photoMinImageHeight = [[[param[@"photo"] objectForKey:@"minImageSize"] objectAtIndex:0] convertToNSNumber];//minImageSize
+                        settings.photoMinImageWidth = [[[param[@"photo"] objectForKey:@"minImageSize"] objectAtIndex:1] convertToNSNumber];
+                    }
+                }
+                if ([[param[@"photo"] objectForKey:@"minImageSize"] isKindOfClass:[NSDictionary class]])    {
+                    settings.photoMinImageWidth = [[[param[@"photo"] objectForKey:@"minImageSize"] objectForKey:@"width"] convertToNSNumber];
+                    settings.photoMinImageHeight = [[[param[@"photo"] objectForKey:@"minImageSize"] objectForKey:@"height"] convertToNSNumber];
+                }
+                settings.photoMaxFileSize = [param[@"photo"] objectForKey:@"maxFileSize"];
+                settings.pointMaxPeriod = [[param[@"point"] objectForKey:@"maxPeriod"] convertToNSNumber];
+                settings.pointMinPeriod = [[param[@"point"] objectForKey:@"minPeriod"] convertToNSNumber];
+                if ([param[@"webSocketUrls"] isKindOfClass:[NSArray class]]) {
+                    if ([param[@"webSocketUrls"] count] == 1)
+                        settings.webSoketUrl = [[param[@"webSocketUrls"] objectAtIndex:0] convertToNSString];
+                }
+            } completion:^(BOOL success, NSError *error) {
+            }];
             
-            settings.photoMaxFileSize = [param[@"photo"] objectForKey:@"maxFileSize"];
-            
-            
-            settings.pointMaxPeriod = [[param[@"point"] objectForKey:@"maxPeriod"] convertToNSNumber];
-            settings.pointMinPeriod = [[param[@"point"] objectForKey:@"minPeriod"] convertToNSNumber];
-            if ([param[@"webSocketUrls"] isKindOfClass:[NSArray class]]) {
-                if ([param[@"webSocketUrls"] count] == 1)
-                    settings.webSoketUrl = [[param[@"webSocketUrls"] objectAtIndex:0] convertToNSString];
-            }
-            //settings.webSoketUrl = [param objectForKey:@"webSocketUrls"];
-            [self addSaveOperationToBottomInContext:context];
-        }];
-    }];
+        }
+    } ];
 }
 
-- (void)deleteAppSettings {
-    NSArray *temp = [[self applicationSettingFetchResultsController] fetchedObjects];
-    for (AppSetting *t in temp) {
-        [[NSManagedObjectContext threadContext] deleteObject:t];
-    }
+- (void)deleteAppSettings:(complationBlock)block{
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *settings = [AppSetting findAllInContext:localContext];
+        for(AppSetting *s in settings) {
+            [s deleteInContext:localContext];
+        }
+        
+    } completion:^(BOOL success, NSError *error)    {
+        block(error);
+    }];
 }
 
 - (AppSetting *)getAppSettings {
-    NSArray *temp = [[self applicationSettingFetchResultsController] fetchedObjects];
-    if (temp.count > 0)
-        return temp[0];
+    NSArray *settings = [AppSetting findAllInContext:[NSManagedObjectContext MR_defaultContext]];
+    if (settings.count > 0)
+        return settings[0];
     else return nil;
 }
-
 #pragma mark - users
-
-- (NSFetchedResultsController *)allUsersFetchResultsController {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    request.includesPendingChanges = YES;
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
-    NSMutableString *predicateString = [NSMutableString string];
-    [predicateString appendFormat:@"isCurrentUser != 1 AND isItFromMainList == 1"];//
-
+- (NSFetchedResultsController *) usersFetchResultControllerWithPredicate:(NSString*) predicateStr {
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateStr];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
-    NSError *error = nil;
-    if (![controller performFetch:&error]) {
-        return nil;
-    }
-    return controller;
-
+    if(predicate) {
+        NSFetchedResultsController *controller = [User fetchAllSortedBy:@"userId" ascending:NO withPredicate:predicate groupBy:nil delegate:nil];
+        return controller;
+    } else return nil;
 }
-
+- (NSFetchedResultsController *)allUsersFetchResultsController {
+    
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"isCurrentUser != 1 AND isItFromMainList == 1"];
+    return [self usersFetchResultControllerWithPredicate:predicateString];
+}
 - (NSFetchedResultsController *)allUsersWithPointFetchResultsController {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"point != nil AND isItFromMainList == 1"];
-
-    @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
-    }
-    @catch (NSException *exception) {
-        return nil;
-    }
-
-
-    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
-    NSError *error = nil;
-    if (![controller performFetch:&error]) {
-        return nil;
-    }
-    return controller;
-
+    return [self usersFetchResultControllerWithPredicate:predicateString];
 }
 
 - (NSFetchedResultsController *)allUsersPointLikesResultsController {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"isItFromPointLike == 1"];
-    
-    @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
-    }
-    @catch (NSException *exception) {
-        return nil;
-    }
-    
-    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
-    NSError *error = nil;
-    if (![controller performFetch:&error]) {
-        return nil;
-    }
-    NSLog(@"point like userscount = %d", [controller fetchedObjects].count);
-    return controller;
-    
+    return [self usersFetchResultControllerWithPredicate:predicateString];
 }
 
 
-- (void)deleteAndSaveAllUsers {
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            NSFetchRequest *allUsers = [[NSFetchRequest alloc] init];
-            [allUsers setEntity:[NSEntityDescription entityForName:@"User" inManagedObjectContext:context]];
-            NSMutableString *predicateString = [NSMutableString string];
-            [predicateString appendFormat:@"isCurrentUser != 1"];
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-            [allUsers setPredicate:predicate];
-            [allUsers setIncludesPropertyValues:NO];
-            NSError *error = nil;
-            NSArray *users = [context executeFetchRequest:allUsers error:&error];
-            //error handling goes here
-            for (User *usr in users) {
-                [context deleteObject:usr];
+- (void)deleteAndSaveAllUsersWithBlock:(complationBlock)block {
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSMutableString *predicateString = [NSMutableString string];
+        [predicateString appendFormat:@"isCurrentUser != 1"];
+        NSPredicate *predicate;
+        @try {
+            predicate = [NSPredicate predicateWithFormat:predicateString];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"create predicate error");
+        }
+        if(predicate) {
+            NSArray *users = [User findAllWithPredicate:predicate inContext:localContext];
+            if(users.count > 0) {
+                for(User *usr in users) {
+                    [usr deleteInContext:localContext];
+                }
             }
-            [self addSaveOperationToBottomInContext:context];
-        }];
+        }
+        
+    } completion:^(BOOL success, NSError *error)    {
+        block(error);
     }];
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 
 - (NSFetchedResultsController *)applicationSettingFetchResultsController {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"AppSetting" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"avatarMaxFileSize" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
-    NSError *error = nil;
-    if (![controller performFetch:&error]) {
-        return nil;
-    }
+    
+    NSFetchedResultsController *controller = [AppSetting fetchAllSortedBy:@"avatarMaxFileSize" ascending:NO withPredicate:nil groupBy:nil delegate:nil];
     return controller;
 }
 
 - (void)setAndSaveCityToUser:(NSNumber *)userId forCity:(City *)city {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        User *user = [self getUserForId:userId];
-        if (user) {
-            [context performBlockAndWait:^{
-                user.city = [city moveToContext:context];
-                [self addSaveOperationToBottomInContext:context];
-            }];
-        }
+    User *user = [self getUserForId:userId];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        User *localUser = [user inContext:localContext];
+        City *localCity = [city inContext:localContext];
+        localUser.city = localCity;
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 
 
 #pragma mark - city
 
-
 - (void)createAndSaveCity:(NSDictionary *)param popular:(BOOL)isPopular withComplation:(complationBlock)block {
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        __block City *cityEnt;
-        cityEnt = [self getCityById:[param[@"id"] convertToNSNumber]];
-        [context performBlockAndWait:^{
-            if (!cityEnt) {
-                cityEnt = (City *) [NSEntityDescription insertNewObjectForEntityForName:@"City" inManagedObjectContext:context];
-            }
-            cityEnt.cityEnName = [param[@"enName"] convertToNSString];
-            cityEnt.cityId = [param[@"id"] convertToNSNumber];
-            cityEnt.cityName = [param[@"name"] convertToNSString];
-            cityEnt.cityNameForms = param[@"nameForms"];
-            cityEnt.cityRegionId = [param[@"regionId"] convertToNSNumber];
-            if (isPopular) {
-                cityEnt.isPopular = @(isPopular);
-            }
-            [self addSaveOperationToBottomInContext:context];
-            [self returnObject:cityEnt inComplationBlock:block];
-        }];
+    
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        City *city = [weakSelf getCityById:param[@"id"] forContext:localContext];
+        if(!city) {
+            city = [City createInContext:localContext];
+            
+        }
+        city.cityId = [param[@"id"]convertToNSNumber];
+        city.cityEnName = [param[@"enName"] convertToNSString];
+        //convertToNSNumber];
+        city.cityName = [param[@"name"] convertToNSString];
+        city.cityNameForms = param[@"nameForms"];
+        city.cityRegionId = [param[@"regionId"] convertToNSNumber];
+        if (isPopular) {
+            city.isPopular = @(isPopular);
+        }
+    } completion:^(BOOL success, NSError *error)    {
+        block ([self getCityById:[param[@"id"] convertToNSNumber]]);
     }];
-
-    [self.backgroundOperationQueue addOperation:operation];
 }
 
 - (NSFetchedResultsController *)getPopularCities {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"cityName" ascending:YES];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"isPopular == 1"];
-
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
-    NSError *error = nil;
-    if (![controller performFetch:&error]) {
-        return nil;
-    }
-    return controller;
-}
-
-
-- (City *)createTempCity:(NSDictionary *)param {
-    NSEntityDescription *myCityEntity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:[NSManagedObjectContext threadContext]];
-    City *cityEnt = [[City alloc] initWithEntity:myCityEntity insertIntoManagedObjectContext:nil];
-    cityEnt.cityEnName = param[@"enName"];
-    cityEnt.cityId = param[@"id"];
-    cityEnt.cityName = param[@"name"];
-    cityEnt.cityNameForms = param[@"nameForms"];
-    cityEnt.cityRegionId = param[@"regionId"];
-    return cityEnt;
-}
-
-- (void)insertAndSaveCityObjectToContext:(City *)globalCity withComplation:(complationBlock)block {
-    __weak typeof(self) weakSelf = self;
-    __block City *returnCity = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        City *city = [globalCity moveToContext:context];
-        City *cityEnt = [weakSelf getCityById:city.cityId];
-        if (!cityEnt) {
-            [context performBlockAndWait:^{
-                [context insertObject:city];
-                [self addSaveOperationToBottomInContext:context];
-            }];
-            returnCity = city;
-        } else {
-            returnCity = cityEnt;
-        }
-        [self returnObject:returnCity inComplationBlock:block];
-    }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
+    if(predicate) {
+        NSFetchedResultsController *controller = [City fetchAllSortedBy:@"cityName" ascending:NO withPredicate:predicate groupBy:nil delegate:nil];
+        return controller;
+    } else return nil;
 }
 
 - (void)removeCityObjectById:(City *)city {
     City *cityEnt = [self getCityById:city.cityId];
     if (cityEnt) {
-        [[NSManagedObjectContext threadContext] deleteObject:cityEnt];
+       [cityEnt deleteInContext:[NSManagedObjectContext MR_defaultContext]];
     }
 }
-
-- (City *)getCityById:(NSNumber *)cityId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"cityId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+- (City *)getCityById:(NSNumber *)cityId forContext:(NSManagedObjectContext*) context {
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"cityId  = %@", cityId];
-
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    [request setFetchLimit:1];
-    __block NSArray *array;
-    [context performBlockAndWait:^{
-        array = [context executeFetchRequest:request error:nil];
-    }];
-
-    if ([array count] > 0) {
-        return array[0];
-    } else {
+    if(predicate) {
+        NSArray *sch = [City findAllWithPredicate:predicate inContext:context];
+        if(sch.count > 0) return sch[0];
+        else return nil;
+    } else return nil;
+}
+- (City *)getCityById:(NSNumber *)cityId {
+    
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"cityId  = %d", [cityId intValue]];
+    NSPredicate *predicate;
+    @try {
+        predicate = [NSPredicate predicateWithFormat:predicateString];
+    }
+    @catch (NSException *exception) {
         return nil;
     }
+    if(predicate) {
+        NSArray *sch = [City findAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
+        if(sch.count > 0) return sch[0];
+        else return nil;
+    } else return nil;
 }
 
 
 - (void)deleteAllCities {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *allCities = [[NSFetchRequest alloc] init];
-    [allCities setEntity:[NSEntityDescription entityForName:@"City" inManagedObjectContext:context]];
-    [allCities setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-    NSError *error = nil;
-    NSArray *cities = [context executeFetchRequest:allCities error:&error];
-    //error handling goes here
-    for (City *city in cities) {
-        [context deleteObject:city];
-    }
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *cities = [City findAllInContext:localContext];
+        if(cities.count > 0) {
+            for(City *city in cities) {
+                [city deleteInContext:localContext];
+            }
+        }
+        
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
 }
 
 #pragma mark - contacts
 
 
 - (void)createAndSaveContactEntity:(User *)glovaluser forMessage:(Message *)globallastMessage withComplation:(complationBlock)block {
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        __block Contact *contactEnt;
-        contactEnt = [self getContactById:glovaluser.userId];
-        [context performBlockAndWait:^{
-            if (!contactEnt) {
-                contactEnt = (Contact *) [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:context];
-            }
-            contactEnt.lastmessage = [globallastMessage moveToContext:context];
-            contactEnt.user = [glovaluser moveToContext:context];
-            [self addSaveOperationToBottomInContext:context];
-            [self returnObject:contactEnt inComplationBlock:block];
-        }];
+    
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Contact *contactEnt = [weakSelf getContactById:glovaluser.userId forContext:localContext];
+        if(!contactEnt) {
+            contactEnt = [Contact createInContext:localContext];
+        }
+        contactEnt.lastmessage = [globallastMessage MR_inContext:localContext];
+        contactEnt.user = [glovaluser MR_inContext:localContext];
+    } completion:^(BOOL success, NSError *error)    {
+        block ([self getContactById:glovaluser.userId forContext:[NSManagedObjectContext MR_defaultContext]]);
     }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 
 - (void)deleteAndSaveAllContacts {
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            NSFetchRequest *allContacts = [[NSFetchRequest alloc] init];
-            [allContacts setEntity:[NSEntityDescription entityForName:@"Contact" inManagedObjectContext:context]];
-            [allContacts setIncludesPropertyValues:NO];
-            NSError *error = nil;
-            NSArray *contacts = [context executeFetchRequest:allContacts error:&error];
-            //error handling goes here
-            for (Contact *cont in contacts) {
-                [context deleteObject:cont];
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *contacts = [Contact findAllInContext:localContext];
+        if(contacts.count > 0) {
+            for(Contact *cont in contacts) {
+                [cont deleteInContext:localContext];
             }
-            [self addSaveOperationToBottomInContext:context];
-        }];
+        }
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
 - (NSFetchedResultsController *)getAllContactsFetchResultsController {
 
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:YES];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
-    NSError *error = nil;
-    if (![controller performFetch:&error]) {
-        return nil;
-    }
+    NSFetchedResultsController *controller = [Contact fetchAllSortedBy:@"user.userId" ascending:NO withPredicate:nil groupBy:nil delegate:nil];
     return controller;
 }
 
 - (User *)getSelectedUserById:(NSNumber *)id_ {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userId" ascending:YES];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"userId  = %d", [id_ intValue]];
-
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    if(predicate) {
+        NSArray *sch = [User findAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
+        if(sch.count > 0) return sch[0];
+        else return nil;
+    } else return nil;
 }
 
-- (Contact *)getContactById:(NSNumber *)contactId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+- (Contact *)getContactById:(NSNumber *)contactId forContext:(NSManagedObjectContext*) context{
+    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"user.userId  = %d", [contactId intValue]];
-
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    if(predicate) {
+        NSArray *sch = [Contact findAllWithPredicate:predicate inContext:context];
+        if(sch.count > 0) return sch[0];
+        else return nil;
+    } else return nil;
 }
-
 - (void)deleteAndSaveContact:(NSNumber *)contactId {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        Contact *contact = [self getContactById:contactId];
-        if (contact) {
-            [context performBlockAndWait:^{
-                [context deleteObject:contact];
-                [self addSaveOperationToBottomInContext:context];
-            }];
-        }
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Contact *local = [weakSelf getContactById:contactId forContext:localContext];
+        [local deleteInContext:localContext];
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 
 - (NSFetchedResultsController *)getContactsByQueryFetchResultsController:(NSString *)queryStr {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"user.name contains[c] '%@' OR user.age == '%@' OR user.city.cityName contains[c] '%@'", queryStr, queryStr, queryStr];
-
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
-    NSError *error = nil;
-    if (![controller performFetch:&error]) {
-        return nil;
-    }
-    return controller;
-
+    if(predicate) {
+        NSFetchedResultsController *controller = [Contact fetchAllSortedBy:@"user.userId" ascending:NO withPredicate:predicate groupBy:nil delegate:nil];
+        return controller;
+    } else return nil;
+    
 }
 
 
 #pragma mark - chat
 
 - (void)createAndSaveChatEntity:(User *)globalUser withMessages:(NSArray *)messages withComplation:(complationBlock)block {
+    
     __weak typeof(self) weakSelf = self;
-    __block Chat *returnChat = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        User *user = [globalUser moveToContext:context];
-        __block  Chat *chatEnt;
-        NSLog(@"create chat entity for user = %@", user.userId);
-        chatEnt = [weakSelf getChatByUserId:user.userId];
-        [context performBlockAndWait:^{
-            if (!chatEnt) {
-                chatEnt = (Chat *) [NSEntityDescription insertNewObjectForEntityForName:@"Chat" inManagedObjectContext:context];
-            }
-            chatEnt.user = user;
-            NSMutableArray *entArray = [NSMutableArray new];
-            for (NSDictionary *t in messages) {
-                Message *msg = [weakSelf createMessage:t forUserId:user.userId andMessageType:HistoryMessageType];
-                msg.chat = chatEnt;
-                [entArray addObject:msg];
-            }
-            chatEnt.message = [NSSet setWithArray:entArray];
-            [weakSelf addSaveOperationToBottomInContext:context];
-            returnChat = chatEnt;
-            [weakSelf returnObject:returnChat inComplationBlock:block];
-        }];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User *user = [globalUser MR_inContext:localContext];
+        Chat *chatEnt = [weakSelf getChatByUserId:user.userId forContext:localContext];
+        if(!chatEnt)
+            chatEnt = [Chat createInContext:localContext];
+        chatEnt.user = user;
+        NSMutableArray *entArray = [NSMutableArray new];
+        for (NSDictionary *t in messages) {
+            Message *msg = [weakSelf createMessage:t forUserId:user.userId andMessageType:HistoryMessageType forContext:localContext];
+            msg.chat = chatEnt;
+            [entArray addObject:msg];
+        }
+        chatEnt.message = [NSSet setWithArray:entArray];
+        
+    } completion:^(BOOL success, NSError *error)    {
+  
     }];
-
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
-- (Chat *)getChatByUserId:(NSNumber *)userId {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Chat" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"user.userId" ascending:NO];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+- (Chat *)getChatByUserId:(NSNumber *)userId forContext:(NSManagedObjectContext*) context{
+    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"user.userId  = %d", [userId intValue]];
-
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return nil;
     }
-
-
-    NSError *error = nil;
-    [request setFetchLimit:1];
-    NSArray *array = [context executeFetchRequest:request error:&error];
-
-    if ([array count] > 0)
-        return array[0];
-    else return nil;
+    if(predicate) {
+        NSArray *sch = [Chat findAllWithPredicate:predicate inContext:context];
+        if(sch.count > 0) return sch[0];
+        else return nil;
+    } else return nil;
 }
-
-
 - (void)deleteAndSaveChatByUserId:(NSNumber *)userId {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        Chat *chat = [self getChatByUserId:userId];
-        if (chat) {
-            [context performBlockAndWait:^{
-                [context deleteObject:chat];
-                [self addSaveOperationToBottomInContext:context];
-            }];
-        }
+    
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Chat *chat = [weakSelf getChatByUserId:userId forContext:localContext];
+        [chat deleteInContext:localContext];
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
 }
 
 #pragma mark - messages
 
-- (Message *)createMessage:(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes)type {
+- (Message *)createMessage:(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes)type forContext:(NSManagedObjectContext*) context{
 
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    Message *msgEnt = (Message *) [NSEntityDescription insertNewObjectForEntityForName:@"Message" inManagedObjectContext:[NSManagedObjectContext threadContext]];
+    Message *msgEnt = [Message createInContext:context];
     msgEnt.bindedUserId = [userId convertToNSNumber];
-
     if (type == HistoryMessageType) {
         msgEnt.historyMessage = @YES;
     }
@@ -2437,71 +1763,78 @@ static DataStorage *dataStorage;
     msgEnt.text = [param[@"text"] convertToNSString];
     return msgEnt;
 }
-
+- (Message*) getMessageForId:(NSNumber*) messId {
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"id_  = %d", [messId intValue]];
+    NSPredicate *predicate;
+    @try {
+        predicate = [NSPredicate predicateWithFormat:predicateString];
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    if(predicate) {
+        NSArray *sch = [Message findAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
+        if(sch.count > 0) return sch[0];
+        else return nil;
+    } else return nil;
+}
 - (void)createAndSaveMessage:(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes)type withComplation:(complationBlock)block {
+    
     __weak typeof(self) weakSelf = self;
-    __block Message *returnMessage = nil;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        returnMessage = [weakSelf createMessage:param forUserId:userId andMessageType:type];
-        [context performBlockAndWait:^{
-            [weakSelf addSaveOperationToBottomInContext:context];
-            [weakSelf returnObject:returnMessage inComplationBlock:block];
-        }];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [weakSelf createMessage:param forUserId:userId andMessageType:type forContext:localContext];
+    } completion:^(BOOL success, NSError *error)    {
+        
+        block([self getMessageForId:[param[@"id"] convertToNSNumber]]);
     }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
+    
 }
 
-- (int)allUnreadMessagesCount:(User *)user {
-    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
-    [request setEntity:entity];
-    NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id_" ascending:YES];
-    [sortDescriptors addObject:sortDescriptor];
-    [request setSortDescriptors:sortDescriptors];
-
+- (NSInteger)allUnreadMessagesCount:(User *)user {
+    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"unreadMessage == 1"];
     if (user) {
         [predicateString appendFormat:@"AND bindedUserId  = %d", [user.userId intValue]];
     }
+    NSPredicate *predicate;
     @try {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-        [request setPredicate:predicate];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
         return 0;
     }
-    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
-    NSError *error = nil;
-    if (![controller performFetch:&error]) {
-        return 0;
-    }
-    return [controller fetchedObjects].count;
+    if(predicate) {
+        NSFetchedResultsController *controller = [Message fetchAllSortedBy:@"id_" ascending:NO withPredicate:predicate groupBy:nil delegate:nil];
+        return [[controller fetchedObjects] count];
+    } else return 0;
+    
 }
-
-
-
-- (void) setAndSaveUser: (User*) globalUser toLikePoint:(UserPoint*) globalPoint withComplationBlock:(complationBlock)block{
-    __weak typeof(self) weakSelf = self;
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        User* user = [globalUser moveToContext:context];
-        UserPoint* point = [globalPoint moveToContext:context];
-        [context performBlockAndWait:^{
-            point.likedBy = [point.likedBy setByAddingObject:user];
-            [weakSelf addSaveOperationToBottomInContext:context];
-            [weakSelf returnObject:user inComplationBlock:block];
-        }];
+- (void)deleteAndSaveAllMessages {
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *messages = [Message findAllInContext:localContext];
+        if(messages.count > 0) {
+            for(Message *mess in messages) {
+                [mess deleteInContext:localContext];
+            }
+        }
+    } completion:^(BOOL success, NSError *error)    {
+        
     }];
-
-    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
+}
+- (void) setAndSaveUser: (User*) globalUser toLikePoint:(UserPoint*) globalPoint withComplationBlock:(complationBlock)block{
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        User* user = [globalUser MR_inContext:localContext];
+        UserPoint* point = [globalPoint MR_inContext:localContext];
+        point.likedBy = [point.likedBy setByAddingObject:user];
+    } completion:^(BOOL success, NSError *error)    {
+        block ([self getUserForId:globalUser.userId]);
+    }];
 }
 
-
+/*
 - (void)addSaveOperationToBottomInContext:(NSManagedObjectContext *)context {
     //NSLog(@"%@",[NSThread callStackSymbols]);
     NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -2533,24 +1866,7 @@ static DataStorage *dataStorage;
     operation.queuePriority = NSOperationQueuePriorityLow;
     [self.backgroundOperationQueue addOperation:operation];
 }
-
-- (void)deleteAndSaveAllMessages {
-    [self.backgroundOperationQueue addOperationWithBlock:^{
-        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-        [context performBlockAndWait:^{
-            NSFetchRequest *allMessages = [[NSFetchRequest alloc] init];
-            [allMessages setEntity:[NSEntityDescription entityForName:@"Message" inManagedObjectContext:context]];
-            [allMessages setIncludesPropertyValues:NO]; //only fetch the managedObjectID
-            NSError *error = nil;
-            NSArray *messages = [context executeFetchRequest:allMessages error:&error];
-            //error handling goes here
-            for (Message *msg in messages) {
-                [context deleteObject:msg];
-            }
-            [self addSaveOperationToBottomInContext:context];
-        }];
-    }];
-}
+*/
 
 
 

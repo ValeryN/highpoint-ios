@@ -9,7 +9,7 @@
 #import "HPBaseNetworkManager.h"
 #import "DataStorage.h"
 @interface HPBaseNetworkManager (Geo)
-- (void) getGeoLocation:(NSDictionary*) param : (int) mode;
+- (void) getGeoLocation:(NSDictionary*) param;
 - (void) getPopularCitiesRequest;
 - (void) findGeoLocation:(NSDictionary*) param;
 - (void) getGeoLocationForPlaces:(NSDictionary*) param withBlock:(complationBlock) block;

@@ -36,6 +36,8 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
+    [MagicalRecord setupCoreDataStackWithStoreNamed:@"HightPoint.sqlite"];
+    _managedObjectContext = [NSManagedObjectContext MR_defaultContext];
     
     [URLs isServerUrlSetted];
     
@@ -68,6 +70,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Saves changes in the application's managed object context before the application terminates.
+    [MagicalRecord cleanUp];
     [self saveContext];
 }
 

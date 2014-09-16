@@ -43,7 +43,9 @@
                 return;
             }
             for (NSDictionary * msg in jsonArray) {
-                [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:[msg objectForKey:@"sourceId"] andMessageType:UnreadMessageType withComplation:nil];
+                [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:[msg objectForKey:@"sourceId"] andMessageType:UnreadMessageType withComplation:^(id object) {
+                    
+                }];
                 
                 
             }

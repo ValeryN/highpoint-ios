@@ -235,9 +235,9 @@
 
 -(void) updateUserFilterCities :(NSNotification *) notification {
     NSArray *cities = [notification.userInfo objectForKey:@"cities"];
-    for (City *city in cities) {
-        [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:city];
-    }
+    
+    [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:cities[0]];
+    
 }
 
 #pragma mark - pull-to-refresh   

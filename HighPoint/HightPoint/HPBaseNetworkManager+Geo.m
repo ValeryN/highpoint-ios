@@ -16,7 +16,7 @@
 #import "NotificationsConstants.h"
 
 @implementation HPBaseNetworkManager (Geo)
-- (void) getGeoLocation:(NSDictionary*) param : (int) mode {
+- (void) getGeoLocation:(NSDictionary*) param  {
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kGeoLocationRequest];
@@ -39,66 +39,22 @@
                     return;
                 }
                 NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
-                
-                switch (mode) {
+                for(NSDictionary *dict in cities) {
+                    
+                    [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:^(City *city) {
+                        NSArray *users = [[DataStorage sharedDataStorage] getUsersForCityId: city.cityId];
                         
-                    case 0: {
-                        for(NSDictionary *dict in cities) {
-                            [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:^(City *city) {
-                                NSArray *users = [[DataStorage sharedDataStorage] getUsersForCityId: city.cityId];
-                                for(User *user in users) {
-                                    NSLog(@"user name city name %@ %@", user.name, city.cityName);
-                                    [[DataStorage sharedDataStorage] setAndSaveCityToUser:user.userId forCity:city];
-                                }
-                            }];
+                        for(User *user in users) {
+                            NSLog(@"user name city name %@ %@", user.name, city.cityName);
+                            [[DataStorage sharedDataStorage] setAndSaveCityToUser:user.userId forCity:city];
                         }
-                        
-                        /*
-                         for (int i = 0; i < users.count; i++) {
-                         NSLog(@"city id = %@", ((User*)[users objectAtIndex:i]).cityId);
-                         City * city = [[DataStorage sharedDataStorage]  getCityById:((User*)[users objectAtIndex:i]).cityId];
-                         NSLog(@"city name = %@", city.cityName);
-                         [[DataStorage sharedDataStorage] setAndSaveCityToUser:((User *) [users objectAtIndex:i]).userId :city];
-                         }
-                         */
-                        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
-                                                                                                             object:nil
-                                                                                                           userInfo:nil]];
-                        break;
-                    }
-                        
-                    case 1: {
-                        for(NSDictionary *dict in cities) {
-                            [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:nil];
-                        }
-                        
-                        User *current = [[DataStorage sharedDataStorage] getCurrentUser];
-                        City * city = [[DataStorage sharedDataStorage]  getCityById:current.cityId];
-                        [[DataStorage sharedDataStorage] setAndSaveCityToUser:current.userId forCity:city];
-                        break;
-                    }
-                        
-                    case 2: {
-                        if(cities.count == 1) {
-                            [[DataStorage sharedDataStorage] createAndSaveCity:cities[0] popular:NO withComplation:^(City *city) {
-                                if (city) {
-                                    [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:city];
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:nil];
-                                }
-                            }];
-                        }
-                        else if(cities.count>1){
-#ifdef DEBUG
-                            @throw [NSException exceptionWithName:@"" reason:@"Someone lied to me" userInfo:nil];
-#endif
-                        }
-                        break;
-                    }
-                        
-                    default:
-                        break;
+                    }];
+                    
                 }
                 
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
+                                                                                                     object:nil
+                                                                                                   userInfo:nil]];
                 
             }
             else NSLog(@"Error, no valid data");
@@ -129,8 +85,11 @@
             if (![[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
                 NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
                 if (cities && (![cities isKindOfClass:[NSNull class]])) {
+                    
                     for(NSDictionary *dict in cities) {
-                        [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:YES withComplation:nil];
+                        [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:YES withComplation:^(id object) {
+                            
+                        }];
                     }
                 }
             }
@@ -164,21 +123,14 @@
                 NSMutableArray *citiesArr = [NSMutableArray new];
                 
                 for(NSDictionary *dict in cities) {
-                    City *city = [[DataStorage sharedDataStorage] createTempCity:dict];
-                    [citiesArr addObject:city];
+                    [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:^(City *city) {
+                        [citiesArr addObject:city];
+                    }];
+                    
                 }
                 NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCitiesListView object:self userInfo:param];
-                /*
-                 NSArray *cities = [jsonDict objectForKey:@"cities"] ;
-                 NSMutableArray *citiesArr = [[NSMutableArray alloc] init];
-                 for(NSDictionary *dict in cities) {
-                 City *city = [[DataStorage sharedDataStorage] createTempCity:dict];
-                 [citiesArr addObject:city];
-                 }
-                 NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
-                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCitiesListView object:self userInfo:param];
-                 */
+                
                 
             } else {
                 NSLog(@"Error, no valid data");
@@ -209,6 +161,7 @@
             if(jsonDict) {
                 NSArray *cities = [[jsonDict objectForKey:@"data"] objectForKey:@"cities"] ;
                 if (cities && (![cities isKindOfClass:[NSNull class]])) {
+                    
                     for(NSDictionary *dict in cities) {
                         [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:^(City *city) {
                         }];

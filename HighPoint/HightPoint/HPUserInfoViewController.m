@@ -22,6 +22,8 @@
 //#import "Place.h"
 #import "DataStorage.h"
 #import "School.h"
+#import "NotificationsConstants.h"
+
 
 #define AVATAR_BLUR_RADIUS 10.0
 #define GREEN_BUTTON_BOTTOM 20
@@ -213,10 +215,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO; //fix table header places
     [self createPhotoCountView];
     [self updateDataSource];
-    
-    //self.view.backgroundColor = [UIColor greenColor];
-    //self.carousel.hidden = YES;
-    //self.infoTableView.hidden = YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDataSource) name:kNeedUpdateProfileData object:nil];
 }
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self updateDataSource];
@@ -224,6 +223,10 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+}
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateProfileData object:nil];
 }
 - (void)didReceiveMemoryWarning
 {

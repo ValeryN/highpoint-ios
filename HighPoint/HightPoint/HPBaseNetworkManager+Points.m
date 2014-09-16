@@ -40,20 +40,31 @@
             if(jsonDict) {
                 NSArray *poi = [[jsonDict objectForKey:@"data"] objectForKey:@"points"];
                 if (poi && (![poi isKindOfClass:[NSNull class]])) {
+                    
+                    NSMutableArray *arr = [NSMutableArray new];
                     for(NSDictionary *dict in poi) {
-                        [[DataStorage sharedDataStorage] createAndSavePoint:dict];
+                        [arr addObject:dict];
                     }
-                }
-                NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
-                if (usr && (![usr isKindOfClass:[NSNull class]])) {
-                    for(NSString *key in usr) {
-                        [[DataStorage sharedDataStorage] createAndSaveUserEntity:[usr objectForKey:key] forUserType:MainListUserType withComplation:nil];
-                    }
-                }
-                
-                if([self isTaskArrayEmpty:manager]) {
-                    NSLog(@"Stop Queue");
-                    [self makeTownByIdRequest];
+                    [[DataStorage sharedDataStorage] createAndSavePoint:arr withComplation:^(NSError *error) {
+                        if(!error) {
+                            NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                            if (usr && (![usr isKindOfClass:[NSNull class]])) {
+                                
+                                NSMutableArray *dataArray = [NSMutableArray new];
+                                for(NSString *key in [usr allKeys]) {
+                                    [dataArray addObject:[usr objectForKey:key]];
+                                }
+                                [[DataStorage sharedDataStorage] createAndSaveUserEntity:dataArray forUserType:MainListUserType withComplation:^(NSError *error) {
+                                    if(!error) {
+                                        if([self isTaskArrayEmpty:manager]) {
+                                            NSLog(@"Stop Queue");
+                                            [self makeTownByIdRequest];
+                                        }
+                                    }
+                                }];
+                            }
+                        }
+                    }];
                 }
             }
             else NSLog(@"Error, no valid data");
@@ -97,13 +108,18 @@
             if(jsonDict) {
                 NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 if (![usr isKindOfClass:[NSNull class]]) {
-                    for(NSDictionary *dict in usr) {
-                        [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:PointLikeUserType withComplation:nil];
-                    }
-                }
-                if([self isTaskArrayEmpty:manager]) {
-                    NSLog(@"Stop Queue");
-                    [self makeTownByIdRequest];
+                    //NSMutableArray *dataArray = [NSMutableArray new];
+                    //for(NSString *key in [usr allKeys]) {
+                    //    [dataArray addObject:[usr objectForKey:key]];
+                    //}
+                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:usr] forUserType:PointLikeUserType withComplation:^(NSError *error) {
+                        if(!error) {
+                            if([self isTaskArrayEmpty:manager]) {
+                                NSLog(@"Stop Queue");
+                                [self makeTownByIdRequest];
+                            }
+                        }
+                    }];
                 }
             }
             else NSLog(@"Error, no valid data");

@@ -37,11 +37,19 @@
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict){
-                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:CurrentUserType withComplation:nil];
-                if([self isTaskArrayEmpty:manager]) {
-                    NSLog(@"Stop Queue");
-                    [self makeTownByIdRequest];
-                }
+                
+                NSMutableArray *arr = [NSMutableArray new];
+                [arr addObject:[[jsonDict objectForKey:@"data"] objectForKey:@"user"]];//add NSDict
+               
+                
+                [[DataStorage sharedDataStorage] createAndSaveUserEntity:arr forUserType:CurrentUserType withComplation:^(NSError *error) {
+                    if(!error) {
+                        if([self isTaskArrayEmpty:manager]) {
+                            NSLog(@"Stop Queue");
+                            [self makeTownByIdRequest];
+                        }
+                    }
+                }];
             }
             else NSLog(@"Error, no valid data");
             

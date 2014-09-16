@@ -50,10 +50,18 @@
                     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:str, @"cityIds", nil];
                     [self getGeoLocationForPlaces:param withBlock:^(NSString* result) {
                         NSLog(@"RES -> %@", result);
-                        [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user];
+                        [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user withComplation:^(NSError *error) {
+                            if(!error) {
+                                
+                            }
+                        }];
                     }];
                 }
-                else [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user];
+                else [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user withComplation:^(NSError *error) {
+                    if(!error) {
+                        
+                    }
+                }];
                 
             } else {
                 
@@ -90,8 +98,10 @@
                 NSMutableArray *postsArr = [[NSMutableArray alloc] init];
                 
                 for(NSDictionary *dict in posts) {
-                    CareerPost *cPost = [[DataStorage sharedDataStorage] createTempCareerPost:dict];
-                    [postsArr addObject:cPost];
+                    [[DataStorage sharedDataStorage] createTempCareerPost:dict withComplation:^(CareerPost *cPost) {
+                        [postsArr addObject:cPost];
+                    }];
+                    
                 }
                 //TODO: send
                 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
@@ -129,8 +139,10 @@
                 NSMutableArray *companiesArr = [[NSMutableArray alloc] init];
                 
                 for(NSDictionary *dict in posts) {
-                    Company *company = [[DataStorage sharedDataStorage] createTempCompany:dict];
-                    [companiesArr addObject:company];
+                    [[DataStorage sharedDataStorage] createTempCompany:dict withComplation:^(Company *company) {
+                        [companiesArr addObject:company];
+                    }];
+                    
                 }
                 //TODO: send
                 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
@@ -166,8 +178,10 @@
                 NSMutableArray *languagesArr = [[NSMutableArray alloc] init];
                 
                 for(NSDictionary *dict in posts) {
-                    Language *language = [[DataStorage sharedDataStorage] createTempLanguage:dict];
-                    [languagesArr addObject:language];
+                    [[DataStorage sharedDataStorage] createTempLanguage:dict withComplation:^(Language* language) {
+                        [languagesArr addObject:language];
+                    }];
+                    
                 }
                 //TODO: send
                 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
@@ -202,8 +216,10 @@
                 NSArray *places = [[jsonDict objectForKey:@"data"] objectForKey:@"places"];
                 NSMutableArray *placesArr = [[NSMutableArray alloc] init];
                 for(NSDictionary *dict in places) {
-                    Place *place = [[DataStorage sharedDataStorage] createTempPlace:dict];
-                    [placesArr addObject:place];
+                    [[DataStorage sharedDataStorage] createTempPlace:dict withComplation:^(Place *place) {
+                        [placesArr addObject:place];
+                    }];
+                    
                 }
                 //TODO: send
                 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
@@ -238,8 +254,11 @@
                 NSArray *schools = [[jsonDict objectForKey:@"data"] objectForKey:@"schools"] ;
                 NSMutableArray *schoolsArr = [[NSMutableArray alloc] init];
                 for(NSDictionary *dict in schools) {
-                    School *sch = [[DataStorage sharedDataStorage] createTempSchool:dict];
-                    [schoolsArr addObject:sch];
+                    
+                    [[DataStorage sharedDataStorage] createTempSchool:dict withComplation:^(School *school) {
+                        [schoolsArr addObject:school];
+                    }];
+                    
                 }
                 //TODO: send
                 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];
@@ -274,8 +293,10 @@
                 NSArray *specialities = [[jsonDict objectForKey:@"data"] objectForKey:@"specialities"] ;
                 NSMutableArray *specialitiesArr = [[NSMutableArray alloc] init];
                 for(NSDictionary *dict in specialities) {
-                    Speciality *sp = [[DataStorage sharedDataStorage] createTempSpeciality:dict];
-                    [specialitiesArr addObject:sp];
+                    [[DataStorage sharedDataStorage] createTempSpeciality:dict withComplation:^(Speciality *sp) {
+                        [specialitiesArr addObject:sp];
+                    }] ;
+                    
                 }
                 //TODO: send
                 //                NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:citiesArr, @"cities", nil];

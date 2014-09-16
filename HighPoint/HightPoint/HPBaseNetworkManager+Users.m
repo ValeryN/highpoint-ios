@@ -45,20 +45,26 @@
                 NSDictionary *poi = [[jsonDict objectForKey:@"data"] objectForKey:@"points"];
                 if (poi && (![poi isKindOfClass:[NSNull class]])) {
                     
+                    NSMutableArray *arr = [NSMutableArray new];
                     for (NSString* key in [poi allKeys]) {
                         NSDictionary *point = [poi objectForKey:key];
-                        [[DataStorage sharedDataStorage] createAndSavePoint:point];
+                        [arr addObject:point];
                     }
-                }
-                NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
-                if (usr && (![usr isKindOfClass:[NSNull class]])) {
-                    for(NSDictionary *dict in usr) {
-                        [[DataStorage sharedDataStorage] createAndSaveUserEntity:dict forUserType:MainListUserType withComplation:nil];
-                    }
-                }
-                if([self isTaskArrayEmpty:manager]) {
-                    NSLog(@"Stop Queue");
-                    [self makeTownByIdRequest];
+                    [[DataStorage sharedDataStorage] createAndSavePoint:arr withComplation:^(NSError *error) {
+                        if(!error) {
+                            NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
+                            if (usr && (![usr isKindOfClass:[NSNull class]])) {
+                                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:usr] forUserType:MainListUserType withComplation:^(NSError *error) {
+                                    if(!error) {
+                                        if([self isTaskArrayEmpty:manager]) {
+                                            NSLog(@"Stop Queue");
+                                            [self makeTownByIdRequest];
+                                        }
+                                    }
+                                }];
+                            }
+                        }
+                    }];
                 }
             }
             else NSLog(@"Error, no valid data");
@@ -95,7 +101,7 @@
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:0 withComplation:nil];
+                //[[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:0 withComplation:nil];
                 
             }
             else NSLog(@"Error, no valid data");
@@ -128,7 +134,9 @@
                 NSArray *messages = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
                 if (messages && (![messages isKindOfClass:[NSNull class]])) {
                     User *user = [[DataStorage sharedDataStorage] getUserForId:userId];
-                    [[DataStorage sharedDataStorage] createAndSaveChatEntity:user withMessages:messages withComplation:nil];
+                    [[DataStorage sharedDataStorage] createAndSaveChatEntity:user withMessages:messages withComplation:^(id object) {
+                        
+                    }];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -164,7 +172,9 @@
             if(jsonDict) {
                 NSDictionary *msg = [[jsonDict objectForKey:@"data"] objectForKey:@"message"];
                 if (msg) {
-                    [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:userId andMessageType:HistoryMessageType withComplation:nil];
+                    [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:userId andMessageType:HistoryMessageType withComplation:^(id object) {
+                        
+                    }];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
@@ -199,7 +209,9 @@
             if(jsonDict) {
                 NSArray *msgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
                 for (NSDictionary *msg in msgs) {
-                    [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:userId andMessageType:HistoryMessageType withComplation:nil];
+                    [[DataStorage sharedDataStorage] createAndSaveMessage:msg forUserId:userId andMessageType:HistoryMessageType withComplation:^(id object){
+                        
+                    }];
                     
                 }
             } else {

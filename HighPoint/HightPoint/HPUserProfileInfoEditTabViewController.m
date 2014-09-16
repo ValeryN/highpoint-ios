@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     [self.tableView registerNib:[UINib nibWithNibName:@"HPUserProfileFirstRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"UserProfileCellTypeSpending"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPUserInfoSecondRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"HPUserInfoSecondRowTableViewCell"];
 
-    //Особенности местного програмирования, чтобы достать города нужно быдлокодить свои join по таблицам
+    
     self.favoriteCitiesArray = [NSMutableArray new];
     NSArray *cityIds = [[[self favoritePlaceFetchedResultController] fetchedObjects] valueForKeyPath:@"@distinctUnionOfObjects.cityId"];
     for (NSNumber *cityId in cityIds) {

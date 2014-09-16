@@ -155,7 +155,13 @@
 
 - (void)createPointWithPointText:(NSString *)text andTime:(NSNumber *)time forUser:(User *)user {
     NSDictionary *dictionary = @{@"createdAt" : @"Как время может быть строкой! Искать збс удобно в базе", @"text" : text, @"userId" : user.userId, @"pointValidTo" : @"Ммм, строка плюс строка, клас."};
-    [[DataStorage sharedDataStorage] createAndSavePoint:dictionary];
+    NSMutableArray *arr = [NSMutableArray new];
+    [arr addObject:dictionary];
+    [[DataStorage sharedDataStorage] createAndSavePoint:arr withComplation:^(NSError *error) {
+        if(!error) {
+            
+        }
+    }];
 }
 
 - (void)deleteCurrentUserPointForUser:(User *)user {

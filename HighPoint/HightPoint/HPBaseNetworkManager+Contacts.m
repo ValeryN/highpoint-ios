@@ -39,20 +39,21 @@
             if(jsonDict) {
                 NSArray *users = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 NSDictionary *lastMsgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
-                for (int i = 0; i < users.count; i++) {
-                    [[DataStorage sharedDataStorage] createAndSaveUserEntity:[users objectAtIndex:i] forUserType:ContactUserType withComplation:^(User *user) {
+                
+                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:users] forUserType:ContactUserType withComplation:^(NSError *error) {
+                    if(!error) {
                         for (id key in [lastMsgs allKeys]) {
-                            if ([user.userId intValue] == [key intValue]) {
-                                [[DataStorage sharedDataStorage] createAndSaveMessage:[lastMsgs objectForKey:key] forUserId:user.userId andMessageType:LastMessageType withComplation:^(Message *lastMsg) {
-                                    [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:^(id object) {
-                                        [self getChatMsgsForUser:user.userId :nil];
-                                    }];
+                            User *user = [[DataStorage sharedDataStorage] getUserForId:[NSNumber numberWithInt:[key intValue]]];
+                            [[DataStorage sharedDataStorage] createAndSaveMessage:[lastMsgs objectForKey:key] forUserId:user.userId andMessageType:LastMessageType withComplation:^(Message *lastMsg) {
+                                [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:^(id object) {
+                                    [self getChatMsgsForUser:user.userId :nil];
                                 }];
-                                break;
-                            }
+                            }];
+                            break;
                         }
-                    }];
-                }
+                    }
+                }];
+                
                 if ([self isTaskArrayEmpty:manager]) {
                     NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
