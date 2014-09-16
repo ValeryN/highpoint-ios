@@ -27,5 +27,6 @@
 @dynamic notsendedMessage;
 @dynamic chat;
 @dynamic contact;
+@dynamic status;
 
 @end

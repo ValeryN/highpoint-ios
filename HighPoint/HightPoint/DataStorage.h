@@ -116,6 +116,9 @@ typedef void (^complationBlock) (id object);
 - (NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
 - (void) linkParameter:(NSDictionary*) param toUser:(User*) user;
 - (Message *) createMessage :(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes) type;
+
+- (void)setAndSaveMessageStatus:(MessageStatus)status forMessage:(Message *)globalMessage;
+
 - (int) allUnreadMessagesCount : (User *) user;
 
 - (void)setAndSaveUser:(User *)globalUser toLikePoint:(UserPoint *)globalPoint withComplationBlock:(complationBlock)block;

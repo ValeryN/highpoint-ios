@@ -15,9 +15,7 @@
 #import "HPRequest+Users.h"
 #import "HPChatMsgTableViewCell.h"
 #import "HPHorizontalPanGestureRecognizer.h"
-#import "NSManagedObject+HighPoint.h"
 #import "UITextView+HPRacSignal.h"
-#import "PSMenuItem.h"
 
 
 @interface HPChatViewController ()
@@ -31,6 +29,7 @@
 //bottom view
 @property(weak, nonatomic) IBOutlet UIView *msgBottomView;
 @property(weak, nonatomic) IBOutlet UIButton *msgAddBtn;
+@property(weak, nonatomic) IBOutlet UIButton *sendMessageButton;
 @property(weak, nonatomic) IBOutlet UITextView *msgTextView;
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *msgTextViewHeight;
 @property(weak, nonatomic) IBOutlet UILabel *msgPlacehoderTextView;
@@ -60,6 +59,19 @@
     [self configureNavigationBar];
     [self configureOffsetTableViewGesture];
     [self configureInputView];
+    [self configureSendMessageButton];
+}
+
+- (void)configureSendMessageButton {
+    @weakify(self);
+    RAC(self, sendMessageButton.hidden) = [self.msgTextView.rac_textSignal map:^id(NSString *value) {
+        return @(value.length == 0);
+    }];
+    [[self.sendMessageButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self sendMessageToCurrentContactWithText:self.msgTextView.text];
+        self.msgTextView.text = @"";
+    }];
 }
 
 - (void)configureInputMode {
@@ -205,8 +217,8 @@
     }];
 
     [contentOffsetSignal subscribeNext:^(id x) {
-        UIMenuController * menuController = [UIMenuController sharedMenuController];
-        if(menuController.menuVisible){
+        UIMenuController *menuController = [UIMenuController sharedMenuController];
+        if (menuController.menuVisible) {
             [menuController setMenuVisible:NO];
         }
     }];
@@ -358,7 +370,16 @@
 
 
 - (void)sendMessageToCurrentContactWithText:(NSString *)text {
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    [[DataStorage sharedDataStorage] createAndSaveMessage:@{@"id" : @(arc4random() % 50000), @"createdAt" : [df stringFromDate:[NSDate date]], @"destinationId" : self.contact.user.userId, @"sourceId" : [[DataStorage sharedDataStorage] getCurrentUser].userId, @"text" : text} forUserId:self.contact.user.userId andMessageType:HistoryMessageType withComplation:^(Message *object) {
+        [[DataStorage sharedDataStorage] setAndSaveMessageStatus:MessageStatusSending forMessage:object];
+        [self performSelector:@selector(markMessage:) withObject:object afterDelay:5];
+    }];
+}
 
+- (void)markMessage:(Message *)message {
+    [[DataStorage sharedDataStorage] setAndSaveMessageStatus:MessageStatusSendFailed forMessage:message];
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {

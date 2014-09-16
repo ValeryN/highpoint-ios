@@ -16,6 +16,7 @@
                 <outlet property="msgPlacehoderTextView" destination="Z1g-Oh-Jos" id="L4y-XK-fbP"/>
                 <outlet property="msgTextView" destination="dfn-79-WvO" id="zKP-Nk-DSM"/>
                 <outlet property="msgTextViewHeight" destination="DSC-p0-9K4" id="lva-VX-1sa"/>
+                <outlet property="sendMessageButton" destination="cZJ-9M-aUY" id="XdF-k4-LIe"/>
                 <outlet property="tableHeaderView" destination="e6q-Uy-KkU" id="gzg-hE-8BC"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

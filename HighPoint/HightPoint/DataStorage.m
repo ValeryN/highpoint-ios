@@ -2454,6 +2454,19 @@ static DataStorage *dataStorage;
     [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
 }
 
+- (void) setAndSaveMessageStatus:(MessageStatus) status forMessage:(Message *) globalMessage{
+    __weak typeof(self) weakSelf = self;
+    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
+        Message* message = [globalMessage moveToContext:context];
+        [context performBlockAndWait:^{
+            message.status = @(status);
+            [weakSelf addSaveOperationToBottomInContext:context];
+        }];
+    }];
+    [self.backgroundOperationQueue addOperations:@[operation] waitUntilFinished:NO];
+}
+
 - (int)allUnreadMessagesCount:(User *)user {
     NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];

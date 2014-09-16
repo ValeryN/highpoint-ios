@@ -49,12 +49,22 @@
                         <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Spinner" translatesAutoresizingMaskIntoConstraints="NO" id="eOr-14-yHM">
+                        <rect key="frame" x="-25" y="37" width="23" height="23"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="23" id="YkO-ub-l4P"/>
+                            <constraint firstAttribute="height" constant="23" id="kpP-Ro-uUK"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstItem="4mN-PI-Bki" firstAttribute="centerY" secondItem="fAX-DJ-lO3" secondAttribute="centerY" id="1sW-WP-548"/>
+                    <constraint firstItem="1Rg-Cu-eU6" firstAttribute="leading" secondItem="eOr-14-yHM" secondAttribute="trailing" constant="10" id="OZm-Sx-gz2"/>
                     <constraint firstItem="1Rg-Cu-eU6" firstAttribute="leading" secondItem="WHe-9O-HzV" secondAttribute="leadingMargin" id="azR-v9-Kmx"/>
                     <constraint firstItem="fAX-DJ-lO3" firstAttribute="centerX" secondItem="WHe-9O-HzV" secondAttribute="leadingMargin" constant="-40" id="b4K-dY-Be8"/>
+                    <constraint firstItem="4mN-PI-Bki" firstAttribute="centerY" secondItem="eOr-14-yHM" secondAttribute="centerY" id="cpm-i8-6qF"/>
                     <constraint firstAttribute="bottomMargin" secondItem="1Rg-Cu-eU6" secondAttribute="bottom" constant="2" id="gr2-7R-dg8"/>
                 </constraints>
             </tableViewCellContentView>
@@ -62,6 +72,7 @@
             <connections>
                 <outlet property="backgroundOfMessage" destination="1Rg-Cu-eU6" id="v10-jJ-JeB"/>
                 <outlet property="leftConstraint" destination="azR-v9-Kmx" id="szZ-RI-Dcl"/>
+                <outlet property="spinnerView" destination="eOr-14-yHM" id="anV-ah-PsB"/>
                 <outlet property="textMessageLabel" destination="4mN-PI-Bki" id="Hne-HI-Lcb"/>
                 <outlet property="timeConstraint" destination="b4K-dY-Be8" id="sSV-P9-uid"/>
                 <outlet property="timeLabel" destination="fAX-DJ-lO3" id="JPN-xN-JGe"/>
@@ -69,6 +80,9 @@
             <point key="canvasLocation" x="140" y="179"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="Spinner" width="23" height="23"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
