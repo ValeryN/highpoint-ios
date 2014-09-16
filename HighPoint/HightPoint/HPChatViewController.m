@@ -173,8 +173,8 @@
         CGFloat prevHeight = [previous CGSizeValue].height;
         CGFloat newHeight = [current CGSizeValue].height;
         return @(newHeight - prevHeight);
-    }] filter:^BOOL(NSNumber * value) {
-        return value.intValue>0;
+    }] filter:^BOOL(NSNumber *value) {
+        return value.intValue > 0;
     }] skip:2] subscribeNext:^(NSNumber *x) {
         @strongify(self);
         //Update on frame change
@@ -227,27 +227,26 @@
 }
 
 - (RACSignal *)messagesController {
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
     @weakify(self);
     return [[RACObserve(self, minimumViewedDate) flattenMap:^id(NSDate *minDate) {
         return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
             @strongify(self);
-
-            NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-            NSFetchRequest *request = [[NSFetchRequest alloc] init];
-            NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
-            [request setEntity:entity];
-            NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
-            [sortDescriptors addObject:sortDescriptor];
-            [request setSortDescriptors:sortDescriptors];
-            request.fetchBatchSize = 20;
-
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@ AND createdAt >= %@", self.contact.user.userId, minDate ?: [NSDate date]];
-            [request setPredicate:predicate];
-
-            NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
-
             [context performBlock:^{
+                NSFetchRequest *request = [[NSFetchRequest alloc] init];
+                NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
+                [request setEntity:entity];
+                NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+                NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+                [sortDescriptors addObject:sortDescriptor];
+                [request setSortDescriptors:sortDescriptors];
+                request.fetchBatchSize = 20;
+
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@ AND createdAt >= %@", self.contact.user.userId, minDate ?: [NSDate date]];
+                [request setPredicate:predicate];
+
+                NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
+
                 NSError *error = nil;
                 if (![messagesController performFetch:&error]) {
                     [subscriber sendNext:error];

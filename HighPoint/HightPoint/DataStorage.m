@@ -2140,7 +2140,8 @@ static DataStorage *dataStorage;
     [request setFetchLimit:1];
     __block NSArray *array;
     [context performBlockAndWait:^{
-        array = [context executeFetchRequest:request error:nil];
+        NSError* error = nil;
+        array = [context executeFetchRequest:request error:&error];
     }];
 
     if ([array count] > 0) {
