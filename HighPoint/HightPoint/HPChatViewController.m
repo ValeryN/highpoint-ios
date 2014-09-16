@@ -17,6 +17,7 @@
 #import "HPHorizontalPanGestureRecognizer.h"
 #import "NSManagedObject+HighPoint.h"
 #import "UITextView+HPRacSignal.h"
+#import "PSMenuItem.h"
 
 
 @interface HPChatViewController ()
@@ -52,7 +53,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.cachedCellHeightByModelId = YES;
+    self.cachedCellHeight = YES;
     [self configureInfinityTableView];
     [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
     [self configureInputMode];
@@ -169,7 +170,8 @@
 //
 //    self.chatTableView.contentOffset = (CGPoint){0,self.msgTextView.frame.size.height - 30};
 //
-    [[[[[RACObserve(self.chatTableView, contentSize) skip:1] combinePreviousWithStart:[NSValue valueWithCGSize:(CGSize) {0, 0}] reduce:^id(id previous, id current) {
+    RACSignal *contentSizeSignal = [RACObserve(self.chatTableView, contentSize) replayLast];
+    [[[[[contentSizeSignal skip:1] combinePreviousWithStart:[NSValue valueWithCGSize:(CGSize) {0, 0}] reduce:^id(id previous, id current) {
         CGFloat prevHeight = [previous CGSizeValue].height;
         CGFloat newHeight = [current CGSizeValue].height;
         return @(newHeight - prevHeight);
@@ -181,7 +183,8 @@
         self.chatTableView.contentOffset = (CGPoint) {0, self.chatTableView.contentOffset.y + x.floatValue};
     }];
 
-    [[[RACObserve(self.chatTableView, contentSize) filter:^BOOL(NSValue *value) {
+
+    [[[contentSizeSignal filter:^BOOL(NSValue *value) {
         return [value CGSizeValue].height > self.chatTableView.frame.size.height;
     }] take:1] subscribeNext:^(id x) {
         @strongify(self);
@@ -199,6 +202,13 @@
         @strongify(self);
         self.minimumViewedDate = [self getDateOffsetAfterDate:self.minimumViewedDate andNumberPerPage:NUMBER_PER_PAGE_LOAD];
         [self checkIfNeedLoadNewMessagesFromServer];
+    }];
+
+    [contentOffsetSignal subscribeNext:^(id x) {
+        UIMenuController * menuController = [UIMenuController sharedMenuController];
+        if(menuController.menuVisible){
+            [menuController setMenuVisible:NO];
+        }
     }];
 }
 
@@ -324,32 +334,37 @@
 }
 
 
-- (NSMutableDictionary *)calculateHeightBeforeLoading:(NSFetchedResultsController *)resultsController {
-    NSMutableDictionary *newSizesDict = [NSMutableDictionary new];
-    BOOL lastMessageMine = NO;
-    User *currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
-    for (Message *message in resultsController.fetchedObjects) {
-        BOOL messageByMine = [((Message *) [message moveToContext:[NSManagedObjectContext threadContext]]).sourceId isEqualToNumber:currentUser.userId];
-        NSManagedObjectID *objectID = message.objectID;
-        if (!self.sizeCacheByObjectId[objectID]) {
-            self.sizeCacheByObjectId[objectID] = @([HPChatMsgTableViewCell heightForRowWithModel:message]);
-        }
-        NSString *key = [self.class stringRepresentationIndexPath:[resultsController indexPathForObject:message]];
-        if (lastMessageMine == messageByMine) {
-            newSizesDict[key] = self.sizeCacheByObjectId[objectID];
-        }
-        else {
-            lastMessageMine = messageByMine;
-            newSizesDict[key] = @(((NSNumber *) self.sizeCacheByObjectId[objectID]).floatValue + 10);
-        }
-    }
-    return newSizesDict;
-}
+//- (NSMutableDictionary *)calculateHeightBeforeLoading:(NSFetchedResultsController *)resultsController {
+//    NSMutableDictionary *newSizesDict = [NSMutableDictionary new];
+//    BOOL lastMessageMine = NO;
+//    User *currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+//    for (Message *message in resultsController.fetchedObjects) {
+//        BOOL messageByMine = [((Message *) [message moveToContext:[NSManagedObjectContext threadContext]]).sourceId isEqualToNumber:currentUser.userId];
+//        NSManagedObjectID *objectID = message.objectID;
+//        if (!self.sizeCacheByObjectId[objectID]) {
+//            self.sizeCacheByObjectId[objectID] = @([HPChatMsgTableViewCell heightForRowWithModel:message]);
+//        }
+//        NSString *key = [self.class stringRepresentationIndexPath:[resultsController indexPathForObject:message]];
+//        if (lastMessageMine == messageByMine) {
+//            newSizesDict[key] = self.sizeCacheByObjectId[objectID];
+//        }
+//        else {
+//            lastMessageMine = messageByMine;
+//            newSizesDict[key] = @(((NSNumber *) self.sizeCacheByObjectId[objectID]).floatValue + 10);
+//        }
+//    }
+//    return newSizesDict;
+//}
 
 
 - (void)sendMessageToCurrentContactWithText:(NSString *)text {
 
 }
+
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
 /*
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
