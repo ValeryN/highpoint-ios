@@ -308,6 +308,7 @@
 		7C5F7CB9D9398A3579B340C8 /* RACFetchedCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7EF040173F22819BDD4D /* RACFetchedCollectionViewController.m */; };
 		7C5F7D1FB28DC01E5FFD33DF /* HPSearchCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F716F09BF960DBC78C606 /* HPSearchCityViewController.m */; };
 		7C5F7D6BA2F7A7A1F69CD0F9 /* HPUserProfileTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F788AEA6CCF8DB315766E /* HPUserProfileTableHeaderView.m */; };
+		7C5F7E242EA057B1A4CAD244 /* HPHorizontalPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F74A7CC9232A8FAF89848 /* HPHorizontalPanGestureRecognizer.m */; };
 		7C5F7E98F6854F5FBA41DCDE /* HPMessageValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F723A77FC99E169F73496 /* HPMessageValidator.m */; };
 		7C5F7EA6A679F1D7A1338BE8 /* HPHEBubbleViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7362A22A9AB0E359D898 /* HPHEBubbleViewItem.m */; };
 		7C5F7F869A9F7D9797A3CA3A /* HPCityValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F73720D0B9F25137AA95E /* HPCityValidator.m */; };
@@ -890,6 +891,7 @@
 		7C5F73B28B4784B3764684CA /* NSManagedObjectContext+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+HighPoint.h"; sourceTree = "<group>"; };
 		7C5F73C934BCABFC7B0524D9 /* HPCityValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCityValidator.h; sourceTree = "<group>"; };
 		7C5F749C998964E92952D823 /* NSDate+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+HighPoint.m"; sourceTree = "<group>"; };
+		7C5F74A7CC9232A8FAF89848 /* HPHorizontalPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPHorizontalPanGestureRecognizer.m; sourceTree = "<group>"; };
 		7C5F74B47B9910711C74A35F /* HPUserProfileFirstRowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfileFirstRowTableViewCell.xib; sourceTree = "<group>"; };
 		7C5F74D937BE232CC1EF6E4B /* error-256@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error-256@2x.png"; sourceTree = "<group>"; };
 		7C5F751ED05C8645A77E206E /* HPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRequest.h; sourceTree = "<group>"; };
@@ -933,6 +935,7 @@
 		7C5F7D27B41303630CF7B9AD /* CALayer+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+HighPoint.m"; sourceTree = "<group>"; };
 		7C5F7D7AC05E0DA825BBA943 /* HPRequest+Points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPRequest+Points.h"; sourceTree = "<group>"; };
 		7C5F7D947CEDD44E62AE75D1 /* HPRequest+CurrentUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPRequest+CurrentUser.m"; sourceTree = "<group>"; };
+		7C5F7DF753C2B595467083F9 /* HPHorizontalPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPHorizontalPanGestureRecognizer.h; sourceTree = "<group>"; };
 		7C5F7E1C6C28AE52E4529676 /* HPAddCareerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddCareerViewController.m; sourceTree = "<group>"; };
 		7C5F7E481483B0971ECBF37B /* UINavigationBar+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+HighPoint.h"; sourceTree = "<group>"; };
 		7C5F7E661E5D1302339969AC /* HPUserValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserValidator.m; sourceTree = "<group>"; };
@@ -1976,6 +1979,8 @@
 				7C5F72E15153FFA4E1BB4024 /* RACFetchedTableViewController.h */,
 				7C5F7EF040173F22819BDD4D /* RACFetchedCollectionViewController.m */,
 				7C5F7D0B7D92387D4D5A39C0 /* RACFetchedCollectionViewController.h */,
+				7C5F74A7CC9232A8FAF89848 /* HPHorizontalPanGestureRecognizer.m */,
+				7C5F7DF753C2B595467083F9 /* HPHorizontalPanGestureRecognizer.h */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -2872,7 +2877,11 @@
 				7C5F7B52631787BB99EE7962 /* HPRequest+Users.m in Sources */,
 				7C5F7E98F6854F5FBA41DCDE /* HPMessageValidator.m in Sources */,
 				7C5F77812F79723EC38E5F5D /* NSDate+HighPoint.m in Sources */,
+
 				3B52B2B519C30128000B543C /* NSNumber+MagicalDataImport.m in Sources */,
+
+				7C5F7E242EA057B1A4CAD244 /* HPHorizontalPanGestureRecognizer.m in Sources */,
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,5 +13,5 @@
 
 
 @interface HPChatMsgTableViewCell : UITableViewCell <RACTableViewCellProtocol>
-+ (CGFloat) heightForRowWithModel:(id) model;
+@property (nonatomic, weak) HPChatViewController* tableViewController;
 @end

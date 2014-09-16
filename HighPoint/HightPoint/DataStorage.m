@@ -1555,6 +1555,7 @@ static DataStorage *dataStorage;
         predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
+
         return nil;
     }
     if(predicate) {
@@ -1868,6 +1869,14 @@ static DataStorage *dataStorage;
 }
 */
 
+- (void) deleteAndSaveEntity:(NSManagedObject*) globalObject{
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSManagedObject* object = [globalObject MR_inContext:localContext];
+        [object deleteInContext:localContext];
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
+}
 
 
 @end

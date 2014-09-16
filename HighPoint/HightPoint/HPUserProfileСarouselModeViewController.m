@@ -44,10 +44,10 @@
 - (void)configureCarouserView {
     @weakify(self);
     RACSignal *carouselDidScroll = [[self rac_signalForSelector:@selector(carouselDidScroll:) fromProtocol:@protocol(iCarouselDelegate)] takeUntil:self.rac_willDeallocSignal];
-    self.selectedPhotoSignal = [[carouselDidScroll map:^id(id value) {
+    self.selectedPhotoSignal = [[[RACSignal return:@(self.carousel.currentItemIndex)] concat:[carouselDidScroll map:^id(id value) {
         @strongify(self);
         return @(self.carousel.currentItemIndex);
-    }] replayLast];
+    }]] replayLast];
 
     [RACObserve(self, deletedPhotoIndex) subscribeNext:^(id x) {
         [self.carousel reloadData];

@@ -114,21 +114,7 @@ typedef void (^complationBlock) (id object);
 - (void)createAndSaveContactEntity: (User *)user forMessage: (Message *) lastMessage withComplation:(complationBlock) block;
 - (void)deleteAndSaveAllContacts;
 - (NSFetchedResultsController*) getAllContactsFetchResultsController;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- (void) deleteAndSaveEntity:(NSManagedObject*) globalObject;
 
 
 

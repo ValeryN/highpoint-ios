@@ -13,6 +13,11 @@
 #import "HPAvatarView.h"
 #import "HPRequest.h"
 #import "HPRequest+Users.h"
+#import "HPChatMsgTableViewCell.h"
+#import "HPHorizontalPanGestureRecognizer.h"
+#import "NSManagedObject+HighPoint.h"
+#import "UITextView+HPRacSignal.h"
+#import "PSMenuItem.h"
 
 
 @interface HPChatViewController ()
@@ -20,17 +25,23 @@
 @property(strong, nonatomic) HPAvatarView *avatar;
 @property(strong, nonatomic) UIView *avatarView;
 @property(weak, nonatomic) IBOutlet UITableView *chatTableView;
-@property(weak, nonatomic) IBOutlet UIView* tableHeaderView;
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *bottomInputViewOffset;
+@property(weak, nonatomic) IBOutlet UIView *tableHeaderView;
 
 //bottom view
 @property(weak, nonatomic) IBOutlet UIView *msgBottomView;
 @property(weak, nonatomic) IBOutlet UIButton *msgAddBtn;
 @property(weak, nonatomic) IBOutlet UITextView *msgTextView;
-@property(weak, nonatomic) IBOutlet UIView *bgBottomView;
-
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *msgTextViewHeight;
+@property(weak, nonatomic) IBOutlet UILabel *msgPlacehoderTextView;
 
 
 @property(nonatomic) NSDate *minimumViewedDate;
+@property(nonatomic, retain) NSMutableDictionary *sizeCacheByObjectId;
+@property(nonatomic) BOOL inputMode;
+
+
+@property(nonatomic, retain) RACSignal *keyboardHeight;
 @end
 
 
@@ -42,26 +53,145 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.chatTableView.tableHeaderView = self.tableHeaderView;
-    self.cachedCellHeightByModelId = YES;
-    [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
+    self.cachedCellHeight = YES;
     [self configureInfinityTableView];
+    [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
+    [self configureInputMode];
     [self configureNavigationBar];
-
-    // Do any additional setup after loading the view from its nib.
+    [self configureOffsetTableViewGesture];
+    [self configureInputView];
 }
+
+- (void)configureInputMode {
+    @weakify(self);
+    [[self keyboardHeight] subscribeNext:^(RACTuple *x) {
+        @strongify(self);
+        RACTupleUnpack(NSNumber *height, NSNumber *duration, NSNumber *options) = x;
+        [self.view layoutIfNeeded];
+        [UIView animateWithDuration:duration.doubleValue delay:0 options:(UIViewAnimationOptions) options.unsignedIntegerValue animations:^{
+            @strongify(self);
+            self.bottomInputViewOffset.constant = height.floatValue;
+            [self.view layoutIfNeeded];
+        }                completion:nil];
+    }];
+}
+
+- (RACSignal *)keyboardHeight {
+    if (!_keyboardHeight) {
+        RACSignal *keyboardChangeHeight = [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillChangeFrameNotification object:nil] map:^id(NSNotification *value) {
+            return [RACTuple tupleWithObjects:@([value.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height), value.userInfo[UIKeyboardAnimationDurationUserInfoKey], value.userInfo[UIKeyboardAnimationCurveUserInfoKey], nil];
+        }] takeUntil:[self rac_willDeallocSignal]];
+        RACSignal *keyboardHidden = [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil] map:^id(NSNotification *value) {
+            return [RACTuple tupleWithObjects:@(0), value.userInfo[UIKeyboardAnimationDurationUserInfoKey], value.userInfo[UIKeyboardAnimationCurveUserInfoKey], nil];
+        }] takeUntil:[self rac_willDeallocSignal]];
+        _keyboardHeight = [[[RACSignal return:[RACTuple tupleWithObjects:@(0), @(0), @(0), nil]] concat:[RACSignal merge:@[keyboardChangeHeight, keyboardHidden]]] replayLast];
+    }
+    return _keyboardHeight;
+}
+
+- (void)configureInputView {
+    self.msgTextView.delegate = self;
+    @weakify(self);
+    UISwipeGestureRecognizer *swipeGestureRecognizer = [UISwipeGestureRecognizer new];
+    swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
+    [[swipeGestureRecognizer rac_gestureSignal] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.msgTextView resignFirstResponder];
+    }];
+    [self.msgBottomView addGestureRecognizer:swipeGestureRecognizer];
+
+    RACSignal *textChanged = [[RACSignal merge:@[[self.msgTextView rac_textSignal], RACObserve(self, msgTextView.text)]] replayLast];
+    RAC(self, msgPlacehoderTextView.hidden) = [[textChanged map:^id(NSString *value) {
+        return @(value.length == 0);
+    }] not];
+
+    RACSignal *heightForTextView = [[[self.msgTextView rac_textSignal] map:^id(NSValue *value) {
+        @strongify(self);
+        CGFloat fixedWidth = self.msgTextView.frame.size.width;
+        CGSize newSize = [self.msgTextView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
+        return @(ceilf(newSize.height));
+    }] distinctUntilChanged];
+    RAC(self, msgTextViewHeight.constant) = [heightForTextView filter:^BOOL(NSNumber *value) {
+        return value.floatValue <= 80.f;
+    }];
+    [heightForTextView subscribeNext:^(NSNumber *value) {
+        @strongify(self);
+        self.msgTextView.scrollEnabled = value.floatValue >= 80.f;
+        self.msgTextView.frame = (CGRect) {self.msgTextView.frame.origin, self.msgTextView.frame.size.width, self.msgTextViewHeight.constant};
+        self.msgTextView.contentSize = (CGSize) {self.msgTextView.frame.size.width, value.floatValue};
+        [self.view layoutIfNeeded];
+    }];
+    [self.msgTextView.rac_textBeginEdit subscribeNext:^(id x) {
+        @strongify(self);
+        [self scrollTableViewToBottom];
+    }];
+
+}
+
+- (void)scrollTableViewToBottom {
+    NSInteger sectionIndex = [self numberOfSectionsInTableView:self.chatTableView] - 1;
+    NSInteger rowIndex = [self tableView:self.chatTableView numberOfRowsInSection:sectionIndex] - 1;
+    if (sectionIndex >= 0 && rowIndex >= 0)
+        [self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:rowIndex inSection:sectionIndex] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+}
+
+- (void)configureOffsetTableViewGesture {
+    @weakify(self);
+    HPHorizontalPanGestureRecognizer *panGestureRecognizer = [[HPHorizontalPanGestureRecognizer alloc] init];
+    __block CGFloat startLocation = 0;
+    [[panGestureRecognizer rac_gestureSignal] subscribeNext:^(HPHorizontalPanGestureRecognizer *x) {
+        @strongify(self);
+        switch (x.state) {
+            case UIGestureRecognizerStatePossible:
+                break;
+            case UIGestureRecognizerStateBegan:
+                startLocation = [x locationInView:x.view].x;
+                break;
+            case UIGestureRecognizerStateChanged: {
+                CGFloat offset = [x locationInView:x.view].x - startLocation;
+                if (offset > 0) {
+                    self.offsetX = offset > 50 ? 50 : offset;
+                }
+            }
+                break;
+            case UIGestureRecognizerStateEnded:
+            case UIGestureRecognizerStateCancelled:
+            case UIGestureRecognizerStateFailed:
+                self.offsetX = 0;
+                break;
+        }
+    }];
+    [self.chatTableView addGestureRecognizer:panGestureRecognizer];
+}
+
 
 - (void)configureInfinityTableView {
     @weakify(self);
-
-    [[RACObserve(self.chatTableView, contentSize) combinePreviousWithStart:[NSValue valueWithCGSize:(CGSize) {0, 0}] reduce:^id(id previous, id current) {
+//
+//    self.chatTableView.contentOffset = (CGPoint){0,self.msgTextView.frame.size.height - 30};
+//
+    RACSignal *contentSizeSignal = [RACObserve(self.chatTableView, contentSize) replayLast];
+    [[[[[contentSizeSignal skip:1] combinePreviousWithStart:[NSValue valueWithCGSize:(CGSize) {0, 0}] reduce:^id(id previous, id current) {
         CGFloat prevHeight = [previous CGSizeValue].height;
         CGFloat newHeight = [current CGSizeValue].height;
         return @(newHeight - prevHeight);
-    }] subscribeNext:^(NSNumber *x) {
+    }] filter:^BOOL(NSNumber *value) {
+        return value.intValue > 0;
+    }] skip:2] subscribeNext:^(NSNumber *x) {
         @strongify(self);
+        //Update on frame change
         self.chatTableView.contentOffset = (CGPoint) {0, self.chatTableView.contentOffset.y + x.floatValue};
     }];
+
+
+    [[[contentSizeSignal filter:^BOOL(NSValue *value) {
+        return [value CGSizeValue].height > self.chatTableView.frame.size.height;
+    }] take:1] subscribeNext:^(id x) {
+        @strongify(self);
+        //Scroll to bottom
+        self.chatTableView.contentOffset = (CGPoint) {0, self.chatTableView.contentSize.height - self.chatTableView.frame.size.height};
+    }];
+
     RACSignal *contentOffsetSignal = [RACObserve(self.chatTableView, contentOffset) replayLast];
     [[[[contentOffsetSignal map:^id(id value) {
         CGFloat offset = [value CGPointValue].y;
@@ -74,23 +204,14 @@
         [self checkIfNeedLoadNewMessagesFromServer];
     }];
 
-
-//    [[[[contentOffsetSignal map:^id(id value) {
-//        @strongify(self);
-//        CGFloat offset = [value CGPointValue].y;
-//        return @(offset < -self.chatTableView.contentInset.top);;
-//    }] distinctUntilChanged] filter:^BOOL(NSNumber *x) {
-//        return x.boolValue;
-//    }] subscribeNext:^(NSNumber *x) {
-//        @strongify(self);
-//        self.minimumViewedDate = [self getDateOffsetAfterDate:self.minimumViewedDate andNumberPerPage:NUMBER_PER_PAGE_LOAD];
-//        [self checkIfNeedLoadNewMessagesFromServer];
-//    }];
+    [contentOffsetSignal subscribeNext:^(id x) {
+        UIMenuController * menuController = [UIMenuController sharedMenuController];
+        if(menuController.menuVisible){
+            [menuController setMenuVisible:NO];
+        }
+    }];
 }
 
-- (void)updateViewConstraints {
-    [super updateViewConstraints];
-}
 
 #pragma mark - navigation bar
 
@@ -116,27 +237,26 @@
 }
 
 - (RACSignal *)messagesController {
+    NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
     @weakify(self);
-    return [RACObserve(self, minimumViewedDate) flattenMap:^id(NSDate *minDate) {
+    return [[RACObserve(self, minimumViewedDate) flattenMap:^id(NSDate *minDate) {
         return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
             @strongify(self);
-
-            NSManagedObjectContext *context = [NSManagedObjectContext threadContext];
-            NSFetchRequest *request = [[NSFetchRequest alloc] init];
-            NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
-            [request setEntity:entity];
-            NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
-            [sortDescriptors addObject:sortDescriptor];
-            [request setSortDescriptors:sortDescriptors];
-            request.fetchBatchSize = 20;
-
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@ AND createdAt >= %@", self.contact.user.userId, minDate ?: [NSDate date]];
-            [request setPredicate:predicate];
-
-            NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
-
             [context performBlock:^{
+                NSFetchRequest *request = [[NSFetchRequest alloc] init];
+                NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:context];
+                [request setEntity:entity];
+                NSMutableArray *sortDescriptors = [NSMutableArray array]; //@"averageRating"
+                NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:YES];
+                [sortDescriptors addObject:sortDescriptor];
+                [request setSortDescriptors:sortDescriptors];
+                request.fetchBatchSize = 20;
+
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bindedUserId = %@ AND createdAt >= %@", self.contact.user.userId, minDate ?: [NSDate date]];
+                [request setPredicate:predicate];
+
+                NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:@"createdAtDaySection" cacheName:nil];
+
                 NSError *error = nil;
                 if (![messagesController performFetch:&error]) {
                     [subscriber sendNext:error];
@@ -146,7 +266,7 @@
             }];
             return nil;
         }];
-    }];
+    }] replayLast];
 
 }
 
@@ -199,12 +319,52 @@
         minMessageFromServer = resultArray[0];
     }
     @weakify(self);
+    self.chatTableView.tableHeaderView = self.tableHeaderView;
     [[HPRequest getMessagesForUser:self.contact.user afterMessage:minMessageFromServer] subscribeCompleted:^{
         @strongify(self);
         if (self.chatTableView.contentOffset.y < MIN_SCROLLTOP_PIXEL_TO_LOAD)
             self.minimumViewedDate = [self getDateOffsetAfterDate:self.minimumViewedDate andNumberPerPage:NUMBER_PER_PAGE_LOAD];
     }];
 }
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HPChatMsgTableViewCell *cell = (HPChatMsgTableViewCell *) [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    cell.tableViewController = self;
+    return cell;
+}
+
+
+//- (NSMutableDictionary *)calculateHeightBeforeLoading:(NSFetchedResultsController *)resultsController {
+//    NSMutableDictionary *newSizesDict = [NSMutableDictionary new];
+//    BOOL lastMessageMine = NO;
+//    User *currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+//    for (Message *message in resultsController.fetchedObjects) {
+//        BOOL messageByMine = [((Message *) [message moveToContext:[NSManagedObjectContext threadContext]]).sourceId isEqualToNumber:currentUser.userId];
+//        NSManagedObjectID *objectID = message.objectID;
+//        if (!self.sizeCacheByObjectId[objectID]) {
+//            self.sizeCacheByObjectId[objectID] = @([HPChatMsgTableViewCell heightForRowWithModel:message]);
+//        }
+//        NSString *key = [self.class stringRepresentationIndexPath:[resultsController indexPathForObject:message]];
+//        if (lastMessageMine == messageByMine) {
+//            newSizesDict[key] = self.sizeCacheByObjectId[objectID];
+//        }
+//        else {
+//            lastMessageMine = messageByMine;
+//            newSizesDict[key] = @(((NSNumber *) self.sizeCacheByObjectId[objectID]).floatValue + 10);
+//        }
+//    }
+//    return newSizesDict;
+//}
+
+
+- (void)sendMessageToCurrentContactWithText:(NSString *)text {
+
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
 /*
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

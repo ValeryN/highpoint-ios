@@ -13,7 +13,8 @@
 #import "RACFetchedTableViewController.h"
 
 
-@interface HPChatViewController : RACFetchedTableViewController
+@interface HPChatViewController : RACFetchedTableViewController <UITextViewDelegate>
 @property (strong, nonatomic) Contact *contact;
+@property (nonatomic) CGFloat offsetX;
 
 @end
