@@ -107,6 +107,7 @@
         <attribute name="notsendedMessage" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="readAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="sourceId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="unreadMessage" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="chat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Chat" inverseName="message" inverseEntity="Chat" syncable="YES"/>
@@ -215,8 +216,9 @@
         <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
         <element name="Language" positionX="-396" positionY="-279" width="128" height="88"/>
         <element name="MaxEntertainmentPrice" positionX="27" positionY="-0" width="128" height="88"/>
-        <element name="Message" positionX="693" positionY="189" width="128" height="270"/>
+        <element name="Message" positionX="693" positionY="189" width="128" height="283"/>
         <element name="MinEntertainmentPrice" positionX="493" positionY="-153" width="128" height="88"/>
+        <element name="Photo" positionX="-198" positionY="-567" width="128" height="150"/>
         <element name="Place" positionX="45" positionY="167" width="128" height="118"/>
         <element name="Region" positionX="538" positionY="-522" width="128" height="118"/>
         <element name="School" positionX="-0" positionY="-711" width="128" height="88"/>
@@ -224,6 +226,5 @@
         <element name="User" positionX="-20" positionY="-531" width="128" height="508"/>
         <element name="UserFilter" positionX="538" positionY="-306" width="128" height="133"/>
         <element name="UserPoint" positionX="324" positionY="36" width="128" height="163"/>
-        <element name="Photo" positionX="-198" positionY="-567" width="128" height="150"/>
     </elements>
 </model>
