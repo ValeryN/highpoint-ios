@@ -18,7 +18,7 @@
     //return [RACSignal return:[UIImage imageNamed:@".png"]];
     User* userInContext = [self moveToContext:[NSManagedObjectContext threadContext]];
     NSString* avatarUrl = userInContext.avatar.originalImgSrc;
-    SDWebImageOptions options = 0;
+    SDWebImageOptions options = SDWebImageRetryFailed;
     if(userInContext.isCurrentUser.boolValue) {
         options |= SDWebImageDownloaderHighPriority;
     }

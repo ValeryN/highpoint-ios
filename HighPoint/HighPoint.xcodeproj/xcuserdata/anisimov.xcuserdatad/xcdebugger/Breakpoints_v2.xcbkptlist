@@ -71,7 +71,7 @@
                   symbolName = "__42+[HPRequest(Points) saveServerUsersArray:]_block_invoke_3"
                   moduleName = "HighPoint"
                   urlString = "file:///Users/anisimov/projects/HighPoint_term_version/highpoint-ios/HighPoint/HightPoint/HPRequest+Points.m"
-                  timestampString = "432572010.12934"
+                  timestampString = "432647878.622516"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "60"
@@ -85,7 +85,7 @@
                   symbolName = "__42+[HPRequest(Points) saveServerUsersArray:]_block_invoke_4"
                   moduleName = "HighPoint"
                   urlString = "file:///Users/anisimov/projects/HighPoint_term_version/highpoint-ios/HighPoint/HightPoint/HPRequest+Points.m"
-                  timestampString = "432572010.129524"
+                  timestampString = "432647878.622682"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "60"
@@ -93,6 +93,22 @@
                   offsetFromSymbolStart = "32">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HightPoint/HPMainViewListTableViewCell.m"
+            timestampString = "432642186.8229"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "-createAvatar"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
