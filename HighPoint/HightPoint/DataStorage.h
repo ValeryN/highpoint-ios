@@ -115,6 +115,9 @@ typedef void (^complationBlock) (id object);
 - (void)deleteAndSaveAllContacts;
 - (NSFetchedResultsController*) getAllContactsFetchResultsController;
 - (void) deleteAndSaveEntity:(NSManagedObject*) globalObject;
+- (void) setAndSaveMessageStatus:(MessageStatus) status forMessage:(Message *) globalMessage;
+
+
 
 
 

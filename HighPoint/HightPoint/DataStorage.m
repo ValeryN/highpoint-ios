@@ -1792,8 +1792,19 @@ static DataStorage *dataStorage;
     
 }
 
+
+- (void) setAndSaveMessageStatus:(MessageStatus) status forMessage:(Message *) globalMessage{
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        Message* message = [globalMessage MR_inContext:localContext];
+        message.status = @(status);
+        
+    } completion:^(BOOL success, NSError *error)    {
+        
+    }];
+}
+
 - (NSInteger)allUnreadMessagesCount:(User *)user {
-    
+
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"unreadMessage == 1"];
     if (user) {
@@ -1835,39 +1846,6 @@ static DataStorage *dataStorage;
     }];
 }
 
-/*
-- (void)addSaveOperationToBottomInContext:(NSManagedObjectContext *)context {
-    //NSLog(@"%@",[NSThread callStackSymbols]);
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        if (context.hasChanges) {
-            [context performBlockAndWait:^{
-                [context saveWithErrorHandler];
-            }];
-        }
-    }];
-    operation.queuePriority = NSOperationQueuePriorityLow;
-    [self.backgroundOperationQueue addOperation:operation];
-}
-
-- (void)returnObject:(NSManagedObject *)object inComplationBlock:(complationBlock)block {
-    NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSOperation *waitOperation = [NSBlockOperation blockOperationWithBlock:^{
-            if (block) {
-                if (!object.isFault) {
-                    block([object moveToContext:[NSManagedObjectContext threadContext]]);
-                }
-                else {
-                    //Object already deleted
-                    block(nil);
-                }
-            }
-        }];
-        [[NSOperationQueue mainQueue] addOperations:@[waitOperation] waitUntilFinished:YES];
-    }];
-    operation.queuePriority = NSOperationQueuePriorityLow;
-    [self.backgroundOperationQueue addOperation:operation];
-}
-*/
 
 - (void) deleteAndSaveEntity:(NSManagedObject*) globalObject{
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {

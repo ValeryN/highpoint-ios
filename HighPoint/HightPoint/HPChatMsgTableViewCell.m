@@ -16,6 +16,7 @@
 @property(weak, nonatomic) IBOutlet UILabel *textMessageLabel;
 @property(weak, nonatomic) IBOutlet UIView *backgroundOfMessage;
 @property(weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property(weak, nonatomic) IBOutlet UIImageView *spinnerView;
 
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *leftConstraint;
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *timeConstraint;
@@ -53,15 +54,23 @@
             }] takeUntil:[self rac_prepareForReuseSignal]];
         }
     }];
+
     [[RACObserve(self, leftConstraint.constant) distinctUntilChanged] subscribeNext:^(id x) {
         @strongify(self);
         [self setNeedsUpdateConstraints];
     }];
 
+    RACSignal *messageStatusSignal = RACObserve(self, message.status);
     //Configure color of bubble
-    RAC(self, backgroundOfMessage.backgroundColor) = [isCurrentUserMessage map:^id(NSNumber * value) {
-        if(value.boolValue){
-            return [UIColor colorWithRed:80.f/255.f green:227.f/255.f blue:194.f/255.f alpha:1];
+    RAC(self, backgroundOfMessage.backgroundColor) = [[RACSignal combineLatest:@[isCurrentUserMessage,messageStatusSignal]] map:^id(RACTuple * tuple) {
+        RACTupleUnpack(NSNumber *currentUser, NSNumber * messageStatus) = tuple;
+        if(currentUser.boolValue){
+            if(messageStatus.intValue == MessageStatusSendFailed) {
+                return [UIColor colorWithRed:255.f / 255.f green:80.f / 255.f blue:60.f / 255.f alpha:1];
+            }
+            else{
+                return [UIColor colorWithRed:80.f / 255.f green:227.f / 255.f blue:194.f / 255.f alpha:1];
+            }
         }
         else{
             return [UIColor colorWithRed:230.f/255.f green:236.f/255.f blue:242.f/255.f alpha:1];
@@ -80,30 +89,90 @@
     RAC(self, timeLabel.text) = [messageSignal map:^id(Message* value) {
         return [timeFormatter stringFromDate:value.createdAt];
     }];
+
+
+    [self configureTapGestureWithMenu];
+    [self configureSpinnerWithMessageStatusSignal:messageStatusSignal];
+}
+
+- (void)configureTapGestureWithMenu {
+    @weakify(self);
     UITapGestureRecognizer *tapGestureRecognizer = [UITapGestureRecognizer new];
     [[tapGestureRecognizer rac_gestureSignal] subscribeNext:^(id x) {
         @strongify(self);
         [self becomeFirstResponder];
         UIMenuController * menuController = [UIMenuController sharedMenuController];
         [menuController setTargetRect:self.backgroundOfMessage.frame inView:self];
+        NSMutableArray *buttonsArray = [NSMutableArray new];
+
         PSMenuItem *actionDelete = [[PSMenuItem alloc] initWithTitle:@"Delete" block:^{
             @strongify(self);
             [[DataStorage sharedDataStorage] deleteAndSaveEntity:self.message];
         }];
+        [buttonsArray addObject:actionDelete];
         PSMenuItem *actionCopy = [[PSMenuItem alloc] initWithTitle:@"Copy" block:^{
             @strongify(self);
             UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
             [pasteBoard setString:self.message.text];
         }];
-        [menuController setMenuItems:@[
-                actionDelete,
-                actionCopy
-        ]];
+        [buttonsArray addObject:actionCopy];
+
+        if(self.message.status.intValue == MessageStatusSendFailed){
+            PSMenuItem *actionRetry = [[PSMenuItem alloc] initWithTitle:@"Retry" block:^{
+                @strongify(self);
+                [[DataStorage sharedDataStorage] setAndSaveMessageStatus:MessageStatusSended forMessage:self.message];
+            }];
+            [buttonsArray addObject:actionRetry];
+        }
+        [menuController setMenuItems:buttonsArray];
 
         menuController.arrowDirection = UIMenuControllerArrowDown;
         [menuController setMenuVisible:YES animated:YES];
     }];
     [self addGestureRecognizer:tapGestureRecognizer];
+}
+
+- (void)configureSpinnerWithMessageStatusSignal:(RACSignal *)messageStatusSignal {
+    @weakify(self);
+    RACSignal * spinnerShowSignal = [messageStatusSignal map:^id(NSNumber * value) {
+        return @(value.intValue == MessageStatusSending);
+    }];
+    RAC(self,spinnerView.hidden) = [spinnerShowSignal not];
+
+    [[[messageStatusSignal combinePreviousWithStart:@(-1) reduce:^id(id previous, id current) {
+        return [RACTuple tupleWithObjects:previous, current, nil];
+    }] filter:^BOOL(id value) {
+        RACTupleUnpack(NSNumber * from, NSNumber * toValue) = value;
+        return from.intValue == MessageStatusUnknow && toValue.intValue == MessageStatusSending;
+    }] subscribeNext:^(id x) {
+        @strongify(self);
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        animation.fromValue = @(0);
+        animation.toValue = @(1);
+        animation.duration = 0.5f;
+        [self.spinnerView.layer addAnimation:animation forKey:@"opacityAnimation"];
+    }];
+
+    [[[spinnerShowSignal distinctUntilChanged] filter:^BOOL(NSNumber * value) {
+        return !value.boolValue;
+    }] subscribeNext:^(id x) {
+        @strongify(self);
+        CABasicAnimation* rotationAnimation;
+        rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+        rotationAnimation.fromValue = @0.0;
+        rotationAnimation.toValue = @(M_PI * 2.0f);
+        rotationAnimation.duration = 3.0f;
+        rotationAnimation.cumulative = YES;
+        rotationAnimation.repeatCount = 10;
+        [self.spinnerView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    }];
+
+    [[[spinnerShowSignal distinctUntilChanged] filter:^BOOL(NSNumber * value) {
+        return value.boolValue;
+    }] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.spinnerView.layer removeAnimationForKey:@"rotationAnimation"];
+    }];
 }
 
 

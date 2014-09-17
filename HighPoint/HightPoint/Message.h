@@ -9,6 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+typedef NS_ENUM(NSUInteger, MessageStatus){
+    MessageStatusUnknow = 0,
+    MessageStatusSending = 1,
+    MessageStatusSendFailed = 2,
+    MessageStatusSended = 3,
+    MessageStatusReaded = 4
+};
+
 @class Chat, Contact;
 
 @interface Message : NSManagedObject
@@ -28,5 +36,6 @@
 @property (nonatomic, retain) NSNumber * notsendedMessage;
 @property (nonatomic, retain) Chat *chat;
 @property (nonatomic, retain) Contact *contact;
+@property (nonatomic, retain) NSNumber* status;
 
 @end

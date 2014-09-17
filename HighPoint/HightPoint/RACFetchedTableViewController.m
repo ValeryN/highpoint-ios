@@ -154,7 +154,7 @@
     switch (type) {
         case NSFetchedResultsChangeInsert:
             if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
-                [self insertHeight:[self.cellClass heightForRowWithModel:anObject] forIndexPath:indexPath];
+                [self insertHeight:[self.cellClass heightForRowWithModel:anObject] forIndexPath:newIndexPath];
             }
             [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
@@ -171,7 +171,7 @@
             [self deleteHeightAtIndexPath:indexPath];
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
-                [self insertHeight:[self.cellClass heightForRowWithModel:anObject] forIndexPath:indexPath];
+                [self insertHeight:[self.cellClass heightForRowWithModel:anObject] forIndexPath:newIndexPath];
             }
             [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
