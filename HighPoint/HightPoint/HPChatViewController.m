@@ -64,7 +64,7 @@
 
 - (void)configureSendMessageButton {
     @weakify(self);
-    RAC(self, sendMessageButton.hidden) = [self.msgTextView.rac_textSignal map:^id(NSString *value) {
+    RAC(self, sendMessageButton.hidden) = [[RACSignal merge:@[self.msgTextView.rac_textSignal, RACObserve(self, msgTextView.text)]] map:^id(NSString *value) {
         return @(value.length == 0);
     }];
     [[self.sendMessageButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -117,18 +117,18 @@
         return @(value.length == 0);
     }] not];
 
-    RACSignal *heightForTextView = [[[self.msgTextView rac_textSignal] map:^id(NSValue *value) {
+    RACSignal *heightForTextView = [[[RACSignal merge:@[[self.msgTextView rac_textSignal], RACObserve(self, msgTextView.text)]] map:^id(NSValue *value) {
         @strongify(self);
         CGFloat fixedWidth = self.msgTextView.frame.size.width;
         CGSize newSize = [self.msgTextView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
         return @(ceilf(newSize.height));
     }] distinctUntilChanged];
-    RAC(self, msgTextViewHeight.constant) = [heightForTextView filter:^BOOL(NSNumber *value) {
-        return value.floatValue <= 80.f;
+    RAC(self, msgTextViewHeight.constant) = [heightForTextView map:^id(NSNumber *value) {
+        return value.floatValue <= 70.f?value:@70.f;
     }];
     [heightForTextView subscribeNext:^(NSNumber *value) {
         @strongify(self);
-        self.msgTextView.scrollEnabled = value.floatValue >= 80.f;
+        self.msgTextView.scrollEnabled = value.floatValue >= 70.f;
         self.msgTextView.frame = (CGRect) {self.msgTextView.frame.origin, self.msgTextView.frame.size.width, self.msgTextViewHeight.constant};
         self.msgTextView.contentSize = (CGSize) {self.msgTextView.frame.size.width, value.floatValue};
         [self.view layoutIfNeeded];

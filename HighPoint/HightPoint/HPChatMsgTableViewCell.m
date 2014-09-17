@@ -11,12 +11,15 @@
 #import "NSManagedObject+HighPoint.h"
 #import "DataStorage.h"
 #import "PSMenuItem.h"
+#import "HPChatBubbleView.h"
 
 @interface HPChatMsgTableViewCell ()
 @property(weak, nonatomic) IBOutlet UILabel *textMessageLabel;
-@property(weak, nonatomic) IBOutlet UIView *backgroundOfMessage;
+@property(weak, nonatomic) IBOutlet HPChatBubbleView *backgroundOfMessage;
 @property(weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property(weak, nonatomic) IBOutlet UIImageView *spinnerView;
+@property(weak, nonatomic) IBOutlet UIImageView *doneImageView;
+@property(weak, nonatomic) IBOutlet UIImageView *failedImageView;
 
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *leftConstraint;
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *timeConstraint;
@@ -24,6 +27,7 @@
 @end
 
 @implementation HPChatMsgTableViewCell
+
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -77,6 +81,13 @@
         }
     }];
 
+    RAC(self, backgroundOfMessage.bubbleType) = [[isCurrentUserMessage distinctUntilChanged] map:^id(NSNumber * value) {
+        if(value.boolValue)
+            return @(BubbleTypeMine);
+        else
+            return @(BubbleTypeOther);
+    }];
+
     //Configure bubble text
     RAC(self, textMessageLabel.text) = [messageSignal map:^id(Message *value) {
         return value.text;
@@ -90,10 +101,12 @@
         return [timeFormatter stringFromDate:value.createdAt];
     }];
 
-
     [self configureTapGestureWithMenu];
     [self configureSpinnerWithMessageStatusSignal:messageStatusSignal];
+    [self configureFailedIconWithMessageStatusSignal:messageStatusSignal];
+    [self configureDoneIconWithMessageStatusSignal:messageStatusSignal];
 }
+
 
 - (void)configureTapGestureWithMenu {
     @weakify(self);
@@ -120,7 +133,10 @@
         if(self.message.status.intValue == MessageStatusSendFailed){
             PSMenuItem *actionRetry = [[PSMenuItem alloc] initWithTitle:@"Retry" block:^{
                 @strongify(self);
-                [[DataStorage sharedDataStorage] setAndSaveMessageStatus:MessageStatusSended forMessage:self.message];
+                [[DataStorage sharedDataStorage] setAndSaveMessageStatus:MessageStatusSending forMessage:self.message];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [[DataStorage sharedDataStorage] setAndSaveMessageStatus:MessageStatusSent forMessage:self.message];
+                });
             }];
             [buttonsArray addObject:actionRetry];
         }
@@ -143,7 +159,7 @@
         return [RACTuple tupleWithObjects:previous, current, nil];
     }] filter:^BOOL(id value) {
         RACTupleUnpack(NSNumber * from, NSNumber * toValue) = value;
-        return from.intValue == MessageStatusUnknow && toValue.intValue == MessageStatusSending;
+        return from.intValue == MessageStatusUnknown && toValue.intValue == MessageStatusSending;
     }] subscribeNext:^(id x) {
         @strongify(self);
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
@@ -154,7 +170,7 @@
     }];
 
     [[[spinnerShowSignal distinctUntilChanged] filter:^BOOL(NSNumber * value) {
-        return !value.boolValue;
+        return value.boolValue;
     }] subscribeNext:^(id x) {
         @strongify(self);
         CABasicAnimation* rotationAnimation;
@@ -168,13 +184,42 @@
     }];
 
     [[[spinnerShowSignal distinctUntilChanged] filter:^BOOL(NSNumber * value) {
-        return value.boolValue;
+        return !value.boolValue;
     }] subscribeNext:^(id x) {
         @strongify(self);
         [self.spinnerView.layer removeAnimationForKey:@"rotationAnimation"];
     }];
 }
 
+- (void)configureDoneIconWithMessageStatusSignal:(RACSignal *)signal {
+    self.doneImageView.layer.opacity = 0;
+    @weakify(self);
+    [[[signal combinePreviousWithStart:@(-1) reduce:^id(id previous, id current) {
+        return [RACTuple tupleWithObjects:previous, current, nil];
+    }] filter:^BOOL(id value) {
+        RACTupleUnpack(NSNumber * from, NSNumber * toValue) = value;
+        return from.intValue == MessageStatusSending & toValue.intValue == MessageStatusSent;
+    }] subscribeNext:^(id x) {
+        @strongify(self);
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        animation.fromValue = @(1);
+        animation.toValue = @(0);
+        animation.duration = 1.f;
+        [self.doneImageView.layer addAnimation:animation forKey:@"opacityAnimation"];
+    }];
+
+    [self.rac_prepareForReuseSignal subscribeNext:^(id x) {
+        @strongify(self);
+        [self.doneImageView.layer removeAllAnimations];
+        self.doneImageView.layer.opacity = 0;
+    }];
+}
+
+- (void)configureFailedIconWithMessageStatusSignal:(RACSignal *)signal {
+   RAC(self,failedImageView.hidden) = [signal map:^id(NSNumber * value) {
+       return @(value.intValue != MessageStatusSendFailed);
+   }];
+}
 
 - (void)bindViewModel:(Message *)viewModel {
     self.message = viewModel;
