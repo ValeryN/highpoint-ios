@@ -37,7 +37,7 @@ typedef enum {
 - (void) sendUserTypingFinish:(NSDictionary*) param;
 - (void) sendUserNotificationRead:(NSDictionary*) param;
 - (void) sendUserAllNotificationRead:(NSDictionary*) param;
-
+- (AFHTTPRequestOperationManager*) requestOperationManager;
 
 
 

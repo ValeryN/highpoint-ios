@@ -22,11 +22,7 @@
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCurrentUserRequest];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [[HPBaseNetworkManager sharedNetworkManager] addTaskToArray:manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    AFHTTPRequestOperationManager *manager = [self requestOperationManager];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"GET CURRENT USER JSON: %@", operation.responseString);
         NSLog(@"GET CURRENT USER JSON");
@@ -71,12 +67,7 @@
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCurrentUserFilter];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    NSLog(@"USER FILTER PARAMS --> %@", param.description);
-    [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [[self requestOperationManager] POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@" FILTER JSON --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -111,11 +102,7 @@
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCareerAddRequest];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"ADD CAREER ITEM: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -145,12 +132,9 @@
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCareerDeleteRequest];
+    
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"DELETE CAREER ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -183,11 +167,7 @@
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kLanguagesAddRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:langName, @"name", nil];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"ADD LANGUAGE: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -218,11 +198,8 @@
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kLanguagesDeleteRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"DELETE LANGUAGES ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -253,11 +230,8 @@
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kPlasesAddRequest];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"ADD PLACE: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -288,11 +262,8 @@
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kPlasesDeleteRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"DELETE PLACES ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -324,11 +295,8 @@
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kEducationAddRequest];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"ADD EDUCATION: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -359,11 +327,8 @@
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kEducationDeleteRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"DELETE EDUCATION ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -396,10 +361,8 @@
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kUploadAvatarRequest];
     NSData *imageData = UIImagePNGRepresentation(image);
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    
+    [[self requestOperationManager] POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData
                                     name:@"image"
                                 fileName:@"name" mimeType:@"image/jpeg"];
@@ -433,17 +396,75 @@
         NSLog(@"Error: %@", error);
     }];
 }
-//TODO: /v201405/me/avatar/crop
+
+//TODO: /v201405/me/avatar/crop kSetUserAvatarCrop kUserPhotosSort
+- (void) setUserAvatarCrop:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:[NSString stringWithString:kUserPhotosSort]];
+    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"DELETE EDUCATION ITEMS: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
+                    
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                //[alert show];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //[alert show];
+        
+    }];
+}
+/*
+- (void) setUserAvatarCrop:(NSDictionary*) param {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:[NSString stringWithString:kSetUserAvatarCrop]];
+    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"DELETE EDUCATION ITEMS: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if(jsonDict) {
+                if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
+                    
+                }
+            } else {
+                NSLog(@"Error: %@", error.localizedDescription);
+                // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                //[alert show];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //[alert show];
+        
+    }];
+}
+ */
 - (void) getUserPhotoRequest {
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:[NSString stringWithString:kGetUserPhotoRequest]];
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
-    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    [[self requestOperationManager] GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         // NSLog(@"GET USER MESSAGES RESP JSON: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
