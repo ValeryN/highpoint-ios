@@ -23,10 +23,6 @@
 
 
 @interface HPCurrentUserPointCollectionViewCell ()
-//Private methods
-- (void)animateMainViewToTop;
-
-- (void)animateMainViewToBottom;
 
 
 //Private properties
@@ -52,6 +48,7 @@
 
 @property(nonatomic, retain) RACSignal *topApplyButtonPressed;
 @property(nonatomic, retain) RACSignal *keyboardApplyButtonPressed;
+@property(nonatomic, retain) RACSignal *keyboardHeightSignal;
 @end
 
 @implementation HPCurrentUserPointCollectionViewCell
@@ -106,17 +103,32 @@
 
 - (void)configureMainView {
     @weakify(self);
-    [[RACObserve(self, editUserPointMode) distinctUntilChanged] subscribeNext:^(NSNumber *editMode) {
+    CGFloat startY = self.frame.origin.y;
+    CGFloat startHeight = self.frame.size.height;
+    [[self keyboardHeightSignal] subscribeNext:^(id x) {
+        RACTupleUnpack(NSNumber *height, NSNumber *duration, NSNumber *options) = x;
         @strongify(self);
-        if (editMode.boolValue) {
-            [self animateMainViewToTop];
-        }
-        else {
-            [self animateMainViewToBottom];
-        }
+        [UIView animateWithDuration:duration.floatValue==0?0.3:duration.floatValue delay:0.0 options:(UIViewAnimationOptions) options.unsignedIntegerValue
+                         animations:^{
+                             self.frame = CGRectMake(self.frame.origin.x, startY - height.floatValue, self.frame.size.width, self.frame.size.height);
+                         }
+                         completion:^(BOOL finished) {
+                         }];
     }];
 }
 
+- (RACSignal *)keyboardHeightSignal {
+    if (!_keyboardHeightSignal) {
+        RACSignal *keyboardChangeHeight = [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillChangeFrameNotification object:nil] map:^id(NSNotification *value) {
+            return [RACTuple tupleWithObjects:@([value.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height), value.userInfo[UIKeyboardAnimationDurationUserInfoKey], value.userInfo[UIKeyboardAnimationCurveUserInfoKey], nil];
+        }] takeUntil:[self rac_willDeallocSignal]];
+        RACSignal *keyboardHidden = [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil] map:^id(NSNotification *value) {
+            return [RACTuple tupleWithObjects:@(0), value.userInfo[UIKeyboardAnimationDurationUserInfoKey], value.userInfo[UIKeyboardAnimationCurveUserInfoKey], nil];
+        }] takeUntil:[self rac_willDeallocSignal]];
+        _keyboardHeightSignal = [[[RACSignal return:[RACTuple tupleWithObjects:@(0), @(0), @(0), nil]] concat:[RACSignal merge:@[keyboardChangeHeight, keyboardHidden]]] replayLast];
+    }
+    return _keyboardHeightSignal;
+}
 
 //Counter of symbols in textView
 - (void)configurePointInfoLabel {
@@ -471,24 +483,4 @@
 
 #pragma mark - animation
 
-- (void)animateMainViewToTop {
-    __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         weakSelf.frame = CGRectMake(weakSelf.frame.origin.x, weakSelf.frame.origin.y - 115, weakSelf.frame.size.width, weakSelf.frame.size.height + 115);
-                     }
-                     completion:^(BOOL finished) {
-                     }];
-}
-
-- (void)animateMainViewToBottom {
-    __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         weakSelf.frame = CGRectMake(weakSelf.frame.origin.x, weakSelf.frame.origin.y + 115, weakSelf.frame.size.width, weakSelf.frame.size.height - 115);
-                     }
-                     completion:^(BOOL finished) {
-                     }];
-
-}
 @end

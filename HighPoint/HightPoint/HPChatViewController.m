@@ -40,7 +40,7 @@
 @property(nonatomic) BOOL inputMode;
 
 
-@property(nonatomic, retain) RACSignal *keyboardHeight;
+@property(nonatomic, retain) RACSignal *keyboardHeightSignal;
 @end
 
 
@@ -76,7 +76,7 @@
 
 - (void)configureInputMode {
     @weakify(self);
-    [[self keyboardHeight] subscribeNext:^(RACTuple *x) {
+    [[self keyboardHeightSignal] subscribeNext:^(RACTuple *x) {
         @strongify(self);
         RACTupleUnpack(NSNumber *height, NSNumber *duration, NSNumber *options) = x;
         [self.view layoutIfNeeded];
@@ -88,20 +88,21 @@
     }];
 }
 
-- (RACSignal *)keyboardHeight {
-    if (!_keyboardHeight) {
+- (RACSignal *)keyboardHeightSignal {
+    if (!_keyboardHeightSignal) {
         RACSignal *keyboardChangeHeight = [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillChangeFrameNotification object:nil] map:^id(NSNotification *value) {
             return [RACTuple tupleWithObjects:@([value.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height), value.userInfo[UIKeyboardAnimationDurationUserInfoKey], value.userInfo[UIKeyboardAnimationCurveUserInfoKey], nil];
         }] takeUntil:[self rac_willDeallocSignal]];
         RACSignal *keyboardHidden = [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillHideNotification object:nil] map:^id(NSNotification *value) {
             return [RACTuple tupleWithObjects:@(0), value.userInfo[UIKeyboardAnimationDurationUserInfoKey], value.userInfo[UIKeyboardAnimationCurveUserInfoKey], nil];
         }] takeUntil:[self rac_willDeallocSignal]];
-        _keyboardHeight = [[[RACSignal return:[RACTuple tupleWithObjects:@(0), @(0), @(0), nil]] concat:[RACSignal merge:@[keyboardChangeHeight, keyboardHidden]]] replayLast];
+        _keyboardHeightSignal = [[[RACSignal return:[RACTuple tupleWithObjects:@(0), @(0), @(0), nil]] concat:[RACSignal merge:@[keyboardChangeHeight, keyboardHidden]]] replayLast];
     }
-    return _keyboardHeight;
+    return _keyboardHeightSignal;
 }
 
-- (void)configureInputView {
+- (void)configureInputView
+{
     self.msgTextView.delegate = self;
     @weakify(self);
     UISwipeGestureRecognizer *swipeGestureRecognizer = [UISwipeGestureRecognizer new];
