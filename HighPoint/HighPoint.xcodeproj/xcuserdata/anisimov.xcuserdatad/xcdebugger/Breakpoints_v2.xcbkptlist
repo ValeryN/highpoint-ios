@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HightPoint/HPBaseNetworkManager.m"
-            timestampString = "432115441.325567"
+            timestampString = "432731915.089115"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "378"
-            endingLineNumber = "378">
+            startingLineNumber = "385"
+            endingLineNumber = "385">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -40,11 +40,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HightPoint/HPBaseNetworkManager.m"
-            timestampString = "432457290.586303"
+            timestampString = "432731915.089115"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
             landmarkName = "-socketIO:didReceiveEvent:"
             landmarkType = "5">
          </BreakpointContent>
@@ -71,12 +71,12 @@
                   symbolName = "__42+[HPRequest(Points) saveServerUsersArray:]_block_invoke_3"
                   moduleName = "HighPoint"
                   urlString = "file:///Users/anisimov/projects/HighPoint_term_version/highpoint-ios/HighPoint/HightPoint/HPRequest+Points.m"
-                  timestampString = "432647878.622516"
+                  timestampString = "432743710.521462"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "60"
                   endingLineNumber = "60"
-                  offsetFromSymbolStart = "68">
+                  offsetFromSymbolStart = "61">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -85,12 +85,12 @@
                   symbolName = "__42+[HPRequest(Points) saveServerUsersArray:]_block_invoke_4"
                   moduleName = "HighPoint"
                   urlString = "file:///Users/anisimov/projects/HighPoint_term_version/highpoint-ios/HighPoint/HightPoint/HPRequest+Points.m"
-                  timestampString = "432647878.622682"
+                  timestampString = "432743710.521816"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "60"
                   endingLineNumber = "60"
-                  offsetFromSymbolStart = "32">
+                  offsetFromSymbolStart = "52">
                </Location>
             </Locations>
          </BreakpointContent>
