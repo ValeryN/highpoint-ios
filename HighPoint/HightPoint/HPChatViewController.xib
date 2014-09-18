@@ -64,7 +64,9 @@
                                 <constraint firstAttribute="height" constant="30" id="A1C-7O-C0U"/>
                                 <constraint firstAttribute="width" constant="46" id="BEX-Wn-kif"/>
                             </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                             <state key="normal" title="Отпр.">
+                                <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>

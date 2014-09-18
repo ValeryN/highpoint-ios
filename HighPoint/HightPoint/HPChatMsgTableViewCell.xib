@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="310" height="41"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Rg-Cu-eU6">
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Rg-Cu-eU6" customClass="HPChatBubbleView">
                         <rect key="frame" x="8" y="15" width="245" height="68"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Супер крутое сообщение. Привет, а у тебя как дела?" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="225" translatesAutoresizingMaskIntoConstraints="NO" id="4mN-PI-Bki">
@@ -36,9 +36,6 @@
                             <constraint firstItem="4mN-PI-Bki" firstAttribute="leading" secondItem="1Rg-Cu-eU6" secondAttribute="leading" constant="10" id="ftz-MW-gX7"/>
                             <constraint firstAttribute="bottom" secondItem="4mN-PI-Bki" secondAttribute="bottom" constant="3" id="laG-Rg-yI5"/>
                         </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="10"/>
-                        </userDefinedRuntimeAttributes>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fAX-DJ-lO3" userLabel="Time Label">
                         <rect key="frame" x="-52" y="40" width="39" height="17"/>
@@ -57,20 +54,40 @@
                             <constraint firstAttribute="height" constant="23" id="kpP-Ro-uUK"/>
                         </constraints>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Chat Delivered" translatesAutoresizingMaskIntoConstraints="NO" id="sFu-oj-cte" userLabel="Delivered">
+                        <rect key="frame" x="-25" y="37" width="23" height="23"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="23" id="G8X-VL-9eC"/>
+                            <constraint firstAttribute="height" constant="23" id="Xhm-rM-iNf"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Chat Not Delivered" translatesAutoresizingMaskIntoConstraints="NO" id="aAT-6k-Zj0" userLabel="Not sended">
+                        <rect key="frame" x="-25" y="37" width="23" height="23"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="23" id="5rj-e4-5cG"/>
+                            <constraint firstAttribute="width" constant="23" id="dK7-0z-IbK"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
+                    <constraint firstItem="aAT-6k-Zj0" firstAttribute="centerY" secondItem="eOr-14-yHM" secondAttribute="centerY" id="0x8-f6-wY1"/>
                     <constraint firstItem="4mN-PI-Bki" firstAttribute="centerY" secondItem="fAX-DJ-lO3" secondAttribute="centerY" id="1sW-WP-548"/>
+                    <constraint firstItem="aAT-6k-Zj0" firstAttribute="centerX" secondItem="eOr-14-yHM" secondAttribute="centerX" id="25M-oU-CmP"/>
                     <constraint firstItem="1Rg-Cu-eU6" firstAttribute="leading" secondItem="eOr-14-yHM" secondAttribute="trailing" constant="10" id="OZm-Sx-gz2"/>
+                    <constraint firstItem="sFu-oj-cte" firstAttribute="centerX" secondItem="eOr-14-yHM" secondAttribute="centerX" id="ZsP-bQ-Xy6"/>
                     <constraint firstItem="1Rg-Cu-eU6" firstAttribute="leading" secondItem="WHe-9O-HzV" secondAttribute="leadingMargin" id="azR-v9-Kmx"/>
                     <constraint firstItem="fAX-DJ-lO3" firstAttribute="centerX" secondItem="WHe-9O-HzV" secondAttribute="leadingMargin" constant="-40" id="b4K-dY-Be8"/>
                     <constraint firstItem="4mN-PI-Bki" firstAttribute="centerY" secondItem="eOr-14-yHM" secondAttribute="centerY" id="cpm-i8-6qF"/>
+                    <constraint firstItem="sFu-oj-cte" firstAttribute="centerY" secondItem="eOr-14-yHM" secondAttribute="centerY" id="gfr-aR-h3f"/>
                     <constraint firstAttribute="bottomMargin" secondItem="1Rg-Cu-eU6" secondAttribute="bottom" constant="2" id="gr2-7R-dg8"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
                 <outlet property="backgroundOfMessage" destination="1Rg-Cu-eU6" id="v10-jJ-JeB"/>
+                <outlet property="doneImageView" destination="sFu-oj-cte" id="5sn-Cx-b6j"/>
+                <outlet property="failedImageView" destination="aAT-6k-Zj0" id="GE4-gK-z71"/>
                 <outlet property="leftConstraint" destination="azR-v9-Kmx" id="szZ-RI-Dcl"/>
                 <outlet property="spinnerView" destination="eOr-14-yHM" id="anV-ah-PsB"/>
                 <outlet property="textMessageLabel" destination="4mN-PI-Bki" id="Hne-HI-Lcb"/>
@@ -81,6 +98,8 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="Chat Delivered" width="23" height="23"/>
+        <image name="Chat Not Delivered" width="23" height="23"/>
         <image name="Spinner" width="23" height="23"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

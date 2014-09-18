@@ -10,11 +10,11 @@
 #import <CoreData/CoreData.h>
 
 typedef NS_ENUM(NSUInteger, MessageStatus){
-    MessageStatusUnknow = 0,
+    MessageStatusUnknown = 0,
     MessageStatusSending = 1,
     MessageStatusSendFailed = 2,
-    MessageStatusSended = 3,
-    MessageStatusReaded = 4
+    MessageStatusSent = 3,
+    MessageStatusRead = 4
 };
 
 @class Chat, Contact;
