@@ -16,6 +16,9 @@
 
 @property(nonatomic, retain) NSMutableArray *sizesTmpArray;
 @property(nonatomic, retain) NSMutableArray *sizesArray;
+
+@property(nonatomic, retain) NSMutableDictionary* indexToInsertInUpdate;
+@property(nonatomic, retain) NSMutableDictionary* indexToDeleteInUpdate;
 @end
 
 @implementation RACFetchedTableViewController {
@@ -81,10 +84,13 @@
     @synchronized (self.sizesArray) {
         [self deleteCacheAllHeight];
         for (Message *message in resultsController.fetchedObjects) {
-            // [operationQueue addOperationWithBlock:^{
-            NSManagedObjectID *objectID = message.objectID;
             if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
-                [self insertHeight:[self.cellClass heightForRowWithModel:message] forIndexPath:[resultsController indexPathForObject:message]];
+                NSIndexPath * path = [resultsController indexPathForObject:message];
+                CGFloat height = [self.cellClass heightForRowWithModel:message];
+                if (self.sizesTmpArray.count <= path.section)
+                    [self.sizesTmpArray insertObject:[NSMutableArray new] atIndex:path.section];
+                NSMutableArray* sectionArray = ((NSMutableArray *) self.sizesTmpArray[(NSUInteger) path.section]);
+                [sectionArray insertObject:@(height) atIndex:(NSUInteger) path.row];
             }
         }
         [self updateCacheHeight];
@@ -126,6 +132,8 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     [self.rac_tableView beginUpdates];
+    self.indexToDeleteInUpdate = [NSMutableDictionary new];
+    self.indexToInsertInUpdate = [NSMutableDictionary new];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id)sectionInfo
@@ -154,7 +162,7 @@
     switch (type) {
         case NSFetchedResultsChangeInsert:
             if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
-                [self insertHeight:[self.cellClass heightForRowWithModel:anObject] forIndexPath:newIndexPath];
+                self.indexToInsertInUpdate[newIndexPath] = @([self.cellClass heightForRowWithModel:anObject]);
             }
             [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
@@ -168,10 +176,10 @@
             break;
 
         case NSFetchedResultsChangeMove:
-            [self deleteHeightAtIndexPath:indexPath];
+            self.indexToDeleteInUpdate[indexPath] = @YES;
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
-                [self insertHeight:[self.cellClass heightForRowWithModel:anObject] forIndexPath:newIndexPath];
+                self.indexToInsertInUpdate[newIndexPath] = @([self.cellClass heightForRowWithModel:anObject]);
             }
             [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
@@ -179,11 +187,16 @@
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    NSSortDescriptor *rowDescriptor = [[NSSortDescriptor alloc] initWithKey:@"row" ascending:YES];
+    NSSortDescriptor *sectionDescriptor = [[NSSortDescriptor alloc] initWithKey:@"section" ascending:YES];
+    NSArray* indexToDelete = [[[self.indexToDeleteInUpdate.allKeys sortedArrayUsingDescriptors:@[sectionDescriptor,rowDescriptor]] reverseObjectEnumerator] allObjects];
+    for(NSIndexPath * path in indexToDelete)
+        [self deleteHeightAtIndexPath:path];
+    
+    NSArray* indexToInsert = [self.indexToInsertInUpdate.allKeys sortedArrayUsingDescriptors:@[sectionDescriptor,rowDescriptor]];
+    for(NSIndexPath * path in indexToInsert)
+        [self insertHeight:((NSNumber*)self.indexToInsertInUpdate[path]).floatValue forIndexPath:path];
     [self.rac_tableView endUpdates];
-}
-
-+ (NSString *)stringRepresentationIndexPath:(NSIndexPath *)path {
-    return [NSString stringWithFormat:@"%d,%d", path.section, path.item];
 }
 
 - (CGFloat)getCacheHeightForIndexPath:(NSIndexPath *)path {
@@ -191,25 +204,26 @@
 }
 
 - (void)setHeight:(CGFloat)height forIndexPath:(NSIndexPath *)path {
-    self.sizesTmpArray[(NSUInteger) path.section][(NSUInteger) path.row] = @(height);
+    self.sizesArray[(NSUInteger) path.section][(NSUInteger) path.row] = @(height);
 }
 
 - (void)insertHeight:(CGFloat)height forIndexPath:(NSIndexPath *)path {
-    if (self.sizesTmpArray.count <= path.section)
+    if (self.sizesArray.count <= path.section)
         [self insertSectionAtIndex:path.section];
-    [((NSMutableArray *) self.sizesTmpArray[(NSUInteger) path.section]) insertObject:@(height) atIndex:(NSUInteger) path.row];
+    NSMutableArray* sectionArray = ((NSMutableArray *) self.sizesTmpArray[(NSUInteger) path.section]);
+    [sectionArray insertObject:@(height) atIndex:(NSUInteger) path.row];
 }
 
 - (void)deleteHeightAtIndexPath:(NSIndexPath *)path {
-    [((NSMutableArray *) self.sizesTmpArray[(NSUInteger) path.section]) removeObjectAtIndex:(NSUInteger) path.row];
+    [((NSMutableArray *) self.sizesArray[(NSUInteger) path.section]) removeObjectAtIndex:(NSUInteger) path.row];
 }
 
 - (void)insertSectionAtIndex:(NSInteger)index {
-    [self.sizesTmpArray insertObject:[NSMutableArray new] atIndex:(NSUInteger) index];
+    [self.sizesArray insertObject:[NSMutableArray new] atIndex:(NSUInteger) index];
 }
 
 - (void)deleteSectionAtIndex:(NSInteger)index {
-    [self.sizesTmpArray removeObjectAtIndex:(NSUInteger) index];
+    [self.sizesArray removeObjectAtIndex:(NSUInteger) index];
 }
 
 - (void)deleteCacheAllHeight {
