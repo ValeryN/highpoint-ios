@@ -48,6 +48,7 @@
 {
     self.layer.mask = nil;
     self.layer.mask = [HPChatBubbleView maskWithRect:self.bounds andType:self.bubbleType];
+    [super layoutSubviews];
 }
 
 - (void)setBubbleType:(BubbleType)bubbleType {

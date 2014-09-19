@@ -31,9 +31,17 @@
     [self configureNavigationBar];
     [self configureFullScreenMode];
     [self configureDeleteButton];
+    [self configureSetUserPicButton];
 
     [self.carousel scrollToItemAtIndex:self.selectedPhoto animated:NO];
 
+}
+
+- (void)configureSetUserPicButton {
+    RAC(self, setUserPicButton.hidden) = [[[RACSignal combineLatest:@[[[self isCurrentUserPicSignal] not], [self isPhotoDeletedSignal]]] and] not];
+    [[self.setUserPicButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -78,15 +86,9 @@
 
 - (void)configureDeleteButton {
     @weakify(self);
-    RACSignal *showDeleteFunctionSignal = [[RACSignal combineLatest:@[self.selectedPhotoSignal, RACObserve(self, deletedPhotoIndex)]] map:^id(RACTuple *value) {
-        RACTupleUnpack(NSNumber *selectedPhoto, NSArray *deletedArray) = value;
-        return @(![deletedArray containsObject:selectedPhoto]);
-    }];
-    RACSignal *isCurrentUserPic = [[RACSignal combineLatest:@[self.selectedPhotoSignal, RACObserve(self, userPicIndex)]] map:^id(RACTuple *value) {
-        RACTupleUnpack(NSNumber *currentPhoto, NSNumber *userPicIndex) = value;
-        return @([currentPhoto isEqualToNumber:userPicIndex ?: @(-1)]);
-    }];
-    RAC(self, setUserPicButton.hidden) = [[[RACSignal combineLatest:@[[isCurrentUserPic not], showDeleteFunctionSignal]] and] not];
+    RACSignal *showDeleteFunctionSignal = [self isPhotoDeletedSignal];
+    RACSignal *isCurrentUserPic = [self isCurrentUserPicSignal];
+
     RAC(self, deletePicButton.hidden) = [[[RACSignal combineLatest:@[[isCurrentUserPic not], showDeleteFunctionSignal]] and] not];
     RAC(self, cancelDeleteButton.hidden) = showDeleteFunctionSignal;
 
@@ -105,6 +107,22 @@
         [self cancelDeletePhotoAtIndex:selectedPhoto];
     }];
 
+}
+
+- (RACSignal *)isCurrentUserPicSignal {
+    RACSignal *isCurrentUserPic = [[RACSignal combineLatest:@[self.selectedPhotoSignal, RACObserve(self, userPicIndex)]] map:^id(RACTuple *value) {
+        RACTupleUnpack(NSNumber *currentPhoto, NSNumber *userPicIndex) = value;
+        return @([currentPhoto isEqualToNumber:userPicIndex ?: @(-1)]);
+    }];
+    return isCurrentUserPic;
+}
+
+- (RACSignal *)isPhotoDeletedSignal {
+    RACSignal *showDeleteFunctionSignal = [[RACSignal combineLatest:@[self.selectedPhotoSignal, RACObserve(self, deletedPhotoIndex)]] map:^id(RACTuple *value) {
+        RACTupleUnpack(NSNumber *selectedPhoto, NSArray *deletedArray) = value;
+        return @(![deletedArray containsObject:selectedPhoto]);
+    }];
+    return showDeleteFunctionSignal;
 }
 
 - (UIBarButtonItem *)leftBarButtonItem {
