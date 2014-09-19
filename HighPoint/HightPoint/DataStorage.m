@@ -1775,6 +1775,8 @@ static DataStorage *dataStorage;
         return nil;
     }
     if(predicate) {
+        //NSArray *sch = [Message findByAttribute:@"" withValue:[messId intValue] andOrderBy:NO];//findByAttribute:withValue:andOrderBy:ascending:
+        //NSArray *sch = [Message findByAttribute:@"id_" withValue:messId inContext:[NSManagedObjectContext MR_defaultContext]];
         NSArray *sch = [Message findAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
         if(sch.count > 0) return sch[0];
         else return nil;

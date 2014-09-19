@@ -21,4 +21,5 @@
 - (void) deleteEducationItemRequest:(NSString*) ids;
 - (void) setUserAvatarRequest : (UIImage *) image;
 - (void) getUserPhotoRequest;
+- (void) setUserAvatarCrop:(NSDictionary*) param;
 @end

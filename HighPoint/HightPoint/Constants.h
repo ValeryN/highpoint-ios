@@ -58,7 +58,8 @@ static NSString * const kUserInfoRequest = @"/v201405/users/%@";
 static NSString * const kUploadAvatarRequest = @"/v201405/me/avatar/add";
 static NSString * const kDeletePhotoRequest = @"/v201405/photos/%@/remove";
 static NSString * const kGetUserPhotoRequest = @"/v201405/me/photos";
-
+static NSString * const kSetUserAvatarCrop = @"/v201405/me/avatar/crop";
+static NSString * const kUserPhotosSort =  @"/v201405/me/photos/sort";
 
 //socket io constants
 static NSString * const kSendMessage = @"sendMessage";

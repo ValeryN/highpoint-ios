@@ -42,14 +42,15 @@
                 
                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:users] forUserType:ContactUserType withComplation:^(NSError *error) {
                     if(!error) {
+                        NSLog(@"mess %d", [lastMsgs allKeys].count);
                         for (id key in [lastMsgs allKeys]) {
                             User *user = [[DataStorage sharedDataStorage] getUserForId:[NSNumber numberWithInt:[key intValue]]];
+                            
                             [[DataStorage sharedDataStorage] createAndSaveMessage:[lastMsgs objectForKey:key] forUserId:user.userId andMessageType:LastMessageType withComplation:^(Message *lastMsg) {
                                 [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:^(id object) {
                                     [self getChatMsgsForUser:user.userId :nil];
                                 }];
                             }];
-                            break;
                         }
                     }
                 }];

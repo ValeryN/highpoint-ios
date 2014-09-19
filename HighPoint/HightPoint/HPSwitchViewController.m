@@ -88,8 +88,9 @@
 {
     if ((!self.switchState) && (recognizer.direction == UISwipeGestureRecognizerDirectionRight))
     {
-        [self moveSwitchToRight];
         self.switchState = !self.switchState;
+        [self moveSwitchToRight];
+        
     }
 }
 
@@ -99,8 +100,9 @@
 {
     if ((self.switchState) && (recognizer.direction == UISwipeGestureRecognizerDirectionLeft))
     {
-        [self moveSwitchToLeft];
         self.switchState = !self.switchState;
+        [self moveSwitchToLeft];
+        
     }
 }
 
@@ -124,6 +126,7 @@
                                  }];
     if (_delegate == nil)
         return;
+    
     [_delegate switchedToRight];
 
 }
@@ -149,6 +152,7 @@
 
     if (_delegate == nil)
         return;
+    
     [_delegate switchedToLeft];
 }
 

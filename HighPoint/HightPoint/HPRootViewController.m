@@ -391,20 +391,23 @@
                       withVelocity: (CGPoint)velocity
                targetContentOffset: (inout CGPoint*) targetContentOffset
 {
+    NSLog(@"%f", velocity.y);
     if (velocity.y > 0)
     {
-        if (_filterGroupView.frame.origin.y != [self topFilterBorder])
-            return;
+        //if (_filterGroupView.frame.origin.y != [self topFilterBorder])
+        //    return;
 
-        [self hideFilters];
+       [self showFilters];
     }
 
     if (velocity.y < 0)
     {
-        if (_filterGroupView.frame.origin.y != [self bottomFilterBorder])
-            return;
+        NSLog(@"%f", [self bottomFilterBorder]);
+        
+        //if (_filterGroupView.frame.origin.y != [self bottomFilterBorder])
+        //    return;
 
-        [self showFilters];
+        [self hideFilters];
     }
 }
 
