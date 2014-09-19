@@ -398,7 +398,7 @@
 }
 
 //TODO: /v201405/me/avatar/crop kSetUserAvatarCrop kUserPhotosSort
-- (void) setUserAvatarCrop:(NSDictionary*) param {
+- (void) setUserPhotoSort:(NSDictionary*) param {
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:[NSString stringWithString:kUserPhotosSort]];

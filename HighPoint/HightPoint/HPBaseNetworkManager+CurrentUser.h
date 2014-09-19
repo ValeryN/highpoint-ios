@@ -22,4 +22,5 @@
 - (void) setUserAvatarRequest : (UIImage *) image;
 - (void) getUserPhotoRequest;
 - (void) setUserAvatarCrop:(NSDictionary*) param;
+- (void) setUserPhotoSort:(NSDictionary*) param;
 @end

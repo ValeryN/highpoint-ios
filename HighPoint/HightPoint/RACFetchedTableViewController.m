@@ -82,6 +82,8 @@
         [self deleteCacheAllHeight];
         for (Message *message in resultsController.fetchedObjects) {
             // [operationQueue addOperationWithBlock:^{
+            NSLog(@"mess count %d",resultsController.fetchedObjects.count);
+            
             NSManagedObjectID *objectID = message.objectID;
             if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
                 [self insertHeight:[self.cellClass heightForRowWithModel:message] forIndexPath:[resultsController indexPathForObject:message]];
@@ -195,9 +197,11 @@
 }
 
 - (void)insertHeight:(CGFloat)height forIndexPath:(NSIndexPath *)path {
+    
     if (self.sizesTmpArray.count <= path.section)
         [self insertSectionAtIndex:path.section];
     [((NSMutableArray *) self.sizesTmpArray[(NSUInteger) path.section]) insertObject:@(height) atIndex:(NSUInteger) path.row];
+    
 }
 
 - (void)deleteHeightAtIndexPath:(NSIndexPath *)path {
