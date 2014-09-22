@@ -44,6 +44,7 @@
 @property(weak, nonatomic) IBOutlet UIButton *cancelDelBtn;
 
 @property (nonatomic, strong) IBOutletCollection(NSLayoutConstraint ) NSArray *constraintFor4inch;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *keyboardOffsetConstraints;
 
 
 @property(nonatomic, retain) RACSignal *topApplyButtonPressed;
@@ -105,15 +106,42 @@
     @weakify(self);
     CGFloat startY = self.frame.origin.y;
     CGFloat startHeight = self.frame.size.height;
-    [[self keyboardHeightSignal] subscribeNext:^(id x) {
+
+    [[RACSignal combineLatest:@[[RACObserve(self, editUserPointMode) distinctUntilChanged],[self keyboardHeightSignal]]] subscribeNext:^(RACTuple* tuple) {
+        NSNumber *editMode = tuple[0];
+        RACTuple* x = tuple[1];
         RACTupleUnpack(NSNumber *height, NSNumber *duration, NSNumber *options) = x;
         @strongify(self);
-        [UIView animateWithDuration:duration.floatValue==0?0.3:duration.floatValue delay:0.0 options:(UIViewAnimationOptions) options.unsignedIntegerValue
-                         animations:^{
-                             self.frame = CGRectMake(self.frame.origin.x, startY - height.floatValue, self.frame.size.width, self.frame.size.height);
-                         }
-                         completion:^(BOOL finished) {
-                         }];
+        if(height.floatValue > 0) {
+            [UIView animateWithDuration:duration.floatValue == 0 ? 0.3 : duration.floatValue delay:0.0 options:(UIViewAnimationOptions) options.unsignedIntegerValue
+                             animations:^{
+                                 @strongify(self);
+                                 self.frame = CGRectMake(self.frame.origin.x, startY - (height.floatValue - 115), self.frame.size.width, self.frame.size.height);
+                                 self.keyboardOffsetConstraints.constant = height.floatValue - 115;
+                             }
+                             completion:^(BOOL finished) {
+                             }];
+        }
+        else if(editMode.boolValue){
+            [UIView animateWithDuration:duration.floatValue == 0 ? 0.3 : duration.floatValue delay:0.0 options:(UIViewAnimationOptions) options.unsignedIntegerValue
+                             animations:^{
+                                 @strongify(self);
+                                 self.frame = CGRectMake(self.frame.origin.x, startY - 115, self.frame.size.width, startHeight + 115);
+                                 self.keyboardOffsetConstraints.constant = 1;
+                             }
+                             completion:^(BOOL finished) {
+                             }];
+        }
+        else{
+            [UIView animateWithDuration:duration.floatValue == 0 ? 0.3 : duration.floatValue delay:0.0 options:(UIViewAnimationOptions) options.unsignedIntegerValue
+                             animations:^{
+                                 @strongify(self);
+                                 self.frame = CGRectMake(self.frame.origin.x, startY, self.frame.size.width, startHeight);
+                                 self.keyboardOffsetConstraints.constant = 1;
+                             }
+                             completion:^(BOOL finished) {
+                             }];
+        }
     }];
 }
 
@@ -444,6 +472,7 @@
         @strongify(self)
         return @([self symbolsInPostIsAvailableToPost]);
     }];
+
     rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:enableSignal signalBlock:^RACSignal *(id input) {
         @strongify(self)
         self.topApplyButtonPressed = [RACSignal return:@YES];
@@ -483,4 +512,24 @@
 
 #pragma mark - animation
 
+- (void)animateMainViewToTop {
+    __weak typeof(self) weakSelf = self;
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         weakSelf.frame = CGRectMake(weakSelf.frame.origin.x, weakSelf.frame.origin.y - 115, weakSelf.frame.size.width, weakSelf.frame.size.height + 115);
+                     }
+                     completion:^(BOOL finished) {
+                     }];
+}
+
+- (void)animateMainViewToBottom {
+    __weak typeof(self) weakSelf = self;
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         weakSelf.frame = CGRectMake(weakSelf.frame.origin.x, weakSelf.frame.origin.y + 115, weakSelf.frame.size.width, weakSelf.frame.size.height - 115);
+                     }
+                     completion:^(BOOL finished) {
+                     }];
+
+}
 @end

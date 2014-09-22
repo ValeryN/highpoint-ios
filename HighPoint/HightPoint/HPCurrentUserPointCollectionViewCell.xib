@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,7 +16,6 @@
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ваш поинт" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HfE-sU-Wr3">
                         <rect key="frame" x="20" y="7" width="280" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="1b4-CE-BTl"/>
                         </constraints>
@@ -26,7 +25,6 @@
                     </label>
                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_sample1.png" translatesAutoresizingMaskIntoConstraints="NO" id="GRk-BE-bsn">
                         <rect key="frame" x="8" y="42" width="304" height="304"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="304" id="fQ0-pv-l0G"/>
                             <constraint firstAttribute="width" constant="304" id="mtU-Bf-ZIW"/>
@@ -34,11 +32,9 @@
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Blend 5X.png" translatesAutoresizingMaskIntoConstraints="NO" id="53x-97-7YF">
                         <rect key="frame" x="8" y="218" width="310" height="128"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Поинт не опубликован" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PRn-Mu-tVe">
                         <rect key="frame" x="20" y="365" width="280" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="280" id="D0X-Qa-1dX"/>
                             <constraint firstAttribute="height" constant="21" id="Mfh-GE-J7R"/>
@@ -49,7 +45,6 @@
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RoZ-6z-yzU">
                         <rect key="frame" x="66" y="405" width="188" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="32" id="LAJ-c0-xlr"/>
                             <constraint firstAttribute="width" constant="188" id="euG-F9-b7f"/>
@@ -63,7 +58,6 @@
                     </button>
                     <textView multipleTouchEnabled="YES" contentMode="scaleToFill" text="Напишите здесь о ваших планах или желаниях на ближайший вечер. Это сообщение увидят все люди из вашего города." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="TfR-Za-la0">
                         <rect key="frame" x="16" y="245" width="288" height="90"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="90" id="DGl-JE-VZ8"/>
@@ -75,7 +69,6 @@
                     </textView>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ud8-cD-fuE">
                         <rect key="frame" x="66" y="405" width="188" height="34"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="188" id="9UN-XE-8Vb"/>
                             <constraint firstAttribute="height" constant="34" id="spb-HO-YvV"/>
@@ -89,11 +82,9 @@
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1mX-xx-3Qa">
                         <rect key="frame" x="0.0" y="408" width="320" height="215"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="6" minValue="0.0" maxValue="12" translatesAutoresizingMaskIntoConstraints="NO" id="MLS-E9-Pf0" customClass="HPSlider">
                                 <rect key="frame" x="30" y="48" width="260" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -103,7 +94,6 @@
                             </slider>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Установите актуальное время действия вашего поинта" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="264" translatesAutoresizingMaskIntoConstraints="NO" id="tXV-93-33x">
                                 <rect key="frame" x="28" y="85" width="264" height="57"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="264" id="7qJ-2E-AkC"/>
                                     <constraint firstAttribute="height" constant="57" id="ndf-ez-qNi"/>
@@ -114,7 +104,6 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nkk-TC-7q8">
                                 <rect key="frame" x="91" y="153" width="138" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="hQi-Wn-hGx"/>
                                     <constraint firstAttribute="width" constant="138" id="zLT-3f-iAg"/>
@@ -142,19 +131,16 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2a-9C-wZ6">
-                        <rect key="frame" x="0.0" y="408" width="320" height="215"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <rect key="frame" x="0.0" y="418" width="320" height="215"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Если вы удалите текущий поинт сейчасс, то сможете опубликовать новый только через час. Хотите удалить его?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="KxF-iX-zFR">
                                 <rect key="frame" x="30" y="7" width="260" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <color key="textColor" red="0.89721145069999997" green="0.01936017336" blue="0.14202212589999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aj3-L2-t2u">
                                 <rect key="frame" x="90" y="113" width="139" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <state key="normal" title="Удалить поинт" backgroundImage="green_btn.png">
                                     <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -164,7 +150,6 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x4s-tk-4AG">
                                 <rect key="frame" x="119" y="161" width="82" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <state key="normal" title="Отменить">
                                     <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -193,10 +178,11 @@
                 <constraint firstItem="PRn-Mu-tVe" firstAttribute="top" secondItem="TfR-Za-la0" secondAttribute="bottom" constant="30" id="BwM-17-dJ5"/>
                 <constraint firstItem="GRk-BE-bsn" firstAttribute="leading" secondItem="B7C-Rk-Jqu" secondAttribute="leading" constant="8" id="Byz-M9-whu"/>
                 <constraint firstItem="1mX-xx-3Qa" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" constant="22" id="Efk-kK-rdw"/>
+                <constraint firstItem="1mX-xx-3Qa" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PRn-Mu-tVe" secondAttribute="bottom" constant="1" id="FZG-Oz-DcO"/>
                 <constraint firstAttribute="centerX" secondItem="s2a-9C-wZ6" secondAttribute="centerX" id="HV7-Zc-bmY"/>
-                <constraint firstItem="1mX-xx-3Qa" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" priority="750" constant="32" id="KcS-PD-a5B"/>
+                <constraint firstItem="1mX-xx-3Qa" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PRn-Mu-tVe" secondAttribute="bottom" priority="750" constant="32" id="KcS-PD-a5B"/>
                 <constraint firstAttribute="centerX" secondItem="PRn-Mu-tVe" secondAttribute="centerX" id="Pei-Xa-if2"/>
-                <constraint firstItem="s2a-9C-wZ6" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" constant="22" id="RSR-2z-Sr6"/>
+                <constraint firstItem="s2a-9C-wZ6" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PRn-Mu-tVe" secondAttribute="bottom" constant="22" id="RSR-2z-Sr6"/>
                 <constraint firstItem="RoZ-6z-yzU" firstAttribute="top" secondItem="PRn-Mu-tVe" secondAttribute="bottom" priority="750" constant="35" id="Rl4-zO-n4a"/>
                 <constraint firstItem="HfE-sU-Wr3" firstAttribute="top" secondItem="B7C-Rk-Jqu" secondAttribute="top" constant="7" id="S07-4W-Zle"/>
                 <constraint firstAttribute="centerX" secondItem="Ud8-cD-fuE" secondAttribute="centerX" id="TAB-qj-NGT"/>
@@ -222,6 +208,7 @@
                 <outlet property="deletePointInfoLabel" destination="KxF-iX-zFR" id="whb-6R-rUu"/>
                 <outlet property="deletePointSettBtn" destination="aj3-L2-t2u" id="Wzl-vN-VDK"/>
                 <outlet property="deletePointView" destination="s2a-9C-wZ6" id="ilZ-qb-upa"/>
+                <outlet property="keyboardOffsetConstraints" destination="FZG-Oz-DcO" id="jJf-sX-uGh"/>
                 <outlet property="pointInfoLabel" destination="PRn-Mu-tVe" id="Xnm-Zl-2xR"/>
                 <outlet property="pointSettingsView" destination="1mX-xx-3Qa" id="bnE-X9-HgN"/>
                 <outlet property="pointTextView" destination="TfR-Za-la0" id="9Uf-2r-dI1"/>
@@ -246,4 +233,9 @@
         <image name="green_btn_pressed.png" width="315" height="64"/>
         <image name="img_sample1.png" width="176" height="176"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

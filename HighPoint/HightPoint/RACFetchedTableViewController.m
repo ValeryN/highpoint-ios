@@ -107,8 +107,12 @@
     return ((id <NSFetchedResultsSectionInfo>) [[self data] sections][(NSUInteger) section]).numberOfObjects;
 }
 
+- (NSString*)cellIdentifierForIndexPath:(NSIndexPath *)indexPath{
+    return self.cellIdentifier;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id <RACTableViewCellProtocol> cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier];
+    id <RACTableViewCellProtocol> cell = [tableView dequeueReusableCellWithIdentifier:[self cellIdentifierForIndexPath:indexPath]];
     [cell bindViewModel:[[self data] objectAtIndexPath:indexPath]];
     return (UITableViewCell *) cell;
 }
