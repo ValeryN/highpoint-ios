@@ -36,6 +36,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
 - (void) configureCell:(User*) user
 {
+    /*
     [self.firstLabel hp_tuneForUserListCellName];
     self.firstLabel.text = user.name;
     [self.secondLabel hp_tuneForUserListCellAgeAndCity];
@@ -65,6 +66,7 @@ static HPMainViewListTableViewCell* _prevCell;
         self.secondLabel.hidden = NO;
         self.firstLabel.hidden = NO;
     }
+    */
 }
 
 
