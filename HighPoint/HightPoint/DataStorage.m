@@ -1519,7 +1519,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if(predicate) {
-        NSFetchedResultsController *controller = [City fetchAllSortedBy:@"cityName" ascending:NO withPredicate:predicate groupBy:nil delegate:nil];
+        NSFetchedResultsController *controller = [City fetchAllSortedBy:@"cityName" ascending:YES withPredicate:predicate groupBy:nil delegate:nil];
         return controller;
     } else return nil;
 }
