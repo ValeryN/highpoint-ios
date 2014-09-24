@@ -64,6 +64,13 @@
     [self.heartBtn setSelected:[user.point.pointLiked boolValue]];
     [self setAvatarVisibilityBlur:user];
     [self setPrivacyText:user];
+    if ([currUser.gender isEqualToNumber:@1]) {
+        [self.sendMsgBtn setTitle:NSLocalizedString(@"SEND_MSG_HIM", nil) forState:UIControlStateNormal];
+        [self.sendMsgBtn setTitle:NSLocalizedString(@"SEND_MSG_HIM", nil) forState:UIControlStateHighlighted];
+    } else {
+        [self.sendMsgBtn setTitle:NSLocalizedString(@"SEND_MSG_HER", nil) forState:UIControlStateNormal];
+        [self.sendMsgBtn setTitle:NSLocalizedString(@"SEND_MSG_HER", nil) forState:UIControlStateHighlighted];
+    }
 }
 
 
@@ -114,7 +121,9 @@
 
 
 - (IBAction)sendMsgBtnTap:(id)sender {
-    NSLog(@"send msg btn tap");
+    if ([self.delegate respondsToSelector:@selector(openChatControllerWithUser:)]) {
+        [self.delegate openChatControllerWithUser:self.tag];
+    }
 }
 
 - (IBAction)heartBtnTap:(id)sender {

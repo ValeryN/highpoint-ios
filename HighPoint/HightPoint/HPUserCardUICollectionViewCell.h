@@ -10,6 +10,7 @@
 #import "User.h"
 #import "City.h"
 #import "UserPoint.h"
+#import "HPUserCardViewController.h"
 
 
 @interface HPUserCardUICollectionViewCell : UICollectionViewCell
@@ -22,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIView *photoView;
 @property (weak, nonatomic) IBOutlet UILabel *photoCountLabel;
 
-
+@property (nonatomic, assign) id <HPUserCardViewControllerDelegate> delegate;
 
 - (IBAction)sendMsgBtnTap:(id)sender;
 - (IBAction)heartBtnTap:(id)sender;

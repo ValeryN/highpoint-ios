@@ -397,7 +397,11 @@
         self.sendMessage = [[HPGreenButtonVC alloc] initWithNibName: @"HPGreenButtonVC" bundle: nil];
         self.sendMessage.view.translatesAutoresizingMaskIntoConstraints = YES;
         self.sendMessage.delegate = self;
-        [self.sendMessage initObjects:@"Написать ей"];
+        if ([self.user.gender isEqualToNumber:@1]) {
+            [self.sendMessage initObjects:NSLocalizedString(@"SEND_MSG_HIM", nil)];
+        } else {
+            [self.sendMessage initObjects:NSLocalizedString(@"SEND_MSG_HER", nil)];
+        }
         CGRect rect = self.sendMessage.view.frame;
         CGRect bounds = [UIScreen mainScreen].bounds;
         rect.origin.x = (bounds.size.width - rect.size.width) / 2.0f;
@@ -522,7 +526,10 @@
 
 - (void) greenButtonPressed: (HPGreenButtonVC*) button
 {
-    NSLog(@"Green button pressed");
+    HPChatViewController *chatController = [[HPChatViewController alloc] initWithNibName:@"HPChatViewController" bundle:nil];
+    //TODO: how to add user as a contact (API)?
+    // chatController.contact = contact;
+    [self.navigationController pushViewController:chatController animated:YES];
 }
 
 

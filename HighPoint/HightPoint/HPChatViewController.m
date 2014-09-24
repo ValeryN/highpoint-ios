@@ -54,6 +54,7 @@
     [super viewDidLoad];
     self.cachedCellHeight = YES;
     [self configureInfinityTableView];
+    [self.navigationController setNavigationBarHidden:NO];
     [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
     [self configureInputMode];
     [self configureNavigationBar];
