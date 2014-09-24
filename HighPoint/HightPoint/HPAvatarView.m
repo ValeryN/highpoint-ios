@@ -74,7 +74,7 @@
     }] distinctUntilChanged] replayLast];
 
     RAC(self,avatar.image) = [[[[[changeUserSignal  flattenMap:^RACStream *(User* value) {
-        return [[[value userImageSignal] subscribeOn:[RACScheduler scheduler]] takeUntil:[[RACObserve(self, user) skip:1] take:1]];
+        return [[[value userImageSignal] subscribeOn:[RACScheduler scheduler]] takeUntil:[[changeUserSignal skip:1] take:1]];
     }] deliverOn:[RACScheduler scheduler]] combineLatestWith:changeUserVisibilitySignal] map:^id(id value) {
         RACTupleUnpack(UIImage *userAvatar,NSNumber *visibility) = value;
         switch ((UserVisibilityType) visibility.intValue) {
