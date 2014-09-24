@@ -12,6 +12,7 @@
 #import "HPGreenButtonVC.h"
 #import "HEBubbleView.h"
 #import "HEBubbleViewItem.h"
+#import "HPChatViewController.h"
 
 @protocol  HPUserInfoViewControllerDelegate <NSObject>
 - (void)profileWillBeHidden;
