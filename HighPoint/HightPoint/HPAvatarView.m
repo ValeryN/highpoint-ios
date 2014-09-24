@@ -62,18 +62,19 @@
     [self addSubview:self.mainView];
     @weakify(self);
 
-    RACSignal * changeUserSignal = [RACObserve(self, user)  filter:^BOOL(id value) {
-        return value!=nil;
-    }];
-    RACSignal * changeUserVisibilitySignal = [[[changeUserSignal  distinctUntilChanged] map:^id(User *value) {
-        return value.visibility;
-    }] distinctUntilChanged];
-    RACSignal * changeUserOnlineSignal = [[[changeUserSignal distinctUntilChanged] map:^id(User *value) {
-        return value.online;
-    }] distinctUntilChanged];
+    RACSignal * changeUserSignal = [[RACObserve(self, user) filter:^BOOL(id value) {
+        return value != nil;
+    }] replayLast];
 
-    RAC(self,avatar.image) = [[[[[changeUserSignal flattenMap:^RACStream *(User* value) {
-        return [[[value userImageSignal] subscribeOn:[RACScheduler scheduler]] takeUntil:[changeUserSignal skip:1]];
+    RACSignal * changeUserVisibilitySignal = [[[[changeUserSignal  distinctUntilChanged] map:^id(User *value) {
+        return value.visibility;
+    }] distinctUntilChanged] replayLast];
+    RACSignal * changeUserOnlineSignal = [[[[changeUserSignal distinctUntilChanged] map:^id(User *value) {
+        return value.online;
+    }] distinctUntilChanged] replayLast];
+
+    RAC(self,avatar.image) = [[[[[changeUserSignal  flattenMap:^RACStream *(User* value) {
+        return [[[value userImageSignal] subscribeOn:[RACScheduler scheduler]] takeUntil:[[RACObserve(self, user) skip:1] take:1]];
     }] deliverOn:[RACScheduler scheduler]] combineLatestWith:changeUserVisibilitySignal] map:^id(id value) {
         RACTupleUnpack(UIImage *userAvatar,NSNumber *visibility) = value;
         switch ((UserVisibilityType) visibility.intValue) {
