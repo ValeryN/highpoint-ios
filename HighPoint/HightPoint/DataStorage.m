@@ -1742,7 +1742,7 @@ static DataStorage *dataStorage;
 - (Message *)createMessage:(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes)type forContext:(NSManagedObjectContext*) context{
 
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     Message *msgEnt = [Message createInContext:context];
     msgEnt.bindedUserId = [userId convertToNSNumber];
     if (type == HistoryMessageType) {

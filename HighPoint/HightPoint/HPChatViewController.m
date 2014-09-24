@@ -45,7 +45,7 @@
 
 
 #define NUMBER_PER_PAGE_LOAD 20
-#define MIN_SCROLLTOP_PIXEL_TO_LOAD 400.f
+#define MIN_SCROLL_TOP_PIXEL_TO_LOAD 400.f
 
 @implementation HPChatViewController
 
@@ -56,11 +56,28 @@
     [self configureInfinityTableView];
     [self.navigationController setNavigationBarHidden:NO];
     [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
+    [self addTemplateCell:[UINib nibWithNibName:@"HPChatMsgOpenAllowCell" bundle:nil]];
+    [self addTemplateCell:[UINib nibWithNibName:@"HPChatMsgOpenDenyCell" bundle:nil]];
+    [self addTemplateCell:[UINib nibWithNibName:@"HPChatMsgOpenRequestCell" bundle:nil]];
     [self configureInputMode];
     [self configureNavigationBar];
     [self configureOffsetTableViewGesture];
     [self configureInputView];
     [self configureSendMessageButton];
+}
+
+- (NSString *)cellIdentifierForModel:(Message *)model {
+    switch ((MessageType) model.messageType.unsignedIntegerValue) {
+        case MessageTypePlain:
+            return @"HPChatMsgTableViewCell";
+        case MessageTypeOpenRequest:
+            return @"HPChatMsgOpenRequestCell";
+        case MessageTypeOpenAllowResponse:
+            return @"HPChatMsgOpenAllowCell";
+        case MessageTypeOpenDenyResponse:
+            return @"HPChatMsgOpenDenyCell";
+    }
+    return @"";
 }
 
 - (void)configureSendMessageButton {
@@ -209,7 +226,7 @@
     RACSignal *contentOffsetSignal = [RACObserve(self.chatTableView, contentOffset) replayLast];
     [[[[contentOffsetSignal map:^id(id value) {
         CGFloat offset = [value CGPointValue].y;
-        return @(offset < MIN_SCROLLTOP_PIXEL_TO_LOAD);;
+        return @(offset < MIN_SCROLL_TOP_PIXEL_TO_LOAD);;
     }] distinctUntilChanged] filter:^BOOL(NSNumber *x) {
         return x.boolValue;
     }] subscribeNext:^(NSNumber *x) {
@@ -336,7 +353,7 @@
     self.chatTableView.tableHeaderView = self.tableHeaderView;
     [[HPRequest getMessagesForUser:self.contact.user afterMessage:minMessageFromServer] subscribeCompleted:^{
         @strongify(self);
-        if (self.chatTableView.contentOffset.y < MIN_SCROLLTOP_PIXEL_TO_LOAD)
+        if (self.chatTableView.contentOffset.y < MIN_SCROLL_TOP_PIXEL_TO_LOAD)
             self.minimumViewedDate = [self getDateOffsetAfterDate:self.minimumViewedDate andNumberPerPage:NUMBER_PER_PAGE_LOAD];
     }];
 }
