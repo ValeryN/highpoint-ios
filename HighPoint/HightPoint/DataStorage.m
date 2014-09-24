@@ -1754,6 +1754,7 @@ static DataStorage *dataStorage;
     if (type == UnreadMessageType) {
         msgEnt.unreadMessage = @YES;
     }
+    msgEnt.messageType = @((MessageType)(arc4random()%4));
     msgEnt.id_ = [param[@"id"] convertToNSNumber];
     msgEnt.createdAt = [df dateFromString:param[@"createdAt"]];
     msgEnt.destinationId = param[@"destinationId"];

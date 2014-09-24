@@ -360,7 +360,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HPChatMsgTableViewCell *cell = (HPChatMsgTableViewCell *) [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    cell.tableViewController = self;
+    if([cell respondsToSelector:@selector(setTableViewController:)])
+        cell.tableViewController = self;
     return cell;
 }
 
