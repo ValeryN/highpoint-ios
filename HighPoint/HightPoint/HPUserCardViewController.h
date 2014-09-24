@@ -19,11 +19,12 @@
 @protocol HPUserCardViewControllerDelegate <NSObject>
 
 - (void) syncronizePosition : (NSInteger) currentPosition;
+- (void) openChatControllerWithUser : (NSInteger) userIndex;
 
 @end
 
 
-@interface HPUserCardViewController : UIViewController <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, HPUserInfoViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface HPUserCardViewController : UIViewController <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, HPUserInfoViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPUserCardViewControllerDelegate>
 {
     NSArray *usersArr;
     ModalAnimation *_modalAnimationController;

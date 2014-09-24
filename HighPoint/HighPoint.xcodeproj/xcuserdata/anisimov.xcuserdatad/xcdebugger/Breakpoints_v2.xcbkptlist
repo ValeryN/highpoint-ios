@@ -23,22 +23,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HightPoint/HPBaseNetworkManager+Users.m"
-            timestampString = "432472454.951036"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "-getUserInfoRequest:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "HightPoint/HPBaseNetworkManager.m"
             timestampString = "432731915.089115"
             startingColumnNumber = "9223372036854775807"
@@ -55,42 +39,90 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HightPoint/HPRequest+Points.m"
-            timestampString = "432457296.727005"
+            filePath = "HightPoint/HPMainViewListTableViewCell.m"
+            timestampString = "432642186.8229"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "+saveServerUsersArray:"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "-createAvatar"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HightPoint/HPBaseNetworkManager+Users.m"
+            timestampString = "432803637.7594"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "-getUserInfoRequest:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HightPoint/HPUserProfileViewController.m"
+            timestampString = "432803964.496134"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "-configurePhotoTab"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HightPoint/DataStorage.m"
+            timestampString = "433152160.066894"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1810"
+            endingLineNumber = "1810"
+            landmarkName = "-setAndSaveMessageStatus:forMessage:"
             landmarkType = "5">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__42+[HPRequest(Points) saveServerUsersArray:]_block_invoke_3"
+                  symbolName = "-[DataStorage setAndSaveMessageStatus:forMessage:]"
                   moduleName = "HighPoint"
-                  urlString = "file:///Users/anisimov/projects/HighPoint_term_version/highpoint-ios/HighPoint/HightPoint/HPRequest+Points.m"
-                  timestampString = "432743710.521462"
+                  urlString = "file:///Users/anisimov/projects/HighPoint_term_version/highpoint-ios/HighPoint/HightPoint/DataStorage.m"
+                  timestampString = "433242574.525806"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "60"
-                  endingLineNumber = "60"
-                  offsetFromSymbolStart = "61">
+                  startingLineNumber = "1810"
+                  endingLineNumber = "1810"
+                  offsetFromSymbolStart = "68">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__42+[HPRequest(Points) saveServerUsersArray:]_block_invoke_4"
+                  symbolName = "__50-[DataStorage setAndSaveMessageStatus:forMessage:]_block_invoke"
                   moduleName = "HighPoint"
-                  urlString = "file:///Users/anisimov/projects/HighPoint_term_version/highpoint-ios/HighPoint/HightPoint/HPRequest+Points.m"
-                  timestampString = "432743710.521816"
+                  urlString = "file:///Users/anisimov/projects/HighPoint_term_version/highpoint-ios/HighPoint/HightPoint/DataStorage.m"
+                  timestampString = "433242574.526077"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "60"
-                  endingLineNumber = "60"
-                  offsetFromSymbolStart = "52">
+                  startingLineNumber = "1810"
+                  endingLineNumber = "1810"
+                  offsetFromSymbolStart = "36">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -101,13 +133,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HightPoint/HPMainViewListTableViewCell.m"
-            timestampString = "432642186.8229"
+            filePath = "HightPoint/HPBaseNetworkManager+Contacts.m"
+            timestampString = "433238174.227557"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "-createAvatar"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "-getContactsRequest"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HightPoint/HPBaseNetworkManager+Contacts.m"
+            timestampString = "433238179.099786"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "-getContactsRequest"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

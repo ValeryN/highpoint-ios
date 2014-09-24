@@ -42,7 +42,7 @@
                 
                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:users] forUserType:ContactUserType withComplation:^(NSError *error) {
                     if(!error) {
-                        NSLog(@"mess %d", [lastMsgs allKeys].count);
+                        //NSLog(@"mess %d", [lastMsgs allKeys].count);
                         for (id key in [lastMsgs allKeys]) {
                             User *user = [[DataStorage sharedDataStorage] getUserForId:[NSNumber numberWithInt:[key intValue]]];
                             
@@ -52,14 +52,15 @@
                                 }];
                             }];
                         }
+                        if ([self isTaskArrayEmpty:manager]) {
+                            NSLog(@"Stop Queue");
+                            [self makeTownByIdRequest];
+                        }
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
                     }
                 }];
                 
-                if ([self isTaskArrayEmpty:manager]) {
-                    NSLog(@"Stop Queue");
-                    [self makeTownByIdRequest];
-                }
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
+                
             }
             else {
                 NSLog(@"Error, no valid data");

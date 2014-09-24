@@ -54,6 +54,7 @@
     [super viewDidLoad];
     self.cachedCellHeight = YES;
     [self configureInfinityTableView];
+    [self.navigationController setNavigationBarHidden:NO];
     [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
     [self configureInputMode];
     [self configureNavigationBar];
@@ -235,7 +236,7 @@
     self.navigationItem.leftBarButtonItem = backButton;
     UIView *avatarView = [[UIView alloc] initWithFrame:CGRectMake(0, 15, 36.0f, 36.0f)];
     avatarView.backgroundColor = [UIColor clearColor];
-    self.avatar = [HPAvatarView avatarViewWithUser:[[DataStorage sharedDataStorage] getCurrentUser]];
+    self.avatar = [HPAvatarView avatarViewWithUser:self.contact.user];
     self.avatar.frame = (CGRect) {0, 0, 36, 36};
     [avatarView addSubview:self.avatar];
     UIBarButtonItem *avatarBarItem = [[UIBarButtonItem alloc] initWithCustomView:avatarView];

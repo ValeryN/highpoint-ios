@@ -1519,7 +1519,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if(predicate) {
-        NSFetchedResultsController *controller = [City fetchAllSortedBy:@"cityName" ascending:NO withPredicate:predicate groupBy:nil delegate:nil];
+        NSFetchedResultsController *controller = [City fetchAllSortedBy:@"cityName" ascending:YES withPredicate:predicate groupBy:nil delegate:nil];
         return controller;
     } else return nil;
 }
@@ -1793,7 +1793,18 @@ static DataStorage *dataStorage;
     }];
     
 }
-
+- (void)createAndSaveMessageArray:(NSArray *)param andMessageType:(MessageTypes)type withComplation:(complationBlock)block {
+    __weak typeof(self) weakSelf = self;
+    NSNumber * currentUserId = [[DataStorage sharedDataStorage] getCurrentUser].userId;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        for(NSDictionary *dict in param) {
+            NSNumber *userId = [dict[@"destinationId"] isEqual:currentUserId]?dict[@"sourceId"]:dict[@"destinationId"];
+            [weakSelf createMessage:dict forUserId:userId andMessageType:type forContext:localContext];
+        }
+    } completion:^(BOOL success, NSError *error)    {
+        block(error);
+    }];
+}
 
 - (void) setAndSaveMessageStatus:(MessageStatus) status forMessage:(Message *) globalMessage{
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {

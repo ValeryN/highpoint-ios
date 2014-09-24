@@ -19,6 +19,7 @@
 #import "DataStorage.h"
 #import "User.h"
 #import "UIButton+HighPoint.h"
+#import "HPChatViewController.h"
 
 #import "HPBaseNetworkManager+Users.h"
 #import "HPBaseNetworkManager+Points.h"
@@ -169,6 +170,14 @@
     [self.usersCollectionView reloadData];
 }
 
+#pragma mark - open chat
+- (void) openChatControllerWithUser : (NSInteger) userIndex {
+    HPChatViewController *chatController = [[HPChatViewController alloc] initWithNibName:@"HPChatViewController" bundle:nil];
+    //TODO: how to add user as a contact (API)?
+    // chatController.contact = contact;
+    [self.navigationController pushViewController:chatController animated:YES];
+}
+
 #pragma mark - scroll view
 
 
@@ -254,6 +263,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HPUserCardUICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"UserCardIdentif" forIndexPath:indexPath];
+    cell.delegate = self;
     [cell configureCell: [usersArr objectAtIndex:indexPath.row]];
     cell.tag = indexPath.row;
     return cell;

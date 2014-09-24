@@ -84,6 +84,8 @@
     @synchronized (self.sizesArray) {
         [self deleteCacheAllHeight];
         for (Message *message in resultsController.fetchedObjects) {
+
+            // [operationQueue addOperationWithBlock:^{
             if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
                 NSIndexPath * path = [resultsController indexPathForObject:message];
                 CGFloat height = [self.cellClass heightForRowWithModel:message];
@@ -212,10 +214,18 @@
 }
 
 - (void)insertHeight:(CGFloat)height forIndexPath:(NSIndexPath *)path {
+
+    
+    //if (self.sizesTmpArray.count <= path.section)
+    //    [self insertSectionAtIndex:path.section];
+    //[((NSMutableArray *) self.sizesTmpArray[(NSUInteger) path.section]) insertObject:@(height) atIndex:(NSUInteger) path.row];
+    
+//=======
     if (self.sizesArray.count <= path.section)
         [self insertSectionAtIndex:path.section];
     NSMutableArray* sectionArray = ((NSMutableArray *) self.sizesTmpArray[(NSUInteger) path.section]);
     [sectionArray insertObject:@(height) atIndex:(NSUInteger) path.row];
+//>>>>>>> origin/develop
 }
 
 - (void)deleteHeightAtIndexPath:(NSIndexPath *)path {

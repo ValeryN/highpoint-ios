@@ -21,6 +21,9 @@
 "HIDE_HER_PROFILE_INFO" = "Скрыла свой профиль";
 "HIDE_HIS_NAME_INFO" = "Скрыл свое имя и фотографии";
 "HIDE_HIS_PROFILE_INFO" = "Скрыл свой профиль";
+"SEND_MSG_HIM" = "Написать ему";
+"SEND_MSG_HER" = "Написать ей";
+
 
 
 //USER INFO SCREEN
