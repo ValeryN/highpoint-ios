@@ -86,10 +86,6 @@
         for (Message *message in resultsController.fetchedObjects) {
 
             // [operationQueue addOperationWithBlock:^{
-            NSLog(@"mess count %d",resultsController.fetchedObjects.count);
-            
-            NSManagedObjectID *objectID = message.objectID;
-
             if ([self.cellClass respondsToSelector:@selector(heightForRowWithModel:)]) {
                 NSIndexPath * path = [resultsController indexPathForObject:message];
                 CGFloat height = [self.cellClass heightForRowWithModel:message];

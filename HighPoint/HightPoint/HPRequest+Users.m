@@ -10,6 +10,7 @@
 #import "Constants.h"
 #import "HPMessageValidator.h"
 #import "DataStorage.h"
+#import "NSNumber+Convert.h"
 
 
 @implementation HPRequest (Users)
@@ -50,30 +51,40 @@
 
         return [RACSignal error:[NSError errorWithDomain:@"Not valid json data" code:400 userInfo:value]];
     }] map:^id(NSArray *value) {
+        NSLog(@"%@", value);
         return [value.rac_sequence filter:^BOOL(NSDictionary *validatedDictionary) {
+            NSLog(@"%@", validatedDictionary);
             return [HPMessageValidator validateDictionary:validatedDictionary];
         }].array;
     }];
 }
-
+//TODO: not final version
 + (RACSignal *)saveServerMessagesArray:(RACSignal *)signal {
-    NSNumber * currentUserId = [[DataStorage sharedDataStorage] getCurrentUser].userId;
+    //NSNumber * currentUserId = [[DataStorage sharedDataStorage] getCurrentUser].userId;
     return [[signal map:^NSArray *(NSArray *value) {
-        return [value.rac_sequence map:^id(NSDictionary *cityDict) {
+        //
+        [[DataStorage sharedDataStorage] createAndSaveMessageArray:value andMessageType:HistoryMessageType withComplation:^(id object) {
+            if(!object) {
+                
+            }
+        }];
+        return [value.rac_sequence map:^id(NSDictionary *cityDict) { //[value.rac_sequence map:^id(NSDictionary *cityDict)
             return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-                //Могли бы сами позаботится из dict определить какому юзеру связывать, бред какойто
-                NSNumber *userId = [cityDict[@"destinationId"] isEqual:currentUserId]?cityDict[@"sourceId"]:cityDict[@"destinationId"];
+                
+                //NSNumber *userId = [cityDict[@"destinationId"] isEqual:currentUserId]?cityDict[@"sourceId"]:cityDict[@"destinationId"];
                 //Записывем каждый элемент
-                [[DataStorage sharedDataStorage] createAndSaveMessage:cityDict forUserId:userId andMessageType:HistoryMessageType withComplation:^(id object) {
-                    if (object) {
-                        //Пробрасываем дальнейшие данные не JSON а уже City
-                        [subscriber sendNext:object];
-                        [subscriber sendCompleted];
+                
+                id message = [[DataStorage sharedDataStorage] getMessageForId:[cityDict[@"id"] convertToNSNumber]];
+                if (message) {
+                    //Пробрасываем дальнейшие данные не JSON а уже City
+                    [subscriber sendNext:message];
+                    [subscriber sendCompleted];
                     }
                     else {
-                        [subscriber sendNext:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
+                    [subscriber sendNext:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
                     }
-                }];
+                
+    
                 [[DataStorage sharedDataStorage] createAndSaveCity:cityDict popular:NO withComplation:^(City *object) {
 
                 }];
@@ -85,4 +96,5 @@
         return [RACSignal zip:value];
     }];
 }
+
 @end

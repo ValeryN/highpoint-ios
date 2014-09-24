@@ -57,10 +57,13 @@
         return [value.rac_sequence map:^id(NSDictionary *cityDict) {
             return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
                 //Записывем каждый элемент
-                [[DataStorage sharedDataStorage] createAndSaveUserEntity:cityDict forUserType:PointLikeUserType withComplation:^(id object) {
-                    if (object) {
-                        //Пробрасываем дальнейшие данные не JSON а уже City
-                        [subscriber sendNext:object];
+                NSMutableArray *arr = [NSMutableArray arrayWithObject:cityDict];
+                NSLog(@"%@", cityDict);
+                [[DataStorage sharedDataStorage] createAndSaveUserEntity:arr forUserType:PointLikeUserType withComplation:^(id object) {
+                    if (!object) {
+                        
+                        User *usr = [[DataStorage sharedDataStorage] getUserForId:cityDict[@"id"]];
+                        [subscriber sendNext:usr];
                         [subscriber sendCompleted];
                     }
                     else {
