@@ -61,12 +61,17 @@
     self.mainView.frame = (CGRect){0,0,self.frame.size};
     [self addSubview:self.mainView];
     @weakify(self);
-    
-    RAC(self,avatar.image) = [[[[[RACObserve(self, user) distinctUntilChanged] filter:^BOOL(id value) {
+
+    RACSignal * changeUserSignal = [RACObserve(self, user)  distinctUntilChanged];
+    RACSignal * changeUserOnlineSignal = [[[RACObserve(self, user) distinctUntilChanged] map:^id(User *value) {
+        return value.online;
+    }] distinctUntilChanged];
+
+    RAC(self,avatar.image) = [[[[changeUserSignal filter:^BOOL(id value) {
         return value!=nil;
     }] flattenMap:^RACStream *(User *value) {
         @strongify(self);
-        return [[RACSignal combineLatest:@[[RACSignal return:value.visibility], [[value userImageSignal] takeUntil:[RACObserve(self, user) skip:1]]]] deliverOn:[RACScheduler scheduler]];
+        return [[RACSignal combineLatest:@[[RACSignal return:value.visibility], [[value userImageSignal] takeUntil:[changeUserSignal skip:1]]]] deliverOn:[RACScheduler scheduler]];
     }] map:^id(RACTuple *value) {
         RACTupleUnpack(NSNumber *visibility, UIImage *userAvatar) = value;
         switch ((UserVisibilityType) visibility.intValue) {
@@ -91,7 +96,7 @@
 
     self.borderGreen = [UIImage imageNamed:@"Userpic Shape Green"];
     self.borderRed = [UIImage imageNamed:@"Userpic Shape Red"];
-    RAC(self,avatarBorder.image) = [[[RACObserve(self, user.online) deliverOn:[RACScheduler scheduler]] map:^id(NSNumber * online) {
+    RAC(self,avatarBorder.image) = [[changeUserOnlineSignal map:^id(NSNumber * online) {
         @strongify(self);
         if(online.boolValue){
             return self.borderGreen;
