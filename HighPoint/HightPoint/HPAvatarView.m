@@ -62,30 +62,36 @@
     [self addSubview:self.mainView];
     @weakify(self);
 
-    RACSignal * changeUserSignal = [[RACObserve(self, user) filter:^BOOL(id value) {
-        return value != nil;
+    RACSignal * changeUserSignal = [[RACObserve(self,user) filter:^BOOL(id value) {
+        return value!=nil;
     }] replayLast];
 
-    RACSignal * changeUserVisibilitySignal = [[[[changeUserSignal  distinctUntilChanged] map:^id(User *value) {
-        return value.visibility;
-    }] distinctUntilChanged] replayLast];
-    RACSignal * changeUserOnlineSignal = [[[[changeUserSignal distinctUntilChanged] map:^id(User *value) {
+    RACSignal * changeUserVisibilitySignal = [[changeUserSignal  map:^id(User *value) {
+        return value.visibility;    }]  replayLast];
+    RACSignal * changeUserOnlineSignal = [[changeUserSignal map:^id(User *value) {
         return value.online;
-    }] distinctUntilChanged] replayLast];
+    }] replayLast];
 
-    RAC(self,avatar.image) = [[[[[changeUserSignal  flattenMap:^RACStream *(User* value) {
-        return [[[value userImageSignal] subscribeOn:[RACScheduler scheduler]] takeUntil:[[changeUserSignal skip:1] take:1]];
-    }] deliverOn:[RACScheduler scheduler]] combineLatestWith:changeUserVisibilitySignal] map:^id(id value) {
-        RACTupleUnpack(UIImage *userAvatar,NSNumber *visibility) = value;
+    RAC(self,avatar.image) = [[[[[[changeUserSignal deliverOn:[RACScheduler scheduler]]  flattenMap:^RACStream *(User* value) {
+        return [RACSignal combineLatest:@[[value userImageSignal],changeUserVisibilitySignal,[RACSignal return:value]]];
+    }]  map:^id(RACTuple * tuple) {
+        RACTupleUnpack(UIImage *userAvatar,NSNumber *visibility,User* user) = tuple;
         switch ((UserVisibilityType) visibility.intValue) {
             case UserVisibilityVisible:
-                return userAvatar;
+                return RACTuplePack(userAvatar, user);
             case UserVisibilityBlur:
             case UserVisibilityHidden:
-                return [userAvatar hp_imageWithGaussianBlur:10];
+                return RACTuplePack([userAvatar hp_imageWithGaussianBlur:10], user);
         }
         return nil;
-    }] deliverOn:[RACScheduler mainThreadScheduler]];
+    }] deliverOn:[RACScheduler mainThreadScheduler]] takeUntilBlock:^BOOL(RACTuple* tuple) {
+        @strongify(self);
+        RACTupleUnpack(UIImage *userAvatar,User* user) = tuple;
+        return ![self.user isEqual:user];
+    }]  map:^id(RACTuple* tuple) {
+        RACTupleUnpack(UIImage *userAvatar,User* user) = tuple;
+        return userAvatar;
+    }];
 
     
     [RACObserve(self.avatar, bounds) subscribeNext:^(id x) {

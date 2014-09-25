@@ -18,39 +18,58 @@
     //return [RACSignal return:[UIImage imageNamed:@".png"]];
     User* userInContext = [self moveToContext:[NSManagedObjectContext threadContext]];
     NSString* avatarUrl = userInContext.avatar.originalImgSrc;
-    SDWebImageOptions options = SDWebImageRetryFailed;
-    if(userInContext.isCurrentUser.boolValue) {
-        options |= SDWebImageDownloaderHighPriority;
-    }
+    NSURL * imageURL = [NSURL URLWithString:avatarUrl];
+    return [[User getPlaceholderImage] takeUntilReplacement:[[User getAvatarFromCacheWithUrl:imageURL] catchTo:[User getAvatarFromNetworkWithUrl:imageURL]]];
+}
 
-    return [[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
++ (RACSignal*) getPlaceholderImage{
+    return [RACSignal return:[UIImage imageNamed:IMAGE_NOT_DOWNLOADED]];
+}
+
++ (RACSignal *) getAvatarFromCacheWithUrl:(NSURL*)avatarUrl{
+    return [[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            UIImage * imageInCache = [manager.imageCache imageFromDiskCacheForKey:[manager cacheKeyForURL:avatarUrl]];
+            if(imageInCache) {
+                [subscriber sendNext:imageInCache];
+                [subscriber sendCompleted];
+            }
+            else
+                [subscriber sendError:[NSError errorWithDomain:@"sdwebimage.cache.notfound" code:404 userInfo:nil]];
+
+
+        return nil;
+    }] subscribeOn:[RACScheduler scheduler]];
+}
+
++ (RACSignal*) getAvatarFromNetworkWithUrl:(NSURL*) avatarUrl{
+    return [[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
         __block BOOL notDownloadCancel = YES;
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         manager.imageDownloader.maxConcurrentDownloads = 100;
-        [subscriber sendNext:[UIImage imageNamed:IMAGE_NOT_DOWNLOADED]];
-        id <SDWebImageOperation> operation = [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
-                                                              options: options
+        id <SDWebImageOperation> operation = [manager downloadImageWithURL:  avatarUrl
+                                                              options: SDWebImageRetryFailed
                                                              progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                                                              }
-                                                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                                                                notDownloadCancel = NO;
-                                                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                                                    if (image) {
-                                                                        [subscriber sendNext:image];
-                                                                        [subscriber sendCompleted];
-                                                                    }
-                                                                    else {
-                                                                        NSLog(@"Failed download %@",avatarUrl);
-                                                                        [subscriber sendError:error];
-                                                                    }
-                                                                });
-                                                            }];
+                                                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                                                     notDownloadCancel = NO;
+                                                                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                                                         if (image) {
+                                                                             [subscriber sendNext:image];
+                                                                             [subscriber sendCompleted];
+                                                                         }
+                                                                         else {
+                                                                             NSLog(@"Failed download %@",avatarUrl);
+                                                                             [subscriber sendError:error];
+                                                                         }
+                                                                     });
+                                                                 }];
         return [RACDisposable disposableWithBlock:^{
             if(notDownloadCancel) {
                 NSLog(@"Cancel not download avatar %@", avatarUrl);
             }
             [operation cancel];
         }];
-    }] retry:2] catchTo:[RACSignal return:[UIImage imageNamed:IMAGE_ERROR_DOWNLOAD]]];
+    }] retry:2] catchTo:[RACSignal return:[UIImage imageNamed:IMAGE_ERROR_DOWNLOAD]]] subscribeOn:[RACScheduler scheduler]];
 }
 @end

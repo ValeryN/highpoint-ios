@@ -36,7 +36,8 @@ static HPMainViewListTableViewCell* _prevCell;
 
 - (void) configureCell:(User*) user
 {
-
+    self.avatar.user = user;
+    
     [self.firstLabel hp_tuneForUserListCellName];
     self.firstLabel.text = user.name;
     [self.secondLabel hp_tuneForUserListCellAgeAndCity];
@@ -53,7 +54,7 @@ static HPMainViewListTableViewCell* _prevCell;
     }
     self.point.text = user.point.pointText;
 
-    self.avatar.user = user;
+    
 
     [self addGestureRecognizer];
     if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
