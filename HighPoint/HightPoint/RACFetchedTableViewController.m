@@ -9,36 +9,33 @@
 
 @interface RACFetchedTableViewController ()
 @property(nonatomic, retain) NSFetchedResultsController *data;
-@property(nonatomic, retain) NSString * defaultCellIdentifier;
+@property(nonatomic, retain) NSString *defaultCellIdentifier;
 @property(nonatomic, weak) UITableView *rac_tableView;
-@property(nonatomic, retain) NSMutableDictionary * cellClass;
-@property(nonatomic) NSMutableDictionary * rowHeight;
+@property(nonatomic, retain) NSMutableDictionary *cellClass;
+@property(nonatomic) NSMutableDictionary *rowHeight;
 
-@property(nonatomic, retain) NSMutableArray *sizesTmpArray;
 @property(nonatomic, retain) NSMutableArray *sizesArray;
 
-@property(nonatomic, retain) NSMutableDictionary* indexToInsertInUpdate;
-@property(nonatomic, retain) NSMutableDictionary* indexToDeleteInUpdate;
+@property(nonatomic, retain) NSMutableDictionary *indexToInsertInUpdate;
+@property(nonatomic, retain) NSMutableDictionary *indexToDeleteInUpdate;
 
-@property(nonatomic, retain) NSMutableArray* sectionToInsertInUpdate;
-@property(nonatomic, retain) NSMutableArray* sectionToDeleteInUpdate;
+@property(nonatomic, retain) NSMutableArray *sectionToInsertInUpdate;
+@property(nonatomic, retain) NSMutableArray *sectionToDeleteInUpdate;
 @end
 
 #define DYNAMIC_KEY @(-1)
+
 @implementation RACFetchedTableViewController {
 
 }
 - (void)configureTableView:(UITableView *)tableView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
-    if (self.cachedCellHeight) {
-        self.sizesTmpArray = [NSMutableArray new];
-    }
     self.cellClass = [NSMutableDictionary new];
     self.rowHeight = [NSMutableDictionary new];
 
     self.rac_tableView = tableView;
     _data = nil;
 
-    UITableViewCell * cell = [self addTemplateCell:templateCellNib];
+    UITableViewCell *cell = [self addTemplateCell:templateCellNib];
     self.defaultCellIdentifier = cell.reuseIdentifier;
 
     tableView.dataSource = self;
@@ -80,7 +77,7 @@
 
 }
 
-- (UITableViewCell*)addTemplateCell:(UINib *)templateCellNib {
+- (UITableViewCell *)addTemplateCell:(UINib *)templateCellNib {
     UITableViewCell *cell = [[templateCellNib instantiateWithOwner:nil options:nil] firstObject];
     self.cellClass[cell.reuseIdentifier] = NSStringFromClass(cell.class);
     [self.rac_tableView registerNib:templateCellNib forCellReuseIdentifier:cell.reuseIdentifier];
@@ -88,7 +85,7 @@
         CGFloat rowHeight = cell.bounds.size.height;
         self.rowHeight[cell.reuseIdentifier] = @(rowHeight);
     }
-    else{
+    else {
         self.rowHeight[cell.reuseIdentifier] = DYNAMIC_KEY;
     }
     return cell;
@@ -96,19 +93,25 @@
 
 - (void)calculateHeightBeforeLoading:(NSFetchedResultsController *)resultsController {
     @synchronized (self.sizesArray) {
-        [self deleteCacheAllHeight];
+        NSMutableArray *cachedArray = [NSMutableArray new];
         for (Message *message in resultsController.fetchedObjects) {
-            NSString* cellIdentifier = [self cellIdentifierForModel:message];
+            NSString *cellIdentifier = [self cellIdentifierForModel:message];
+            NSIndexPath *path = [resultsController indexPathForObject:message];
             if ([self.rowHeight[cellIdentifier] isEqual:DYNAMIC_KEY]) {
-                NSIndexPath * path = [resultsController indexPathForObject:message];
                 CGFloat height = [NSClassFromString(self.cellClass[cellIdentifier]) heightForRowWithModel:message];
-                if (self.sizesTmpArray.count <= path.section)
-                    [self.sizesTmpArray insertObject:[NSMutableArray new] atIndex:(NSUInteger) path.section];
-                NSMutableArray* sectionArray = ((NSMutableArray *) self.sizesTmpArray[(NSUInteger) path.section]);
+                if (cachedArray.count <= path.section)
+                    [cachedArray insertObject:[NSMutableArray new] atIndex:(NSUInteger) path.section];
+                NSMutableArray *sectionArray = ((NSMutableArray *) cachedArray[(NSUInteger) path.section]);
                 [sectionArray insertObject:@(height) atIndex:(NSUInteger) path.row];
             }
+            else {
+                if (cachedArray.count <= path.section)
+                    [cachedArray insertObject:[NSMutableArray new] atIndex:(NSUInteger) path.section];
+                NSMutableArray *sectionArray = ((NSMutableArray *) cachedArray[(NSUInteger) path.section]);
+                [sectionArray insertObject:self.rowHeight[cellIdentifier] atIndex:(NSUInteger) path.row];
+            }
         }
-        [self updateCacheHeight];
+        self.sizesArray = cachedArray;
     }
 }
 
@@ -122,7 +125,7 @@
     return ((id <NSFetchedResultsSectionInfo>) [[self data] sections][(NSUInteger) section]).numberOfObjects;
 }
 
-- (NSString*)cellIdentifierForModel:(id)model{
+- (NSString *)cellIdentifierForModel:(id)model {
     return self.defaultCellIdentifier;
 }
 
@@ -135,7 +138,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     id model = [[self data] objectAtIndexPath:indexPath];
-    NSString* cellIdentifier = [self cellIdentifierForModel:model];
+    NSString *cellIdentifier = [self cellIdentifierForModel:model];
     if ([self.rowHeight[cellIdentifier] isEqual:DYNAMIC_KEY]) {
         if (self.cachedCellHeight) {
             return [self getCacheHeightForIndexPath:indexPath];
@@ -147,7 +150,7 @@
 
     }
     else {
-        return ((NSNumber *)self.rowHeight[cellIdentifier]).floatValue;
+        return ((NSNumber *) self.rowHeight[cellIdentifier]).floatValue;
     }
 }
 
@@ -181,11 +184,14 @@
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath
      forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
     UITableView *tableView = self.rac_tableView;
-    NSString* cellIdentifier = [self cellIdentifierForModel:anObject];
+    NSString *cellIdentifier = [self cellIdentifierForModel:anObject];
     switch (type) {
         case NSFetchedResultsChangeInsert:
             if ([self.rowHeight[cellIdentifier] isEqual:DYNAMIC_KEY]) {
                 self.indexToInsertInUpdate[newIndexPath] = @([NSClassFromString(self.cellClass[cellIdentifier]) heightForRowWithModel:anObject]);
+            }
+            else{
+                self.indexToInsertInUpdate[newIndexPath] = self.rowHeight[cellIdentifier];
             }
             [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
@@ -204,31 +210,34 @@
             if ([self.rowHeight[cellIdentifier] isEqual:DYNAMIC_KEY]) {
                 self.indexToInsertInUpdate[newIndexPath] = @([NSClassFromString(self.cellClass[cellIdentifier]) heightForRowWithModel:anObject]);
             }
+            else{
+                self.indexToInsertInUpdate[newIndexPath] = self.rowHeight[cellIdentifier];
+            }
             [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
     }
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    NSArray * arrayToDeleteSection = [self.sectionToDeleteInUpdate sortedArrayUsingSelector:@selector(compare:)];
-    for(NSNumber *number in arrayToDeleteSection){
+    NSArray *arrayToDeleteSection = [self.sectionToDeleteInUpdate sortedArrayUsingSelector:@selector(compare:)];
+    for (NSNumber *number in arrayToDeleteSection) {
         [self deleteSectionAtIndex:number.unsignedIntegerValue];
     }
 
-    NSArray * arrayToInsertSection = [self.sectionToInsertInUpdate sortedArrayUsingSelector:@selector(compare:)];
-    for(NSNumber *number in arrayToInsertSection){
+    NSArray *arrayToInsertSection = [self.sectionToInsertInUpdate sortedArrayUsingSelector:@selector(compare:)];
+    for (NSNumber *number in arrayToInsertSection) {
         [self insertSectionAtIndex:number.unsignedIntegerValue];
     }
 
     NSSortDescriptor *rowDescriptor = [[NSSortDescriptor alloc] initWithKey:@"row" ascending:YES];
     NSSortDescriptor *sectionDescriptor = [[NSSortDescriptor alloc] initWithKey:@"section" ascending:YES];
-    NSArray* indexToDelete = [[[self.indexToDeleteInUpdate.allKeys sortedArrayUsingDescriptors:@[sectionDescriptor,rowDescriptor]] reverseObjectEnumerator] allObjects];
-    for(NSIndexPath * path in indexToDelete)
+    NSArray *indexToDelete = [[[self.indexToDeleteInUpdate.allKeys sortedArrayUsingDescriptors:@[sectionDescriptor, rowDescriptor]] reverseObjectEnumerator] allObjects];
+    for (NSIndexPath *path in indexToDelete)
         [self deleteHeightAtIndexPath:path];
-    
-    NSArray* indexToInsert = [self.indexToInsertInUpdate.allKeys sortedArrayUsingDescriptors:@[sectionDescriptor,rowDescriptor]];
-    for(NSIndexPath * path in indexToInsert)
-        [self insertHeight:((NSNumber*)self.indexToInsertInUpdate[path]).floatValue forIndexPath:path];
+
+    NSArray *indexToInsert = [self.indexToInsertInUpdate.allKeys sortedArrayUsingDescriptors:@[sectionDescriptor, rowDescriptor]];
+    for (NSIndexPath *path in indexToInsert)
+        [self insertHeight:((NSNumber *) self.indexToInsertInUpdate[path]).floatValue forIndexPath:path];
     [self.rac_tableView endUpdates];
 }
 
@@ -243,7 +252,7 @@
 - (void)insertHeight:(CGFloat)height forIndexPath:(NSIndexPath *)path {
     if (self.sizesArray.count <= path.section)
         [self insertSectionAtIndex:path.section];
-    NSMutableArray* sectionArray = ((NSMutableArray *) self.sizesTmpArray[(NSUInteger) path.section]);
+    NSMutableArray *sectionArray = ((NSMutableArray *) self.sizesArray[(NSUInteger) path.section]);
     [sectionArray insertObject:@(height) atIndex:(NSUInteger) path.row];
 }
 
@@ -259,10 +268,4 @@
     [self.sizesArray removeObjectAtIndex:(NSUInteger) index];
 }
 
-- (void)deleteCacheAllHeight {
-    self.sizesTmpArray = [NSMutableArray new];
-}
-- (void)updateCacheHeight{
-    self.sizesArray = self.sizesTmpArray;
-}
 @end

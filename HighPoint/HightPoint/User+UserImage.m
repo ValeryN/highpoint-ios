@@ -27,7 +27,7 @@
 }
 
 + (RACSignal *) getAvatarFromCacheWithUrl:(NSURL*)avatarUrl{
-    return [[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+    return [[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
             UIImage * imageInCache = [manager.imageCache imageFromDiskCacheForKey:[manager cacheKeyForURL:avatarUrl]];
             if(imageInCache) {
@@ -39,11 +39,11 @@
 
 
         return nil;
-    }] subscribeOn:[RACScheduler scheduler]];
+    }] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 + (RACSignal*) getAvatarFromNetworkWithUrl:(NSURL*) avatarUrl{
-    return [[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+    return [[[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
         __block BOOL notDownloadCancel = YES;
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         manager.imageDownloader.maxConcurrentDownloads = 100;
@@ -74,6 +74,6 @@
             [operation cancel];
 
         }];
-    }] retry:2] catchTo:[RACSignal return:[UIImage imageNamed:IMAGE_ERROR_DOWNLOAD]]] subscribeOn:[RACScheduler scheduler]];
+    }] retry:2] catchTo:[RACSignal return:[UIImage imageNamed:IMAGE_ERROR_DOWNLOAD]]] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 @end
