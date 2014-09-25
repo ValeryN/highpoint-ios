@@ -15,14 +15,16 @@
         AFHTTPRequestOperation *operation = [manager GET:url
                                               parameters:param
                                                  success:^(AFHTTPRequestOperation *localOperation, id jsonDict) {
-                                                     if (jsonDict) {
-                                                         //Получаем JSON и если он пропарсился отправляем на проверку
-                                                         [subscriber sendNext:jsonDict];
-                                                         [subscriber sendCompleted];
-                                                     }
-                                                     else {
-                                                         [subscriber sendError:[NSError errorWithDomain:@"Json parse error" code:500 userInfo:nil]];
-                                                     }
+                                                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                                         if (jsonDict) {
+                                                             //Получаем JSON и если он пропарсился отправляем на проверку
+                                                             [subscriber sendNext:jsonDict];
+                                                             [subscriber sendCompleted];
+                                                         }
+                                                         else {
+                                                             [subscriber sendError:[NSError errorWithDomain:@"Json parse error" code:500 userInfo:nil]];
+                                                         }
+                                                     });
                                                  }
                                                  failure:^(AFHTTPRequestOperation *localOperation, NSError *error) {
                                                      [subscriber sendError:error];

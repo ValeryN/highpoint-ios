@@ -1305,7 +1305,7 @@ static DataStorage *dataStorage;
 - (void)createAndSavePhotoEntity:(NSDictionary *)param {
      __weak typeof(self) weakSelf = self;
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-    
+
         User *user = [weakSelf getCurrentUserForContext:localContext];
         Photo *photo = [Photo createInContext:localContext];
         photo.photoId = [[param objectForKey:@"id"] convertToNSNumber];
@@ -1487,9 +1487,10 @@ static DataStorage *dataStorage;
 - (void)createAndSaveCity:(NSDictionary *)param popular:(BOOL)isPopular withComplation:(complationBlock)block {
     
     __weak typeof(self) weakSelf = self;
+    __block City* city = nil;
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
-        City *city = [weakSelf getCityById:param[@"id"] forContext:localContext];
+        city = [weakSelf getCityById:param[@"id"] forContext:localContext];
         if(!city) {
             city = [City createInContext:localContext];
             
@@ -1504,7 +1505,7 @@ static DataStorage *dataStorage;
             city.isPopular = @(isPopular);
         }
     } completion:^(BOOL success, NSError *error)    {
-        block ([self getCityById:[param[@"id"] convertToNSNumber]]);
+        block ([city moveToContext:[NSManagedObjectContext contextForCurrentThread]]);
     }];
 }
 
