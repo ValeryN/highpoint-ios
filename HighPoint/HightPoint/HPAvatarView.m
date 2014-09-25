@@ -62,35 +62,17 @@
     [self addSubview:self.mainView];
     @weakify(self);
 
-    RACSignal * changeUserSignal = [[RACObserve(self,user) filter:^BOOL(id value) {
-        return value!=nil;
-    }] replayLast];
-
-    RACSignal * changeUserVisibilitySignal = [[changeUserSignal  map:^id(User *value) {
-        return value.visibility;    }]  replayLast];
+    RACSignal * prepareForReuse = [self rac_signalForSelector:@selector(setUser:)];
+    RACSignal * changeUserSignal = [RACObserve(self,user) replayLast];
     RACSignal * changeUserOnlineSignal = [[changeUserSignal map:^id(User *value) {
         return value.online;
     }] replayLast];
 
-    RAC(self,avatar.image) = [[[[[[changeUserSignal deliverOn:[RACScheduler scheduler]]  flattenMap:^RACStream *(User* value) {
-        return [RACSignal combineLatest:@[[value userImageSignal],changeUserVisibilitySignal,[RACSignal return:value]]];
-    }]  map:^id(RACTuple * tuple) {
-        RACTupleUnpack(UIImage *userAvatar,NSNumber *visibility,User* user) = tuple;
-        switch ((UserVisibilityType) visibility.intValue) {
-            case UserVisibilityVisible:
-                return RACTuplePack(userAvatar, user);
-            case UserVisibilityBlur:
-            case UserVisibilityHidden:
-                return RACTuplePack([userAvatar hp_imageWithGaussianBlur:10], user);
-        }
-        return nil;
-    }] deliverOn:[RACScheduler mainThreadScheduler]] takeUntilBlock:^BOOL(RACTuple* tuple) {
-        @strongify(self);
-        RACTupleUnpack(UIImage *userAvatar,User* user) = tuple;
-        return ![self.user isEqual:user];
-    }]  map:^id(RACTuple* tuple) {
-        RACTupleUnpack(UIImage *userAvatar,User* user) = tuple;
-        return userAvatar;
+    RAC(self,avatar.image) = [changeUserSignal flattenMap:^RACStream *(User* value) {
+        if(value != nil)
+            return [[value userImageSignal] takeUntil:prepareForReuse];
+        else
+            return [RACSignal empty];
     }];
 
     
