@@ -123,6 +123,8 @@
 		3B6DB4C518FFC33900C26A50 /* Storyboard_568.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B6DB4C418FFC33900C26A50 /* Storyboard_568.storyboard */; };
 		3B6F95DC19B5AEA10095E7BF /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F95DB19B5AEA10095E7BF /* Place.m */; };
 		3B6F95E519B5AEFF0095E7BF /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F95E419B5AEFF0095E7BF /* City.m */; };
+		3B71BD5219D2DD2E00C50840 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71BD5119D2DD2E00C50840 /* UIImageView+HighlightedWebCache.m */; };
+		3B71BD5B19D2DD4900C50840 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71BD5A19D2DD4900C50840 /* UIView+WebCacheOperation.m */; };
 		3B9C74961990B495006ADAE7 /* HPBubbleTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9C74951990B495006ADAE7 /* HPBubbleTextField.m */; };
 		3B9C749B1990FB7E006ADAE7 /* HPMakeAvatarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9C74991990FB7E006ADAE7 /* HPMakeAvatarViewController.m */; };
 		3B9C749C1990FB7E006ADAE7 /* HPMakeAvatarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B9C749A1990FB7E006ADAE7 /* HPMakeAvatarViewController.xib */; };
@@ -663,6 +665,10 @@
 		3B6F95DB19B5AEA10095E7BF /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
 		3B6F95E319B5AEFF0095E7BF /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
 		3B6F95E419B5AEFF0095E7BF /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
+		3B71BD5019D2DD2D00C50840 /* UIImageView+HighlightedWebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+HighlightedWebCache.h"; sourceTree = "<group>"; };
+		3B71BD5119D2DD2E00C50840 /* UIImageView+HighlightedWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+HighlightedWebCache.m"; sourceTree = "<group>"; };
+		3B71BD5919D2DD4900C50840 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
+		3B71BD5A19D2DD4900C50840 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		3B8CEF60195D9576005E85D8 /* NotificationsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsConstants.h; sourceTree = "<group>"; };
 		3B9C74941990B495006ADAE7 /* HPBubbleTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPBubbleTextField.h; sourceTree = "<group>"; };
 		3B9C74951990B495006ADAE7 /* HPBubbleTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPBubbleTextField.m; sourceTree = "<group>"; };
@@ -1802,6 +1808,10 @@
 		3BDA4C6F19064E5900EF6619 /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
+				3B71BD5919D2DD4900C50840 /* UIView+WebCacheOperation.h */,
+				3B71BD5A19D2DD4900C50840 /* UIView+WebCacheOperation.m */,
+				3B71BD5019D2DD2D00C50840 /* UIImageView+HighlightedWebCache.h */,
+				3B71BD5119D2DD2E00C50840 /* UIImageView+HighlightedWebCache.m */,
 				3BDA4C7019064E5900EF6619 /* MKAnnotationView+WebCache.h */,
 				3BDA4C7119064E5900EF6619 /* MKAnnotationView+WebCache.m */,
 				3BDA4C7219064E5900EF6619 /* NSData+ImageContentType.h */,
@@ -2760,6 +2770,7 @@
 				3BBF88EF19C17BBE00B934E6 /* HPBaseNetworkManager+Geo.m in Sources */,
 				3BDA4C9A19064E5900EF6619 /* UIImageView+WebCache.m in Sources */,
 				CDFA8A11196BE63200D04451 /* HPChatTableViewCell.m in Sources */,
+				3B71BD5219D2DD2E00C50840 /* UIImageView+HighlightedWebCache.m in Sources */,
 				4CDC98BD19519EEB006D2F89 /* UIView+HighPoint.m in Sources */,
 				4C91C1E8195812A4002B27D4 /* HPGreenButtonVC.m in Sources */,
 				3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */,
@@ -2826,6 +2837,7 @@
 				3BDA4C9019064E5900EF6619 /* SDWebImageCompat.m in Sources */,
 				3BBF88F219C17E4C00B934E6 /* HPBaseNetworkManager+Reference.m in Sources */,
 				3BDA4C9619064E5900EF6619 /* UIButton+WebCache.m in Sources */,
+				3B71BD5B19D2DD4900C50840 /* UIView+WebCacheOperation.m in Sources */,
 				3BDA4C9719064E5900EF6619 /* UIImage+GIF.m in Sources */,
 				3B52B2BC19C30128000B543C /* NSManagedObject+MagicalRecord.m in Sources */,
 				3BEE69FD19926AA300C8B977 /* HFImageEditorFrameView.m in Sources */,

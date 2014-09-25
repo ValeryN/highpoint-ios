@@ -46,7 +46,7 @@
                                                                 });
                                                             }];
         return [RACDisposable disposableWithBlock:^{
-            [operation cancel];
+            //[operation cancel];
         }];
     }] retry:2] catchTo:[RACSignal return:[UIImage imageNamed:IMAGE_ERROR_DOWNLOAD]]];
 }
