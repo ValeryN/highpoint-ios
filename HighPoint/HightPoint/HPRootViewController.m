@@ -318,6 +318,7 @@
     card.onlyWithPoints = _bottomSwitch.switchState;
     card.current = indexPath.row;
     card.delegate = self;
+    
     [self.navigationController pushViewController: card animated: YES];
 }
 

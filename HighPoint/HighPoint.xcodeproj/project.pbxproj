@@ -130,6 +130,10 @@
 		3B9C749C1990FB7E006ADAE7 /* HPMakeAvatarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B9C749A1990FB7E006ADAE7 /* HPMakeAvatarViewController.xib */; };
 		3B9C749F1990FFA0006ADAE7 /* Close Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9C749D1990FFA0006ADAE7 /* Close Tap.png */; };
 		3B9C74A01990FFA0006ADAE7 /* Close.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9C749E1990FFA0006ADAE7 /* Close.png */; };
+		3BA00C7A19D44EE800C5AE83 /* slider-default-handle_.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA00C7819D44EE700C5AE83 /* slider-default-handle_.png */; };
+		3BA00C7B19D44EE900C5AE83 /* slider-default-handle_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA00C7919D44EE800C5AE83 /* slider-default-handle_@2x.png */; };
+		3BA00C7E19D4501A00C5AE83 /* slider-default7-handle_.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA00C7C19D4501A00C5AE83 /* slider-default7-handle_.png */; };
+		3BA00C7F19D4501A00C5AE83 /* slider-default7-handle_@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA00C7D19D4501A00C5AE83 /* slider-default7-handle_@2x.png */; };
 		3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA384041924CBBC00EFC749 /* BaseAnimation.m */; };
 		3BA384081924CDBC00EFC749 /* ScaleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA384071924CDBC00EFC749 /* ScaleAnimation.m */; };
 		3BA3840B1924D58A00EFC749 /* CrossDissolveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3840A1924D58A00EFC749 /* CrossDissolveAnimation.m */; };
@@ -683,6 +687,10 @@
 		3B9C749A1990FB7E006ADAE7 /* HPMakeAvatarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPMakeAvatarViewController.xib; sourceTree = "<group>"; };
 		3B9C749D1990FFA0006ADAE7 /* Close Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close Tap.png"; sourceTree = "<group>"; };
 		3B9C749E1990FFA0006ADAE7 /* Close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Close.png; sourceTree = "<group>"; };
+		3BA00C7819D44EE700C5AE83 /* slider-default-handle_.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default-handle_.png"; sourceTree = "<group>"; };
+		3BA00C7919D44EE800C5AE83 /* slider-default-handle_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default-handle_@2x.png"; sourceTree = "<group>"; };
+		3BA00C7C19D4501A00C5AE83 /* slider-default7-handle_.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle_.png"; sourceTree = "<group>"; };
+		3BA00C7D19D4501A00C5AE83 /* slider-default7-handle_@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle_@2x.png"; sourceTree = "<group>"; };
 		3BA384031924CBBC00EFC749 /* BaseAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseAnimation.h; sourceTree = "<group>"; };
 		3BA384041924CBBC00EFC749 /* BaseAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseAnimation.m; sourceTree = "<group>"; };
 		3BA384061924CDBC00EFC749 /* ScaleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScaleAnimation.h; sourceTree = "<group>"; };
@@ -1169,6 +1177,8 @@
 		3B298F9A192F476100BEC2AA /* DefaultTheme */ = {
 			isa = PBXGroup;
 			children = (
+				3BA00C7819D44EE700C5AE83 /* slider-default-handle_.png */,
+				3BA00C7919D44EE800C5AE83 /* slider-default-handle_@2x.png */,
 				3B298F9B192F476100BEC2AA /* slider-default-handle-highlighted.png */,
 				3B298F9C192F476100BEC2AA /* slider-default-handle-highlighted@2x.png */,
 				3B298F9D192F476100BEC2AA /* slider-default-handle.png */,
@@ -1186,6 +1196,8 @@
 		3B298FA5192F476100BEC2AA /* DefaultTheme7 */ = {
 			isa = PBXGroup;
 			children = (
+				3BA00C7C19D4501A00C5AE83 /* slider-default7-handle_.png */,
+				3BA00C7D19D4501A00C5AE83 /* slider-default7-handle_@2x.png */,
 				3B298FA6192F476100BEC2AA /* slider-default7-handle.png */,
 				3B298FA7192F476100BEC2AA /* slider-default7-handle@2x.png */,
 				3B298FA8192F476100BEC2AA /* slider-default7-track.png */,
@@ -2433,7 +2445,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = J67Y29BQR7;
+						DevelopmentTeam = B9639RHZFT;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -2544,6 +2556,7 @@
 				CDA27BEB1974EE06007D6BC1 /* add_photo.png in Resources */,
 				CDA33D9E199367E60054201C /* filter_new.png in Resources */,
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
+				3BA00C7A19D44EE800C5AE83 /* slider-default-handle_.png in Resources */,
 				3B298FC7192F476100BEC2AA /* slider-default7-trackBackground.png in Resources */,
 				3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */,
 				3B9C749F1990FFA0006ADAE7 /* Close Tap.png in Resources */,
@@ -2591,12 +2604,14 @@
 				CDD858BD198F84EB00AB6D07 /* HPCurrentUserUICollectionViewCell.xib in Resources */,
 				3B5EFDB719811EE900408427 /* Camera@2x.png in Resources */,
 				CD08B82D198B6F850006AF4A /* usercard_new_wp.png in Resources */,
+				3BA00C7B19D44EE900C5AE83 /* slider-default-handle_@2x.png in Resources */,
 				3BE9DE3E197FD8F300AFA641 /* 20.jpg in Resources */,
 				CDFA8A1E196BEA6200D04451 /* Rectangle.png in Resources */,
 				4CDC98B919519D08006D2F89 /* HPUserCardViewController.xib in Resources */,
 				3B298FC0192F476100BEC2AA /* slider-default-trackCrossedOver.png in Resources */,
 				3BB5E86C1936121F00DDF5F9 /* bar_background.png in Resources */,
 				CDE0BDCA196E7FC000CBCF58 /* HPCurrentUserViewController.xib in Resources */,
+				3BA00C7F19D4501A00C5AE83 /* slider-default7-handle_@2x.png in Resources */,
 				CDFA8A0E196BE5E900D04451 /* HPChatTableViewCell.xib in Resources */,
 				3BE9DE42197FD8F300AFA641 /* 6.jpg in Resources */,
 				3BE9DE43197FD8F300AFA641 /* 7.jpg in Resources */,
@@ -2634,6 +2649,7 @@
 				3BCB5B0B192F946B00E5DCA9 /* Back@2x.png in Resources */,
 				44D23BA619D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib in Resources */,
 				3B3170AD191B88E000B72AC1 /* Userpic-Mask.png in Resources */,
+				3BA00C7E19D4501A00C5AE83 /* slider-default7-handle_.png in Resources */,
 				4C8096B1193F4ADD00E4C174 /* ParaType - Futura PT Medium.ttf in Resources */,
 				3B6DB4A718FFC24D00C26A50 /* Images.xcassets in Resources */,
 				CDA27BE81974ED96007D6BC1 /* green_btn.png in Resources */,

@@ -74,6 +74,11 @@
     self.guideLabel4.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.6];
     [self.womenSw setOn:NO];
     [self.menSw setOn:NO];
+    self.oldRangeSlider.exclusiveTouch = YES;
+    self.oldRangeSlider.stepValueContinuously = NO;
+    
+    self.oldRangeSlider.lowerValue = 18;
+    self.oldRangeSlider.upperValue = 60;
     self.oldRangeSlider.minimumValue = 18;
     self.oldRangeSlider.maximumValue = 60;
     self.oldRangeSlider.tintColor = [UIColor colorWithRed:93.0/255.0 green:186.0/255.0 blue:164.0/255.0 alpha:1.0];
@@ -86,7 +91,8 @@
     uf = [[DataStorage sharedDataStorage] getUserFilter];
     [self fixSelfConstraint];
     [self registerNotification];
-    [self.navigationController setNavigationBarHidden:YES];
+    
+    [[self navigationController] setNavigationBarHidden:YES animated:YES];
     self.oldRangeSlider.minimumValue = 18;
     self.oldRangeSlider.maximumValue = 60;
     [self updateViewValues];
@@ -122,6 +128,8 @@
 
     [self saveFilter];
     self.navigationController.delegate = self.savedDelegate;
+    //[[self navigationController] setNavigationBarHidden:NO animated:NO];
+    
     [self.navigationController popViewControllerAnimated:YES];
     if ([self.delegate respondsToSelector:@selector(showActivity)]) {
         [self.delegate showActivity];
