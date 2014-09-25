@@ -40,6 +40,8 @@
                 
                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:arr forUserType:CurrentUserType withComplation:^(NSError *error) {
                     if(!error) {
+                        
+                        [self getUserPhotoRequest];
                         if([self isTaskArrayEmpty:manager]) {
                             NSLog(@"Stop Queue");
                             [self makeTownByIdRequest];

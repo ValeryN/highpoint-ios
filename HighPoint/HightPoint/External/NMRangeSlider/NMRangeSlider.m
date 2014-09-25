@@ -161,6 +161,7 @@ NSUInteger DeviceSystemMajorVersion() {
 
 - (void) setLowerValue:(float) lowerValue upperValue:(float) upperValue animated:(BOOL)animated
 {
+    NSLog(@"%f", upperValue);
     if((!animated) && (isnan(lowerValue) || lowerValue==_lowerValue) && (isnan(upperValue) || upperValue==_upperValue))
     {
         //nothing to set
@@ -335,12 +336,12 @@ NSUInteger DeviceSystemMajorVersion() {
     {
         if(IS_PRE_IOS7())
         {
-            UIImage* image = [UIImage imageNamed:@"slider-default-handle"];
+            UIImage* image = [UIImage imageNamed:@"slider-default-handle_"];
             _upperHandleImageNormal = image;
         }
         else
         {
-            UIImage* image = [UIImage imageNamed:@"slider-default7-handle"];
+            UIImage* image = [UIImage imageNamed:@"slider-default7-handle_"];
             _upperHandleImageNormal = image;
         }
     }
@@ -359,7 +360,7 @@ NSUInteger DeviceSystemMajorVersion() {
         }
         else
         {
-            UIImage* image = [UIImage imageNamed:@"slider-default7-handle"];
+            UIImage* image = [UIImage imageNamed:@"slider-default7-handle_"];
             _upperHandleImageNormal = image;
         }
     }
@@ -451,10 +452,10 @@ NSUInteger DeviceSystemMajorVersion() {
     
     if(_trackBackgroundImage.capInsets.left || _trackBackgroundImage.capInsets.right)
     {
-        trackBackgroundRect.size.width=self.bounds.size.width-4;
+        trackBackgroundRect.size.width=self.bounds.size.width;
     }
     
-    trackBackgroundRect.origin = CGPointMake(2, (self.bounds.size.height/2.0f) - (trackBackgroundRect.size.height/2.0f));
+    trackBackgroundRect.origin = CGPointMake(0, (self.bounds.size.height/2.0f) - (trackBackgroundRect.size.height/2.0f));
     
     return trackBackgroundRect;
 }
@@ -462,10 +463,11 @@ NSUInteger DeviceSystemMajorVersion() {
 //returms the rect of the tumb image for a given track rect and value
 - (CGRect)thumbRectForValue:(float)value image:(UIImage*) thumbImage
 {
+    NSLog(@"tumb rect");
     CGRect thumbRect;
     UIEdgeInsets insets = thumbImage.capInsets;
 
-    thumbRect.size = CGSizeMake(thumbImage.size.width, thumbImage.size.height);
+    thumbRect.size = CGSizeMake(thumbImage.size.width , thumbImage.size.height);
     
     if(insets.top || insets.bottom)
     {
@@ -473,7 +475,11 @@ NSUInteger DeviceSystemMajorVersion() {
     }
     
     float xValue = ((self.bounds.size.width-thumbRect.size.width)*((value - _minimumValue) / (_maximumValue - _minimumValue)));
-    thumbRect.origin = CGPointMake(xValue, (self.bounds.size.height/2.0f) - (thumbRect.size.height/2.0f));
+    
+    if([thumbImage isEqual:self.lowerHandleImageNormal])
+        thumbRect.origin = CGPointMake(xValue -7 , (self.bounds.size.height/2.0f) - (thumbRect.size.height/2.0f));
+    if([thumbImage isEqual:self.upperHandleImageNormal])
+        thumbRect.origin = CGPointMake(xValue + 7  , (self.bounds.size.height/2.0f) - (thumbRect.size.height/2.0f));
     
     return CGRectIntegral(thumbRect);
 

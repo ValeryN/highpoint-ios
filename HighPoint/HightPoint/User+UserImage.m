@@ -65,10 +65,14 @@
                                                                      });
                                                                  }];
         return [RACDisposable disposableWithBlock:^{
+
+            //[operation cancel];
+
             if(notDownloadCancel) {
                 NSLog(@"Cancel not download avatar %@", avatarUrl);
             }
             [operation cancel];
+
         }];
     }] retry:2] catchTo:[RACSignal return:[UIImage imageNamed:IMAGE_ERROR_DOWNLOAD]]] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]];
 }

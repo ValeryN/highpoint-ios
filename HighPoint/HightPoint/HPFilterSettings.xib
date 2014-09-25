@@ -91,7 +91,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yKW-ZT-DBr" customClass="NMRangeSlider">
-                    <rect key="frame" x="12" y="223" width="295" height="10"/>
+                    <rect key="frame" x="12" y="218" width="295" height="32"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="labelSliderChanged:" destination="-1" eventType="valueChanged" id="mQs-KB-B7o"/>

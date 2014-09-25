@@ -95,68 +95,6 @@
             endingLineNumber = "1810"
             landmarkName = "-setAndSaveMessageStatus:forMessage:"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[DataStorage setAndSaveMessageStatus:forMessage:]"
-                  moduleName = "HighPoint"
-                  urlString = "file:///Users/anisimov/projects/HighPoint_term_version/highpoint-ios/HighPoint/HightPoint/DataStorage.m"
-                  timestampString = "433242574.525806"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1810"
-                  endingLineNumber = "1810"
-                  offsetFromSymbolStart = "68">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__50-[DataStorage setAndSaveMessageStatus:forMessage:]_block_invoke"
-                  moduleName = "HighPoint"
-                  urlString = "file:///Users/anisimov/projects/HighPoint_term_version/highpoint-ios/HighPoint/HightPoint/DataStorage.m"
-                  timestampString = "433242574.526077"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1810"
-                  endingLineNumber = "1810"
-                  offsetFromSymbolStart = "36">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HightPoint/HPBaseNetworkManager+Contacts.m"
-            timestampString = "433238174.227557"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "-getContactsRequest"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HightPoint/HPBaseNetworkManager+Contacts.m"
-            timestampString = "433238179.099786"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "-getContactsRequest"
-            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

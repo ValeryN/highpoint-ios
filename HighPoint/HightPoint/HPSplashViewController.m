@@ -52,7 +52,7 @@
             [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest];
             
             [[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequest];
-            [[HPBaseNetworkManager sharedNetworkManager] getUserPhotoRequest];
+            //[[HPBaseNetworkManager sharedNetworkManager] getUserPhotoRequest];
             [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
         }
     }];
