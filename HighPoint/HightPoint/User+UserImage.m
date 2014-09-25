@@ -15,7 +15,6 @@
 @implementation User (UserImage)
 - (RACSignal *) userImageSignal
 {
-    //return [RACSignal return:[UIImage imageNamed:@".png"]];
     User* userInContext = [self moveToContext:[NSManagedObjectContext threadContext]];
     NSString* avatarUrl = userInContext.avatar.originalImgSrc;
     NSURL * imageURL = [NSURL URLWithString:avatarUrl];
@@ -65,9 +64,6 @@
                                                                      });
                                                                  }];
         return [RACDisposable disposableWithBlock:^{
-
-            //[operation cancel];
-
             if(notDownloadCancel) {
                 NSLog(@"Cancel not download avatar %@", avatarUrl);
             }
