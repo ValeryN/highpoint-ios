@@ -28,5 +28,6 @@
 @dynamic chat;
 @dynamic contact;
 @dynamic status;
+@dynamic messageType;
 
 @end

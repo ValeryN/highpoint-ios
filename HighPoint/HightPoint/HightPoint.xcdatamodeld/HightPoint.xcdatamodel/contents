@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13E28" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13F34" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AppSetting" representedClassName="AppSetting" syncable="YES">
         <attribute name="avatarMaxFileSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="avatarMinCropSizeHeight" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -104,6 +104,7 @@
         <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="lastMessage" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="messageBody" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="notsendedMessage" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="readAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="sourceId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -216,7 +217,7 @@
         <element name="Gender" positionX="304" positionY="-333" width="128" height="73"/>
         <element name="Language" positionX="-396" positionY="-279" width="128" height="88"/>
         <element name="MaxEntertainmentPrice" positionX="27" positionY="-0" width="128" height="88"/>
-        <element name="Message" positionX="693" positionY="189" width="128" height="283"/>
+        <element name="Message" positionX="693" positionY="189" width="128" height="300"/>
         <element name="MinEntertainmentPrice" positionX="493" positionY="-153" width="128" height="88"/>
         <element name="Photo" positionX="-198" positionY="-567" width="128" height="150"/>
         <element name="Place" positionX="45" positionY="167" width="128" height="118"/>

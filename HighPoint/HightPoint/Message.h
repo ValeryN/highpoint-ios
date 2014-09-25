@@ -17,10 +17,18 @@ typedef NS_ENUM(NSUInteger, MessageStatus){
     MessageStatusRead = 4
 };
 
+typedef NS_ENUM(NSUInteger, MessageType){
+    MessageTypePlain = 0,
+    MessageTypeOpenRequest = 1,
+    MessageTypeOpenAllowResponse = 2,
+    MessageTypeOpenDenyResponse = 3
+};
+
 @class Chat, Contact;
 
 @interface Message : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * messageType;
 @property (nonatomic, retain) NSNumber * bindedUserId;
 @property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) NSString* createdAtDaySection;

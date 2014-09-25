@@ -13,7 +13,7 @@
     NSString *tmp = [self primitiveValueForKey: @"createdAtDaySection"];
     [self didAccessValueForKey:@"createdAtDaySection"];
 
-    if (!tmp)
+    if (!tmp && self.createdAt)
     {
         tmp = [Message createdAtSectionIdentifierGenerateFromDate:self.createdAt];
         [self willChangeValueForKey: @"createdAtDaySection"];

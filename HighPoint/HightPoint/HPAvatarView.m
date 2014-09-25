@@ -61,14 +61,22 @@
     self.mainView.frame = (CGRect){0,0,self.frame.size};
     [self addSubview:self.mainView];
     @weakify(self);
-    
-    RAC(self,avatar.image) = [[[[[RACObserve(self, user) distinctUntilChanged] filter:^BOOL(id value) {
-        return value!=nil;
-    }] flattenMap:^RACStream *(User *value) {
-        @strongify(self);
-        return [[RACSignal combineLatest:@[[RACSignal return:value.visibility], [[value userImageSignal] takeUntil:[RACObserve(self, user) skip:1]]]] deliverOn:[RACScheduler scheduler]];
-    }] map:^id(RACTuple *value) {
-        RACTupleUnpack(NSNumber *visibility, UIImage *userAvatar) = value;
+
+    RACSignal * changeUserSignal = [[RACObserve(self, user) filter:^BOOL(id value) {
+        return value != nil;
+    }] replayLast];
+
+    RACSignal * changeUserVisibilitySignal = [[[[changeUserSignal  distinctUntilChanged] map:^id(User *value) {
+        return value.visibility;
+    }] distinctUntilChanged] replayLast];
+    RACSignal * changeUserOnlineSignal = [[[[changeUserSignal distinctUntilChanged] map:^id(User *value) {
+        return value.online;
+    }] distinctUntilChanged] replayLast];
+
+    RAC(self,avatar.image) = [[[[[changeUserSignal  flattenMap:^RACStream *(User* value) {
+        return [[[value userImageSignal] subscribeOn:[RACScheduler scheduler]] takeUntil:[[changeUserSignal skip:1] take:1]];
+    }] deliverOn:[RACScheduler scheduler]] combineLatestWith:changeUserVisibilitySignal] map:^id(id value) {
+        RACTupleUnpack(UIImage *userAvatar,NSNumber *visibility) = value;
         switch ((UserVisibilityType) visibility.intValue) {
             case UserVisibilityVisible:
                 return userAvatar;
@@ -91,7 +99,7 @@
 
     self.borderGreen = [UIImage imageNamed:@"Userpic Shape Green"];
     self.borderRed = [UIImage imageNamed:@"Userpic Shape Red"];
-    RAC(self,avatarBorder.image) = [[[RACObserve(self, user.online) deliverOn:[RACScheduler scheduler]] map:^id(NSNumber * online) {
+    RAC(self,avatarBorder.image) = [[changeUserOnlineSignal map:^id(NSNumber * online) {
         @strongify(self);
         if(online.boolValue){
             return self.borderGreen;
