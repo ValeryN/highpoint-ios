@@ -89,6 +89,9 @@
     [super viewWillAppear:animated];
     
     uf = [[DataStorage sharedDataStorage] getUserFilter];
+    NSLog(@"%@", uf.city.cityName);
+    NSLog(@"%@", uf.maxAge);
+    NSLog(@"%@", uf.minAge);
     [self fixSelfConstraint];
     [self registerNotification];
     

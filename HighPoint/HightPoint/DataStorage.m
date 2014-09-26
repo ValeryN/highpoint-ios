@@ -121,6 +121,7 @@ static DataStorage *dataStorage;
         NSArray *filters = [UserFilter findAllInContext:localContext];
         UserFilter *uf;
         City *city = [globalCity MR_inContext:localContext];
+        NSLog(@"%@", city.cityName);
         if (filters.count > 0) {
             uf = filters[0];
         }
@@ -130,6 +131,7 @@ static DataStorage *dataStorage;
             uf.city = nil;
         }
     } completion:^(BOOL success, NSError *error)    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateCurrentUserData object:nil userInfo:nil];
     }];
 }
 - (void)updateCityAtUserFilter:(City *)city {

@@ -24,7 +24,7 @@
 @end
 
 
-@interface HPUserCardViewController : UIViewController <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, HPUserInfoViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPUserCardViewControllerDelegate>
+@interface HPUserCardViewController : UIViewController <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, HPUserInfoViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPUserCardViewControllerDelegate, UIScrollViewDelegate>
 {
     NSArray *usersArr;
     ModalAnimation *_modalAnimationController;

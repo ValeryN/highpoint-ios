@@ -68,27 +68,31 @@
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
     [self updateNotificationViewCount];
     _modalAnimationController = [[ModalAnimation alloc] init];
+    
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear: animated];
-    
+    self.currentIndex = self.current;
     NSLog(@"current = %d", self.current);
+    self.usersCollectionView.delegate = self;
+    self.usersCollectionView.dataSource = self;
     if (self.current == 0) {
-       // [self.usersCollectionView setContentOffset:CGPointMake(0, ) animated:NO];
+        // [self.usersCollectionView setContentOffset:CGPointMake(0, ) animated:NO];
     } else {
         
         if (![UIDevice hp_isWideScreen]) {
-            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 64) animated:NO];
+            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 0) animated:NO];// 64
         }
         
         if (self.usersCollectionView.contentSize.height <= 428 * (self.current - 1) ) {
-            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 128) animated:NO];
+            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 0) animated:NO];
         } else {
             [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current)) animated:NO];
         }
     }
     isFirstLoad = NO;
+    
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -103,8 +107,8 @@
 {
     [self createNavigationItem];
     [self.usersCollectionView registerNib:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"UserCardIdentif"];
-    self.usersCollectionView.delegate = self;
-    self.usersCollectionView.dataSource = self;
+    
+    
 }
 
 #pragma mark - navigation bar
@@ -200,6 +204,13 @@
             }
         }
     }
+}
+- (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    CGRect visibleRect = (CGRect){.origin = self.usersCollectionView.contentOffset, .size = self.usersCollectionView.bounds.size};
+    CGPoint visiblePoint = CGPointMake(CGRectGetMidX(visibleRect), CGRectGetMidY(visibleRect));
+    NSIndexPath *visibleIndexPath = [self.usersCollectionView indexPathForItemAtPoint:visiblePoint];
+    
+    self.currentIndex = visibleIndexPath.row;
 }
 
 #pragma mark - Tap events -
@@ -327,16 +338,13 @@
     targetContentOffset->y = currentOffset;
     [scrollView setContentOffset:CGPointMake(0, newTargetOffset) animated:YES];
 }
-
-
-
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
     HPUserCardUICollectionViewCell* currentCell = ([[collectionView visibleCells]count] > 0) ? [[collectionView visibleCells] objectAtIndex:0] : nil;
     
     if(cell != nil){
-        self.currentIndex = [collectionView indexPathForCell:currentCell].row;
+        //self.currentIndex = [collectionView indexPathForCell:currentCell].row;
     }
-    NSLog(@"current index for sync = %d", self.currentIndex);
+    //NSLog(@"current index for sync = %d", self.currentIndex);
 }
 
 //#pragma mark - Transitioning Delegate (Modal)

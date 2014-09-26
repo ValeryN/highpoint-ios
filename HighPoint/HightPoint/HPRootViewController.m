@@ -68,15 +68,22 @@
     [self configureNavigationBar];
     [self registerNotification];
     [self updateCurrentView];
+    self.mainListTable.hidden = YES;
+    
 }
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     isFirstLoad = NO;
+    
+    self.allUsers.delegate = self;
+    [self.mainListTable reloadData];
     if (self.isNeedScrollToIndex) {
+        NSLog(@"%d", self.currentIndex);
         NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
         [self.mainListTable reloadData];
         [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
+    self.mainListTable.hidden = NO;
     self.isNeedScrollToIndex = NO;
 }
 
@@ -175,59 +182,58 @@
     } else {
         self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
     }
-    self.allUsers.delegate = self;
-    [self.mainListTable reloadData];
+    
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller;
 {
     // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
-   // [self.mainListTable beginUpdates];
+    [self.mainListTable beginUpdates];
 }
 
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
 {
-//    switch(type) {
-//        case NSFetchedResultsChangeInsert:
-//            // your code for insert
-//            break;
-//        case NSFetchedResultsChangeDelete:
-//            // your code for deletion
-//            break;
-//    }
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            // your code for insert
+            break;
+        case NSFetchedResultsChangeDelete:
+            // your code for deletion
+            break;
+    }
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
 
-//    switch(type) {
-//        case NSFetchedResultsChangeInsert:
-//            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//
-//        case NSFetchedResultsChangeDelete:
-//            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//
-//        case NSFetchedResultsChangeUpdate: {
-//            User *user = [self.allUsers objectAtIndexPath:indexPath];
-//            [(HPMainViewListTableViewCell *) [self.mainListTable cellForRowAtIndexPath:indexPath] configureCell:user];
-//        }
-//            break;
-//
-//        case NSFetchedResultsChangeMove:
-//            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//    }
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+
+        case NSFetchedResultsChangeDelete:
+            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+
+        case NSFetchedResultsChangeUpdate: {
+            User *user = [self.allUsers objectAtIndexPath:indexPath];
+            [(HPMainViewListTableViewCell *) [self.mainListTable cellForRowAtIndexPath:indexPath] configureCell:user];
+        }
+            break;
+
+        case NSFetchedResultsChangeMove:
+            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
-   // [self.mainListTable endUpdates];
-    [self.mainListTable reloadData];
+   [self.mainListTable endUpdates];
+    //[self.mainListTable reloadData];
 }
 
 
