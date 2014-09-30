@@ -77,6 +77,9 @@ typedef void (^complationBlock) (id object);
 - (void)createAndSaveMessage:(NSDictionary *)param  forUserId:(NSNumber*) keyId  andMessageType:(MessageTypes) type withComplation:(complationBlock) block;
 - (void)deleteAndSaveContact: (NSNumber *) contactId;
 - (NSDictionary*) prepareParamFromUser:(User*) user;
+- (void)deletePhotosWithComplation:(complationBlock)block;
+
+
 
 - (void)setAndSaveUser:(User *)globalUser toLikePoint:(UserPoint *)globalPoint withComplationBlock:(complationBlock)block;
 - (NSFetchedResultsController*) getContactsByQueryFetchResultsController :(NSString *) queryStr;
@@ -87,7 +90,7 @@ typedef void (^complationBlock) (id object);
 - (NSFetchedResultsController *)allUsersPointLikesResultsController;
 - (User*) getCurrentUser;
 - (void)deleteAndSaveCurrentUser;
-
+- (NSArray *) getPhotoForUserId:(NSNumber *) userId;
 
 - (void)addAndSavePlaceEntity:(NSDictionary *)param forUser:(User*) user;
 - (void)deleteAndSavePlaceEntityFromUserWithIds:(NSArray *) id;

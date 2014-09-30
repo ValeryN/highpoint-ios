@@ -9,6 +9,9 @@
 #import "Utils.h"
 #import "UIImage+HighPoint.h"
 #import "HPUserProfileСarouselModeViewController.h"
+#import "DataStorage.h"
+#import "Photo.h"
+#import "SDWebImageManager.h"
 
 @interface HPUserProfilePhotoAlbumTabViewController()
 @property (nonatomic, retain) NSMutableArray* photosArray;
@@ -22,14 +25,9 @@ static NSString *cellID = @"cellID";
     [super viewDidLoad];
     [self.collectionView registerNib:[UINib nibWithNibName:@"HPImageCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:cellID];
 
-    self.photosArray = @[].mutableCopy;
+    NSArray *photos = [[DataStorage sharedDataStorage] getPhotoForUserId:[NSNumber numberWithInt:1]];
     _photosArray = nil;
-    _photosArray = [NSMutableArray array];
-    for (NSInteger i = 1; i <= 14; i++) {
-        NSString *photoName = [NSString stringWithFormat:@"%ld.jpg",(long)i];
-        UIImage *photo = [UIImage imageNamed:photoName];
-        [_photosArray addObject:photo];
-    }
+    _photosArray = [NSMutableArray arrayWithArray:photos];
 }
 
 
@@ -125,8 +123,26 @@ static NSString *cellID = @"cellID";
 
     } else {
         cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-        cell.imageView.image = _photosArray[(NSUInteger) indexPath.item];
-        cell.contentView.layer.borderColor =  [UIColor clearColor].CGColor;
+        Photo *photo = [self.photosArray objectAtIndex:indexPath.row];
+        
+        NSString* avatarUrl = photo.imgeSrc;
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        [manager downloadImageWithURL:[NSURL URLWithString:avatarUrl]
+                         options:0
+                        progress:^(NSInteger receivedSize, NSInteger expectedSize)
+         {
+             // progression tracking code
+         }
+                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *url)
+         {
+             if (image)
+             {
+                 
+                 cell.imageView.image = image;
+                 cell.contentView.layer.borderColor =  [UIColor clearColor].CGColor;
+                 
+             }
+         }];
     }
     [cell addSubview:cell.imageView];
     return cell;

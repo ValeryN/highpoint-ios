@@ -1320,15 +1320,39 @@ static DataStorage *dataStorage;
             photo.imgeHeight =[[[param objectForKey:@"image"] objectForKey:@"height"] convertToNSNumber];
             photo.imgeWidth =[[[param objectForKey:@"image"] objectForKey:@"width"] convertToNSNumber];
             if([[[param objectForKey:@"image"] objectForKey:@"src"] isKindOfClass:[NSString class]]) {
-                photo.imgeSrc = [[param objectForKey:@"image"] objectForKey:@"src"];
+                photo.imgeSrc = [[[param objectForKey:@"image"] objectForKey:@"src"] stringByAppendingString:@"?size=s640"];
             }
         }
     } completion:^(BOOL success, NSError *error) {
     }];
 }
-- (void)deletePhotos {
-    
+- (void)deletePhotosWithComplation:(complationBlock)block   {
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSArray *photos = [Photo findAllInContext:localContext];
+        for(Photo *photo in photos) {
+            [photo deleteInContext:localContext];
+        }
+        
+    } completion:^(BOOL success, NSError *error)    {
+        block(error);
+    }];
 }
+- (NSArray *) getPhotoForUserId:(NSNumber *) userId {
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"userId  = %d", [userId intValue]];
+    NSPredicate *predicate;
+    @try {
+        predicate = [NSPredicate predicateWithFormat:predicateString];
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    if(predicate) {
+        NSArray *sch = [Photo findAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
+        return sch;
+    } else return nil;
+}
+
 #pragma mark -
 #pragma mark application settings entity
 

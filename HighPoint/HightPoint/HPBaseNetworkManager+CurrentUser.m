@@ -461,43 +461,48 @@
 }
  */
 - (void) getUserPhotoRequest {
-    NSString *url = nil;
-    url = [URLs getServerURL];
-    url = [url stringByAppendingString:[NSString stringWithString:kGetUserPhotoRequest]];
     
-    
-    [[self requestOperationManager] GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        // NSLog(@"GET USER MESSAGES RESP JSON: --> %@", operation.responseString);
-        NSError *error = nil;
-        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
-        if(jsonData) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                     options:kNilOptions
-                                                                       error:&error];
-            if(jsonDict) {
-                if([[jsonDict objectForKey:@"data"] isKindOfClass:[NSDictionary class]]) {
-                    
-                    if([[[jsonDict objectForKey:@"data"] objectForKey:@"photos"] isKindOfClass:[NSArray class]]) {
-                        for(id d in [[jsonDict objectForKey:@"data"] objectForKey:@"photos"]) {
-                            if([d isKindOfClass:[NSDictionary class]]) {
-                                [[DataStorage sharedDataStorage] createAndSavePhotoEntity:d];
+    [[DataStorage sharedDataStorage] deletePhotosWithComplation:^(NSError *error) {
+        if(!error) {
+            NSString *url = nil;
+            url = [URLs getServerURL];
+            url = [url stringByAppendingString:[NSString stringWithString:kGetUserPhotoRequest]];
+            
+            
+            [[self requestOperationManager] GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                // NSLog(@"GET USER MESSAGES RESP JSON: --> %@", operation.responseString);
+                NSError *error = nil;
+                NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+                if(jsonData) {
+                    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                             options:kNilOptions
+                                                                               error:&error];
+                    if(jsonDict) {
+                        if([[jsonDict objectForKey:@"data"] isKindOfClass:[NSDictionary class]]) {
+                            
+                            if([[[jsonDict objectForKey:@"data"] objectForKey:@"photos"] isKindOfClass:[NSArray class]]) {
+                                for(id d in [[jsonDict objectForKey:@"data"] objectForKey:@"photos"]) {
+                                    if([d isKindOfClass:[NSDictionary class]]) {
+                                        [[DataStorage sharedDataStorage] createAndSavePhotoEntity:d];
+                                    }
+                                }
                             }
                         }
+                        
+                    } else {
+                        NSLog(@"Error: %@", error.localizedDescription);
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                        [alert show];
                     }
                 }
-                
-            } else {
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"Error: %@", error.localizedDescription);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [alert show];
-            }
+                
+                
+            }];
+
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error.localizedDescription);
-        
-        
     }];
-    
 }
 
 //TODO: /v201405/me/photos/sort
