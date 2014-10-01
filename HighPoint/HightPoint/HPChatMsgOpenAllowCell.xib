@@ -42,6 +42,9 @@
                     <constraint firstAttribute="bottomMargin" secondItem="I5f-zh-kqJ" secondAttribute="bottom" constant="3" id="aQf-3z-1lM"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="cellTextLabel" destination="jOy-sd-Zy3" id="v1g-bT-voE"/>
+            </connections>
             <point key="canvasLocation" x="165.5" y="26.5"/>
         </tableViewCell>
     </objects>

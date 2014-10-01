@@ -16,6 +16,10 @@ typedef NS_ENUM(NSUInteger, UserVisibilityType){
     UserVisibilityHidden = 3
 };
 
+typedef NS_ENUM(NSUInteger, UserGenderType){
+    UserGenderMale = 1,
+    UserGenderFemale = 2,
+};
 
 @class Avatar, Career, Chat, City, Contact, Education, Language, MaxEntertainmentPrice, MinEntertainmentPrice, Place, UserFilter, UserPoint;
 
