@@ -12,6 +12,8 @@
 #import "DataStorage.h"
 #import "Photo.h"
 #import "SDWebImageManager.h"
+#import "AssetsLibrary/AssetsLibrary.h"
+#import "HPBaseNetworkManager+Photos.h"
 
 @interface HPUserProfilePhotoAlbumTabViewController()
 @property (nonatomic, retain) NSMutableArray* photosArray;
@@ -25,12 +27,15 @@ static NSString *cellID = @"cellID";
     [super viewDidLoad];
     [self.collectionView registerNib:[UINib nibWithNibName:@"HPImageCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:cellID];
 
+    [self reloadData];
+}
+
+- (void) reloadData {
     NSArray *photos = [[DataStorage sharedDataStorage] getPhotoForUserId:[NSNumber numberWithInt:1]];
     _photosArray = nil;
     _photosArray = [NSMutableArray arrayWithArray:photos];
+    [self.collectionView reloadData];
 }
-
-
 #pragma mark - collection view
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -124,25 +129,49 @@ static NSString *cellID = @"cellID";
     } else {
         cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
         Photo *photo = [self.photosArray objectAtIndex:indexPath.row];
-        
-        NSString* avatarUrl = photo.imgeSrc;
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        [manager downloadImageWithURL:[NSURL URLWithString:avatarUrl]
-                         options:0
-                        progress:^(NSInteger receivedSize, NSInteger expectedSize)
-         {
-             // progression tracking code
-         }
-                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *url)
-         {
-             if (image)
+        if([photo.photoId intValue] > 0) {
+            NSString* avatarUrl = photo.imgeSrc;
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            [manager downloadImageWithURL:[NSURL URLWithString:avatarUrl]
+                                  options:0
+                                 progress:^(NSInteger receivedSize, NSInteger expectedSize)
              {
-                 
-                 cell.imageView.image = image;
-                 cell.contentView.layer.borderColor =  [UIColor clearColor].CGColor;
-                 
+                 // progression tracking code
              }
-         }];
+                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *url)
+             {
+                 if (image)
+                 {
+                     
+                     cell.imageView.image = image;
+                     cell.contentView.layer.borderColor =  [UIColor clearColor].CGColor;
+                     
+                 }
+             }];
+        } else {
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+                @autoreleasepool {
+                    
+                    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+                    [assetsLibrary assetForURL:[NSURL URLWithString:photo.imgeSrc] resultBlock: ^(ALAsset *asset)   {
+                        ALAssetRepresentation *representation = [asset defaultRepresentation];
+                        CGImageRef imageRef = [representation fullResolutionImage];
+                        if (imageRef) {
+                            UIImage* image = [UIImage imageWithCGImage:imageRef
+                                                                 scale:representation.scale
+                                                           orientation:(UIImageOrientation) representation.orientation];
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                                cell.imageView.image = image;
+                            });
+                        }
+                    } failureBlock:^(NSError *error)    {
+                        
+                    }];
+                }
+            });
+        }
     }
     [cell addSubview:cell.imageView];
     return cell;
@@ -218,11 +247,23 @@ static NSString *cellID = @"cellID";
 - (void) addPhotoMenuShow {
     HPAddPhotoMenuViewController* addPhotoViewController = [[HPAddPhotoMenuViewController alloc] initWithNibName: @"HPAddPhotoMenuViewController" bundle: nil];
     addPhotoViewController.delegate = self;
-
     addPhotoViewController.screenShoot = [self selfScreenShot];
-    [self presentViewController:addPhotoViewController animated:NO completion:nil];
+    [self presentViewController:addPhotoViewController animated:YES completion:nil];
 }
-
+- (void) viewWillBeHidden:(UIImage*) image andIntPath:(NSString *)path {
+    //
+    NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+    NSNumber *fakeId = [NSNumber numberWithInt: (int) timeStamp * -1];
+    [[HPBaseNetworkManager sharedNetworkManager] addPhotoRequest:image];
+    NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:fakeId,@"id",[NSNumber numberWithFloat:image.size.width],@"imgwidth",[NSNumber numberWithFloat:image.size.height],@"imgheight",path, @"imgsrc", nil];
+    [[DataStorage sharedDataStorage] createAndSaveIntPhotoEntity:param withComplation:^(id object) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        [self reloadData];
+    }];
+}
+- (void) closeMenu {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 - (UIImage*) selfScreenShot {
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
     CGRect rect = [keyWindow frame];

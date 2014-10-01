@@ -69,6 +69,7 @@ typedef void (^complationBlock) (id object);
 - (Chat *)getChatByUserId:(NSNumber *)userId forContext:(NSManagedObjectContext*) context;
 - (NSInteger)allUnreadMessagesCount:(User *)user;
 - (void)createAndSavePhotoEntity:(NSDictionary *)param;
+- (void)createAndSaveIntPhotoEntity:(NSDictionary *)param withComplation:(complationBlock)block;
 - (NSArray*) getUsersForCityId:(NSNumber*) cityId;
 - (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
 - (User *) getSelectedUserById:(NSNumber*) id_;
