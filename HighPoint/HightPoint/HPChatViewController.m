@@ -30,16 +30,13 @@
 @property(weak, nonatomic) IBOutlet UIView *msgBottomView;
 @property(weak, nonatomic) IBOutlet UIButton *msgAddBtn;
 @property(weak, nonatomic) IBOutlet UIButton *sendMessageButton;
+@property(weak, nonatomic) IBOutlet UIButton *sendOpenProfileButton;
 @property(weak, nonatomic) IBOutlet UITextView *msgTextView;
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *msgTextViewHeight;
 @property(weak, nonatomic) IBOutlet UILabel *msgPlacehoderTextView;
 
-
 @property(nonatomic) NSDate *minimumViewedDate;
-@property(nonatomic, retain) NSMutableDictionary *sizeCacheByObjectId;
-@property(nonatomic) BOOL inputMode;
-
-
+@property(nonatomic) BOOL openingMode;
 @property(nonatomic, retain) RACSignal *keyboardHeightSignal;
 @end
 
@@ -63,7 +60,7 @@
     [self configureNavigationBar];
     [self configureOffsetTableViewGesture];
     [self configureInputView];
-    [self configureSendMessageButton];
+    [self configureSendMessageOrOpenProfileButton];
 }
 
 - (NSString *)cellIdentifierForModel:(Message *)model {
@@ -80,29 +77,66 @@
     return @"";
 }
 
-- (void)configureSendMessageButton {
+- (void)configureSendMessageOrOpenProfileButton {
     @weakify(self);
-    RAC(self, sendMessageButton.hidden) = [[RACSignal merge:@[self.msgTextView.rac_textSignal, RACObserve(self, msgTextView.text)]] map:^id(NSString *value) {
+    RACSignal * showSendMessageButton = [[[RACSignal merge:@[self.msgTextView.rac_textSignal, RACObserve(self, msgTextView.text)]] map:^id(NSString *value) {
         return @(value.length == 0);
-    }];
+    }] not];
+
+    RAC(self, sendMessageButton.hidden) = [showSendMessageButton not];
+    RAC(self, sendOpenProfileButton.hidden) = [[[RACSignal combineLatest:@[[showSendMessageButton not], [self canOpenProfileSignal]]] and] not];
+
     [[self.sendMessageButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         [self sendMessageToCurrentContactWithText:self.msgTextView.text];
         self.msgTextView.text = @"";
     }];
+
+    [[RACObserve(self, openingMode) map:^id(NSNumber *value) {
+        if (value.boolValue) {
+            return @"Отмена";
+        }
+        return @"Открыться";
+    }] subscribeNext:^(NSString* title) {
+        @strongify(self);
+        [self.sendOpenProfileButton setTitle:title forState:UIControlStateNormal];
+    }];
+
+    [[self.msgTextView rac_textBeginEdit] subscribeNext:^(id x) {
+        @strongify(self);
+        self.openingMode = NO;
+    }];
+    [[self.sendOpenProfileButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        [self.msgTextView resignFirstResponder];
+        self.openingMode = !self.openingMode;
+    }];
+
 }
 
 - (void)configureInputMode {
     @weakify(self);
-    [[self keyboardHeightSignal] subscribeNext:^(RACTuple *x) {
+    RACSignal *offsetSignal = [[[RACObserve(self, openingMode) combineLatestWith:[self keyboardHeightSignal]] throttle:0.01] map:^id(RACTuple * value) {
+        RACTupleUnpack(NSNumber *height, NSNumber *duration, NSNumber *options) = value[1];
+        if(((NSNumber *)value[0]).boolValue){
+            height = @(216);
+        }
+        return RACTuplePack(height,duration,options);
+    }];
+    [offsetSignal
+     subscribeNext:^(RACTuple *x) {
         @strongify(self);
         RACTupleUnpack(NSNumber *height, NSNumber *duration, NSNumber *options) = x;
         [self.view layoutIfNeeded];
+
         [UIView animateWithDuration:duration.doubleValue delay:0 options:(UIViewAnimationOptions) options.unsignedIntegerValue animations:^{
             @strongify(self);
             self.bottomInputViewOffset.constant = height.floatValue;
+
             [self.view layoutIfNeeded];
-        }                completion:nil];
+            [self scrollTableViewToBottom];
+        }                completion:^(BOOL finished) {
+        }];
     }];
 }
 
@@ -152,11 +186,6 @@
         self.msgTextView.contentSize = (CGSize) {self.msgTextView.frame.size.width, value.floatValue};
         [self.view layoutIfNeeded];
     }];
-    [self.msgTextView.rac_textBeginEdit subscribeNext:^(id x) {
-        @strongify(self);
-        [self scrollTableViewToBottom];
-    }];
-
 }
 
 - (void)scrollTableViewToBottom {
@@ -198,9 +227,7 @@
 
 - (void)configureInfinityTableView {
     @weakify(self);
-//
-//    self.chatTableView.contentOffset = (CGPoint){0,self.msgTextView.frame.size.height - 30};
-//
+
     RACSignal *contentSizeSignal = [RACObserve(self.chatTableView, contentSize) replayLast];
     [[[[[contentSizeSignal skip:1] combinePreviousWithStart:[NSValue valueWithCGSize:(CGSize) {0, 0}] reduce:^id(id previous, id current) {
         CGFloat prevHeight = [previous CGSizeValue].height;
@@ -365,30 +392,6 @@
     return cell;
 }
 
-
-//- (NSMutableDictionary *)calculateHeightBeforeLoading:(NSFetchedResultsController *)resultsController {
-//    NSMutableDictionary *newSizesDict = [NSMutableDictionary new];
-//    BOOL lastMessageMine = NO;
-//    User *currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
-//    for (Message *message in resultsController.fetchedObjects) {
-//        BOOL messageByMine = [((Message *) [message moveToContext:[NSManagedObjectContext threadContext]]).sourceId isEqualToNumber:currentUser.userId];
-//        NSManagedObjectID *objectID = message.objectID;
-//        if (!self.sizeCacheByObjectId[objectID]) {
-//            self.sizeCacheByObjectId[objectID] = @([HPChatMsgTableViewCell heightForRowWithModel:message]);
-//        }
-//        NSString *key = [self.class stringRepresentationIndexPath:[resultsController indexPathForObject:message]];
-//        if (lastMessageMine == messageByMine) {
-//            newSizesDict[key] = self.sizeCacheByObjectId[objectID];
-//        }
-//        else {
-//            lastMessageMine = messageByMine;
-//            newSizesDict[key] = @(((NSNumber *) self.sizeCacheByObjectId[objectID]).floatValue + 10);
-//        }
-//    }
-//    return newSizesDict;
-//}
-
-
 - (void)sendMessageToCurrentContactWithText:(NSString *)text {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
@@ -406,446 +409,9 @@
     return YES;
 }
 
-/*
-- (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
-    [self registerNotification];
-    msgs = [.message allObjects];
-    [self initElements];
-    [self fixSelfConstraint];
-    [self sortMessages];
-    //[self setSwipeForTableView];
-}
-
-- (void) viewWillDisappear:(BOOL)animated {
-    [self unregisterNotification];
-    [self.chatTableView setContentOffset:CGPointZero];
-}
-
-- (void) viewDidAppear:(BOOL)animated {
-    if (msgs.count > 0) {
-        if (self.chatTableView.contentSize.height > self.chatTableView.frame.size.height)
-        {
-            CGPoint offset = CGPointMake(0, self.chatTableView.contentSize.height - self.chatTableView.frame.size.height);
-            [self.chatTableView setContentOffset:offset animated:NO];
-        }
-    }
-    isFirstLoad = NO;
-}
-
-- (void)didReceiveMemoryWarning
+- (RACSignal *) canOpenProfileSignal
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    return [RACSignal return:@YES];
 }
 
-#pragma mark - notifications
-
-- (void) registerNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateChatView object:nil];
-}
-
-
-- (void) unregisterNotification {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateChatView object:nil];
-}
-
-#pragma mark - msgs sorting
-- (NSDate *)dateAtBeginningOfDayForDate:(NSDate *)inputDate
-{
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:inputDate];
-    return [calendar dateFromComponents:components];
-}
-
-- (void) sortMessages {
-    self.sections = [NSMutableDictionary dictionary];
-    for (Message *msg in msgs)
-    {
-        NSDate *dateRepresentingThisDay = msg.createdAt;
-        NSLog(@"message list object = %@ %@ %@",msg.text, msg.sourceId, msg.createdAt);
-        NSMutableArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
-        if (msgsOnThisDay == nil) {
-            msgsOnThisDay = [NSMutableArray array];
-            [self.sections setObject:msgsOnThisDay forKey:dateRepresentingThisDay];
-        }
-        [msgsOnThisDay addObject:msg];
-    }
-    NSArray *unsortedDays = [self.sections allKeys];
-    self.sortedDays = [unsortedDays sortedArrayUsingSelector:@selector(compare:)];
-
-    NSLog(@"sections = %@", self.sections);
-    
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MMM-dd HH:mm:ss"];
-    for (NSDate *date in self.sortedDays) {
-        NSString *strFromDate = [formatter stringFromDate:date];
-        NSLog(@"%@", strFromDate);
-    }
-}
-
-
-
-#pragma mark - update 
-
-- (void) updateCurrentView {
-    msgs = [[[DataStorage sharedDataStorage] getChatByUserId:self.contact.user.userId].message allObjects];
-    [self initElements];
-    [self sortMessages];
-    [self.chatTableView reloadData];
-    NSLog(@"chat contains %d elements", msgs.count);
-}
-
-
-#pragma mark - msgs count 
-- (void) initElements {
-    if (msgs.count > 0) {
-        self.retryBtn.hidden = YES;
-        self.chatTableView.hidden = NO;
-    } else {
-        self.retryBtn.hidden = NO;
-        self.chatTableView.hidden = YES;
-    }
-}
-
-#pragma mark - scroll for time
-- (void) setSwipeForTableView {
-    UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
-    recognizer.cancelsTouchesInView = NO;
-    [self.chatTableView addGestureRecognizer:recognizer];
-}
-
-- (void) handlePanFrom: (UIGestureRecognizer *) recognizer {
-    NSLog(@"pan");
-   // CGPoint startLocation;
-    
-    NSArray *cells = [self.chatTableView visibleCells];
-    for (HPChatMsgTableViewCell *cell in cells)
-    {
-        if ([cell isKindOfClass:[HPChatMsgTableViewCell class]]) {
-          //   [cell scrollCellForTimeShowing];
-        }
-       
-    }
-    
-//    if (recognizer.state == UIGestureRecognizerStateBegan) {
-//        
-//        
-////       startLocation = [recognizer locationInView:self.view];
-//    }
-//    else if (recognizer.state == UIGestureRecognizerStateEnded) {
-//        
-//        
-////        CGPoint stopLocation = [recognizer locationInView:self.view];
-////        CGFloat dx = stopLocation.x - startLocation.x;
-////        CGFloat dy = stopLocation.y - startLocation.y;
-////        CGFloat distance = sqrt(dx*dx + dy*dy );
-////        NSLog(@"Distance: %f", distance);
-//    }
-}
-
-- (void) scrollCellsForTimeShowing : (CGPoint) point {
-    NSArray *cells = [self.chatTableView visibleCells];
-    for (HPChatMsgTableViewCell *cell in cells)
-    {
-        if ([cell isKindOfClass:[HPChatMsgTableViewCell class]]) {
-            [cell scrollCellForTimeShowingCell :point];
-        }
-        
-    }
-
-}
-
-#pragma mark - constraints
-
-- (void) fixSelfConstraint {
-    
-    if (![UIDevice hp_isWideScreen])
-    {
-        NSArray* cons = self.view.constraints;
-        for (NSLayoutConstraint* consIter in cons)
-        {
-            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.msgBottomView))
-                consIter.constant = CONSTRAINT_TOP_BOTTOMVIEW;
-            
-            if ((consIter.firstAttribute == NSLayoutAttributeTop) &&
-                (consIter.firstItem == self.bottomActivityIndicator))
-                consIter.constant = CONSTRAINT_TOP_ACTIVITYBOTTOM;
-            
-            }
-    }
-}
-
-
-
-
-
-- (UIBarButtonItem*) createBarButtonItemWithImage: (UIImage*) image
-                                  highlighedImage: (UIImage*) highlighedImage
-                                           action: (SEL) action
-{
-    UIButton* newButton = [UIButton buttonWithType: UIButtonTypeCustom];
-    newButton.frame = CGRectMake(0, 0, 11, 22);
-    [newButton setBackgroundImage: image forState: UIControlStateNormal];
-    [newButton setBackgroundImage: highlighedImage forState: UIControlStateHighlighted];
-    [newButton addTarget: self
-                  action: action
-        forControlEvents: UIControlEventTouchUpInside];
-    
-    UIBarButtonItem* newbuttonItem = [[UIBarButtonItem alloc] initWithCustomView: newButton];
-    
-    return newbuttonItem;
-}
-
-
-- (void)showUserInfo :(UITapGestureRecognizer *)recognizer
-{
-    NSLog(@"show user info");
-    User * usr = [[DataStorage sharedDataStorage] getUserForId:self.contact.user.userId];
-    if(usr) {
-        [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
-    }
-    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
-    uiController.delegate = self;
-    uiController.user = usr;
-    [self.navigationController pushViewController:uiController animated:YES];
-}
-
-- (void) backButtonTaped: (id) sender
-{
-    [self.navigationController popViewControllerAnimated: YES];
-}
-
-
-#pragma mark - backgound tap
-- (IBAction)backgroundTap:(id)sender {
-    NSLog(@"bg tap");
-    [self.view endEditing:YES];
-}
-
-#pragma mark - text view
-
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    
-    if ((self.msgTextView.text.length > MAX_COMMENT_LENGTH) && (text.length > 0)) {
-        return NO;
-    }
-    
-    CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
-    float possibleHeight = screenHeight - KEYBOARD_HEIGHT - 64;
-    CGRect frame = self.msgTextView.frame;
-    CGRect viewFrame = self.bgBottomView.frame;
-    frame.size.height = self.msgTextView.contentSize.height;
-    if (textView.text.length > 0) {
-        if (self.msgTextView.frame.size.height < self.msgTextView.contentSize.height) {
-            NSLog(@"up");
-            frame.origin.y = frame.origin.y - 20;
-            viewFrame.origin.y = viewFrame.origin.y - 20;
-            viewFrame.size.height = viewFrame.size.height + 20;
-        }
-    }
-    if ((self.msgTextView.frame.size.height > self.msgTextView.contentSize.height) && (text.length < 1)) {
-        NSLog(@"down");
-        frame.origin.y = frame.origin.y + 20;
-        viewFrame.origin.y = viewFrame.origin.y + 20;
-        viewFrame.size.height = viewFrame.size.height - 20;
-    }
-    if (possibleHeight > viewFrame.size.height) {
-        self.msgTextView.frame = frame;
-        self.bgBottomView.frame = viewFrame;
-    }
-    return YES;
-}
-
-
-- (void)textViewDidBeginEditing:(UITextView *)textView {
-    if ([textView.text isEqualToString:NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil)]) {
-        textView.text = @"";
-        [textView hp_tuneForTextViewMsgText];
-    }
-    [textView becomeFirstResponder];
-    
-    CGRect newFrame = self.msgBottomView.frame;
-    newFrame.origin.y = newFrame.origin.y - KEYBOARD_HEIGHT;
-    __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-                        options: UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         weakSelf.msgBottomView.frame = newFrame;
-                     }
-                     completion:^(BOOL finished){
-                     }];
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView {
-    
-    if ([textView.text isEqualToString:@""]) {
-        textView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
-        [textView hp_tuneForTextViewPlaceholderText];
-    }
-    [textView resignFirstResponder];
-    
-    CGRect newFrame = self.msgBottomView.frame;
-    newFrame.origin.y = newFrame.origin.y + KEYBOARD_HEIGHT;
-    __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-                        options: UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         weakSelf.msgBottomView.frame = newFrame;
-                     }
-                     completion:^(BOOL finished){
-                     }];
-}
-
-#pragma mark - date string
-- (NSString *) getDateString : (NSDate *) date {
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:date];
-    NSInteger day = [components day];
-    NSInteger month = [components month];
-    NSInteger year = [components year];
-    return [NSString stringWithFormat:@"%d %@ %d", day, [months objectAtIndex:month-1], year];
-}
-
-
-
-#pragma mark - button handlers
-- (IBAction)addMsgTap:(id)sender {
-    [self.view endEditing:YES];
-    self.bgBottomView.frame = CGRectMake(0, 0, 320, 49);
-    self.msgTextView.frame = CGRectMake(48, 5, 261, 34);
-    self.msgTextView.text = NSLocalizedString(@"YOUR_MSG_PLACEHOLDER", nil);
-    [self.msgTextView hp_tuneForTextViewMsgText];
-    //TODO: send msg
-}
-
-
-- (IBAction)retryBtnTap:(id)sender {
-    [[HPBaseNetworkManager sharedNetworkManager] getChatMsgsForUser:self.contact.user.userId :nil];
-}
-
-#pragma mark - scroll view
-
-
-- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (!isFirstLoad) {
-        CGFloat scrollPosition = self.chatTableView.contentSize.height - self.chatTableView.frame.size.height - self.chatTableView.contentOffset.y;
-        //NSLog(@"scroll position = %f", scrollPosition);
-        if (scrollPosition < -40)
-        {
-            if (!self.bottomActivityIndicator.isAnimating) {
-                [self.bottomActivityIndicator startAnimating];
-                [[HPBaseNetworkManager sharedNetworkManager] getChatMsgsForUser:self.contact.user.userId :nil];
-            }
-        } else {
-            if (self.bottomActivityIndicator.isAnimating) {
-                [self.bottomActivityIndicator stopAnimating];
-            }
-        }
-    }
-}
-
-
-#pragma mark - table view
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//    if (indexPath.row < msgs.count) {
-//
-        static NSString *msgCellIdentifier = @"ChatMsgCell";
-        HPChatMsgTableViewCell *msgCell = (HPChatMsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier];
-        
-        if (msgCell == nil)
-        {
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatMsgTableViewCell" owner:self options:nil];
-            msgCell = [nib objectAtIndex:0];
-        }
-        NSDate *dateRepresentingThisDay = [self.sortedDays objectAtIndex:indexPath.section];
-        NSArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
-        Message *msg = [msgsOnThisDay objectAtIndex:indexPath.row];
-        //msgCell.delegate = self;
-        msgCell.currentUserId = self.currentUser.userId;
-        [msgCell configureSelfWithMsg:msg];
-        return msgCell;
-//    } else {
-//        static NSString *msgOptCellIdentifier = @"ChatMsgOptions";
-//        HPChatOptionsTableViewCell *msgOptCell = (HPChatOptionsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgOptCellIdentifier];
-//        
-//        if (msgOptCell == nil)
-//        {
-//            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPChatOptionsTableViewCell" owner:self options:nil];
-//            msgOptCell = [nib objectAtIndex:0];
-//        }
-//        return msgOptCell;
-//    }
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    NSDate *dateRepresentingThisDay = [self.sortedDays objectAtIndex:section];
-    NSArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
-    NSLog(@"count msgs for section  = %d", msgsOnThisDay.count);
-    return [msgsOnThisDay count];
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return [self.sections count];
-}
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSDate *dateRepresentingThisDay = [self.sortedDays objectAtIndex:indexPath.section];
-    NSArray *msgsOnThisDay = [self.sections objectForKey:dateRepresentingThisDay];
-    Message *msg = [msgsOnThisDay objectAtIndex:indexPath.row];
-    UIFont *cellFont = [UIFont fontWithName:@"FuturaPT-Book" size:18.0];
-    CGSize constraintSize = CGSizeMake(250.0f, 1000.0f);
-    CGRect textRect = [msg.text boundingRectWithSize:constraintSize
-                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:@{NSFontAttributeName:cellFont}
-                                             context:nil];
-    CGSize labelSize = textRect.size;
-    return labelSize.height + 40;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    return [[UIView alloc] initWithFrame:CGRectZero];
-}
-
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
-    headerView.backgroundColor = [UIColor colorWithRed: 30.0 / 255.0
-                                                 green: 29.0 / 255.0
-                                                  blue: 48.0 / 255.0
-                                                 alpha: 1.0];
-    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 320, 16)];
-    
-    
-    dateLabel.text = [self getDateString:[self.sortedDays objectAtIndex:section]];
-    [dateLabel setTextAlignment:NSTextAlignmentCenter];
-    dateLabel.textColor = [UIColor grayColor];
-    [dateLabel hp_tuneForHeaderAndInfoInMessagesList];
-    [headerView addSubview:dateLabel];
-    return headerView;
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellEditingStyleNone;
-}
-
-*/
 @end
