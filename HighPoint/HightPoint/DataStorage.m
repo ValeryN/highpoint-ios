@@ -1326,6 +1326,25 @@ static DataStorage *dataStorage;
     } completion:^(BOOL success, NSError *error) {
     }];
 }
+- (void)createAndSaveIntPhotoEntity:(NSDictionary *)param withComplation:(complationBlock)block{
+    NSArray *photos = [self getPhotoForUserId:[NSNumber numberWithInt:1]];
+    Photo *ph = photos[photos.count - 1];
+    __weak typeof(self) weakSelf = self;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        User *user = [weakSelf getCurrentUserForContext:localContext];
+        Photo *photo = [Photo createInContext:localContext];
+        photo.photoId = [param objectForKey:@"id"];
+        Photo *lastPhoto = [ph inContext:localContext];
+        photo.photoPosition =[NSNumber numberWithInt:[lastPhoto.photoPosition intValue] + 1];
+        photo.imgeHeight =[param objectForKey:@"imgwidth"];
+        photo.imgeWidth =[param objectForKey:@"imgheight"];
+        photo.imgeSrc = [param objectForKey:@"imgsrc"];
+        photo.userId = user.userId;
+    } completion:^(BOOL success, NSError *error) {
+        block(error);
+    }];
+}
 - (void)deletePhotosWithComplation:(complationBlock)block   {
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         NSArray *photos = [Photo findAllInContext:localContext];
@@ -1348,7 +1367,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if(predicate) {
-        NSArray *sch = [Photo findAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
+        NSArray *sch = [Photo findAllSortedBy:@"photoPosition" ascending:YES withPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
         return sch;
     } else return nil;
 }
@@ -1810,6 +1829,7 @@ static DataStorage *dataStorage;
         else return nil;
     } else return nil;
 }
+//save unread message request, save contacts request result
 - (void)createAndSaveMessage:(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes)type withComplation:(complationBlock)block {
     
     __weak typeof(self) weakSelf = self;
@@ -1821,6 +1841,7 @@ static DataStorage *dataStorage;
     }];
     
 }
+//save get user message request results
 - (void)createAndSaveMessageArray:(NSArray *)param andMessageType:(MessageTypes)type withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
     NSNumber * currentUserId = [[DataStorage sharedDataStorage] getCurrentUser].userId;
@@ -1864,6 +1885,7 @@ static DataStorage *dataStorage;
     } else return 0;
     
 }
+//delete all message after app start
 - (void)deleteAndSaveAllMessages {
     
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {

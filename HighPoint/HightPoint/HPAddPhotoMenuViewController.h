@@ -10,7 +10,8 @@
 #import "HPGreenButtonVC.h"
 
 @protocol  HPAddPhotoMenuViewControllerDelegate <NSObject>
-- (void)viewWillBeHidden:(UIImage*) img;
+- (void) viewWillBeHidden:(UIImage*) img andIntPath:(NSString*) path;
+- (void) closeMenu;
 @end
 
 @interface HPAddPhotoMenuViewController : UIViewController <UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>

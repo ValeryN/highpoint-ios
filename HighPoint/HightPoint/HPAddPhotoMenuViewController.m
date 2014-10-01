@@ -106,8 +106,8 @@
     self.backGroundView = nil;
     [self.darkBgView removeFromSuperview];
     self.darkBgView = nil;
-    if([self.delegate respondsToSelector:@selector(viewWillBeHidden:)]) {
-        [self.delegate viewWillBeHidden:nil];
+    if([self.delegate respondsToSelector:@selector(viewWillBeHidden:andIntPath:)]) {
+        [self.delegate viewWillBeHidden:nil andIntPath:nil];
         //animation support if need
     }
     //[self dismissViewControllerAnimated: YES
@@ -116,7 +116,9 @@
 
 #pragma mark - cancel
 - (IBAction)cancelBtnTap:(id)sender {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    if([self.delegate respondsToSelector:@selector(closeMenu)]) {
+        [self.delegate closeMenu];
+    }
 }
 
 
@@ -158,6 +160,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *currentImage;
+    __block NSString *intUrl;
     if (isCamera) {
         currentImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
@@ -167,25 +170,34 @@
                 NSLog(@"error");
             } else {
                 NSLog(@"url %@", assetURL);
-            }  
+                intUrl = [assetURL absoluteString];
+            }
+            isCamera = NO;
+            [picker  dismissViewControllerAnimated:YES completion:^{
+                if([self.delegate respondsToSelector:@selector(viewWillBeHidden:andIntPath:)])
+                {
+                    
+                    [self.backGroundView removeFromSuperview];
+                    self.backGroundView = nil;
+                    if(currentImage && intUrl)
+                        [self.delegate viewWillBeHidden:currentImage andIntPath:intUrl];
+                    //animation support if need
+                }
+
+            }];
         }];
-        
-        [picker  dismissViewControllerAnimated:YES completion:nil];
-        
     } else {
+        isCamera = NO;
         currentImage = [info valueForKey:UIImagePickerControllerOriginalImage];
         NSURL *path = [info valueForKey:UIImagePickerControllerReferenceURL];
         [picker dismissViewControllerAnimated:YES completion:^{
             NSLog(@"image path = %@", path);
+            [self.backGroundView removeFromSuperview];
+            self.backGroundView = nil;
+            if(currentImage && intUrl)
+                [self.delegate viewWillBeHidden:currentImage andIntPath:intUrl];
+            
         }];
-    }
-    isCamera = NO;
-    if([self.delegate respondsToSelector:@selector(viewWillBeHidden:)]) {
-        
-        [self.backGroundView removeFromSuperview];
-        self.backGroundView = nil;
-        [self.delegate viewWillBeHidden:currentImage];
-        //animation support if need
     }
     
 }

@@ -16,7 +16,48 @@
 #import "NotificationsConstants.h"
 
 @implementation HPBaseNetworkManager (Photos)
-//TODO: /v201405/photos/add
+//TODO: /v201405/photos/add //kAddPhotoRequest
+- (void) addPhotoRequest:(UIImage*) image {
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:[NSString stringWithString:kAddPhotoRequest]];
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    [[self requestOperationManager] POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageData
+                                    name:@"image"
+                                fileName:@"name" mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"UPLOAD PHOTO: --> %@", operation.responseString);
+        NSError *error = nil;
+        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
+        if(jsonData) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                     options:kNilOptions
+                                                                       error:&error];
+            if (operation.response.statusCode == 403) {
+                NSNumber *errorCode = [jsonDict objectForKey:@"error"];
+                if ([errorCode isEqualToValue:@8]) {
+                    // show wrong file format error
+                }
+                if ([errorCode isEqualToValue:@9]) {
+                    // show too large file error
+                }
+                if ([errorCode isEqualToValue:@10]) {
+                    // show too small file error
+                }
+            } else {
+                if(jsonDict) {
+                    if([[[jsonDict objectForKey:@"data"] objectForKey:@"photo"] isKindOfClass:[NSDictionary class]]) {
+                            [[DataStorage sharedDataStorage] createAndSavePhotoEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"photo"]];
+                    }
+                }
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+
+}
 - (void) deletePhotoRequest : (NSNumber *) photoId {
     NSString *url = nil;
     url = [URLs getServerURL];

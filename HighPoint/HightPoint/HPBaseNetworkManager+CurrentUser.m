@@ -362,7 +362,7 @@
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kUploadAvatarRequest];
-    NSData *imageData = UIImagePNGRepresentation(image);
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     
     [[self requestOperationManager] POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData
