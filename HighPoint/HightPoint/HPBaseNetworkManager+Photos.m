@@ -105,6 +105,7 @@
                                 [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUserPhotos
                                                                                                         object:nil
                                                                                                         userInfo:nil]];
+                                [self deleteDeletedItemArray];
                                 
                             } else {
                                 [self deletePhotoRequest:[self getFirstIndexIntoDeletedArray]];

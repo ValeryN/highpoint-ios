@@ -1665,8 +1665,10 @@ static DataStorage *dataStorage;
         if(!contactEnt) {
             contactEnt = [Contact createInContext:localContext];
         }
-        contactEnt.lastmessage = [globallastMessage MR_inContext:localContext];
+        Message *intMess = [globallastMessage MR_inContext:localContext];
+        contactEnt.lastmessage = intMess;
         contactEnt.user = [glovaluser MR_inContext:localContext];
+        intMess.contact = contactEnt;
     } completion:^(BOOL success, NSError *error)    {
         block ([self getContactById:glovaluser.userId forContext:[NSManagedObjectContext MR_defaultContext]]);
     }];
