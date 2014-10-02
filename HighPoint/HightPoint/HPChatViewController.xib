@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6249" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6243"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -16,6 +17,7 @@
                 <outlet property="msgTextView" destination="dfn-79-WvO" id="zKP-Nk-DSM"/>
                 <outlet property="msgTextViewHeight" destination="DSC-p0-9K4" id="lva-VX-1sa"/>
                 <outlet property="sendMessageButton" destination="cZJ-9M-aUY" id="XdF-k4-LIe"/>
+                <outlet property="sendOpenProfileButton" destination="HfC-6W-TVx" id="qkd-1P-SeA"/>
                 <outlet property="tableHeaderView" destination="e6q-Uy-KkU" id="gzg-hE-8BC"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -76,17 +78,31 @@
                             <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HfC-6W-TVx">
+                            <rect key="frame" x="240" y="10" width="77" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="S4K-He-d7Z"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <state key="normal" title="Открыться">
+                                <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.1333333333" green="0.1764705882" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="aaG-4U-B78" firstAttribute="leading" secondItem="KyZ-ZJ-pRW" secondAttribute="leading" constant="10" id="1P2-aR-wqV"/>
+                        <constraint firstAttribute="trailing" secondItem="HfC-6W-TVx" secondAttribute="trailing" constant="3" id="1en-6b-OCl"/>
                         <constraint firstItem="dfn-79-WvO" firstAttribute="top" secondItem="KyZ-ZJ-pRW" secondAttribute="top" constant="5" id="3YB-Uf-Ktz"/>
+                        <constraint firstItem="cZJ-9M-aUY" firstAttribute="height" secondItem="HfC-6W-TVx" secondAttribute="height" id="5Ue-Y1-Y8i"/>
                         <constraint firstItem="cZJ-9M-aUY" firstAttribute="leading" secondItem="dfn-79-WvO" secondAttribute="trailing" constant="5" id="99B-n4-TKs"/>
                         <constraint firstAttribute="bottom" secondItem="dfn-79-WvO" secondAttribute="bottom" constant="5" id="FDq-M6-YkS"/>
                         <constraint firstItem="aaG-4U-B78" firstAttribute="top" secondItem="KyZ-ZJ-pRW" secondAttribute="top" constant="10" id="Gbq-dI-jTX"/>
                         <constraint firstAttribute="centerY" secondItem="cZJ-9M-aUY" secondAttribute="centerY" id="LWo-gT-1no"/>
                         <constraint firstItem="Z1g-Oh-Jos" firstAttribute="centerY" secondItem="dfn-79-WvO" secondAttribute="centerY" id="R2G-gb-xFy"/>
                         <constraint firstItem="dfn-79-WvO" firstAttribute="leading" secondItem="aaG-4U-B78" secondAttribute="trailing" constant="15" id="jyG-m0-Etf"/>
+                        <constraint firstItem="cZJ-9M-aUY" firstAttribute="baseline" secondItem="HfC-6W-TVx" secondAttribute="baseline" id="l78-ut-kie"/>
                         <constraint firstAttribute="trailing" secondItem="cZJ-9M-aUY" secondAttribute="trailing" id="ray-FV-hKy"/>
                         <constraint firstItem="dfn-79-WvO" firstAttribute="leading" secondItem="Z1g-Oh-Jos" secondAttribute="leadingMargin" constant="-13" id="ySq-SE-XS7"/>
                     </constraints>
