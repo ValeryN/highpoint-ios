@@ -16,6 +16,7 @@
 #import "HPChatMsgTableViewCell.h"
 #import "HPHorizontalPanGestureRecognizer.h"
 #import "UITextView+HPRacSignal.h"
+#import "User+NameForms.h"
 
 
 @interface HPChatViewController ()
@@ -34,10 +35,14 @@
 @property(weak, nonatomic) IBOutlet UITextView *msgTextView;
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *msgTextViewHeight;
 @property(weak, nonatomic) IBOutlet UILabel *msgPlacehoderTextView;
+@property(weak, nonatomic) IBOutlet UIButton *openProfileButton;
+@property(weak, nonatomic) IBOutlet UILabel *openProfileText;
+
 
 @property(nonatomic) NSDate *minimumViewedDate;
 @property(nonatomic) BOOL openingMode;
 @property(nonatomic, retain) RACSignal *keyboardHeightSignal;
+@property(nonatomic, retain) RACSignal *canOpenProfileSignal;
 @end
 
 
@@ -52,6 +57,7 @@
     self.cachedCellHeight = YES;
     [self configureInfinityTableView];
     [self.navigationController setNavigationBarHidden:NO];
+    self.canOpenProfileSignal = [RACSignal return:@YES];
     [self configureTableView:self.chatTableView withSignal:self.messagesController andTemplateCell:[UINib nibWithNibName:@"HPChatMsgTableViewCell" bundle:nil]];
     [self addTemplateCell:[UINib nibWithNibName:@"HPChatMsgOpenAllowCell" bundle:nil]];
     [self addTemplateCell:[UINib nibWithNibName:@"HPChatMsgOpenDenyCell" bundle:nil]];
@@ -61,6 +67,15 @@
     [self configureOffsetTableViewGesture];
     [self configureInputView];
     [self configureSendMessageOrOpenProfileButton];
+    [self configureOpenProfileBottomView];
+}
+
+- (void)configureOpenProfileBottomView {
+    self.openProfileText.text = [NSString stringWithFormat:@"Вы хотите открыть свой профиль %@?",[self.contact.user getNameForm:2]];
+    [[self.openProfileButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        self.openingMode = NO;
+        self.canOpenProfileSignal = [RACSignal return:@NO];
+    }];
 }
 
 - (NSString *)cellIdentifierForModel:(Message *)model {
@@ -123,11 +138,17 @@
         }
         return RACTuplePack(height,duration,options);
     }];
+
     [offsetSignal
-     subscribeNext:^(RACTuple *x) {
+       subscribeNext:^(RACTuple *x) {
         @strongify(self);
+
         RACTupleUnpack(NSNumber *height, NSNumber *duration, NSNumber *options) = x;
         [self.view layoutIfNeeded];
+
+        if(duration.doubleValue == 0){
+            duration=@(0.3);
+        }
 
         [UIView animateWithDuration:duration.doubleValue delay:0 options:(UIViewAnimationOptions) options.unsignedIntegerValue animations:^{
             @strongify(self);
@@ -409,9 +430,5 @@
     return YES;
 }
 
-- (RACSignal *) canOpenProfileSignal
-{
-    return [RACSignal return:@YES];
-}
 
 @end

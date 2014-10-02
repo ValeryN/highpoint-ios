@@ -297,6 +297,7 @@
 		7C5F763B6E244F2FFC517A12 /* NSManagedObject+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7CB7951BC9745387D6CC /* NSManagedObject+HighPoint.m */; };
 		7C5F766542796FD121405C2B /* HPUserProfilePhotoAlbumTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7CD845A3D7F53CBF860F /* HPUserProfilePhotoAlbumTabViewController.m */; };
 		7C5F76680EA0D82FA76B1CDB /* HPRequest+GeoLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7E898B8FAEDA3EE33BA1 /* HPRequest+GeoLocations.m */; };
+		7C5F76A84F21B8005B92A419 /* User+NameForms.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F75A74B6C7F2E8B3223F8 /* User+NameForms.m */; };
 		7C5F77003656F29706256002 /* HPChatBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7B2DC743964660F138EB /* HPChatBubbleView.m */; };
 		7C5F77339183307C84A9760B /* Blend 4X@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7F2E3B26E823B3734ABD /* Blend 4X@2x.png */; };
 		7C5F77439A66FF484A35A366 /* HPAddNewTownCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7A163EB31DC0BF53E4DC /* HPAddNewTownCellView.m */; };
@@ -926,6 +927,7 @@
 		7C5F75530D834FC7A1F5DF7B /* HPValidatorProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPValidatorProtocol.h; sourceTree = "<group>"; };
 		7C5F7566517F0FB2EEE84EC4 /* RACFetchedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACFetchedTableViewController.m; sourceTree = "<group>"; };
 		7C5F759EF310328097A08FC6 /* UITextView+HPRacSignal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HPRacSignal.m"; sourceTree = "<group>"; };
+		7C5F75A74B6C7F2E8B3223F8 /* User+NameForms.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+NameForms.m"; sourceTree = "<group>"; };
 		7C5F764DEE3495556650470B /* HPSearchCityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSearchCityCell.m; sourceTree = "<group>"; };
 		7C5F766850D0D8278F9215E9 /* HPImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPImageCollectionViewCell.h; sourceTree = "<group>"; };
 		7C5F768EDADC3E4C6E7F2202 /* HPBubbleViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPBubbleViewDelegate.h; sourceTree = "<group>"; };
@@ -943,6 +945,7 @@
 		7C5F788AEA6CCF8DB315766E /* HPUserProfileTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserProfileTableHeaderView.m; sourceTree = "<group>"; };
 		7C5F78C239B7D4D6BDCF0053 /* RACTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACTableViewController.m; sourceTree = "<group>"; };
 		7C5F790EC367E7519CDD2D48 /* HPUserProfileTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserProfileTableHeaderView.h; sourceTree = "<group>"; };
+		7C5F7920D2F2A9B65C2FBDFF /* User+NameForms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "User+NameForms.h"; sourceTree = "<group>"; };
 		7C5F7931BE2436B8E5002A6D /* HPUserProfileTableHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfileTableHeaderView.xib; sourceTree = "<group>"; };
 		7C5F795D29A7BAC67A795B6A /* HPBubbleViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPBubbleViewDelegate.m; sourceTree = "<group>"; };
 		7C5F79A39A4A85160DD2ACCD /* transparentflower@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "transparentflower@2x.png"; sourceTree = "<group>"; };
@@ -1788,6 +1791,8 @@
 				CDBB915519B9BA1900546853 /* UserPoint.m */,
 				403140F6CE61958EB432D801 /* Message+SectionIdentifier.m */,
 				403149A56DCBB5546927F136 /* Message+SectionIdentifier.h */,
+				7C5F75A74B6C7F2E8B3223F8 /* User+NameForms.m */,
+				7C5F7920D2F2A9B65C2FBDFF /* User+NameForms.h */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -2445,7 +2450,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = B9639RHZFT;
+						DevelopmentTeam = J67Y29BQR7;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -2943,6 +2948,7 @@
 				7C5F72385247CCE49057F7FE /* HPChatMsgOpenRequestCell.m in Sources */,
 				7C5F79B410AB1FD051289A78 /* HPChatMsgOpenAllowCell.m in Sources */,
 				7C5F744E1B83708141395D08 /* HPChatMsgOpenDenyCell.m in Sources */,
+				7C5F76A84F21B8005B92A419 /* User+NameForms.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

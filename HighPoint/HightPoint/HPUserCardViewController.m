@@ -295,13 +295,10 @@
         [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
     }
     HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
-    uiController.delegate = self;
     uiController.user = [usersArr objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:uiController animated:YES];
 }
--(void) profileWillBeHidden {
-    [self.navigationController setNavigationBarHidden:NO];
-}
+
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     // TODO: Deselect item
 }

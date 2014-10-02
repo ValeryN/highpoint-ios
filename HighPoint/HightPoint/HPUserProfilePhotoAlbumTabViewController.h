@@ -7,7 +7,10 @@
 #import "RACollectionViewReorderableTripletLayout.h"
 #import "HPAddPhotoMenuViewController.h"
 
+@class User;
+
 
 @interface HPUserProfilePhotoAlbumTabViewController : UIViewController <RACollectionViewDelegateReorderableTripletLayout, RACollectionViewReorderableTripletLayoutDataSource, HPAddPhotoMenuViewControllerDelegate>
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
+@property (nonatomic, retain) User* user;
 @end

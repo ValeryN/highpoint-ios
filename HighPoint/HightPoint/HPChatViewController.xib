@@ -16,6 +16,8 @@
                 <outlet property="msgPlacehoderTextView" destination="Z1g-Oh-Jos" id="L4y-XK-fbP"/>
                 <outlet property="msgTextView" destination="dfn-79-WvO" id="zKP-Nk-DSM"/>
                 <outlet property="msgTextViewHeight" destination="DSC-p0-9K4" id="lva-VX-1sa"/>
+                <outlet property="openProfileButton" destination="lna-Ax-Geh" id="W1G-Xt-vad"/>
+                <outlet property="openProfileText" destination="NxN-Sm-23U" id="7An-xe-6sK"/>
                 <outlet property="sendMessageButton" destination="cZJ-9M-aUY" id="XdF-k4-LIe"/>
                 <outlet property="sendOpenProfileButton" destination="HfC-6W-TVx" id="qkd-1P-SeA"/>
                 <outlet property="tableHeaderView" destination="e6q-Uy-KkU" id="gzg-hE-8BC"/>
@@ -72,12 +74,6 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ваше сообщение" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1g-Oh-Jos">
-                            <rect key="frame" x="53" y="16" width="114" height="17"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                            <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HfC-6W-TVx">
                             <rect key="frame" x="240" y="10" width="77" height="30"/>
                             <constraints>
@@ -89,6 +85,12 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ваше сообщение" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1g-Oh-Jos">
+                            <rect key="frame" x="53" y="16" width="114" height="17"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                            <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" red="0.1333333333" green="0.1764705882" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -107,13 +109,46 @@
                         <constraint firstItem="dfn-79-WvO" firstAttribute="leading" secondItem="Z1g-Oh-Jos" secondAttribute="leadingMargin" constant="-13" id="ySq-SE-XS7"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H6s-5i-jqc">
+                    <rect key="frame" x="0.0" y="504" width="320" height="216"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Вы хотите открыть свой профиль Екатерине?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NxN-Sm-23U">
+                            <rect key="frame" x="65" y="44" width="191" height="65"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lna-Ax-Geh">
+                            <rect key="frame" x="105" y="117" width="110" height="30"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <state key="normal" title="Открыться">
+                                <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="15"/>
+                                <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="1"/>
+                                <userDefinedRuntimeAttribute type="color" keyPath="layer.borderUIColor">
+                                    <color key="value" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="216" id="ezt-xb-RF6"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="KyZ-ZJ-pRW" secondAttribute="trailing" id="Fyj-Nk-qyf"/>
+                <constraint firstItem="H6s-5i-jqc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="MWD-Pr-CWz"/>
                 <constraint firstItem="dkt-NG-g9o" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="NRb-Pf-ZLm"/>
                 <constraint firstItem="KyZ-ZJ-pRW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="TzS-HY-osK"/>
+                <constraint firstItem="H6s-5i-jqc" firstAttribute="top" secondItem="KyZ-ZJ-pRW" secondAttribute="bottom" id="XoQ-mz-Aco"/>
                 <constraint firstAttribute="trailing" secondItem="dkt-NG-g9o" secondAttribute="trailing" id="gmy-8M-45q"/>
+                <constraint firstAttribute="trailing" secondItem="H6s-5i-jqc" secondAttribute="trailing" id="nDk-7M-gxH"/>
                 <constraint firstItem="dkt-NG-g9o" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="nHG-wS-ft3"/>
                 <constraint firstAttribute="bottom" secondItem="KyZ-ZJ-pRW" secondAttribute="bottom" id="sUo-C2-TjT"/>
                 <constraint firstItem="KyZ-ZJ-pRW" firstAttribute="top" secondItem="dkt-NG-g9o" secondAttribute="bottom" id="uoa-Zs-Hy7"/>

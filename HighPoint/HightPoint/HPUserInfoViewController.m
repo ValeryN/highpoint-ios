@@ -23,6 +23,8 @@
 #import "DataStorage.h"
 #import "School.h"
 #import "NotificationsConstants.h"
+#import "HPUserProfileInfoEditTabViewController.h"
+#import "HPUserProfilePhotoAlbumTabViewController.h"
 
 
 #define AVATAR_BLUR_RADIUS 10.0
@@ -36,13 +38,64 @@
 #define CONSTRAINT_PRIVACY_INFO_TOP 355.0;
 
 @interface HPUserInfoViewController ()
-{
-    HPAddPhotoMenuViewController *addPhotoViewController;
-}
-
+@property (nonatomic, retain) HPUserProfileInfoEditTabViewController* infoEditTabViewController;
+@property (nonatomic, retain) HPUserProfilePhotoAlbumTabViewController* photoAlbumTabViewController;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentController;
 @end
 
 @implementation HPUserInfoViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+
+    [self configureSegmentedControl];
+    [self configurePhotoTab];
+    [self configureInfoTab];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+
+    UIEdgeInsets insets = UIEdgeInsetsMake(self.topLayoutGuide.length,
+            0.0,
+            self.bottomLayoutGuide.length,
+            0.0);
+    if (self.infoEditTabViewController.tableView.contentInset.top == 0)
+        self.infoEditTabViewController.tableView.contentInset = self.infoEditTabViewController.tableView.scrollIndicatorInsets = insets;
+    if (self.photoAlbumTabViewController.collectionView.contentInset.top == 0)
+        self.photoAlbumTabViewController.collectionView.contentInset = self.photoAlbumTabViewController.collectionView.scrollIndicatorInsets = insets;
+}
+
+- (void)configurePhotoTab {
+    self.photoAlbumTabViewController = [[HPUserProfilePhotoAlbumTabViewController alloc] initWithNibName:@"HPUserProfilePhotoAlbumTabViewController" bundle:nil];
+    self.photoAlbumTabViewController.user = self.user;
+    [self addChildViewController:self.photoAlbumTabViewController];
+    self.photoAlbumTabViewController.view.frame = self.view.frame;
+
+    [self.view addSubview:self.photoAlbumTabViewController.view];
+    RAC(self.photoAlbumTabViewController.view, hidden) = [RACObserve(self, segmentController.selectedSegmentIndex) map:^id(NSNumber *value) {
+        return @(value.unsignedIntegerValue == 1);
+    }];
+}
+
+- (void)configureInfoTab {
+    self.infoEditTabViewController = [[HPUserProfileInfoEditTabViewController alloc] initWithNibName:@"HPUserProfileInfoEditTabViewController" bundle:nil];
+    self.infoEditTabViewController.user = self.user;
+    [self addChildViewController:self.infoEditTabViewController];
+    self.infoEditTabViewController.view.frame = self.view.frame;
+    [self.view addSubview:self.infoEditTabViewController.view];
+
+    RAC(self.infoEditTabViewController.view, hidden) = [RACObserve(self, segmentController.selectedSegmentIndex) map:^id(NSNumber *value) {
+        return @(value.unsignedIntegerValue == 0);
+    }];
+}
+
+- (void)configureSegmentedControl {
+    self.navigationItem.titleView = self.segmentController;
+}
+
+/*
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -85,6 +138,7 @@
     
     // Do any additional setup after loading the view from its nib.
 }
+
 - (void) updateDataSource {
     if(self.user != nil) {
         self.userDataSource = @[@"РАСХОДЫ", @"ЛЮБИМЫЕ МЕСТА", @"ЯЗЫКИ", @"ОБРАЗОВАНИЕ", @"КАРЬЕРА"];
@@ -160,7 +214,8 @@
                                                               attribute: NSLayoutAttributeHeight
                                                              multiplier: 1.0
                                                                constant: 0]];
-        /*
+        */
+/*
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.infoTableView
                                                               attribute: NSLayoutAttributeHeight
                                                               relatedBy: NSLayoutRelationEqual
@@ -168,7 +223,8 @@
                                                               attribute: NSLayoutAttributeHeight
                                                              multiplier: 0.74
                                                                constant: 0]];
-         */
+         *//*
+
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.infoTableView
                                                               attribute: NSLayoutAttributeHeight
                                                               relatedBy: NSLayoutRelationEqual
@@ -780,7 +836,8 @@
         bubbleView.frame = rect;
         [cell.contentView addSubview:bubbleView];
         shift = shift + bubbleView.frame.size.height + 20.0;
-        /*
+        */
+/*
         HEBubbleView *bubbleView = [[HEBubbleView alloc] initWithFrame:CGRectMake(10, shift + 20.0, 320, calcHeight)];
         shift = shift + calcHeight;
         
@@ -796,7 +853,8 @@
         [cell.contentView addSubview:bubbleView];
         bubbleTag++;
         [bubbleView reloadData];
-         */
+         *//*
+
     }
     //cell.cellTextLabel.hidden = YES;
     //textLabel.text = text;
@@ -897,7 +955,8 @@
         return totalHeight;
     } else return 10;
     
-    /*
+    */
+/*
     NSArray *keys = [self.placeCityDataSource allKeys];
     CGFloat totalHeight = 0.0;
     for(NSString *key in keys) {
@@ -912,7 +971,8 @@
     }
     
     return totalHeight;
-     */
+     *//*
+
 }
 - (CGFloat) getThirdRowHeight {
     if(self.languages.count > 0) {
@@ -1133,6 +1193,7 @@
 {
         return 320;
 }
+*/
 
 
 @end
