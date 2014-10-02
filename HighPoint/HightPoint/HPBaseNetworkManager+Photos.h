@@ -10,5 +10,5 @@
 
 @interface HPBaseNetworkManager (Photos)
 - (void) deletePhotoRequest : (NSNumber *) photoId;
-- (void) addPhotoRequest:(UIImage*) image;
+- (void) addPhotoRequest:(UIImage*) image andPhotoId:(NSNumber*) id_;
 @end

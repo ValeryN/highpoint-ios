@@ -17,7 +17,7 @@
 
 @implementation HPBaseNetworkManager (Photos)
 //TODO: /v201405/photos/add //kAddPhotoRequest
-- (void) addPhotoRequest:(UIImage*) image {
+- (void) addPhotoRequest:(UIImage*) image andPhotoId:(NSNumber*) id_{
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:[NSString stringWithString:kAddPhotoRequest]];
@@ -25,7 +25,7 @@
     [[self requestOperationManager] POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData
                                     name:@"image"
-                                fileName:@"name" mimeType:@"image/jpeg"];
+                                fileName:@"name.jpg" mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"UPLOAD PHOTO: --> %@", operation.responseString);
         NSError *error = nil;
@@ -48,7 +48,18 @@
             } else {
                 if(jsonDict) {
                     if([[[jsonDict objectForKey:@"data"] objectForKey:@"photo"] isKindOfClass:[NSDictionary class]]) {
-                            [[DataStorage sharedDataStorage] createAndSavePhotoEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"photo"]];
+                        //delete int image
+                        [[DataStorage sharedDataStorage] deletePhotoById:id_ withComplation:^(NSError *error) {
+                            if(!error) {
+                                [[DataStorage sharedDataStorage] createAndSavePhotoEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"photo"] withComplation:^(NSError *error) {
+                                    if(!error) {
+                                        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUserPhotos
+                                                                                                                             object:nil
+                                                                                                                           userInfo:nil]];
+                                    }
+                                }];
+                            }
+                        }];
                     }
                 }
             }
@@ -86,7 +97,22 @@
                 }
                 NSNumber *deletedId = [[jsonDict objectForKey:@"data"] objectForKey:@"id"];
                 if (deletedId) {
-                    //delete photo by id
+                    
+                    [self deleteDeletedItemFromArray:[deletedId intValue]];
+                    [[DataStorage sharedDataStorage] deletePhotoById:deletedId withComplation:^(NSError *error) {
+                        if(!error) {
+                            if([self isDeletedItemArrayEmpty] ) {
+                                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUserPhotos
+                                                                                                        object:nil
+                                                                                                        userInfo:nil]];
+                                
+                            } else {
+                                [self deletePhotoRequest:[self getFirstIndexIntoDeletedArray]];
+                            }
+                            
+                            //
+                        }
+                    }];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);

@@ -14,6 +14,7 @@
 #import "SDWebImageManager.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "HPBaseNetworkManager+Photos.h"
+#import "NotificationsConstants.h"
 
 @interface HPUserProfilePhotoAlbumTabViewController()
 @property (nonatomic, retain) NSMutableArray* photosArray;
@@ -29,7 +30,14 @@ static NSString *cellID = @"cellID";
 
     [self reloadData];
 }
-
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:kNeedUpdateUserPhotos object:nil];
+}
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserPhotos object:nil];
+}
 - (void) reloadData {
     NSArray *photos = [[DataStorage sharedDataStorage] getPhotoForUserId:[NSNumber numberWithInt:1]];
     _photosArray = nil;
@@ -254,11 +262,11 @@ static NSString *cellID = @"cellID";
     //
     NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
     NSNumber *fakeId = [NSNumber numberWithInt: (int) timeStamp * -1];
-    [[HPBaseNetworkManager sharedNetworkManager] addPhotoRequest:image];
     NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:fakeId,@"id",[NSNumber numberWithFloat:image.size.width],@"imgwidth",[NSNumber numberWithFloat:image.size.height],@"imgheight",path, @"imgsrc", nil];
     [[DataStorage sharedDataStorage] createAndSaveIntPhotoEntity:param withComplation:^(id object) {
         [self dismissViewControllerAnimated:YES completion:nil];
         [self reloadData];
+        [[HPBaseNetworkManager sharedNetworkManager] addPhotoRequest:image andPhotoId:fakeId];
     }];
 }
 - (void) closeMenu {

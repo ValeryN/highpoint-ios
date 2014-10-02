@@ -24,8 +24,15 @@ typedef enum {
 - (void) deleteTaskArray;
 - (void) addTaskToArray:(AFHTTPRequestOperationManager*) manager;
 - (BOOL) isTaskArrayEmpty:(AFHTTPRequestOperationManager*) manager;
-- (void) makeTownByIdRequest;
+- (NSNumber*) getFirstIndexIntoDeletedArray;
 
+- (void) createDeletedItemArray;
+- (void) deleteDeletedItemArray;
+- (void) addDeletedItemToArray:(NSInteger) index;
+- (void) deleteDeletedItemFromArray:(NSInteger) index;
+- (BOOL) isDeletedItemArrayEmpty;
+
+- (void) makeTownByIdRequest;
 - (void) startNetworkStatusMonitor;
 - (void) setNetworkStatusMonitorCallback;
 - (void) initSocketIO:(NSDictionary*) param;

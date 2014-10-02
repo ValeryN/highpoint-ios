@@ -1304,7 +1304,7 @@ static DataStorage *dataStorage;
 
 #pragma mark -
 #pragma mark application photo entity
-- (void)createAndSavePhotoEntity:(NSDictionary *)param {
+- (void)createAndSavePhotoEntity:(NSDictionary *)param withComplation:(complationBlock)block{
      __weak typeof(self) weakSelf = self;
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
 
@@ -1324,6 +1324,7 @@ static DataStorage *dataStorage;
             }
         }
     } completion:^(BOOL success, NSError *error) {
+        block(error);
     }];
 }
 - (void)createAndSaveIntPhotoEntity:(NSDictionary *)param withComplation:(complationBlock)block{
@@ -1356,6 +1357,17 @@ static DataStorage *dataStorage;
         block(error);
     }];
 }
+- (void) deletePhotoById:(NSNumber*) id_ withComplation:(complationBlock)block{
+    NSArray *photos = [self getPhotoForPhotoId:id_];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        for(Photo *photo in photos) {
+            Photo *photo_ = [photo inContext:localContext];
+            [photo_ deleteInContext:localContext];
+        }
+    } completion:^(BOOL success, NSError *error)    {
+        block(error);
+    }];
+}
 - (NSArray *) getPhotoForUserId:(NSNumber *) userId {
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"userId  = %d", [userId intValue]];
@@ -1371,7 +1383,21 @@ static DataStorage *dataStorage;
         return sch;
     } else return nil;
 }
-
+- (NSArray *) getPhotoForPhotoId:(NSNumber *) photoId {
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"photoId  = %d", [photoId intValue]];
+    NSPredicate *predicate;
+    @try {
+        predicate = [NSPredicate predicateWithFormat:predicateString];
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    if(predicate) {
+        NSArray *sch = [Photo findAllSortedBy:@"photoPosition" ascending:YES withPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
+        return sch;
+    } else return nil;
+}
 #pragma mark -
 #pragma mark application settings entity
 

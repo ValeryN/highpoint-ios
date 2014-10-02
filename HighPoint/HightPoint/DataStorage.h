@@ -68,7 +68,7 @@ typedef void (^complationBlock) (id object);
 - (Message *)createMessage:(NSDictionary *)param forUserId:(NSNumber *)userId andMessageType:(MessageTypes)type forContext:(NSManagedObjectContext*) context;
 - (Chat *)getChatByUserId:(NSNumber *)userId forContext:(NSManagedObjectContext*) context;
 - (NSInteger)allUnreadMessagesCount:(User *)user;
-- (void)createAndSavePhotoEntity:(NSDictionary *)param;
+- (void)createAndSavePhotoEntity:(NSDictionary *)param withComplation:(complationBlock)block;
 - (void)createAndSaveIntPhotoEntity:(NSDictionary *)param withComplation:(complationBlock)block;
 - (NSArray*) getUsersForCityId:(NSNumber*) cityId;
 - (void)deleteAndSaveChatByUserId: (NSNumber *) userId;
@@ -79,7 +79,7 @@ typedef void (^complationBlock) (id object);
 - (void)deleteAndSaveContact: (NSNumber *) contactId;
 - (NSDictionary*) prepareParamFromUser:(User*) user;
 - (void)deletePhotosWithComplation:(complationBlock)block;
-
+- (void) deletePhotoById:(NSNumber*) id_ withComplation:(complationBlock)block;
 
 
 - (void)setAndSaveUser:(User *)globalUser toLikePoint:(UserPoint *)globalPoint withComplationBlock:(complationBlock)block;

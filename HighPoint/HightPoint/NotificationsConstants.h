@@ -22,5 +22,6 @@ static NSString * const kNeedUpdateChatView = @"NeedUpdateChatView";
 static NSString * const kNeedHideSplashView = @"NeedHideSplashView";
 static NSString * const kNeedUpdateUserFilterData = @"kNeedUpdateUserFilterData";
 static NSString * const kNeedUpdateProfileData = @"NeedUpdateProfileData";
+static NSString * const kNeedUpdateUserPhotos = @"NeedUpdateUserPhotos";
 
 #endif

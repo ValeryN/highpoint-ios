@@ -30,6 +30,7 @@ static HPBaseNetworkManager *networkManager;
 @interface HPBaseNetworkManager ()
 @property (nonatomic,strong) SocketIO* socketIO;
 @property (nonatomic, strong) NSMutableArray *taskArray;
+@property (nonatomic, strong) NSMutableIndexSet *deletedItemArray;
 @end
 
 
@@ -47,6 +48,24 @@ static HPBaseNetworkManager *networkManager;
 }
 # pragma mark -
 # pragma mark task monitor
+- (void) createDeletedItemArray {
+    self.deletedItemArray = [NSMutableIndexSet new];
+}
+- (void) deleteDeletedItemArray {
+    self.deletedItemArray = nil;
+}
+- (void) addDeletedItemToArray:(NSInteger) index {
+    [self.deletedItemArray addIndex:index];
+}
+- (void) deleteDeletedItemFromArray:(NSInteger) index {
+    [self.deletedItemArray removeIndex:index];
+}
+- (BOOL) isDeletedItemArrayEmpty {
+    return self.deletedItemArray.count == 0;
+}
+- (NSNumber*) getFirstIndexIntoDeletedArray {
+    return [NSNumber numberWithInteger:[self.deletedItemArray firstIndex]];
+}
 - (void) createTaskArray {
     self.taskArray = [NSMutableArray new];
 }
