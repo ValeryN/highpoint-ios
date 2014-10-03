@@ -87,6 +87,7 @@
 
 - (void)configureInfoTab {
     self.infoEditTabViewController = [[HPUserProfileInfoEditTabViewController alloc] initWithNibName:@"HPUserProfileInfoEditTabViewController" bundle:nil];
+    self.infoEditTabViewController.withEditMode = YES;
     self.infoEditTabViewController.user = self.user;
     [self addChildViewController:self.infoEditTabViewController];
     self.infoEditTabViewController.view.frame = self.view.frame;

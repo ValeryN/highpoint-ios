@@ -10,5 +10,6 @@
 
 
 @interface HPUserProfileInfoEditTabViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@property(nonatomic) BOOL withEditMode;
 @property(strong, nonatomic) User *user;
 @end

@@ -40,7 +40,7 @@
     id <NSFetchedResultsSectionInfo> sectionInfo =
             [[self dataSource] sections][0];
 
-    return [sectionInfo numberOfObjects]+1;
+    return [sectionInfo numberOfObjects]+(self.withEditMode?1:0);
 }
 
 - (id) getNSManagedObjectAtIndex:(NSInteger) index{
@@ -48,7 +48,7 @@
 }
 
 - (NSString*) textStringForIndex:(NSInteger) index inBubbleView:(HEBubbleView *)bubbleView {
-    if([self isLastElementForIndex:index inBubbleView:bubbleView])
+    if([self isLastElementForIndex:index inBubbleView:bubbleView] && self.withEditMode)
         return self.addTextString;
     NSAssert(self.getTextInfo,@"function getTextInfo from NSManagedObject requered");
     return self.getTextInfo([self getNSManagedObjectAtIndex:index]);
@@ -60,11 +60,11 @@
 
 - (HEBubbleViewItem *)bubbleView:(HEBubbleView *)bubbleView bubbleItemForIndex:(NSInteger)index {
     NSString *itemIdentifier;
-    if (![self isLastElementForIndex:index inBubbleView:bubbleView]) {
-        itemIdentifier = @"bubble";
+    if ([self isLastElementForIndex:index inBubbleView:bubbleView] && self.withEditMode) {
+        itemIdentifier = @"bubbleAdd";
     }
     else {
-        itemIdentifier = @"bubbleAdd";
+        itemIdentifier = @"bubble";
     }
 
     HPHEBubbleViewItem *bubble = (HPHEBubbleViewItem *) [bubbleView dequeueItemUsingReuseIdentifier:itemIdentifier];
@@ -77,9 +77,11 @@
         [bubble insertSubview:bubble.textField aboveSubview:bubble.textLabel];
         bubble.textField.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0 ];
         bubble.textField.textColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:1];
-        [[bubble.textField rac_signalForControlEvents:UIControlEventEditingDidBegin] subscribeNext:^(id x) {
-            bubble.textLabel.hidden = YES;
-        }];
+        if(self.withEditMode){
+            [[bubble.textField rac_signalForControlEvents:UIControlEventEditingDidBegin] subscribeNext:^(id x) {
+                bubble.textLabel.hidden = YES;
+            }];
+        }
 
         UIColor * caretColor = bubble.textField.tintColor;
         [[bubble.textField rac_signalForControlEvents:UIControlEventEditingDidEnd] subscribeNext:^(UITextField * textField1) {
@@ -91,52 +93,53 @@
             }
         }];
 
+        if(self.withEditMode){
+            @weakify(self);
+            [bubble.textField.backSpaceSignal subscribeNext:^(id x) {
+                @strongify(self);
+                if ([bubble.textField.text isEqualToString:@""] && [self numberOfItemsInBubbleView:self.bubbleView] > 1) {
+                    if(!self.bubbleView.activeBubble) {
+                        bubble.textField.tintColor = [UIColor clearColor];
+                        self.bubbleView.activeBubble = self.indexedArrayOfBubbleViewItem[(NSUInteger) (bubble.index - 1)];
+                        [self.bubbleView.activeBubble setSelected:YES animated:YES];
 
-        @weakify(self);
-        [bubble.textField.backSpaceSignal subscribeNext:^(id x) {
-            @strongify(self);
-            if ([bubble.textField.text isEqualToString:@""] && [self numberOfItemsInBubbleView:self.bubbleView] > 1) {
-                if(!self.bubbleView.activeBubble) {
-                    bubble.textField.tintColor = [UIColor clearColor];
-                    self.bubbleView.activeBubble = self.indexedArrayOfBubbleViewItem[(NSUInteger) (bubble.index - 1)];
-                    [self.bubbleView.activeBubble setSelected:YES animated:YES];
+                        [[[bubble.textField.rac_textSignal skip:1] take:1] subscribeNext:^(id x) {
+                            bubble.textField.tintColor = caretColor;
+                            [self.bubbleView.activeBubble setSelected:NO animated:YES];
+                            self.bubbleView.activeBubble = nil;
 
-                    [[[bubble.textField.rac_textSignal skip:1] take:1] subscribeNext:^(id x) {
+                        }];
+                    }
+                    else {
                         bubble.textField.tintColor = caretColor;
-                        [self.bubbleView.activeBubble setSelected:NO animated:YES];
+                        [self.bubbleView.activeBubble setSelected:NO animated:NO];
                         self.bubbleView.activeBubble = nil;
-
-                    }];
+                        [self bubbleView:bubbleView deleteItemWithIndex:[self numberOfItemsInBubbleView:self.bubbleView] - 2];
+                    }
                 }
-                else {
-                    bubble.textField.tintColor = caretColor;
-                    [self.bubbleView.activeBubble setSelected:NO animated:NO];
-                    self.bubbleView.activeBubble = nil;
-                    [self bubbleView:bubbleView deleteItemWithIndex:[self numberOfItemsInBubbleView:self.bubbleView] - 2];
-                }
-            }
-        }];
+            }];
+        }
 
         bubble.textField.delegate = self;
     }
 
     bubble.unselectedBGColor = [UIColor clearColor];
     bubble.textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
-    if(![self isLastElementForIndex:index inBubbleView:bubbleView]){
-        bubble.unselectedBorderColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:0.3];
-        bubble.unselectedTextColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:1];
-        bubble.selectedBorderColor = [UIColor colorWithRed:255.0f/255.0f green:102.0f/255.0f blue:112.0f/255.0f alpha:1];
-        bubble.selectedBGColor = [UIColor clearColor];//[UIColor colorWithRed:0.784 green:0.847 blue:0.910 alpha:1];
-        bubble.selectedTextColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:1];
-        bubble.textField.hidden = YES;
-    }
-    else{
+    if([self isLastElementForIndex:index inBubbleView:bubbleView] && self.withEditMode){
         bubble.unselectedBorderColor = [UIColor clearColor];
         bubble.unselectedTextColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:0.4];
         bubble.selectedBorderColor = [UIColor clearColor];
         bubble.selectedBGColor = [UIColor clearColor];
         bubble.selectedTextColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:0.4];
         bubble.textField.hidden = NO;
+    }
+    else{
+        bubble.unselectedBorderColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:0.3];
+        bubble.unselectedTextColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:1];
+        bubble.selectedBorderColor = [UIColor colorWithRed:255.0f/255.0f green:102.0f/255.0f blue:112.0f/255.0f alpha:1];
+        bubble.selectedBGColor = [UIColor clearColor];//[UIColor colorWithRed:0.784 green:0.847 blue:0.910 alpha:1];
+        bubble.selectedTextColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:1];
+        bubble.textField.hidden = YES;
     }
 
     bubble.textLabel.text = [self textStringForIndex:index inBubbleView:bubbleView];
@@ -148,7 +151,6 @@
 
     return bubble;
 }
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (![textField.text isEqualToString:@""]) {
         [self bubbleView:self.bubbleView insertBubbleWithText:textField.text];
@@ -165,13 +167,17 @@
 
 -(NSArray *)bubbleView:(HEBubbleView *)bubbleView menuItemsForBubbleItemAtIndex:(NSInteger)index
 {
-    @weakify(self);
-    NSNumber *blockInt = @(index);
-    PSMenuItem *actionDelete = [[PSMenuItem alloc] initWithTitle:@"Delete" block:^{
-        @strongify(self);
-        [self bubbleView:bubbleView deleteItemWithIndex:blockInt.integerValue];
-    }];
-    return @[actionDelete];
+    if (self.withEditMode) {
+        @weakify(self);
+        NSNumber *blockInt = @(index);
+        PSMenuItem *actionDelete = [[PSMenuItem alloc] initWithTitle:@"Delete" block:^{
+            @strongify(self);
+            [self bubbleView:bubbleView deleteItemWithIndex:blockInt.integerValue];
+        }];
+        return @[actionDelete];
+    }
+    
+    return nil;
 }
 
 - (void)bubbleView:(HEBubbleView *)bubbleView deleteItemWithIndex:(NSInteger)index{
