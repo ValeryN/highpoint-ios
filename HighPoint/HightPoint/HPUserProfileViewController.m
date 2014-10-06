@@ -13,7 +13,6 @@
 #import "HPImageCollectionViewCell.h"
 #import "HPUserProfileTableHeaderView.h"
 
-#import "HPUserInfoSecondRowTableViewCell.h"
 #import "MaxEntertainmentPrice.h"
 #import "MinEntertainmentPrice.h"
 #import "UIDevice+HighPoint.h"

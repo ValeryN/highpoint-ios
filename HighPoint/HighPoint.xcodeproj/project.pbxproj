@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B0B91FF197D1E6600910475 /* HPUserInfoFirstRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B0B91FE197D1E6600910475 /* HPUserInfoFirstRowTableViewCell.xib */; };
-		3B0B9202197D201F00910475 /* HPUserInfoFirstRowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B9201197D201F00910475 /* HPUserInfoFirstRowTableViewCell.m */; };
-		3B0B9205197D361D00910475 /* HPUserInfoTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B9204197D361D00910475 /* HPUserInfoTableHeaderView.m */; };
-		3B0B9207197D364E00910475 /* HPUserInfoTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B0B9206197D364E00910475 /* HPUserInfoTableHeaderView.xib */; };
 		3B105E9B1987D22100BF4C32 /* Trash Tap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B105E991987D22000BF4C32 /* Trash Tap@2x.png */; };
 		3B105E9C1987D22100BF4C32 /* Trash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B105E9A1987D22100BF4C32 /* Trash@2x.png */; };
 		3B298FB9192F476100BEC2AA /* slider-default-handle-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B298F9B192F476100BEC2AA /* slider-default-handle-highlighted.png */; };
@@ -191,9 +187,6 @@
 		3BDA4CAA1906623E00EF6619 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDA4CA91906623E00EF6619 /* CFNetwork.framework */; };
 		3BDA4CAC1906627000EF6619 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDA4CAB1906627000EF6619 /* libicucore.dylib */; };
 		3BDA4CAE1906628200EF6619 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDA4CAD1906628200EF6619 /* Security.framework */; };
-		3BDCB210197E7B18003D7ECD /* HPUserInfoLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDCB20F197E7B18003D7ECD /* HPUserInfoLabel.m */; };
-		3BDCB212197E8199003D7ECD /* HPUserInfoSecondRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BDCB211197E8199003D7ECD /* HPUserInfoSecondRowTableViewCell.xib */; };
-		3BDCB215197E820E003D7ECD /* HPUserInfoSecondRowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BDCB214197E820E003D7ECD /* HPUserInfoSecondRowTableViewCell.m */; };
 		3BDEB8F919C6C5D900878A09 /* Avatar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B39D306195C3091002520B9 /* Avatar.m */; };
 		3BE83C07197902950043E03E /* Photos_C.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE83C04197902950043E03E /* Photos_C.png */; };
 		3BE83C08197902950043E03E /* Photos_R.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE83C05197902950043E03E /* Photos_R.png */; };
@@ -232,6 +225,12 @@
 		44B8C74519A4F81000F3081E /* Smartling.i18n.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8C74419A4F81000F3081E /* Smartling.i18n.framework */; };
 		44B8C74C19A4FC5600F3081E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 44B8C74E19A4FC5600F3081E /* Localizable.strings */; };
 		44B908E219B075FD00B942CE /* HPUserProfileСarouselModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B908E119B075FD00B942CE /* HPUserProfileСarouselModeViewController.xib */; };
+		44B91D3C19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B91D3A19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.m */; };
+		44B91D3D19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B91D3B19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.xib */; };
+		44B91D4619E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B91D4119E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.m */; };
+		44B91D4719E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B91D4219E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.xib */; };
+		44B91D4819E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B91D4419E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m */; };
+		44B91D4919E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B91D4519E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib */; };
 		44D23B9C19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */; };
 		44D23BA419D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */; };
 		44D23BA619D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */; };
@@ -501,12 +500,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3B0B91FE197D1E6600910475 /* HPUserInfoFirstRowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoFirstRowTableViewCell.xib; sourceTree = "<group>"; };
-		3B0B9200197D201F00910475 /* HPUserInfoFirstRowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoFirstRowTableViewCell.h; sourceTree = "<group>"; };
-		3B0B9201197D201F00910475 /* HPUserInfoFirstRowTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoFirstRowTableViewCell.m; sourceTree = "<group>"; };
-		3B0B9203197D361D00910475 /* HPUserInfoTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoTableHeaderView.h; sourceTree = "<group>"; };
-		3B0B9204197D361D00910475 /* HPUserInfoTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoTableHeaderView.m; sourceTree = "<group>"; };
-		3B0B9206197D364E00910475 /* HPUserInfoTableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoTableHeaderView.xib; sourceTree = "<group>"; };
 		3B105E991987D22000BF4C32 /* Trash Tap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trash Tap@2x.png"; sourceTree = "<group>"; };
 		3B105E9A1987D22100BF4C32 /* Trash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trash@2x.png"; sourceTree = "<group>"; };
 		3B298F9B192F476100BEC2AA /* slider-default-handle-highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default-handle-highlighted.png"; sourceTree = "<group>"; };
@@ -800,11 +793,6 @@
 		3BDA4CA91906623E00EF6619 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3BDA4CAB1906627000EF6619 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		3BDA4CAD1906628200EF6619 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		3BDCB20E197E7B18003D7ECD /* HPUserInfoLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoLabel.h; sourceTree = "<group>"; };
-		3BDCB20F197E7B18003D7ECD /* HPUserInfoLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoLabel.m; sourceTree = "<group>"; };
-		3BDCB211197E8199003D7ECD /* HPUserInfoSecondRowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoSecondRowTableViewCell.xib; sourceTree = "<group>"; };
-		3BDCB213197E820E003D7ECD /* HPUserInfoSecondRowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoSecondRowTableViewCell.h; sourceTree = "<group>"; };
-		3BDCB214197E820E003D7ECD /* HPUserInfoSecondRowTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoSecondRowTableViewCell.m; sourceTree = "<group>"; };
 		3BE83C04197902950043E03E /* Photos_C.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Photos_C.png; sourceTree = "<group>"; };
 		3BE83C05197902950043E03E /* Photos_R.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Photos_R.png; sourceTree = "<group>"; };
 		3BE83C06197902950043E03E /* Photos_Camera_L.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Photos_Camera_L.png; sourceTree = "<group>"; };
@@ -854,6 +842,15 @@
 		44B8C75319A4FC9C00F3081E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		44B8C75419A4FC9C00F3081E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		44B908E119B075FD00B942CE /* HPUserProfileСarouselModeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "HPUserProfileСarouselModeViewController.xib"; sourceTree = "<group>"; };
+		44B91D3919E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoPhotoAlbumViewController.h; sourceTree = "<group>"; };
+		44B91D3A19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoPhotoAlbumViewController.m; sourceTree = "<group>"; };
+		44B91D3B19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoPhotoAlbumViewController.xib; sourceTree = "<group>"; };
+		44B91D4019E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoFirstRowTableViewCell.h; sourceTree = "<group>"; };
+		44B91D4119E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoFirstRowTableViewCell.m; sourceTree = "<group>"; };
+		44B91D4219E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoFirstRowTableViewCell.xib; sourceTree = "<group>"; };
+		44B91D4319E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoSecondRowTableViewCell.h; sourceTree = "<group>"; };
+		44B91D4419E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoSecondRowTableViewCell.m; sourceTree = "<group>"; };
+		44B91D4519E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoSecondRowTableViewCell.xib; sourceTree = "<group>"; };
 		44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenAllowCell.xib; sourceTree = "<group>"; };
 		44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenDenyCell.xib; sourceTree = "<group>"; };
 		44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenRequestCell.xib; sourceTree = "<group>"; };
@@ -1356,7 +1353,7 @@
 			path = External/SocketIO;
 			sourceTree = "<group>";
 		};
-		3B49DE1B1934A50C00C3EF1E /* HPUserProfileViewController */ = {
+		3B49DE1B1934A50C00C3EF1E /* Profile */ = {
 			isa = PBXGroup;
 			children = (
 				3B49DE1C1934AAC500C3EF1E /* HPUserProfileViewController.h */,
@@ -1366,7 +1363,7 @@
 				7C5F754F22B32E30F0910EBB /* Photo Album */,
 				7C5F7176D8F9F614A64854F2 /* Photo Carousel */,
 			);
-			name = HPUserProfileViewController;
+			name = Profile;
 			sourceTree = "<group>";
 		};
 		3B52B27219C30127000B543C /* MagicalRecord */ = {
@@ -1582,19 +1579,17 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CDE0BDC5196E7F9900CBCF58 /* Current User */,
+				CDE0BDBF196E632E00CBCF58 /* Selected User Detail */,
+				44B91D3F19E2D6FF00B8D0AE /* Chat */,
 				CDA44BB819A5E78700E33230 /* AuthorizationViewController */,
 				CDA44BAC19A5D82900E33230 /* SettingsViewController */,
 				CDB9527719A1F2FB00238DFC /* SplashViewController */,
-				CD4CA1841980DFB40016DF7E /* ChatViewController */,
 				CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */,
 				CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */,
 				CDA22EE0196FB22A0032210F /* ConciergeViewController */,
-				CDE0BDC5196E7F9900CBCF58 /* CurrentUserController */,
-				CDE0BDBF196E632E00CBCF58 /* UserInfoViewController */,
-				CDFA8A01196BDF2C00D04451 /* HPChatListViewController */,
 				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
 				3BDA4C9E19064EC300EF6619 /* HPRootViewController */,
-				3B49DE1B1934A50C00C3EF1E /* HPUserProfileViewController */,
 				3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */,
 				3B9C74971990FB24006ADAE7 /* HPMakeAvatarViewController */,
 				3BD12E57192DFDF30026BA11 /* HPFilterSettingsViewController */,
@@ -1997,6 +1992,25 @@
 			path = External/PSMenuItem;
 			sourceTree = "<group>";
 		};
+		44B91D3E19E2D6CE00B8D0AE /* Photo Album */ = {
+			isa = PBXGroup;
+			children = (
+				44B91D3919E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.h */,
+				44B91D3A19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.m */,
+				44B91D3B19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.xib */,
+			);
+			name = "Photo Album";
+			sourceTree = "<group>";
+		};
+		44B91D3F19E2D6FF00B8D0AE /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				CDFA8A01196BDF2C00D04451 /* Chat List */,
+				CD4CA1841980DFB40016DF7E /* Chat Detail */,
+			);
+			name = Chat;
+			sourceTree = "<group>";
+		};
 		4C91C1E9195812AD002B27D4 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -2137,6 +2151,12 @@
 		7C5F772DFF0ABEB24B6F2EA7 /* Profile Edit */ = {
 			isa = PBXGroup;
 			children = (
+				44B91D4019E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.h */,
+				44B91D4119E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.m */,
+				44B91D4219E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.xib */,
+				44B91D4319E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.h */,
+				44B91D4419E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m */,
+				44B91D4519E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib */,
 				7C5F77FC4F83B6ED0CECB26E /* HPUserProfileInfoEditTabViewController.h */,
 				7C5F7247CB61482010C7BBC3 /* HPUserProfileInfoEditTabViewController.m */,
 				7C5F7F66F87601728B0A1A88 /* HPHEBubbleView.h */,
@@ -2195,7 +2215,7 @@
 			name = "Add career";
 			sourceTree = "<group>";
 		};
-		CD4CA1841980DFB40016DF7E /* ChatViewController */ = {
+		CD4CA1841980DFB40016DF7E /* Chat Detail */ = {
 			isa = PBXGroup;
 			children = (
 				CD4CA3B31980F22F0016DF7E /* HPChatViewController.h */,
@@ -2219,7 +2239,7 @@
 				44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */,
 				44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */,
 			);
-			name = ChatViewController;
+			name = "Chat Detail";
 			sourceTree = "<group>";
 		};
 		CD68A9BE196D0DE80090D6D1 /* TLSwipeForOptionsCell */ = {
@@ -2350,30 +2370,21 @@
 			name = SplashViewController;
 			sourceTree = "<group>";
 		};
-		CDE0BDBF196E632E00CBCF58 /* UserInfoViewController */ = {
+		CDE0BDBF196E632E00CBCF58 /* Selected User Detail */ = {
 			isa = PBXGroup;
 			children = (
+				44B91D3E19E2D6CE00B8D0AE /* Photo Album */,
 				CDE0BDC0196E636600CBCF58 /* HPUserInfoViewController.h */,
 				CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */,
 				CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */,
-				3B0B9200197D201F00910475 /* HPUserInfoFirstRowTableViewCell.h */,
-				3B0B9201197D201F00910475 /* HPUserInfoFirstRowTableViewCell.m */,
-				3B0B91FE197D1E6600910475 /* HPUserInfoFirstRowTableViewCell.xib */,
-				3B0B9203197D361D00910475 /* HPUserInfoTableHeaderView.h */,
-				3B0B9204197D361D00910475 /* HPUserInfoTableHeaderView.m */,
-				3B0B9206197D364E00910475 /* HPUserInfoTableHeaderView.xib */,
-				3BDCB20E197E7B18003D7ECD /* HPUserInfoLabel.h */,
-				3BDCB20F197E7B18003D7ECD /* HPUserInfoLabel.m */,
-				3BDCB211197E8199003D7ECD /* HPUserInfoSecondRowTableViewCell.xib */,
-				3BDCB213197E820E003D7ECD /* HPUserInfoSecondRowTableViewCell.h */,
-				3BDCB214197E820E003D7ECD /* HPUserInfoSecondRowTableViewCell.m */,
 			);
-			name = UserInfoViewController;
+			name = "Selected User Detail";
 			sourceTree = "<group>";
 		};
-		CDE0BDC5196E7F9900CBCF58 /* CurrentUserController */ = {
+		CDE0BDC5196E7F9900CBCF58 /* Current User */ = {
 			isa = PBXGroup;
 			children = (
+				3B49DE1B1934A50C00C3EF1E /* Profile */,
 				CDE0BDCB196E832E00CBCF58 /* HPCurrentUserViewController.h */,
 				CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */,
 				CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */,
@@ -2384,10 +2395,10 @@
 				CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */,
 				CDC009971990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib */,
 			);
-			name = CurrentUserController;
+			name = "Current User";
 			sourceTree = "<group>";
 		};
-		CDFA8A01196BDF2C00D04451 /* HPChatListViewController */ = {
+		CDFA8A01196BDF2C00D04451 /* Chat List */ = {
 			isa = PBXGroup;
 			children = (
 				CDFA8A07196BE4B100D04451 /* HPChatListViewController.h */,
@@ -2397,7 +2408,7 @@
 				CDFA8A10196BE63200D04451 /* HPChatTableViewCell.m */,
 				CDFA8A0C196BE5E900D04451 /* HPChatTableViewCell.xib */,
 			);
-			name = HPChatListViewController;
+			name = "Chat List";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2568,8 +2579,8 @@
 				CDA17039198246B600173D1C /* CHANGELOG in Resources */,
 				3B298FC2192F476100BEC2AA /* slider-default_trackBackground@2x.png in Resources */,
 				3B31865C191A7A4F0000DD8B /* ParaType - Futura PT Book.otf in Resources */,
-				3BDCB212197E8199003D7ECD /* HPUserInfoSecondRowTableViewCell.xib in Resources */,
 				CDE3465B19863CA70076961A /* HPChatMsgTableViewCell.xib in Resources */,
+				44B91D4919E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib in Resources */,
 				CD08B829198B68960006AF4A /* HPUserCardUICollectionViewCell.xib in Resources */,
 				3BE9DE3A197FD8F300AFA641 /* 17.jpg in Resources */,
 				CDFA8A1F196BEA6200D04451 /* Switcher-C.png in Resources */,
@@ -2620,6 +2631,7 @@
 				CDFA8A0E196BE5E900D04451 /* HPChatTableViewCell.xib in Resources */,
 				3BE9DE42197FD8F300AFA641 /* 6.jpg in Resources */,
 				3BE9DE43197FD8F300AFA641 /* 7.jpg in Resources */,
+				44B91D3D19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.xib in Resources */,
 				3B298FBB192F476100BEC2AA /* slider-default-handle.png in Resources */,
 				3B298FC6192F476100BEC2AA /* slider-default7-track@2x.png in Resources */,
 				3B31865E191A7A4F0000DD8B /* YesevaOne-Regular_v2.otf in Resources */,
@@ -2664,7 +2676,6 @@
 				CDF9745D196E8C4C0064ED04 /* Eye.png in Resources */,
 				3B298FBC192F476100BEC2AA /* slider-default-handle@2x.png in Resources */,
 				CD4CA3C3198111550016DF7E /* HPChatOptionsTableViewCell.xib in Resources */,
-				3B0B91FF197D1E6600910475 /* HPUserInfoFirstRowTableViewCell.xib in Resources */,
 				3BE9DE3D197FD8F300AFA641 /* 2.jpg in Resources */,
 				3BE9DE45197FD8F300AFA641 /* 9.jpg in Resources */,
 				3B298FC5192F476100BEC2AA /* slider-default7-track.png in Resources */,
@@ -2688,7 +2699,6 @@
 				3BE9DE37197FD8F300AFA641 /* 14.jpg in Resources */,
 				44D23B9C19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib in Resources */,
 				CDA317CB19768B6A00F04DA2 /* point_options.png in Resources */,
-				3B0B9207197D364E00910475 /* HPUserInfoTableHeaderView.xib in Resources */,
 				CD4CA3B21980E4D70016DF7E /* HPChatViewController.xib in Resources */,
 				CDFA8A1B196BEA6200D04451 /* Lens.png in Resources */,
 				44B8C74C19A4FC5600F3081E /* Localizable.strings in Resources */,
@@ -2711,6 +2721,7 @@
 				7C5F7420DDAB6520655789FC /* HPUserProfileFirstRowTableViewCell.xib in Resources */,
 				7C5F7C658C5746D3BF22FEC9 /* HPUserProfileInfoEditTabViewController.xib in Resources */,
 				7C5F7FA72DC5AA259D946392 /* HPUserProfilePhotoAlbumTabViewController.xib in Resources */,
+				44B91D4719E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.xib in Resources */,
 				7C5F7B8DF4D8E5D3CDF17849 /* HPSearchCityViewController.xib in Resources */,
 				7C5F77DB5C20393EC9BDC1B2 /* HPAddEducationViewController.xib in Resources */,
 				7C5F708CC4C988ACCA477EFA /* HPAddCareerViewController.xib in Resources */,
@@ -2750,6 +2761,7 @@
 				3BBF88EC19C17AAF00B934E6 /* HPBaseNetworkManager+Photos.m in Sources */,
 				CD7C99621973C10500F1AAAB /* HPAddPhotoMenuViewController.m in Sources */,
 				3B6DB4A518FFC24D00C26A50 /* HightPoint.xcdatamodeld in Sources */,
+				44B91D3C19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.m in Sources */,
 				3BE83C1619796B2A0043E03E /* HEBubbleViewItem.m in Sources */,
 				3BDA4C9519064E5900EF6619 /* SDWebImagePrefetcher.m in Sources */,
 				3BDA4CA8190660B400EF6619 /* SRWebSocket.m in Sources */,
@@ -2793,10 +2805,8 @@
 				3B9C74961990B495006ADAE7 /* HPBubbleTextField.m in Sources */,
 				CDA3A64A1992117D008F9F86 /* HPSlider.m in Sources */,
 				3BE9DE17197FD09000AFA641 /* RACollectionViewTripletLayout.m in Sources */,
-				3B0B9202197D201F00910475 /* HPUserInfoFirstRowTableViewCell.m in Sources */,
 				3B52B2C719C30128000B543C /* MagicalRecord+iCloud.m in Sources */,
 				3BA5E3B619C09C8C00E374F2 /* HPBaseNetworkManager+ApplicationSettings.m in Sources */,
-				3BDCB210197E7B18003D7ECD /* HPUserInfoLabel.m in Sources */,
 				CD6D7A8C197CDA6D0002E8A0 /* HPPointLikesViewController.m in Sources */,
 				CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */,
 				3B39D328195C5B5C002520B9 /* Region.m in Sources */,
@@ -2807,7 +2817,6 @@
 				4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				3BBF88E919C178D200B934E6 /* HPBaseNetworkManager+Points.m in Sources */,
 				3BBF88DA19C173FD00B934E6 /* HPBaseNetworkManager+Contacts.m in Sources */,
-				3B0B9205197D361D00910475 /* HPUserInfoTableHeaderView.m in Sources */,
 				CDA44BBE19A5E8EA00E33230 /* HPAuthorizationViewController.m in Sources */,
 				3BDA4C6219064AC900EF6619 /* AFHTTPRequestOperation.m in Sources */,
 				4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
@@ -2890,7 +2899,6 @@
 				3B52B2BC19C30128000B543C /* NSManagedObject+MagicalRecord.m in Sources */,
 				3BEE69FD19926AA300C8B977 /* HFImageEditorFrameView.m in Sources */,
 				3B31864B191A408B0000DD8B /* Utils.m in Sources */,
-				3BDCB215197E820E003D7ECD /* HPUserInfoSecondRowTableViewCell.m in Sources */,
 				3BDA4C8F19064E5900EF6619 /* SDImageCache.m in Sources */,
 				CDBB915C19B9C26A00546853 /* NSNumber+Convert.m in Sources */,
 				3BBF88E619C1785200B934E6 /* HPBaseNetworkManager+Messages.m in Sources */,
@@ -2922,6 +2930,7 @@
 				3B52B2C019C30128000B543C /* NSManagedObjectContext+MagicalSaves.m in Sources */,
 				7C5F778DB27198EC4F2A4C7E /* RACTableViewController.m in Sources */,
 				7C5F7D1FB28DC01E5FFD33DF /* HPSearchCityViewController.m in Sources */,
+				44B91D4819E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m in Sources */,
 				7C5F71B018047BEC2C554C2C /* HPSearchCityCell.m in Sources */,
 				3B52B2C419C30128000B543C /* NSPersistentStoreCoordinator+MagicalRecord.m in Sources */,
 				7C5F795CB877D8686DA19608 /* RACFetchedTableViewController.m in Sources */,
@@ -2942,6 +2951,7 @@
 				7C5F7B52631787BB99EE7962 /* HPRequest+Users.m in Sources */,
 				7C5F7E98F6854F5FBA41DCDE /* HPMessageValidator.m in Sources */,
 				7C5F77812F79723EC38E5F5D /* NSDate+HighPoint.m in Sources */,
+				44B91D4619E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.m in Sources */,
 				3B52B2B519C30128000B543C /* NSNumber+MagicalDataImport.m in Sources */,
 				7C5F7E242EA057B1A4CAD244 /* HPHorizontalPanGestureRecognizer.m in Sources */,
 				7C5F77003656F29706256002 /* HPChatBubbleView.m in Sources */,

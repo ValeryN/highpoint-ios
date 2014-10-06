@@ -7,6 +7,8 @@
 #import "iCarousel.h"
 #import "UIDevice+HighPoint.h"
 #import "UIView+HighPoint.h"
+#import "Photo.h"
+#import "UIImageView+WebCache.h"
 
 @interface HPUserProfileСarouselModeViewController ()
 @property(nonatomic, weak) IBOutlet iCarousel *carousel;
@@ -158,7 +160,9 @@
 }
 
 - (UIView *)imageViewForCellIndex:(NSUInteger)index {
-    UIView *view = [[UIImageView alloc] initWithImage:_photosArray[index]];
+    Photo* photo = self.photosArray[index];
+    UIImageView *view = [[UIImageView alloc] init];
+    [view sd_setImageWithURL:[NSURL URLWithString:photo.imgeSrc] placeholderImage:[UIImage imageNamed:@"transparentflower"]];
     CGRect rect = CGRectMake([UIScreen mainScreen].bounds.size.width, 0, 320.0, 200);
 
     view.contentMode = UIViewContentModeScaleAspectFill;
@@ -199,6 +203,7 @@
     return 320;
 }
 
+#pragma mark manage array with KVO
 - (void)deletePhotoAtIndex:(NSNumber *)number {
     NSMutableArray *contents = [self mutableArrayValueForKey:@keypath(self, deletedPhotoIndex)];
     [contents addObject:number];

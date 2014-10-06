@@ -45,7 +45,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPUserProfileFirstRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"UserProfileCellTypeSpending"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPUserInfoSecondRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"HPUserInfoSecondRowTableViewCell"];
-
+    [self scrollToTopOnContentInsetChange];
     
     self.favoriteCitiesArray = [NSMutableArray new];
     NSArray *cityIds = [[[self favoritePlaceFetchedResultController] fetchedObjects] valueForKeyPath:@"@distinctUnionOfObjects.cityId"];
@@ -54,6 +54,14 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     }
 
     NSAssert(self.user, @"User is nil");
+}
+
+- (void) scrollToTopOnContentInsetChange{
+    @weakify(self);
+    [RACObserve(self, tableView.contentInset) subscribeNext:^(id x) {
+        @strongify(self)
+        self.tableView.contentOffset = (CGPoint){0,-self.tableView.contentInset.top};
+    }];
 }
 
 #pragma mark TableView
@@ -65,8 +73,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 - (NSString *)getCellIdentifierForIndexPath:(NSIndexPath *)path {
     switch ([self getCellTypeForIndexPath:path]) {
         case UserProfileCellTypeSpending:
-            return @"UserProfileCellTypeSpending";
-        default:
+            return @"UserProfileCellTypeSpending";        default:
             return @"HPUserInfoSecondRowTableViewCell";
     }
 };

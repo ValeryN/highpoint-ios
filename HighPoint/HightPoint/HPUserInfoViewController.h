@@ -15,7 +15,7 @@
 #import "HPChatViewController.h"
 
 
-@interface HPUserInfoViewController : UIViewController <GreenButtonProtocol, UITableViewDelegate, UITableViewDataSource, iCarouselDelegate, iCarouselDataSource, UIGestureRecognizerDelegate, HEBubbleViewDataSource, HEBubbleViewDelegate, NSFetchedResultsControllerDelegate>
+@interface HPUserInfoViewController : UIViewController
 @property (strong, nonatomic) User *user;
 
 
