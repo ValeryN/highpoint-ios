@@ -12,7 +12,7 @@
 
 
 @class User;
-@interface HPMainViewListTableViewCell : UITableViewCell
+@interface HPMainViewListTableViewCell : UITableViewCell <UIGestureRecognizerDelegate>
 
 + (void) makeCellReleased;
 

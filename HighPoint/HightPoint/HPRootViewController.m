@@ -74,11 +74,12 @@
     self.allUsers.delegate = self;
     [self.mainListTable reloadData];
     if (self.isNeedScrollToIndex) {
-        NSLog(@"%d", self.currentIndex);
-        NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
+        //NSLog(@"%d", self.currentIndex);
+        //NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
         [self.mainListTable reloadData];
+        [self scrollTableForCurrentIndex];
         //[self.mainListTable setContentOffset:CGPointMake(0, 800)  animated:YES];
-        [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        //[self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
     self.mainListTable.hidden = NO;
     self.isNeedScrollToIndex = NO;
@@ -109,7 +110,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserFilterData object:nil];
 }
-
+- (void) scrollTableForCurrentIndex {
+    NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
+    CGRect frame = [self.mainListTable rectForRowAtIndexPath:path];
+    CGFloat offset =self.currentIndex * frame.size.height;
+    [self.mainListTable setContentOffset:CGPointMake(0, offset)  animated:YES];
+}
 
 - (void) createSwitch
 {

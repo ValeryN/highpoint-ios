@@ -271,12 +271,15 @@ static HPMainViewListTableViewCell* _prevCell;
 - (void) addGestureRecognizer
 {
     UILongPressGestureRecognizer* longtapRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongTap:)];
+    longtapRecognizer.minimumPressDuration = 0.1;
+    longtapRecognizer.delegate = self;
     [self.showPointGroup addGestureRecognizer: longtapRecognizer];
-    
     UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTap:)];
     [self.showPointGroup addGestureRecognizer: tapRecognizer];
 }
-
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
 
 - (void) cellTap: (id)sender
 {
