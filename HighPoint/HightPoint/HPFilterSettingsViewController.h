@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NMRangeSlider.h"
-
+#import "UIImage+HighPoint.h"
 
 @protocol HPFilterSettingsViewControllerDelegate <NSObject>
 
@@ -48,7 +48,9 @@
 @property (nonatomic, assign) BOOL womenSwitchState;
 
 @property (weak, nonatomic) IBOutlet UITableView *townsTableView;
-
+@property (strong, nonatomic) UIImage *screenShoot;
+@property (strong, nonatomic) UIImageView *backGroundView;
+@property (strong, nonatomic) UIView *darkBgView;
 
 - (IBAction) menSwitchTap:(id)sender;
 - (IBAction) womenSwitchTap:(id)sender;
