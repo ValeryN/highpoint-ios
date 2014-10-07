@@ -277,12 +277,38 @@
 
 - (void) addPullToRefresh {
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.tintColor = [UIColor whiteColor];
+    refreshControl.tintColor = [UIColor clearColor];
+    
+    UIView *refreshLoadingView = [[UIView alloc] initWithFrame:refreshControl.bounds];
+    refreshLoadingView.backgroundColor = [UIColor clearColor];
+    UIImageView *spinner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Spinner"]];
+    
+    CGRect rect  = spinner.frame;
+    rect.origin.x = refreshControl.bounds.size.width / 2 - spinner.frame.size.width/2;
+    rect.origin.y = 10;
+    spinner.frame = rect;
+    
+    
+    
+    CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.fromValue = @0.0;
+    rotationAnimation.toValue = @(M_PI * 2.0f);
+    rotationAnimation.duration = 1.0f;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = HUGE_VALF;
+    [spinner.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    
+    
+    
+    [refreshLoadingView addSubview:spinner];
+    
+    [refreshControl addSubview:refreshLoadingView];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self.mainListTable addSubview:refreshControl];
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
+    
     [self makeUsersRequest];
     [refreshControl endRefreshing];
     [self.mainListTable reloadData];

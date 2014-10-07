@@ -29,7 +29,7 @@
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *sendFilterBtn;
 
-
+@property (nonatomic, strong) CABasicAnimation* rotationAnimation;
 @property (nonatomic, weak) IBOutlet UIButton* chatsListButton;
 @property (nonatomic, weak) IBOutlet UIView* filterGroupView;
 @property (nonatomic, weak) IBOutlet UITableView *mainListTable;
