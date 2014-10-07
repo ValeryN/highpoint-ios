@@ -178,10 +178,23 @@
 {
     HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
     filter.delegate = self;
+    filter.screenShoot = [self selfScreenShot];
     _crossDissolveAnimationController.viewForInteraction = filter.view;
     [self.navigationController pushViewController:filter animated:YES];
     _crossDissolveAnimationController.viewForInteraction = nil;
 }
+
+- (UIImage*) selfScreenShot {
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    CGRect rect = [keyWindow frame];
+    UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [keyWindow.layer renderInContext:context];
+    UIImage *capturedScreen = [UIGraphicsGetImageFromCurrentImageContext() resizeImageToSize:(CGSize){rect.size.width/3, rect.size.height/3}];
+    UIGraphicsEndImageContext();
+    return capturedScreen;
+}
+
 
 - (void) updateCurrentView {
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
