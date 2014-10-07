@@ -81,7 +81,19 @@
 }
 
 - (void)configureSegmentedControl {
-    self.navigationItem.titleView = self.segmentController;
+    [RACObserve(self.user, visibility) subscribeNext:^(NSNumber* type) {
+        switch ((UserVisibilityType)type.intValue) {
+            case UserVisibilityBlur:
+            case UserVisibilityVisible:
+                self.navigationItem.titleView = self.segmentController;
+                break;
+            case UserVisibilityHidden:
+                self.navigationItem.titleView = nil;
+                self.navigationItem.title = @"Профиль скрыт";
+                break;
+        }
+    }];
+    
 }
 
 

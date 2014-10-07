@@ -236,6 +236,7 @@
 		44D23BA419D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */; };
 		44D23BA619D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */; };
 		44E66BAF19A238240010117A /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */; };
+		44F37F4419E6E0BC007B6CD4 /* HPRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F37F4319E6E0BC007B6CD4 /* HPRoundButton.m */; };
 		4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1A488319629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FE935196427220016DED5 /* UIImage+StackBlur.m */; };
@@ -857,6 +858,8 @@
 		44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenRequestCell.xib; sourceTree = "<group>"; };
 		44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = External/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libReactiveCocoa-iOS.a"; path = "HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework/build/Debug-iphoneos/libReactiveCocoa-iOS.a"; sourceTree = "<group>"; };
+		44F37F4219E6E0BC007B6CD4 /* HPRoundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundButton.h; sourceTree = "<group>"; };
+		44F37F4319E6E0BC007B6CD4 /* HPRoundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRoundButton.m; sourceTree = "<group>"; };
 		4C1A488019629A7C00DD36F9 /* UITextView+HightPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+HightPoint.h"; sourceTree = "<group>"; };
 		4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HightPoint.m"; sourceTree = "<group>"; };
 		4C1FE934196427220016DED5 /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+StackBlur.h"; sourceTree = "<group>"; };
@@ -2014,6 +2017,8 @@
 		4C91C1E9195812AD002B27D4 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
+				44F37F4219E6E0BC007B6CD4 /* HPRoundButton.h */,
+				44F37F4319E6E0BC007B6CD4 /* HPRoundButton.m */,
 				3B3170B5191BA56900B72AC1 /* HPSwitchViewController.h */,
 				3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */,
 				4C5AC331193C5D7800A72676 /* HPSwitch.xib */,
@@ -2936,6 +2941,7 @@
 				7C5F79EC9D12BAAA275ED2C1 /* CALayer+HighPoint.m in Sources */,
 				7C5F7946F545EF53383F39D5 /* HPRequest.m in Sources */,
 				3B8A82EA19E3D50D001E124F /* HPUserProfileCarouselModeViewController.m in Sources */,
+				44F37F4419E6E0BC007B6CD4 /* HPRoundButton.m in Sources */,
 				7C5F76680EA0D82FA76B1CDB /* HPRequest+GeoLocations.m in Sources */,
 				7C5F72A33A196DC86D178705 /* HPRequest+CurrentUser.m in Sources */,
 				7C5F76088D0BD5D1E77DE872 /* HPRequest+Points.m in Sources */,

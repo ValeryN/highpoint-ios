@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6245"/>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPUserInfoPhotoAlbumViewController">
@@ -27,17 +28,70 @@
                         <outlet property="delegate" destination="-1" id="MVg-hc-pib"/>
                     </connections>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bhH-Zf-OTQ">
+                    <rect key="frame" x="10" y="10" width="75" height="22"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="i3x-D0-LHf">
+                            <rect key="frame" x="2" y="0.0" width="20" height="22"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="20" id="e3b-ZI-JOG"/>
+                                <constraint firstAttribute="height" constant="22" id="eSV-gk-erl"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 из 4" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uec-AL-jjr">
+                            <rect key="frame" x="28" y="0.0" width="41" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="oy0-59-bib"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="uec-AL-jjr" firstAttribute="leading" secondItem="i3x-D0-LHf" secondAttribute="trailing" constant="6" id="BBo-pW-CU6"/>
+                        <constraint firstItem="i3x-D0-LHf" firstAttribute="top" secondItem="bhH-Zf-OTQ" secondAttribute="top" id="LNZ-bt-f6T"/>
+                        <constraint firstItem="i3x-D0-LHf" firstAttribute="leading" secondItem="bhH-Zf-OTQ" secondAttribute="leading" constant="2" id="ZEg-lM-233"/>
+                        <constraint firstAttribute="trailing" secondItem="uec-AL-jjr" secondAttribute="trailing" constant="6" id="elf-ed-HhN"/>
+                        <constraint firstItem="uec-AL-jjr" firstAttribute="top" secondItem="bhH-Zf-OTQ" secondAttribute="top" id="qAR-Rc-G5G"/>
+                        <constraint firstAttribute="height" constant="22" id="wnK-BM-zmr"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="4"/>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFQ-bx-eIV" customClass="HPRoundButton">
+                    <rect key="frame" x="90" y="516" width="140" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="f98-np-dlG"/>
+                        <constraint firstAttribute="width" constant="140" id="sYW-by-jKj"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                    <state key="normal" title="Написать ей">
+                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted" backgroundImage="green_btn_pressed.png"/>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="pZh-3j-uoy" secondAttribute="bottom" id="3nk-hN-yO8"/>
                 <constraint firstAttribute="trailing" secondItem="pZh-3j-uoy" secondAttribute="trailing" id="9IS-qj-rmm"/>
+                <constraint firstItem="bhH-Zf-OTQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="E1J-On-okG"/>
                 <constraint firstItem="pZh-3j-uoy" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="JXT-zk-42G"/>
                 <constraint firstItem="pZh-3j-uoy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="MBo-Kt-pzZ"/>
+                <constraint firstAttribute="centerX" secondItem="zFQ-bx-eIV" secondAttribute="centerX" id="kLA-3E-9Kv"/>
+                <constraint firstItem="bhH-Zf-OTQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="kWX-q5-Aql"/>
+                <constraint firstAttribute="bottom" secondItem="zFQ-bx-eIV" secondAttribute="bottom" constant="20" id="uaa-Qo-goE"/>
             </constraints>
-            <point key="canvasLocation" x="931" y="658"/>
+            <point key="canvasLocation" x="824" y="287"/>
         </view>
     </objects>
+    <resources>
+        <image name="green_btn_pressed.png" width="315" height="64"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
