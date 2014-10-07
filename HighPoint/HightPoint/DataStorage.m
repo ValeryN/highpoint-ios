@@ -850,6 +850,7 @@ static DataStorage *dataStorage;
                 user.gender = [param[@"gender"] convertToNSNumber];
             if (param[@"visibility"]) {
                 user.visibility = [param[@"visibility"] convertToNSNumber];
+                //user.visibility = [NSNumber numberWithInt:2];
             }
             if (param[@"online"]) {
                 user.online = [param[@"online"] convertToNSNumber];

@@ -55,7 +55,7 @@ static HPMainViewListTableViewCell* _prevCell;
     self.point.text = user.point.pointText;
 
     
-
+    NSLog(@"%d", [user.visibility integerValue]);
     [self addGestureRecognizer];
     if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
         self.privacyLabel.hidden = NO;
@@ -72,7 +72,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
 
 - (void) setPrivacyText :(User *) user {
-    if ([user.visibility intValue] == 2) {
+    if ([user.visibility intValue] == 3) {
         if ([user.gender intValue] == 1) {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HIS_PROFILE", nil);
         } else {
@@ -80,11 +80,11 @@ static HPMainViewListTableViewCell* _prevCell;
         }
     }
     
-    if ([user.visibility intValue] == 3) {
+    if ([user.visibility intValue] == 2) {
         if ([user.gender intValue] == 1) {
-            self.privacyLabel.text = NSLocalizedString(@"HIDE_HER_NAME", nil);
-        } else {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HIS_NAME", nil);
+        } else {
+            self.privacyLabel.text = NSLocalizedString(@"HIDE_HER_NAME", nil);
         }
     }
 }
