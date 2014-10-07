@@ -7,6 +7,12 @@
 #import "iCarousel.h"
 #import "UIDevice+HighPoint.h"
 #import "UIView+HighPoint.h"
+#import "Photo.h"
+#import "UIImageView+WebCache.h"
+#import "HPMakeAvatarViewController.h"
+#import "AssetsLibrary/AssetsLibrary.h"
+#import "DataStorage.h"
+#import "HPBaseNetworkManager+Photos.h"
 
 @interface HPUserProfileСarouselModeViewController ()
 @property(nonatomic, weak) IBOutlet iCarousel *carousel;
@@ -40,7 +46,110 @@
 - (void)configureSetUserPicButton {
     RAC(self, setUserPicButton.hidden) = [[[RACSignal combineLatest:@[[[self isCurrentUserPicSignal] not], [self isPhotoDeletedSignal]]] and] not];
     [[self.setUserPicButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-
+        
+        
+        HPMakeAvatarViewController *avaView = [[HPMakeAvatarViewController alloc] initWithNibName: @"HPMakeAvatarViewController" bundle: nil];
+        NSLog(@"%d", self.carousel.currentItemIndex);
+        
+        avaView.doneCallback = ^(UIImage *editedImage, UIImageView *parentView, NSDictionary *param, BOOL canceled){
+            if(editedImage && !canceled) {
+                NSLog(@"Image ready");
+                NSLog(@"%f", editedImage.size.height * [[param objectForKey:@"scale"] floatValue]);
+                NSLog(@"%f", editedImage.size.width * [[param objectForKey:@"scale"] floatValue]);
+                
+                CGFloat x = [[param objectForKey:@"x"] floatValue];
+                CGFloat y = [[param objectForKey:@"y"] floatValue];
+                if(parentView.frame.origin.x < 0) {
+                    x = parentView.frame.origin.x * -1 + x;
+                } else {
+                    x = x - parentView.frame.origin.x;
+                }
+                if(x < 0) x = 0;
+                if(parentView.frame.origin.y < 0) {
+                    y = parentView.frame.origin.y * -1 + y;
+                } else {
+                    y = y - parentView.frame.origin.y;
+                }
+                if(y < 0) y = 0;
+                NSNumber *height = [NSNumber numberWithInt:(int) editedImage.size.height * [[param objectForKey:@"scale"] floatValue]];
+                NSNumber *width = [NSNumber numberWithInt:(int) editedImage.size.width * [[param objectForKey:@"scale"] floatValue]];
+                
+                NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:height, @"height", width, @"width",[NSNumber numberWithInt:(int)x], @"left", [NSNumber numberWithInt:(int)y], @"top", nil];
+                
+                NSLog(@"x--> %f",x);
+                NSLog(@"y--> %f",y);
+                
+                ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+                [library writeImageToSavedPhotosAlbum:[editedImage CGImage]
+                 
+                                          orientation:(ALAssetOrientation)editedImage.imageOrientation
+                                      completionBlock:^(NSURL *assetURL, NSError *error){
+                                          if (error) {
+                                              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Saving"
+                                                                                              message:[error localizedDescription]
+                                                                                             delegate:nil
+                                                                                    cancelButtonTitle:@"Ok"
+                                                                                    otherButtonTitles: nil];
+                                              [alert show];
+                                          }
+                                      }];
+                
+            }
+            else  NSLog(@"Ups...");
+           
+        };
+        
+        Photo *photo = [self.photosArray objectAtIndex:self.carousel.currentItemIndex];
+        if([photo.photoId intValue] > 0) {
+            
+            NSString* avatarUrl = photo.imgeSrc;
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            [manager downloadImageWithURL:[NSURL URLWithString:avatarUrl]
+                                  options:0
+                                 progress:^(NSInteger receivedSize, NSInteger expectedSize)
+             {
+                 // progression tracking code
+             }
+                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *url)
+             {
+                 if (image)
+                 {
+                     avaView.sourceImage = image;
+                     //[avaView reset:YES];
+                     //avaView.cImg = image;
+                     self.navigationController.delegate = nil;
+                     [self.navigationController pushViewController:avaView animated:YES];
+                     
+                     
+                 }
+             }];
+        } else {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+                @autoreleasepool {
+                    
+                    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+                    [assetsLibrary assetForURL:[NSURL URLWithString:photo.imgeSrc] resultBlock: ^(ALAsset *asset)   {
+                        ALAssetRepresentation *representation = [asset defaultRepresentation];
+                        CGImageRef imageRef = [representation fullResolutionImage];
+                        if (imageRef) {
+                            UIImage* image = [UIImage imageWithCGImage:imageRef
+                                                                 scale:representation.scale
+                                                           orientation:(UIImageOrientation) representation.orientation];
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                                avaView.sourceImage = image;
+                                [avaView reset:YES];
+                                //avaView.cImg = image;
+                                self.navigationController.delegate = nil;
+                                [self.navigationController pushViewController:avaView animated:YES];
+                            });
+                        }
+                    } failureBlock:^(NSError *error)    {
+                        
+                    }];
+                }
+            });
+        }
     }];
 }
 
@@ -136,12 +245,23 @@
     @weakify(self);
     leftBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
         @strongify(self)
+        if(self.deletedPhotoIndex.count > 0)
+            [self deleteSelectedPhotos];
         [self.navigationController popViewControllerAnimated:YES];
         return [RACSignal empty];
     }];
     return leftBarItem;
 }
-
+- (void) deleteSelectedPhotos {
+    [[HPBaseNetworkManager sharedNetworkManager] createDeletedItemArray];
+    for(NSNumber *index in self.deletedPhotoIndex) {
+        Photo *photo = [self.photosArray objectAtIndex:[index intValue]];
+        [[HPBaseNetworkManager sharedNetworkManager] addDeletedItemToArray:[photo.photoId intValue]];
+    }
+    //start delete chain
+    Photo *photo = [self.photosArray firstObject];
+    [[HPBaseNetworkManager sharedNetworkManager] deletePhotoRequest:photo.photoId];
+}
 #pragma mark Carousel delegate
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
@@ -158,15 +278,51 @@
 }
 
 - (UIView *)imageViewForCellIndex:(NSUInteger)index {
-    UIView *view = [[UIImageView alloc] initWithImage:_photosArray[index]];
-    CGRect rect = CGRectMake([UIScreen mainScreen].bounds.size.width, 0, 320.0, 200);
-
-    view.contentMode = UIViewContentModeScaleAspectFill;
-    view.clipsToBounds = YES;
-    view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-
-    view.frame = rect;
-
+    
+    UIImageView *view = [[UIImageView alloc] init];
+    Photo *photo = [self.photosArray objectAtIndex:index];
+    if([photo.photoId intValue] > 0) {
+        
+        [view sd_setImageWithURL:[NSURL URLWithString:photo.imgeSrc]
+                placeholderImage:nil];
+        CGRect rect = CGRectMake([UIScreen mainScreen].bounds.size.width, 0, 320.0, 200);
+        view.contentMode = UIViewContentModeScaleAspectFill;
+        view.clipsToBounds = YES;
+        view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        view.frame = rect;
+        
+        
+    } else {
+        
+        CGRect rect = CGRectMake(0, 0, 320.0, 200);
+        view.contentMode = UIViewContentModeScaleAspectFill;
+        view.clipsToBounds = YES;
+        view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        view.frame = rect;
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+            @autoreleasepool {
+                
+                ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+                [assetsLibrary assetForURL:[NSURL URLWithString:photo.imgeSrc] resultBlock: ^(ALAsset *asset)   {
+                    ALAssetRepresentation *representation = [asset defaultRepresentation];
+                    CGImageRef imageRef = [representation fullResolutionImage];
+                    if (imageRef) {
+                        UIImage* image = [UIImage imageWithCGImage:imageRef
+                                                             scale:representation.scale
+                                                       orientation:(UIImageOrientation) representation.orientation];
+                        dispatch_async(dispatch_get_main_queue(), ^(void) {
+                            view.image = image;
+                            
+                        });
+                    }
+                } failureBlock:^(NSError *error)    {
+                    
+                }];
+            }
+        });
+        
+    }
     return view;
 }
 
