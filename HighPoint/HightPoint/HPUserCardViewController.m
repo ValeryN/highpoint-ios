@@ -100,7 +100,6 @@
     [self unregisterNotification];
 }
 
-
 #pragma mark - init objects
 
 - (void) initObjects
@@ -118,8 +117,8 @@
     UIBarButtonItem* chatlistButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Bubble"]
                                                          highlighedImage: [UIImage imageNamed:@"Bubble Tap"]
                                                                   action: @selector(chatsListTaped:)];
-    [self updateNotificationViewCount];
     [chatlistButton.customView addSubview: _notificationView];
+    
     self.navigationItem.rightBarButtonItem = chatlistButton;
     
     UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Close.png"]
@@ -131,12 +130,15 @@
 
 
 - (void) updateNotificationViewCount {
-    int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:nil];
+    long int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:nil];
     if (msgsCount > 0) {
         if(self.notificationView)
             [self.notificationView removeFromSuperview];
-        self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%d", msgsCount]];
+        self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%ld", msgsCount]];
+        [self.navigationItem.rightBarButtonItem.customView addSubview:self.notificationView];
         self.notificationView.userInteractionEnabled = NO;
+    } else {
+        [self.notificationView removeFromSuperview];
     }
 }
 

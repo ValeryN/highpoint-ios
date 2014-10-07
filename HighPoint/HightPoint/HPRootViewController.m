@@ -131,15 +131,20 @@
 - (void) configureNavigationBar
 {
     self.navigationController.delegate = self;
-    int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount : nil];
+    [self updateNotificationViewCount];
+}
+
+- (void) updateNotificationViewCount {
+    long int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:nil];
     if (msgsCount > 0) {
         if(self.notificationView)
             [self.notificationView removeFromSuperview];
-        self.notificationView = nil;
-        self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%d", msgsCount]];
+        self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%ld", msgsCount]];
+        [self.navigationItem.rightBarButtonItem.customView addSubview:self.notificationView];
         self.notificationView.userInteractionEnabled = NO;
+    } else {
+        [self.notificationView removeFromSuperview];
     }
-    [_chatsListButton addSubview: _notificationView];
 }
 
 #pragma mark - Navigation bar button tap handler -
@@ -155,7 +160,7 @@
 
 - (IBAction) bubbleButtonPressedStart: (id) sender
 {
-    [self hideNotificationBadge];
+    //[self hideNotificationBadge];
     HPChatListViewController* chatList = [[HPChatListViewController alloc] initWithNibName: @"HPChatListViewController" bundle: nil];
     _crossDissolveAnimationController.viewForInteraction = chatList.view;
     [self.navigationController pushViewController:chatList animated:YES];
