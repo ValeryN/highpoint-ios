@@ -15,6 +15,7 @@
 #import "UIImage+HighPoint.h"
 #import "SDWebImageManager.h"
 #import "Avatar.h"
+#import "DataStorage.h"
 
 #define AVATAR_BLUR_RADIUS 10.0
 
@@ -59,6 +60,7 @@
         self.heartBtn.hidden = YES;
         pointTextView.hidden = YES;
     }
+    self.photoCountLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)[[DataStorage sharedDataStorage] getPhotoForUserId:user.userId].count];
     CGSize pointTVSize = [self getContentSize:pointTextView];
     CGRect frame = pointTextView.frame;
     frame.size.height = pointTVSize.height;
