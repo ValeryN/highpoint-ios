@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[RACFetchedTableViewController controllerDidChangeContent:]:RACFetchedTableViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[RACFetchedTableViewController insertHeight:forIndexPath:]:RACFetchedTableViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "path.row">
+            </PersistentString>
+            <PersistentString
+               value = "path">
+            </PersistentString>
+            <PersistentString
+               value = "[path row]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

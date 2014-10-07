@@ -45,7 +45,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPUserProfileFirstRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"UserProfileCellTypeSpending"];
     [self.tableView registerNib:[UINib nibWithNibName:@"HPUserInfoSecondRowTableViewCell" bundle:nil] forCellReuseIdentifier:@"HPUserInfoSecondRowTableViewCell"];
-
+    [self scrollToTopOnContentInsetChange];
     
     self.favoriteCitiesArray = [NSMutableArray new];
     NSArray *cityIds = [[[self favoritePlaceFetchedResultController] fetchedObjects] valueForKeyPath:@"@distinctUnionOfObjects.cityId"];
@@ -53,7 +53,15 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         [self.favoriteCitiesArray addObject:[[DataStorage sharedDataStorage] getCityById:cityId]];
     }
 
-    NSAssert(self.user, @"CurrentUser is nil");
+    NSAssert(self.user, @"User is nil");
+}
+
+- (void) scrollToTopOnContentInsetChange{
+    @weakify(self);
+    [RACObserve(self, tableView.contentInset) subscribeNext:^(id x) {
+        @strongify(self)
+        self.tableView.contentOffset = (CGPoint){0,-self.tableView.contentInset.top};
+    }];
 }
 
 #pragma mark TableView
@@ -65,8 +73,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 - (NSString *)getCellIdentifierForIndexPath:(NSIndexPath *)path {
     switch ([self getCellTypeForIndexPath:path]) {
         case UserProfileCellTypeSpending:
-            return @"UserProfileCellTypeSpending";
-        default:
+            return @"UserProfileCellTypeSpending";        default:
             return @"HPUserInfoSecondRowTableViewCell";
     }
 };
@@ -112,13 +119,13 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         case UserProfileCellTypeSpending:
             return 1;
         case UserProfileCellTypeFavoritePlaces:
-            return self.favoriteCitiesArray.count + 1;
+            return self.favoriteCitiesArray.count + (self.withEditMode?1:0);
         case UserProfileCellTypeLanguages:
             return 1;
         case UserProfileCellTypeEducation:
-            return ((id <NSFetchedResultsSectionInfo>) [[self educationFetchedResultController] sections][0]).numberOfObjects + 1;
+            return ((id <NSFetchedResultsSectionInfo>) [[self educationFetchedResultController] sections][0]).numberOfObjects + (self.withEditMode?1:0);
         case UserProfileCellTypeCareer:
-            return ((id <NSFetchedResultsSectionInfo>) [[self careerFetchedResultController] sections][0]).numberOfObjects + 1;
+            return ((id <NSFetchedResultsSectionInfo>) [[self careerFetchedResultController] sections][0]).numberOfObjects + (self.withEditMode?1:0);
         default:
             return 0;
     }
@@ -149,7 +156,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeFavoritePlaces){
-        if([self isLastCellInSectionWithIndexPath:indexPath]){
+        if([self isLastCellInSectionWithIndexPath:indexPath] && self.withEditMode){
             HPSearchCityViewController * searchCityViewController = [[HPSearchCityViewController alloc] initWithNibName:@"HPSearchCityViewController" bundle:nil];
             [self.navigationController pushViewController:searchCityViewController animated:YES];
             @weakify(self);
@@ -162,7 +169,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     }
 
     if([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation){
-        if([self isLastCellInSectionWithIndexPath:indexPath]){
+        if([self isLastCellInSectionWithIndexPath:indexPath] && self.withEditMode){
             HPAddEducationViewController *addEducationViewController = [[HPAddEducationViewController alloc] initWithNibName:@"HPAddEducationViewController" bundle:nil];
             [addEducationViewController.returnSignal subscribeNext:^(RACTuple * x) {
                 RACTupleUnpack(NSString* educationName, NSString* specialityName, NSString* year) = x;
@@ -172,7 +179,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     }
 
     if([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeCareer){
-        if([self isLastCellInSectionWithIndexPath:indexPath]){
+        if([self isLastCellInSectionWithIndexPath:indexPath] && self.withEditMode){
             HPAddCareerViewController *addCareerViewController = [[HPAddCareerViewController alloc] initWithNibName:@"HPAddCareerViewController" bundle:nil];
             [addCareerViewController.returnSignal subscribeNext:^(RACTuple * x) {
                 RACTupleUnpack(NSString* educationName, NSString* specialityName) = x;
@@ -197,6 +204,8 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     cell.cellTextLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
     cell.cellTextLabel.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
     cell.cellTextLabel.textAlignment = NSTextAlignmentLeft;
+    cell.oldRangeSlider.hidden = !self.withEditMode;
+
     [[RACObserve(cell.oldRangeSlider, lowerValue) throttle:0.3] subscribeNext:^(NSNumber * lowerValue) {
           [[DataStorage sharedDataStorage] setAndSaveCurrentUserMinEntertainmentPrice:lowerValue];
     }];
@@ -225,7 +234,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         [v removeFromSuperview];
     }
 
-    if ([self isLastCellInSectionWithIndexPath:indexPath]) {
+    if ([self isLastCellInSectionWithIndexPath:indexPath] && self.withEditMode) {
         //Last add row
         HPAddNewTownCellView *customView = [HPAddNewTownCellView createView];
         CGRect viewFrame = customView.frame;
@@ -253,22 +262,24 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         }] takeUntil:cell.rac_prepareForReuseSignal] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]];
 
         [cell.contentView addSubview:textLabel];
+        
+        if (self.withEditMode) {
+            UIButton *deleteButton = [self leftPreDeleteButton];
+            [cell.contentView addSubview:deleteButton];
 
-        UIButton *deleteButton = [self leftPreDeleteButton];
-        [cell.contentView addSubview:deleteButton];
+            UIButton *realDelete = [self rightPerformDeleteButton];
+            realDelete.hidden = YES;
+            RAC(realDelete, hidden) = [RACObserve(deleteButton, selected) not];
+            [cell.contentView addSubview:realDelete];
 
-        UIButton *realDelete = [self rightPerformDeleteButton];
-        realDelete.hidden = YES;
-        RAC(realDelete, hidden) = [RACObserve(deleteButton, selected) not];
-        [cell.contentView addSubview:realDelete];
-
-        [[[realDelete rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(id x) {
-            @strongify(self);
-            City *city = [self getCityForIndexPath:indexPath];
-            [[DataStorage sharedDataStorage] deleteAndSavePlaceEntityForCurrentUserWithCity:city];
-            [self removeCityFromTableView:city];
-        }];
-
+            [[[realDelete rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(id x) {
+                @strongify(self);
+                City *city = [self getCityForIndexPath:indexPath];
+                [[DataStorage sharedDataStorage] deleteAndSavePlaceEntityForCurrentUserWithCity:city];
+                [self removeCityFromTableView:city];
+            }];
+        }
+        
         HEBubbleView *bubbleView = [self bubbleViewForFavoritePlaceAtIndexPath:indexPath];
         if (bubbleView.superview)
             [bubbleView removeFromSuperview];
@@ -299,7 +310,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         [v removeFromSuperview];
     }
 
-    if ([self isLastCellInSectionWithIndexPath:indexPath]) {
+    if ([self isLastCellInSectionWithIndexPath:indexPath] && self.withEditMode) {
         HPAddNewTownCellView *customView = [HPAddNewTownCellView createView];
         customView.userInteractionEnabled = NO;
         customView.frame = CGRectMake(0, 0, 320, 46);
@@ -330,8 +341,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
             object = career;
         }
 
-        UIButton *deleteButton = [self leftPreDeleteButton];
-        [cell.contentView addSubview:deleteButton];
+       
 
         UILabel *textLabel1 = [[UILabel alloc] initWithFrame:(CGRect) {0, 5, BUBBLE_VIEW_WIDTH_CONST - 40, 9999}];
         textLabel1.backgroundColor = [UIColor clearColor];
@@ -370,41 +380,44 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         [animationLayer addSubview:textLabel2];
         [animationLayer addSubview:textLabel3];
         [cell.contentView addSubview:animationLayer];
-
-        UIButton *realDelete = [self rightPerformDeleteButton];
-        realDelete.hidden = YES;
-        BOOL cellWithAnimation = (textLabel1.frame.size.width > BUBBLE_VIEW_WIDTH_CONST - 40.0f - 60.0f) || (textLabel2.frame.size.width > BUBBLE_VIEW_WIDTH_CONST - 40.0f - 60.0f) || (textLabel2.frame.size.width > BUBBLE_VIEW_WIDTH_CONST - 40.0f - 60.0f);
-        RAC(realDelete, hidden) = [[RACObserve(deleteButton, selected) not] flattenMap:^RACStream *(NSNumber *value) {
-            if (!value.boolValue && cellWithAnimation) {
-                return [[RACSignal return:value] delay:0.3];
-            }
-            else return [RACSignal return:value];
-        }];
-
-        if (cellWithAnimation) {
-            //Resize textLabel to show performDeleteButton
-            CGRect initialFrame = animationLayer.frame;
-            [[RACObserve(deleteButton, selected) takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(NSNumber *selected) {
-                [UIView animateWithDuration:0.3 animations:^{
-                    if (selected.boolValue) {
-                        animationLayer.frame = (CGRect) {initialFrame.origin, BUBBLE_VIEW_WIDTH_CONST - 40 - 60, initialFrame.size.height};
-                    }
-                    else {
-                        animationLayer.frame = initialFrame;
-                    }
-                }];
+        
+        if (self.withEditMode) {
+            UIButton *deleteButton = [self leftPreDeleteButton];
+            UIButton *realDelete = [self rightPerformDeleteButton];
+            [cell.contentView addSubview:deleteButton];
+            [[[realDelete rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(id x) {
+                if ([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation) {
+                    [[DataStorage sharedDataStorage] deleteAndSaveEducationEntityFromUser:@[((Education *) object).id_]];
+                }
+                else {
+                    [[DataStorage sharedDataStorage] deleteAndSaveCareerEntityFromUser:@[((Career *) object).id_]];
+                }
             }];
-        }
+            realDelete.hidden = YES;
+            BOOL cellWithAnimation = (textLabel1.frame.size.width > BUBBLE_VIEW_WIDTH_CONST - 40.0f - 60.0f) || (textLabel2.frame.size.width > BUBBLE_VIEW_WIDTH_CONST - 40.0f - 60.0f) || (textLabel2.frame.size.width > BUBBLE_VIEW_WIDTH_CONST - 40.0f - 60.0f);
+            RAC(realDelete, hidden) = [[RACObserve(deleteButton, selected) not] flattenMap:^RACStream *(NSNumber *value) {
+                if (!value.boolValue && cellWithAnimation) {
+                    return [[RACSignal return:value] delay:0.3];
+                }
+                else return [RACSignal return:value];
+            }];
 
-        [[[realDelete rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(id x) {
-            if ([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation) {
-                [[DataStorage sharedDataStorage] deleteAndSaveEducationEntityFromUser:@[((Education *) object).id_]];
+            if (cellWithAnimation) {
+                //Resize textLabel to show performDeleteButton
+                CGRect initialFrame = animationLayer.frame;
+                [[RACObserve(deleteButton, selected) takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(NSNumber *selected) {
+                    [UIView animateWithDuration:0.3 animations:^{
+                        if (selected.boolValue) {
+                            animationLayer.frame = (CGRect) {initialFrame.origin, BUBBLE_VIEW_WIDTH_CONST - 40 - 60, initialFrame.size.height};
+                        }
+                        else {
+                            animationLayer.frame = initialFrame;
+                        }
+                    }];
+                }];
             }
-            else {
-                [[DataStorage sharedDataStorage] deleteAndSaveCareerEntityFromUser:@[((Career *) object).id_]];
-            }
-        }];
-        [cell.contentView addSubview:realDelete];
+            [cell.contentView addSubview:realDelete];
+        }
     }
 
 }
@@ -413,11 +426,11 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 #pragma mark - calculate table row height
 
 - (CGFloat)getFirstRowHeight {
-    return 90;
+    return self.withEditMode?90:50;
 }
 
 - (CGFloat)getSecondRowHeightWithIndexPath:(NSIndexPath *)indexPath {
-    if ([self isLastCellInSectionWithIndexPath:indexPath]) {
+    if ([self isLastCellInSectionWithIndexPath:indexPath] && self.withEditMode) {
         return 40;
     }
     else {
@@ -443,7 +456,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 
 
 - (CGFloat)getHeightForEducationOrCareerCellWithIndexPath:(NSIndexPath *)indexPath {
-    if ([self isLastCellInSectionWithIndexPath:indexPath])
+    if ([self isLastCellInSectionWithIndexPath:indexPath] && self.withEditMode)
         return 48;
 
     NSString *name;
@@ -644,6 +657,8 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         bubbleView.itemPadding = 5.0;
 
         HPBubbleViewDelegate *delegate = [[HPBubbleViewDelegate alloc] initWithBubbleView:bubbleView];
+        delegate.withEditMode = self.withEditMode;
+        
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Language"];
         [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
         [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"user == %@", self.user]];

@@ -46,6 +46,7 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
+    
 }
 
 #pragma mark - navigation bar
@@ -91,6 +92,7 @@
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     User * usr = [[self.fetchedResultController fetchedObjects] objectAtIndex:indexPath.row];
@@ -98,7 +100,6 @@
         [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
     }
     HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
-    uiController.delegate = self;
     uiController.user = [[self.fetchedResultController fetchedObjects] objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:uiController animated:YES];
 }

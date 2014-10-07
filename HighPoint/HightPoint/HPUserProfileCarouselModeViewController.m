@@ -3,18 +3,21 @@
 // Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-#import "HPUserProfileСarouselModeViewController.h"
+#import "HPUserProfileCarouselModeViewController.h"
 #import "iCarousel.h"
 #import "UIDevice+HighPoint.h"
 #import "UIView+HighPoint.h"
 #import "Photo.h"
 #import "UIImageView+WebCache.h"
+
 #import "HPMakeAvatarViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "DataStorage.h"
 #import "HPBaseNetworkManager+Photos.h"
 
-@interface HPUserProfileСarouselModeViewController ()
+
+
+@interface HPUserProfileCarouselModeViewController ()
 @property(nonatomic, weak) IBOutlet iCarousel *carousel;
 @property(nonatomic) BOOL fullScreenMode;
 @property(nonatomic, weak) IBOutlet UIButton *setUserPicButton;
@@ -26,7 +29,7 @@
 @end
 
 
-@implementation HPUserProfileСarouselModeViewController
+@implementation HPUserProfileCarouselModeViewController
 
 
 - (void)viewDidLoad {
@@ -278,7 +281,6 @@
 }
 
 - (UIView *)imageViewForCellIndex:(NSUInteger)index {
-    
     UIImageView *view = [[UIImageView alloc] init];
     Photo *photo = [self.photosArray objectAtIndex:index];
     if([photo.photoId intValue] > 0) {
@@ -323,7 +325,7 @@
         });
         
     }
-    return view;
+return view;
 }
 
 - (UIView *)deletedImageCellView {
@@ -355,6 +357,7 @@
     return 320;
 }
 
+#pragma mark manage array with KVO
 - (void)deletePhotoAtIndex:(NSNumber *)number {
     NSMutableArray *contents = [self mutableArrayValueForKey:@keypath(self, deletedPhotoIndex)];
     [contents addObject:number];

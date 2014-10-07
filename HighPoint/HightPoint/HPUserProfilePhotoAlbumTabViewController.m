@@ -15,6 +15,7 @@
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "HPBaseNetworkManager+Photos.h"
 #import "NotificationsConstants.h"
+#import "User.h"
 
 @interface HPUserProfilePhotoAlbumTabViewController()
 @property (nonatomic, retain) NSMutableArray* photosArray;
@@ -39,7 +40,7 @@ static NSString *cellID = @"cellID";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserPhotos object:nil];
 }
 - (void) reloadData {
-    NSArray *photos = [[DataStorage sharedDataStorage] getPhotoForUserId:[NSNumber numberWithInt:1]];
+    NSArray *photos = [[DataStorage sharedDataStorage] getPhotoForUserId:self.user.userId];
     _photosArray = nil;
     _photosArray = [NSMutableArray arrayWithArray:photos];
     [self.collectionView reloadData];
@@ -52,7 +53,10 @@ static NSString *cellID = @"cellID";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return _photosArray.count+1;
+    if(self.user.isCurrentUser.boolValue)
+        return _photosArray.count+1;
+    else
+        return _photosArray.count;
 }
 
 - (CGFloat)sectionSpacingForCollectionView:(UICollectionView *)collectionView

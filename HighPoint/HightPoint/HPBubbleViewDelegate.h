@@ -11,6 +11,7 @@
 
 
 @interface HPBubbleViewDelegate : NSObject <HEBubbleViewDelegate,HEBubbleViewDataSource, UITextFieldDelegate, NSFetchedResultsControllerDelegate>
+@property (nonatomic) BOOL withEditMode;
 @property (nonatomic, weak) HPHEBubbleView* bubbleView;
 @property (nonatomic, retain) NSFetchedResultsController* dataSource;
 @property (nonatomic, retain) NSString* addTextString;

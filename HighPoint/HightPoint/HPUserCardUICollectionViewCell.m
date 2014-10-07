@@ -15,9 +15,18 @@
 #import "UIImage+HighPoint.h"
 #import "SDWebImageManager.h"
 #import "Avatar.h"
+#import "DataStorage.h"
 
 #define AVATAR_BLUR_RADIUS 10.0
 
+@interface HPUserCardUICollectionViewCell()
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UILabel *userInfoLabel;
+@property (weak, nonatomic) IBOutlet UIButton *sendMsgBtn;
+@property (weak, nonatomic) IBOutlet UIButton *heartBtn;
+@property (weak, nonatomic) IBOutlet UIView *photoView;
+@property (weak, nonatomic) IBOutlet UILabel *photoCountLabel;
+@end
 
 @implementation HPUserCardUICollectionViewCell {
     User *currUser;
@@ -51,6 +60,7 @@
         self.heartBtn.hidden = YES;
         pointTextView.hidden = YES;
     }
+    self.photoCountLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)[[DataStorage sharedDataStorage] getPhotoForUserId:user.userId].count];
     CGSize pointTVSize = [self getContentSize:pointTextView];
     CGRect frame = pointTextView.frame;
     frame.size.height = pointTVSize.height;

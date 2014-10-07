@@ -13,7 +13,6 @@
 #import "HPImageCollectionViewCell.h"
 #import "HPUserProfileTableHeaderView.h"
 
-#import "HPUserInfoSecondRowTableViewCell.h"
 #import "MaxEntertainmentPrice.h"
 #import "MinEntertainmentPrice.h"
 #import "UIDevice+HighPoint.h"
@@ -22,6 +21,7 @@
 #import "HPUserProfilePhotoAlbumTabViewController.h"
 #import "UINavigationBar+HighPoint.h"
 #import "HPUserProfileInfoEditTabViewController.h"
+#import "DataStorage.h"
 
 //#undef SCREEN_HEIGHT
 //#ifdef IS_IPHONE_5
@@ -74,6 +74,7 @@
 
 - (void)configurePhotoTab {
     self.photoAlbumTabViewController = [[HPUserProfilePhotoAlbumTabViewController alloc] initWithNibName:@"HPUserProfilePhotoAlbumTabViewController" bundle:nil];
+    self.photoAlbumTabViewController.user = [[DataStorage sharedDataStorage] getCurrentUser];
     [self addChildViewController:self.photoAlbumTabViewController];
     self.photoAlbumTabViewController.view.frame = self.view.frame;
 
@@ -85,6 +86,7 @@
 
 - (void)configureInfoTab {
     self.infoEditTabViewController = [[HPUserProfileInfoEditTabViewController alloc] initWithNibName:@"HPUserProfileInfoEditTabViewController" bundle:nil];
+    self.infoEditTabViewController.withEditMode = YES;
     self.infoEditTabViewController.user = self.user;
     [self addChildViewController:self.infoEditTabViewController];
     self.infoEditTabViewController.view.frame = self.view.frame;
