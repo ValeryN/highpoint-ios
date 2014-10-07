@@ -7,7 +7,7 @@
 
 @class  HFImageEditorViewController;
 
-typedef void(^HFImageEditorDoneCallback)(UIImage *image, BOOL canceled);
+typedef void(^HFImageEditorDoneCallback)(UIImage *image, UIImageView *parentView, NSDictionary *param, BOOL canceled);
 
 @interface HFImageEditorViewController : UIViewController<UIGestureRecognizerDelegate>
 
@@ -29,7 +29,8 @@ typedef void(^HFImageEditorDoneCallback)(UIImage *image, BOOL canceled);
 @property(nonatomic,readonly) CGRect cropBoundsInSourceImage;
 
 - (void)reset:(BOOL)animated;
-
+- (IBAction)doneAction:(id)sender;
+- (IBAction)cancelAction:(id)sender;
 @end
 
 

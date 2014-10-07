@@ -27,7 +27,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.cropRect = CGRectMake(0,0,320,120);
+        //self.cropRect = CGRectMake(0,0,120,120);
         self.minimumScale = 0.2;
         self.maximumScale = 10;
     }
@@ -38,6 +38,9 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:30.0/255.0 green:29.0/255.0 blue:48.0/255.0 alpha:1.0];
+    
+    //[self reset:YES];
+    
     // Do any additional setup after loading the view from its nib.
     //self.sourceImage = [UIImage imageNamed:@"10.jpg"];
 }
@@ -49,7 +52,8 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     //[self configureImage];
     [self configureGreenButton];
-    
+    self.cropRect = CGRectMake((self.frameView.frame.size.width-304)/2.0f, (self.frameView.frame.size.height-304)/2.0f, 304, 304);
+    [self reset:YES];
     
 }
 - (void) configureNavButton {
@@ -120,6 +124,7 @@
     [super viewWillDisappear:animated];
 }
 - (void) backButtonTap:(id) sender {
+    [self cancelAction:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void) avatarReadyDown {
@@ -129,7 +134,9 @@
 - (void) avatarReadyUp {
     self.greenButton.hidden = NO;
     self.tappedGreenButton.hidden = YES;
+    [self doneAction:nil];
     [self.navigationController popViewControllerAnimated:YES];
+    
 }
 - (void)didReceiveMemoryWarning
 {

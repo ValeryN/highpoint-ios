@@ -81,10 +81,7 @@
     [notView addSubview:viewCenter];
     [notView addSubview:viewRight];
     
-    CGFloat shift;
-    if(text.length == 1)
-        shift = 7;
-    else shift = 4;
+
     
     UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, width, 20.0)];
     textLabel.backgroundColor = [UIColor clearColor];

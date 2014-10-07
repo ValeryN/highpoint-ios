@@ -339,11 +339,11 @@
     [scrollView setContentOffset:CGPointMake(0, newTargetOffset) animated:YES];
 }
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
-    HPUserCardUICollectionViewCell* currentCell = ([[collectionView visibleCells]count] > 0) ? [[collectionView visibleCells] objectAtIndex:0] : nil;
+    //HPUserCardUICollectionViewCell* currentCell = ([[collectionView visibleCells]count] > 0) ? [[collectionView visibleCells] objectAtIndex:0] : nil;
     
-    if(cell != nil){
+    //if(cell != nil){
         //self.currentIndex = [collectionView indexPathForCell:currentCell].row;
-    }
+    //}
     //NSLog(@"current index for sync = %d", self.currentIndex);
 }
 

@@ -814,7 +814,6 @@ static DataStorage *dataStorage;
             //} else if ([key isKindOfClass:[NSDictionary class]]) {
             //    param = key;
             //}
-            
             User *user;
             NSArray *localUsers = [User findAllWithPredicate:[NSPredicate predicateWithFormat:@"userId == %d", [param[@"id"] intValue] ] inContext:localContext];
             if(localUsers.count >0) {
@@ -822,8 +821,6 @@ static DataStorage *dataStorage;
             } else {
                 user = [User createInContext:localContext];
             }
-            
-            
             if (param[@"id"])
                 user.userId = [param[@"id"] convertToNSNumber];
             //user type
