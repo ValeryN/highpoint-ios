@@ -70,21 +70,24 @@
     [self updateCurrentView];
     self.mainListTable.hidden = YES;
     
-}
-- (void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     isFirstLoad = NO;
-    
     self.allUsers.delegate = self;
     [self.mainListTable reloadData];
     if (self.isNeedScrollToIndex) {
         NSLog(@"%d", self.currentIndex);
         NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
         [self.mainListTable reloadData];
+        //[self.mainListTable setContentOffset:CGPointMake(0, 800)  animated:YES];
         [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
     self.mainListTable.hidden = NO;
     self.isNeedScrollToIndex = NO;
+    
+}
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -187,7 +190,7 @@
     } else {
         self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
     }
-    
+    [self.mainListTable reloadData];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller;
