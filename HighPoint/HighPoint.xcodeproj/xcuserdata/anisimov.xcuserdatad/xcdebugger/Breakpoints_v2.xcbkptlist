@@ -77,7 +77,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "263"
             endingLineNumber = "263"
-            landmarkName = "-viewWillBeHidden:andIntPath:"
+            landmarkName = "-addPhotoMenuShow"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -93,7 +93,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "273"
             endingLineNumber = "273"
-            landmarkName = "-closeMenu"
+            landmarkName = "-viewWillBeHidden:andIntPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -103,7 +103,7 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HightPoint/HPUserProfile&#x421;arouselModeViewController.m"
+            filePath = "HightPoint/HPUserProfileCarouselModeViewController.m"
             timestampString = "434298624.28541"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"

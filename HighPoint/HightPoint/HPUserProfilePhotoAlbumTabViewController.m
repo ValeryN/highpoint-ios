@@ -8,7 +8,7 @@
 #import "HPAddPhotoMenuViewController.h"
 #import "Utils.h"
 #import "UIImage+HighPoint.h"
-#import "HPUserProfileСarouselModeViewController.h"
+#import "HPUserProfileCarouselModeViewController.h"
 #import "DataStorage.h"
 #import "Photo.h"
 #import "SDWebImageManager.h"
@@ -195,7 +195,7 @@ static NSString *cellID = @"cellID";
     if(_photosArray.count - indexPath.row == 0) {
         [self addPhotoMenuShow];
     } else {
-        HPUserProfileСarouselModeViewController* carouselViewController = [[HPUserProfileСarouselModeViewController alloc] initWithNibName:@"HPUserProfileСarouselModeViewController" bundle:nil];
+        HPUserProfileCarouselModeViewController* carouselViewController = [[HPUserProfileCarouselModeViewController alloc] initWithNibName:@"HPUserProfileCarouselModeViewController" bundle:nil];
         carouselViewController.photosArray = _photosArray;
         carouselViewController.selectedPhoto = indexPath.row;
         [self.navigationController pushViewController:carouselViewController animated:YES];

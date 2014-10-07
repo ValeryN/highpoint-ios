@@ -121,6 +121,7 @@
 		3B6F95E519B5AEFF0095E7BF /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6F95E419B5AEFF0095E7BF /* City.m */; };
 		3B71BD5219D2DD2E00C50840 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71BD5119D2DD2E00C50840 /* UIImageView+HighlightedWebCache.m */; };
 		3B71BD5B19D2DD4900C50840 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71BD5A19D2DD4900C50840 /* UIView+WebCacheOperation.m */; };
+		3B8A82EA19E3D50D001E124F /* HPUserProfileCarouselModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B8A82E919E3D50D001E124F /* HPUserProfileCarouselModeViewController.m */; };
 		3B9C74961990B495006ADAE7 /* HPBubbleTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9C74951990B495006ADAE7 /* HPBubbleTextField.m */; };
 		3B9C749B1990FB7E006ADAE7 /* HPMakeAvatarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9C74991990FB7E006ADAE7 /* HPMakeAvatarViewController.m */; };
 		3B9C749C1990FB7E006ADAE7 /* HPMakeAvatarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B9C749A1990FB7E006ADAE7 /* HPMakeAvatarViewController.xib */; };
@@ -224,7 +225,7 @@
 		44B5F3A319B867CC00DB13F4 /* HPUserProfileCarouselDeletedCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B5F3A219B867CC00DB13F4 /* HPUserProfileCarouselDeletedCellView.xib */; };
 		44B8C74519A4F81000F3081E /* Smartling.i18n.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8C74419A4F81000F3081E /* Smartling.i18n.framework */; };
 		44B8C74C19A4FC5600F3081E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 44B8C74E19A4FC5600F3081E /* Localizable.strings */; };
-		44B908E219B075FD00B942CE /* HPUserProfileСarouselModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B908E119B075FD00B942CE /* HPUserProfileСarouselModeViewController.xib */; };
+		44B908E219B075FD00B942CE /* HPUserProfileCarouselModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B908E119B075FD00B942CE /* HPUserProfileCarouselModeViewController.xib */; };
 		44B91D3C19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B91D3A19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.m */; };
 		44B91D3D19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B91D3B19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.xib */; };
 		44B91D4619E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B91D4119E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.m */; };
@@ -304,7 +305,6 @@
 		7C5F778DB27198EC4F2A4C7E /* RACTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F78C239B7D4D6BDCF0053 /* RACTableViewController.m */; };
 		7C5F7792315B9D3C4C7F1786 /* HPImageCollectionViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F77B8A8491B5BFFB82FC4 /* HPImageCollectionViewHeader.xib */; };
 		7C5F77DB5C20393EC9BDC1B2 /* HPAddEducationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F784E8928ADFB840B7A5C /* HPAddEducationViewController.xib */; };
-		7C5F77FD3DAF62EFAC1609D5 /* HPUserProfileСarouselModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F73499DE47F24BB401634 /* HPUserProfileСarouselModeViewController.m */; };
 		7C5F7840C7F24F1E16C62A49 /* UITextView+HPRacSignal.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F759EF310328097A08FC6 /* UITextView+HPRacSignal.m */; };
 		7C5F7946F545EF53383F39D5 /* HPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7FB3529CC358A40A80A8 /* HPRequest.m */; };
 		7C5F795CB877D8686DA19608 /* RACFetchedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7566517F0FB2EEE84EC4 /* RACFetchedTableViewController.m */; };
@@ -673,6 +673,7 @@
 		3B71BD5119D2DD2E00C50840 /* UIImageView+HighlightedWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+HighlightedWebCache.m"; sourceTree = "<group>"; };
 		3B71BD5919D2DD4900C50840 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		3B71BD5A19D2DD4900C50840 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		3B8A82E919E3D50D001E124F /* HPUserProfileCarouselModeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserProfileCarouselModeViewController.m; sourceTree = "<group>"; };
 		3B8CEF60195D9576005E85D8 /* NotificationsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsConstants.h; sourceTree = "<group>"; };
 		3B9C74941990B495006ADAE7 /* HPBubbleTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPBubbleTextField.h; sourceTree = "<group>"; };
 		3B9C74951990B495006ADAE7 /* HPBubbleTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPBubbleTextField.m; sourceTree = "<group>"; };
@@ -841,7 +842,7 @@
 		44B8C75219A4FC9C00F3081E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		44B8C75319A4FC9C00F3081E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		44B8C75419A4FC9C00F3081E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		44B908E119B075FD00B942CE /* HPUserProfileСarouselModeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "HPUserProfileСarouselModeViewController.xib"; sourceTree = "<group>"; };
+		44B908E119B075FD00B942CE /* HPUserProfileCarouselModeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserProfileCarouselModeViewController.xib; sourceTree = "<group>"; };
 		44B91D3919E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoPhotoAlbumViewController.h; sourceTree = "<group>"; };
 		44B91D3A19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoPhotoAlbumViewController.m; sourceTree = "<group>"; };
 		44B91D3B19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoPhotoAlbumViewController.xib; sourceTree = "<group>"; };
@@ -906,7 +907,6 @@
 		7C5F72A56CFAA4F5DBBBC043 /* HPUserValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserValidator.h; sourceTree = "<group>"; };
 		7C5F72B3F429363DD1851AE9 /* RACTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACTableViewController.h; sourceTree = "<group>"; };
 		7C5F72E15153FFA4E1BB4024 /* RACFetchedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACFetchedTableViewController.h; sourceTree = "<group>"; };
-		7C5F73499DE47F24BB401634 /* HPUserProfileСarouselModeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPUserProfileСarouselModeViewController.m"; sourceTree = "<group>"; };
 		7C5F735C20D5CB8513398F5E /* HPAddNewTownCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAddNewTownCellView.h; sourceTree = "<group>"; };
 		7C5F7362A22A9AB0E359D898 /* HPHEBubbleViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPHEBubbleViewItem.m; sourceTree = "<group>"; };
 		7C5F73720D0B9F25137AA95E /* HPCityValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCityValidator.m; sourceTree = "<group>"; };
@@ -953,7 +953,7 @@
 		7C5F7A3AE61FDEA00F1DD2A6 /* CALayer+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+HighPoint.h"; sourceTree = "<group>"; };
 		7C5F7A880E78E425DF2258B3 /* HPRequest+Users.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPRequest+Users.m"; sourceTree = "<group>"; };
 		7C5F7B15DE78F6BE1E7DB9BA /* HPRequest+CurrentUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPRequest+CurrentUser.h"; sourceTree = "<group>"; };
-		7C5F7B1F5B835B3E2B0FCC2B /* HPUserProfileСarouselModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPUserProfileСarouselModeViewController.h"; sourceTree = "<group>"; };
+		7C5F7B1F5B835B3E2B0FCC2B /* HPUserProfileCarouselModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserProfileCarouselModeViewController.h; sourceTree = "<group>"; };
 		7C5F7B2DC743964660F138EB /* HPChatBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChatBubbleView.m; sourceTree = "<group>"; };
 		7C5F7B335D7677C539340AD7 /* HPRequest+GeoLocations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPRequest+GeoLocations.h"; sourceTree = "<group>"; };
 		7C5F7C1E8BE29E084908C936 /* HPUserProfileFirstRowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserProfileFirstRowTableViewCell.h; sourceTree = "<group>"; };
@@ -2094,9 +2094,9 @@
 		7C5F7176D8F9F614A64854F2 /* Photo Carousel */ = {
 			isa = PBXGroup;
 			children = (
-				7C5F73499DE47F24BB401634 /* HPUserProfileСarouselModeViewController.m */,
-				7C5F7B1F5B835B3E2B0FCC2B /* HPUserProfileСarouselModeViewController.h */,
-				44B908E119B075FD00B942CE /* HPUserProfileСarouselModeViewController.xib */,
+				3B8A82E919E3D50D001E124F /* HPUserProfileCarouselModeViewController.m */,
+				7C5F7B1F5B835B3E2B0FCC2B /* HPUserProfileCarouselModeViewController.h */,
+				44B908E119B075FD00B942CE /* HPUserProfileCarouselModeViewController.xib */,
 				44B5F3A219B867CC00DB13F4 /* HPUserProfileCarouselDeletedCellView.xib */,
 			);
 			name = "Photo Carousel";
@@ -2658,7 +2658,7 @@
 				3BE9DE32197FD8F300AFA641 /* 1.jpg in Resources */,
 				3BE9DE33197FD8F300AFA641 /* 10.jpg in Resources */,
 				3B318657191A6C6D0000DD8B /* Notice-R.png in Resources */,
-				44B908E219B075FD00B942CE /* HPUserProfileСarouselModeViewController.xib in Resources */,
+				44B908E219B075FD00B942CE /* HPUserProfileCarouselModeViewController.xib in Resources */,
 				CDC009981990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib in Resources */,
 				3B298FD2192F476100BEC2AA /* slider-metal-trackBackground@2x.png in Resources */,
 				CDF9745F196E8C4C0064ED04 /* Lock.png in Resources */,
@@ -2924,7 +2924,6 @@
 				7C5F7D6BA2F7A7A1F69CD0F9 /* HPUserProfileTableHeaderView.m in Sources */,
 				7C5F766542796FD121405C2B /* HPUserProfilePhotoAlbumTabViewController.m in Sources */,
 				3B52B2B219C30128000B543C /* MagicalImportFunctions.m in Sources */,
-				7C5F77FD3DAF62EFAC1609D5 /* HPUserProfileСarouselModeViewController.m in Sources */,
 				7C5F7EA6A679F1D7A1338BE8 /* HPHEBubbleViewItem.m in Sources */,
 				3B52B2BB19C30128000B543C /* NSManagedObject+MagicalFinders.m in Sources */,
 				3B52B2C019C30128000B543C /* NSManagedObjectContext+MagicalSaves.m in Sources */,
@@ -2936,6 +2935,7 @@
 				7C5F795CB877D8686DA19608 /* RACFetchedTableViewController.m in Sources */,
 				7C5F79EC9D12BAAA275ED2C1 /* CALayer+HighPoint.m in Sources */,
 				7C5F7946F545EF53383F39D5 /* HPRequest.m in Sources */,
+				3B8A82EA19E3D50D001E124F /* HPUserProfileCarouselModeViewController.m in Sources */,
 				7C5F76680EA0D82FA76B1CDB /* HPRequest+GeoLocations.m in Sources */,
 				7C5F72A33A196DC86D178705 /* HPRequest+CurrentUser.m in Sources */,
 				7C5F76088D0BD5D1E77DE872 /* HPRequest+Points.m in Sources */,
