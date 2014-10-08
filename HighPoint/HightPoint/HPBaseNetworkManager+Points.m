@@ -44,7 +44,7 @@
                     NSMutableArray *arr = [NSMutableArray new];
                     for(NSDictionary *dict in poi) {
                         [arr addObject:dict];
-                    }
+                    }//save points
                     [[DataStorage sharedDataStorage] createAndSavePoint:arr withComplation:^(NSError *error) {
                         if(!error) {
                             NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
@@ -53,13 +53,16 @@
                                 NSMutableArray *dataArray = [NSMutableArray new];
                                 for(NSString *key in [usr allKeys]) {
                                     [dataArray addObject:[usr objectForKey:key]];
-                                }
+                                }//save users from points
                                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:dataArray forUserType:MainListUserType withComplation:^(NSError *error) {
                                     if(!error) {
                                         if([self isTaskArrayEmpty:manager]) {
                                             NSLog(@"Stop Queue");
                                             [self makeTownByIdRequest];
                                         }
+                                        //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
+                                          //                                                                                   object:nil
+                                          //                                                                                 userInfo:nil]];
                                     }
                                 }];
                             }

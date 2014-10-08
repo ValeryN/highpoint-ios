@@ -36,6 +36,7 @@
 
 @implementation HPRootViewController {
     BOOL isFirstLoad;
+    BOOL startUpdate;
 }
 
 #pragma mark - controller view delegate -
@@ -69,6 +70,7 @@
     [self registerNotification];
     [self updateCurrentView];
     self.mainListTable.hidden = YES;
+    startUpdate = NO;
     
     isFirstLoad = NO;
     self.allUsers.delegate = self;
@@ -203,13 +205,14 @@
 
 
 - (void) updateCurrentView {
+    startUpdate  = NO;
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
     if (_bottomSwitch.switchState) {
         self.allUsers = [[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController];
     } else {
         self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
     }
-    [self.mainListTable reloadData];
+    //[self.mainListTable reloadData];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller;
@@ -311,12 +314,13 @@
     
     [self makeUsersRequest];
     [refreshControl endRefreshing];
-    [self.mainListTable reloadData];
+    //[self.mainListTable reloadData];
 }
 
 - (void) makeUsersRequest {
-    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
+    if(_bottomSwitch.switchState)
+        [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
+    else [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
 }
 
 #pragma mark - scroll view
@@ -326,19 +330,14 @@
     
     if (!isFirstLoad) {
         CGFloat scrollPosition = self.mainListTable.contentSize.height - self.mainListTable.frame.size.height - self.mainListTable.contentOffset.y;
-        if (scrollPosition < -40)
+        if (scrollPosition < -40 && !startUpdate)
         {
-            if (!self.bottomActivityView.isAnimating) {
-                [self.bottomActivityView startAnimating];
-                User *user = [[self.allUsers fetchedObjects] lastObject];
+            startUpdate  = YES;
+            User *user = [[self.allUsers fetchedObjects] lastObject];
+            if(_bottomSwitch.switchState)
                 [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
-                [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
-                [self.mainListTable reloadData];
-            }
-        } else {
-            if (self.bottomActivityView.isAnimating) {
-                [self.bottomActivityView stopAnimating];
-            }
+            else [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
+            //[self.mainListTable reloadData];
         }
     }
 }
@@ -373,6 +372,8 @@
 
 - (void) tableView: (UITableView*) tableView didSelectRowAtIndexPath: (NSIndexPath*) indexPath
 {
+    HPMainViewListTableViewCell *mCell = (HPMainViewListTableViewCell*) [self.mainListTable cellForRowAtIndexPath:indexPath];
+    [mCell hidePoint];
     HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCardViewController" bundle: nil];
     card.onlyWithPoints = _bottomSwitch.switchState;
     card.current = indexPath.row;
@@ -380,7 +381,9 @@
     
     [self.navigationController pushViewController: card animated: YES];
 }
-
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
 
 #pragma mark - Notification view hide/show method -
 

@@ -12,7 +12,9 @@
 
 
 @class User;
-@interface HPMainViewListTableViewCell : UITableViewCell <UIGestureRecognizerDelegate>
+@interface HPMainViewListTableViewCell : UITableViewCell <UIGestureRecognizerDelegate> {
+    BOOL handleLongTap;
+}
 
 + (void) makeCellReleased;
 
