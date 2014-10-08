@@ -295,12 +295,25 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
     for (UIView *v in [cell.contentView subviews]) {
         [v removeFromSuperview];
     }
+    if(self.withEditMode){
+        HEBubbleView *bubbleView = [self bubbleViewLanguages];
+        if (bubbleView.superview)
+            [bubbleView removeFromSuperview];
 
-    HEBubbleView *bubbleView = [self bubbleViewLanguages];
-    if (bubbleView.superview)
-        [bubbleView removeFromSuperview];
-
-    [cell.contentView addSubview:bubbleView];
+        [cell.contentView addSubview:bubbleView];
+    }
+    else{
+        NSArray* languages = [Language MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"user = %@",self.user] inContext:[NSManagedObjectContext MR_contextForCurrentThread]];
+        UILabel *textLabel1 = [[UILabel alloc] initWithFrame:(CGRect) {46.f, 5, BUBBLE_VIEW_WIDTH_CONST - 40, 9999}];
+        textLabel1.backgroundColor = [UIColor clearColor];
+        textLabel1.numberOfLines = 0;
+        textLabel1.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
+        textLabel1.textColor = [UIColor colorWithRed:230.0f / 255.0f green:236.0f / 255.0f blue:242.0f / 255.0f alpha:1.0];
+        textLabel1.textAlignment = NSTextAlignmentLeft;
+        textLabel1.text = [[languages valueForKeyPath:@"name"] componentsJoinedByString:@", "];;
+        [textLabel1 sizeToFit];
+        [cell.contentView addSubview:textLabel1];
+    }
     return cell;
 }
 
@@ -322,22 +335,32 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         [cell.contentView addSubview:customView];
     }
     else {
-        NSString *name;
-        NSString *position;
-        NSString *years;
+        NSString *name = @"";
+        NSString *position = @"";
+        NSString *years = @"";
         NSManagedObject *object;
         if ([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation) {
             Education *education = [[self educationFetchedResultController] objectAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row inSection:0]];
             name = education.school.name;
             position = education.speciality.name;
-            years = [NSString stringWithFormat:@"(%@ - %@)", education.fromYear, education.toYear];
+            if(education.toYear){
+                years = [NSString stringWithFormat:@"(%@ - %@)", education.fromYear, education.toYear];
+            }
+            else if(education.fromYear){
+                years = [NSString stringWithFormat:@"%@", education.fromYear];
+            }
             object = education;
         }
         else {
             Career *career = [[self careerFetchedResultController] objectAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row inSection:0]];
             name = career.company.name;
             position = career.careerpost.name;
-            years = [NSString stringWithFormat:@"(%@ - %@)", career.fromYear, career.toYear];
+            if(career.toYear){
+                years = [NSString stringWithFormat:@"(%@ - %@)", career.fromYear, career.toYear];
+            }
+            else if(career.fromYear){
+                years = [NSString stringWithFormat:@"%@", career.fromYear];
+            }
             object = career;
         }
 
