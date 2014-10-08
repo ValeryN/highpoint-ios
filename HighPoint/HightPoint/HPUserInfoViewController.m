@@ -40,20 +40,10 @@
     [RACObserve(self, navigationController.navigationBar) subscribeNext:^(UINavigationBar* bar) {
         bar.translucent = YES;
     }];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     [self configureSegmentedControl];
     [self configurePhotoTab];
     [self configureInfoTab];
-}
-
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-
-    UIEdgeInsets insets = UIEdgeInsetsMake(self.topLayoutGuide.length,
-            0.0,
-            self.bottomLayoutGuide.length,
-            0.0);
-    if (self.infoEditTabViewController.tableView.contentInset.top == 0)
-        self.infoEditTabViewController.tableView.contentInset = self.infoEditTabViewController.tableView.scrollIndicatorInsets = insets;
 }
 
 - (void)configurePhotoTab {

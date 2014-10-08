@@ -221,6 +221,7 @@
 		40314B3D2DFFC91E7BA6686C /* Message+SectionIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 403140F6CE61958EB432D801 /* Message+SectionIdentifier.m */; };
 		4448BB5519AF352F008840E6 /* HPSearchCityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */; };
 		444D91AB19A1F9750034FF5D /* UIFont+IBCustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */; };
+		44AD911C19E8149600F835C9 /* HPRoundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AD911B19E8149600F835C9 /* HPRoundView.m */; };
 		44B52FCD19AB81300016E80B /* PSMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B52FCC19AB81300016E80B /* PSMenuItem.m */; };
 		44B5F3A319B867CC00DB13F4 /* HPUserProfileCarouselDeletedCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B5F3A219B867CC00DB13F4 /* HPUserProfileCarouselDeletedCellView.xib */; };
 		44B8C74519A4F81000F3081E /* Smartling.i18n.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8C74419A4F81000F3081E /* Smartling.i18n.framework */; };
@@ -335,8 +336,8 @@
 		CD08B82B198B6CC80006AF4A /* usercard_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CD08B82A198B6CC80006AF4A /* usercard_new.png */; };
 		CD08B82D198B6F850006AF4A /* usercard_new_wp.png in Resources */ = {isa = PBXBuildFile; fileRef = CD08B82C198B6F850006AF4A /* usercard_new_wp.png */; };
 		CD08B830198B7E200006AF4A /* HPUICollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = CD08B82F198B7E200006AF4A /* HPUICollectionViewFlowLayout.m */; };
-		CD08B833198B87700006AF4A /* Camera Small Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CD08B831198B87700006AF4A /* Camera Small Tap.png */; };
-		CD08B834198B87700006AF4A /* Camera Small.png in Resources */ = {isa = PBXBuildFile; fileRef = CD08B832198B87700006AF4A /* Camera Small.png */; };
+		CD08B833198B87700006AF4A /* Camera Small Tap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD08B831198B87700006AF4A /* Camera Small Tap@2x.png */; };
+		CD08B834198B87700006AF4A /* Camera Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD08B832198B87700006AF4A /* Camera Small@2x.png */; };
 		CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CD183C36196418D0002AC98D /* UserTokenUtils.m */; };
 		CD3AF59C197E624600CC8767 /* HPAvatarLittleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD3AF59B197E624600CC8767 /* HPAvatarLittleView.m */; };
 		CD3AF59E197E626500CC8767 /* HPAvatarLittleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD3AF59D197E626500CC8767 /* HPAvatarLittleView.xib */; };
@@ -835,6 +836,8 @@
 		403149A56DCBB5546927F136 /* Message+SectionIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+SectionIdentifier.h"; sourceTree = "<group>"; };
 		4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSearchCityCell.xib; sourceTree = "<group>"; };
 		444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+IBCustomFonts.m"; sourceTree = "<group>"; };
+		44AD911A19E8149600F835C9 /* HPRoundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundView.h; sourceTree = "<group>"; };
+		44AD911B19E8149600F835C9 /* HPRoundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRoundView.m; sourceTree = "<group>"; };
 		44B52FCB19AB81300016E80B /* PSMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSMenuItem.h; sourceTree = "<group>"; };
 		44B52FCC19AB81300016E80B /* PSMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSMenuItem.m; sourceTree = "<group>"; };
 		44B5F3A219B867CC00DB13F4 /* HPUserProfileCarouselDeletedCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserProfileCarouselDeletedCellView.xib; sourceTree = "<group>"; };
@@ -992,8 +995,8 @@
 		CD08B82C198B6F850006AF4A /* usercard_new_wp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usercard_new_wp.png; sourceTree = "<group>"; };
 		CD08B82E198B7E200006AF4A /* HPUICollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUICollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		CD08B82F198B7E200006AF4A /* HPUICollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUICollectionViewFlowLayout.m; sourceTree = "<group>"; };
-		CD08B831198B87700006AF4A /* Camera Small Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Camera Small Tap.png"; sourceTree = "<group>"; };
-		CD08B832198B87700006AF4A /* Camera Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Camera Small.png"; sourceTree = "<group>"; };
+		CD08B831198B87700006AF4A /* Camera Small Tap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Camera Small Tap@2x.png"; sourceTree = "<group>"; };
+		CD08B832198B87700006AF4A /* Camera Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Camera Small@2x.png"; sourceTree = "<group>"; };
 		CD183C35196418D0002AC98D /* UserTokenUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTokenUtils.h; sourceTree = "<group>"; };
 		CD183C36196418D0002AC98D /* UserTokenUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTokenUtils.m; sourceTree = "<group>"; };
 		CD3AF59A197E624600CC8767 /* HPAvatarLittleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAvatarLittleView.h; sourceTree = "<group>"; };
@@ -1275,8 +1278,8 @@
 				3B51A1DF198B661C0016E907 /* Remove Tap@2x.png */,
 				3B105E991987D22000BF4C32 /* Trash Tap@2x.png */,
 				3B105E9A1987D22100BF4C32 /* Trash@2x.png */,
-				CD08B831198B87700006AF4A /* Camera Small Tap.png */,
-				CD08B832198B87700006AF4A /* Camera Small.png */,
+				CD08B831198B87700006AF4A /* Camera Small Tap@2x.png */,
+				CD08B832198B87700006AF4A /* Camera Small@2x.png */,
 				3B5EFDB619811EE900408427 /* Camera@2x.png */,
 				CD4CA3B61980F71E0016DF7E /* Add Tap.png */,
 				CD4CA3B71980F71E0016DF7E /* Add.png */,
@@ -2045,6 +2048,8 @@
 				7C5F7D0B7D92387D4D5A39C0 /* RACFetchedCollectionViewController.h */,
 				7C5F74A7CC9232A8FAF89848 /* HPHorizontalPanGestureRecognizer.m */,
 				7C5F7DF753C2B595467083F9 /* HPHorizontalPanGestureRecognizer.h */,
+				44AD911A19E8149600F835C9 /* HPRoundView.h */,
+				44AD911B19E8149600F835C9 /* HPRoundView.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -2566,7 +2571,7 @@
 				CDC009931990C5ED00B3FF75 /* curruser_point_new.png in Resources */,
 				CDA27BE71974ED96007D6BC1 /* green_btn_pressed.png in Resources */,
 				CDA0A0B11999DAC10017D35B /* HPSelectPopularCityViewController.xib in Resources */,
-				CD08B833198B87700006AF4A /* Camera Small Tap.png in Resources */,
+				CD08B833198B87700006AF4A /* Camera Small Tap@2x.png in Resources */,
 				3BE83C09197902950043E03E /* Photos_Camera_L.png in Resources */,
 				CDA44BB719A5D84700E33230 /* HPSettingsViewController.xib in Resources */,
 				3B298FCC192F476100BEC2AA /* slider-metal-handle-highlighted@2x.png in Resources */,
@@ -2687,7 +2692,7 @@
 				44B5F3A319B867CC00DB13F4 /* HPUserProfileCarouselDeletedCellView.xib in Resources */,
 				3B298FCB192F476100BEC2AA /* slider-metal-handle-highlighted.png in Resources */,
 				3BB5E86A1935FD5500DDF5F9 /* Down@2x.png in Resources */,
-				CD08B834198B87700006AF4A /* Camera Small.png in Resources */,
+				CD08B834198B87700006AF4A /* Camera Small@2x.png in Resources */,
 				4CA7B63E195C37B200DC9D52 /* HPAvatarView.xib in Resources */,
 				3B105E9C1987D22100BF4C32 /* Trash@2x.png in Resources */,
 				3BE9DE39197FD8F300AFA641 /* 16.jpg in Resources */,
@@ -2777,6 +2782,7 @@
 				3B39D31D195C3122002520B9 /* SocketIOTransportWebsocket.m in Sources */,
 				3B6F95DC19B5AEA10095E7BF /* Place.m in Sources */,
 				3BE83C1519796B2A0043E03E /* HEBubbleView.m in Sources */,
+				44AD911C19E8149600F835C9 /* HPRoundView.m in Sources */,
 				4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */,
 				4CDC98B619517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
 				3BA384051924CBBC00EFC749 /* BaseAnimation.m in Sources */,

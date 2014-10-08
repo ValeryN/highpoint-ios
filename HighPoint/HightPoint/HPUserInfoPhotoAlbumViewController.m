@@ -15,6 +15,8 @@
 
 @interface HPUserInfoPhotoAlbumViewController ()
 @property(nonatomic, weak) IBOutlet iCarousel *carousel;
+@property(nonatomic, weak) IBOutlet UILabel* photoCountAndCurrentLabel;
+@property(nonatomic, weak) IBOutlet UIButton* sendMessageButton;
 @property(nonatomic, retain) RACSignal *selectedPhotoSignal;
 @property(nonatomic) BOOL fullScreenMode;
 @property(nonatomic, retain) NSFetchedResultsController* fetchedController;
@@ -24,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.edgesForExtendedLayout = UIRectEdgeTop;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     [self configureCarouserView];
     [self configureFullScreenMode];
 }
@@ -44,6 +46,13 @@
         @strongify(self);
         return @(self.carousel.currentItemIndex);
     }]] replayLast];
+    
+    RAC(self, photoCountAndCurrentLabel.text) = [[RACSignal combineLatest:@[RACObserve(self, fetchedController),self.selectedPhotoSignal]] map:^id(RACTuple* value) {
+        RACTupleUnpack(NSFetchedResultsController* controller, NSNumber* currentImage) = value;
+        id<NSFetchedResultsSectionInfo>  sectionInfo = controller.sections[0];
+        int totalCounts = sectionInfo.numberOfObjects + 1;
+        return [NSString stringWithFormat:@"%d из %d",currentImage.intValue + 1,totalCounts];
+    }];
 }
 
 - (void)configureFullScreenMode {
