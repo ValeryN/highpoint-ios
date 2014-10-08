@@ -1480,7 +1480,7 @@ static DataStorage *dataStorage;
         return nil;
     }
     if(predicate) {
-        NSFetchedResultsController *controller = [User fetchAllSortedBy:@"userId" ascending:NO withPredicate:predicate groupBy:nil delegate:nil];
+        NSFetchedResultsController *controller = [User fetchAllSortedBy:@"userId" ascending:YES withPredicate:predicate groupBy:nil delegate:nil];
         return controller;
     } else return nil;
 }

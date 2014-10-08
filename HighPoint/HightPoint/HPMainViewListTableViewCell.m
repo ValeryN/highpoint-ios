@@ -55,7 +55,7 @@ static HPMainViewListTableViewCell* _prevCell;
     self.point.text = user.point.pointText;
 
     
-    NSLog(@"%d", [user.visibility integerValue]);
+    NSLog(@"%@", user.userId);
     [self addGestureRecognizer];
     if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
         self.privacyLabel.hidden = NO;
