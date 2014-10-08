@@ -85,20 +85,18 @@
     self.townsTableView.dataSource = self;
 }
 - (void) viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
-    [[self navigationController] setNavigationBarHidden:YES animated:NO];
-    [self setBgBlur];
     uf = [[DataStorage sharedDataStorage] getUserFilter];
     NSLog(@"%@", uf.city.cityName);
     NSLog(@"%@", uf.maxAge);
     NSLog(@"%@", uf.minAge);
     [self fixSelfConstraint];
     [self registerNotification];
-    
-    
     self.oldRangeSlider.minimumValue = 18;
     self.oldRangeSlider.maximumValue = 60;
     [self updateViewValues];
+    [self setBgBlur];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -109,20 +107,15 @@
 
 
 - (void) setBgBlur {
-    self.backGroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
     self.backGroundView.image = [self.screenShoot hp_applyBlurWithRadius:2];
     [self.view insertSubview:self.backGroundView atIndex:0];
-    
-    self.darkBgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    self.darkBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.backGroundView.frame.size.width, self.backGroundView.frame.size.height)];
     self.darkBgView.backgroundColor = [UIColor colorWithRed:30.f / 255.f green:29.f / 255.f blue:48.f / 255.f alpha:0.9];
     [self.backGroundView addSubview:self.darkBgView];
     
 }
 
 - (void) hideView {
-    [self.backGroundView removeFromSuperview];
-    self.backGroundView = nil;
-    [self.darkBgView removeFromSuperview];
     self.darkBgView = nil;
 }
 
