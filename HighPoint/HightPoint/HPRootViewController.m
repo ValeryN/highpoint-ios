@@ -184,23 +184,23 @@
 
 - (IBAction) filterButtonTap: (id)sender
 {
-    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
-    filter.delegate = self;
-    filter.screenShoot = [self selfScreenShot];
-    _crossDissolveAnimationController.viewForInteraction = filter.view;
-    [self.navigationController pushViewController:filter animated:YES];
-    _crossDissolveAnimationController.viewForInteraction = nil;
-}
-
-- (UIImage*) selfScreenShot {
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    CGRect rect = [keyWindow frame];
-    UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [keyWindow.layer renderInContext:context];
-    UIImage *capturedScreen = [UIGraphicsGetImageFromCurrentImageContext() resizeImageToSize:(CGSize){rect.size.width/3, rect.size.height/3}];
-    UIGraphicsEndImageContext();
-    return capturedScreen;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+        CGRect rect = [keyWindow frame];
+        UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        [keyWindow.layer renderInContext:context];
+        UIImage *capturedScreen = [UIGraphicsGetImageFromCurrentImageContext() resizeImageToSize:(CGSize){rect.size.width/3, rect.size.height/3}];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
+            filter.delegate = self;
+            filter.screenShoot = capturedScreen;
+            _crossDissolveAnimationController.viewForInteraction = filter.view;
+            [self.navigationController pushViewController:filter animated:YES];
+            _crossDissolveAnimationController.viewForInteraction = nil;
+        });
+    });
 }
 
 

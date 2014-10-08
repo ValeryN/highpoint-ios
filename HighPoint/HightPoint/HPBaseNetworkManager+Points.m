@@ -25,7 +25,10 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [self addTaskToArray:manager];
-    [manager GET:url parameters:[Utils getParameterForPointsRequest:lastPoint] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params addEntriesFromDictionary:[Utils getParameterForPointsRequest:lastPoint]];
+    [params addEntriesFromDictionary:[Utils getFilterParamsForRequest]];
+    [manager GET:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"POINTS -->: %@", operation.responseString);
         NSLog(@"POINTS");
         //if([self isTaskArrayEmpty:manager]) {
