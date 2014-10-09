@@ -1483,29 +1483,15 @@ static DataStorage *dataStorage;
     } else return nil;
 }
 - (NSFetchedResultsController *)allUsersFetchResultsController {
-    UserFilter *userFilter = [self getUserFilter];
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"isCurrentUser != 1 AND isItFromMainList == 1"];
-    if (userFilter.minAge) {
-        [predicateString appendFormat:@" AND age >= %@", userFilter.minAge];
-    }
-    if (userFilter.maxAge) {
-        [predicateString appendFormat:@" AND age <= %@",userFilter.maxAge];
-    }
-
+    [predicateString appendFormat:@"%@",[Utils getUserFilterPredicateString]];
     return [self usersFetchResultControllerWithPredicate:predicateString];
 }
 - (NSFetchedResultsController *)allUsersWithPointFetchResultsController {
-    
-    UserFilter *userFilter = [self getUserFilter];
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"point != nil AND isItFromMainList == 1"];
-    if (userFilter.minAge) {
-        [predicateString appendFormat:@" AND age >= %@", userFilter.minAge];
-    }
-    if (userFilter.maxAge) {
-        [predicateString appendFormat:@" AND age <= %@", userFilter.maxAge];
-    }
+    [predicateString appendFormat:@"%@",[Utils getUserFilterPredicateString]];
     return [self usersFetchResultControllerWithPredicate:predicateString];
 }
 
