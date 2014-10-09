@@ -110,10 +110,8 @@ static DataStorage *dataStorage;
 
 - (void) updateUserFilterEntity : (NSDictionary *) param {
     __weak typeof(self) weakSelf = self;
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
         [weakSelf createUserFilterEntity:param forContext:localContext];
-        
-    } completion:^(BOOL success, NSError *error)    {
     }];
 }
 - (void)setAndSaveCityToUserFilter:(City *)globalCity {
@@ -1485,15 +1483,15 @@ static DataStorage *dataStorage;
     } else return nil;
 }
 - (NSFetchedResultsController *)allUsersFetchResultsController {
-    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"isCurrentUser != 1 AND isItFromMainList == 1"];
+    [predicateString appendFormat:@"%@",[Utils getUserFilterPredicateString]];
     return [self usersFetchResultControllerWithPredicate:predicateString];
 }
 - (NSFetchedResultsController *)allUsersWithPointFetchResultsController {
-    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"point != nil AND isItFromMainList == 1"];
+    [predicateString appendFormat:@"%@",[Utils getUserFilterPredicateString]];
     return [self usersFetchResultControllerWithPredicate:predicateString];
 }
 

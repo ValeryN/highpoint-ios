@@ -218,6 +218,28 @@
     
     return newImage;
 }
+
++ (NSString *) getUserFilterPredicateString {
+    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
+    NSString *filterString = @"";
+    if (userFilter.minAge) {
+        filterString = [filterString stringByAppendingString: [NSString stringWithFormat:@" AND age >= %@", userFilter.minAge]];
+    }
+    if (userFilter.maxAge) {
+        filterString = [filterString stringByAppendingString:[NSString stringWithFormat:@" AND age <= %@", userFilter.maxAge]];
+    }
+    if (userFilter.city.cityId) {
+        filterString = [filterString stringByAppendingString:[NSString stringWithFormat:@" AND cityId == %@", userFilter.city.cityId]];
+    }
+    if (userFilter.gender) {
+        if ([userFilter.gender allObjects].count == 1) {
+            Gender *gender = [[userFilter.gender allObjects] objectAtIndex:0];
+            filterString = [filterString stringByAppendingString:[NSString stringWithFormat:@" AND gender == %@", gender.genderType]];
+        }
+    }
+    return filterString;
+}
+
 + (NSDictionary *) getFilterParamsForRequest {
     UserFilter *filter = [[DataStorage sharedDataStorage] getUserFilter];
     NSString *cityIds = filter.city.cityId? [filter.city.cityId stringValue]: @"";
