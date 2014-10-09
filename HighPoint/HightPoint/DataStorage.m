@@ -110,10 +110,8 @@ static DataStorage *dataStorage;
 
 - (void) updateUserFilterEntity : (NSDictionary *) param {
     __weak typeof(self) weakSelf = self;
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
         [weakSelf createUserFilterEntity:param forContext:localContext];
-        
-    } completion:^(BOOL success, NSError *error)    {
     }];
 }
 - (void)setAndSaveCityToUserFilter:(City *)globalCity {
