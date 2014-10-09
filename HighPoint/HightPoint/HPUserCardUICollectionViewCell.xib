@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="ParaType - Futura PT Book.otf">
+            <string>FuturaPT-Book</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -13,21 +19,35 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="418"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G9h-31-8Mc">
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H8c-ZC-2A3" customClass="HPRoundedShadowedImageView">
                         <rect key="frame" x="5" y="8" width="310" height="310"/>
-                    </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Blend 5X.png" translatesAutoresizingMaskIntoConstraints="NO" id="sjw-2R-mbx">
-                        <rect key="frame" x="5" y="190" width="310" height="128"/>
-                    </imageView>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <integer key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                <real key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="image" keyPath="blendImage" value="Blend 4X.png"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                <real key="value" value="0.80000000000000004"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                <size key="value" width="0.0" height="4"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Анастасия, 24 года, Эдинбург" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpO-gG-wdI">
                         <rect key="frame" x="5" y="330" width="310" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Qb-XHI">
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Qb-XHI" customClass="HPRoundButton">
                         <rect key="frame" x="99" y="370" width="128" height="30"/>
-                        <state key="normal" title="Написать ей" backgroundImage="green_btn.png">
+                        <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
+                        <state key="normal" title="Написать ей">
                             <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -56,14 +76,21 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
-                    <view alpha="0.64999999999999969" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N43-Kl-9ca">
-                        <rect key="frame" x="19" y="21" width="48" height="23"/>
+                    <view clipsSubviews="YES" alpha="0.64999999999999969" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N43-Kl-9ca" customClass="HPRoundView">
+                        <rect key="frame" x="19" y="21" width="42" height="23"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Camera Small.png" translatesAutoresizingMaskIntoConstraints="NO" id="q6q-fM-aAe">
-                                <rect key="frame" x="7" y="4" width="16" height="13"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Camera Small.png" translatesAutoresizingMaskIntoConstraints="NO" id="q6q-fM-aAe">
+                                <rect key="frame" x="5" y="6" width="15" height="12"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="12" id="JDn-hi-9o5"/>
+                                    <constraint firstAttribute="width" constant="15" id="kSA-Y5-X8b"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQe-AH-y1m">
-                                <rect key="frame" x="20" y="0.0" width="27" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQe-AH-y1m">
+                                <rect key="frame" x="26" y="1" width="10" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="v53-le-GKS"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -71,14 +98,31 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="q6q-fM-aAe" firstAttribute="leading" secondItem="N43-Kl-9ca" secondAttribute="leading" constant="5" id="4Kz-uK-mMO"/>
+                            <constraint firstAttribute="height" constant="23" id="KmZ-W3-RcA"/>
+                            <constraint firstItem="ZQe-AH-y1m" firstAttribute="leading" secondItem="q6q-fM-aAe" secondAttribute="trailing" constant="6" id="bIJ-AM-NOg"/>
+                            <constraint firstAttribute="centerY" secondItem="q6q-fM-aAe" secondAttribute="centerY" id="nW4-xc-xCH"/>
+                            <constraint firstAttribute="centerY" secondItem="ZQe-AH-y1m" secondAttribute="centerY" id="nbo-a1-hLh"/>
+                            <constraint firstAttribute="trailing" secondItem="ZQe-AH-y1m" secondAttribute="trailing" constant="6" id="re8-TF-isw"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <integer key="value" value="7"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="N43-Kl-9ca" firstAttribute="leading" secondItem="NJ4-rg-JfA" secondAttribute="leading" constant="19" id="0LM-Yn-6Hj"/>
+                <constraint firstItem="N43-Kl-9ca" firstAttribute="top" secondItem="NJ4-rg-JfA" secondAttribute="top" constant="21" id="vEX-nd-kCd"/>
+            </constraints>
             <size key="customSize" width="158" height="193"/>
             <connections>
-                <outlet property="avatarImageView" destination="G9h-31-8Mc" id="oqc-7Q-jJK"/>
+                <outlet property="avatarImageView" destination="H8c-ZC-2A3" id="McK-Q2-0c8"/>
                 <outlet property="heartBtn" destination="cls-dI-Z4a" id="mrO-sI-AWS"/>
                 <outlet property="photoCountLabel" destination="ZQe-AH-y1m" id="2Bj-XG-ikJ"/>
                 <outlet property="photoView" destination="N43-Kl-9ca" id="vCT-EA-d0k"/>
@@ -88,11 +132,10 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="Blend 5X.png" width="320" height="160"/>
-        <image name="Camera Small.png" width="29" height="25"/>
+        <image name="Blend 4X.png" width="320" height="120"/>
+        <image name="Camera Small.png" width="14" height="12"/>
         <image name="Heart" width="24" height="20"/>
         <image name="Heart Tap" width="24" height="20"/>
-        <image name="green_btn.png" width="315" height="64"/>
         <image name="green_btn_pressed.png" width="315" height="64"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

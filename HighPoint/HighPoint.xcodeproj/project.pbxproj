@@ -221,6 +221,7 @@
 		40314B3D2DFFC91E7BA6686C /* Message+SectionIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 403140F6CE61958EB432D801 /* Message+SectionIdentifier.m */; };
 		4448BB5519AF352F008840E6 /* HPSearchCityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */; };
 		444D91AB19A1F9750034FF5D /* UIFont+IBCustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */; };
+		444F12CC19E6C0B000CF5867 /* HPRoundedShadowedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */; };
 		44AD911C19E8149600F835C9 /* HPRoundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AD911B19E8149600F835C9 /* HPRoundView.m */; };
 		44B52FCD19AB81300016E80B /* PSMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B52FCC19AB81300016E80B /* PSMenuItem.m */; };
 		44B5F3A319B867CC00DB13F4 /* HPUserProfileCarouselDeletedCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B5F3A219B867CC00DB13F4 /* HPUserProfileCarouselDeletedCellView.xib */; };
@@ -836,6 +837,8 @@
 		403149A56DCBB5546927F136 /* Message+SectionIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+SectionIdentifier.h"; sourceTree = "<group>"; };
 		4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSearchCityCell.xib; sourceTree = "<group>"; };
 		444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+IBCustomFonts.m"; sourceTree = "<group>"; };
+		444F12CA19E6C0B000CF5867 /* HPRoundedShadowedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundedShadowedImageView.h; sourceTree = "<group>"; };
+		444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRoundedShadowedImageView.m; sourceTree = "<group>"; };
 		44AD911A19E8149600F835C9 /* HPRoundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundView.h; sourceTree = "<group>"; };
 		44AD911B19E8149600F835C9 /* HPRoundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRoundView.m; sourceTree = "<group>"; };
 		44B52FCB19AB81300016E80B /* PSMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSMenuItem.h; sourceTree = "<group>"; };
@@ -2050,6 +2053,8 @@
 				7C5F7DF753C2B595467083F9 /* HPHorizontalPanGestureRecognizer.h */,
 				44AD911A19E8149600F835C9 /* HPRoundView.h */,
 				44AD911B19E8149600F835C9 /* HPRoundView.m */,
+				444F12CA19E6C0B000CF5867 /* HPRoundedShadowedImageView.h */,
+				444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -2806,6 +2811,7 @@
 				3BE9DE16197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m in Sources */,
 				CDB9527D19A1F87D00238DFC /* HPSplashViewController.m in Sources */,
 				3B52B2B419C30128000B543C /* NSEntityDescription+MagicalDataImport.m in Sources */,
+				444F12CC19E6C0B000CF5867 /* HPRoundedShadowedImageView.m in Sources */,
 				3BDA4C6819064AC900EF6619 /* AFURLRequestSerialization.m in Sources */,
 				3B52B2BE19C30128000B543C /* NSManagedObjectContext+MagicalObserving.m in Sources */,
 				3B49DE1E1934AAC500C3EF1E /* HPUserProfileViewController.m in Sources */,

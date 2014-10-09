@@ -16,11 +16,12 @@
 #import "SDWebImageManager.h"
 #import "Avatar.h"
 #import "DataStorage.h"
+#import "HPRoundedShadowedImageView.h"
 
 #define AVATAR_BLUR_RADIUS 10.0
 
 @interface HPUserCardUICollectionViewCell()
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet HPRoundedShadowedImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *userInfoLabel;
 @property (weak, nonatomic) IBOutlet UIButton *sendMsgBtn;
 @property (weak, nonatomic) IBOutlet UIButton *heartBtn;
@@ -48,8 +49,6 @@
     [pointTextView hp_tuneForUserPoint];
     [self.userInfoLabel hp_tuneForUserCardName];
     [self.sendMsgBtn hp_tuneFontForGreenButton];
-    self.avatarImageView.clipsToBounds = YES;
-    self.avatarImageView.layer.cornerRadius = 5;
     self.photoView.clipsToBounds = YES;
     self.photoView.layer.cornerRadius = 3;
     [self.photoCountLabel hp_tuneForUserCardPhotoIndex];
@@ -89,6 +88,7 @@
 - (void) loadAvatar : (User *) user {
     NSString* avatarUrl = user.avatar.originalImgSrc;
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    @weakify(self);
     [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
                      options:0
                     progress:^(NSInteger receivedSize, NSInteger expectedSize)
@@ -97,6 +97,7 @@
      }
                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
      {
+         @strongify(self);
          if (image)
          {
              self.avatarImageView.image = image;
