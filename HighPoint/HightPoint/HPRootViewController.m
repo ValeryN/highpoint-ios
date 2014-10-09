@@ -74,11 +74,11 @@
     
     isFirstLoad = NO;
     self.allUsers.delegate = self;
-    [self.mainListTable reloadData];
+    //[self.mainListTable reloadData];
     if (self.isNeedScrollToIndex) {
         //NSLog(@"%d", self.currentIndex);
         //NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
-        [self.mainListTable reloadData];
+        
         [self scrollTableForCurrentIndex];
         //[self.mainListTable setContentOffset:CGPointMake(0, 800)  animated:YES];
         //[self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
@@ -101,14 +101,14 @@
 
 
 - (void) registerNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserFilterCities:) name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupFilterSendResults:) name:kNeedUpdateUserFilterData object:nil];
 }
 
 
 - (void) unregisterNotification {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserFilterData object:nil];
 }
@@ -212,7 +212,7 @@
     } else {
         self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
     }
-    //[self.mainListTable reloadData];
+    
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller;
@@ -328,20 +328,26 @@
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    if (!isFirstLoad) {
-        CGFloat scrollPosition = self.mainListTable.contentSize.height - self.mainListTable.frame.size.height - self.mainListTable.contentOffset.y;
-        if (scrollPosition < -40 && !startUpdate)
-        {
-            startUpdate  = YES;
-            User *user = [[self.allUsers fetchedObjects] lastObject];
-            if(_bottomSwitch.switchState)
-                [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
-            else [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
-            //[self.mainListTable reloadData];
-        }
+}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    NSArray *arr = [self.mainListTable indexPathsForVisibleRows];
+    for(NSIndexPath *path in arr) {
+        HPMainViewListTableViewCell *cell = (HPMainViewListTableViewCell*) [self.mainListTable cellForRowAtIndexPath:path];
+        [cell hidePoint];
     }
 }
-
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
+    NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
+    if ((indexPath.section == lastSectionIndex) && (indexPath.row  == lastRowIndex)) {
+        // This is the last cell
+        NSLog(@"last cell");
+        User *user = [[self.allUsers fetchedObjects] lastObject];
+        if(_bottomSwitch.switchState)
+            [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
+        else [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
+    }
+}
 #pragma mark - TableView and DataSource delegate -
 
 
@@ -422,6 +428,7 @@
 - (void) switchedToLeft
 {
     [self updateCurrentView];
+    [self.mainListTable reloadData];
     NSLog(@"switched into left");
     NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
@@ -430,6 +437,7 @@
 - (void) switchedToRight
 {
     [self updateCurrentView];
+    [self.mainListTable reloadData];
     NSLog(@"switched into right");
     NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
@@ -440,6 +448,7 @@
 
 - (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    
     [HPMainViewListTableViewCell makeCellReleased];
 }
 

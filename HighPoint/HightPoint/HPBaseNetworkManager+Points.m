@@ -63,9 +63,9 @@
                                             NSLog(@"Stop Queue");
                                             [self makeTownByIdRequest];
                                         }
-                                        //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
-                                          //                                                                                   object:nil
-                                          //                                                                                 userInfo:nil]];
+                                        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
+                                                                                                                             object:nil
+                                                                                                                           userInfo:nil]];
                                     }
                                 }];
                             }
