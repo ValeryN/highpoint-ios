@@ -16,8 +16,8 @@
 #import "DataStorage.h"
 
 
-#define HALFHIDE_MAININFO_DURATION 0.1
-#define SHOWPOINT_COMPLETELY_DURATION 0.1
+#define HALFHIDE_MAININFO_DURATION 0.2
+#define SHOWPOINT_COMPLETELY_DURATION 0.2
 #define SHOWPOINT_VIBRATE_DURATION 0.4
 #define CONSTRAINT_TOP_FOR_AVATAR 8
 
@@ -183,6 +183,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
 - (void) hidePoint
 {
+    if(!handleLongTap) {
     @weakify(self);
     CGRect rect = self.mainInfoGroup.frame;
     rect.origin.x = 12;
@@ -200,6 +201,7 @@ static HPMainViewListTableViewCell* _prevCell;
      {
          [HPMainViewListTableViewCell makeCellReleased];
      }];
+    }
 }
 
 
@@ -252,22 +254,26 @@ static HPMainViewListTableViewCell* _prevCell;
     UILongPressGestureRecognizer* recognizer = sender;
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         handleLongTap = YES;
+        if(!self.showPointGroup.isHidden)
         [self showPoint];
     }
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         handleLongTap = NO;
+        if(!self.showPointGroup.isHidden)
         [self hidePoint];
     }
 }
 - (void) cellSwipeLeft: (UISwipeGestureRecognizer *)recognizer {
      if(recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
-        [self showPoint];
+         if(!self.showPointGroup.isHidden)
+             [self showPoint];
     }
 }
 - (void) cellSwipeRight: (UISwipeGestureRecognizer *)recognizer {
     if(recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
-        [self hidePoint];
+        if(!self.showPointGroup.isHidden)
+            [self hidePoint];
     }
 }
 #pragma mark - UIView touches processing -
@@ -293,8 +299,10 @@ static HPMainViewListTableViewCell* _prevCell;
 
 + (void) makeCellReleased
 {
-    if (_prevCell)
+    if (_prevCell) {
+        
         [_prevCell hp_tuneForUserListReleasedCell];
+    }
 }
 
 
