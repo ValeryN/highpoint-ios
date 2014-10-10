@@ -25,7 +25,10 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [self addTaskToArray:manager];
-    [manager GET:url parameters:[Utils getParameterForPointsRequest:lastPoint] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params addEntriesFromDictionary:[Utils getParameterForPointsRequest:lastPoint]];
+    [params addEntriesFromDictionary:[Utils getFilterParamsForRequest]];
+    [manager GET:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"POINTS -->: %@", operation.responseString);
         NSLog(@"POINTS");
         //if([self isTaskArrayEmpty:manager]) {
@@ -44,7 +47,7 @@
                     NSMutableArray *arr = [NSMutableArray new];
                     for(NSDictionary *dict in poi) {
                         [arr addObject:dict];
-                    }
+                    }//save points
                     [[DataStorage sharedDataStorage] createAndSavePoint:arr withComplation:^(NSError *error) {
                         if(!error) {
                             NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
@@ -53,13 +56,16 @@
                                 NSMutableArray *dataArray = [NSMutableArray new];
                                 for(NSString *key in [usr allKeys]) {
                                     [dataArray addObject:[usr objectForKey:key]];
-                                }
+                                }//save users from points
                                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:dataArray forUserType:MainListUserType withComplation:^(NSError *error) {
                                     if(!error) {
                                         if([self isTaskArrayEmpty:manager]) {
                                             NSLog(@"Stop Queue");
                                             [self makeTownByIdRequest];
                                         }
+                                        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
+                                                                                                                             object:nil
+                                                                                                                           userInfo:nil]];
                                     }
                                 }];
                             }

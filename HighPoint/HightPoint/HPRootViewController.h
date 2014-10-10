@@ -29,14 +29,14 @@
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *sendFilterBtn;
 
-
+@property (nonatomic, strong) CABasicAnimation* rotationAnimation;
 @property (nonatomic, weak) IBOutlet UIButton* chatsListButton;
 @property (nonatomic, weak) IBOutlet UIView* filterGroupView;
 @property (nonatomic, weak) IBOutlet UITableView *mainListTable;
 @property (nonatomic, strong) NSFetchedResultsController *allUsers;
 @property (nonatomic, strong) UIView *notificationView;
 @property (nonatomic, assign) CGRect savedFrame;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
+//@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
 @property (assign, nonatomic) BOOL isNeedScrollToIndex;
 @property (assign, nonatomic) int currentIndex;
 
