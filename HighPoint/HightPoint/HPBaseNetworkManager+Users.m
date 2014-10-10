@@ -26,7 +26,10 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [self addTaskToArray:manager];
-    [manager GET:url parameters:[Utils getParameterForUsersRequest:lastUser] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params addEntriesFromDictionary:[Utils getParameterForUsersRequest:lastUser]];
+    [params addEntriesFromDictionary:[Utils getFilterParamsForRequest]];
+    [manager GET:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"USERS -->: %@", operation.responseString);
         NSLog(@"USERS");
         NSError *error = nil;
@@ -60,6 +63,9 @@
                                             NSLog(@"Stop Queue");
                                             [self makeTownByIdRequest];
                                         }
+                                        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
+                                                                                                                             object:nil
+                                                                                                                           userInfo:nil]];
                                     }
                                 }];
                             }

@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPFilterSettingsViewController">
             <connections>
+                <outlet property="backGroundView" destination="xti-zZ-fEx" id="A4u-Qa-1NH"/>
                 <outlet property="closeButton" destination="X2w-AO-Hwo" id="FLD-JA-KK7"/>
                 <outlet property="filterLabel" destination="zTQ-pn-NLa" id="bFy-nw-o4N"/>
                 <outlet property="guideLabel1" destination="Dxg-3s-wnr" id="ROY-ko-2ui"/>
@@ -30,6 +31,9 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xti-zZ-fEx">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                </imageView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X2w-AO-Hwo" userLabel="Close Button">
                     <rect key="frame" x="12" y="522" width="26" height="26"/>
                     <state key="normal">
@@ -148,6 +152,7 @@
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <nil key="simulatedTopBarMetrics"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

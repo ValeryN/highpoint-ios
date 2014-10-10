@@ -44,8 +44,8 @@
             [[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
             [[DataStorage sharedDataStorage] deleteAndSaveAllMessages];
             [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
-            [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-            [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:200];
+            [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:1];
+            [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:1];
             [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
             [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
             [[HPBaseNetworkManager sharedNetworkManager] getPointLikesRequest:@1];

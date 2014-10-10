@@ -36,6 +36,7 @@
 
 @implementation HPRootViewController {
     BOOL isFirstLoad;
+    BOOL startUpdate;
 }
 
 #pragma mark - controller view delegate -
@@ -69,14 +70,15 @@
     [self registerNotification];
     [self updateCurrentView];
     self.mainListTable.hidden = YES;
+    startUpdate = NO;
     
     isFirstLoad = NO;
     self.allUsers.delegate = self;
-    [self.mainListTable reloadData];
+    //[self.mainListTable reloadData];
     if (self.isNeedScrollToIndex) {
         //NSLog(@"%d", self.currentIndex);
         //NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
-        [self.mainListTable reloadData];
+        
         [self scrollTableForCurrentIndex];
         //[self.mainListTable setContentOffset:CGPointMake(0, 800)  animated:YES];
         //[self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
@@ -99,14 +101,14 @@
 
 
 - (void) registerNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserFilterCities:) name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupFilterSendResults:) name:kNeedUpdateUserFilterData object:nil];
 }
 
 
 - (void) unregisterNotification {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserFilterData object:nil];
 }
@@ -182,34 +184,35 @@
 
 - (IBAction) filterButtonTap: (id)sender
 {
-    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
-    filter.delegate = self;
-    filter.screenShoot = [self selfScreenShot];
-    _crossDissolveAnimationController.viewForInteraction = filter.view;
-    [self.navigationController pushViewController:filter animated:YES];
-    _crossDissolveAnimationController.viewForInteraction = nil;
-}
-
-- (UIImage*) selfScreenShot {
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    CGRect rect = [keyWindow frame];
-    UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [keyWindow.layer renderInContext:context];
-    UIImage *capturedScreen = [UIGraphicsGetImageFromCurrentImageContext() resizeImageToSize:(CGSize){rect.size.width/3, rect.size.height/3}];
-    UIGraphicsEndImageContext();
-    return capturedScreen;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+        CGRect rect = [keyWindow frame];
+        UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        [keyWindow.layer renderInContext:context];
+        UIImage *capturedScreen = [UIGraphicsGetImageFromCurrentImageContext() resizeImageToSize:(CGSize){rect.size.width/3, rect.size.height/3}];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
+            filter.delegate = self;
+            filter.screenShoot = capturedScreen;
+            _crossDissolveAnimationController.viewForInteraction = filter.view;
+            [self.navigationController pushViewController:filter animated:YES];
+            _crossDissolveAnimationController.viewForInteraction = nil;
+        });
+    });
 }
 
 
 - (void) updateCurrentView {
+    startUpdate  = NO;
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
     if (_bottomSwitch.switchState) {
         self.allUsers = [[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController];
     } else {
         self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
     }
-    [self.mainListTable reloadData];
+    
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller;
@@ -277,20 +280,47 @@
 
 - (void) addPullToRefresh {
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.tintColor = [UIColor whiteColor];
+    refreshControl.tintColor = [UIColor clearColor];
+    
+    UIView *refreshLoadingView = [[UIView alloc] initWithFrame:refreshControl.bounds];
+    refreshLoadingView.backgroundColor = [UIColor clearColor];
+    UIImageView *spinner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Spinner"]];
+    
+    CGRect rect  = spinner.frame;
+    rect.origin.x = refreshControl.bounds.size.width / 2 - spinner.frame.size.width/2;
+    rect.origin.y = 10;
+    spinner.frame = rect;
+    
+    
+    
+    CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.fromValue = @0.0;
+    rotationAnimation.toValue = @(M_PI * 2.0f);
+    rotationAnimation.duration = 1.0f;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = HUGE_VALF;
+    [spinner.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    
+    
+    
+    [refreshLoadingView addSubview:spinner];
+    
+    [refreshControl addSubview:refreshLoadingView];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self.mainListTable addSubview:refreshControl];
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
+    
     [self makeUsersRequest];
     [refreshControl endRefreshing];
-    [self.mainListTable reloadData];
+    //[self.mainListTable reloadData];
 }
 
 - (void) makeUsersRequest {
-    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
+    if(_bottomSwitch.switchState)
+        [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
+    else [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
 }
 
 #pragma mark - scroll view
@@ -298,25 +328,26 @@
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    if (!isFirstLoad) {
-        CGFloat scrollPosition = self.mainListTable.contentSize.height - self.mainListTable.frame.size.height - self.mainListTable.contentOffset.y;
-        if (scrollPosition < -40)
-        {
-            if (!self.bottomActivityView.isAnimating) {
-                [self.bottomActivityView startAnimating];
-                User *user = [[self.allUsers fetchedObjects] lastObject];
-                [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
-                [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
-                [self.mainListTable reloadData];
-            }
-        } else {
-            if (self.bottomActivityView.isAnimating) {
-                [self.bottomActivityView stopAnimating];
-            }
-        }
+}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    NSArray *arr = [self.mainListTable indexPathsForVisibleRows];
+    for(NSIndexPath *path in arr) {
+        HPMainViewListTableViewCell *cell = (HPMainViewListTableViewCell*) [self.mainListTable cellForRowAtIndexPath:path];
+        [cell hidePoint];
     }
 }
-
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
+    NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
+    if ((indexPath.section == lastSectionIndex) && (indexPath.row  == lastRowIndex)) {
+        // This is the last cell
+        NSLog(@"last cell");
+        User *user = [[self.allUsers fetchedObjects] lastObject];
+        if(_bottomSwitch.switchState)
+            [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
+        else [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
+    }
+}
 #pragma mark - TableView and DataSource delegate -
 
 
@@ -347,6 +378,8 @@
 
 - (void) tableView: (UITableView*) tableView didSelectRowAtIndexPath: (NSIndexPath*) indexPath
 {
+    HPMainViewListTableViewCell *mCell = (HPMainViewListTableViewCell*) [self.mainListTable cellForRowAtIndexPath:indexPath];
+    [mCell hidePoint];
     HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCardViewController" bundle: nil];
     card.onlyWithPoints = _bottomSwitch.switchState;
     card.current = indexPath.row;
@@ -354,7 +387,9 @@
     
     [self.navigationController pushViewController: card animated: YES];
 }
-
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
 
 #pragma mark - Notification view hide/show method -
 
@@ -393,6 +428,7 @@
 - (void) switchedToLeft
 {
     [self updateCurrentView];
+    [self.mainListTable reloadData];
     NSLog(@"switched into left");
     NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
@@ -401,6 +437,7 @@
 - (void) switchedToRight
 {
     [self updateCurrentView];
+    [self.mainListTable reloadData];
     NSLog(@"switched into right");
     NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
@@ -411,6 +448,7 @@
 
 - (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    
     [HPMainViewListTableViewCell makeCellReleased];
 }
 

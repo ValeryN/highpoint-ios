@@ -110,10 +110,8 @@ static DataStorage *dataStorage;
 
 - (void) updateUserFilterEntity : (NSDictionary *) param {
     __weak typeof(self) weakSelf = self;
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
         [weakSelf createUserFilterEntity:param forContext:localContext];
-        
-    } completion:^(BOOL success, NSError *error)    {
     }];
 }
 - (void)setAndSaveCityToUserFilter:(City *)globalCity {
@@ -850,6 +848,7 @@ static DataStorage *dataStorage;
                 user.gender = [param[@"gender"] convertToNSNumber];
             if (param[@"visibility"]) {
                 user.visibility = [param[@"visibility"] convertToNSNumber];
+                //user.visibility = [NSNumber numberWithInt:2];
             }
             if (param[@"online"]) {
                 user.online = [param[@"online"] convertToNSNumber];
@@ -1479,20 +1478,20 @@ static DataStorage *dataStorage;
         return nil;
     }
     if(predicate) {
-        NSFetchedResultsController *controller = [User fetchAllSortedBy:@"userId" ascending:NO withPredicate:predicate groupBy:nil delegate:nil];
+        NSFetchedResultsController *controller = [User fetchAllSortedBy:@"userId" ascending:YES withPredicate:predicate groupBy:nil delegate:nil];
         return controller;
     } else return nil;
 }
 - (NSFetchedResultsController *)allUsersFetchResultsController {
-    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"isCurrentUser != 1 AND isItFromMainList == 1"];
+    [predicateString appendFormat:@"%@",[Utils getUserFilterPredicateString]];
     return [self usersFetchResultControllerWithPredicate:predicateString];
 }
 - (NSFetchedResultsController *)allUsersWithPointFetchResultsController {
-    
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"point != nil AND isItFromMainList == 1"];
+    [predicateString appendFormat:@"%@",[Utils getUserFilterPredicateString]];
     return [self usersFetchResultControllerWithPredicate:predicateString];
 }
 

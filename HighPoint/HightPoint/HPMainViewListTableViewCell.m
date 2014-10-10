@@ -16,7 +16,7 @@
 #import "DataStorage.h"
 
 
-#define HALFHIDE_MAININFO_DURATION 0.1
+#define HALFHIDE_MAININFO_DURATION 0.2
 #define SHOWPOINT_COMPLETELY_DURATION 0.2
 #define SHOWPOINT_VIBRATE_DURATION 0.4
 #define CONSTRAINT_TOP_FOR_AVATAR 8
@@ -55,7 +55,7 @@ static HPMainViewListTableViewCell* _prevCell;
     self.point.text = user.point.pointText;
 
     
-
+    NSLog(@"%@", user.age);
     [self addGestureRecognizer];
     if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
         self.privacyLabel.hidden = NO;
@@ -72,7 +72,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
 
 - (void) setPrivacyText :(User *) user {
-    if ([user.visibility intValue] == 2) {
+    if ([user.visibility intValue] == 3) {
         if ([user.gender intValue] == 1) {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HIS_PROFILE", nil);
         } else {
@@ -80,11 +80,11 @@ static HPMainViewListTableViewCell* _prevCell;
         }
     }
     
-    if ([user.visibility intValue] == 3) {
+    if ([user.visibility intValue] == 2) {
         if ([user.gender intValue] == 1) {
-            self.privacyLabel.text = NSLocalizedString(@"HIDE_HER_NAME", nil);
-        } else {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HIS_NAME", nil);
+        } else {
+            self.privacyLabel.text = NSLocalizedString(@"HIDE_HER_NAME", nil);
         }
     }
 }
@@ -161,6 +161,8 @@ static HPMainViewListTableViewCell* _prevCell;
 
 - (void) showPoint
 {
+    CGRect rect = self.mainInfoGroup.frame;
+    rect.origin.x = -320;//-(rect.size.width + rect.origin.x) /1.5;
     self.showPointButton.image = [UIImage imageNamed: @"Point Notice Tap"];
     @weakify(self);
     [UIView animateWithDuration: HALFHIDE_MAININFO_DURATION
@@ -169,19 +171,22 @@ static HPMainViewListTableViewCell* _prevCell;
                      animations: ^
      {
          @strongify(self);
-         [self halfhideMaininfo];
+         self.mainInfoGroup.frame = rect;
+         self.point.alpha = 1.0;
      }
                      completion: ^(BOOL finished)
      {
-         @strongify(self);
-         [self showpointCompletely];
+         
      }];
 }
 
 
 - (void) hidePoint
 {
+    if(!handleLongTap) {
     @weakify(self);
+    CGRect rect = self.mainInfoGroup.frame;
+    rect.origin.x = 12;
     self.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
     [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
                           delay: 0
@@ -189,93 +194,44 @@ static HPMainViewListTableViewCell* _prevCell;
                      animations: ^
      {
          @strongify(self);
-         [self fadeawayPointText];
+         self.point.alpha = 0.0;
+         self.mainInfoGroup.frame = rect;
      }
-                     completion: ^(BOOL finished)
+    completion: ^(BOOL finished)
      {
-         @strongify(self);
-         [self showMainInfo];
          [HPMainViewListTableViewCell makeCellReleased];
      }];
+    }
 }
 
 
 #pragma mark - private methods -
 
-
-- (void) showpointCompletely
+- (void) moveMainFrameToLeft
 {
-    @weakify(self);
-    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-     {
-         @strongify(self);
-         [self fullhideMaininfo];
-     }
-                     completion: ^(BOOL finished)
-     {
-     }];
-}
-
-
-- (void) halfhideMaininfo
-{
-    CGRect rect = self.mainInfoGroup.frame;
-    rect.origin.x = -(rect.size.width + rect.origin.x) / 2.0;
-    self.mainInfoGroup.frame = rect;
-}
-
-
-- (void) fullhideMaininfo
-{
-    self.point.alpha = 1.0;
     
-    CGRect rect = self.mainInfoGroup.frame;
-    rect.origin.x = 2 * rect.origin.x;
-    self.mainInfoGroup.frame = rect;
 }
-
-
-- (void) fadeawayPointText
-{
-    self.point.alpha = 0.5;
-}
-
-
-- (void) showMainInfo
-{
-    @weakify(self);
-    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-     {
-         @strongify(self);
-         self.point.alpha = 0.0;
-         
-         CGRect rect = self.mainInfoGroup.frame;
-         rect.origin.x = 12;
-         self.mainInfoGroup.frame = rect;
-     }
-                     completion: ^(BOOL finished)
-     {
-     }];
-}
-
-
 #pragma mark - Gesture recognizers -
 
 
 - (void) addGestureRecognizer
 {
     UILongPressGestureRecognizer* longtapRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongTap:)];
-    longtapRecognizer.minimumPressDuration = 0.1;
+    longtapRecognizer.minimumPressDuration = 0.3;
     longtapRecognizer.delegate = self;
     [self.showPointGroup addGestureRecognizer: longtapRecognizer];
-    UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTap:)];
-    [self.showPointGroup addGestureRecognizer: tapRecognizer];
+    
+    UISwipeGestureRecognizer *swipeLeftRecognizer  = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cellSwipeLeft:)];
+    swipeLeftRecognizer.cancelsTouchesInView = YES;
+    swipeLeftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.contentView addGestureRecognizer:swipeLeftRecognizer];
+    
+    UISwipeGestureRecognizer *swipeRightRecognizer  = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cellSwipeRight:)];
+    swipeRightRecognizer.cancelsTouchesInView = YES;
+    swipeRightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.contentView addGestureRecognizer:swipeRightRecognizer];
+    //UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTap:)];
+    //[self.showPointGroup addGestureRecognizer: tapRecognizer];
 }
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
@@ -283,9 +239,9 @@ static HPMainViewListTableViewCell* _prevCell;
 
 - (void) cellTap: (id)sender
 {
-    if ([sender isKindOfClass:[UITapGestureRecognizer class]] == NO)
+    if ([sender isKindOfClass:[UITapGestureRecognizer class]] == NO || handleLongTap)
         return;
-
+    NSLog(@"tap");
     [self vibrateThePoint];
 }
 
@@ -294,23 +250,38 @@ static HPMainViewListTableViewCell* _prevCell;
 {
     if ([sender isKindOfClass:[UILongPressGestureRecognizer class]] == NO)
         return;
-    
+    NSLog(@"long tap");
     UILongPressGestureRecognizer* recognizer = sender;
-    if (recognizer.state == UIGestureRecognizerStateBegan)
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        handleLongTap = YES;
+        if(!self.showPointGroup.isHidden)
         [self showPoint];
+    }
     
-    if (recognizer.state == UIGestureRecognizerStateEnded)
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        handleLongTap = NO;
+        if(!self.showPointGroup.isHidden)
         [self hidePoint];
+    }
 }
-
-
+- (void) cellSwipeLeft: (UISwipeGestureRecognizer *)recognizer {
+     if(recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
+         if(!self.showPointGroup.isHidden)
+             [self showPoint];
+    }
+}
+- (void) cellSwipeRight: (UISwipeGestureRecognizer *)recognizer {
+    if(recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+        if(!self.showPointGroup.isHidden)
+            [self hidePoint];
+    }
+}
 #pragma mark - UIView touches processing -
 
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesBegan:touches withEvent:event];
-    
     if (_prevCell)
         [_prevCell hp_tuneForUserListReleasedCell];
     _prevCell = self;
@@ -321,7 +292,6 @@ static HPMainViewListTableViewCell* _prevCell;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesEnded:touches withEvent:event];
-    
     [self hp_tuneForUserListReleasedCell];
     NSLog(@"touch ended");
 }
@@ -329,8 +299,10 @@ static HPMainViewListTableViewCell* _prevCell;
 
 + (void) makeCellReleased
 {
-    if (_prevCell)
+    if (_prevCell) {
+        
         [_prevCell hp_tuneForUserListReleasedCell];
+    }
 }
 
 

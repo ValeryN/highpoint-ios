@@ -170,8 +170,8 @@
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
-    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
+    [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:1];
+    [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:1];
     [refreshControl endRefreshing];
     [self.usersCollectionView reloadData];
 }
@@ -196,8 +196,8 @@
             if (!self.bottomActivityView.isAnimating) {
                 [self.bottomActivityView startAnimating];
                 User *user = [usersArr lastObject];
-                [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
-                [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
+                [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId integerValue]];
+                [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId integerValue]];
                 [self.usersCollectionView reloadData];
             }
         } else {

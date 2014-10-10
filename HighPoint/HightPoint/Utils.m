@@ -10,6 +10,7 @@
 #import "DataStorage.h"
 #import "UserFilter.h"
 #import "Gender.h"
+#import "UserFilter.h"
 
 @implementation Utils
 + (CGFloat)screenPhysicalSize
@@ -217,6 +218,47 @@
     
     return newImage;
 }
+
++ (NSString *) getUserFilterPredicateString {
+    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
+    NSString *filterString = @"";
+    if (userFilter.minAge) {
+        filterString = [filterString stringByAppendingString: [NSString stringWithFormat:@" AND age >= %@", userFilter.minAge]];
+    }
+    if (userFilter.maxAge) {
+        filterString = [filterString stringByAppendingString:[NSString stringWithFormat:@" AND age <= %@", userFilter.maxAge]];
+    }
+    if (userFilter.city.cityId) {
+        filterString = [filterString stringByAppendingString:[NSString stringWithFormat:@" AND cityId == %@", userFilter.city.cityId]];
+    }
+    if (userFilter.gender) {
+        if ([userFilter.gender allObjects].count == 1) {
+            Gender *gender = [[userFilter.gender allObjects] objectAtIndex:0];
+            filterString = [filterString stringByAppendingString:[NSString stringWithFormat:@" AND gender == %@", gender.genderType]];
+        }
+    }
+    return filterString;
+}
+
++ (NSDictionary *) getFilterParamsForRequest {
+    UserFilter *filter = [[DataStorage sharedDataStorage] getUserFilter];
+    NSString *cityIds = filter.city.cityId? [filter.city.cityId stringValue]: @"";
+    NSString *genders;
+    if ([filter.gender allObjects].count > 0) {
+        for (int i = 0; i < [filter.gender allObjects].count; i ++) {
+            Gender * gender = [[filter.gender allObjects] objectAtIndex:i];
+            [genders stringByAppendingString:[gender.genderType stringValue]];
+        }
+    } else {
+        genders = @"";
+    }
+    NSString *maxAge = filter.maxAge ? [filter.maxAge stringValue] : @"";
+    NSString *minAge = filter.minAge ? [filter.minAge stringValue] : @"";
+    NSDictionary * result = [[NSDictionary alloc] initWithObjectsAndKeys: cityIds, @"cityIds", maxAge ,@"maxAge", minAge, @"minAge", genders, @"genders", nil];
+    NSLog(@"filter params = %@", result);
+    return result;
+}
+
 + (NSDictionary*) getParameterForPointsRequest:(NSInteger) lastPoint {
     return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:lastPoint], @"afterPointId", @"1", @"includeUsers", nil];
 }
