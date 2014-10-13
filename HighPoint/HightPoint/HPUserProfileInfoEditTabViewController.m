@@ -715,6 +715,12 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 
 #pragma mark delegates
 
+- (void) controller:(NSFetchedResultsController *)controller didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type{
+    if (controller == self.favoritePlaceFetchedResultController && type == NSFetchedResultsChangeInsert){
+        [self addCityToTableView:[[DataStorage sharedDataStorage] getCityById:@(sectionInfo.name.integerValue)]];
+    }
+}
+
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     if(controller == self.favoritePlaceFetchedResultController){
         //Don't reload cell,  only height for correct work with bubble view
