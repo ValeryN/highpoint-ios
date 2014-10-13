@@ -601,7 +601,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         bubbleView.backgroundColor = [UIColor clearColor];
         bubbleView.itemHeight = 20.0;
         bubbleView.itemPadding = 5.0;
-
+        
         HPBubbleViewDelegate *delegate = [[HPBubbleViewDelegate alloc] initWithBubbleView:bubbleView];
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Place"];
         [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
@@ -627,7 +627,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
                 [[DataStorage sharedDataStorage] deleteAndSavePlaceEntityFromUserWithIds:@[object.id_]];
             }
         };
-
+        delegate.withEditMode = self.withEditMode;
         bubbleView.retainDelegate = delegate;
         [bubbleView reloadData];
         self.bubbleViewsCache[keyPath] = bubbleView;
