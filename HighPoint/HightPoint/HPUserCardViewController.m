@@ -176,11 +176,17 @@
 }
 
 #pragma mark - open chat
-- (void) openChatControllerWithUser : (NSInteger) userIndex {
+- (void) openChatControllerWithUser : (User*) user {
     HPChatViewController *chatController = [[HPChatViewController alloc] initWithNibName:@"HPChatViewController" bundle:nil];
-    //TODO: how to add user as a contact (API)?
-    // chatController.contact = contact;
-    [self.navigationController pushViewController:chatController animated:YES];
+    Contact* contact = [Contact MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"user = %@",user]];
+    if(contact){
+        chatController.contact = contact;
+        [self.navigationController pushViewController:chatController animated:YES];
+    }
+    else{
+        //TODO: how to add user as a contact (API)?
+        [[[UIAlertView alloc] initWithTitle:@"Not implemented" message:@"Not implenented on server \"AddContact\"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
+    }
 }
 
 #pragma mark - scroll view

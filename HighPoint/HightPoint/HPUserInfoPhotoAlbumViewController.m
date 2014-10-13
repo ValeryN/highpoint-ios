@@ -12,6 +12,8 @@
 #import "UIImageView+HighlightedWebCache.h"
 #import "UIImageView+WebCache.h"
 #import "Avatar.h"
+#import "HPChatViewController.h"
+#import "Contact.h"
 
 @interface HPUserInfoPhotoAlbumViewController ()
 @property(nonatomic, weak) IBOutlet iCarousel *carousel;
@@ -29,8 +31,23 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self configureCarouserView];
     [self configureFullScreenMode];
+    [self configureSendMessageButton];
 }
 
+- (void) configureSendMessageButton {
+    [[self.sendMessageButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        HPChatViewController *chatController = [[HPChatViewController alloc] initWithNibName:@"HPChatViewController" bundle:nil];
+        Contact* contact = [Contact MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"user = %@",self.user]];
+        if(contact){
+            chatController.contact = contact;
+            [self.navigationController pushViewController:chatController animated:YES];
+        }
+        else{
+            //TODO: how to add user as a contact (API)?
+            [[[UIAlertView alloc] initWithTitle:@"Not implemented" message:@"Not implenented on server \"AddContact\"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
+        }
+    }];
+}
 
 - (void)configureCarouserView {
     @weakify(self);

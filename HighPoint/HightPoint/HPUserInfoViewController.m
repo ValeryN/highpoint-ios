@@ -48,7 +48,7 @@
 
 - (void)configurePhotoTab {
     self.photoAlbumTabViewController = [[HPUserInfoPhotoAlbumViewController alloc] initWithNibName:@"HPUserInfoPhotoAlbumViewController" bundle:nil];
-    self.photoAlbumTabViewController.user = [[DataStorage sharedDataStorage] getCurrentUser];
+    self.photoAlbumTabViewController.user = self.user;
     [self addChildViewController:self.photoAlbumTabViewController];
     self.photoAlbumTabViewController.view.frame = self.view.frame;
 

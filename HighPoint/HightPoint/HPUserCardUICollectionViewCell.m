@@ -30,7 +30,7 @@
 @end
 
 @implementation HPUserCardUICollectionViewCell {
-    User *currUser;
+    User *_currUser;
 }
 
 
@@ -45,7 +45,7 @@
     pointTextView.backgroundColor = [UIColor clearColor];
     pointTextView.userInteractionEnabled = NO;
     pointTextView.text = user.point.pointText;
-    currUser = user;
+    _currUser = user;
     [pointTextView hp_tuneForUserPoint];
     [self.userInfoLabel hp_tuneForUserCardName];
     [self.sendMsgBtn hp_tuneFontForGreenButton];
@@ -73,7 +73,7 @@
     [self.heartBtn setSelected:[user.point.pointLiked boolValue]];
     [self setAvatarVisibilityBlur:user];
     [self setPrivacyText:user];
-    if ([currUser.gender isEqualToNumber:@1]) {
+    if ([_currUser.gender isEqualToNumber:@1]) {
         [self.sendMsgBtn setTitle:NSLocalizedString(@"SEND_MSG_HIM", nil) forState:UIControlStateNormal];
         [self.sendMsgBtn setTitle:NSLocalizedString(@"SEND_MSG_HIM", nil) forState:UIControlStateHighlighted];
     } else {
@@ -133,17 +133,17 @@
 
 - (IBAction)sendMsgBtnTap:(id)sender {
     if ([self.delegate respondsToSelector:@selector(openChatControllerWithUser:)]) {
-        [self.delegate openChatControllerWithUser:self.tag];
+        [self.delegate openChatControllerWithUser:_currUser];
     }
 }
 
 - (IBAction)heartBtnTap:(id)sender {
-       if ([currUser.point.pointLiked boolValue]) {
+       if ([_currUser.point.pointLiked boolValue]) {
         //unlike request
-           [[HPBaseNetworkManager sharedNetworkManager] makePointUnLikeRequest:currUser.point.pointId];
+           [[HPBaseNetworkManager sharedNetworkManager] makePointUnLikeRequest:_currUser.point.pointId];
        } else {
         //like request
-          [[HPBaseNetworkManager sharedNetworkManager] makePointLikeRequest:currUser.point.pointId];
+          [[HPBaseNetworkManager sharedNetworkManager] makePointLikeRequest:_currUser.point.pointId];
      }
 }
 

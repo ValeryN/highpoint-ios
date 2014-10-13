@@ -19,7 +19,7 @@
 @protocol HPUserCardViewControllerDelegate <NSObject>
 
 - (void) syncronizePosition : (NSInteger) currentPosition;
-- (void) openChatControllerWithUser : (NSInteger) userIndex;
+- (void) openChatControllerWithUser : (User*) user;
 
 @end
 
