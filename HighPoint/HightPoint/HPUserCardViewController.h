@@ -21,9 +21,8 @@
 
 
 @interface HPUserCardViewController : RACFetchedCollectionViewController <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPUserCardViewControllerDelegate, UIScrollViewDelegate>
-- (void) initWithPosition:(NSInteger) position;
+- (instancetype) initWithController:(NSFetchedResultsController*) controller andSelectedUser:(User*) user;
 
-@property (nonatomic, retain) NSFetchedResultsController* searchController;
 @property (nonatomic, retain) RACSubject* changeViewedUserCard;
 
 @end

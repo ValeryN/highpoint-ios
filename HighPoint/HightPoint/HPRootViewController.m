@@ -26,6 +26,7 @@
 #import "Education.h"
 #import "URLs.h"
 #import <QuartzCore/QuartzCore.h>
+#import "HPUserCardViewController.h"
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
@@ -378,8 +379,7 @@
     HPMainViewListTableViewCell *mCell = (HPMainViewListTableViewCell*) [self.mainListTable cellForRowAtIndexPath:indexPath];
     [mCell hidePoint];
     
-    HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCardViewController" bundle: nil];
-    card.searchController = self.allUsers;
+    HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithController:self.allUsers andSelectedUser:[self.allUsers objectAtIndexPath:indexPath]];
     [self.navigationController pushViewController: card animated: YES];
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

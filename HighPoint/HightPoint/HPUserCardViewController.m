@@ -39,77 +39,47 @@
 //#define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
 
 @interface HPUserCardViewController()
+@property (nonatomic, retain) NSFetchedResultsController* searchController;
 @property (nonatomic, strong) UIView *notificationView;
-@property (nonatomic, assign) BOOL onlyWithPoints;
-@property (nonatomic, assign) int current;
 @property (weak, nonatomic) IBOutlet UICollectionView *usersCollectionView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
-@property (assign, nonatomic) id <HPUserCardViewControllerDelegate> delegate;
-@property (assign, nonatomic) int currentIndex;
 @end
 
 @implementation HPUserCardViewController {
      BOOL isFirstLoad;
 }
 
+- (instancetype) initWithController:(NSFetchedResultsController*) controller andSelectedUser:(User*) user{
+    self = [super initWithNibName: @"HPUserCardViewController" bundle: nil];
+    if (self) {
+        self.changeViewedUserCard = [RACSubject subject];
+        @weakify(self);
+        self.searchController = controller;
+        [[RACObserve(self, usersCollectionView) filter:^BOOL(id value) {
+            return value != nil;
+        }] subscribeNext:^(UICollectionView* collection) {
+            @strongify(self);
+            [self configureCollectionView:collection withSignal:[RACSignal return:controller] andTemplateCell:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil]];
+            [[[RACObserve(collection, contentSize) skip:1] take:1] subscribeNext:^(id x) {
+                [collection scrollToItemAtIndexPath:[controller indexPathForObject:user] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+            }];
+        }];
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self configureCollectionView:self.usersCollectionView withSignal:RACObserve(self, searchController) andTemplateCell:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil]];
-    
-    
-    
-    isFirstLoad = YES;
-    self.currentIndex = 0;
-    [self initObjects];
-    
+    [self createNavigationItem];
     [self addPullToRefresh];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
-    self.navigationController.navigationBar.translucent = NO;
-    
-    
+    self.navigationController.navigationBar.translucent = YES;
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
     [self updateNotificationViewCount];
-    
-}
-
-- (void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear: animated];
-    self.currentIndex = self.current;
-    self.usersCollectionView.delegate = self;
-    self.usersCollectionView.dataSource = self;
-    if (self.current == 0) {
-        // [self.usersCollectionView setContentOffset:CGPointMake(0, ) animated:NO];
-    } else {
-        
-        if (![UIDevice hp_isWideScreen]) {
-            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 0) animated:NO];// 64
-        }
-        
-        if (self.usersCollectionView.contentSize.height <= 428 * (self.current - 1) ) {
-            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 0) animated:NO];
-        } else {
-            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current)) animated:NO];
-        }
-    }
-    isFirstLoad = NO;
-    
-}
-
-- (void) viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
-#pragma mark - init objects
-
-- (void) initObjects
-{
-    [self createNavigationItem];
 }
 
 #pragma mark - navigation bar
@@ -223,8 +193,7 @@
     CGRect visibleRect = (CGRect){.origin = self.usersCollectionView.contentOffset, .size = self.usersCollectionView.bounds.size};
     CGPoint visiblePoint = CGPointMake(CGRectGetMidX(visibleRect), CGRectGetMidY(visibleRect));
     NSIndexPath *visibleIndexPath = [self.usersCollectionView indexPathForItemAtPoint:visiblePoint];
-    
-    self.currentIndex = visibleIndexPath.row;
+    [self.changeViewedUserCard sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
 }
 
 #pragma mark - Tap events -
@@ -239,20 +208,6 @@
     self.usersCollectionView.delegate = nil;
     [self.navigationController popViewControllerAnimated: YES];
 }
-
-#pragma mark - Buttons pressed -
-
-
-- (IBAction)writeMsgTap:(id)sender {
-
-}
-
-
-- (IBAction) infoButtonPressed: (id)sender
-{
-    //[self animationViewsUp];
-}
-
 
 #pragma mark - notifications
 

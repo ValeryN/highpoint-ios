@@ -22,14 +22,6 @@
 - (void)configureCollectionView: (UICollectionView*) collectionView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
     _data = nil;
     @weakify(self);
-    [source subscribeNext:^(id x) {
-        @strongify(self);
-        self.objectChanges = [NSMutableArray new];
-        self.sectionChanges = [NSMutableArray new];
-        self.data = x;
-        self.data.delegate = self;
-        [collectionView reloadData];
-    }];
 
     if (collectionView.delegate == nil)
         collectionView.delegate = self;
@@ -48,6 +40,15 @@
     self.collectionViewElementSize = _templateCell.bounds.size;
     self.rac_collectionView = collectionView;
     collectionView.dataSource = self;
+    
+    [source subscribeNext:^(id x) {
+        @strongify(self);
+        self.objectChanges = [NSMutableArray new];
+        self.sectionChanges = [NSMutableArray new];
+        self.data = x;
+        self.data.delegate = self;
+        [collectionView reloadData];
+    }];
 }
 
 #pragma mark - UICollectionViewDataSource
