@@ -204,12 +204,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HightPoint/HPMainViewListTableViewCell.m"
-            timestampString = "434533363.352592"
+            timestampString = "434884781.978317"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "-gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
+            landmarkName = "-addGestureRecognizer"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -353,7 +353,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "58"
             endingLineNumber = "58"
-            landmarkName = "-setCornerRadius:"
+            landmarkName = "-setShadowRadius:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

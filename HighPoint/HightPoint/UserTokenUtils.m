@@ -16,7 +16,6 @@
 + (void) setUserToken : (NSString *) token {
     [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"token"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    NSLog(@"token setted = %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"token"]);
 }
 
 + (NSString *) getUserToken {

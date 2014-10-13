@@ -29,11 +29,6 @@
     [params addEntriesFromDictionary:[Utils getParameterForPointsRequest:lastPoint]];
     [params addEntriesFromDictionary:[Utils getFilterParamsForRequest]];
     [manager GET:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"POINTS -->: %@", operation.responseString);
-        NSLog(@"POINTS");
-        //if([self isTaskArrayEmpty:manager]) {
-        //    NSLog(@"Stop Queue");
-        //}
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -60,7 +55,6 @@
                                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:dataArray forUserType:MainListUserType withComplation:^(NSError *error) {
                                     if(!error) {
                                         if([self isTaskArrayEmpty:manager]) {
-                                            NSLog(@"Stop Queue");
                                             [self makeTownByIdRequest];
                                         }
                                         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
@@ -73,14 +67,14 @@
                     }];
                 }
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
         }
         
         //NSMutableDictionary *parsedDictionary = [NSMutableDictionary new];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         if([self isTaskArrayEmpty:manager]) {
-            NSLog(@"Stop Queue");
             [self makeTownByIdRequest];
         }
         
@@ -103,8 +97,6 @@
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [self addTaskToArray:manager];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"POINT LIKES REQUEST -->: %@", operation.responseString);
-        NSLog(@"POINT LIKES");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -121,18 +113,17 @@
                     [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:usr] forUserType:PointLikeUserType withComplation:^(NSError *error) {
                         if(!error) {
                             if([self isTaskArrayEmpty:manager]) {
-                                NSLog(@"Stop Queue");
                                 [self makeTownByIdRequest];
                             }
                         }
                     }];
                 }
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if([self isTaskArrayEmpty:manager]) {
-            NSLog(@"Stop Queue");
             [self makeTownByIdRequest];
         }
         NSLog(@"Error: %@", error.localizedDescription);
@@ -145,12 +136,9 @@
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:[NSString stringWithFormat:kPointsLikeRequest, [pointId stringValue]]];
-    NSLog(@"url like = %@", url);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"POINT LIKE RESP JSON: --> %@", operation.responseString);
-        NSLog(@"LIKE STATUS CODE --> %ld", (long)operation.response.statusCode);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -185,10 +173,6 @@
     
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"POINT UNLIKE RESP JSON: --> %@", operation.responseString);
-        NSLog(@"UNLIKE HEADER --> %@", operation.description);
-        
-        
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {

@@ -27,14 +27,10 @@
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     //[self addTaskToArray:manager];
     
-    NSLog(@"auth parameters = %@", param);
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
-        //if([self isTaskArrayEmpty:manager]) {
-        //    NSLog(@"Stop Queue");
-        //}
+        
         if(jsonData) {
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
             [UserTokenUtils setUserToken:[[jsonDict objectForKey:@"data"] objectForKey:@"token"]];
@@ -45,9 +41,6 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateAuthView object:nil userInfo:options];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //if([self isTaskArrayEmpty:manager]) {
-        //    NSLog(@"Stop Queue");
-        //}
         NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@0,@"status", nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateAuthView object:nil userInfo:options];
         NSLog(@"Error: %@", error.localizedDescription);
@@ -66,7 +59,6 @@
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", operation.responseString);
         // NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {

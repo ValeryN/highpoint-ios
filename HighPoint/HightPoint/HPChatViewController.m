@@ -369,7 +369,7 @@
     NSFetchedResultsController *messagesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
     NSError *error = nil;
     if (![messagesController performFetch:&error]) {
-        NSLog(@"error get date");
+        NSLog(@"Error: get date");
     }
 
     if (messagesController.fetchedObjects.count > 0) {

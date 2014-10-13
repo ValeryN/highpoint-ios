@@ -17,7 +17,6 @@
 
 - (void)prepareForInterfaceBuilder{
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    UIImageView * placeholder = [[UIImageView alloc] initWithFrame:self.frame];
     NSString *fileName = [bundle pathForResource:@"13" ofType:@"jpg"];
     UIImage *image = [UIImage imageWithContentsOfFile:fileName];
     self.image = image;

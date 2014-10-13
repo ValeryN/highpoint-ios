@@ -28,7 +28,7 @@
 #import "SocketIOTransportWebsocket.h"
 #import "SocketIOTransportXHR.h"
 
-#define DEBUG_LOGS 1
+#define DEBUG_LOGS 0
 #define DEBUG_CERTIFICATE 1
 
 #if DEBUG_LOGS
@@ -670,7 +670,7 @@ NSString* const SocketIOException = @"SocketIOException";
 
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error 
 {
-    NSLog(@"ERROR: handshake failed ... %@", [error localizedDescription]);
+    NSLog(@"Error: handshake failed ... %@", [error localizedDescription]);
     
     _isConnected = NO;
     _isConnecting = NO;

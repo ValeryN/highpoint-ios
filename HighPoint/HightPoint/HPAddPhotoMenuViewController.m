@@ -167,9 +167,8 @@
         // Request to save the image to camera roll
         [library writeImageToSavedPhotosAlbum:[currentImage CGImage] orientation:(ALAssetOrientation)[currentImage imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
             if (error) {
-                NSLog(@"error");
+                NSLog(@"Error: ImagePicker %@",error);
             } else {
-                NSLog(@"url %@", assetURL);
                 intUrl = [assetURL absoluteString];
             }
             isCamera = NO;
@@ -191,7 +190,6 @@
         currentImage = [info valueForKey:UIImagePickerControllerOriginalImage];
         NSURL *path = [info valueForKey:UIImagePickerControllerReferenceURL];
         [picker dismissViewControllerAnimated:YES completion:^{
-            NSLog(@"image path = %@", path);
             [self.backGroundView removeFromSuperview];
             self.backGroundView = nil;
             if(currentImage && intUrl)
@@ -262,7 +260,6 @@
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     UIAlertView *alert;
-    //NSLog(@"Image:%@", image);
     if (error) {
         alert = [[UIAlertView alloc] initWithTitle:@"Error!"
                                            message:[error localizedDescription]

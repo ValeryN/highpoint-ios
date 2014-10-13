@@ -300,11 +300,6 @@ static const NSTimeInterval kAnimationIntervalTransform = 0.2;
 {
     self.view.userInteractionEnabled = NO;
     [self startTransformHook];
-    NSLog(@"%f", self.cropRect.size.width);
-    NSLog(@"%f", self.cropRect.size.height);
-    
-    NSLog(@"%f", self.scale);
-    NSLog(@"%f", self.sourceImage.size.height);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         CGImageRef resultRef = [self newTransformedImage:self.imageView.transform
                                         sourceImage:self.sourceImage.CGImage
@@ -417,8 +412,6 @@ static const NSTimeInterval kAnimationIntervalTransform = 0.2;
                     } completion:^(BOOL finished) {
                         self.view.userInteractionEnabled = YES;
                         self.scale = scale;
-                        NSLog(@"x--> %f",self.imageView.frame.origin.x);
-                        NSLog(@"y--> %f",self.imageView.frame.origin.y);
                     }];
                     
                 } else {

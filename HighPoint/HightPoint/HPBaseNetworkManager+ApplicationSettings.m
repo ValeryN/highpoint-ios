@@ -21,7 +21,6 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -30,7 +29,8 @@
                                                                        error:&error];
             if(jsonDict)
                 [[DataStorage sharedDataStorage] createAndSaveApplicationSettingEntity:jsonDict];
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

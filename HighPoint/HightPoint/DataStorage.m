@@ -119,7 +119,6 @@ static DataStorage *dataStorage;
         NSArray *filters = [UserFilter findAllInContext:localContext];
         UserFilter *uf;
         City *city = [globalCity MR_inContext:localContext];
-        NSLog(@"%@", city.cityName);
         if (filters.count > 0) {
             uf = filters[0];
         }
@@ -1056,7 +1055,7 @@ static DataStorage *dataStorage;
             user = array[0];
             self.currentUser = user;
         } else {
-            NSLog(@"users count = %lu", (unsigned long)[array count]);
+            NSLog(@"Error: current user count = %lu", (unsigned long)[array count]);
         }
         //else
          //   NSAssert(false, @"2 текущих пользователя, как мило");
@@ -1086,7 +1085,7 @@ static DataStorage *dataStorage;
             predicate = [NSPredicate predicateWithFormat:predicateString];
         }
         @catch (NSException *exception) {
-            NSLog(@"predicate error");
+            NSLog(@"Error: predicate error");
         }
         if(predicate) {
             NSArray *users = [User  findAllSortedBy:@"userId" ascending:NO withPredicate:predicate inContext:localContext];
@@ -1248,7 +1247,6 @@ static DataStorage *dataStorage;
                 }
             }
             for (NSDictionary *d in [param objectForKey:@"companies"]) {
-                NSLog(@"%@", d);
                 if ([local.companyId intValue] == [[d objectForKey:@"id"] intValue]) {
                     
                     Company *comp = [weakSelf createCompanyEntity:d  forContext:localContext];
@@ -1272,7 +1270,6 @@ static DataStorage *dataStorage;
                     ed_local.speciality = spec;
                 }
             }
-            NSLog(@"%@", edu);
         }
         NSMutableArray *places = [NSMutableArray new];
         NSMutableArray *languages = [NSMutableArray new];
@@ -1512,7 +1509,7 @@ static DataStorage *dataStorage;
             predicate = [NSPredicate predicateWithFormat:predicateString];
         }
         @catch (NSException *exception) {
-            NSLog(@"create predicate error");
+            NSLog(@"Error: create predicate error");
         }
         if(predicate) {
             NSArray *users = [User findAllWithPredicate:predicate inContext:localContext];

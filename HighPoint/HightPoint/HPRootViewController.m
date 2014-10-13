@@ -76,9 +76,6 @@
     self.allUsers.delegate = self;
     //[self.mainListTable reloadData];
     if (self.isNeedScrollToIndex) {
-        //NSLog(@"%d", self.currentIndex);
-        //NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
-        
         [self scrollTableForCurrentIndex];
         //[self.mainListTable setContentOffset:CGPointMake(0, 800)  animated:YES];
         //[self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
@@ -341,7 +338,7 @@
     NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
     if ((indexPath.section == lastSectionIndex) && (indexPath.row  == lastRowIndex)) {
         // This is the last cell
-        NSLog(@"last cell");
+
         User *user = [[self.allUsers fetchedObjects] lastObject];
         if(_bottomSwitch.switchState)
             [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
@@ -429,8 +426,6 @@
 {
     [self updateCurrentView];
     [self.mainListTable reloadData];
-    NSLog(@"switched into left");
-    NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
 
 
@@ -438,8 +433,6 @@
 {
     [self updateCurrentView];
     [self.mainListTable reloadData];
-    NSLog(@"switched into right");
-    NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
 
 
@@ -463,7 +456,6 @@
                       withVelocity: (CGPoint)velocity
                targetContentOffset: (inout CGPoint*) targetContentOffset
 {
-    NSLog(@"%f", velocity.y);
     if (velocity.y > 0)
     {
         //if (_filterGroupView.frame.origin.y != [self topFilterBorder])
@@ -474,7 +466,6 @@
 
     if (velocity.y < 0)
     {
-        NSLog(@"%f", [self bottomFilterBorder]);
         
         //if (_filterGroupView.frame.origin.y != [self bottomFilterBorder])
         //    return;
@@ -548,7 +539,7 @@
             genders = genders.length > 0 ? [genders stringByAppendingString: @",1"] : [genders stringByAppendingString: @"1"];
         }
     }
-    NSLog(@"send genders = %@", genders);
+
     NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: uf.maxAge, @"maxAge", uf.minAge, @"minAge", [NSNumber numberWithFloat:0], @"viewType", genders, @"genders",uf.city.cityId, @"cityIds", nil];
      [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
 }
@@ -556,8 +547,6 @@
 #pragma mark - reload on filter change 
 
 - (void) setupFilterSendResults :(NSNotification *)notification {
-    NSLog(@"%@", notification.userInfo);
-    NSLog(@"%@", [notification.userInfo objectForKey:@"status"]);
     NSNumber *status =  [notification.userInfo objectForKey:@"status"];
     if ([status isEqualToNumber:@1]) {
         [self getNewFilteredUsers];

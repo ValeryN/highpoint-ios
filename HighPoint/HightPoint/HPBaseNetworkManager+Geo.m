@@ -24,10 +24,6 @@
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     //[self addTaskToArray:manager];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"GEOLOCATION -->: %@", operation.responseString);
-        //if([self isTaskArrayEmpty:manager]) {
-        //    NSLog(@"Stop Queue");
-        //}
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -45,7 +41,6 @@
                         NSArray *users = [[DataStorage sharedDataStorage] getUsersForCityId: city.cityId];
                         
                         for(User *user in users) {
-                            NSLog(@"user name city name %@ %@", user.name, city.cityName);
                             [[DataStorage sharedDataStorage] setAndSaveCityToUser:user.userId forCity:city];
                         }
                     }];
@@ -57,7 +52,8 @@
                                                                                                    userInfo:nil]];
                 
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
             
         }
         
@@ -77,7 +73,6 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"POPULAR CITIES: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -94,7 +89,7 @@
                 }
             }
         } else {
-            NSLog(@"Error, no valid data");
+            NSLog(@"Error: no valid data");
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
@@ -110,7 +105,6 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"FIND GEO LOCATION JSON --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -133,15 +127,12 @@
                 
                 
             } else {
-                NSLog(@"Error, no valid data");
+                NSLog(@"Error: no valid data");
             }
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //[alert show];
-        
     }];
 }
 - (void) getGeoLocationForPlaces:(NSDictionary*) param withBlock:(complationBlock)block {
@@ -151,7 +142,6 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"GEOLOCATION -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -169,7 +159,8 @@
                 }
                 block (@"success");
             }
-            else {NSLog(@"Error, no valid data");
+            else {
+                NSLog(@"Error: no valid data");
                 block(@"Error");
             }
         }

@@ -74,7 +74,6 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear: animated];
     self.currentIndex = self.current;
-    NSLog(@"current = %d", self.current);
     self.usersCollectionView.delegate = self;
     self.usersCollectionView.dataSource = self;
     if (self.current == 0) {
@@ -235,7 +234,7 @@
 
 
 - (IBAction)writeMsgTap:(id)sender {
-    NSLog(@"write");
+
 }
 
 
@@ -341,12 +340,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
-    //HPUserCardUICollectionViewCell* currentCell = ([[collectionView visibleCells]count] > 0) ? [[collectionView visibleCells] objectAtIndex:0] : nil;
-    
-    //if(cell != nil){
-        //self.currentIndex = [collectionView indexPathForCell:currentCell].row;
-    //}
-    //NSLog(@"current index for sync = %d", self.currentIndex);
+
 }
 
 

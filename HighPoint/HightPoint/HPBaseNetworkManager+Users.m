@@ -30,8 +30,6 @@
     [params addEntriesFromDictionary:[Utils getParameterForUsersRequest:lastUser]];
     [params addEntriesFromDictionary:[Utils getFilterParamsForRequest]];
     [manager GET:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"USERS -->: %@", operation.responseString);
-        NSLog(@"USERS");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -41,7 +39,6 @@
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
                     if([self isTaskArrayEmpty:manager]) {
-                        NSLog(@"Stop Queue");
                     }
                     return;
                 }
@@ -60,7 +57,6 @@
                                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:usr] forUserType:MainListUserType withComplation:^(NSError *error) {
                                     if(!error) {
                                         if([self isTaskArrayEmpty:manager]) {
-                                            NSLog(@"Stop Queue");
                                             [self makeTownByIdRequest];
                                         }
                                         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
@@ -73,11 +69,11 @@
                     }];
                 }
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if([self isTaskArrayEmpty:manager]) {
-            NSLog(@"Stop Queue");
             [self makeTownByIdRequest];
         }
         NSLog(@"Error: %@", error.localizedDescription);
@@ -98,8 +94,6 @@
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [self addTaskToArray:manager];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"USER INFO REQUEST -->: %@", operation.responseString);
-        NSLog(@"USER INFO");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -110,7 +104,8 @@
                 //[[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:0 withComplation:nil];
                 
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
@@ -128,7 +123,6 @@
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        // NSLog(@"GET USER MESSAGES RESP JSON: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -168,7 +162,6 @@
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"SEND MESSAGE RESP JSON: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -205,7 +198,6 @@
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:param,@"data", nil];
     [manager POST:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"SEND MESSAGE RESP JSON: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {

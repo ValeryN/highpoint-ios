@@ -344,7 +344,7 @@
     } else {
         filterCities = nil;
     }
-    NSLog(@"city for filter send = %@", filterCities);
+
     NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithLong:lroundf(self.oldRangeSlider.upperValue)], @"maxAge",[NSNumber numberWithLong:lroundf(self.oldRangeSlider.lowerValue)], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders", filterCities, @"cityIds", nil];
     [[DataStorage sharedDataStorage] updateUserFilterEntity:filterParams];
     return filterParams;

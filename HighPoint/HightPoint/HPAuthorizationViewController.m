@@ -65,7 +65,7 @@
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys: self.loginTextField.text, @"email", self.pwdTextField.text, @"password", nil];
         [[HPBaseNetworkManager sharedNetworkManager] makeAutorizationRequest:params];
     } else {
-        NSLog(@"fill all fields");
+        NSLog(@"Error: fill all fields");
     }
 }
 
@@ -76,8 +76,6 @@
 #pragma mark - auth handler
 
 - (void) handleAuthResults :(NSNotification *)notification {
-    NSLog(@"%@", notification.userInfo);
-    NSLog(@"%@", [notification.userInfo objectForKey:@"status"]);
     NSNumber *status =  [notification.userInfo objectForKey:@"status"];
     if ([status isEqualToNumber:@1]) {
         HPSplashViewController *splashController;
@@ -85,7 +83,7 @@
         splashController = [storyBoard instantiateViewControllerWithIdentifier:@"HPSplashViewController"];
         [self.navigationController pushViewController:splashController animated:YES];
     } else {
-        NSLog(@"Auth Error");
+        NSLog(@"Error: Auth Error");
     }
 }
 

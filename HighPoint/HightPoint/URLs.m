@@ -12,6 +12,9 @@
 
 @implementation URLs
 
++ (void)load{
+    NSLog(@"Warning: current server ip %@", [self getServerURL]);
+}
 
 + (NSString *) getServerURL; {
     NSString *serverUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"serverURL"];
@@ -21,7 +24,7 @@
     } else  {
         serverUrl = [NSString stringWithFormat:@"http://%@:3002", serverUrl];
     }
-    NSLog(@"IP --- > %@", serverUrl);
+    
     return serverUrl;
 }
 
@@ -35,14 +38,12 @@
     } else {
         [[NSUserDefaults standardUserDefaults] setObject:kAPIBaseURLString forKey:@"serverURL"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        NSLog(@"test ip setted");
     }
 }
 
 + (void) setServerUrl : (NSString *) serverUrl; {
     [[NSUserDefaults standardUserDefaults] setObject:serverUrl forKey:@"serverURL"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    NSLog(@"serverURL setted = %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"serverURL"]);
 }
 
 

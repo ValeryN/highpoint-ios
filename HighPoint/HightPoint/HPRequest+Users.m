@@ -51,9 +51,7 @@
 
         return [RACSignal error:[NSError errorWithDomain:@"Not valid json data" code:400 userInfo:value]];
     }] map:^id(NSArray *value) {
-        NSLog(@"%@", value);
         return [value.rac_sequence filter:^BOOL(NSDictionary *validatedDictionary) {
-            NSLog(@"%@", validatedDictionary);
             return [HPMessageValidator validateDictionary:validatedDictionary];
         }].array;
     }];

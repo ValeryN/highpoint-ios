@@ -162,7 +162,7 @@
 {
     
     if (index < 0 || index >= [items count]) {
-        NSLog(@"Remove item:- Invalid item index.");
+        NSLog(@"Error: Remove item:- Invalid item index.");
         return;
     }
     

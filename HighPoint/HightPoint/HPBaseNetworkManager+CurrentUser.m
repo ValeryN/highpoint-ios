@@ -24,8 +24,6 @@
     url = [url stringByAppendingString:kCurrentUserRequest];
     AFHTTPRequestOperationManager *manager = [self requestOperationManager];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"GET CURRENT USER JSON: %@", operation.responseString);
-        NSLog(@"GET CURRENT USER JSON");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -43,18 +41,17 @@
                         
                         [self getUserPhotoRequest];
                         if([self isTaskArrayEmpty:manager]) {
-                            NSLog(@"Stop Queue");
                             [self makeTownByIdRequest];
                         }
                     }
                 }];
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if([self isTaskArrayEmpty:manager]) {
-            NSLog(@"Stop Queue");
             [self makeTownByIdRequest];
         }
         NSLog(@"Error: %@", error.localizedDescription);
@@ -70,7 +67,6 @@
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCurrentUserFilter];
     [[self requestOperationManager] POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@" FILTER JSON --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -78,19 +74,16 @@
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                NSLog(@"filter saved");
                 NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@1,@"status", nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateUserFilterData object:nil userInfo:options];
             } else {
-                NSLog(@"Error, no valid data");
-                NSLog(@"cant parse filter json");
+                NSLog(@"Error: no valid data");
                 NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@0,@"status", nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateUserFilterData object:nil userInfo:options];
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
-        NSLog(@"filter save error");
         NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:@0,@"status", nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateUserFilterData object:nil userInfo:options];
         
@@ -105,7 +98,6 @@
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCareerAddRequest];
     [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"ADD CAREER ITEM: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -137,7 +129,6 @@
     
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"DELETE CAREER ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -170,7 +161,6 @@
     url = [url stringByAppendingString:kLanguagesAddRequest];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:langName, @"name", nil];
     [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"ADD LANGUAGE: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -202,7 +192,6 @@
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     
     [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"DELETE LANGUAGES ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -234,7 +223,6 @@
     url = [url stringByAppendingString:kPlasesAddRequest];
     
     [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"ADD PLACE: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -266,7 +254,6 @@
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     
     [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"DELETE PLACES ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -299,7 +286,6 @@
     url = [url stringByAppendingString:kEducationAddRequest];
     
     [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"ADD EDUCATION: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -331,7 +317,6 @@
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"ids", nil];
     
     [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"DELETE EDUCATION ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -369,7 +354,6 @@
                                     name:@"image"
                                 fileName:@"name" mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"UPLOAD AVATAR: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -405,7 +389,6 @@
     url = [URLs getServerURL];
     url = [url stringByAppendingString:[NSString stringWithString:kUserPhotosSort]];
     [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"DELETE EDUCATION ITEMS: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -429,37 +412,7 @@
         
     }];
 }
-/*
-- (void) setUserAvatarCrop:(NSDictionary*) param {
-    NSString *url = nil;
-    url = [URLs getServerURL];
-    url = [url stringByAppendingString:[NSString stringWithString:kSetUserAvatarCrop]];
-    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"DELETE EDUCATION ITEMS: --> %@", operation.responseString);
-        NSError *error = nil;
-        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
-        if(jsonData) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                     options:kNilOptions
-                                                                       error:&error];
-            if(jsonDict) {
-                if ([[jsonDict objectForKey:@"data"] objectForKey:@"ids"]) {
-                    
-                }
-            } else {
-                NSLog(@"Error: %@", error.localizedDescription);
-                // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                //[alert show];
-            }
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error.localizedDescription);
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //[alert show];
-        
-    }];
-}
- */
+
 - (void) getUserPhotoRequest {
     
     [[DataStorage sharedDataStorage] deletePhotosWithComplation:^(NSError *error) {
@@ -470,7 +423,6 @@
             
             
             [[self requestOperationManager] GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                // NSLog(@"GET USER MESSAGES RESP JSON: --> %@", operation.responseString);
                 NSError *error = nil;
                 NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
                 if(jsonData) {

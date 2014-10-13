@@ -150,9 +150,7 @@
     CGFloat lineOriginY = _largeCellSize.height * line + sectionHeight + lineSpaceForIndexPath + _insets.top;
     CGFloat rightSideLargeCellOriginX = _collectionViewSize.width - _largeCellSize.width - _insets.right;
     CGFloat rightSideSmallCellOriginX = _collectionViewSize.width - _smallCellSize.width - _insets.right;
-    NSLog(@"%d", indexPath.row);
-    NSLog(@"%d", indexPath.item);
-    NSLog(@"%d", [self.collectionView numberOfItemsInSection:indexPath.section]);
+
     if (indexPath.item % 6 == 0) {//0,6,12
         attribute.frame = CGRectMake(_insets.left, lineOriginY, _largeCellSize.width, _largeCellSize.height);
     }else if ((indexPath.item + 1) % 6 == 0) {//5, 11
