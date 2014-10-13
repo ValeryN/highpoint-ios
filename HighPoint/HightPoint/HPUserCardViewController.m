@@ -272,14 +272,14 @@
     float pageWidth = 418 + 10; // h + space
     float newTargetOffset = 0;
     if (targetOffset > currentOffset){
-        newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth ;
+        newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth - self.topLayoutGuide.length;
     } else {
-        newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth;
+        newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth - self.topLayoutGuide.length;
     }
-    if (newTargetOffset < 0) {
-        newTargetOffset = 0;
+    if (newTargetOffset < -self.topLayoutGuide.length) {
+        newTargetOffset = -self.topLayoutGuide.length;
     } else if (newTargetOffset >= (scrollView.contentSize.height - 400)) {
-        newTargetOffset = scrollView.contentSize.height;
+        newTargetOffset = scrollView.contentSize.height - self.topLayoutGuide.length;
     }
     
     targetContentOffset->y = currentOffset;
