@@ -194,8 +194,6 @@
 		3BE83C09197902950043E03E /* Photos_Camera_L.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE83C06197902950043E03E /* Photos_Camera_L.png */; };
 		3BE83C1519796B2A0043E03E /* HEBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE83C1219796B2A0043E03E /* HEBubbleView.m */; };
 		3BE83C1619796B2A0043E03E /* HEBubbleViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE83C1419796B2A0043E03E /* HEBubbleViewItem.m */; };
-		3BE9DE16197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9DE13197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m */; };
-		3BE9DE17197FD09000AFA641 /* RACollectionViewTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9DE15197FD09000AFA641 /* RACollectionViewTripletLayout.m */; };
 		3BE9DE32197FD8F300AFA641 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE1E197FD8F300AFA641 /* 1.jpg */; };
 		3BE9DE33197FD8F300AFA641 /* 10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE1F197FD8F300AFA641 /* 10.jpg */; };
 		3BE9DE34197FD8F300AFA641 /* 11.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9DE20197FD8F300AFA641 /* 11.jpg */; };
@@ -219,6 +217,8 @@
 		3BEE69FD19926AA300C8B977 /* HFImageEditorFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEE69F919926AA300C8B977 /* HFImageEditorFrameView.m */; };
 		3BEE69FE19926AA300C8B977 /* HFImageEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEE69FC19926AA300C8B977 /* HFImageEditorViewController.m */; };
 		40314B3D2DFFC91E7BA6686C /* Message+SectionIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 403140F6CE61958EB432D801 /* Message+SectionIdentifier.m */; };
+		443B19E119EBEB0000108C05 /* RACollectionViewReorderableTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B19DE19EBEB0000108C05 /* RACollectionViewReorderableTripletLayout.m */; };
+		443B19E219EBEB0000108C05 /* RACollectionViewTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B19E019EBEB0000108C05 /* RACollectionViewTripletLayout.m */; };
 		4448BB5519AF352F008840E6 /* HPSearchCityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */; };
 		444D91AB19A1F9750034FF5D /* UIFont+IBCustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */; };
 		444F12CC19E6C0B000CF5867 /* HPRoundedShadowedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */; };
@@ -804,10 +804,6 @@
 		3BE83C1219796B2A0043E03E /* HEBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEBubbleView.m; sourceTree = "<group>"; };
 		3BE83C1319796B2A0043E03E /* HEBubbleViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEBubbleViewItem.h; sourceTree = "<group>"; };
 		3BE83C1419796B2A0043E03E /* HEBubbleViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEBubbleViewItem.m; sourceTree = "<group>"; };
-		3BE9DE12197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACollectionViewReorderableTripletLayout.h; sourceTree = "<group>"; };
-		3BE9DE13197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACollectionViewReorderableTripletLayout.m; sourceTree = "<group>"; };
-		3BE9DE14197FD09000AFA641 /* RACollectionViewTripletLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACollectionViewTripletLayout.h; sourceTree = "<group>"; };
-		3BE9DE15197FD09000AFA641 /* RACollectionViewTripletLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACollectionViewTripletLayout.m; sourceTree = "<group>"; };
 		3BE9DE1E197FD8F300AFA641 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
 		3BE9DE1F197FD8F300AFA641 /* 10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 10.jpg; sourceTree = "<group>"; };
 		3BE9DE20197FD8F300AFA641 /* 11.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 11.jpg; sourceTree = "<group>"; };
@@ -835,6 +831,10 @@
 		3BEE69FC19926AA300C8B977 /* HFImageEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HFImageEditorViewController.m; sourceTree = "<group>"; };
 		403140F6CE61958EB432D801 /* Message+SectionIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+SectionIdentifier.m"; sourceTree = "<group>"; };
 		403149A56DCBB5546927F136 /* Message+SectionIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+SectionIdentifier.h"; sourceTree = "<group>"; };
+		443B19DD19EBEB0000108C05 /* RACollectionViewReorderableTripletLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACollectionViewReorderableTripletLayout.h; sourceTree = "<group>"; };
+		443B19DE19EBEB0000108C05 /* RACollectionViewReorderableTripletLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACollectionViewReorderableTripletLayout.m; sourceTree = "<group>"; };
+		443B19DF19EBEB0000108C05 /* RACollectionViewTripletLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACollectionViewTripletLayout.h; sourceTree = "<group>"; };
+		443B19E019EBEB0000108C05 /* RACollectionViewTripletLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACollectionViewTripletLayout.m; sourceTree = "<group>"; };
 		4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSearchCityCell.xib; sourceTree = "<group>"; };
 		444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+IBCustomFonts.m"; sourceTree = "<group>"; };
 		444F12CA19E6C0B000CF5867 /* HPRoundedShadowedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundedShadowedImageView.h; sourceTree = "<group>"; };
@@ -1919,10 +1919,10 @@
 		3BE9DE11197FD09000AFA641 /* RACollectionViewReorderableTripletLayout */ = {
 			isa = PBXGroup;
 			children = (
-				3BE9DE12197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.h */,
-				3BE9DE13197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m */,
-				3BE9DE14197FD09000AFA641 /* RACollectionViewTripletLayout.h */,
-				3BE9DE15197FD09000AFA641 /* RACollectionViewTripletLayout.m */,
+				443B19DD19EBEB0000108C05 /* RACollectionViewReorderableTripletLayout.h */,
+				443B19DE19EBEB0000108C05 /* RACollectionViewReorderableTripletLayout.m */,
+				443B19DF19EBEB0000108C05 /* RACollectionViewTripletLayout.h */,
+				443B19E019EBEB0000108C05 /* RACollectionViewTripletLayout.m */,
 			);
 			name = RACollectionViewReorderableTripletLayout;
 			path = External/RACollectionViewReorderableTripletLayout;
@@ -2808,7 +2808,6 @@
 				CD55FD2919792C30003EE9E9 /* School.m in Sources */,
 				3BA5E3B919C09E8C00E374F2 /* HPBaseNetworkManager+AuthorizationAndRegistration.m in Sources */,
 				3B52B2B819C30128000B543C /* NSString+MagicalDataImport.m in Sources */,
-				3BE9DE16197FD09000AFA641 /* RACollectionViewReorderableTripletLayout.m in Sources */,
 				CDB9527D19A1F87D00238DFC /* HPSplashViewController.m in Sources */,
 				3B52B2B419C30128000B543C /* NSEntityDescription+MagicalDataImport.m in Sources */,
 				444F12CC19E6C0B000CF5867 /* HPRoundedShadowedImageView.m in Sources */,
@@ -2821,11 +2820,11 @@
 				3B49DE211934CEF000C3EF1E /* HPSlideUpAnimation.m in Sources */,
 				3B9C74961990B495006ADAE7 /* HPBubbleTextField.m in Sources */,
 				CDA3A64A1992117D008F9F86 /* HPSlider.m in Sources */,
-				3BE9DE17197FD09000AFA641 /* RACollectionViewTripletLayout.m in Sources */,
 				3B52B2C719C30128000B543C /* MagicalRecord+iCloud.m in Sources */,
 				3BA5E3B619C09C8C00E374F2 /* HPBaseNetworkManager+ApplicationSettings.m in Sources */,
 				CD6D7A8C197CDA6D0002E8A0 /* HPPointLikesViewController.m in Sources */,
 				CD183C37196418D0002AC98D /* UserTokenUtils.m in Sources */,
+				443B19E119EBEB0000108C05 /* RACollectionViewReorderableTripletLayout.m in Sources */,
 				3B39D328195C5B5C002520B9 /* Region.m in Sources */,
 				4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */,
 				3BDA4C6619064AC900EF6619 /* AFSecurityPolicy.m in Sources */,
@@ -2939,6 +2938,7 @@
 				7C5F7B370D3AE224778EA669 /* HPImageCollectionViewCell.m in Sources */,
 				7C5F70D60BEAC6FE1A60484D /* HPUserProfileFirstRowTableViewCell.m in Sources */,
 				7C5F7D6BA2F7A7A1F69CD0F9 /* HPUserProfileTableHeaderView.m in Sources */,
+				443B19E219EBEB0000108C05 /* RACollectionViewTripletLayout.m in Sources */,
 				7C5F766542796FD121405C2B /* HPUserProfilePhotoAlbumTabViewController.m in Sources */,
 				3B52B2B219C30128000B543C /* MagicalImportFunctions.m in Sources */,
 				7C5F7EA6A679F1D7A1338BE8 /* HPHEBubbleViewItem.m in Sources */,

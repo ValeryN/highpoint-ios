@@ -68,7 +68,7 @@ typedef NS_ENUM(NSInteger, RAScrollDirction) {
 {
     [super prepareLayout];
     //gesture
-    //[self setUpCollectionViewGesture];
+    [self setUpCollectionViewGesture];
     //scroll triger insets
     _scrollTrigerEdgeInsets = UIEdgeInsetsMake(50.f, 50.f, 50.f, 50.f);
     if ([self.delegate respondsToSelector:@selector(autoScrollTrigerEdgeInsets:)]) {

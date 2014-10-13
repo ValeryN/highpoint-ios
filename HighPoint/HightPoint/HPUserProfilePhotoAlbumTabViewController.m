@@ -28,23 +28,26 @@ static NSString *cellID = @"cellID";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.collectionView registerNib:[UINib nibWithNibName:@"HPImageCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:cellID];
-
     [self reloadData];
 }
+
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:kNeedUpdateUserPhotos object:nil];
 }
+
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserPhotos object:nil];
 }
+
 - (void) reloadData {
     NSArray *photos = [[DataStorage sharedDataStorage] getPhotoForUserId:self.user.userId];
     _photosArray = nil;
     _photosArray = [NSMutableArray arrayWithArray:photos];
     [self.collectionView reloadData];
 }
+
 #pragma mark - collection view
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -53,10 +56,10 @@ static NSString *cellID = @"cellID";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if(self.user.isCurrentUser.boolValue)
+    //if(self.user.isCurrentUser.boolValue)
         return _photosArray.count+1;
-    else
-        return _photosArray.count;
+    //else
+    //    return _photosArray.count;
 }
 
 - (CGFloat)sectionSpacingForCollectionView:(UICollectionView *)collectionView
@@ -76,7 +79,7 @@ static NSString *cellID = @"cellID";
 
 - (UIEdgeInsets)insetsForCollectionView:(UICollectionView *)collectionView
 {
-    return UIEdgeInsetsMake(5.f, 0, 5.f, 0);
+    return UIEdgeInsetsMake(5.f, 5.f, 5.f, 5.f);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView sizeForLargeItemsInSection:(NSInteger)section
@@ -115,12 +118,12 @@ static NSString *cellID = @"cellID";
 
 - (BOOL)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath canMoveToIndexPath:(NSIndexPath *)toIndexPath
 {
-    return YES;
+    return !([self collectionView:collectionView numberOfItemsInSection:toIndexPath.section] - toIndexPath.row == 1);
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    return !([self collectionView:collectionView numberOfItemsInSection:indexPath.section] - indexPath.row == 1);
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -128,8 +131,8 @@ static NSString *cellID = @"cellID";
     HPImageCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     [cell.imageView removeFromSuperview];
     cell.imageView.frame = cell.bounds;
-
-    if(_photosArray.count - indexPath.row == 0) {
+    
+    if([self collectionView:collectionView numberOfItemsInSection:indexPath.section] - indexPath.row == 1) {
         cell.imageView.image = [UIImage imageNamed:@"Camera"];
         cell.imageView.contentMode = UIViewContentModeCenter;
         cell.contentView.backgroundColor = [UIColor clearColor];
@@ -161,7 +164,7 @@ static NSString *cellID = @"cellID";
                  }
              }];
         } else {
-            
+            NSLog(@"Error: get from ALLibrary");
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
                 @autoreleasepool {
                     
@@ -198,62 +201,7 @@ static NSString *cellID = @"cellID";
         HPUserProfileCarouselModeViewController* carouselViewController = [[HPUserProfileCarouselModeViewController alloc] initWithNibName:@"HPUserProfileCarouselModeViewController" bundle:nil];
         carouselViewController.photosArray = _photosArray;
         carouselViewController.selectedPhoto = indexPath.row;
-        [self.navigationController pushViewController:carouselViewController animated:YES];
-//        [self.carousel scrollToItemAtIndex:indexPath.row animated:NO];
-//
-//        [UIView transitionWithView:self.view
-//                          duration:0.2
-//                           options:UIViewAnimationOptionTransitionCrossDissolve //any animation
-//                        animations:^ {
-//                            self.carousel.hidden = NO;
-//                            self.collectionView.hidden = YES;
-//                            self.segmentControl.hidden = YES;
-//                            self.downButton.hidden = YES;
-//                            self.backButton.hidden = NO;
-//                            self.barTitle.hidden = NO;
-//                        }
-//                        completion:^(BOOL finished){
-//
-//                        }];
-//
-//        self.barTitle.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0f];
-//        self.barTitle.textColor = [UIColor whiteColor];
-//        self.barTitle.text = [NSString stringWithFormat:@"%d из %d",self.carousel.currentItemIndex + 1, _photosArray.count - 1];
-//
-//        if(!self.greenButton && !self.tappedGreenButton) {
-//            self.greenButton = [Utils getViewForGreenButtonForText:@"Сделать юзерпиком"  andTapped:NO];
-//            self.tappedGreenButton = [Utils getViewForGreenButtonForText:@"Сделать юзерпиком"  andTapped:YES];
-//            CGRect rect = self.greenButton.frame;
-//            rect.origin.x = 17.0;
-//            rect.origin.y = ScreenHeight - CONSTRAINT_GREENBUTTON_FROM_BOTTOM;
-//            self.greenButton.frame = rect;
-//            self.tappedGreenButton.frame = rect;
-//
-//
-//            UIButton* newButton = [UIButton buttonWithType: UIButtonTypeCustom];
-//            newButton.frame = rect;
-//            [newButton addTarget: self
-//                          action: @selector(makeAvatarTapDown)
-//                forControlEvents: UIControlEventTouchDown];
-//            [newButton addTarget: self
-//                          action: @selector(makeAvatarTapUp)
-//                forControlEvents: UIControlEventTouchUpInside];
-//            self.tappedGreenButton.hidden = YES;
-//            [self.view addSubview:self.greenButton];
-//            [self.view addSubview:self.tappedGreenButton];
-//            [self.view addSubview:newButton];
-//
-//            self.deletButton = [UIButton buttonWithType: UIButtonTypeCustom];
-//            self.deletButton.frame = CGRectMake(CONSTRAINT_TRASHBUTTON_FROM_LEFT, ScreenHeight - CONSTRAINT_GREENBUTTON_FROM_BOTTOM, 32.0, 32.0);
-//            [self.deletButton setBackgroundImage: [UIImage imageNamed:@"Trash"] forState: UIControlStateNormal];
-//            [self.deletButton setBackgroundImage: [UIImage imageNamed:@"Trash Tap"] forState: UIControlStateHighlighted];
-//            [self.deletButton addTarget: self
-//                                 action: @selector(deleteImage)
-//                       forControlEvents: UIControlEventTouchUpInside];
-//            [self.view addSubview:self.deletButton];
-//        }
-//        //self.infoTableView.hidden = YES;
-    }
+        [self.navigationController pushViewController:carouselViewController animated:YES];    }
 }
 
 - (void) addPhotoMenuShow {
@@ -262,8 +210,8 @@ static NSString *cellID = @"cellID";
     addPhotoViewController.screenShoot = [self selfScreenShot];
     [self presentViewController:addPhotoViewController animated:YES completion:nil];
 }
+
 - (void) viewWillBeHidden:(UIImage*) image andIntPath:(NSString *)path {
-    //
     NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
     NSNumber *fakeId = [NSNumber numberWithInt: (int) timeStamp * -1];
     NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:fakeId,@"id",[NSNumber numberWithFloat:image.size.width],@"imgwidth",[NSNumber numberWithFloat:image.size.height],@"imgheight",path, @"imgsrc", nil];
@@ -273,9 +221,11 @@ static NSString *cellID = @"cellID";
         [[HPBaseNetworkManager sharedNetworkManager] addPhotoRequest:image andPhotoId:fakeId];
     }];
 }
+
 - (void) closeMenu {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 - (UIImage*) selfScreenShot {
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
     CGRect rect = [keyWindow frame];
