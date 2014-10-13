@@ -24,5 +24,6 @@
 - (instancetype) initWithController:(NSFetchedResultsController*) controller andSelectedUser:(User*) user;
 
 @property (nonatomic, retain) RACSubject* changeViewedUserCard;
+@property (nonatomic, retain) RACSubject* needLoadNextPage;
 
 @end

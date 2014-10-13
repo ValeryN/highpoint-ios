@@ -65,7 +65,6 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
     [self configureNavigationBar];
     [self registerNotification];
@@ -76,20 +75,14 @@
     isFirstLoad = NO;
     self.allUsers.delegate = self;
     //[self.mainListTable reloadData];
-    if (self.isNeedScrollToIndex) {
-        [self scrollTableForCurrentIndex];
-        //[self.mainListTable setContentOffset:CGPointMake(0, 800)  animated:YES];
-        //[self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    }
+    
     self.mainListTable.hidden = NO;
     self.isNeedScrollToIndex = NO;
     
-}
-- (void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
+    [super viewWillAppear:animated];
     
 }
+
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -109,12 +102,6 @@
     //[[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserFilterData object:nil];
-}
-- (void) scrollTableForCurrentIndex {
-    NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
-    CGRect frame = [self.mainListTable rectForRowAtIndexPath:path];
-    CGFloat offset =self.currentIndex * frame.size.height;
-    [self.mainListTable setContentOffset:CGPointMake(0, offset)  animated:YES];
 }
 
 - (void) createSwitch
@@ -341,11 +328,17 @@
         // This is the last cell
 
         User *user = [[self.allUsers fetchedObjects] lastObject];
-        if(_bottomSwitch.switchState)
-            [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
-        else [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
+        [self loadNextPageAfterUser:user];
     }
 }
+
+- (void) loadNextPageAfterUser:(User*) user{
+    if(_bottomSwitch.switchState)
+        [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
+    else
+        [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
+}
+
 #pragma mark - TableView and DataSource delegate -
 
 
@@ -380,6 +373,19 @@
     [mCell hidePoint];
     
     HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithController:self.allUsers andSelectedUser:[self.allUsers objectAtIndexPath:indexPath]];
+    @weakify(self);
+    [[[card.changeViewedUserCard takeUntil:[self rac_signalForSelector:@selector(viewWillAppear:)]] takeLast:1]
+    subscribeNext:^(User* user) {
+        @strongify(self);
+        NSIndexPath* path = [self.allUsers indexPathForObject:user];
+        [self.mainListTable reloadData];
+        [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }];
+    [card.needLoadNextPage subscribeNext:^(User* x) {
+        @strongify(self);
+        [self loadNextPageAfterUser:x];
+    }];
+    
     [self.navigationController pushViewController: card animated: YES];
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -588,10 +594,5 @@
     //todo: enable buttons
 }
 
-#pragma mark - sync position
-- (void) syncronizePosition : (NSInteger) currentPosition {
-    self.isNeedScrollToIndex = YES;
-    self.currentIndex = currentPosition;
-}
 
 @end

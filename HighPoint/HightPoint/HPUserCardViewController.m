@@ -53,15 +53,21 @@
     self = [super initWithNibName: @"HPUserCardViewController" bundle: nil];
     if (self) {
         self.changeViewedUserCard = [RACSubject subject];
+        self.needLoadNextPage = [RACSubject subject];
+        
+        self.searchController = [[NSFetchedResultsController alloc] initWithFetchRequest:[controller.fetchRequest copy] managedObjectContext:controller.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+        self.searchController.delegate = self;
+        [self.searchController performFetch:nil];
+        
         @weakify(self);
-        self.searchController = controller;
         [[RACObserve(self, usersCollectionView) filter:^BOOL(id value) {
             return value != nil;
         }] subscribeNext:^(UICollectionView* collection) {
             @strongify(self);
-            [self configureCollectionView:collection withSignal:[RACSignal return:controller] andTemplateCell:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil]];
+            [self configureCollectionView:collection withSignal:[RACSignal return:self.searchController] andTemplateCell:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil]];
             [[[RACObserve(collection, contentSize) skip:1] take:1] subscribeNext:^(id x) {
-                [collection scrollToItemAtIndexPath:[controller indexPathForObject:user] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+                @strongify(self);
+                [collection scrollToItemAtIndexPath:[self.searchController indexPathForObject:user] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
             }];
         }];
     }
@@ -188,12 +194,21 @@
             }
         }
     }
+    
+    CGRect visibleRect = (CGRect){.origin = self.usersCollectionView.contentOffset, .size = self.usersCollectionView.bounds.size};
+    CGPoint visiblePoint = CGPointMake(CGRectGetMidX(visibleRect), CGRectGetMidY(visibleRect));
+    NSIndexPath *visibleIndexPath = [self.usersCollectionView indexPathForItemAtPoint:visiblePoint];
+    [self.changeViewedUserCard sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
 }
 - (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     CGRect visibleRect = (CGRect){.origin = self.usersCollectionView.contentOffset, .size = self.usersCollectionView.bounds.size};
     CGPoint visiblePoint = CGPointMake(CGRectGetMidX(visibleRect), CGRectGetMidY(visibleRect));
     NSIndexPath *visibleIndexPath = [self.usersCollectionView indexPathForItemAtPoint:visiblePoint];
-    [self.changeViewedUserCard sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+
+    NSUInteger lastRowIndex = [self collectionView:self.usersCollectionView numberOfItemsInSection:0] - 1;
+    if(lastRowIndex == visibleIndexPath.row){
+        [self.needLoadNextPage sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+    }
 }
 
 #pragma mark - Tap events -
