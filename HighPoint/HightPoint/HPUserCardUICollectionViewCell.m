@@ -34,7 +34,7 @@
 }
 
 
-- (void) configureCell : (User *) user {
+- (void) bindViewModel: (User *) user {
     for(UIView *subview in [self subviews]) {
         if([subview isKindOfClass:[UITextView class]]) {
             [subview removeFromSuperview];

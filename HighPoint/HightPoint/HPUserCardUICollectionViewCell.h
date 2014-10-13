@@ -11,18 +11,14 @@
 #import "City.h"
 #import "UserPoint.h"
 #import "HPUserCardViewController.h"
+#import "RACTableViewController.h"
 
-
-@interface HPUserCardUICollectionViewCell : UICollectionViewCell
-
-
-
-
+@interface HPUserCardUICollectionViewCell : UICollectionViewCell <RACTableViewCellProtocol>
 @property (nonatomic, assign) id <HPUserCardViewControllerDelegate> delegate;
 
 - (IBAction)sendMsgBtnTap:(id)sender;
 - (IBAction)heartBtnTap:(id)sender;
 
-- (void) configureCell : (User *) user ;
+- (void) bindViewModel:(id)viewModel;
 
 @end

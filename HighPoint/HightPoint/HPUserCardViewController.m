@@ -38,7 +38,15 @@
 //#define CONSTRAINT_WIDE_TOP_FOR_CAROUSEL 80
 //#define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
 
-
+@interface HPUserCardViewController()
+@property (nonatomic, strong) UIView *notificationView;
+@property (nonatomic, assign) BOOL onlyWithPoints;
+@property (nonatomic, assign) int current;
+@property (weak, nonatomic) IBOutlet UICollectionView *usersCollectionView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
+@property (assign, nonatomic) id <HPUserCardViewControllerDelegate> delegate;
+@property (assign, nonatomic) int currentIndex;
+@end
 
 @implementation HPUserCardViewController {
      BOOL isFirstLoad;
@@ -48,6 +56,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self configureCollectionView:self.usersCollectionView withSignal:RACObserve(self, searchController) andTemplateCell:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil]];
+    
+    
+    
     isFirstLoad = YES;
     self.currentIndex = 0;
     [self initObjects];
@@ -59,15 +71,10 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
     self.navigationController.navigationBar.translucent = NO;
-    [self registerNotification];
-    if (self.onlyWithPoints) {
-        usersArr = [[[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController] fetchedObjects];
-    } else {
-        usersArr = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
-    }
+    
+    
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
     [self updateNotificationViewCount];
-    _modalAnimationController = [[ModalAnimation alloc] init];
     
 }
 
@@ -96,7 +103,6 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self unregisterNotification];
 }
 
 #pragma mark - init objects
@@ -104,9 +110,6 @@
 - (void) initObjects
 {
     [self createNavigationItem];
-    [self.usersCollectionView registerNib:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"UserCardIdentif"];
-    
-    
 }
 
 #pragma mark - navigation bar
@@ -199,11 +202,15 @@
         if (scrollPosition < -86)
         {
             if (!self.bottomActivityView.isAnimating) {
+                
+                //TODO: Load more users
+                /*
                 [self.bottomActivityView startAnimating];
                 User *user = [usersArr lastObject];
                 [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId integerValue]];
                 [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId integerValue]];
                 [self.usersCollectionView reloadData];
+                 */
             }
         } else {
             if (self.bottomActivityView.isAnimating) {
@@ -231,9 +238,6 @@
 {
     self.usersCollectionView.delegate = nil;
     [self.navigationController popViewControllerAnimated: YES];
-    if ([self.delegate respondsToSelector:@selector(syncronizePosition:)]) {
-        [self.delegate syncronizePosition:self.currentIndex];
-    }
 }
 
 #pragma mark - Buttons pressed -
@@ -251,14 +255,6 @@
 
 
 #pragma mark - notifications
-- (void) registerNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePointLike) name:kNeedUpdatePointLike object:nil];
-}
-
-- (void) unregisterNotification {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdatePointLike object:nil];
-
-}
 
 - (void) updatePointLike {
     @weakify(self);
@@ -273,21 +269,11 @@
 
 #pragma mark - UICollectionView Datasource
 // 1
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    return usersArr.count;
-}
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
     return 1;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    HPUserCardUICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"UserCardIdentif" forIndexPath:indexPath];
-    cell.delegate = self;
-    [cell configureCell: [usersArr objectAtIndex:indexPath.row]];
-    cell.tag = indexPath.row;
-    return cell;
-}
 
 /*- (UICollectionReusableView *)collectionView:
  (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -299,12 +285,12 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    User * usr = [usersArr objectAtIndex:indexPath.row];
+    User * usr = [self.searchController objectAtIndexPath:indexPath];
     if(usr) {
         [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
     }
     HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
-    uiController.user = [usersArr objectAtIndex:indexPath.row];
+    uiController.user = usr;
     [self.navigationController pushViewController:uiController animated:YES];
 }
 

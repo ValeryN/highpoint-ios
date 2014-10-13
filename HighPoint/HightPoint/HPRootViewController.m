@@ -377,11 +377,9 @@
 {
     HPMainViewListTableViewCell *mCell = (HPMainViewListTableViewCell*) [self.mainListTable cellForRowAtIndexPath:indexPath];
     [mCell hidePoint];
-    HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCardViewController" bundle: nil];
-    card.onlyWithPoints = _bottomSwitch.switchState;
-    card.current = indexPath.row;
-    card.delegate = self;
     
+    HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCardViewController" bundle: nil];
+    card.searchController = self.allUsers;
     [self.navigationController pushViewController: card animated: YES];
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
