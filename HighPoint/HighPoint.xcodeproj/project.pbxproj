@@ -1234,19 +1234,6 @@
 			path = MetalTheme;
 			sourceTree = "<group>";
 		};
-		3B29F8E219222F1A00EC6395 /* HPUserCardViewController */ = {
-			isa = PBXGroup;
-			children = (
-				3B29F8E31922303D00EC6395 /* HPUserCardViewController.h */,
-				3B29F8E41922303D00EC6395 /* HPUserCardViewController.m */,
-				4CDC98B819519D08006D2F89 /* HPUserCardViewController.xib */,
-				CD08B825198B68750006AF4A /* HPUserCardUICollectionViewCell.h */,
-				CD08B826198B68750006AF4A /* HPUserCardUICollectionViewCell.m */,
-				CD08B828198B68960006AF4A /* HPUserCardUICollectionViewCell.xib */,
-			);
-			name = HPUserCardViewController;
-			sourceTree = "<group>";
-		};
 		3B2C1F9E19260F0500D499A7 /* iCarousel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1588,6 +1575,7 @@
 		3B6DB4C718FFCC4B00C26A50 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				443B19E319EBF49E00108C05 /* User lists */,
 				CDE0BDC5196E7F9900CBCF58 /* Current User */,
 				CDE0BDBF196E632E00CBCF58 /* Selected User Detail */,
 				44B91D3F19E2D6FF00B8D0AE /* Chat */,
@@ -1597,8 +1585,6 @@
 				CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */,
 				CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */,
 				CDA22EE0196FB22A0032210F /* ConciergeViewController */,
-				3B29F8E219222F1A00EC6395 /* HPUserCardViewController */,
-				3BDA4C9E19064EC300EF6619 /* HPRootViewController */,
 				3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */,
 				3B9C74971990FB24006ADAE7 /* HPMakeAvatarViewController */,
 				3BD12E57192DFDF30026BA11 /* HPFilterSettingsViewController */,
@@ -1882,17 +1868,6 @@
 			path = External/SDWebImage;
 			sourceTree = "<group>";
 		};
-		3BDA4C9E19064EC300EF6619 /* HPRootViewController */ = {
-			isa = PBXGroup;
-			children = (
-				3BDA4C9B19064EAB00EF6619 /* HPRootViewController.h */,
-				3BDA4C9C19064EAB00EF6619 /* HPRootViewController.m */,
-				3B31709B191B6B5100B72AC1 /* HPMainViewListTableViewCell.h */,
-				3B31709C191B6B5100B72AC1 /* HPMainViewListTableViewCell.m */,
-			);
-			name = HPRootViewController;
-			sourceTree = "<group>";
-		};
 		3BDA4CA4190660B400EF6619 /* SocketRocket */ = {
 			isa = PBXGroup;
 			children = (
@@ -1966,6 +1941,39 @@
 			);
 			name = ImageEditor;
 			path = External/ImageEditor;
+			sourceTree = "<group>";
+		};
+		443B19E319EBF49E00108C05 /* User lists */ = {
+			isa = PBXGroup;
+			children = (
+				443B19E519EBF4AC00108C05 /* Card view */,
+				443B19E419EBF4A500108C05 /* List view */,
+			);
+			name = "User lists";
+			sourceTree = "<group>";
+		};
+		443B19E419EBF4A500108C05 /* List view */ = {
+			isa = PBXGroup;
+			children = (
+				3BDA4C9B19064EAB00EF6619 /* HPRootViewController.h */,
+				3BDA4C9C19064EAB00EF6619 /* HPRootViewController.m */,
+				3B31709B191B6B5100B72AC1 /* HPMainViewListTableViewCell.h */,
+				3B31709C191B6B5100B72AC1 /* HPMainViewListTableViewCell.m */,
+			);
+			name = "List view";
+			sourceTree = "<group>";
+		};
+		443B19E519EBF4AC00108C05 /* Card view */ = {
+			isa = PBXGroup;
+			children = (
+				3B29F8E31922303D00EC6395 /* HPUserCardViewController.h */,
+				3B29F8E41922303D00EC6395 /* HPUserCardViewController.m */,
+				4CDC98B819519D08006D2F89 /* HPUserCardViewController.xib */,
+				CD08B825198B68750006AF4A /* HPUserCardUICollectionViewCell.h */,
+				CD08B826198B68750006AF4A /* HPUserCardUICollectionViewCell.m */,
+				CD08B828198B68960006AF4A /* HPUserCardUICollectionViewCell.xib */,
+			);
+			name = "Card view";
 			sourceTree = "<group>";
 		};
 		444D91A919A1F9320034FF5D /* IBCustomFonts */ = {
