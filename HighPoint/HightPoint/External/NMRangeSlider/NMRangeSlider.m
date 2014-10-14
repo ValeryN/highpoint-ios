@@ -161,7 +161,6 @@ NSUInteger DeviceSystemMajorVersion() {
 
 - (void) setLowerValue:(float) lowerValue upperValue:(float) upperValue animated:(BOOL)animated
 {
-    NSLog(@"%f", upperValue);
     if((!animated) && (isnan(lowerValue) || lowerValue==_lowerValue) && (isnan(upperValue) || upperValue==_upperValue))
     {
         //nothing to set
@@ -463,7 +462,6 @@ NSUInteger DeviceSystemMajorVersion() {
 //returms the rect of the tumb image for a given track rect and value
 - (CGRect)thumbRectForValue:(float)value image:(UIImage*) thumbImage
 {
-    NSLog(@"tumb rect");
     CGRect thumbRect;
     UIEdgeInsets insets = thumbImage.capInsets;
 

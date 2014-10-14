@@ -101,6 +101,7 @@ typedef NS_ENUM(NSInteger, iCarouselOption)
 
 @protocol iCarouselDataSource, iCarouselDelegate;
 
+IB_DESIGNABLE
 @interface iCarousel : UIView
 
 @property (nonatomic, weak_delegate) IBOutlet id<iCarouselDataSource> dataSource;

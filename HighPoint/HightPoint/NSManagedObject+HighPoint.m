@@ -35,7 +35,7 @@
         NSLog(@"Error: %@", error.localizedDescription);
     }
     if(inContext.isFault){
-        NSLog(@"Fault");
+        NSLog(@"Error: Fault after move context");
     }
     return inContext;
 

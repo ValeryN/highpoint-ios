@@ -58,7 +58,6 @@
             return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
                 //Записывем каждый элемент
                 NSMutableArray *arr = [NSMutableArray arrayWithObject:cityDict];
-                NSLog(@"%@", cityDict);
                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:arr forUserType:PointLikeUserType withComplation:^(id object) {
                     if (!object) {
                         

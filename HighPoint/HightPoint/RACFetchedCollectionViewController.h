@@ -8,7 +8,7 @@
 - (void)bindViewModel:(id)viewModel;
 @end
 
-@interface RACFetchedCollectionViewController : UICollectionViewController<UICollectionViewDataSource, NSFetchedResultsControllerDelegate>
+@interface RACFetchedCollectionViewController : UIViewController<UICollectionViewDataSource,UICollectionViewDelegate, NSFetchedResultsControllerDelegate>
 @property (nonatomic, retain) RACSignal * selectRowSignal;
-- (void)configureCollectionViewWithSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib;
+- (void)configureCollectionView: (UICollectionView*) collectionView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib;
 @end

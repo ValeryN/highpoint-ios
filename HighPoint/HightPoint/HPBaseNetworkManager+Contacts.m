@@ -28,8 +28,6 @@
     [self addTaskToArray:manager];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"GET CONTACTS -->: %@", operation.responseString);
-        NSLog(@"GET CONTACTS");
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -42,7 +40,6 @@
                 
                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:users] forUserType:ContactUserType withComplation:^(NSError *error) {
                     if(!error) {
-                        //NSLog(@"mess %d", [lastMsgs allKeys].count);
                         for (id key in [lastMsgs allKeys]) {
                             User *user = [[DataStorage sharedDataStorage] getUserForId:[NSNumber numberWithInt:[key intValue]]];
                             
@@ -53,7 +50,6 @@
                             }];
                         }
                         if ([self isTaskArrayEmpty:manager]) {
-                            NSLog(@"Stop Queue");
                             [self makeTownByIdRequest];
                         }
                         [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
@@ -63,9 +59,8 @@
                 
             }
             else {
-                NSLog(@"Error, no valid data");
+                NSLog(@"Error: no valid data");
                 if ([self isTaskArrayEmpty:manager]) {
-                    NSLog(@"Stop Queue");
                     [self makeTownByIdRequest];
                 }
                 
@@ -75,7 +70,6 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         if([self isTaskArrayEmpty:manager]) {
-            NSLog(@"Stop Queue");
             [self makeTownByIdRequest];
         }
         NSLog(@"Error: %@", error.localizedDescription);
@@ -88,13 +82,11 @@
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:[NSString stringWithFormat:kContactDeleteRequest, [contactId stringValue]]];
-    NSLog(@"url remove contact = %@", url);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"DELETE CONTACT RESP JSON: --> %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {

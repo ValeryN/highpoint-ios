@@ -82,19 +82,7 @@
     }
     self.navigationItem.title = @"Кадрируйте фотографию";
 }
-- (void) configureImage {
-    //self.sourceImage.contentMode = UIViewContentModeScaleAspectFill;
-    //self.sourceImage.clipsToBounds = YES;
-    //self.sourceImage.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    //self.sourceImage = self.cImg;//[UIImage imageNamed:@"10.jpg"];
-    
-    //self.sourceImage = [UIImage imageNamed:@"10.jpg"];
-    //self.previewImage = self.cImg;
-    //[self reset:YES];
-    //self.frameView.backgroundColor  = [UIColor greenColor];
-    //NSLog(@"%@",self.frameView);
-    //[self reset:NO];
-}
+
 - (void) configureGreenButton {
     if(!self.greenButton && !self.tappedGreenButton) {
         self.greenButton = [Utils getViewForGreenButtonForText:@"  Готово"  andTapped:NO];

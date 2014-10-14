@@ -26,6 +26,7 @@
 #import "Education.h"
 #import "URLs.h"
 #import <QuartzCore/QuartzCore.h>
+#import "HPUserCardViewController.h"
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
@@ -64,7 +65,6 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
     [self configureNavigationBar];
     [self registerNotification];
@@ -75,23 +75,14 @@
     isFirstLoad = NO;
     self.allUsers.delegate = self;
     //[self.mainListTable reloadData];
-    if (self.isNeedScrollToIndex) {
-        //NSLog(@"%d", self.currentIndex);
-        //NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
-        
-        [self scrollTableForCurrentIndex];
-        //[self.mainListTable setContentOffset:CGPointMake(0, 800)  animated:YES];
-        //[self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    }
+    
     self.mainListTable.hidden = NO;
     self.isNeedScrollToIndex = NO;
     
-}
-- (void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
+    [super viewWillAppear:animated];
     
 }
+
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -111,12 +102,6 @@
     //[[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserFilterData object:nil];
-}
-- (void) scrollTableForCurrentIndex {
-    NSIndexPath *path = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
-    CGRect frame = [self.mainListTable rectForRowAtIndexPath:path];
-    CGFloat offset =self.currentIndex * frame.size.height;
-    [self.mainListTable setContentOffset:CGPointMake(0, offset)  animated:YES];
 }
 
 - (void) createSwitch
@@ -341,13 +326,19 @@
     NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
     if ((indexPath.section == lastSectionIndex) && (indexPath.row  == lastRowIndex)) {
         // This is the last cell
-        NSLog(@"last cell");
+
         User *user = [[self.allUsers fetchedObjects] lastObject];
-        if(_bottomSwitch.switchState)
-            [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
-        else [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
+        [self loadNextPageAfterUser:user];
     }
 }
+
+- (void) loadNextPageAfterUser:(User*) user{
+    if(_bottomSwitch.switchState)
+        [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
+    else
+        [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
+}
+
 #pragma mark - TableView and DataSource delegate -
 
 
@@ -380,10 +371,20 @@
 {
     HPMainViewListTableViewCell *mCell = (HPMainViewListTableViewCell*) [self.mainListTable cellForRowAtIndexPath:indexPath];
     [mCell hidePoint];
-    HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithNibName: @"HPUserCardViewController" bundle: nil];
-    card.onlyWithPoints = _bottomSwitch.switchState;
-    card.current = indexPath.row;
-    card.delegate = self;
+    
+    HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithController:self.allUsers andSelectedUser:[self.allUsers objectAtIndexPath:indexPath]];
+    @weakify(self);
+    [[[card.changeViewedUserCard takeUntil:[self rac_signalForSelector:@selector(viewWillAppear:)]] takeLast:1]
+    subscribeNext:^(User* user) {
+        @strongify(self);
+        NSIndexPath* path = [self.allUsers indexPathForObject:user];
+        [self.mainListTable reloadData];
+        [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }];
+    [card.needLoadNextPage subscribeNext:^(User* x) {
+        @strongify(self);
+        [self loadNextPageAfterUser:x];
+    }];
     
     [self.navigationController pushViewController: card animated: YES];
 }
@@ -429,8 +430,6 @@
 {
     [self updateCurrentView];
     [self.mainListTable reloadData];
-    NSLog(@"switched into left");
-    NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
 
 
@@ -438,8 +437,6 @@
 {
     [self updateCurrentView];
     [self.mainListTable reloadData];
-    NSLog(@"switched into right");
-    NSLog(@"switcher state = %d", _bottomSwitch.switchState);
 }
 
 
@@ -463,7 +460,6 @@
                       withVelocity: (CGPoint)velocity
                targetContentOffset: (inout CGPoint*) targetContentOffset
 {
-    NSLog(@"%f", velocity.y);
     if (velocity.y > 0)
     {
         //if (_filterGroupView.frame.origin.y != [self topFilterBorder])
@@ -474,7 +470,6 @@
 
     if (velocity.y < 0)
     {
-        NSLog(@"%f", [self bottomFilterBorder]);
         
         //if (_filterGroupView.frame.origin.y != [self bottomFilterBorder])
         //    return;
@@ -548,7 +543,7 @@
             genders = genders.length > 0 ? [genders stringByAppendingString: @",1"] : [genders stringByAppendingString: @"1"];
         }
     }
-    NSLog(@"send genders = %@", genders);
+
     NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: uf.maxAge, @"maxAge", uf.minAge, @"minAge", [NSNumber numberWithFloat:0], @"viewType", genders, @"genders",uf.city.cityId, @"cityIds", nil];
      [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
 }
@@ -556,8 +551,6 @@
 #pragma mark - reload on filter change 
 
 - (void) setupFilterSendResults :(NSNotification *)notification {
-    NSLog(@"%@", notification.userInfo);
-    NSLog(@"%@", [notification.userInfo objectForKey:@"status"]);
     NSNumber *status =  [notification.userInfo objectForKey:@"status"];
     if ([status isEqualToNumber:@1]) {
         [self getNewFilteredUsers];
@@ -601,10 +594,5 @@
     //todo: enable buttons
 }
 
-#pragma mark - sync position
-- (void) syncronizePosition : (NSInteger) currentPosition {
-    self.isNeedScrollToIndex = YES;
-    self.currentIndex = currentPosition;
-}
 
 @end

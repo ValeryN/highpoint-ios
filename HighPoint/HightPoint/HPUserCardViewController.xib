@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6249" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6243"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPUserCardViewController">
             <connections>
                 <outlet property="bottomActivityView" destination="p2l-n7-67R" id="J1J-tk-Ubw"/>
-                <outlet property="usersCollectionView" destination="kbG-9s-TTK" id="IaV-Ym-AMl"/>
+                <outlet property="usersCollectionView" destination="kbG-9s-TTK" id="HpA-oO-uDg"/>
                 <outlet property="view" destination="iN0-l3-epB" id="5oa-jj-oiT"/>
             </connections>
         </placeholder>
@@ -27,8 +27,12 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                     <cells/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="zrz-zh-vTV"/>
+                        <outlet property="delegate" destination="-1" id="YPl-w8-1em"/>
+                    </connections>
                 </collectionView>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="p2l-n7-67R">
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="p2l-n7-67R">
                     <rect key="frame" x="150" y="529" width="20" height="20"/>
                 </activityIndicatorView>
             </subviews>
@@ -38,6 +42,7 @@
                 <constraint firstItem="kbG-9s-TTK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="HwH-mD-jbc"/>
                 <constraint firstItem="kbG-9s-TTK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TM3-d8-60i"/>
                 <constraint firstItem="p2l-n7-67R" firstAttribute="top" secondItem="kbG-9s-TTK" secondAttribute="bottom" constant="-39" id="kaq-9B-XbK"/>
+                <constraint firstAttribute="centerX" secondItem="p2l-n7-67R" secondAttribute="centerX" id="mvx-BH-d0M"/>
                 <constraint firstAttribute="bottom" secondItem="kbG-9s-TTK" secondAttribute="bottom" id="whz-Rm-wCK"/>
             </constraints>
         </view>

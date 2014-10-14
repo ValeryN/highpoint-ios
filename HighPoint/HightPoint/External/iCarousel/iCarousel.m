@@ -132,6 +132,15 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
 #pragma mark -
 #pragma mark Initialisation
 
+- (void)prepareForInterfaceBuilder{
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    UIImageView * placeholder = [[UIImageView alloc] initWithFrame:self.frame];
+    NSString *fileName = [bundle pathForResource:@"1" ofType:@"jpg"];
+    UIImage *image = [UIImage imageWithContentsOfFile:fileName];
+    placeholder.image = image;
+    [self addSubview:placeholder];
+}
+
 - (void)setUp
 {
     _decelerationRate = 0.95;

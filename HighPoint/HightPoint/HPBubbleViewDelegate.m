@@ -125,7 +125,15 @@
 
     bubble.unselectedBGColor = [UIColor clearColor];
     bubble.textLabel.font = [UIFont fontWithName:@"FuturaPT-Book" size:16.0];
-    if([self isLastElementForIndex:index inBubbleView:bubbleView] && self.withEditMode){
+    if(!self.withEditMode){
+        bubble.unselectedBorderColor = [UIColor colorWithRed:80.f/255.f green:227.f/255.f blue:194.f/255.f alpha:1.f];
+        bubble.unselectedTextColor = [UIColor colorWithRed:80.f/255.f green:227.f/255.f blue:194.f/255.f alpha:1.f];
+        bubble.selectedBorderColor = [UIColor colorWithRed:80.f/255.f green:227.f/255.f blue:194.f/255.f alpha:1.f];
+        bubble.selectedBGColor = [UIColor clearColor];
+        bubble.selectedTextColor = [UIColor colorWithRed:80.f/255.f green:227.f/255.f blue:194.f/255.f alpha:1.f];
+        bubble.textField.hidden = YES;
+    }
+    else if([self isLastElementForIndex:index inBubbleView:bubbleView]){
         bubble.unselectedBorderColor = [UIColor clearColor];
         bubble.unselectedTextColor = [UIColor colorWithRed:230.0f/255.0f green:236.0f/255.0f blue:242.0f/255.0f alpha:0.4];
         bubble.selectedBorderColor = [UIColor clearColor];

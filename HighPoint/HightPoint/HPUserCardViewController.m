@@ -38,76 +38,58 @@
 //#define CONSTRAINT_WIDE_TOP_FOR_CAROUSEL 80
 //#define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
 
-
+@interface HPUserCardViewController()
+@property (nonatomic, retain) NSFetchedResultsController* searchController;
+@property (nonatomic, strong) UIView *notificationView;
+@property (weak, nonatomic) IBOutlet UICollectionView *usersCollectionView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
+@end
 
 @implementation HPUserCardViewController {
      BOOL isFirstLoad;
 }
 
+- (instancetype) initWithController:(NSFetchedResultsController*) controller andSelectedUser:(User*) user{
+    self = [super initWithNibName: @"HPUserCardViewController" bundle: nil];
+    if (self) {
+        self.changeViewedUserCard = [RACSubject subject];
+        self.needLoadNextPage = [RACSubject subject];
+        
+        self.searchController = [[NSFetchedResultsController alloc] initWithFetchRequest:[controller.fetchRequest copy] managedObjectContext:controller.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+        self.searchController.delegate = self;
+        [self.searchController performFetch:nil];
+        
+        @weakify(self);
+        [[RACObserve(self, usersCollectionView) filter:^BOOL(id value) {
+            return value != nil;
+        }] subscribeNext:^(UICollectionView* collection) {
+            @strongify(self);
+            [self configureCollectionView:collection withSignal:[RACSignal return:self.searchController] andTemplateCell:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil]];
+            [[[RACObserve(collection, contentSize) skip:1] take:1] subscribeNext:^(id x) {
+                @strongify(self);
+                [collection scrollToItemAtIndexPath:[self.searchController indexPathForObject:user] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+            }];
+        }];
+        
+        [[self.changeViewedUserCard distinctUntilChanged] subscribeNext:^(User* usr) {
+            [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
+        }];
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    isFirstLoad = YES;
-    self.currentIndex = 0;
-    [self initObjects];
-    
+    [self createNavigationItem];
     [self addPullToRefresh];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
-    self.navigationController.navigationBar.translucent = NO;
-    [self registerNotification];
-    if (self.onlyWithPoints) {
-        usersArr = [[[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController] fetchedObjects];
-    } else {
-        usersArr = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
-    }
+    self.navigationController.navigationBar.translucent = YES;
     self.navigationItem.title = [Utils getTitleStringForUserFilter];
     [self updateNotificationViewCount];
-    _modalAnimationController = [[ModalAnimation alloc] init];
-    
-}
-
-- (void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear: animated];
-    self.currentIndex = self.current;
-    NSLog(@"current = %d", self.current);
-    self.usersCollectionView.delegate = self;
-    self.usersCollectionView.dataSource = self;
-    if (self.current == 0) {
-        // [self.usersCollectionView setContentOffset:CGPointMake(0, ) animated:NO];
-    } else {
-        
-        if (![UIDevice hp_isWideScreen]) {
-            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 0) animated:NO];// 64
-        }
-        
-        if (self.usersCollectionView.contentSize.height <= 428 * (self.current - 1) ) {
-            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current) - 0) animated:NO];
-        } else {
-            [self.usersCollectionView setContentOffset:CGPointMake(0, (428 * self.current)) animated:NO];
-        }
-    }
-    isFirstLoad = NO;
-    
-}
-
-- (void) viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self unregisterNotification];
-}
-
-#pragma mark - init objects
-
-- (void) initObjects
-{
-    [self createNavigationItem];
-    [self.usersCollectionView registerNib:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"UserCardIdentif"];
-    
-    
 }
 
 #pragma mark - navigation bar
@@ -177,11 +159,17 @@
 }
 
 #pragma mark - open chat
-- (void) openChatControllerWithUser : (NSInteger) userIndex {
+- (void) openChatControllerWithUser : (User*) user {
     HPChatViewController *chatController = [[HPChatViewController alloc] initWithNibName:@"HPChatViewController" bundle:nil];
-    //TODO: how to add user as a contact (API)?
-    // chatController.contact = contact;
-    [self.navigationController pushViewController:chatController animated:YES];
+    Contact* contact = [Contact MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"user = %@",user]];
+    if(contact){
+        chatController.contact = contact;
+        [self.navigationController pushViewController:chatController animated:YES];
+    }
+    else{
+        //TODO: how to add user as a contact (API)?
+        [[[UIAlertView alloc] initWithTitle:@"Not implemented" message:@"Not implenented on server \"AddContact\"" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
+    }
 }
 
 #pragma mark - scroll view
@@ -194,11 +182,15 @@
         if (scrollPosition < -86)
         {
             if (!self.bottomActivityView.isAnimating) {
+                
+                //TODO: Load more users
+                /*
                 [self.bottomActivityView startAnimating];
                 User *user = [usersArr lastObject];
                 [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId integerValue]];
                 [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId integerValue]];
                 [self.usersCollectionView reloadData];
+                 */
             }
         } else {
             if (self.bottomActivityView.isAnimating) {
@@ -206,13 +198,28 @@
             }
         }
     }
+    
+    CGRect visibleRect = (CGRect){.origin = self.usersCollectionView.contentOffset, .size = self.usersCollectionView.bounds.size};
+    CGPoint visiblePoint = CGPointMake(CGRectGetMidX(visibleRect), CGRectGetMidY(visibleRect));
+    NSIndexPath *visibleIndexPath = [self.usersCollectionView indexPathForItemAtPoint:visiblePoint];
+    [self.changeViewedUserCard sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+    
+    NSUInteger lastRowIndex = [self collectionView:self.usersCollectionView numberOfItemsInSection:0] - 1;
+    if(lastRowIndex == visibleIndexPath.row){
+        //Load on last cell
+        [self.needLoadNextPage sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+    }
 }
 - (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     CGRect visibleRect = (CGRect){.origin = self.usersCollectionView.contentOffset, .size = self.usersCollectionView.bounds.size};
     CGPoint visiblePoint = CGPointMake(CGRectGetMidX(visibleRect), CGRectGetMidY(visibleRect));
     NSIndexPath *visibleIndexPath = [self.usersCollectionView indexPathForItemAtPoint:visiblePoint];
-    
-    self.currentIndex = visibleIndexPath.row;
+
+    NSUInteger lastRowIndex = [self collectionView:self.usersCollectionView numberOfItemsInSection:0] - 1;
+    //Pull to load more
+    if(lastRowIndex == visibleIndexPath.row){
+        [self.needLoadNextPage sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+    }
 }
 
 #pragma mark - Tap events -
@@ -226,38 +233,15 @@
 {
     self.usersCollectionView.delegate = nil;
     [self.navigationController popViewControllerAnimated: YES];
-    if ([self.delegate respondsToSelector:@selector(syncronizePosition:)]) {
-        [self.delegate syncronizePosition:self.currentIndex];
-    }
 }
-
-#pragma mark - Buttons pressed -
-
-
-- (IBAction)writeMsgTap:(id)sender {
-    NSLog(@"write");
-}
-
-
-- (IBAction) infoButtonPressed: (id)sender
-{
-    //[self animationViewsUp];
-}
-
 
 #pragma mark - notifications
-- (void) registerNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePointLike) name:kNeedUpdatePointLike object:nil];
-}
-
-- (void) unregisterNotification {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdatePointLike object:nil];
-
-}
 
 - (void) updatePointLike {
+    @weakify(self);
     dispatch_async(dispatch_get_main_queue(), ^
     {
+        @strongify(self);
         [self.usersCollectionView reloadData];
     });
 }
@@ -266,21 +250,11 @@
 
 #pragma mark - UICollectionView Datasource
 // 1
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    return usersArr.count;
-}
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
     return 1;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    HPUserCardUICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"UserCardIdentif" forIndexPath:indexPath];
-    cell.delegate = self;
-    [cell configureCell: [usersArr objectAtIndex:indexPath.row]];
-    cell.tag = indexPath.row;
-    return cell;
-}
 
 /*- (UICollectionReusableView *)collectionView:
  (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -292,12 +266,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    User * usr = [usersArr objectAtIndex:indexPath.row];
-    if(usr) {
-        [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
-    }
+    User * usr = [self.searchController objectAtIndexPath:indexPath];
     HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
-    uiController.user = [usersArr objectAtIndex:indexPath.row];
+    uiController.user = usr;
     [self.navigationController pushViewController:uiController animated:YES];
 }
 
@@ -324,295 +295,24 @@
     float pageWidth = 418 + 10; // h + space
     float newTargetOffset = 0;
     if (targetOffset > currentOffset){
-        newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth ;
+        newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth - self.topLayoutGuide.length;
     } else {
-        newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth;
+        newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth - self.topLayoutGuide.length;
     }
-    if (newTargetOffset < 0) {
-        newTargetOffset = 0;
+    if (newTargetOffset < -self.topLayoutGuide.length) {
+        newTargetOffset = -self.topLayoutGuide.length;
     } else if (newTargetOffset >= (scrollView.contentSize.height - 400)) {
-        newTargetOffset = scrollView.contentSize.height;
+        newTargetOffset = scrollView.contentSize.height - self.topLayoutGuide.length;
     }
     
     targetContentOffset->y = currentOffset;
     [scrollView setContentOffset:CGPointMake(0, newTargetOffset) animated:YES];
 }
+
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
-    //HPUserCardUICollectionViewCell* currentCell = ([[collectionView visibleCells]count] > 0) ? [[collectionView visibleCells] objectAtIndex:0] : nil;
-    
-    //if(cell != nil){
-        //self.currentIndex = [collectionView indexPathForCell:currentCell].row;
-    //}
-    //NSLog(@"current index for sync = %d", self.currentIndex);
+
 }
 
-//#pragma mark - Transitioning Delegate (Modal)
-//-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-//    _modalAnimationController.type = AnimationTypePresent;
-//    return _modalAnimationController;
-//}
-//
-//-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-//    _modalAnimationController.type = AnimationTypeDismiss;
-//    return _modalAnimationController;
-//}
-//- (void)profileWillBeHidden {
-//    [self animationViewsDown];
-//}
-//- (void) animationViewsUp {
-//    UIImage *captureImg = [Utils captureView:self.carouselView.currentItemView withArea:CGRectMake(0, 0, self.carouselView.currentItemView.frame.size.width, self.carouselView.currentItemView.frame.size.height)];
-//    
-//    //need get cell from left and right
-//    UIView* leftView;
-//    UIView* rightView;
-//    
-//    NSLog(@"%d",self.carouselView.currentItemIndex);
-//    NSLog(@"%d",self.carouselView.numberOfItems);
-//    
-//    if(self.carouselView.currentItemIndex > 0 && self.carouselView.currentItemIndex < self.carouselView.numberOfItems && self.carouselView.currentItemIndex != self.carouselView.numberOfItems - 1) {
-//        leftView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex-1];
-//        rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex+1];
-//    } else if(self.carouselView.currentItemIndex == 0) {
-//        leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 1];
-//        rightView = [self.carouselView itemViewAtIndex: self.carouselView.currentItemIndex+1];
-//    } else if(self.carouselView.currentItemIndex == self.carouselView.numberOfItems - 1) {
-//        leftView = [self.carouselView itemViewAtIndex: self.carouselView.numberOfItems - 2];
-//        rightView = [self.carouselView itemViewAtIndex: 0];
-//    }
-//    
-//    UIImage *captureImgLeft = [Utils captureView:leftView withArea:CGRectMake(0, 0, leftView.frame.size.width, leftView.frame.size.height)];
-//    UIImage *captureImgRight = [Utils captureView:rightView withArea:CGRectMake(0, 0, rightView.frame.size.width, rightView.frame.size.height)];
-//    
-//    self.captView = [[UIImageView alloc] initWithImage:captureImg];
-//    self.captViewLeft = [[UIImageView alloc] initWithImage:captureImgLeft];
-//    self.captViewRight = [[UIImageView alloc] initWithImage:captureImgRight];
-//    
-//    CGRect result = [self.view convertRect:self.carouselView.currentItemView.frame fromView:self.carouselView.currentItemView];
-//    CGRect resultLeft = [self.view convertRect:leftView.frame fromView:leftView];
-//    CGRect resultRight = [self.view convertRect:rightView.frame fromView:rightView];
-//    self.captView.frame = result;
-//    self.captViewLeft.frame = resultLeft;
-//    self.captViewRight.frame = resultRight;
-//    self.carouselView.hidden = YES;
-//    [self.view addSubview:self.captView];
-//    [self.view addSubview:self.captViewLeft];
-//    [self.view addSubview:self.captViewRight];
-//    
-//    CGRect originalFrame = self.captViewLeft.frame;
-//    self.captViewLeft.layer.anchorPoint = CGPointMake(0.0, 1.0);
-//    self.captViewLeft.frame = originalFrame;
-//    
-//    originalFrame = self.captViewRight.frame;
-//    self.captViewRight.layer.anchorPoint = CGPointMake(1.0, 1.0);
-//    self.captViewRight.frame = originalFrame;
-//    
-//    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-//        
-//        self.captView.frame = CGRectMake(self.captView.frame.origin.x, self.captView.frame.origin.y - 450.0, self.captView.frame.size.width, self.captView.frame.size.height);
-//        self.captViewLeft.transform = CGAffineTransformMakeRotation(M_PI * 1.5);
-//        self.captViewRight.transform = CGAffineTransformMakeRotation(M_PI * -1.5);
-//        
-//    } completion:^(BOOL finished) {
-//    }];
-//    
-//    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
-//    uiController.user = [usersArr objectAtIndex:_carouselView.currentItemIndex];
-//    uiController.delegate = self;
-//    uiController.transitioningDelegate = self;
-//    uiController.modalPresentationStyle = UIModalPresentationCustom;
-//    [self presentViewController:uiController animated:YES completion:nil];
-//}
-//- (void) animationViewsDown {
-//    
-//    [UIView animateWithDuration:0.7 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-//        
-//        self.captView.frame = CGRectMake(self.captView.frame.origin.x, self.captView.frame.origin.y + 450.0, self.captView.frame.size.width, self.captView.frame.size.height);
-//        self.captViewLeft.transform = CGAffineTransformIdentity;
-//        self.captViewRight.transform = CGAffineTransformIdentity;
-//        
-//    } completion:^(BOOL finished) {
-//        NSLog(@"end animation1");
-//        [self.captView removeFromSuperview];
-//        [self.captViewLeft removeFromSuperview];
-//        [self.captViewRight removeFromSuperview];
-//        self.captView = nil;
-//        self.captViewLeft  = nil;
-//        self.captViewRight =  nil;
-//        self.carouselView.hidden = NO;
-//        NSLog(@"end animation2");
-//        
-//    }];
-//    
-//}
-//
-//#pragma mark - notifications
-//- (void) registerNotification {
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(needUpdatePointLike) name:kNeedUpdatePointLike object:nil];
-//}
-//
-//- (void) unregisterNotification {
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdatePointLike object:nil];
-//}
-//
-//- (void) needUpdatePointLike {
-//    [self.carouselView reloadData];
-//}
-
-//
-//
-//- (void) fixUserCardConstraint
-//{
-//    CGFloat topCarousel = CONSTRAINT_WIDE_TOP_FOR_CAROUSEL;
-//    if (![UIDevice hp_isWideScreen])
-//        topCarousel = CONSTRAINT_TOP_FOR_CAROUSEL;
-//
-//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem: _carouselView
-//                                                                 attribute: NSLayoutAttributeTop
-//                                                                 relatedBy: NSLayoutRelationEqual
-//                                                                    toItem: self.view
-//                                                                 attribute: NSLayoutAttributeTop
-//                                                                multiplier: 1.0
-//                                                                  constant: topCarousel]];
-//
-//    if (![UIDevice hp_isWideScreen])
-//    {
-//        
-//        NSArray* cons = _carouselView.constraints;
-//        for (NSLayoutConstraint* consIter in cons)
-//        {
-//            if ((consIter.firstAttribute == NSLayoutAttributeHeight) &&
-//                (consIter.firstItem == _carouselView))
-//                consIter.constant = CONSTRAINT_HEIGHT_FOR_CAROUSEL;
-//        }
-//    }
-//}
-//
-//
-//- (void) fixUserPointConstraint
-//{
-//}
-
-//- (void) initCarousel
-//{
-//    _cardOrPoint = [NSMutableArray array];
-//    for (NSInteger i = 0; i < ICAROUSEL_ITEMS_COUNT; i++)
-//        _cardOrPoint[i] = [HPUserCardOrPoint new];
-//
-//    _carouselView.type = iCarouselTypeRotary;
-//    _carouselView.decelerationRate = 0.7;
-//    _carouselView.scrollEnabled = YES;
-//    _carouselView.exclusiveTouch = YES;
-//}
-
-
-//#pragma mark - iCarousel data source -
-//
-//
-//- (NSUInteger)numberOfItemsInCarousel: (iCarousel*) carousel
-//{
-//    return usersArr.count;
-//}
-//
-//
-//- (UIView*)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
-//{
-//    NSLog(@"index %i", index);
-//    if (_cardOrPoint == nil)
-//        NSAssert(YES, @"no description for carousel item");
-//    User *user = [usersArr objectAtIndex:index];
-//    view = [[HPUserCardOrPointView alloc] initWithCardOrPoint: _cardOrPoint[index] user: user
-//                                                     delegate: self];
-//
-//    return view;
-//}
-//
-//
-//#pragma mark - iCarousel delegate -
-//
-//
-//- (CGFloat)carousel: (iCarousel *)carousel valueForOption: (iCarouselOption)option withDefault:(CGFloat)value
-//{
-//    switch (option)
-//    {
-//        case iCarouselOptionFadeMin:
-//            return -1;
-//        case iCarouselOptionFadeMax:
-//            return 1;
-//        case iCarouselOptionFadeRange:
-//            return 2.0;
-//        case iCarouselOptionCount:
-//            return 10;
-//        case iCarouselOptionSpacing:
-//            return value * 1.3;
-//        default:
-//            return value;
-//    }
-//}
-//
-//
-//- (CGFloat)carouselItemWidth:(iCarousel*)carousel
-//{
-//    return ICAROUSEL_ITEMS_WIDTH;
-//}
-//
-//
-//#pragma mark - Slide buttons -
-//
-//
-//- (IBAction) slideLeftPressed: (id)sender
-//{
-//    NSInteger currentItemIndex = _carouselView.currentItemIndex;
-//    NSInteger itemIndexToScrollTo = _carouselView.currentItemIndex - 1;
-//    if (currentItemIndex == 0)
-//        itemIndexToScrollTo = _carouselView.numberOfItems - 1;
-//    
-//    [_carouselView scrollToItemAtIndex: itemIndexToScrollTo animated: YES];
-//}
-//
-//
-//- (IBAction) slideRightPressed: (id)sender
-//{
-//    NSInteger currentItemIndex = _carouselView.currentItemIndex;
-//    NSInteger itemIndexToScrollTo = _carouselView.currentItemIndex + 1;
-//    if (currentItemIndex >= _carouselView.numberOfItems)
-//        itemIndexToScrollTo = 0;
-//    
-//    [_carouselView scrollToItemAtIndex: itemIndexToScrollTo animated: YES];
-//}
-
-
-//#pragma mark - User card delegate -
-//- (void) switchButtonPressed
-//{
-//    HPUserCardOrPointView* container = (HPUserCardOrPointView*)self.carouselView.currentItemView;
-//    [_cardOrPoint[_carouselView.currentItemIndex] switchUserPoint];
-//    
-//    User *user = [usersArr objectAtIndex:_carouselView.currentItemIndex];
-//    [UIView transitionWithView: container
-//                      duration: FLIP_ANIMATION_SPEED
-//                       options: UIViewAnimationOptionTransitionFlipFromRight
-//                    animations: ^{
-//                        [container switchSidesWithCardOrPoint: _cardOrPoint[_carouselView.currentItemIndex] user:user
-//                                                     delegate: self];
-//                    }
-//                    completion: ^(BOOL finished){
-//                }];
-//}
-//
-//
-//- (void) heartTapped
-//{
-//    UserPoint *point = ((User *)[usersArr objectAtIndex:self.carouselView.currentItemIndex]).point;
-//    if ([point.pointLiked boolValue]) {
-//        //unlike request
-//        [[HPBaseNetworkManager sharedNetworkManager] makePointUnLikeRequest:point.pointId];
-//    } else {
-//        //like request
-//        [[HPBaseNetworkManager sharedNetworkManager] makePointLikeRequest:point.pointId];
-//    }
-//    NSLog(@"heart tapped");
-//}
-//
 
 
 @end

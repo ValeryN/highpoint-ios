@@ -47,12 +47,11 @@
 
 - (void) saveWithErrorHandler {
     [self.persistentStoreCoordinator tryLock];
-    NSLog(@"Save");
     NSError *error = nil;
     [self save:&error];
     [self.persistentStoreCoordinator unlock];
     if (error) {
-        NSLog(@"ERROR: saveContext: %@", error);
+        NSLog(@"Error: saveContext: %@", error);
 #ifdef DEBUG
         @throw [NSException exceptionWithName:@"CoreData.error" reason:@"Error save context" userInfo:@{@"error" : error}];
 #endif

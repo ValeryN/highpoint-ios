@@ -255,7 +255,6 @@
     NSString *maxAge = filter.maxAge ? [filter.maxAge stringValue] : @"";
     NSString *minAge = filter.minAge ? [filter.minAge stringValue] : @"";
     NSDictionary * result = [[NSDictionary alloc] initWithObjectsAndKeys: cityIds, @"cityIds", maxAge ,@"maxAge", minAge, @"minAge", genders, @"genders", nil];
-    NSLog(@"filter params = %@", result);
     return result;
 }
 
@@ -268,7 +267,6 @@
 
 + (NSString *) getTitleStringForUserFilter {
     UserFilter *filter = [[DataStorage sharedDataStorage] getUserFilter];
-    NSLog(@"print filter = %@ %@ %@ %@", filter.minAge, filter.maxAge, filter.gender, filter.city);
     //gender
     NSString *genders = @"";
     NSArray *gendersArr = [filter.gender allObjects];

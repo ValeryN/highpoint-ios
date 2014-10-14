@@ -99,7 +99,7 @@ static HPBaseNetworkManager *networkManager;
 }
 - (void) setNetworkStatusMonitorCallback {
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
+        NSLog(@"Warning: Reachability status %@", AFStringFromNetworkReachabilityStatus(status));
     }];
 }
 //AFHTTPRequestOperationManager
@@ -112,7 +112,6 @@ static HPBaseNetworkManager *networkManager;
 }
 - (void) makeTownByIdRequest {
     NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
-    NSLog(@"make town request");
     NSString *ids = @"";
 
     for (int i = 0; i < users.count; i++) {
@@ -121,7 +120,6 @@ static HPBaseNetworkManager *networkManager;
         }
     }
     if ([ids length] > 0) {
-        NSLog(@"TOWNS --> %@", ids);
         ids = [ids substringToIndex:[ids length] - 1];
     }
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"cityIds", nil];
@@ -140,35 +138,6 @@ static HPBaseNetworkManager *networkManager;
 # pragma mark http requests
 #pragma mark - geolocation
 #pragma mark - application settings
-/*
-- (void) getApplicationSettingsRequest {
-    ///v201405/settings
-    NSString *url = nil;
-    url = [URLs getServerURL];
-    url = [url stringByAppendingString:kApplicationSettingsRequest];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", operation.responseString);
-        NSError *error = nil;
-        NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
-        if(jsonData) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                                     options:kNilOptions
-                                                                       error:&error];
-            if(jsonDict)
-                [[DataStorage sharedDataStorage] createAndSaveApplicationSettingEntity:jsonDict];
-            else NSLog(@"Error, no valid data");
-
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error.localizedDescription);
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //[alert show];
-
-    }];
-}
-*/
 # pragma mark -
 # pragma mark socket io methods
 //param - dict with keys host, port, user
@@ -221,14 +190,11 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) socketIODidConnect:(SocketIO *)socket
 {
-    NSLog(@"socket.io connected.");
+    NSLog(@"Warning: socket.io connected.");
 }
 //receive event
 - (void) socketIO:(SocketIO *)socket didReceiveEvent:(SocketIOPacket *)packet
 {
-    NSLog(@"didReceiveEvent()");
-    NSLog(@"%@",packet.args);
-    NSLog(@"%@",packet.name);
     //parsing incoming messages here
 
     if([packet.name isEqualToString:@"message"])
@@ -238,13 +204,12 @@ static HPBaseNetworkManager *networkManager;
     }
 
     if ([packet.name isEqualToString:kMeUpdate]) {
-        NSLog(@"me update args = %@", packet.args);
         NSDictionary *jsonDict = [packet.args objectAtIndex:0];
         if(jsonDict) {
             //[[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:CurrentUserType withComplation: nil];
             //[[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:[[DataStorage sharedDataStorage] getCurrentUser]]];
         } else {
-            NSLog(@"Error, no valid data");
+            NSLog(@"Error: no valid data");
         }
 
     }
@@ -257,13 +222,13 @@ static HPBaseNetworkManager *networkManager;
 
 - (void) socketIO:(SocketIO *)socket onError:(NSError *)error
 {
-    NSLog(@"onError() %@", error);
+    NSLog(@"Error: soket.io error %@", error);
 }
 
 
 - (void) socketIODidDisconnect:(SocketIO *)socket disconnectedWithError:(NSError *)error
 {
-    NSLog(@"socket.io disconnected. did error occur? %@", error);
+    NSLog(@"Error: socket.io disconnected. did error occur? %@", error);
 }
 
 @end

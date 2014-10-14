@@ -52,13 +52,9 @@
         
         
         HPMakeAvatarViewController *avaView = [[HPMakeAvatarViewController alloc] initWithNibName: @"HPMakeAvatarViewController" bundle: nil];
-        NSLog(@"%d", self.carousel.currentItemIndex);
         
         avaView.doneCallback = ^(UIImage *editedImage, UIImageView *parentView, NSDictionary *param, BOOL canceled){
             if(editedImage && !canceled) {
-                NSLog(@"Image ready");
-                NSLog(@"%f", editedImage.size.height * [[param objectForKey:@"scale"] floatValue]);
-                NSLog(@"%f", editedImage.size.width * [[param objectForKey:@"scale"] floatValue]);
                 
                 CGFloat x = [[param objectForKey:@"x"] floatValue];
                 CGFloat y = [[param objectForKey:@"y"] floatValue];
@@ -79,8 +75,7 @@
                 
                 NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:height, @"height", width, @"width",[NSNumber numberWithInt:(int)x], @"left", [NSNumber numberWithInt:(int)y], @"top", nil];
                 
-                NSLog(@"x--> %f",x);
-                NSLog(@"y--> %f",y);
+
                 
                 ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
                 [library writeImageToSavedPhotosAlbum:[editedImage CGImage]
@@ -98,7 +93,8 @@
                                       }];
                 
             }
-            else  NSLog(@"Ups...");
+            else
+                NSLog(@"Error: Unhandeled error");
            
         };
         

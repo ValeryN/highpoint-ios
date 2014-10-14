@@ -58,14 +58,14 @@
                                                                              [subscriber sendCompleted];
                                                                          }
                                                                          else {
-                                                                             NSLog(@"Failed download %@",avatarUrl);
+                                                                             NSLog(@"Error: Failed download avatar with url %@",avatarUrl);
                                                                              [subscriber sendError:error];
                                                                          }
                                                                      });
                                                                  }];
         return [RACDisposable disposableWithBlock:^{
             if(notDownloadCancel) {
-                NSLog(@"Cancel not download avatar %@", avatarUrl);
+                NSLog(@"Error: Cancel not download avatar %@", avatarUrl);
             }
             [operation cancel];
 

@@ -16,11 +16,12 @@
 #import "SDWebImageManager.h"
 #import "Avatar.h"
 #import "DataStorage.h"
+#import "HPRoundedShadowedImageView.h"
 
 #define AVATAR_BLUR_RADIUS 10.0
 
 @interface HPUserCardUICollectionViewCell()
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet HPRoundedShadowedImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *userInfoLabel;
 @property (weak, nonatomic) IBOutlet UIButton *sendMsgBtn;
 @property (weak, nonatomic) IBOutlet UIButton *heartBtn;
@@ -29,11 +30,11 @@
 @end
 
 @implementation HPUserCardUICollectionViewCell {
-    User *currUser;
+    User *_currUser;
 }
 
 
-- (void) configureCell : (User *) user {
+- (void) bindViewModel: (User *) user {
     for(UIView *subview in [self subviews]) {
         if([subview isKindOfClass:[UITextView class]]) {
             [subview removeFromSuperview];
@@ -44,12 +45,10 @@
     pointTextView.backgroundColor = [UIColor clearColor];
     pointTextView.userInteractionEnabled = NO;
     pointTextView.text = user.point.pointText;
-    currUser = user;
+    _currUser = user;
     [pointTextView hp_tuneForUserPoint];
     [self.userInfoLabel hp_tuneForUserCardName];
     [self.sendMsgBtn hp_tuneFontForGreenButton];
-    self.avatarImageView.clipsToBounds = YES;
-    self.avatarImageView.layer.cornerRadius = 5;
     self.photoView.clipsToBounds = YES;
     self.photoView.layer.cornerRadius = 3;
     [self.photoCountLabel hp_tuneForUserCardPhotoIndex];
@@ -74,7 +73,7 @@
     [self.heartBtn setSelected:[user.point.pointLiked boolValue]];
     [self setAvatarVisibilityBlur:user];
     [self setPrivacyText:user];
-    if ([currUser.gender isEqualToNumber:@1]) {
+    if ([_currUser.gender isEqualToNumber:@1]) {
         [self.sendMsgBtn setTitle:NSLocalizedString(@"SEND_MSG_HIM", nil) forState:UIControlStateNormal];
         [self.sendMsgBtn setTitle:NSLocalizedString(@"SEND_MSG_HIM", nil) forState:UIControlStateHighlighted];
     } else {
@@ -89,6 +88,7 @@
 - (void) loadAvatar : (User *) user {
     NSString* avatarUrl = user.avatar.originalImgSrc;
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    @weakify(self);
     [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
                      options:0
                     progress:^(NSInteger receivedSize, NSInteger expectedSize)
@@ -97,6 +97,7 @@
      }
                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
      {
+         @strongify(self);
          if (image)
          {
              self.avatarImageView.image = image;
@@ -132,17 +133,17 @@
 
 - (IBAction)sendMsgBtnTap:(id)sender {
     if ([self.delegate respondsToSelector:@selector(openChatControllerWithUser:)]) {
-        [self.delegate openChatControllerWithUser:self.tag];
+        [self.delegate openChatControllerWithUser:_currUser];
     }
 }
 
 - (IBAction)heartBtnTap:(id)sender {
-       if ([currUser.point.pointLiked boolValue]) {
+       if ([_currUser.point.pointLiked boolValue]) {
         //unlike request
-           [[HPBaseNetworkManager sharedNetworkManager] makePointUnLikeRequest:currUser.point.pointId];
+           [[HPBaseNetworkManager sharedNetworkManager] makePointUnLikeRequest:_currUser.point.pointId];
        } else {
         //like request
-          [[HPBaseNetworkManager sharedNetworkManager] makePointLikeRequest:currUser.point.pointId];
+          [[HPBaseNetworkManager sharedNetworkManager] makePointLikeRequest:_currUser.point.pointId];
      }
 }
 

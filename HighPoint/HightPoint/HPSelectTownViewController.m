@@ -148,55 +148,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
 }
 //
-//#pragma mark - update current view
-//
-//- (void) updateCurrentView : (NSNotification *)notification
-//{
-//    NSLog(@"%@", [notification.userInfo objectForKey:@"cities"]);
-//    [self.allCities removeAllObjects];
-//    [self addTownsListFromFilter];
-//    NSArray *sortedCities = [self removeDoubleCityValues: [notification.userInfo objectForKey:@"cities"]];
-//    [self.allCities addObjectsFromArray:sortedCities];
-//    [self.townsTableView reloadData];
-//}
-//
-//#pragma mark - add cities from filter 
-//- (void) addTownsListFromFilter {
-//    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
-//   // NSArray *citiesArr = [userFilter.city allObjects];
-//    [self.allCities addObjectsFromArray:citiesArr];
-//}
-//
-//#pragma mark - check double
-//- (NSArray *) removeDoubleCityValues :(NSArray *) arr {
-//    NSMutableArray *result = [[NSMutableArray alloc] init];
-//    NSMutableArray *original = [arr mutableCopy];
-//    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
-//    NSArray *citiesArr = [userFilter.city allObjects];
-//    for (City *city in original) {
-//        for (City *filterCity in citiesArr) {
-//            if ([filterCity.cityId isEqualToNumber:city.cityId]) {
-//                [result addObject:city];
-//                break;
-//            }
-//        }
-//    }
-//    [original removeObjectsInArray:result];
-//    return original;
-//}
-//
-//#pragma mark - check added mark 
-//
-//- (BOOL) checkAddedMark :(City *) cityIn {
-//    UserFilter *userFilter = [[DataStorage sharedDataStorage] getUserFilter];
-//    NSArray *citiesArr = [userFilter.city allObjects];
-//    for (City *city in citiesArr) {
-//        if ([city.cityId isEqualToNumber:cityIn.cityId]) {
-//            return YES;
-//        }
-//    }
-//    return NO;
-//}
 
 
 #pragma mark - table view

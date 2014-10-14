@@ -13,30 +13,17 @@
 #import "HPUserProfileViewController.h"
 #import "HPGreenButtonVC.h"
 #import "HPUserInfoViewController.h"
-@class ModalAnimation;
-
+#import "RACFetchedCollectionViewController.h"
 
 @protocol HPUserCardViewControllerDelegate <NSObject>
-
-- (void) syncronizePosition : (NSInteger) currentPosition;
-- (void) openChatControllerWithUser : (NSInteger) userIndex;
-
+- (void) openChatControllerWithUser : (User*) user;
 @end
 
 
-@interface HPUserCardViewController : UIViewController <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPUserCardViewControllerDelegate, UIScrollViewDelegate>
-{
-    NSArray *usersArr;
-    ModalAnimation *_modalAnimationController;
-    
-}
-@property (nonatomic, strong) UIView *notificationView;
-@property (nonatomic, assign) BOOL onlyWithPoints;
-@property (nonatomic, assign) int current;
-@property (weak, nonatomic) IBOutlet UICollectionView *usersCollectionView;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
-@property (assign, nonatomic) id <HPUserCardViewControllerDelegate> delegate;
-@property (assign, nonatomic) int currentIndex;
+@interface HPUserCardViewController : RACFetchedCollectionViewController <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPUserCardViewControllerDelegate, UIScrollViewDelegate>
+- (instancetype) initWithController:(NSFetchedResultsController*) controller andSelectedUser:(User*) user;
 
+@property (nonatomic, retain) RACSubject* changeViewedUserCard;
+@property (nonatomic, retain) RACSubject* needLoadNextPage;
 
 @end

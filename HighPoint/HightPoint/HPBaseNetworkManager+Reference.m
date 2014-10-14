@@ -29,7 +29,6 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:par success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"REFERENCE REQUEST -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -49,7 +48,6 @@
                 if(str.length > 0) {
                     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:str, @"cityIds", nil];
                     [self getGeoLocationForPlaces:param withBlock:^(NSString* result) {
-                        NSLog(@"RES -> %@", result);
                         [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user withComplation:^(NSError *error) {
                             if(!error) {
                                 
@@ -86,7 +84,6 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"FIND POSTS -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -108,7 +105,8 @@
                 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
                 
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -127,7 +125,6 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"FIND COMPANIES -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -149,7 +146,8 @@
                 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
                 
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -166,7 +164,6 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"FIND LANGUAGES -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -188,7 +185,8 @@
                 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
                 
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -205,7 +203,6 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"FIND PLACES -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -226,7 +223,8 @@
                 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
                 
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -243,7 +241,6 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"FIND SCHOOLS -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -265,7 +262,8 @@
                 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
                 
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -282,7 +280,6 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"FIND SPECIALITIES -->: %@", operation.responseString);
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -303,7 +300,8 @@
                 //                [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateFilterCities object:self userInfo:param];
                 
             }
-            else NSLog(@"Error, no valid data");
+            else
+                NSLog(@"Error: no valid data");
             
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

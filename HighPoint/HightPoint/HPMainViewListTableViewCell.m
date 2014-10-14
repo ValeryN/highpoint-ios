@@ -55,7 +55,6 @@ static HPMainViewListTableViewCell* _prevCell;
     self.point.text = user.point.pointText;
 
     
-    NSLog(@"%@", user.age);
     [self addGestureRecognizer];
     if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
         self.privacyLabel.hidden = NO;
@@ -241,7 +240,7 @@ static HPMainViewListTableViewCell* _prevCell;
 {
     if ([sender isKindOfClass:[UITapGestureRecognizer class]] == NO || handleLongTap)
         return;
-    NSLog(@"tap");
+
     [self vibrateThePoint];
 }
 
@@ -250,7 +249,7 @@ static HPMainViewListTableViewCell* _prevCell;
 {
     if ([sender isKindOfClass:[UILongPressGestureRecognizer class]] == NO)
         return;
-    NSLog(@"long tap");
+
     UILongPressGestureRecognizer* recognizer = sender;
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         handleLongTap = YES;
@@ -293,7 +292,7 @@ static HPMainViewListTableViewCell* _prevCell;
 {
     [super touchesEnded:touches withEvent:event];
     [self hp_tuneForUserListReleasedCell];
-    NSLog(@"touch ended");
+
 }
 
 

@@ -40,25 +40,15 @@
     [RACObserve(self, navigationController.navigationBar) subscribeNext:^(UINavigationBar* bar) {
         bar.translucent = YES;
     }];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     [self configureSegmentedControl];
     [self configurePhotoTab];
     [self configureInfoTab];
 }
 
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-
-    UIEdgeInsets insets = UIEdgeInsetsMake(self.topLayoutGuide.length,
-            0.0,
-            self.bottomLayoutGuide.length,
-            0.0);
-    if (self.infoEditTabViewController.tableView.contentInset.top == 0)
-        self.infoEditTabViewController.tableView.contentInset = self.infoEditTabViewController.tableView.scrollIndicatorInsets = insets;
-}
-
 - (void)configurePhotoTab {
     self.photoAlbumTabViewController = [[HPUserInfoPhotoAlbumViewController alloc] initWithNibName:@"HPUserInfoPhotoAlbumViewController" bundle:nil];
-    self.photoAlbumTabViewController.user = [[DataStorage sharedDataStorage] getCurrentUser];
+    self.photoAlbumTabViewController.user = self.user;
     [self addChildViewController:self.photoAlbumTabViewController];
     self.photoAlbumTabViewController.view.frame = self.view.frame;
 
@@ -81,7 +71,19 @@
 }
 
 - (void)configureSegmentedControl {
-    self.navigationItem.titleView = self.segmentController;
+    [RACObserve(self.user, visibility) subscribeNext:^(NSNumber* type) {
+        switch ((UserVisibilityType)type.intValue) {
+            case UserVisibilityBlur:
+            case UserVisibilityVisible:
+                self.navigationItem.titleView = self.segmentController;
+                break;
+            case UserVisibilityHidden:
+                self.navigationItem.titleView = nil;
+                self.navigationItem.title = @"Профиль скрыт";
+                break;
+        }
+    }];
+    
 }
 
 

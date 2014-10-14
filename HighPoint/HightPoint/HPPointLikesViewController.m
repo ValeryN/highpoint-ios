@@ -18,6 +18,7 @@
 
 @interface HPPointLikesViewController ()
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultController;
+@property (nonatomic, weak) IBOutlet UICollectionView* collectionView;
 @end
 
 @implementation HPPointLikesViewController
@@ -39,7 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self configureCollectionViewWithSignal:RACObserve(self, fetchedResultController) andTemplateCell:[UINib nibWithNibName:@"HPPointLikeCollectionViewCell" bundle:nil]];
+    [self configureCollectionView: self.collectionView withSignal:RACObserve(self, fetchedResultController) andTemplateCell:[UINib nibWithNibName:@"HPPointLikeCollectionViewCell" bundle:nil]];
     [self configureNavigationBar];
 }
 

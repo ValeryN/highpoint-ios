@@ -21,6 +21,12 @@
 
 @interface HPFilterSettingsViewController () {
     UserFilter *uf;
+    //old values
+    NSNumber *oldMinAge;
+    NSNumber *oldMaxAge;
+    NSNumber * oldFilterCityId;
+    BOOL oldIsMale;
+    BOOL oldIsFemale;
 }
 
 @end
@@ -39,9 +45,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    uf = [[DataStorage sharedDataStorage] getUserFilter];
+    [self initOldFilterValues];
     self.womenSw.layer.cornerRadius = 16.0;
     self.menSw.layer.cornerRadius = 16.0;
-    self.notificationView = [Utils getNotificationViewForText:@"8"];
+    //self.notificationView = [Utils getNotificationViewForText:@"8"];
     
     [self.closeButton setBackgroundImage:[UIImage imageNamed:@"Close.png"] forState:UIControlStateNormal];
     [self.closeButton setBackgroundImage:[UIImage imageNamed:@"Close Tap.png"] forState:UIControlStateHighlighted];
@@ -88,9 +96,6 @@
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
     uf = [[DataStorage sharedDataStorage] getUserFilter];
-    NSLog(@"%@", uf.city.cityName);
-    NSLog(@"%@", uf.maxAge);
-    NSLog(@"%@", uf.minAge);
     [self fixSelfConstraint];
     [self registerNotification];
     self.oldRangeSlider.minimumValue = 18;
@@ -135,20 +140,69 @@
     }
 }
 
+#pragma mark - old values 
+- (void) initOldFilterValues {
+    if (uf) {
+        oldMinAge = uf.minAge;
+        oldMaxAge = uf.maxAge;
+        oldFilterCityId = uf.city.cityId;
+        
+        for (Gender *num in [uf.gender allObjects]) {
+            if ([num.genderType intValue] == 2) {
+                [self.womenSw setOn:YES];
+                oldIsFemale = YES;
+            }
+            if ([num.genderType intValue] == 1) {
+                oldIsMale = YES;
+            }
+        }
+    } else {
+        oldMinAge = @(0);
+        oldMaxAge = @(0);
+        oldFilterCityId = @(0);
+        oldIsFemale = NO;
+        oldIsMale = NO;
+    }
+}
+
+- (BOOL) isFilterValuesChanged {
+    if (!(oldIsFemale == self.womenSw.isOn)) {
+        return YES;
+    }
+    if (!(oldIsMale == self.menSw.isOn)) {
+        return YES;
+    }
+    if (![oldMinAge isEqualToNumber:[NSNumber numberWithLong:lroundf(self.oldRangeSlider.lowerValue)]]) {
+        return YES;
+    }
+    if (![oldMaxAge isEqualToNumber:[NSNumber numberWithLong:lroundf(self.oldRangeSlider.upperValue)]]) {
+        return YES;
+    }
+    if (oldFilterCityId != uf.city.cityId) {
+        return YES;
+    }
+    return NO;
+}
+
 #pragma mark -
 #pragma mark controller button tap handler
 
 - (IBAction) closeButtonTap:(id)sender {
     //save filter entity and make user filter request
 
-    [self saveFilter];
-    self.navigationController.delegate = self.savedDelegate;
-    //[[self navigationController] setNavigationBarHidden:NO animated:NO];
-    [self hideView];
-    [self.navigationController popViewControllerAnimated:YES];
-    if ([self.delegate respondsToSelector:@selector(showActivity)]) {
-        [self.delegate showActivity];
+    if ([self isFilterValuesChanged]) {
+         [self saveFilter];
+        self.navigationController.delegate = self.savedDelegate;
+        //[[self navigationController] setNavigationBarHidden:NO animated:NO];
+        [self hideView];
+        [self.navigationController popViewControllerAnimated:YES];
+        if ([self.delegate respondsToSelector:@selector(showActivity)]) {
+            [self.delegate showActivity];
+        }
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
     }
+    
 }
 - (IBAction) menSwitchTap:(id)sender {
     if(![self.menSw isOn] && ![self.womenSw isOn]) {
@@ -176,6 +230,7 @@
             }
             completion:^(BOOL finished){
               self.townLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];
+                [self saveFilterToDB];
         }];
         } else {
         
@@ -191,6 +246,7 @@
             }
             completion:^(BOOL finished){
                 self.townLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:0.4];
+                [self saveFilterToDB];
             }];
         }
 }
@@ -288,7 +344,7 @@
     } else {
         filterCities = nil;
     }
-    NSLog(@"city for filter send = %@", filterCities);
+
     NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithLong:lroundf(self.oldRangeSlider.upperValue)], @"maxAge",[NSNumber numberWithLong:lroundf(self.oldRangeSlider.lowerValue)], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderArr, @"genders", filterCities, @"cityIds", nil];
     [[DataStorage sharedDataStorage] updateUserFilterEntity:filterParams];
     return filterParams;

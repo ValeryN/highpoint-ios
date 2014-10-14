@@ -22,8 +22,8 @@
 + (void) hp_printCommonInfo __unused
 {
     [[HPIOSVersion shared] description];
-    NSLog(@"retina: %@", [UIDevice hp_hasRetina] ? @"YES" : @"NO");
-    NSLog(@"model: %@", [UIDevice hp_deviceFullName]);
+    NSLog(@"Warnign: retina: %@", [UIDevice hp_hasRetina] ? @"YES" : @"NO");
+    NSLog(@"Warnign: model: %@", [UIDevice hp_deviceFullName]);
 }
 
 //==============================================================================
