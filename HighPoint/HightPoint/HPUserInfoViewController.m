@@ -40,6 +40,7 @@
     [RACObserve(self, navigationController.navigationBar) subscribeNext:^(UINavigationBar* bar) {
         bar.translucent = YES;
     }];
+    self.user = [[DataStorage sharedDataStorage] getCurrentUser];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self configureSegmentedControl];
     [self configurePhotoTab];
@@ -75,9 +76,11 @@
         switch ((UserVisibilityType)type.intValue) {
             case UserVisibilityBlur:
             case UserVisibilityVisible:
+            case UserVisibilityRequestBlur:
                 self.navigationItem.titleView = self.segmentController;
                 break;
             case UserVisibilityHidden:
+            case UserVisibilityRequestHidden:
                 self.navigationItem.titleView = nil;
                 self.navigationItem.title = @"Профиль скрыт";
                 break;
