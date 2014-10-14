@@ -234,6 +234,7 @@
 		44B91D4719E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B91D4219E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.xib */; };
 		44B91D4819E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B91D4419E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m */; };
 		44B91D4919E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B91D4519E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib */; };
+		44C5AB3619ED696600EF897E /* HPSettingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB3519ED696600EF897E /* HPSettingsTableViewCell.m */; };
 		44D23B9C19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */; };
 		44D23BA419D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */; };
 		44D23BA619D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */; };
@@ -859,6 +860,8 @@
 		44B91D4319E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoSecondRowTableViewCell.h; sourceTree = "<group>"; };
 		44B91D4419E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoSecondRowTableViewCell.m; sourceTree = "<group>"; };
 		44B91D4519E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoSecondRowTableViewCell.xib; sourceTree = "<group>"; };
+		44C5AB3419ED696600EF897E /* HPSettingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSettingsTableViewCell.h; sourceTree = "<group>"; };
+		44C5AB3519ED696600EF897E /* HPSettingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSettingsTableViewCell.m; sourceTree = "<group>"; };
 		44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenAllowCell.xib; sourceTree = "<group>"; };
 		44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenDenyCell.xib; sourceTree = "<group>"; };
 		44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenRequestCell.xib; sourceTree = "<group>"; };
@@ -1580,7 +1583,6 @@
 				CDE0BDBF196E632E00CBCF58 /* Selected User Detail */,
 				44B91D3F19E2D6FF00B8D0AE /* Chat */,
 				CDA44BB819A5E78700E33230 /* AuthorizationViewController */,
-				CDA44BAC19A5D82900E33230 /* SettingsViewController */,
 				CDB9527719A1F2FB00238DFC /* SplashViewController */,
 				CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */,
 				CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */,
@@ -2028,6 +2030,18 @@
 			name = Chat;
 			sourceTree = "<group>";
 		};
+		44C5AB2D19ED681100EF897E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				CDA44BB319A5D84700E33230 /* HPSettingsViewController.h */,
+				CDA44BB419A5D84700E33230 /* HPSettingsViewController.m */,
+				CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */,
+				44C5AB3419ED696600EF897E /* HPSettingsTableViewCell.h */,
+				44C5AB3519ED696600EF897E /* HPSettingsTableViewCell.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		4C91C1E9195812AD002B27D4 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -2365,16 +2379,6 @@
 			path = debug;
 			sourceTree = "<group>";
 		};
-		CDA44BAC19A5D82900E33230 /* SettingsViewController */ = {
-			isa = PBXGroup;
-			children = (
-				CDA44BB319A5D84700E33230 /* HPSettingsViewController.h */,
-				CDA44BB419A5D84700E33230 /* HPSettingsViewController.m */,
-				CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */,
-			);
-			name = SettingsViewController;
-			sourceTree = "<group>";
-		};
 		CDA44BB819A5E78700E33230 /* AuthorizationViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2407,6 +2411,7 @@
 		CDE0BDC5196E7F9900CBCF58 /* Current User */ = {
 			isa = PBXGroup;
 			children = (
+				44C5AB2D19ED681100EF897E /* Settings */,
 				3B49DE1B1934A50C00C3EF1E /* Profile */,
 				CDE0BDCB196E832E00CBCF58 /* HPCurrentUserViewController.h */,
 				CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */,
@@ -2816,6 +2821,7 @@
 				CD55FD2919792C30003EE9E9 /* School.m in Sources */,
 				3BA5E3B919C09E8C00E374F2 /* HPBaseNetworkManager+AuthorizationAndRegistration.m in Sources */,
 				3B52B2B819C30128000B543C /* NSString+MagicalDataImport.m in Sources */,
+				44C5AB3619ED696600EF897E /* HPSettingsTableViewCell.m in Sources */,
 				CDB9527D19A1F87D00238DFC /* HPSplashViewController.m in Sources */,
 				3B52B2B419C30128000B543C /* NSEntityDescription+MagicalDataImport.m in Sources */,
 				444F12CC19E6C0B000CF5867 /* HPRoundedShadowedImageView.m in Sources */,
