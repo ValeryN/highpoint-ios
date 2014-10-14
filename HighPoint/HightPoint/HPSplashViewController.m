@@ -56,8 +56,6 @@
             [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
         }
     }];
-    
-    
 }
 
 - (void) viewWillAppear:(BOOL)animated {
