@@ -49,18 +49,6 @@
     [self configureBackButton];
 }
 
-- (void) configureBackButton{
-    @weakify(self);
-    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Back.png"]
-                                                     highlighedImage:[UIImage imageNamed:@"Back Tap.png"]
-                                                              action:nil];
-    backButton.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
-        @strongify(self);
-        [self.navigationController popViewControllerAnimated:YES];
-        return [RACSignal empty];
-    }];
-    self.navigationItem.leftBarButtonItem = backButton;
-}
 
 - (void)configurePhotoTab {
     self.photoAlbumTabViewController = [[HPUserInfoPhotoAlbumViewController alloc] initWithNibName:@"HPUserInfoPhotoAlbumViewController" bundle:nil];

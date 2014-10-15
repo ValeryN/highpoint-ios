@@ -17,4 +17,5 @@
 - (void) hp_setNavigationItemPropertiesFromOtherItem: (UINavigationItem*) navItem;
 
 - (UIBarButtonItem *)createBarButtonItemWithImage:(UIImage *)image highlighedImage:(UIImage *)highlighedImage action:(SEL)action;
+- (void) configureBackButton;
 @end

@@ -24,12 +24,12 @@
 - (instancetype) init{
     self = [super init];
     if(self){
-        RACChannelTo(self,soundEnabled,@YES)                     = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"soundEnabled"];
-        RACChannelTo(self,notificationType,@(0))                 = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"notificationType"];
-        RACChannelTo(self,notificationWriteMessageEnabled,@YES)  = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"notificationWriteMessageEnabled"];
-        RACChannelTo(self,notificationLikeYourPointEnabled,@YES) = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"notificationLikeYourPointEnabled"];
-        RACChannelTo(self,notificationPointTimeIsUpEnabled,@YES) = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"notificationPointTimeIsUpEnabled"];
-        RACChannelTo(self,applicationCode,@"")                   = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"applicationCode"];
+        RACChannelTo(self,soundEnabled,@YES)                              = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"soundEnabled"];
+        RACChannelTo(self,notificationType,@(SettingsNotificationStatus)) = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"notificationType"];
+        RACChannelTo(self,notificationWriteMessageEnabled,@YES)           = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"notificationWriteMessageEnabled"];
+        RACChannelTo(self,notificationLikeYourPointEnabled,@YES)          = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"notificationLikeYourPointEnabled"];
+        RACChannelTo(self,notificationPointTimeIsUpEnabled,@YES)          = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"notificationPointTimeIsUpEnabled"];
+        RACChannelTo(self,applicationCode,@"")                            = [[NSUserDefaults standardUserDefaults] rac_channelTerminalForKey:@"applicationCode"];
     }
     return self;
 }

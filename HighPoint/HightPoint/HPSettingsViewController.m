@@ -13,6 +13,8 @@
 #import "HPSettingsTableViewCell.h"
 #import "HPUserProfileTableHeaderView.h"
 #import "HPSettingsDataManager.h"
+#import "UIViewController+HighPoint.h"
+#import "HPAppDelegate.h"
 
 typedef NS_ENUM(NSUInteger, SettingsSectionType){
     SettingsSectionNotify,
@@ -60,17 +62,22 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
 //Section: Application
 @property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * applicationInfo;
 @property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * privacyPolicy;
+
+//Footer view
+@property(nonatomic, retain) IBOutlet UIView* versionView;
+@property(nonatomic, weak) IBOutlet UILabel* versionLabel;
 @end
 
 @implementation HPSettingsViewController
 
 - (void) viewDidLoad{
     [super viewDidLoad];
+    self.navigationItem.title = @"Настройки";
     self.settingsManager = [HPSettingsDataManager sharedInstance];
     [self configureTwoWaySwitchCell];
     [self configureCheckmarCell];
-
-   
+    [self configureVersionView];
+    [self configureBackButton];
 }
 
 - (void) configureTwoWaySwitchCell{
@@ -111,6 +118,11 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
         }
         return @(UITableViewCellAccessoryNone);
     }];
+}
+
+- (void) configureVersionView{
+    self.tableView.tableFooterView = self.versionView;
+    self.versionLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 }
 
 - (SettingsSectionType) sectionTypeForSection:(NSUInteger) section{
@@ -278,6 +290,20 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
     }
     if(cell == self.bannerBarSettings){
         self.settingsManager.notificationType = SettingsNotificationBanner;
+    }
+    if(cell == self.accountExit){
+        [UserTokenUtils setUserToken:nil];
+        UIStoryboard* storyBoard = [UIStoryboard storyboardWithName: @"Storyboard_568" bundle: nil];
+        HPAuthorizationViewController* authViewController = [storyBoard instantiateViewControllerWithIdentifier: @"auth"];
+        ((HPAppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController = [[UINavigationController alloc] initWithRootViewController:authViewController];;
+    }
+    if(cell == self.applicationInfo){
+        UIViewController* controller = [[UIViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+    if(cell == self.privacyPolicy){
+        UIViewController* controller = [[UIViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
     }
 }
 
