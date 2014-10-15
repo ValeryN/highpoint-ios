@@ -40,6 +40,14 @@
 		3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2C1FA019260F0500D499A7 /* iCarousel.m */; };
 		3B2E02BA198FC399003F4D62 /* Cancel Tap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B2E02B8198FC399003F4D62 /* Cancel Tap@2x.png */; };
 		3B2E02BB198FC399003F4D62 /* Cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B2E02B9198FC399003F4D62 /* Cancel@2x.png */; };
+		3B2F766319EE4F5100E280E8 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F765319EE4F5100E280E8 /* AFNetworkActivityIndicatorManager.m */; };
+		3B2F766419EE4F5100E280E8 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F765519EE4F5100E280E8 /* UIActivityIndicatorView+AFNetworking.m */; };
+		3B2F766519EE4F5100E280E8 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F765719EE4F5100E280E8 /* UIAlertView+AFNetworking.m */; };
+		3B2F766619EE4F5100E280E8 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F765919EE4F5100E280E8 /* UIButton+AFNetworking.m */; };
+		3B2F766719EE4F5100E280E8 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F765B19EE4F5100E280E8 /* UIImageView+AFNetworking.m */; };
+		3B2F766819EE4F5100E280E8 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F765E19EE4F5100E280E8 /* UIProgressView+AFNetworking.m */; };
+		3B2F766919EE4F5100E280E8 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F766019EE4F5100E280E8 /* UIRefreshControl+AFNetworking.m */; };
+		3B2F766A19EE4F5100E280E8 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F766219EE4F5100E280E8 /* UIWebView+AFNetworking.m */; };
 		3B31709D191B6B5200B72AC1 /* HPMainViewListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31709C191B6B5100B72AC1 /* HPMainViewListTableViewCell.m */; };
 		3B3170A4191B7A1D00B72AC1 /* img_sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A2191B7A1D00B72AC1 /* img_sample.png */; };
 		3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B3170A3191B7A1D00B72AC1 /* img_sample1.png */; };
@@ -539,6 +547,23 @@
 		3B2C1FA019260F0500D499A7 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		3B2E02B8198FC399003F4D62 /* Cancel Tap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Cancel Tap@2x.png"; sourceTree = "<group>"; };
 		3B2E02B9198FC399003F4D62 /* Cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Cancel@2x.png"; sourceTree = "<group>"; };
+		3B2F765219EE4F5100E280E8 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
+		3B2F765319EE4F5100E280E8 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
+		3B2F765419EE4F5100E280E8 /* UIActivityIndicatorView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityIndicatorView+AFNetworking.h"; sourceTree = "<group>"; };
+		3B2F765519EE4F5100E280E8 /* UIActivityIndicatorView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActivityIndicatorView+AFNetworking.m"; sourceTree = "<group>"; };
+		3B2F765619EE4F5100E280E8 /* UIAlertView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+AFNetworking.h"; sourceTree = "<group>"; };
+		3B2F765719EE4F5100E280E8 /* UIAlertView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+AFNetworking.m"; sourceTree = "<group>"; };
+		3B2F765819EE4F5100E280E8 /* UIButton+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+AFNetworking.h"; sourceTree = "<group>"; };
+		3B2F765919EE4F5100E280E8 /* UIButton+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+AFNetworking.m"; sourceTree = "<group>"; };
+		3B2F765A19EE4F5100E280E8 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
+		3B2F765B19EE4F5100E280E8 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		3B2F765C19EE4F5100E280E8 /* UIKit+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIKit+AFNetworking.h"; sourceTree = "<group>"; };
+		3B2F765D19EE4F5100E280E8 /* UIProgressView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIProgressView+AFNetworking.h"; sourceTree = "<group>"; };
+		3B2F765E19EE4F5100E280E8 /* UIProgressView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIProgressView+AFNetworking.m"; sourceTree = "<group>"; };
+		3B2F765F19EE4F5100E280E8 /* UIRefreshControl+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIRefreshControl+AFNetworking.h"; sourceTree = "<group>"; };
+		3B2F766019EE4F5100E280E8 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
+		3B2F766119EE4F5100E280E8 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
+		3B2F766219EE4F5100E280E8 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		3B31709B191B6B5100B72AC1 /* HPMainViewListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPMainViewListTableViewCell.h; sourceTree = "<group>"; };
 		3B31709C191B6B5100B72AC1 /* HPMainViewListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPMainViewListTableViewCell.m; sourceTree = "<group>"; };
 		3B3170A2191B7A1D00B72AC1 /* img_sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img_sample.png; sourceTree = "<group>"; };
@@ -1244,6 +1269,31 @@
 			path = External/iCarousel;
 			sourceTree = "<group>";
 		};
+		3B2F765119EE4F5100E280E8 /* UIKit+AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				3B2F765219EE4F5100E280E8 /* AFNetworkActivityIndicatorManager.h */,
+				3B2F765319EE4F5100E280E8 /* AFNetworkActivityIndicatorManager.m */,
+				3B2F765419EE4F5100E280E8 /* UIActivityIndicatorView+AFNetworking.h */,
+				3B2F765519EE4F5100E280E8 /* UIActivityIndicatorView+AFNetworking.m */,
+				3B2F765619EE4F5100E280E8 /* UIAlertView+AFNetworking.h */,
+				3B2F765719EE4F5100E280E8 /* UIAlertView+AFNetworking.m */,
+				3B2F765819EE4F5100E280E8 /* UIButton+AFNetworking.h */,
+				3B2F765919EE4F5100E280E8 /* UIButton+AFNetworking.m */,
+				3B2F765A19EE4F5100E280E8 /* UIImageView+AFNetworking.h */,
+				3B2F765B19EE4F5100E280E8 /* UIImageView+AFNetworking.m */,
+				3B2F765C19EE4F5100E280E8 /* UIKit+AFNetworking.h */,
+				3B2F765D19EE4F5100E280E8 /* UIProgressView+AFNetworking.h */,
+				3B2F765E19EE4F5100E280E8 /* UIProgressView+AFNetworking.m */,
+				3B2F765F19EE4F5100E280E8 /* UIRefreshControl+AFNetworking.h */,
+				3B2F766019EE4F5100E280E8 /* UIRefreshControl+AFNetworking.m */,
+				3B2F766119EE4F5100E280E8 /* UIWebView+AFNetworking.h */,
+				3B2F766219EE4F5100E280E8 /* UIWebView+AFNetworking.m */,
+			);
+			name = "UIKit+AFNetworking";
+			path = "External/UIKit+AFNetworking";
+			sourceTree = "<group>";
+		};
 		3B31864C191A493F0000DD8B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1605,6 +1655,7 @@
 		3B77908219001DA100EE0D15 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				3B2F765119EE4F5100E280E8 /* UIKit+AFNetworking */,
 				3B52B27219C30127000B543C /* MagicalRecord */,
 				44B52FC419AB80E40016E80B /* PSMenuItem */,
 				44B8C74419A4F81000F3081E /* Smartling.i18n.framework */,
@@ -2484,7 +2535,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = J67Y29BQR7;
+						DevelopmentTeam = B9639RHZFT;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -2835,6 +2886,7 @@
 				443B19E119EBEB0000108C05 /* RACollectionViewReorderableTripletLayout.m in Sources */,
 				3B39D328195C5B5C002520B9 /* Region.m in Sources */,
 				4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */,
+				3B2F766A19EE4F5100E280E8 /* UIWebView+AFNetworking.m in Sources */,
 				3BDA4C6619064AC900EF6619 /* AFSecurityPolicy.m in Sources */,
 				3BDA4C9D19064EAB00EF6619 /* HPRootViewController.m in Sources */,
 				3B39D31E195C3122002520B9 /* SocketIOTransportXHR.m in Sources */,
@@ -2860,6 +2912,7 @@
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
 				CDD842C6197F7D4A00CCB857 /* UITextField+HighPoint.m in Sources */,
 				4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,
+				3B2F766519EE4F5100E280E8 /* UIAlertView+AFNetworking.m in Sources */,
 				3B52B2B719C30128000B543C /* NSRelationshipDescription+MagicalDataImport.m in Sources */,
 				CDBB915619B9BA1900546853 /* UserPoint.m in Sources */,
 				CD55FD1119792025003EE9E9 /* Language.m in Sources */,
@@ -2878,11 +2931,13 @@
 				3B6F95E519B5AEFF0095E7BF /* City.m in Sources */,
 				3B39D2F8195C3091002520B9 /* MinEntertainmentPrice.m in Sources */,
 				3B31709D191B6B5200B72AC1 /* HPMainViewListTableViewCell.m in Sources */,
+				3B2F766719EE4F5100E280E8 /* UIImageView+AFNetworking.m in Sources */,
 				3B39D31A195C3122002520B9 /* SocketIO.m in Sources */,
 				CD4CA3C2198111550016DF7E /* HPChatOptionsTableViewCell.m in Sources */,
 				3BA9A305190125F700CD542A /* DataStorage.m in Sources */,
 				4C8096AE193F2E2200E4C174 /* UILabel+HighPoint.m in Sources */,
 				4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
+				3B2F766819EE4F5100E280E8 /* UIProgressView+AFNetworking.m in Sources */,
 				3B52B2C119C30128000B543C /* NSManagedObjectContext+MagicalThreading.m in Sources */,
 				3B52B2BF19C30128000B543C /* NSManagedObjectContext+MagicalRecord.m in Sources */,
 				3B39D2F5195C3091002520B9 /* MaxEntertainmentPrice.m in Sources */,
@@ -2895,6 +2950,7 @@
 				3B29F8E51922303D00EC6395 /* HPUserCardViewController.m in Sources */,
 				3BDA4C6519064AC900EF6619 /* AFNetworkReachabilityManager.m in Sources */,
 				CDFA8A09196BE4B100D04451 /* HPChatListViewController.m in Sources */,
+				3B2F766919EE4F5100E280E8 /* UIRefreshControl+AFNetworking.m in Sources */,
 				CD55FD2C19792C30003EE9E9 /* Speciality.m in Sources */,
 				3BA4E6751998D08C002A3A0D /* Message.m in Sources */,
 				3BBF88E319C174F000B934E6 /* HPBaseNetworkManager+Users.m in Sources */,
@@ -2970,13 +3026,16 @@
 				7C5F7CB9D9398A3579B340C8 /* RACFetchedCollectionViewController.m in Sources */,
 				7C5F7480837E3E6BA3B091EA /* User+UserImage.m in Sources */,
 				7C5F7281799A75B9D2E54697 /* HPAddEducationViewController.m in Sources */,
+				3B2F766319EE4F5100E280E8 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				7C5F71AA70A2396390631A2B /* HPAddCareerViewController.m in Sources */,
 				3BA5E3BC19C09FAE00E374F2 /* HPBaseNetworkManager+CurrentUser.m in Sources */,
 				40314B3D2DFFC91E7BA6686C /* Message+SectionIdentifier.m in Sources */,
 				3B52B2C519C30128000B543C /* MagicalRecord+Actions.m in Sources */,
+				3B2F766619EE4F5100E280E8 /* UIButton+AFNetworking.m in Sources */,
 				7C5F7B52631787BB99EE7962 /* HPRequest+Users.m in Sources */,
 				7C5F7E98F6854F5FBA41DCDE /* HPMessageValidator.m in Sources */,
 				7C5F77812F79723EC38E5F5D /* NSDate+HighPoint.m in Sources */,
+				3B2F766419EE4F5100E280E8 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				44B91D4619E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.m in Sources */,
 				3B52B2B519C30128000B543C /* NSNumber+MagicalDataImport.m in Sources */,
 				7C5F7E242EA057B1A4CAD244 /* HPHorizontalPanGestureRecognizer.m in Sources */,

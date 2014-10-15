@@ -20,6 +20,7 @@
 
 - (void) getUsersRequest:(NSInteger) lastUser {
     ///v201405/users
+    NSLog(@"users req");
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kUsersRequest];
@@ -92,7 +93,7 @@
     url =  [url stringByAppendingString:[NSString stringWithFormat:kUserInfoRequest, [userId stringValue]]];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [self addTaskToArray:manager];
+    //[self addTaskToArray:manager];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -102,7 +103,9 @@
                                                                        error:&error];
             if(jsonDict) {
                 //[[DataStorage sharedDataStorage] createAndSaveUserEntity:[[jsonDict objectForKey:@"data"] objectForKey:@"user"] forUserType:0 withComplation:nil];
-                
+                if([self isTaskArrayEmpty:manager]) {
+                    [self makeTownByIdRequest];
+                }
             }
             else
                 NSLog(@"Error: no valid data");
@@ -119,6 +122,7 @@
     url = [url stringByAppendingString:[NSString stringWithFormat:kUserMessagesRequest, [userId stringValue]]];
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:afterMsgId, @"afterMessageId", nil];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    //[self addTaskToArray:manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
@@ -135,6 +139,11 @@
                 if (messages && (![messages isKindOfClass:[NSNull class]])) {
                     User *user = [[DataStorage sharedDataStorage] getUserForId:userId];
                     [[DataStorage sharedDataStorage] createAndSaveChatEntity:user withMessages:messages withComplation:^(id object) {
+                        
+                        if ([self isTaskArrayEmpty:manager]) {
+                            [self makeTownByIdRequest];
+                        }
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
                         
                     }];
                 }

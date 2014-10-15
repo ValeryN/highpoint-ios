@@ -19,10 +19,12 @@
 #pragma mark - current user
 
 - (void) getCurrentUserRequest {
+     NSLog(@"cur user req");
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCurrentUserRequest];
     AFHTTPRequestOperationManager *manager = [self requestOperationManager];
+    //[self addTaskToArray:manager];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -39,10 +41,10 @@
                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:arr forUserType:CurrentUserType withComplation:^(NSError *error) {
                     if(!error) {
                         
-                        [self getUserPhotoRequest];
                         if([self isTaskArrayEmpty:manager]) {
                             [self makeTownByIdRequest];
                         }
+                        [self getUserPhotoRequest];
                     }
                 }];
             }
@@ -420,8 +422,8 @@
             NSString *url = nil;
             url = [URLs getServerURL];
             url = [url stringByAppendingString:[NSString stringWithString:kGetUserPhotoRequest]];
-            
-            
+            //AFHTTPRequestOperationManager *manager = [self requestOperationManager];
+            //[self addTaskToArray:manager];
             [[self requestOperationManager] GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = nil;
                 NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -454,7 +456,7 @@
                 
                 
             }];
-
+            
         }
     }];
 }
