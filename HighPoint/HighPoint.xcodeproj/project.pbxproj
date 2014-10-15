@@ -238,6 +238,14 @@
 		44C5AB4219EE944900EF897E /* HPSettingsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB4119EE944900EF897E /* HPSettingsDataManager.m */; };
 		44C5AB4D19EEAFA100EF897E /* HPChangeAccountPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB4B19EEAFA100EF897E /* HPChangeAccountPasswordViewController.m */; };
 		44C5AB4E19EEAFA100EF897E /* HPChangeAccountPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C5AB4C19EEAFA100EF897E /* HPChangeAccountPasswordViewController.xib */; };
+		44C5AB6B19EEB88900EF897E /* BKPasscodeDummyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB5B19EEB88900EF897E /* BKPasscodeDummyViewController.m */; };
+		44C5AB6C19EEB88900EF897E /* BKPasscodeField.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB5D19EEB88900EF897E /* BKPasscodeField.m */; };
+		44C5AB6D19EEB88900EF897E /* BKPasscodeInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB5F19EEB88900EF897E /* BKPasscodeInputView.m */; };
+		44C5AB6E19EEB88900EF897E /* BKPasscodeLockScreenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB6119EEB88900EF897E /* BKPasscodeLockScreenManager.m */; };
+		44C5AB6F19EEB88900EF897E /* BKPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB6419EEB88900EF897E /* BKPasscodeViewController.m */; };
+		44C5AB7019EEB88900EF897E /* BKShiftingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB6619EEB88900EF897E /* BKShiftingView.m */; };
+		44C5AB7119EEB88900EF897E /* BKTouchIDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB6819EEB88900EF897E /* BKTouchIDManager.m */; };
+		44C5AB7219EEB88900EF897E /* BKTouchIDSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB6A19EEB88900EF897E /* BKTouchIDSwitchView.m */; };
 		44D23B9C19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */; };
 		44D23BA419D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */; };
 		44D23BA619D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */; };
@@ -871,6 +879,23 @@
 		44C5AB4A19EEAFA100EF897E /* HPChangeAccountPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChangeAccountPasswordViewController.h; sourceTree = "<group>"; };
 		44C5AB4B19EEAFA100EF897E /* HPChangeAccountPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChangeAccountPasswordViewController.m; sourceTree = "<group>"; };
 		44C5AB4C19EEAFA100EF897E /* HPChangeAccountPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChangeAccountPasswordViewController.xib; sourceTree = "<group>"; };
+		44C5AB5A19EEB88900EF897E /* BKPasscodeDummyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeDummyViewController.h; sourceTree = "<group>"; };
+		44C5AB5B19EEB88900EF897E /* BKPasscodeDummyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPasscodeDummyViewController.m; sourceTree = "<group>"; };
+		44C5AB5C19EEB88900EF897E /* BKPasscodeField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeField.h; sourceTree = "<group>"; };
+		44C5AB5D19EEB88900EF897E /* BKPasscodeField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPasscodeField.m; sourceTree = "<group>"; };
+		44C5AB5E19EEB88900EF897E /* BKPasscodeInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeInputView.h; sourceTree = "<group>"; };
+		44C5AB5F19EEB88900EF897E /* BKPasscodeInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPasscodeInputView.m; sourceTree = "<group>"; };
+		44C5AB6019EEB88900EF897E /* BKPasscodeLockScreenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeLockScreenManager.h; sourceTree = "<group>"; };
+		44C5AB6119EEB88900EF897E /* BKPasscodeLockScreenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPasscodeLockScreenManager.m; sourceTree = "<group>"; };
+		44C5AB6219EEB88900EF897E /* BKPasscodeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeUtils.h; sourceTree = "<group>"; };
+		44C5AB6319EEB88900EF897E /* BKPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeViewController.h; sourceTree = "<group>"; };
+		44C5AB6419EEB88900EF897E /* BKPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPasscodeViewController.m; sourceTree = "<group>"; };
+		44C5AB6519EEB88900EF897E /* BKShiftingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKShiftingView.h; sourceTree = "<group>"; };
+		44C5AB6619EEB88900EF897E /* BKShiftingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKShiftingView.m; sourceTree = "<group>"; };
+		44C5AB6719EEB88900EF897E /* BKTouchIDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKTouchIDManager.h; sourceTree = "<group>"; };
+		44C5AB6819EEB88900EF897E /* BKTouchIDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKTouchIDManager.m; sourceTree = "<group>"; };
+		44C5AB6919EEB88900EF897E /* BKTouchIDSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKTouchIDSwitchView.h; sourceTree = "<group>"; };
+		44C5AB6A19EEB88900EF897E /* BKTouchIDSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKTouchIDSwitchView.m; sourceTree = "<group>"; };
 		44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenAllowCell.xib; sourceTree = "<group>"; };
 		44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenDenyCell.xib; sourceTree = "<group>"; };
 		44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenRequestCell.xib; sourceTree = "<group>"; };
@@ -1617,6 +1642,7 @@
 		3B77908219001DA100EE0D15 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				44C5AB5919EEB88900EF897E /* BKPasscodeView */,
 				3B52B27219C30127000B543C /* MagicalRecord */,
 				44B52FC419AB80E40016E80B /* PSMenuItem */,
 				44B8C74419A4F81000F3081E /* Smartling.i18n.framework */,
@@ -2097,6 +2123,30 @@
 				7C5F768EDADC3E4C6E7F2202 /* HPBubbleViewDelegate.h */,
 			);
 			name = "Bubble view";
+			sourceTree = "<group>";
+		};
+		44C5AB5919EEB88900EF897E /* BKPasscodeView */ = {
+			isa = PBXGroup;
+			children = (
+				44C5AB5A19EEB88900EF897E /* BKPasscodeDummyViewController.h */,
+				44C5AB5B19EEB88900EF897E /* BKPasscodeDummyViewController.m */,
+				44C5AB5C19EEB88900EF897E /* BKPasscodeField.h */,
+				44C5AB5D19EEB88900EF897E /* BKPasscodeField.m */,
+				44C5AB5E19EEB88900EF897E /* BKPasscodeInputView.h */,
+				44C5AB5F19EEB88900EF897E /* BKPasscodeInputView.m */,
+				44C5AB6019EEB88900EF897E /* BKPasscodeLockScreenManager.h */,
+				44C5AB6119EEB88900EF897E /* BKPasscodeLockScreenManager.m */,
+				44C5AB6219EEB88900EF897E /* BKPasscodeUtils.h */,
+				44C5AB6319EEB88900EF897E /* BKPasscodeViewController.h */,
+				44C5AB6419EEB88900EF897E /* BKPasscodeViewController.m */,
+				44C5AB6519EEB88900EF897E /* BKShiftingView.h */,
+				44C5AB6619EEB88900EF897E /* BKShiftingView.m */,
+				44C5AB6719EEB88900EF897E /* BKTouchIDManager.h */,
+				44C5AB6819EEB88900EF897E /* BKTouchIDManager.m */,
+				44C5AB6919EEB88900EF897E /* BKTouchIDSwitchView.h */,
+				44C5AB6A19EEB88900EF897E /* BKTouchIDSwitchView.m */,
+			);
+			path = BKPasscodeView;
 			sourceTree = "<group>";
 		};
 		4C91C1E9195812AD002B27D4 /* Controls */ = {
@@ -2856,6 +2906,7 @@
 				CDBB915F19B9C5CC00546853 /* NSNull+Convert.m in Sources */,
 				CDA0A0B41999E55B0017D35B /* UserFilter.m in Sources */,
 				3B39D322195C5B33002520B9 /* Country.m in Sources */,
+				44C5AB6C19EEB88900EF897E /* BKPasscodeField.m in Sources */,
 				3BDA4C9919064E5900EF6619 /* UIImage+WebP.m in Sources */,
 				CD55FD2319792C30003EE9E9 /* Company.m in Sources */,
 				3BDA4C6919064AC900EF6619 /* AFURLResponseSerialization.m in Sources */,
@@ -2889,6 +2940,8 @@
 				4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				3BBF88E919C178D200B934E6 /* HPBaseNetworkManager+Points.m in Sources */,
 				3BBF88DA19C173FD00B934E6 /* HPBaseNetworkManager+Contacts.m in Sources */,
+				44C5AB7119EEB88900EF897E /* BKTouchIDManager.m in Sources */,
+				44C5AB7019EEB88900EF897E /* BKShiftingView.m in Sources */,
 				CDA44BBE19A5E8EA00E33230 /* HPAuthorizationViewController.m in Sources */,
 				3BDA4C6219064AC900EF6619 /* AFHTTPRequestOperation.m in Sources */,
 				4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
@@ -2913,6 +2966,7 @@
 				CD55FD1119792025003EE9E9 /* Language.m in Sources */,
 				CD4CA3B51980F22F0016DF7E /* HPChatViewController.m in Sources */,
 				CDA0A0B01999DAC10017D35B /* HPSelectPopularCityViewController.m in Sources */,
+				44C5AB6F19EEB88900EF897E /* BKPasscodeViewController.m in Sources */,
 				3BDA4C8E19064E5900EF6619 /* NSData+ImageContentType.m in Sources */,
 				3B39D301195C3091002520B9 /* Gender.m in Sources */,
 				CDA44BB619A5D84700E33230 /* HPSettingsViewController.m in Sources */,
@@ -2921,6 +2975,7 @@
 				44C5AB4D19EEAFA100EF897E /* HPChangeAccountPasswordViewController.m in Sources */,
 				3B298FD3192F476100BEC2AA /* NMRangeSlider.m in Sources */,
 				CD55FD2019792C2F003EE9E9 /* CareerPost.m in Sources */,
+				44C5AB7219EEB88900EF897E /* BKTouchIDSwitchView.m in Sources */,
 				CDBB916219B9D39F00546853 /* User.m in Sources */,
 				3B52B2B319C30128000B543C /* NSAttributeDescription+MagicalDataImport.m in Sources */,
 				CDC2D7CF1988E33C0002B196 /* Chat.m in Sources */,
@@ -2933,6 +2988,7 @@
 				4C8096AE193F2E2200E4C174 /* UILabel+HighPoint.m in Sources */,
 				4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
 				3B52B2C119C30128000B543C /* NSManagedObjectContext+MagicalThreading.m in Sources */,
+				44C5AB6D19EEB88900EF897E /* BKPasscodeInputView.m in Sources */,
 				3B52B2BF19C30128000B543C /* NSManagedObjectContext+MagicalRecord.m in Sources */,
 				3B39D2F5195C3091002520B9 /* MaxEntertainmentPrice.m in Sources */,
 				3BCB5B07192F8D3500E5DCA9 /* HPSelectTownViewController.m in Sources */,
@@ -2946,6 +3002,7 @@
 				CDFA8A09196BE4B100D04451 /* HPChatListViewController.m in Sources */,
 				CD55FD2C19792C30003EE9E9 /* Speciality.m in Sources */,
 				3BA4E6751998D08C002A3A0D /* Message.m in Sources */,
+				44C5AB6B19EEB88900EF897E /* BKPasscodeDummyViewController.m in Sources */,
 				3BBF88E319C174F000B934E6 /* HPBaseNetworkManager+Users.m in Sources */,
 				3BDA4C6319064AC900EF6619 /* AFHTTPRequestOperationManager.m in Sources */,
 				3B52B2C819C30128000B543C /* MagicalRecord+Options.m in Sources */,
@@ -2975,6 +3032,7 @@
 				3BDA4C8F19064E5900EF6619 /* SDImageCache.m in Sources */,
 				CDBB915C19B9C26A00546853 /* NSNumber+Convert.m in Sources */,
 				3BBF88E619C1785200B934E6 /* HPBaseNetworkManager+Messages.m in Sources */,
+				44C5AB6E19EEB88900EF897E /* BKPasscodeLockScreenManager.m in Sources */,
 				3B39D31B195C3122002520B9 /* SocketIOJSONSerialization.m in Sources */,
 				CD68A9C4196D0DE80090D6D1 /* TLSwipeForOptionsCell.m in Sources */,
 				7C5F79F487D68A326256AFD1 /* NSManagedObjectContext+HighPoint.m in Sources */,

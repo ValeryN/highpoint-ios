@@ -16,6 +16,7 @@
 #import "UIViewController+HighPoint.h"
 #import "HPAppDelegate.h"
 #import "HPChangeAccountPasswordViewController.h"
+#import "BKPasscodeViewController.h"
 
 typedef NS_ENUM(NSUInteger, SettingsSectionType){
     SettingsSectionNotify,
@@ -295,6 +296,14 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
     if(cell == self.accountChangePassword){
         UIViewController* controller = [[HPChangeAccountPasswordViewController alloc] initWithNibName:@"HPChangeAccountPasswordViewController" bundle:nil];
         [self.navigationController pushViewController:controller animated:YES];
+    }
+    if(cell == self.enterApplication) {
+        BKPasscodeViewController* passcodeController = [[BKPasscodeViewController alloc] initWithNibName:nil bundle:nil];
+        passcodeController.type = self.settingsManager.applicationCode.length>0?BKPasscodeViewControllerChangePasscodeType:BKPasscodeViewControllerNewPasscodeType;
+        passcodeController.passcodeStyle = BKPasscodeInputViewNumericPasscodeStyle;;
+        passcodeController.touchIDManager = [[BKTouchIDManager alloc] initWithKeychainServiceName:@"BKPasscodeSampleService"];
+        passcodeController.touchIDManager.promptText = @"Scan fingerprint to authenticate";
+        [self.navigationController pushViewController:passcodeController animated:YES];
     }
     if(cell == self.accountExit){
         [UserTokenUtils setUserToken:nil];
