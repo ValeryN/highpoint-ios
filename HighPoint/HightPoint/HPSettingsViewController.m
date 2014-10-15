@@ -15,6 +15,7 @@
 #import "HPSettingsDataManager.h"
 #import "UIViewController+HighPoint.h"
 #import "HPAppDelegate.h"
+#import "HPChangeAccountPasswordViewController.h"
 
 typedef NS_ENUM(NSUInteger, SettingsSectionType){
     SettingsSectionNotify,
@@ -261,7 +262,7 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     NSString* sectionName = [self tableView:tableView titleForHeaderInSection:section];
-    HPUserProfileTableHeaderView *headerView = [[NSBundle mainBundle] loadNibNamed:@"HPUserProfileTableHeaderView" owner:self options:nil][0];
+    HPUserProfileTableHeaderView *headerView = [[NSBundle mainBundle] loadNibNamed:@"HPUserProfileSettingsTableHeaderView" owner:self options:nil][0];
     headerView.headerTextLabel.text = sectionName;
     UIView *separator = [[UIView alloc] initWithFrame:(CGRect) {13, 47.5f, 294, 0.5f}];
     separator.backgroundColor = [UIColor colorWithRed:230.f / 255.f green:236.f / 255.f blue:242.f / 255.f alpha:0.25];
@@ -290,6 +291,10 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
     }
     if(cell == self.bannerBarSettings){
         self.settingsManager.notificationType = SettingsNotificationBanner;
+    }
+    if(cell == self.accountChangePassword){
+        UIViewController* controller = [[HPChangeAccountPasswordViewController alloc] initWithNibName:@"HPChangeAccountPasswordViewController" bundle:nil];
+        [self.navigationController pushViewController:controller animated:YES];
     }
     if(cell == self.accountExit){
         [UserTokenUtils setUserToken:nil];
