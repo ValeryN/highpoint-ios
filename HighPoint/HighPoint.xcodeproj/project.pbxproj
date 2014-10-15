@@ -228,7 +228,6 @@
 		443B19E119EBEB0000108C05 /* RACollectionViewReorderableTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B19DE19EBEB0000108C05 /* RACollectionViewReorderableTripletLayout.m */; };
 		443B19E219EBEB0000108C05 /* RACollectionViewTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B19E019EBEB0000108C05 /* RACollectionViewTripletLayout.m */; };
 		4448BB5519AF352F008840E6 /* HPSearchCityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */; };
-		444D91AB19A1F9750034FF5D /* UIFont+IBCustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */; };
 		444F12CC19E6C0B000CF5867 /* HPRoundedShadowedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */; };
 		44AD911C19E8149600F835C9 /* HPRoundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AD911B19E8149600F835C9 /* HPRoundView.m */; };
 		44B52FCD19AB81300016E80B /* PSMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B52FCC19AB81300016E80B /* PSMenuItem.m */; };
@@ -874,7 +873,6 @@
 		443B19DF19EBEB0000108C05 /* RACollectionViewTripletLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACollectionViewTripletLayout.h; sourceTree = "<group>"; };
 		443B19E019EBEB0000108C05 /* RACollectionViewTripletLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACollectionViewTripletLayout.m; sourceTree = "<group>"; };
 		4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSearchCityCell.xib; sourceTree = "<group>"; };
-		444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+IBCustomFonts.m"; sourceTree = "<group>"; };
 		444F12CA19E6C0B000CF5867 /* HPRoundedShadowedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundedShadowedImageView.h; sourceTree = "<group>"; };
 		444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRoundedShadowedImageView.m; sourceTree = "<group>"; };
 		44AD911A19E8149600F835C9 /* HPRoundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundView.h; sourceTree = "<group>"; };
@@ -1692,16 +1690,12 @@
 		3B77908219001DA100EE0D15 /* External */ = {
 			isa = PBXGroup;
 			children = (
-
 				3B2F765119EE4F5100E280E8 /* UIKit+AFNetworking */,
-
 				44C5AB5919EEB88900EF897E /* BKPasscodeView */,
-
 				3B52B27219C30127000B543C /* MagicalRecord */,
 				44B52FC419AB80E40016E80B /* PSMenuItem */,
 				44B8C74419A4F81000F3081E /* Smartling.i18n.framework */,
 				44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */,
-				444D91A919A1F9320034FF5D /* IBCustomFonts */,
 				3BEE69F719926AA300C8B977 /* ImageEditor */,
 				CDA1702F198246B600173D1C /* HockeySDK-iOS */,
 				3BE9DE11197FD09000AFA641 /* RACollectionViewReorderableTripletLayout */,
@@ -2066,15 +2060,6 @@
 				CD08B828198B68960006AF4A /* HPUserCardUICollectionViewCell.xib */,
 			);
 			name = "Card view";
-			sourceTree = "<group>";
-		};
-		444D91A919A1F9320034FF5D /* IBCustomFonts */ = {
-			isa = PBXGroup;
-			children = (
-				444D91AA19A1F9750034FF5D /* UIFont+IBCustomFonts.m */,
-			);
-			name = IBCustomFonts;
-			path = External/IBCustomFonts;
 			sourceTree = "<group>";
 		};
 		44AC68C019A23F1B00AD5661 /* Products */ = {
@@ -2633,7 +2618,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = B9639RHZFT;
+						DevelopmentTeam = J67Y29BQR7;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -3073,7 +3058,6 @@
 				4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */,
 				CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */,
 				3BA4E6781998D0AD002A3A0D /* Contact.m in Sources */,
-				444D91AB19A1F9750034FF5D /* UIFont+IBCustomFonts.m in Sources */,
 				CD08B830198B7E200006AF4A /* HPUICollectionViewFlowLayout.m in Sources */,
 				CD6D7A90197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m in Sources */,
 				CD4CA3BD19810F7C0016DF7E /* HPChatMsgTableViewCell.m in Sources */,

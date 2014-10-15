@@ -47,26 +47,26 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
 };
 
 @interface HPSettingsViewController ()
-@property(nonatomic,retain) HPSettingsDataManager* settingsManager;
+@property(nonatomic, retain) HPSettingsDataManager* settingsManager;
 //Section: Notify
-@property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * soundSettings;
-@property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * statusBarSettings;
-@property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * bannerBarSettings;
+@property(nonatomic,strong) IBOutlet HPSettingsTableViewCell * soundSettings;
+@property(nonatomic,strong) IBOutlet HPSettingsTableViewCell * statusBarSettings;
+@property(nonatomic,strong) IBOutlet HPSettingsTableViewCell * bannerBarSettings;
 //Section: Events
-@property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * eventsWriteMessage;
-@property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * eventVotePoint;
-@property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * eventPointLimit;
+@property(nonatomic,strong) IBOutlet HPSettingsTableViewCell * eventsWriteMessage;
+@property(nonatomic,strong) IBOutlet HPSettingsTableViewCell * eventVotePoint;
+@property(nonatomic,strong) IBOutlet HPSettingsTableViewCell * eventPointLimit;
 //Section: Application enter
-@property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * enterApplication;
+@property(nonatomic,strong) IBOutlet HPSettingsTableViewCell * enterApplication;
 //Section: Account info
-@property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * accountChangePassword;
-@property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * accountExit;
+@property(nonatomic,strong) IBOutlet HPSettingsTableViewCell * accountChangePassword;
+@property(nonatomic,strong) IBOutlet HPSettingsTableViewCell * accountExit;
 //Section: Application
-@property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * applicationInfo;
-@property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * privacyPolicy;
+@property(nonatomic,strong) IBOutlet HPSettingsTableViewCell * applicationInfo;
+@property(nonatomic,strong) IBOutlet HPSettingsTableViewCell * privacyPolicy;
 
 //Footer view
-@property(nonatomic, retain) IBOutlet UIView* versionView;
+@property(nonatomic, strong) IBOutlet UIView* versionView;
 @property(nonatomic, weak) IBOutlet UILabel* versionLabel;
 @end
 
@@ -75,7 +75,7 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
 - (void) viewDidLoad{
     [super viewDidLoad];
     self.navigationItem.title = @"Настройки";
-    self.settingsManager = [HPSettingsDataManager sharedInstance];
+    self.settingsManager = [HPSettingsDataManager new];
     [self configureTwoWaySwitchCell];
     [self configureCheckmarCell];
     [self configureVersionView];
@@ -83,21 +83,21 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
 }
 
 - (void) configureTwoWaySwitchCell{
-    RAC(self, soundSettings.switchView.on) = RACObserve(self, settingsManager.soundEnabled);
-    RAC(self,settingsManager.soundEnabled) = self.soundSettings.switchView.rac_newOnChannel;
+    RAC(self.soundSettings.switchView,on) = RACObserve(self.settingsManager,soundEnabled);
+    RAC(self.settingsManager,soundEnabled) = [self.soundSettings.switchView.rac_newOnChannel takeUntil:self.rac_willDeallocSignal];
     
-    RAC(self, eventsWriteMessage.switchView.on) = RACObserve(self, settingsManager.notificationWriteMessageEnabled);
-    RAC(self,settingsManager.notificationWriteMessageEnabled) = self.eventsWriteMessage.switchView.rac_newOnChannel;
+    RAC(self.eventsWriteMessage.switchView,on) = RACObserve(self.settingsManager,notificationWriteMessageEnabled);
+    RAC(self.settingsManager,notificationWriteMessageEnabled) = [self.eventsWriteMessage.switchView.rac_newOnChannel takeUntil:self.rac_willDeallocSignal];
     
-    RAC(self, eventVotePoint.switchView.on) = RACObserve(self, settingsManager.notificationLikeYourPointEnabled);
-    RAC(self,settingsManager.notificationLikeYourPointEnabled) = self.eventVotePoint.switchView.rac_newOnChannel;
+    RAC(self.eventVotePoint.switchView,on) = RACObserve(self.settingsManager,notificationLikeYourPointEnabled);
+    RAC(self.settingsManager,notificationLikeYourPointEnabled) = [self.eventVotePoint.switchView.rac_newOnChannel takeUntil:self.rac_willDeallocSignal];
     
-    RAC(self, eventPointLimit.switchView.on) = RACObserve(self, settingsManager.notificationPointTimeIsUpEnabled);
-    RAC(self,settingsManager.notificationPointTimeIsUpEnabled) = self.eventPointLimit.switchView.rac_newOnChannel;
+    RAC(self.eventPointLimit.switchView,on) = RACObserve(self.settingsManager,notificationPointTimeIsUpEnabled);
+    RAC(self.settingsManager,notificationPointTimeIsUpEnabled) = [self.eventPointLimit.switchView.rac_newOnChannel takeUntil:self.rac_willDeallocSignal];
 }
 
 - (void) configureCheckmarCell{
-    RAC(self,statusBarSettings.accessoryType) = [RACObserve(self,settingsManager.notificationType) map:^id(NSNumber* value) {
+    RAC(self.statusBarSettings,accessoryType) = [RACObserve(self.settingsManager,notificationType) map:^id(NSNumber* value) {
         switch ((SettingsNotificationType)value.intValue) {
             case SettingsNotificationBanner:
                 return @(UITableViewCellAccessoryNone);
@@ -109,7 +109,7 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
         return @(UITableViewCellAccessoryNone);
     }];
     
-    RAC(self,bannerBarSettings.accessoryType) = [RACObserve(self,settingsManager.notificationType) map:^id(NSNumber* value) {
+    RAC(self.bannerBarSettings,accessoryType) = [RACObserve(self.settingsManager,notificationType) map:^id(NSNumber* value) {
         switch ((SettingsNotificationType)value.intValue) {
             case SettingsNotificationBanner:
                 return @(UITableViewCellAccessoryCheckmark);
@@ -321,4 +321,7 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
     }
 }
 
+- (void) dealloc{
+    NSLog(@"Dealloc");
+}
 @end
