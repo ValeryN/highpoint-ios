@@ -127,14 +127,29 @@ static NSString *cellID = @"cellID";
 {
     return !([self collectionView:collectionView numberOfItemsInSection:indexPath.section] - indexPath.row == 1);
 }
-
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               if ( !error )
+                               {
+                                   UIImage *image = [[UIImage alloc] initWithData:data];
+                                   completionBlock(YES,image);
+                               } else{
+                                   completionBlock(NO,nil);
+                               }
+                           }];
+}
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     HPImageCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-    [cell.imageView removeFromSuperview];
+    cell.imageView.image = nil;
+    //[cell.imageView removeFromSuperview];
     cell.imageView.frame = cell.bounds;
     
-    if([self collectionView:collectionView numberOfItemsInSection:indexPath.section] - indexPath.row == 1) {
+    if(self.photosArray.count  - indexPath.row == 0) {
         cell.imageView.image = [UIImage imageNamed:@"Camera"];
         cell.imageView.contentMode = UIViewContentModeCenter;
         cell.contentView.backgroundColor = [UIColor clearColor];
@@ -157,7 +172,17 @@ static NSString *cellID = @"cellID";
             [cell.imageView setImageWithURLRequest:request placeholderImage:nil success:nil failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                 
             }];
-            
+            /*
+            [self downloadImageWithURL:[NSURL URLWithString:avatarUrl] completionBlock:^(BOOL succeeded, UIImage *image) {
+                if (succeeded) {
+                    // change the image in the cell
+                    cell.imageView.image = image;
+                    
+                    // cache the image for use later (when scrolling up)
+                    //cell.imageView.image = image;
+                } else cell.imageView.image = nil;
+                
+            }];
             
             //[self sd_setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:completedBlock];
             

@@ -8,7 +8,7 @@
 #import "Avatar.h"
 #import "NSManagedObject+HighPoint.h"
 #import "NSManagedObjectContext+HighPoint.h"
-
+#import "UIImageView+AFNetworking.h"
 #define IMAGE_NOT_DOWNLOADED @"transparentflower.png"
 #define IMAGE_ERROR_DOWNLOAD @"error-256.png"
 
@@ -43,9 +43,12 @@
 
 + (RACSignal*) getAvatarFromNetworkWithUrl:(NSURL*) avatarUrl{
     return [[[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-        __block BOOL notDownloadCancel = YES;
+        __block BOOL notDownloadCancel = NO;
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         manager.imageDownloader.maxConcurrentDownloads = 100;
+        
+        
+        
         id <SDWebImageOperation> operation = [manager downloadImageWithURL:  avatarUrl
                                                               options: SDWebImageRetryFailed
                                                              progress:^(NSInteger receivedSize, NSInteger expectedSize) {
