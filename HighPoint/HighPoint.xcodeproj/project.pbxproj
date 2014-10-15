@@ -242,6 +242,18 @@
 		44B91D4719E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B91D4219E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.xib */; };
 		44B91D4819E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B91D4419E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m */; };
 		44B91D4919E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B91D4519E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib */; };
+		44C5AB3619ED696600EF897E /* HPSettingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB3519ED696600EF897E /* HPSettingsTableViewCell.m */; };
+		44C5AB4219EE944900EF897E /* HPSettingsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB4119EE944900EF897E /* HPSettingsDataManager.m */; };
+		44C5AB4D19EEAFA100EF897E /* HPChangeAccountPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB4B19EEAFA100EF897E /* HPChangeAccountPasswordViewController.m */; };
+		44C5AB4E19EEAFA100EF897E /* HPChangeAccountPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44C5AB4C19EEAFA100EF897E /* HPChangeAccountPasswordViewController.xib */; };
+		44C5AB6B19EEB88900EF897E /* BKPasscodeDummyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB5B19EEB88900EF897E /* BKPasscodeDummyViewController.m */; };
+		44C5AB6C19EEB88900EF897E /* BKPasscodeField.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB5D19EEB88900EF897E /* BKPasscodeField.m */; };
+		44C5AB6D19EEB88900EF897E /* BKPasscodeInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB5F19EEB88900EF897E /* BKPasscodeInputView.m */; };
+		44C5AB6E19EEB88900EF897E /* BKPasscodeLockScreenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB6119EEB88900EF897E /* BKPasscodeLockScreenManager.m */; };
+		44C5AB6F19EEB88900EF897E /* BKPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB6419EEB88900EF897E /* BKPasscodeViewController.m */; };
+		44C5AB7019EEB88900EF897E /* BKShiftingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB6619EEB88900EF897E /* BKShiftingView.m */; };
+		44C5AB7119EEB88900EF897E /* BKTouchIDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB6819EEB88900EF897E /* BKTouchIDManager.m */; };
+		44C5AB7219EEB88900EF897E /* BKTouchIDSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB6A19EEB88900EF897E /* BKTouchIDSwitchView.m */; };
 		44D23B9C19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */; };
 		44D23BA419D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */; };
 		44D23BA619D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */; };
@@ -289,9 +301,11 @@
 		4CE598EC19386C97008CEC24 /* UIImage+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE598EA19386C97008CEC24 /* UIImage+HighPoint.m */; };
 		4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
 		4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF3A327194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m */; };
+		7C5F704BD0DE0FF866160757 /* HPUserProfileSettingsTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F787FA3EEFEF936E31F96 /* HPUserProfileSettingsTableHeaderView.xib */; };
 		7C5F708CC4C988ACCA477EFA /* HPAddCareerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7FF673DC33F2497A845C /* HPAddCareerViewController.xib */; };
 		7C5F70A1024B63C54A2AD91E /* HPBubbleViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F795D29A7BAC67A795B6A /* HPBubbleViewDelegate.m */; };
 		7C5F70D60BEAC6FE1A60484D /* HPUserProfileFirstRowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F70D88543B31AA3E4B7FD /* HPUserProfileFirstRowTableViewCell.m */; };
+		7C5F7122BA84661884E6CC75 /* HPUserProfileTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7634CC927BFD2D56AC01 /* HPUserProfileTableHeaderView.xib */; };
 		7C5F71A300BE276405905A9B /* HPUserValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7E661E5D1302339969AC /* HPUserValidator.m */; };
 		7C5F71AA70A2396390631A2B /* HPAddCareerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7E1C6C28AE52E4529676 /* HPAddCareerViewController.m */; };
 		7C5F71B018047BEC2C554C2C /* HPSearchCityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F764DEE3495556650470B /* HPSearchCityCell.m */; };
@@ -323,6 +337,7 @@
 		7C5F79B410AB1FD051289A78 /* HPChatMsgOpenAllowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F777050746A8B579A93EC /* HPChatMsgOpenAllowCell.m */; };
 		7C5F79EC9D12BAAA275ED2C1 /* CALayer+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7D27B41303630CF7B9AD /* CALayer+HighPoint.m */; };
 		7C5F79F487D68A326256AFD1 /* NSManagedObjectContext+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7F301D738FAB617FC7E5 /* NSManagedObjectContext+HighPoint.m */; };
+		7C5F7A03B46AE4AA46753809 /* HPUserProfileTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F74600102C99D0F40F5AB /* HPUserProfileTableHeaderView.m */; };
 		7C5F7B370D3AE224778EA669 /* HPImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F77C71335DFAD0C776965 /* HPImageCollectionViewCell.m */; };
 		7C5F7B3C22E090C468F05B5A /* transparentflower@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F79A39A4A85160DD2ACCD /* transparentflower@2x.png */; };
 		7C5F7B52631787BB99EE7962 /* HPRequest+Users.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7A880E78E425DF2258B3 /* HPRequest+Users.m */; };
@@ -331,14 +346,12 @@
 		7C5F7C658C5746D3BF22FEC9 /* HPUserProfileInfoEditTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7F0253B8B9515C30D81E /* HPUserProfileInfoEditTabViewController.xib */; };
 		7C5F7CB9D9398A3579B340C8 /* RACFetchedCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7EF040173F22819BDD4D /* RACFetchedCollectionViewController.m */; };
 		7C5F7D1FB28DC01E5FFD33DF /* HPSearchCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F716F09BF960DBC78C606 /* HPSearchCityViewController.m */; };
-		7C5F7D6BA2F7A7A1F69CD0F9 /* HPUserProfileTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F788AEA6CCF8DB315766E /* HPUserProfileTableHeaderView.m */; };
 		7C5F7E242EA057B1A4CAD244 /* HPHorizontalPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F74A7CC9232A8FAF89848 /* HPHorizontalPanGestureRecognizer.m */; };
 		7C5F7E98F6854F5FBA41DCDE /* HPMessageValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F723A77FC99E169F73496 /* HPMessageValidator.m */; };
 		7C5F7EA6A679F1D7A1338BE8 /* HPHEBubbleViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F7362A22A9AB0E359D898 /* HPHEBubbleViewItem.m */; };
 		7C5F7F869A9F7D9797A3CA3A /* HPCityValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F73720D0B9F25137AA95E /* HPCityValidator.m */; };
 		7C5F7F8EA181FF6B301EC198 /* HPImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7CC7149A27F47DFCF3C5 /* HPImageCollectionViewCell.xib */; };
 		7C5F7FA72DC5AA259D946392 /* HPUserProfilePhotoAlbumTabViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F79FBC553B622AE95FF32 /* HPUserProfilePhotoAlbumTabViewController.xib */; };
-		7C5F7FB884D405670F8B16E7 /* HPUserProfileTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C5F7931BE2436B8E5002A6D /* HPUserProfileTableHeaderView.xib */; };
 		CD002F8C1998A04100C2093A /* privacy_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CD002F8B1998A04100C2093A /* privacy_new.png */; };
 		CD08B827198B68750006AF4A /* HPUserCardUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD08B826198B68750006AF4A /* HPUserCardUICollectionViewCell.m */; };
 		CD08B829198B68960006AF4A /* HPUserCardUICollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD08B828198B68960006AF4A /* HPUserCardUICollectionViewCell.xib */; };
@@ -884,6 +897,30 @@
 		44B91D4319E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoSecondRowTableViewCell.h; sourceTree = "<group>"; };
 		44B91D4419E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoSecondRowTableViewCell.m; sourceTree = "<group>"; };
 		44B91D4519E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoSecondRowTableViewCell.xib; sourceTree = "<group>"; };
+		44C5AB3419ED696600EF897E /* HPSettingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSettingsTableViewCell.h; sourceTree = "<group>"; };
+		44C5AB3519ED696600EF897E /* HPSettingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSettingsTableViewCell.m; sourceTree = "<group>"; };
+		44C5AB4019EE944900EF897E /* HPSettingsDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSettingsDataManager.h; sourceTree = "<group>"; };
+		44C5AB4119EE944900EF897E /* HPSettingsDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSettingsDataManager.m; sourceTree = "<group>"; };
+		44C5AB4A19EEAFA100EF897E /* HPChangeAccountPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChangeAccountPasswordViewController.h; sourceTree = "<group>"; };
+		44C5AB4B19EEAFA100EF897E /* HPChangeAccountPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPChangeAccountPasswordViewController.m; sourceTree = "<group>"; };
+		44C5AB4C19EEAFA100EF897E /* HPChangeAccountPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChangeAccountPasswordViewController.xib; sourceTree = "<group>"; };
+		44C5AB5A19EEB88900EF897E /* BKPasscodeDummyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeDummyViewController.h; sourceTree = "<group>"; };
+		44C5AB5B19EEB88900EF897E /* BKPasscodeDummyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPasscodeDummyViewController.m; sourceTree = "<group>"; };
+		44C5AB5C19EEB88900EF897E /* BKPasscodeField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeField.h; sourceTree = "<group>"; };
+		44C5AB5D19EEB88900EF897E /* BKPasscodeField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPasscodeField.m; sourceTree = "<group>"; };
+		44C5AB5E19EEB88900EF897E /* BKPasscodeInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeInputView.h; sourceTree = "<group>"; };
+		44C5AB5F19EEB88900EF897E /* BKPasscodeInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPasscodeInputView.m; sourceTree = "<group>"; };
+		44C5AB6019EEB88900EF897E /* BKPasscodeLockScreenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeLockScreenManager.h; sourceTree = "<group>"; };
+		44C5AB6119EEB88900EF897E /* BKPasscodeLockScreenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPasscodeLockScreenManager.m; sourceTree = "<group>"; };
+		44C5AB6219EEB88900EF897E /* BKPasscodeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeUtils.h; sourceTree = "<group>"; };
+		44C5AB6319EEB88900EF897E /* BKPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKPasscodeViewController.h; sourceTree = "<group>"; };
+		44C5AB6419EEB88900EF897E /* BKPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKPasscodeViewController.m; sourceTree = "<group>"; };
+		44C5AB6519EEB88900EF897E /* BKShiftingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKShiftingView.h; sourceTree = "<group>"; };
+		44C5AB6619EEB88900EF897E /* BKShiftingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKShiftingView.m; sourceTree = "<group>"; };
+		44C5AB6719EEB88900EF897E /* BKTouchIDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKTouchIDManager.h; sourceTree = "<group>"; };
+		44C5AB6819EEB88900EF897E /* BKTouchIDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKTouchIDManager.m; sourceTree = "<group>"; };
+		44C5AB6919EEB88900EF897E /* BKTouchIDSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKTouchIDSwitchView.h; sourceTree = "<group>"; };
+		44C5AB6A19EEB88900EF897E /* BKTouchIDSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKTouchIDSwitchView.m; sourceTree = "<group>"; };
 		44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenAllowCell.xib; sourceTree = "<group>"; };
 		44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenDenyCell.xib; sourceTree = "<group>"; };
 		44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenRequestCell.xib; sourceTree = "<group>"; };
@@ -948,6 +985,7 @@
 		7C5F73B28B4784B3764684CA /* NSManagedObjectContext+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+HighPoint.h"; sourceTree = "<group>"; };
 		7C5F73C934BCABFC7B0524D9 /* HPCityValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCityValidator.h; sourceTree = "<group>"; };
 		7C5F73D3665C346C23825F9D /* HPChatMsgOpenDenyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatMsgOpenDenyCell.h; sourceTree = "<group>"; };
+		7C5F74600102C99D0F40F5AB /* HPUserProfileTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserProfileTableHeaderView.m; sourceTree = "<group>"; };
 		7C5F747EAAA812FA62E77EAB /* HPChatMsgOpenRequestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatMsgOpenRequestCell.h; sourceTree = "<group>"; };
 		7C5F749C998964E92952D823 /* NSDate+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+HighPoint.m"; sourceTree = "<group>"; };
 		7C5F74A7CC9232A8FAF89848 /* HPHorizontalPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPHorizontalPanGestureRecognizer.m; sourceTree = "<group>"; };
@@ -959,6 +997,7 @@
 		7C5F7566517F0FB2EEE84EC4 /* RACFetchedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACFetchedTableViewController.m; sourceTree = "<group>"; };
 		7C5F759EF310328097A08FC6 /* UITextView+HPRacSignal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HPRacSignal.m"; sourceTree = "<group>"; };
 		7C5F75A74B6C7F2E8B3223F8 /* User+NameForms.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+NameForms.m"; sourceTree = "<group>"; };
+		7C5F7634CC927BFD2D56AC01 /* HPUserProfileTableHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfileTableHeaderView.xib; sourceTree = "<group>"; };
 		7C5F764DEE3495556650470B /* HPSearchCityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSearchCityCell.m; sourceTree = "<group>"; };
 		7C5F766850D0D8278F9215E9 /* HPImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPImageCollectionViewCell.h; sourceTree = "<group>"; };
 		7C5F768EDADC3E4C6E7F2202 /* HPBubbleViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPBubbleViewDelegate.h; sourceTree = "<group>"; };
@@ -973,11 +1012,9 @@
 		7C5F784E8928ADFB840B7A5C /* HPAddEducationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPAddEducationViewController.xib; sourceTree = "<group>"; };
 		7C5F785C1F16A29EE63BC8D3 /* User+UserImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "User+UserImage.h"; sourceTree = "<group>"; };
 		7C5F787632F7CC034624FEB2 /* HPSearchCityViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPSearchCityViewController.xib; sourceTree = "<group>"; };
-		7C5F788AEA6CCF8DB315766E /* HPUserProfileTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserProfileTableHeaderView.m; sourceTree = "<group>"; };
+		7C5F787FA3EEFEF936E31F96 /* HPUserProfileSettingsTableHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfileSettingsTableHeaderView.xib; sourceTree = "<group>"; };
 		7C5F78C239B7D4D6BDCF0053 /* RACTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACTableViewController.m; sourceTree = "<group>"; };
-		7C5F790EC367E7519CDD2D48 /* HPUserProfileTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserProfileTableHeaderView.h; sourceTree = "<group>"; };
 		7C5F7920D2F2A9B65C2FBDFF /* User+NameForms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "User+NameForms.h"; sourceTree = "<group>"; };
-		7C5F7931BE2436B8E5002A6D /* HPUserProfileTableHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HPUserProfileTableHeaderView.xib; sourceTree = "<group>"; };
 		7C5F795D29A7BAC67A795B6A /* HPBubbleViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPBubbleViewDelegate.m; sourceTree = "<group>"; };
 		7C5F79A39A4A85160DD2ACCD /* transparentflower@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "transparentflower@2x.png"; sourceTree = "<group>"; };
 		7C5F79C13A2C3CCD63E275CF /* HPRequest+Points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPRequest+Points.m"; sourceTree = "<group>"; };
@@ -985,6 +1022,7 @@
 		7C5F7A163EB31DC0BF53E4DC /* HPAddNewTownCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddNewTownCellView.m; sourceTree = "<group>"; };
 		7C5F7A25F544F68B75BD71C6 /* HPChatBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPChatBubbleView.h; sourceTree = "<group>"; };
 		7C5F7A3AE61FDEA00F1DD2A6 /* CALayer+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+HighPoint.h"; sourceTree = "<group>"; };
+		7C5F7A572AE196C53F62BBA1 /* HPUserProfileTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserProfileTableHeaderView.h; sourceTree = "<group>"; };
 		7C5F7A880E78E425DF2258B3 /* HPRequest+Users.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPRequest+Users.m"; sourceTree = "<group>"; };
 		7C5F7B15DE78F6BE1E7DB9BA /* HPRequest+CurrentUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPRequest+CurrentUser.h"; sourceTree = "<group>"; };
 		7C5F7B1F5B835B3E2B0FCC2B /* HPUserProfileCarouselModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserProfileCarouselModeViewController.h; sourceTree = "<group>"; };
@@ -1630,7 +1668,6 @@
 				CDE0BDBF196E632E00CBCF58 /* Selected User Detail */,
 				44B91D3F19E2D6FF00B8D0AE /* Chat */,
 				CDA44BB819A5E78700E33230 /* AuthorizationViewController */,
-				CDA44BAC19A5D82900E33230 /* SettingsViewController */,
 				CDB9527719A1F2FB00238DFC /* SplashViewController */,
 				CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */,
 				CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */,
@@ -1655,7 +1692,11 @@
 		3B77908219001DA100EE0D15 /* External */ = {
 			isa = PBXGroup;
 			children = (
+
 				3B2F765119EE4F5100E280E8 /* UIKit+AFNetworking */,
+
+				44C5AB5919EEB88900EF897E /* BKPasscodeView */,
+
 				3B52B27219C30127000B543C /* MagicalRecord */,
 				44B52FC419AB80E40016E80B /* PSMenuItem */,
 				44B8C74419A4F81000F3081E /* Smartling.i18n.framework */,
@@ -2079,6 +2120,89 @@
 			name = Chat;
 			sourceTree = "<group>";
 		};
+		44C5AB2D19ED681100EF897E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				44C5AB4919EEAF7A00EF897E /* Change Account Password */,
+				CDA44BB319A5D84700E33230 /* HPSettingsViewController.h */,
+				CDA44BB419A5D84700E33230 /* HPSettingsViewController.m */,
+				CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */,
+				44C5AB3419ED696600EF897E /* HPSettingsTableViewCell.h */,
+				44C5AB3519ED696600EF897E /* HPSettingsTableViewCell.m */,
+				44C5AB4019EE944900EF897E /* HPSettingsDataManager.h */,
+				44C5AB4119EE944900EF897E /* HPSettingsDataManager.m */,
+				7C5F787FA3EEFEF936E31F96 /* HPUserProfileSettingsTableHeaderView.xib */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		44C5AB4919EEAF7A00EF897E /* Change Account Password */ = {
+			isa = PBXGroup;
+			children = (
+				44C5AB4A19EEAFA100EF897E /* HPChangeAccountPasswordViewController.h */,
+				44C5AB4B19EEAFA100EF897E /* HPChangeAccountPasswordViewController.m */,
+				44C5AB4C19EEAFA100EF897E /* HPChangeAccountPasswordViewController.xib */,
+			);
+			name = "Change Account Password";
+			sourceTree = "<group>";
+		};
+		44C5AB4F19EEB1A500EF897E /* Cells View */ = {
+			isa = PBXGroup;
+			children = (
+				44B91D4019E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.h */,
+				44B91D4119E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.m */,
+				44B91D4219E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.xib */,
+				44B91D4319E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.h */,
+				44B91D4419E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m */,
+				44B91D4519E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib */,
+				7C5F735C20D5CB8513398F5E /* HPAddNewTownCellView.h */,
+				7C5F7C3009D552BF1237415F /* HPAddNewTownCellView.xib */,
+				7C5F7A163EB31DC0BF53E4DC /* HPAddNewTownCellView.m */,
+				7C5F70D88543B31AA3E4B7FD /* HPUserProfileFirstRowTableViewCell.m */,
+				7C5F7C1E8BE29E084908C936 /* HPUserProfileFirstRowTableViewCell.h */,
+				7C5F74B47B9910711C74A35F /* HPUserProfileFirstRowTableViewCell.xib */,
+				7C5F7A572AE196C53F62BBA1 /* HPUserProfileTableHeaderView.h */,
+				7C5F74600102C99D0F40F5AB /* HPUserProfileTableHeaderView.m */,
+				7C5F7634CC927BFD2D56AC01 /* HPUserProfileTableHeaderView.xib */,
+			);
+			name = "Cells View";
+			sourceTree = "<group>";
+		};
+		44C5AB5019EEB1BC00EF897E /* Bubble view */ = {
+			isa = PBXGroup;
+			children = (
+				7C5F7F66F87601728B0A1A88 /* HPHEBubbleView.h */,
+				7C5F705E33D3BD2BDD1103A5 /* HPHEBubbleView.m */,
+				7C5F795D29A7BAC67A795B6A /* HPBubbleViewDelegate.m */,
+				7C5F768EDADC3E4C6E7F2202 /* HPBubbleViewDelegate.h */,
+			);
+			name = "Bubble view";
+			sourceTree = "<group>";
+		};
+		44C5AB5919EEB88900EF897E /* BKPasscodeView */ = {
+			isa = PBXGroup;
+			children = (
+				44C5AB5A19EEB88900EF897E /* BKPasscodeDummyViewController.h */,
+				44C5AB5B19EEB88900EF897E /* BKPasscodeDummyViewController.m */,
+				44C5AB5C19EEB88900EF897E /* BKPasscodeField.h */,
+				44C5AB5D19EEB88900EF897E /* BKPasscodeField.m */,
+				44C5AB5E19EEB88900EF897E /* BKPasscodeInputView.h */,
+				44C5AB5F19EEB88900EF897E /* BKPasscodeInputView.m */,
+				44C5AB6019EEB88900EF897E /* BKPasscodeLockScreenManager.h */,
+				44C5AB6119EEB88900EF897E /* BKPasscodeLockScreenManager.m */,
+				44C5AB6219EEB88900EF897E /* BKPasscodeUtils.h */,
+				44C5AB6319EEB88900EF897E /* BKPasscodeViewController.h */,
+				44C5AB6419EEB88900EF897E /* BKPasscodeViewController.m */,
+				44C5AB6519EEB88900EF897E /* BKShiftingView.h */,
+				44C5AB6619EEB88900EF897E /* BKShiftingView.m */,
+				44C5AB6719EEB88900EF897E /* BKTouchIDManager.h */,
+				44C5AB6819EEB88900EF897E /* BKTouchIDManager.m */,
+				44C5AB6919EEB88900EF897E /* BKTouchIDSwitchView.h */,
+				44C5AB6A19EEB88900EF897E /* BKTouchIDSwitchView.m */,
+			);
+			path = BKPasscodeView;
+			sourceTree = "<group>";
+		};
 		4C91C1E9195812AD002B27D4 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -2225,33 +2349,16 @@
 		7C5F772DFF0ABEB24B6F2EA7 /* Profile Edit */ = {
 			isa = PBXGroup;
 			children = (
-				44B91D4019E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.h */,
-				44B91D4119E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.m */,
-				44B91D4219E2DD0200B8D0AE /* HPUserInfoFirstRowTableViewCell.xib */,
-				44B91D4319E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.h */,
-				44B91D4419E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m */,
-				44B91D4519E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib */,
-				7C5F77FC4F83B6ED0CECB26E /* HPUserProfileInfoEditTabViewController.h */,
-				7C5F7247CB61482010C7BBC3 /* HPUserProfileInfoEditTabViewController.m */,
-				7C5F7F66F87601728B0A1A88 /* HPHEBubbleView.h */,
-				7C5F705E33D3BD2BDD1103A5 /* HPHEBubbleView.m */,
-				7C5F768EDADC3E4C6E7F2202 /* HPBubbleViewDelegate.h */,
-				7C5F795D29A7BAC67A795B6A /* HPBubbleViewDelegate.m */,
-				7C5F735C20D5CB8513398F5E /* HPAddNewTownCellView.h */,
-				7C5F7C3009D552BF1237415F /* HPAddNewTownCellView.xib */,
-				7C5F7A163EB31DC0BF53E4DC /* HPAddNewTownCellView.m */,
-				7C5F70D88543B31AA3E4B7FD /* HPUserProfileFirstRowTableViewCell.m */,
-				7C5F7C1E8BE29E084908C936 /* HPUserProfileFirstRowTableViewCell.h */,
-				7C5F788AEA6CCF8DB315766E /* HPUserProfileTableHeaderView.m */,
-				7C5F790EC367E7519CDD2D48 /* HPUserProfileTableHeaderView.h */,
-				7C5F7931BE2436B8E5002A6D /* HPUserProfileTableHeaderView.xib */,
-				7C5F74B47B9910711C74A35F /* HPUserProfileFirstRowTableViewCell.xib */,
-				7C5F7F0253B8B9515C30D81E /* HPUserProfileInfoEditTabViewController.xib */,
-				7C5F7362A22A9AB0E359D898 /* HPHEBubbleViewItem.m */,
-				7C5F773EF93854F594166206 /* HPHEBubbleViewItem.h */,
 				7C5F7C0B1BCA4F51AC1303FB /* Search City */,
 				7C5F7B38F6F1DD42D5020CD6 /* Add education */,
 				7C5F7F5CFE25788582B010E8 /* Add career */,
+				44C5AB5019EEB1BC00EF897E /* Bubble view */,
+				44C5AB4F19EEB1A500EF897E /* Cells View */,
+				7C5F77FC4F83B6ED0CECB26E /* HPUserProfileInfoEditTabViewController.h */,
+				7C5F7247CB61482010C7BBC3 /* HPUserProfileInfoEditTabViewController.m */,
+				7C5F7F0253B8B9515C30D81E /* HPUserProfileInfoEditTabViewController.xib */,
+				7C5F7362A22A9AB0E359D898 /* HPHEBubbleViewItem.m */,
+				7C5F773EF93854F594166206 /* HPHEBubbleViewItem.h */,
 			);
 			name = "Profile Edit";
 			sourceTree = "<group>";
@@ -2416,16 +2523,6 @@
 			path = debug;
 			sourceTree = "<group>";
 		};
-		CDA44BAC19A5D82900E33230 /* SettingsViewController */ = {
-			isa = PBXGroup;
-			children = (
-				CDA44BB319A5D84700E33230 /* HPSettingsViewController.h */,
-				CDA44BB419A5D84700E33230 /* HPSettingsViewController.m */,
-				CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */,
-			);
-			name = SettingsViewController;
-			sourceTree = "<group>";
-		};
 		CDA44BB819A5E78700E33230 /* AuthorizationViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2458,6 +2555,7 @@
 		CDE0BDC5196E7F9900CBCF58 /* Current User */ = {
 			isa = PBXGroup;
 			children = (
+				44C5AB2D19ED681100EF897E /* Settings */,
 				3B49DE1B1934A50C00C3EF1E /* Profile */,
 				CDE0BDCB196E832E00CBCF58 /* HPCurrentUserViewController.h */,
 				CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */,
@@ -2705,6 +2803,7 @@
 				CDFA8A0E196BE5E900D04451 /* HPChatTableViewCell.xib in Resources */,
 				3BE9DE42197FD8F300AFA641 /* 6.jpg in Resources */,
 				3BE9DE43197FD8F300AFA641 /* 7.jpg in Resources */,
+				44C5AB4E19EEAFA100EF897E /* HPChangeAccountPasswordViewController.xib in Resources */,
 				44B91D3D19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.xib in Resources */,
 				3B298FBB192F476100BEC2AA /* slider-default-handle.png in Resources */,
 				3B298FC6192F476100BEC2AA /* slider-default7-track@2x.png in Resources */,
@@ -2791,7 +2890,6 @@
 				7C5F72C1B20D7E68C509326C /* HPAddNewTownCellView.xib in Resources */,
 				7C5F7792315B9D3C4C7F1786 /* HPImageCollectionViewHeader.xib in Resources */,
 				7C5F7F8EA181FF6B301EC198 /* HPImageCollectionViewCell.xib in Resources */,
-				7C5F7FB884D405670F8B16E7 /* HPUserProfileTableHeaderView.xib in Resources */,
 				7C5F7420DDAB6520655789FC /* HPUserProfileFirstRowTableViewCell.xib in Resources */,
 				7C5F7C658C5746D3BF22FEC9 /* HPUserProfileInfoEditTabViewController.xib in Resources */,
 				7C5F7FA72DC5AA259D946392 /* HPUserProfilePhotoAlbumTabViewController.xib in Resources */,
@@ -2801,6 +2899,8 @@
 				7C5F708CC4C988ACCA477EFA /* HPAddCareerViewController.xib in Resources */,
 				7C5F728F826F062A2340064C /* error-256@2x.png in Resources */,
 				7C5F7B3C22E090C468F05B5A /* transparentflower@2x.png in Resources */,
+				7C5F7122BA84661884E6CC75 /* HPUserProfileTableHeaderView.xib in Resources */,
+				7C5F704BD0DE0FF866160757 /* HPUserProfileSettingsTableHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2860,6 +2960,7 @@
 				CDBB915F19B9C5CC00546853 /* NSNull+Convert.m in Sources */,
 				CDA0A0B41999E55B0017D35B /* UserFilter.m in Sources */,
 				3B39D322195C5B33002520B9 /* Country.m in Sources */,
+				44C5AB6C19EEB88900EF897E /* BKPasscodeField.m in Sources */,
 				3BDA4C9919064E5900EF6619 /* UIImage+WebP.m in Sources */,
 				CD55FD2319792C30003EE9E9 /* Company.m in Sources */,
 				3BDA4C6919064AC900EF6619 /* AFURLResponseSerialization.m in Sources */,
@@ -2867,6 +2968,7 @@
 				CD55FD2919792C30003EE9E9 /* School.m in Sources */,
 				3BA5E3B919C09E8C00E374F2 /* HPBaseNetworkManager+AuthorizationAndRegistration.m in Sources */,
 				3B52B2B819C30128000B543C /* NSString+MagicalDataImport.m in Sources */,
+				44C5AB3619ED696600EF897E /* HPSettingsTableViewCell.m in Sources */,
 				CDB9527D19A1F87D00238DFC /* HPSplashViewController.m in Sources */,
 				3B52B2B419C30128000B543C /* NSEntityDescription+MagicalDataImport.m in Sources */,
 				444F12CC19E6C0B000CF5867 /* HPRoundedShadowedImageView.m in Sources */,
@@ -2893,6 +2995,8 @@
 				4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				3BBF88E919C178D200B934E6 /* HPBaseNetworkManager+Points.m in Sources */,
 				3BBF88DA19C173FD00B934E6 /* HPBaseNetworkManager+Contacts.m in Sources */,
+				44C5AB7119EEB88900EF897E /* BKTouchIDManager.m in Sources */,
+				44C5AB7019EEB88900EF897E /* BKShiftingView.m in Sources */,
 				CDA44BBE19A5E8EA00E33230 /* HPAuthorizationViewController.m in Sources */,
 				3BDA4C6219064AC900EF6619 /* AFHTTPRequestOperation.m in Sources */,
 				4CE598EB19386C97008CEC24 /* UIImage+HighPoint.m in Sources */,
@@ -2918,13 +3022,16 @@
 				CD55FD1119792025003EE9E9 /* Language.m in Sources */,
 				CD4CA3B51980F22F0016DF7E /* HPChatViewController.m in Sources */,
 				CDA0A0B01999DAC10017D35B /* HPSelectPopularCityViewController.m in Sources */,
+				44C5AB6F19EEB88900EF897E /* BKPasscodeViewController.m in Sources */,
 				3BDA4C8E19064E5900EF6619 /* NSData+ImageContentType.m in Sources */,
 				3B39D301195C3091002520B9 /* Gender.m in Sources */,
 				CDA44BB619A5D84700E33230 /* HPSettingsViewController.m in Sources */,
 				3BDA4C6419064AC900EF6619 /* AFHTTPSessionManager.m in Sources */,
 				3BA384081924CDBC00EFC749 /* ScaleAnimation.m in Sources */,
+				44C5AB4D19EEAFA100EF897E /* HPChangeAccountPasswordViewController.m in Sources */,
 				3B298FD3192F476100BEC2AA /* NMRangeSlider.m in Sources */,
 				CD55FD2019792C2F003EE9E9 /* CareerPost.m in Sources */,
+				44C5AB7219EEB88900EF897E /* BKTouchIDSwitchView.m in Sources */,
 				CDBB916219B9D39F00546853 /* User.m in Sources */,
 				3B52B2B319C30128000B543C /* NSAttributeDescription+MagicalDataImport.m in Sources */,
 				CDC2D7CF1988E33C0002B196 /* Chat.m in Sources */,
@@ -2939,6 +3046,7 @@
 				4CF3A328194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
 				3B2F766819EE4F5100E280E8 /* UIProgressView+AFNetworking.m in Sources */,
 				3B52B2C119C30128000B543C /* NSManagedObjectContext+MagicalThreading.m in Sources */,
+				44C5AB6D19EEB88900EF897E /* BKPasscodeInputView.m in Sources */,
 				3B52B2BF19C30128000B543C /* NSManagedObjectContext+MagicalRecord.m in Sources */,
 				3B39D2F5195C3091002520B9 /* MaxEntertainmentPrice.m in Sources */,
 				3BCB5B07192F8D3500E5DCA9 /* HPSelectTownViewController.m in Sources */,
@@ -2953,6 +3061,7 @@
 				3B2F766919EE4F5100E280E8 /* UIRefreshControl+AFNetworking.m in Sources */,
 				CD55FD2C19792C30003EE9E9 /* Speciality.m in Sources */,
 				3BA4E6751998D08C002A3A0D /* Message.m in Sources */,
+				44C5AB6B19EEB88900EF897E /* BKPasscodeDummyViewController.m in Sources */,
 				3BBF88E319C174F000B934E6 /* HPBaseNetworkManager+Users.m in Sources */,
 				3BDA4C6319064AC900EF6619 /* AFHTTPRequestOperationManager.m in Sources */,
 				3B52B2C819C30128000B543C /* MagicalRecord+Options.m in Sources */,
@@ -2982,12 +3091,14 @@
 				3BDA4C8F19064E5900EF6619 /* SDImageCache.m in Sources */,
 				CDBB915C19B9C26A00546853 /* NSNumber+Convert.m in Sources */,
 				3BBF88E619C1785200B934E6 /* HPBaseNetworkManager+Messages.m in Sources */,
+				44C5AB6E19EEB88900EF897E /* BKPasscodeLockScreenManager.m in Sources */,
 				3B39D31B195C3122002520B9 /* SocketIOJSONSerialization.m in Sources */,
 				CD68A9C4196D0DE80090D6D1 /* TLSwipeForOptionsCell.m in Sources */,
 				7C5F79F487D68A326256AFD1 /* NSManagedObjectContext+HighPoint.m in Sources */,
 				3B52B2B619C30128000B543C /* NSObject+MagicalDataImport.m in Sources */,
 				7C5F763B6E244F2FFC517A12 /* NSManagedObject+HighPoint.m in Sources */,
 				7C5F7840C7F24F1E16C62A49 /* UITextView+HPRacSignal.m in Sources */,
+				44C5AB4219EE944900EF897E /* HPSettingsDataManager.m in Sources */,
 				44B52FCD19AB81300016E80B /* PSMenuItem.m in Sources */,
 				7C5F799376D171D937421C1A /* UINavigationBar+HighPoint.m in Sources */,
 				3B52B2CB19C30128000B543C /* MagicalRecord.m in Sources */,
@@ -3001,7 +3112,6 @@
 				3B52B2CA19C30128000B543C /* MagicalRecord+ShorthandSupport.m in Sources */,
 				7C5F7B370D3AE224778EA669 /* HPImageCollectionViewCell.m in Sources */,
 				7C5F70D60BEAC6FE1A60484D /* HPUserProfileFirstRowTableViewCell.m in Sources */,
-				7C5F7D6BA2F7A7A1F69CD0F9 /* HPUserProfileTableHeaderView.m in Sources */,
 				443B19E219EBEB0000108C05 /* RACollectionViewTripletLayout.m in Sources */,
 				7C5F766542796FD121405C2B /* HPUserProfilePhotoAlbumTabViewController.m in Sources */,
 				3B52B2B219C30128000B543C /* MagicalImportFunctions.m in Sources */,
@@ -3044,6 +3154,7 @@
 				7C5F79B410AB1FD051289A78 /* HPChatMsgOpenAllowCell.m in Sources */,
 				7C5F744E1B83708141395D08 /* HPChatMsgOpenDenyCell.m in Sources */,
 				7C5F76A84F21B8005B92A419 /* User+NameForms.m in Sources */,
+				7C5F7A03B46AE4AA46753809 /* HPUserProfileTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

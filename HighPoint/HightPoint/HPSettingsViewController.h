@@ -8,13 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HPSettingsViewController : UIViewController <UITextFieldDelegate>
-
-
-@property (weak, nonatomic) IBOutlet UITextField *enterIPTextField;
-
-
-- (IBAction)logoutBtnTap:(id)sender;
-- (IBAction)changeIPBtnTap:(id)sender;
+@interface HPSettingsViewController : UITableViewController <UITextFieldDelegate>
 
 @end

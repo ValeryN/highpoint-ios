@@ -7,13 +7,18 @@
         <mutableArray key="ParaType - Futura PT Book.otf">
             <string>FuturaPT-Book</string>
             <string>FuturaPT-Book</string>
+            <string>FuturaPT-Book</string>
         </mutableArray>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPUserInfoPhotoAlbumViewController">
             <connections>
                 <outlet property="carousel" destination="pZh-3j-uoy" id="C7r-cn-Ozl"/>
+                <outlet property="lockStatusImage" destination="nPb-Ol-fhk" id="AJR-YP-CdR"/>
+                <outlet property="lockStatusLabel" destination="85i-S8-Enb" id="nDS-Yk-pqX"/>
                 <outlet property="photoCountAndCurrentLabel" destination="uec-AL-jjr" id="iX0-zZ-T1t"/>
+                <outlet property="photosInfoView" destination="bhH-Zf-OTQ" id="CXi-Oi-n9C"/>
+                <outlet property="profileLockView" destination="FqJ-qQ-3VN" id="b4F-mn-xrs"/>
                 <outlet property="sendMessageButton" destination="zFQ-bx-eIV" id="Y5f-aU-xTQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -83,16 +88,48 @@
                     </state>
                     <state key="highlighted" backgroundImage="green_btn_pressed.png"/>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FqJ-qQ-3VN" userLabel="Profile hidden">
+                    <rect key="frame" x="10" y="356" width="300" height="86"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Lock Active.png" translatesAutoresizingMaskIntoConstraints="NO" id="nPb-Ol-fhk">
+                            <rect key="frame" x="134" y="0.0" width="32" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="32" id="ZZn-Mq-tnU"/>
+                                <constraint firstAttribute="height" constant="32" id="cCB-vv-Acs"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Вы можете попоросить ее открыть свой профиль" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="85i-S8-Enb">
+                            <rect key="frame" x="59" y="40" width="182" height="44"/>
+                            <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <accessibility key="accessibilityConfiguration">
+                        <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                    </accessibility>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="85i-S8-Enb" secondAttribute="bottom" constant="2" id="1Df-Fs-Wvj"/>
+                        <constraint firstAttribute="centerX" secondItem="85i-S8-Enb" secondAttribute="centerX" id="Xbb-We-L1G"/>
+                        <constraint firstItem="85i-S8-Enb" firstAttribute="top" secondItem="nPb-Ol-fhk" secondAttribute="bottom" constant="8" id="cwa-Gp-JZH"/>
+                        <constraint firstItem="nPb-Ol-fhk" firstAttribute="top" secondItem="FqJ-qQ-3VN" secondAttribute="top" id="nDe-OV-wb8"/>
+                        <constraint firstAttribute="centerX" secondItem="nPb-Ol-fhk" secondAttribute="centerX" id="uug-RU-iv3"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="FqJ-qQ-3VN" secondAttribute="trailing" constant="10" id="3ZJ-kr-7Q5"/>
                 <constraint firstAttribute="bottom" secondItem="pZh-3j-uoy" secondAttribute="bottom" id="3nk-hN-yO8"/>
                 <constraint firstAttribute="trailing" secondItem="pZh-3j-uoy" secondAttribute="trailing" id="9IS-qj-rmm"/>
                 <constraint firstItem="bhH-Zf-OTQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="E1J-On-okG"/>
                 <constraint firstItem="pZh-3j-uoy" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="JXT-zk-42G"/>
+                <constraint firstItem="zFQ-bx-eIV" firstAttribute="top" secondItem="FqJ-qQ-3VN" secondAttribute="bottom" constant="10" id="LoR-6t-eUR"/>
                 <constraint firstItem="pZh-3j-uoy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="MBo-Kt-pzZ"/>
                 <constraint firstAttribute="centerX" secondItem="zFQ-bx-eIV" secondAttribute="centerX" id="kLA-3E-9Kv"/>
                 <constraint firstItem="bhH-Zf-OTQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="kWX-q5-Aql"/>
+                <constraint firstItem="FqJ-qQ-3VN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="tFe-y4-lNy"/>
                 <constraint firstAttribute="bottom" secondItem="zFQ-bx-eIV" secondAttribute="bottom" constant="20" id="uaa-Qo-goE"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -101,6 +138,7 @@
     </objects>
     <resources>
         <image name="Camera Small.png" width="14" height="12"/>
+        <image name="Lock Active.png" width="64" height="64"/>
         <image name="green_btn_pressed.png" width="315" height="64"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
