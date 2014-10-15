@@ -12,6 +12,7 @@
 #import "HPAuthorizationViewController.h"
 #import "HPSettingsTableViewCell.h"
 #import "HPUserProfileTableHeaderView.h"
+#import "HPSettingsDataManager.h"
 
 typedef NS_ENUM(NSUInteger, SettingsSectionType){
     SettingsSectionNotify,
@@ -42,6 +43,7 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
 };
 
 @interface HPSettingsViewController ()
+@property(nonatomic,retain) HPSettingsDataManager* settingsManager;
 //Section: Notify
 @property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * soundSettings;
 @property(nonatomic,retain) IBOutlet HPSettingsTableViewCell * statusBarSettings;
@@ -61,6 +63,55 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
 @end
 
 @implementation HPSettingsViewController
+
+- (void) viewDidLoad{
+    [super viewDidLoad];
+    self.settingsManager = [HPSettingsDataManager sharedInstance];
+    [self configureTwoWaySwitchCell];
+    [self configureCheckmarCell];
+
+   
+}
+
+- (void) configureTwoWaySwitchCell{
+    RAC(self, soundSettings.switchView.on) = RACObserve(self, settingsManager.soundEnabled);
+    RAC(self,settingsManager.soundEnabled) = self.soundSettings.switchView.rac_newOnChannel;
+    
+    RAC(self, eventsWriteMessage.switchView.on) = RACObserve(self, settingsManager.notificationWriteMessageEnabled);
+    RAC(self,settingsManager.notificationWriteMessageEnabled) = self.eventsWriteMessage.switchView.rac_newOnChannel;
+    
+    RAC(self, eventVotePoint.switchView.on) = RACObserve(self, settingsManager.notificationLikeYourPointEnabled);
+    RAC(self,settingsManager.notificationLikeYourPointEnabled) = self.eventVotePoint.switchView.rac_newOnChannel;
+    
+    RAC(self, eventPointLimit.switchView.on) = RACObserve(self, settingsManager.notificationPointTimeIsUpEnabled);
+    RAC(self,settingsManager.notificationPointTimeIsUpEnabled) = self.eventPointLimit.switchView.rac_newOnChannel;
+}
+
+- (void) configureCheckmarCell{
+    RAC(self,statusBarSettings.accessoryType) = [RACObserve(self,settingsManager.notificationType) map:^id(NSNumber* value) {
+        switch ((SettingsNotificationType)value.intValue) {
+            case SettingsNotificationBanner:
+                return @(UITableViewCellAccessoryNone);
+                break;
+            case SettingsNotificationStatus:
+                return @(UITableViewCellAccessoryCheckmark);
+                break;
+        }
+        return @(UITableViewCellAccessoryNone);
+    }];
+    
+    RAC(self,bannerBarSettings.accessoryType) = [RACObserve(self,settingsManager.notificationType) map:^id(NSNumber* value) {
+        switch ((SettingsNotificationType)value.intValue) {
+            case SettingsNotificationBanner:
+                return @(UITableViewCellAccessoryCheckmark);
+                break;
+            case SettingsNotificationStatus:
+                return @(UITableViewCellAccessoryNone);
+                break;
+        }
+        return @(UITableViewCellAccessoryNone);
+    }];
+}
 
 - (SettingsSectionType) sectionTypeForSection:(NSUInteger) section{
     return (SettingsSectionType) section;
@@ -220,6 +271,14 @@ typedef NS_ENUM(NSUInteger, SettingCellType){
 }
 
 
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell * cell = [self cellForIndexPath:indexPath];
+    if(cell == self.statusBarSettings){
+        self.settingsManager.notificationType = SettingsNotificationStatus;
+    }
+    if(cell == self.bannerBarSettings){
+        self.settingsManager.notificationType = SettingsNotificationBanner;
+    }
+}
 
 @end

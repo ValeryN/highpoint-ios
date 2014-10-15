@@ -235,6 +235,7 @@
 		44B91D4819E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B91D4419E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m */; };
 		44B91D4919E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B91D4519E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib */; };
 		44C5AB3619ED696600EF897E /* HPSettingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB3519ED696600EF897E /* HPSettingsTableViewCell.m */; };
+		44C5AB4219EE944900EF897E /* HPSettingsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 44C5AB4119EE944900EF897E /* HPSettingsDataManager.m */; };
 		44D23B9C19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */; };
 		44D23BA419D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */; };
 		44D23BA619D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */; };
@@ -862,6 +863,8 @@
 		44B91D4519E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoSecondRowTableViewCell.xib; sourceTree = "<group>"; };
 		44C5AB3419ED696600EF897E /* HPSettingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSettingsTableViewCell.h; sourceTree = "<group>"; };
 		44C5AB3519ED696600EF897E /* HPSettingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSettingsTableViewCell.m; sourceTree = "<group>"; };
+		44C5AB4019EE944900EF897E /* HPSettingsDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSettingsDataManager.h; sourceTree = "<group>"; };
+		44C5AB4119EE944900EF897E /* HPSettingsDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSettingsDataManager.m; sourceTree = "<group>"; };
 		44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenAllowCell.xib; sourceTree = "<group>"; };
 		44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenDenyCell.xib; sourceTree = "<group>"; };
 		44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenRequestCell.xib; sourceTree = "<group>"; };
@@ -2038,6 +2041,8 @@
 				CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */,
 				44C5AB3419ED696600EF897E /* HPSettingsTableViewCell.h */,
 				44C5AB3519ED696600EF897E /* HPSettingsTableViewCell.m */,
+				44C5AB4019EE944900EF897E /* HPSettingsDataManager.h */,
+				44C5AB4119EE944900EF897E /* HPSettingsDataManager.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2938,6 +2943,7 @@
 				3B52B2B619C30128000B543C /* NSObject+MagicalDataImport.m in Sources */,
 				7C5F763B6E244F2FFC517A12 /* NSManagedObject+HighPoint.m in Sources */,
 				7C5F7840C7F24F1E16C62A49 /* UITextView+HPRacSignal.m in Sources */,
+				44C5AB4219EE944900EF897E /* HPSettingsDataManager.m in Sources */,
 				44B52FCD19AB81300016E80B /* PSMenuItem.m in Sources */,
 				7C5F799376D171D937421C1A /* UINavigationBar+HighPoint.m in Sources */,
 				3B52B2CB19C30128000B543C /* MagicalRecord.m in Sources */,
