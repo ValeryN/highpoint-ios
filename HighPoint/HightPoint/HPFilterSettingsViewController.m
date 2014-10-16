@@ -98,11 +98,9 @@
     [super viewWillAppear:animated];
     
     self.bgToolbar = [[UIToolbar alloc] initWithFrame:self.view.frame];
-    self.bgToolbar.barStyle = UIBarStyleBlackTranslucent;
-    self.bgToolbar.barTintColor = [UIColor colorWithRed:30./255. green:29./255. blue:48./255. alpha:0.1];
+    self.bgToolbar.barStyle = UIBarStyleBlack;
+    self.bgToolbar.translucent = YES;
     [self.view insertSubview:self.bgToolbar atIndex:0];
-    self.bgToolbar.backgroundColor = [UIColor clearColor];
-    
     
     uf = [[DataStorage sharedDataStorage] getUserFilter];
     [self fixSelfConstraint];
