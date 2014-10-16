@@ -156,55 +156,11 @@ static NSString *cellID = @"cellID";
             [cell.imageView setImageWithURLRequest:request placeholderImage:nil success:nil failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                 
             }];
-            /*
-            [self downloadImageWithURL:[NSURL URLWithString:avatarUrl] completionBlock:^(BOOL succeeded, UIImage *image) {
-                if (succeeded) {
-                    // change the image in the cell
-                    cell.imageView.image = image;
-                    
-                    // cache the image for use later (when scrolling up)
-                    //cell.imageView.image = image;
-                } else cell.imageView.image = nil;
-                
-            }];
-            
-            //[self sd_setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:completedBlock];
-            
-            //[cell.imageView sd_setImageWithURL:[NSURL URLWithString:avatarUrl]
-            //               placeholderImage:nil
-            //                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            //                      cell.contentView.layer.borderColor =  [UIColor clearColor].CGColor;
-            //                      }];
-            
-            /*
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            [manager downloadImageWithURL:[NSURL URLWithString:avatarUrl]
-                                  options:SDWebImageRetryFailed
-                                 progress:^(NSInteger receivedSize, NSInteger expectedSize)
-             {
-                 // progression tracking code
-             }
-                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *url)
-             {
-                 if (image)
-                 {
-                     NSLog(@"image width %f", image.size.width);
-                     NSLog(@"image height %f", image.size.height);
-                     
-                     cell.imageView.image = image;
-                     cell.contentView.layer.borderColor =  [UIColor clearColor].CGColor;
-                     
-                 }
-             }];
-             */
-            
         } else {
             NSLog(@"Error: get from ALLibrary");
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
                 ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
                 [assetsLibrary assetForURL:[NSURL URLWithString:photo.imgeSrc] resultBlock: ^(ALAsset *asset)   {
-                    
-                    @autoreleasepool {
                         ALAssetRepresentation *representation = [asset defaultRepresentation];
                         CGImageRef imageRef = [representation fullScreenImage];
                         if (imageRef) {
@@ -216,7 +172,6 @@ static NSString *cellID = @"cellID";
                                 cell.imageView.image = image;
                             });
                             
-                        }
                     }
                 } failureBlock:^(NSError *error)    {
                     
@@ -242,10 +197,12 @@ static NSString *cellID = @"cellID";
 }
 
 - (void) addPhotoMenuShow {
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     HPAddPhotoMenuViewController* addPhotoViewController = [[HPAddPhotoMenuViewController alloc] initWithNibName: @"HPAddPhotoMenuViewController" bundle: nil];
-    addPhotoViewController.delegate = self;
-    addPhotoViewController.screenShoot = [self selfScreenShot];
-    [self presentViewController:addPhotoViewController animated:YES completion:nil];
+    addPhotoViewController.view.frame = self.view.bounds;
+    [self.view addSubview:addPhotoViewController.view];
+    [self addChildViewController:addPhotoViewController];
+    [addPhotoViewController didMoveToParentViewController:self];
 }
 
 - (void) viewWillBeHidden:(UIImage*) image andIntPath:(NSString *)path {
@@ -261,20 +218,7 @@ static NSString *cellID = @"cellID";
     }];
 }
 
-- (void) closeMenu {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
-- (UIImage*) selfScreenShot {
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    CGRect rect = [keyWindow frame];
-    UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [keyWindow.layer renderInContext:context];
-    UIImage *capturedScreen = [UIGraphicsGetImageFromCurrentImageContext() resizeImageToSize:(CGSize){rect.size.width/3, rect.size.height/3}];
-    UIGraphicsEndImageContext();
-    return capturedScreen;
-}
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];

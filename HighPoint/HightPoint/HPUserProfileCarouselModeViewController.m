@@ -101,7 +101,6 @@
         } else {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
                 @strongify(self);
-                @autoreleasepool {
                     ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
                     [assetsLibrary assetForURL:[NSURL URLWithString:photo.imgeSrc] resultBlock: ^(ALAsset *asset)   {
                         ALAssetRepresentation *representation = [asset defaultRepresentation];
@@ -123,7 +122,6 @@
                     } failureBlock:^(NSError *error)    {
                         
                     }];
-                }
             });
         }
     }];
@@ -276,8 +274,7 @@
         view.frame = rect;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-            @autoreleasepool {
-                
+
                 ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
                 [assetsLibrary assetForURL:[NSURL URLWithString:photo.imgeSrc] resultBlock: ^(ALAsset *asset)   {
                     ALAssetRepresentation *representation = [asset defaultRepresentation];
@@ -294,7 +291,7 @@
                 } failureBlock:^(NSError *error)    {
                     
                 }];
-            }
+            
         });
         
     }

@@ -18,7 +18,10 @@
 #define CONSTRAINT_TOP_FOR_TAKE_PHOTO 330.0
 
 @interface HPAddPhotoMenuViewController ()
-
+@property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
+@property (weak, nonatomic) IBOutlet UIButton *takePhoto;
+@property (weak, nonatomic) IBOutlet UIButton *pickPhoto;
+@property (nonatomic) UIToolbar* bgToolbar;
 @end
 
 @implementation HPAddPhotoMenuViewController
@@ -48,46 +51,29 @@
     [self setBgBlur];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 
 #pragma mark - blur for bg
 
 - (void) setBgBlur {
-    //self.view.opaque = NO;
-    //Place the UIImage in a UIImageView
-    self.backGroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    self.backGroundView.image = [self.screenShoot hp_applyBlurWithRadius:2];
-    [self.view insertSubview:self.backGroundView atIndex:0];
-    
-    self.darkBgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    self.darkBgView.backgroundColor = [UIColor colorWithRed:30.f / 255.f green:29.f / 255.f blue:48.f / 255.f alpha:0.9];
-    [self.backGroundView addSubview:self.darkBgView];
-
+    self.bgToolbar = [[UIToolbar alloc] initWithFrame:self.view.frame];
+    self.bgToolbar.barStyle = UIBarStyleBlack;
+    self.bgToolbar.translucent = YES;
+    [self.view insertSubview:self.bgToolbar atIndex:0];
 }
 
 - (void) hideView {
-    [self.backGroundView removeFromSuperview];
-    self.backGroundView = nil;
-    [self.darkBgView removeFromSuperview];
-    self.darkBgView = nil;
     if([self.delegate respondsToSelector:@selector(viewWillBeHidden:andIntPath:)]) {
         [self.delegate viewWillBeHidden:nil andIntPath:nil];
         //animation support if need
     }
-    //[self dismissViewControllerAnimated: YES
-    //                         completion: nil];
 }
 
 #pragma mark - cancel
 - (IBAction)cancelBtnTap:(id)sender {
-    if([self.delegate respondsToSelector:@selector(closeMenu)]) {
-        [self.delegate closeMenu];
-    }
+    [self.view removeFromSuperview];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    [self removeFromParentViewController];
 }
 
 
@@ -137,8 +123,6 @@
         
         if([self.delegate respondsToSelector:@selector(viewWillBeHidden:andIntPath:)])
         {
-            [self.backGroundView removeFromSuperview];
-            self.backGroundView = nil;
             if(currentImage)
                 [self.delegate viewWillBeHidden:currentImage andIntPath:nil];
         }
@@ -158,8 +142,6 @@
         
         [picker dismissViewControllerAnimated:YES completion:^{
             @strongify(self);
-            [self.backGroundView removeFromSuperview];
-            self.backGroundView = nil;
             if(currentImage)
                 [self.delegate viewWillBeHidden:currentImage andIntPath:nil];
             
@@ -243,4 +225,14 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    if(self.view.window == nil){
+        [self.navigationController setNavigationBarHidden:NO animated:NO];
+        self.view = nil;
+    }
+}
+- (void)dealloc{
+    NSLog(@"Dealloc");
+}
 @end
