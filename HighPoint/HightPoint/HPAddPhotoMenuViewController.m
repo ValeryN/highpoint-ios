@@ -192,7 +192,7 @@
         [picker dismissViewControllerAnimated:YES completion:^{
             [self.backGroundView removeFromSuperview];
             self.backGroundView = nil;
-            if(currentImage && intUrl)
+            if(currentImage)
                 [self.delegate viewWillBeHidden:currentImage andIntPath:intUrl];
             
         }];

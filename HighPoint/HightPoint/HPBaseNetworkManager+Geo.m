@@ -67,6 +67,7 @@
 #pragma mark - popular cities
 
 - (void) getPopularCitiesRequest {
+     NSLog(@"pop city req");
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kPopularCitiesRequest];

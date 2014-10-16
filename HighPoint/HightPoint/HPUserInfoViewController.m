@@ -23,6 +23,7 @@
 #import "HPUserProfileInfoEditTabViewController.h"
 #import "HPUserCardViewController.h"
 #import "HPUserInfoPhotoAlbumViewController.h"
+#import "UIViewController+HighPoint.h"
 
 
 
@@ -40,11 +41,14 @@
     [RACObserve(self, navigationController.navigationBar) subscribeNext:^(UINavigationBar* bar) {
         bar.translucent = YES;
     }];
+    self.user = [[DataStorage sharedDataStorage] getCurrentUser];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self configureSegmentedControl];
     [self configurePhotoTab];
     [self configureInfoTab];
+    [self configureBackButton];
 }
+
 
 - (void)configurePhotoTab {
     self.photoAlbumTabViewController = [[HPUserInfoPhotoAlbumViewController alloc] initWithNibName:@"HPUserInfoPhotoAlbumViewController" bundle:nil];
@@ -75,9 +79,11 @@
         switch ((UserVisibilityType)type.intValue) {
             case UserVisibilityBlur:
             case UserVisibilityVisible:
+            case UserVisibilityRequestBlur:
                 self.navigationItem.titleView = self.segmentController;
                 break;
             case UserVisibilityHidden:
+            case UserVisibilityRequestHidden:
                 self.navigationItem.titleView = nil;
                 self.navigationItem.title = @"Профиль скрыт";
                 break;

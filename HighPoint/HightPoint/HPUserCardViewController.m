@@ -70,6 +70,10 @@
                 [collection scrollToItemAtIndexPath:[self.searchController indexPathForObject:user] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
             }];
         }];
+        
+        [[self.changeViewedUserCard distinctUntilChanged] subscribeNext:^(User* usr) {
+            [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
+        }];
     }
     return self;
 }
@@ -199,6 +203,12 @@
     CGPoint visiblePoint = CGPointMake(CGRectGetMidX(visibleRect), CGRectGetMidY(visibleRect));
     NSIndexPath *visibleIndexPath = [self.usersCollectionView indexPathForItemAtPoint:visiblePoint];
     [self.changeViewedUserCard sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+    
+    NSUInteger lastRowIndex = [self collectionView:self.usersCollectionView numberOfItemsInSection:0] - 1;
+    if(lastRowIndex == visibleIndexPath.row){
+        //Load on last cell
+        [self.needLoadNextPage sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+    }
 }
 - (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     CGRect visibleRect = (CGRect){.origin = self.usersCollectionView.contentOffset, .size = self.usersCollectionView.bounds.size};
@@ -206,6 +216,7 @@
     NSIndexPath *visibleIndexPath = [self.usersCollectionView indexPathForItemAtPoint:visiblePoint];
 
     NSUInteger lastRowIndex = [self collectionView:self.usersCollectionView numberOfItemsInSection:0] - 1;
+    //Pull to load more
     if(lastRowIndex == visibleIndexPath.row){
         [self.needLoadNextPage sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
     }
@@ -256,9 +267,6 @@
 {
 
     User * usr = [self.searchController objectAtIndexPath:indexPath];
-    if(usr) {
-        [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
-    }
     HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
     uiController.user = usr;
     [self.navigationController pushViewController:uiController animated:YES];

@@ -18,11 +18,12 @@
 @implementation HPBaseNetworkManager (Messages)
 #pragma mark - unread message
 - (void) getUnreadMessageRequest {
+     NSLog(@"unread mess req");
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kUnreadMessagesRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [self addTaskToArray:manager];
+    //[self addTaskToArray:manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];

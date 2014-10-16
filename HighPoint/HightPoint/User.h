@@ -13,7 +13,9 @@
 typedef NS_ENUM(NSUInteger, UserVisibilityType){
     UserVisibilityVisible = 1,
     UserVisibilityBlur = 2,
-    UserVisibilityHidden = 3
+    UserVisibilityHidden = 3,
+    UserVisibilityRequestBlur = 4,
+    UserVisibilityRequestHidden = 5
 };
 
 typedef NS_ENUM(NSUInteger, UserGenderType){

@@ -183,23 +183,23 @@ static HPMainViewListTableViewCell* _prevCell;
 - (void) hidePoint
 {
     if(!handleLongTap) {
-    @weakify(self);
-    CGRect rect = self.mainInfoGroup.frame;
-    rect.origin.x = 12;
-    self.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
-    [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-     {
-         @strongify(self);
-         self.point.alpha = 0.0;
-         self.mainInfoGroup.frame = rect;
-     }
-    completion: ^(BOOL finished)
-     {
-         [HPMainViewListTableViewCell makeCellReleased];
-     }];
+        @weakify(self);
+        CGRect rect = self.mainInfoGroup.frame;
+        rect.origin.x = 12;
+        self.showPointButton.image = [UIImage imageNamed: @"Point Notice"];
+        [UIView animateWithDuration: SHOWPOINT_COMPLETELY_DURATION
+                              delay: 0
+                            options: UIViewAnimationOptionCurveLinear
+                         animations: ^
+         {
+             @strongify(self);
+             self.point.alpha = 0.0;
+             self.mainInfoGroup.frame = rect;
+         }
+                         completion: ^(BOOL finished)
+         {
+             [HPMainViewListTableViewCell makeCellReleased];
+         }];
     }
 }
 
@@ -229,8 +229,8 @@ static HPMainViewListTableViewCell* _prevCell;
     swipeRightRecognizer.cancelsTouchesInView = YES;
     swipeRightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     [self.contentView addGestureRecognizer:swipeRightRecognizer];
-    //UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTap:)];
-    //[self.showPointGroup addGestureRecognizer: tapRecognizer];
+    UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTap:)];
+    [self.showPointGroup addGestureRecognizer: tapRecognizer];
 }
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;

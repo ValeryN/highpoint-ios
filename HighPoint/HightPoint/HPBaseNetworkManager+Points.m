@@ -19,6 +19,7 @@
 #pragma mark - points
 
 - (void) getPointsRequest:(NSInteger) lastPoint {
+    NSLog(@"points req");
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kPointsRequest];
@@ -89,13 +90,14 @@
 #pragma mark - get point likes
 
 - (void) getPointLikesRequest: (NSNumber *) pointId {
+     NSLog(@"point like req");
     NSString *url = nil;
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys: pointId, @"id", nil];
     url = [URLs getServerURL];
     url =  [url stringByAppendingString:[NSString stringWithFormat:kPointLikesRequest, [pointId stringValue]]];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
-    [self addTaskToArray:manager];
+    //[self addTaskToArray:manager];
     [manager GET:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];

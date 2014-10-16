@@ -19,13 +19,14 @@
 @implementation HPBaseNetworkManager (Contacts)
 #pragma mark - contacts
 - (void) getContactsRequest {
+     NSLog(@"cont req");
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kGetContactsRequest];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [self addTaskToArray:manager];
+    //[self addTaskToArray:manager];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
@@ -49,10 +50,7 @@
                                 }];
                             }];
                         }
-                        if ([self isTaskArrayEmpty:manager]) {
-                            [self makeTownByIdRequest];
-                        }
-                        [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
+                        
                     }
                 }];
                 

@@ -15,6 +15,7 @@
 @implementation HPBaseNetworkManager (ApplicationSettings)
 - (void) getApplicationSettingsRequest {
     ///v201405/settings
+     NSLog(@"app setting req");
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kApplicationSettingsRequest];

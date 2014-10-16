@@ -107,10 +107,12 @@
                 NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
                 return [NSString stringWithFormat:@"%@, %@ лет, %@", user.name, user.age, cityName];
             }
-            case UserVisibilityBlur: {
+            case UserVisibilityBlur:
+            case UserVisibilityRequestBlur:{
                 return @"Вы скрыли свое имя и фотографии";
             }
-            case UserVisibilityHidden: {
+            case UserVisibilityHidden:
+            case UserVisibilityRequestHidden:{
                 return @"Вы скрыли свой профиль";
             }
         }
