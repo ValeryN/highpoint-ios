@@ -39,6 +39,7 @@
 //@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
 @property (assign, nonatomic) BOOL isNeedScrollToIndex;
 @property (assign, nonatomic) int currentIndex;
+@property (weak, nonatomic) IBOutlet UIButton *lensBtn;
 
 @property (strong, nonatomic) HPFilterSettingsViewController *filterController;
 

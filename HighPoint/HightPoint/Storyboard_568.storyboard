@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BBy-ip-1SR">
     <dependencies>
-        <deployment version="1536" identifier="iOS"/>
+        <deployment version="1536" defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
@@ -271,6 +271,7 @@
                     <connections>
                         <outlet property="chatsListButton" destination="aHY-bi-ett" id="UR2-jA-ZDa"/>
                         <outlet property="filterGroupView" destination="j7y-09-8PB" id="V6I-jv-RfS"/>
+                        <outlet property="lensBtn" destination="7c7-ao-JSu" id="3l5-ei-7KT"/>
                         <outlet property="mainListTable" destination="NN0-MU-hah" id="gRO-VO-oVS"/>
                         <outlet property="sendFilterBtn" destination="oc4-cm-8bP" id="dYd-eU-wKe"/>
                     </connections>

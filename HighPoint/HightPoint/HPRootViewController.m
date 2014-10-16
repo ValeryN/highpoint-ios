@@ -28,6 +28,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "HPUserCardViewController.h"
 #import "HPSelectPopularCityViewController.h"
+#import "UIButton+ExtendedEdges.h"
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
@@ -80,7 +81,7 @@
     
     self.mainListTable.hidden = NO;
     self.isNeedScrollToIndex = NO;
-    
+    [self.lensBtn setHitTestEdgeInsets:UIEdgeInsetsMake(-15, -15, -15, -15)];
     
 }
 - (void) viewWillDisappear:(BOOL)animated {

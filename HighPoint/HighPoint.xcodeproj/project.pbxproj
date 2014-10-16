@@ -419,6 +419,7 @@
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 		CDB9527D19A1F87D00238DFC /* HPSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB9527C19A1F87D00238DFC /* HPSplashViewController.m */; };
+		CDBAAC3119EF8F3B001BAEBF /* UIButton+ExtendedEdges.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBAAC3019EF8F3B001BAEBF /* UIButton+ExtendedEdges.m */; };
 		CDBB915619B9BA1900546853 /* UserPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915519B9BA1900546853 /* UserPoint.m */; };
 		CDBB915919B9C14000546853 /* NSString+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915819B9C14000546853 /* NSString+Convert.m */; };
 		CDBB915C19B9C26A00546853 /* NSNumber+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915B19B9C26A00546853 /* NSNumber+Convert.m */; };
@@ -1147,6 +1148,8 @@
 		CDB9527519A1CFEF00238DFC /* Blend 5X@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blend 5X@2x.png"; sourceTree = "<group>"; };
 		CDB9527B19A1F87D00238DFC /* HPSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSplashViewController.h; sourceTree = "<group>"; };
 		CDB9527C19A1F87D00238DFC /* HPSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSplashViewController.m; sourceTree = "<group>"; };
+		CDBAAC2F19EF8F3B001BAEBF /* UIButton+ExtendedEdges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+ExtendedEdges.h"; sourceTree = "<group>"; };
+		CDBAAC3019EF8F3B001BAEBF /* UIButton+ExtendedEdges.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+ExtendedEdges.m"; sourceTree = "<group>"; };
 		CDBB915419B9BA1900546853 /* UserPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPoint.h; sourceTree = "<group>"; };
 		CDBB915519B9BA1900546853 /* UserPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPoint.m; sourceTree = "<group>"; };
 		CDBB915719B9C14000546853 /* NSString+Convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Convert.h"; sourceTree = "<group>"; };
@@ -2270,6 +2273,8 @@
 				CDBB915E19B9C5CC00546853 /* NSNull+Convert.m */,
 				7C5F749C998964E92952D823 /* NSDate+HighPoint.m */,
 				7C5F729D1AA996B7AE993D30 /* NSDate+HighPoint.h */,
+				CDBAAC2F19EF8F3B001BAEBF /* UIButton+ExtendedEdges.h */,
+				CDBAAC3019EF8F3B001BAEBF /* UIButton+ExtendedEdges.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -2618,7 +2623,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = J67Y29BQR7;
+						DevelopmentTeam = B9639RHZFT;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -2981,6 +2986,7 @@
 				3BBF88E919C178D200B934E6 /* HPBaseNetworkManager+Points.m in Sources */,
 				3BBF88DA19C173FD00B934E6 /* HPBaseNetworkManager+Contacts.m in Sources */,
 				44C5AB7119EEB88900EF897E /* BKTouchIDManager.m in Sources */,
+				CDBAAC3119EF8F3B001BAEBF /* UIButton+ExtendedEdges.m in Sources */,
 				44C5AB7019EEB88900EF897E /* BKShiftingView.m in Sources */,
 				CDA44BBE19A5E8EA00E33230 /* HPAuthorizationViewController.m in Sources */,
 				3BDA4C6219064AC900EF6619 /* AFHTTPRequestOperation.m in Sources */,
