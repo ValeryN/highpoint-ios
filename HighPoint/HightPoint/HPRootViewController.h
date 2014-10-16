@@ -40,10 +40,11 @@
 @property (assign, nonatomic) BOOL isNeedScrollToIndex;
 @property (assign, nonatomic) int currentIndex;
 
+@property (strong, nonatomic) HPFilterSettingsViewController *filterController;
+
 - (IBAction) filterButtonTap:(id)sender;
 - (IBAction) profileButtonPressedStart: (id) sender;
 - (IBAction) bubbleButtonPressedStart: (id) sender;
 - (void) syncronizePosition : (NSInteger) currentPosition;
-
 
 @end

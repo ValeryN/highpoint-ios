@@ -13,6 +13,8 @@
 @protocol HPFilterSettingsViewControllerDelegate <NSObject>
 
 - (void) showActivity;
+- (void) showNavigationBar;
+- (void) updateCurrentView;
 
 @end
 
@@ -51,6 +53,8 @@
 @property (strong, nonatomic) UIImage *screenShoot;
 @property (strong, nonatomic) UIView *darkBgView;
 @property (weak, nonatomic) IBOutlet UIImageView *backGroundView;
+
+@property (strong, nonatomic) UIToolbar* bgToolbar;
 
 - (IBAction) menSwitchTap:(id)sender;
 - (IBAction) womenSwitchTap:(id)sender;

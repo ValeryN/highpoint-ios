@@ -45,6 +45,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     uf = [[DataStorage sharedDataStorage] getUserFilter];
     [self initOldFilterValues];
     self.womenSw.layer.cornerRadius = 16.0;
@@ -93,15 +94,22 @@
     self.townsTableView.dataSource = self;
 }
 - (void) viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self.navigationController setNavigationBarHidden:YES];
     [super viewWillAppear:animated];
+    
+    self.bgToolbar = [[UIToolbar alloc] initWithFrame:self.view.frame];
+    self.bgToolbar.barStyle = UIBarStyleBlackTranslucent;
+    self.bgToolbar.barTintColor = [UIColor colorWithRed:30./255. green:29./255. blue:48./255. alpha:0.1];
+    [self.view insertSubview:self.bgToolbar atIndex:0];
+    self.bgToolbar.backgroundColor = [UIColor clearColor];
+    
+    
     uf = [[DataStorage sharedDataStorage] getUserFilter];
     [self fixSelfConstraint];
     [self registerNotification];
     self.oldRangeSlider.minimumValue = 18;
     self.oldRangeSlider.maximumValue = 60;
     [self updateViewValues];
-    [self setBgBlur];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -110,19 +118,6 @@
     
 }
 
-
-- (void) setBgBlur {
-    self.backGroundView.image = [self.screenShoot hp_applyBlurWithRadius:2];
-    [self.view insertSubview:self.backGroundView atIndex:0];
-    self.darkBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.backGroundView.frame.size.width, self.backGroundView.frame.size.height)];
-    self.darkBgView.backgroundColor = [UIColor colorWithRed:30.f / 255.f green:29.f / 255.f blue:48.f / 255.f alpha:0.9];
-    [self.backGroundView addSubview:self.darkBgView];
-    
-}
-
-- (void) hideView {
-    self.darkBgView = nil;
-}
 
 #pragma mark - constraint
 - (void) fixSelfConstraint
@@ -193,16 +188,29 @@
     if ([self isFilterValuesChanged]) {
          [self saveFilter];
         self.navigationController.delegate = self.savedDelegate;
-        //[[self navigationController] setNavigationBarHidden:NO animated:NO];
-        [self hideView];
-        [self.navigationController popViewControllerAnimated:YES];
+
+        if ([self.delegate respondsToSelector:@selector(showNavigationBar)]) {
+            [self.delegate showNavigationBar];
+        }
+
+        [self.view removeFromSuperview];
+        [self removeFromParentViewController];
+        
         if ([self.delegate respondsToSelector:@selector(showActivity)]) {
             [self.delegate showActivity];
         }
+        
+        if ([self.delegate respondsToSelector:@selector(updateCurrentView)]) {
+            [self.delegate updateCurrentView];
+        }
+        
     } else {
-        [self.navigationController popViewControllerAnimated:YES];
+        if ([self.delegate respondsToSelector:@selector(showNavigationBar)]) {
+            [self.delegate showNavigationBar];
+        }
+        [self.view removeFromSuperview];
+        [self removeFromParentViewController];
     }
-    
 }
 - (IBAction) menSwitchTap:(id)sender {
     if(![self.menSw isOn] && ![self.womenSw isOn]) {
@@ -325,8 +333,6 @@
     [self.townsTableView reloadData];
 }
 
-
-
 #pragma mark - save filters 
 
 
@@ -394,9 +400,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self saveFilterToDB];
-    HPSelectPopularCityViewController *cityVC = [[HPSelectPopularCityViewController alloc] initWithNibName: @"HPSelectPopularCityViewController" bundle: nil];
+    
     self.savedDelegate = self.navigationController.delegate;
     self.navigationController.delegate = nil;
+    HPSelectPopularCityViewController *cityVC = [[HPSelectPopularCityViewController alloc] initWithNibName: @"HPSelectPopularCityViewController" bundle: nil];
     [self.navigationController pushViewController:cityVC animated:YES];
 }
 

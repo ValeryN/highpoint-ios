@@ -27,6 +27,7 @@
 #import "URLs.h"
 #import <QuartzCore/QuartzCore.h>
 #import "HPUserCardViewController.h"
+#import "HPSelectPopularCityViewController.h"
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
@@ -169,23 +170,45 @@
 
 - (IBAction) filterButtonTap: (id)sender
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-        CGRect rect = [keyWindow frame];
-        UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        [keyWindow.layer renderInContext:context];
-        UIImage *capturedScreen = [UIGraphicsGetImageFromCurrentImageContext() resizeImageToSize:(CGSize){rect.size.width/3, rect.size.height/3}];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
-            filter.delegate = self;
-            filter.screenShoot = capturedScreen;
-            _crossDissolveAnimationController.viewForInteraction = filter.view;
-            [self.navigationController pushViewController:filter animated:YES];
-            _crossDissolveAnimationController.viewForInteraction = nil;
-        });
-    });
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+//        CGRect rect = [keyWindow frame];
+//        UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
+//        CGContextRef context = UIGraphicsGetCurrentContext();
+//        [keyWindow.layer renderInContext:context];
+//        UIImage *capturedScreen = [UIGraphicsGetImageFromCurrentImageContext() resizeImageToSize:(CGSize){rect.size.width/3, rect.size.height/3}];
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
+//            filter.delegate = self;
+//            filter.screenShoot = capturedScreen;
+//            _crossDissolveAnimationController.viewForInteraction = filter.view;
+//            [self.navigationController pushViewController:filter animated:YES];
+//            _crossDissolveAnimationController.viewForInteraction = nil;
+//        });
+//    });
+//    
+//    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
+//    self.providesPresentationContextTransitionStyle = YES;
+//    self.definesPresentationContext = YES;
+//    filter.delegate = self;
+//    [filter setModalPresentationStyle:UIModalPresentationOverCurrentContext];
+//    [self.navigationController setNavigationBarHidden:YES animated:NO];
+//    self.filterNavigationController = [[UINavigationController alloc] initWithRootViewController:filter];
+//    [self.filterNavigationController.view setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.1]];
+//    self.filterNavigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//         [self presentViewController:self.filterNavigationController animated:YES completion: ^{
+//         }];
+//    });
+    
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    self.filterController = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
+    self.filterController.delegate = self;
+    self.filterController.view.frame = self.view.bounds;
+    [self.view addSubview:self.filterController.view];
+    [self addChildViewController:self.filterController];
+    [self.filterController didMoveToParentViewController:self];
 }
 
 
@@ -197,7 +220,7 @@
     } else {
         self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
     }
-    
+    [self.mainListTable reloadData];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller;
@@ -569,6 +592,13 @@
 - (void) getNewFilteredUsers {
     [self makeUsersRequest];
 }
+
+
+#pragma mark - delegate
+- (void) showNavigationBar {
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+
 
 #pragma mark - activity
 
