@@ -626,5 +626,15 @@
     //todo: enable buttons
 }
 
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    if(self.view.window == nil){
+        self.view = nil;
+        self.overlayView = nil;
+        self.activityIndicator = nil;
+        self.rotationAnimation = nil;
+        self.notificationView = nil;
+    }
+}
 
 @end

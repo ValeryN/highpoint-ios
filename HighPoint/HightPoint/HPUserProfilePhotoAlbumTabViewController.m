@@ -11,8 +11,6 @@
 #import "HPUserProfileCarouselModeViewController.h"
 #import "DataStorage.h"
 #import "Photo.h"
-#import "SDWebImageManager.h"
-#import "UIImageView+WebCache.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "HPBaseNetworkManager+Photos.h"
 #import "NotificationsConstants.h"
@@ -127,21 +125,7 @@ static NSString *cellID = @"cellID";
 {
     return !([self collectionView:collectionView numberOfItemsInSection:indexPath.section] - indexPath.row == 1);
 }
-- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
-{
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                               if ( !error )
-                               {
-                                   UIImage *image = [[UIImage alloc] initWithData:data];
-                                   completionBlock(YES,image);
-                               } else{
-                                   completionBlock(NO,nil);
-                               }
-                           }];
-}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     HPImageCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
@@ -265,12 +249,12 @@ static NSString *cellID = @"cellID";
 }
 
 - (void) viewWillBeHidden:(UIImage*) image andIntPath:(NSString *)path {
-    //UIImage *img = [Utils scaleImage:image toSize:CGSizeMake(320.0, 320.0)];
-    
+    @weakify(self);
     NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
     NSNumber *fakeId = [NSNumber numberWithInt: (int) timeStamp * -1];
     NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:fakeId,@"id",[NSNumber numberWithFloat:image.size.width],@"imgwidth",[NSNumber numberWithFloat:image.size.height],@"imgheight",path, @"imgsrc", nil];
     [[DataStorage sharedDataStorage] createAndSaveIntPhotoEntity:param withComplation:^(id object) {
+        @strongify(self);
         [self dismissViewControllerAnimated:YES completion:nil];
         [self reloadData];
         [[HPBaseNetworkManager sharedNetworkManager] addPhotoRequest:image andPhotoId:fakeId];
@@ -290,5 +274,14 @@ static NSString *cellID = @"cellID";
     UIImage *capturedScreen = [UIGraphicsGetImageFromCurrentImageContext() resizeImageToSize:(CGSize){rect.size.width/3, rect.size.height/3}];
     UIGraphicsEndImageContext();
     return capturedScreen;
+}
+
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    
+    if([self.view window] == nil){
+        self.view = nil;
+        self.photosArray = nil;
+    }
 }
 @end

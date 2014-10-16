@@ -11,7 +11,6 @@
 #import "UIImage+HighPoint.h"
 #import "User.h"
 #import "UITextView+HPRacSignal.h"
-#import "UIImageView+WebCache.h"
 #import "Avatar.h"
 #import "UserPoint.h"
 #import "HPCurrentUserViewController.h"

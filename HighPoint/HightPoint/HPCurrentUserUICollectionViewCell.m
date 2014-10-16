@@ -10,7 +10,6 @@
 #import "UILabel+HighPoint.h"
 #import "UIImage+HighPoint.h"
 #import "UIDevice+HighPoint.h"
-#import "SDWebImageManager.h"
 #import "Avatar.h"
 #import "UserPoint.h"
 #import "HPCurrentUserViewController.h"

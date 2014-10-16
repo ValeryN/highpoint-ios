@@ -94,8 +94,9 @@
 }
 
 - (void) openViewController:(UIViewController *) controller{
-    [self.navigationController pushViewController:controller animated:NO];
+    ((HPAppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController = [[UINavigationController alloc] initWithRootViewController:controller];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -13,10 +13,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import "HPBaseNetworkManager+Points.h"
 #import "UIImage+HighPoint.h"
-#import "SDWebImageManager.h"
 #import "Avatar.h"
 #import "DataStorage.h"
 #import "HPRoundedShadowedImageView.h"
+#import "UIImageView+AFNetworking.h"
+#import "User+UserImage.h"
 
 #define AVATAR_BLUR_RADIUS 10.0
 
@@ -86,23 +87,11 @@
 #pragma mark - avatar
 
 - (void) loadAvatar : (User *) user {
-    NSString* avatarUrl = user.avatar.originalImgSrc;
-    SDWebImageManager *manager = [SDWebImageManager sharedManager];
     @weakify(self);
-    [manager downloadWithURL:[NSURL URLWithString:avatarUrl]
-                     options:0
-                    progress:^(NSInteger receivedSize, NSInteger expectedSize)
-     {
-         // progression tracking code
-     }
-                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
-     {
-         @strongify(self);
-         if (image)
-         {
-             self.avatarImageView.image = image;
-         }
-     }];
+    [user.userImageSignal subscribeNext:^(UIImage* x) {
+        @strongify(self);
+        self.avatarImageView.image = x;
+    }];
 }
 
 #pragma mark - privacy

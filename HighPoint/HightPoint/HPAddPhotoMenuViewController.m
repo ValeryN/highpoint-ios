@@ -41,44 +41,13 @@
     isCamera = NO;
     
     [self createGreenButton];
-    [self fixUserConstraint];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self setBgBlur];
 }
-- (void) fixUserConstraint
-{
-    self.cancelBtn.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    if (![UIDevice hp_isWideScreen])
-    {
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.cancelBtn
-                                                              attribute: NSLayoutAttributeTop
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: self.view
-                                                              attribute: NSLayoutAttributeTop
-                                                             multiplier: 1.0
-                                                               constant: CONSTRAINT_TOP_FOR_CANCEL]];
-        
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.pickPhoto
-                                                              attribute: NSLayoutAttributeTop
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: self.view
-                                                              attribute: NSLayoutAttributeTop
-                                                             multiplier: 1.0
-                                                               constant: CONSTRAINT_TOP_FOR_CHOOSE_PHOTO]];
-        
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.takePhoto
-                                                              attribute: NSLayoutAttributeTop
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: self.view
-                                                              attribute: NSLayoutAttributeTop
-                                                             multiplier: 1.0
-                                                               constant: CONSTRAINT_TOP_FOR_TAKE_PHOTO]];
-    }
-}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -147,7 +116,9 @@
 #pragma mark - image picker
 
 - (void) showPhotoPickerController {
+    @weakify(self);
     dispatch_async(dispatch_get_main_queue(), ^{
+        @strongify(self);
         UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
         imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         imagePickerController.delegate = self;
@@ -159,41 +130,38 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *currentImage;
-    __block NSString *intUrl;
+    @weakify(self);
+    UIImage *currentImage = [info valueForKey:UIImagePickerControllerOriginalImage];
     if (isCamera) {
-        currentImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-        // Request to save the image to camera roll
-        [library writeImageToSavedPhotosAlbum:[currentImage CGImage] orientation:(ALAssetOrientation)[currentImage imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
-            if (error) {
-                NSLog(@"Error: ImagePicker %@",error);
-            } else {
-                intUrl = [assetURL absoluteString];
-            }
-            isCamera = NO;
-            [picker  dismissViewControllerAnimated:YES completion:^{
-                if([self.delegate respondsToSelector:@selector(viewWillBeHidden:andIntPath:)])
-                {
-                    
-                    [self.backGroundView removeFromSuperview];
-                    self.backGroundView = nil;
-                    if(currentImage && intUrl)
-                        [self.delegate viewWillBeHidden:currentImage andIntPath:intUrl];
-                    //animation support if need
-                }
-
-            }];
-        }];
-    } else {
-        isCamera = NO;
-        currentImage = [info valueForKey:UIImagePickerControllerOriginalImage];
-        NSURL *path = [info valueForKey:UIImagePickerControllerReferenceURL];
-        [picker dismissViewControllerAnimated:YES completion:^{
+        [picker dismissViewControllerAnimated:YES completion:nil];
+        
+        if([self.delegate respondsToSelector:@selector(viewWillBeHidden:andIntPath:)])
+        {
             [self.backGroundView removeFromSuperview];
             self.backGroundView = nil;
             if(currentImage)
-                [self.delegate viewWillBeHidden:currentImage andIntPath:intUrl];
+                [self.delegate viewWillBeHidden:currentImage andIntPath:nil];
+        }
+        
+        NSData* imageData = UIImageJPEGRepresentation(currentImage, 0.9);
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+            [library writeImageDataToSavedPhotosAlbum:imageData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+                if (error) {
+                    NSLog(@"Error: ImagePicker %@",error);
+                }
+                isCamera = NO;
+            }];
+        });
+    } else {
+        isCamera = NO;
+        
+        [picker dismissViewControllerAnimated:YES completion:^{
+            @strongify(self);
+            [self.backGroundView removeFromSuperview];
+            self.backGroundView = nil;
+            if(currentImage)
+                [self.delegate viewWillBeHidden:currentImage andIntPath:nil];
             
         }];
     }
