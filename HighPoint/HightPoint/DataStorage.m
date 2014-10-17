@@ -1185,14 +1185,13 @@ static DataStorage *dataStorage;
     } else return nil;
 }
 
-
-- (void)setAndSavePointLiked:(NSNumber *)pointId :(BOOL)isLiked {
+- (void)setAndSavePointLiked:(NSNumber *)pointId isLiked:(BOOL)isLiked withComplationBlock:(complationBlock)block{
     UserPoint *globalPoint = [self getPointForId:pointId];
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         UserPoint* point = [globalPoint MR_inContext:localContext];
         point.pointLiked = @(isLiked);
-    } completion:^(BOOL success, NSError *error)    {
-        
+    } completion:^(BOOL success, NSError *error) {
+        block([self getPointForId:pointId]);
     }];
 }
 

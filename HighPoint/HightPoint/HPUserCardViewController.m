@@ -235,16 +235,6 @@
     [self.navigationController popViewControllerAnimated: YES];
 }
 
-#pragma mark - notifications
-
-- (void) updatePointLike {
-    @weakify(self);
-    dispatch_async(dispatch_get_main_queue(), ^
-    {
-        @strongify(self);
-        [self.usersCollectionView reloadData];
-    });
-}
 
 #pragma mark - uicollection view
 

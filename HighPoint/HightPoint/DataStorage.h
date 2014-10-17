@@ -108,7 +108,7 @@ typedef void (^complationBlock) (id object);
 - (void)deleteAndSaveUserPointForUser:(User *)globalUser;
 - (void)updateAndSaveVisibility:(UserVisibilityType)visibilityType forUser:(User *)globalUser;
 - (UserPoint*) getPointForUserId:(NSNumber*) userId;
-- (void)setAndSavePointLiked: (NSNumber *) pointId : (BOOL) isLiked;
+- (void)setAndSavePointLiked: (NSNumber *) pointId isLiked: (BOOL) isLiked withComplationBlock:(complationBlock)block;
 - (AppSetting*) getAppSettings;
 - (NSFetchedResultsController *) getPopularCities;
 - (City *) getCityById : (NSNumber *) cityId;

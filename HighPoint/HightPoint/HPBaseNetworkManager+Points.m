@@ -149,22 +149,27 @@
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"success"]) {
-                    [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId :YES];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
+                   // [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId :YES];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
-                //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                //[alert show];
+                [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId isLiked:NO withComplationBlock:^(id object) {
+                    if (!object) {
+                        //TODO : error msg
+                    }
+                }];
+                //TODO: show error
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //[alert show];
-        
+        [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId isLiked:NO withComplationBlock:^(id object) {
+            if (!object) {
+                //TODO : error msg
+            }
+        }];
+        //TODO: show error
     }];
-    
 }
 - (void) makePointUnLikeRequest:(NSNumber*) pointId {
     ///v201405/points/<id>/like
@@ -183,19 +188,27 @@
                                                                        error:&error];
             if(jsonDict) {
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"success"]) {
-                    [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId :NO];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdatePointLike object:self userInfo:nil];
+                   // [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId :NO];
+
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
-                //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                //[alert show];
+                [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId isLiked:YES withComplationBlock:^(id object) {
+                    if (!object) {
+                        //TODO : error msg
+                    }
+                }];
+                //TODO: show error
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error.localizedDescription);
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //[alert show];
+        [[DataStorage sharedDataStorage] setAndSavePointLiked:pointId isLiked:YES withComplationBlock:^(id object) {
+            if (!object) {
+                //TODO : error msg
+            }
+        }];
+        //TODO: show error
         
     }];
 }

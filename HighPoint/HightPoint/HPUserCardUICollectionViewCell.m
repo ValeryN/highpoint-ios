@@ -138,13 +138,31 @@
 }
 
 - (IBAction)heartBtnTap:(id)sender {
-       if ([_currUser.point.pointLiked boolValue]) {
+    NSLog(@"current point prev = %d", [_currUser.point.pointLiked boolValue]);
+    if ([_currUser.point.pointLiked boolValue]) {
         //unlike request
-           [[HPBaseNetworkManager sharedNetworkManager] makePointUnLikeRequest:_currUser.point.pointId];
-       } else {
+        [self.heartBtn setSelected:NO];
+        [[DataStorage sharedDataStorage] setAndSavePointLiked: _currUser.point.pointId isLiked:NO withComplationBlock:^(id object) {
+            if (object) {
+                [[HPBaseNetworkManager sharedNetworkManager] makePointUnLikeRequest:_currUser.point.pointId];
+            }
+            else {
+                //TODO : error msg
+            }
+        }];
+    } else {
         //like request
-          [[HPBaseNetworkManager sharedNetworkManager] makePointLikeRequest:_currUser.point.pointId];
-     }
+        [self.heartBtn setSelected:YES];
+        
+        [[DataStorage sharedDataStorage] setAndSavePointLiked: _currUser.point.pointId isLiked:YES withComplationBlock:^(id object) {
+            if (object) {
+                [[HPBaseNetworkManager sharedNetworkManager] makePointLikeRequest:_currUser.point.pointId];
+            }
+            else {
+                //TODO : error msg
+            }
+        }];
+    }
 }
 
 #pragma mark - textview
