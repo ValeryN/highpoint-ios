@@ -17,7 +17,7 @@ typedef enum {
     UnreadMessageType,
     NotSendedMessageType
 } MessageTypes;
-
+typedef void (^resultBlock) (id object);
 @interface HPBaseNetworkManager : NSObject <SocketIODelegate>
 + (HPBaseNetworkManager*) sharedNetworkManager;
 - (void) createTaskArray;
@@ -45,6 +45,7 @@ typedef enum {
 - (void) sendUserNotificationRead:(NSDictionary*) param;
 - (void) sendUserAllNotificationRead:(NSDictionary*) param;
 - (AFHTTPRequestOperationManager*) requestOperationManager;
+- (void) makePingWithBlock:(resultBlock)block;
 
 
 

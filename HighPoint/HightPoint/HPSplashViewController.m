@@ -43,6 +43,7 @@
         if(!error) {
             [[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
             [[DataStorage sharedDataStorage] deleteAndSaveAllMessages];
+            
             [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
             [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:1];   //4
             [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:1];    //2
@@ -94,8 +95,9 @@
 }
 
 - (void) openViewController:(UIViewController *) controller{
-    [self.navigationController pushViewController:controller animated:NO];
+    ((HPAppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController = [[UINavigationController alloc] initWithRootViewController:controller];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

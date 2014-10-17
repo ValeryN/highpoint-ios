@@ -35,6 +35,7 @@
 #define HIDE_FILTER_ANIMATION_SPEED 0.5
 #define PORTION_OF_DATA 7
 #define CONSTRAINT_TABLEVIEW_HEIGHT 416
+static int const refreshTag = 111;
 #define kNavBarDefaultPosition CGPointMake(160,64)
 
 @implementation HPRootViewController {
@@ -50,7 +51,7 @@
     isFirstLoad = YES;
     self.isNeedScrollToIndex = NO;
     [self createSwitch];
-    [self addPullToRefresh];
+    
     _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
     if (![UIDevice hp_isWideScreen])
     {
@@ -72,6 +73,7 @@
     [self configureNavigationBar];
     [self registerNotification];
     [self updateCurrentView];
+    [self addPullToRefresh];
     if(!isFirstLoad)
         [self.mainListTable reloadData];
     self.mainListTable.hidden = YES;
@@ -95,6 +97,7 @@
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserFilterCities:) name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupFilterSendResults:) name:kNeedUpdateUserFilterData object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addPullToRefresh) name:kNeedUpdatePullToRefreshInd object:nil];
 }
 
 
@@ -286,9 +289,10 @@
 #pragma mark - pull-to-refresh   
 
 - (void) addPullToRefresh {
+    [self removeRefreshControl];
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.tintColor = [UIColor clearColor];
-    
+    refreshControl.tag = refreshTag;
     UIView *refreshLoadingView = [[UIView alloc] initWithFrame:refreshControl.bounds];
     refreshLoadingView.backgroundColor = [UIColor clearColor];
     UIImageView *spinner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Spinner"]];
@@ -315,6 +319,15 @@
     [refreshControl addSubview:refreshLoadingView];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self.mainListTable addSubview:refreshControl];
+}
+- (void) removeRefreshControl {
+    NSArray *views = [self.mainListTable subviews];
+    for(UIView *v in views) {
+        if(v.tag == refreshTag) {
+            [v removeFromSuperview];
+            break;
+        }
+    }
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
@@ -626,5 +639,15 @@
     //todo: enable buttons
 }
 
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    if(self.view.window == nil){
+        self.view = nil;
+        self.overlayView = nil;
+        self.activityIndicator = nil;
+        self.rotationAnimation = nil;
+        self.notificationView = nil;
+    }
+}
 
 @end

@@ -35,15 +35,14 @@
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error];
-            if(jsonDict) {
-                if (![[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
-                    NSArray *places = [[jsonDict objectForKey:@"data"] objectForKey:@"places"];
-                    NSMutableString *str = [NSMutableString new];
-                    for(NSDictionary *d in places) {
-                        City *city = [[DataStorage sharedDataStorage] getCityById:d[@"cityId"]];
-                        if(city == nil) {
-                            [str appendFormat:@"%d,", [d[@"cityId"] intValue]];
-                        }
+
+            if(jsonDict && ![[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
+                NSArray *places = [[jsonDict objectForKey:@"data"] objectForKey:@"places"];
+                NSMutableString *str = [NSMutableString new];
+                for(NSDictionary *d in places) {
+                    City *city = [[DataStorage sharedDataStorage] getCityById:d[@"cityId"]];
+                    if(city == nil) {
+                        [str appendFormat:@"%d,", [d[@"cityId"] intValue]];
                     }
                     //str = [NSMutableString stringWithString:@"1,2,3,4,5,6"];
                     if(str.length > 0) {

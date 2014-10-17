@@ -14,7 +14,6 @@
 #import "Utils.h"
 #import "HPSettingsViewController.h"
 #import "HPAvatarView.h"
-#import "SDWebImageManager.h"
 #import "UINavigationBar+HighPoint.h"
 #import "HPRequest.h"
 #import "HPRequest+Points.h"
@@ -23,8 +22,8 @@
 
 @interface HPCurrentUserViewController ()
 @property(nonatomic, retain) User *currentUser;
-@property(nonatomic, retain) HPCurrentUserPointCollectionViewCell *cellPoint;
-@property(nonatomic, retain) HPCurrentUserUICollectionViewCell *cellUser;
+@property(nonatomic, weak) HPCurrentUserPointCollectionViewCell *cellPoint;
+@property(nonatomic, weak) HPCurrentUserUICollectionViewCell *cellUser;
 
 
 @property(weak, nonatomic) IBOutlet UICollectionView *currentUserCollectionView;
@@ -57,7 +56,6 @@
     [self createPageControlInNavigationBar];
 
     [self configureNavigationBar];
-    [self configureCurrentUsersForCells];
     [self configureBottomMenu];
     [self configurePageControl];
     [self configureAvatarSignal];
@@ -92,6 +90,7 @@
         if (!self.cellPoint) {
             self.cellPoint = [cv dequeueReusableCellWithReuseIdentifier:@"CurrentUserPointIdentif" forIndexPath:indexPath];
             self.cellPoint.delegate = self;
+            self.cellPoint.currentUser = self.currentUser;
             [self lockHorizontalScrollWhileEditPointInView:self.cellPoint];
             [self hidePageControlWhileEditPoingInView:self.cellPoint];
         }
@@ -99,6 +98,7 @@
     } else {
         if (!self.cellUser) {
             self.cellUser = [cv dequeueReusableCellWithReuseIdentifier:@"CurrentUserCollectionCell" forIndexPath:indexPath];
+            self.cellUser.currentUser = self.currentUser;
             self.cellUser.delegate = self;
         }
         return self.cellUser;
@@ -212,7 +212,7 @@
 #pragma mark Configures
 
 - (void)configureNavigationBar {
-    [[RACSignal combineLatest:@[RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, navigationController.navigationBar)]] subscribeNext:^(RACTuple *x) {
+    [[RACSignal combineLatest:@[RACObserve(self,cellPoint.editUserPointMode), RACObserve(self, navigationController.navigationBar)]] subscribeNext:^(RACTuple *x) {
         RACTupleUnpack(NSNumber *editUserPointMode, UINavigationBar *navigationBar) = x;
         if (editUserPointMode.boolValue) {
             [navigationBar configureTranslucentNavigationBar];
@@ -241,31 +241,31 @@
 - (void)configureBottomMenu {
     @weakify(self);
 
-    RACSignal *yourHavePoint = [RACObserve(self, currentUser.point) map:^id(id value) {
+    RACSignal *yourHavePoint = [RACObserve(self.currentUser, point) map:^id(id value) {
         return @(value!=nil);
     }];
     //По умолчанию никто не любит твой пост, как мило =)
     RACSignal *nobodyLikeYourPost = [[RACSignal return:@YES] concat:[self.usersLikeYourPost map:^id(NSArray *value) {
         return @(value.count == 0);
     }]];
-    RACSignal *needShowLikesOfYourPost = [RACObserve(self, pageController.currentPage) map:^id(NSNumber *index) {
+    RACSignal *needShowLikesOfYourPost = [RACObserve(self.pageController, currentPage) map:^id(NSNumber *index) {
         return @(index.intValue == 0);
     }];
 
-    RACSignal *needShowBottomMenu = [[RACSignal combineLatest:@[RACObserve(self, pageController.currentPage), RACObserve(self, cellPoint.editUserPointMode), RACObserve(self, currentUser.point.pointId)]] map:^id(id value) {
+    RACSignal *needShowBottomMenu = [[RACSignal combineLatest:@[RACObserve(self.pageController, currentPage), RACObserve(self,cellPoint.editUserPointMode), RACObserve(self.currentUser, point.pointId)]] map:^id(id value) {
         RACTupleUnpack(NSNumber *index, NSNumber *editMode, UserPoint *userPoint) = value;
         return @((index.intValue == 0 && userPoint != nil) || index.intValue == 1);
     }];
 
     //Properties
-    RAC(self, personalDataLabel.text) = [RACObserve(self, pageController.currentPage) map:^id(NSNumber *index) {
+    RAC(self.personalDataLabel, text) = [RACObserve(self.pageController, currentPage) map:^id(NSNumber *index) {
         return (index.intValue == 0) ? NSLocalizedString(@"YOUR_POINT_LIKES", nil) : NSLocalizedString(@"YOUR_PHOTO_ALBUM_AND_DATA", nil);
     }];
 
-    RAC(self, personalDataDownImgView.hidden) = needShowLikesOfYourPost;
-    RAC(self, bottomView.hidden) = [needShowBottomMenu not];
-    RAC(self, bottomNobodyLikeLabel.hidden) = [[[RACSignal combineLatest:@[yourHavePoint ,nobodyLikeYourPost, needShowLikesOfYourPost]] and] not];
-    RAC(self, bottomLikedView.hidden) = [[[RACSignal combineLatest:@[yourHavePoint, [nobodyLikeYourPost not], needShowLikesOfYourPost]] and] not];
+    RAC(self.personalDataDownImgView, hidden) = needShowLikesOfYourPost;
+    RAC(self.bottomView, hidden) = [needShowBottomMenu not];
+    RAC(self.bottomNobodyLikeLabel, hidden) = [[[RACSignal combineLatest:@[yourHavePoint ,nobodyLikeYourPost, needShowLikesOfYourPost]] and] not];
+    RAC(self.bottomLikedView, hidden) = [[[RACSignal combineLatest:@[yourHavePoint, [nobodyLikeYourPost not], needShowLikesOfYourPost]] and] not];
 
     [self.usersLikeYourPost subscribeNext:^(RACTuple *usersTuple) {
         @strongify(self);
@@ -308,18 +308,6 @@
     }];
 }
 
-- (void)configureCurrentUsersForCells {
-    [[RACSignal combineLatest:@[RACObserve(self, currentUser), RACObserve(self, cellPoint)]] subscribeNext:^(RACTuple *x) {
-        RACTupleUnpack(User *currentUser, HPCurrentUserPointCollectionViewCell *cellPoint) = x;
-        cellPoint.currentUser = currentUser;
-    }];
-    [[RACSignal combineLatest:@[RACObserve(self, currentUser), RACObserve(self, cellUser)]] subscribeNext:^(RACTuple *x) {
-        RACTupleUnpack(User *currentUser, HPCurrentUserUICollectionViewCell *cellUser) = x;
-        cellUser.currentUser = currentUser;
-    }];
-}
-
-
 - (void)lockHorizontalScrollWhileEditPointInView:(HPCurrentUserPointCollectionViewCell *)cell {
     RAC(self.currentUserCollectionView, scrollEnabled) = [RACObserve(cell, editUserPointMode) not];
 }
@@ -355,11 +343,22 @@
         _usersLikeYourPost = [[[[[[[[RACObserve(self, currentUser.point.pointId) deliverOn:[RACScheduler scheduler]] filter:^BOOL(id value) {
             return (value != nil);
         }] take:1] map:^id(id value) {
+            @strongify(self);
             return self.currentUser.point.likedBy;
         }] concat:getLikesFromServer] deliverOn:[RACScheduler mainThreadScheduler]] replayLast] catchTo:[RACSignal empty]];
     }
     return _usersLikeYourPost;
 }
 
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    if ([self.view window] == nil)
+    {
+        self.view = nil;
+        self.cellPoint = nil;
+        self.cellUser = nil;
+        self.pageController = nil;
+    }
+}
 
 @end

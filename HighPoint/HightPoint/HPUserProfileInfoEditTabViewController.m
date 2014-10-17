@@ -318,7 +318,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
 }
 
 - (void)configureEducationOrCareerCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
-
+    @weakify(self);
     for (UIView *v in  [cell.contentView subviews]) {
         [v removeFromSuperview];
     }
@@ -409,6 +409,7 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
             UIButton *realDelete = [self rightPerformDeleteButton];
             [cell.contentView addSubview:deleteButton];
             [[[realDelete rac_signalForControlEvents:UIControlEventTouchUpInside] takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(id x) {
+                @strongify(self);
                 if ([self getCellTypeForIndexPath:indexPath] == UserProfileCellTypeEducation) {
                     [[DataStorage sharedDataStorage] deleteAndSaveEducationEntityFromUser:@[((Education *) object).id_]];
                 }
@@ -753,6 +754,19 @@ typedef NS_ENUM(NSUInteger, UserProfileCellType) {
         [contents addObject:city];
     }
     [self.tableView endUpdates];
+}
+
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    
+    if([self.view window] == nil){
+        self.view = nil;
+        self.bubbleViewsCache = nil;
+        self.favoritePlaceFetchedResultController = nil;
+        self.educationFetchedResultController = nil;
+        self.careerFetchedResultController = nil;
+        self.favoriteCitiesArray = nil;
+    }
 }
 
 @end

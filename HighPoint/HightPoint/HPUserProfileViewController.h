@@ -23,29 +23,9 @@
 //==============================================================================
 //==============================================================================
 
-@interface HPUserProfileViewController : UIViewController <HEBubbleViewDataSource, HEBubbleViewDelegate, HPAddPhotoMenuViewControllerDelegate, UITextFieldDelegate, HPAddNewTownViewDelegate, HPSelectTownViewControllerDelegate>
-@property (nonatomic, weak) IBOutlet UIButton *downButton;
-@property (nonatomic, weak) IBOutlet UIButton *backButton;
+@interface HPUserProfileViewController : UIViewController
 @property (nonatomic, weak) IBOutlet UISegmentedControl *segmentControl;
-@property (nonatomic, weak) IBOutlet UILabel *barTitle;
-@property (nonatomic, weak) IBOutlet UIView *barView;
-
-@property (weak, nonatomic) IBOutlet UITableView *infoTableView;
-@property (nonatomic, strong) NSMutableArray *photosArray;
 @property (strong, nonatomic) User *user;
-///////////////////////
-@property(nonatomic, strong) NSArray *userDataSource;
-@property(nonatomic, strong) NSMutableDictionary *placeCityDataSource;
-@property(nonatomic, strong) NSMutableArray *languages;
-@property(nonatomic, strong) NSMutableArray *educationDataSource;
-@property(nonatomic, strong) NSMutableArray *carrierDataSource;
-@property(nonatomic, strong) UIView *greenButton;
-@property(nonatomic, strong) UIButton* deletButton;
-@property(nonatomic, strong) UIView *tappedGreenButton;
-@property (nonatomic, strong) HEBubbleView *currentBubble;
-@property (nonatomic, assign) NSInteger prepareForDeleteIndex;
-@property (nonatomic, assign) NSInteger backSpaceTapCount;
-@property (nonatomic, strong) HPBubbleTextField *currentBubbleTextField;
-@property(nonatomic, strong) HPAddPhotoMenuViewController *addPhotoViewController;
+
 
 @end
