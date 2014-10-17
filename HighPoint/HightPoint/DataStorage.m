@@ -1478,6 +1478,12 @@ static DataStorage *dataStorage;
         return controller;
     } else return nil;
 }
+- (NSFetchedResultsController *)allUsersAndContactFetchResultsController {
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"isCurrentUser != 1"];
+    [predicateString appendFormat:@"%@",[Utils getUserFilterPredicateString]];
+    return [self usersFetchResultControllerWithPredicate:predicateString];
+}
 - (NSFetchedResultsController *)allUsersFetchResultsController {
     NSMutableString *predicateString = [NSMutableString string];
     [predicateString appendFormat:@"isCurrentUser != 1 AND isItFromMainList == 1"];

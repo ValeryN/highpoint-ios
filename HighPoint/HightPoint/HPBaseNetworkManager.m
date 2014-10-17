@@ -31,6 +31,7 @@ static HPBaseNetworkManager *networkManager;
 @property (nonatomic,strong) SocketIO* socketIO;
 @property (nonatomic, strong) NSMutableArray *taskArray;
 @property (nonatomic, strong) NSMutableIndexSet *deletedItemArray;
+@property (nonatomic, assign) BOOL isStartAfter;
 @end
 
 
@@ -75,6 +76,7 @@ static HPBaseNetworkManager *networkManager;
 - (BOOL) isTaskArrayEmpty:(AFHTTPRequestOperationManager*) manager {
     if(self.taskArray && self.taskArray.count > 0) {
 
+        NSLog(@"%lu",(unsigned long)self.taskArray.count);
         NSUInteger index = [self.taskArray indexOfObject:manager ];
         if(index != NSNotFound) {
             [self.taskArray removeObjectAtIndex:[self.taskArray indexOfObject:manager ]];
@@ -122,7 +124,8 @@ static HPBaseNetworkManager *networkManager;
     return manager;
 }
 - (void) makeTownByIdRequest {
-    NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects];
+    //NSArray *users = [[[DataStorage sharedDataStorage] allUsersFetchResultsController] fetchedObjects]; allUsersAndContactFetchResultsController
+    NSArray *users = [[[DataStorage sharedDataStorage] allUsersAndContactFetchResultsController] fetchedObjects];
     NSString *ids = @"";
 
     for (int i = 0; i < users.count; i++) {
@@ -136,19 +139,22 @@ static HPBaseNetworkManager *networkManager;
     NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:ids, @"cityIds", nil];
     [self getGeoLocation:param];
 
-    param = [[NSDictionary alloc] initWithObjectsAndKeys:[[[URLs getServerURL] stringByReplacingOccurrencesOfString:@":3002" withString:@""] stringByReplacingOccurrencesOfString:@"http://" withString:@""],@"host", @"3002",@"port", nil];
-    [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
-    
-    //NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"", nil];
-    User * usr = [[DataStorage sharedDataStorage] getCurrentUser];
-    if(usr) {
-        [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
+    if(!_isStartAfter) {
+        param = [[NSDictionary alloc] initWithObjectsAndKeys:[[[URLs getServerURL] stringByReplacingOccurrencesOfString:@":3002" withString:@""] stringByReplacingOccurrencesOfString:@"http://" withString:@""],@"host", @"3002",@"port", nil];
+        [[HPBaseNetworkManager sharedNetworkManager] initSocketIO:param];
+        
+        //NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"", nil];
+        User * usr = [[DataStorage sharedDataStorage] getCurrentUser];
+        if(usr) {
+            [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
+        }
+        _isStartAfter = YES;
     }
 }
 - (void) makePingWithBlock:(resultBlock)block {
     NSString *url = @"http://www.apple.com";
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.requestSerializer.timeoutInterval = 5;
+    manager.requestSerializer.timeoutInterval = 10;
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSInteger httpStatusCode = operation.response.statusCode;

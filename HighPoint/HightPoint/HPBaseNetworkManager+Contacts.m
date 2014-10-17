@@ -26,7 +26,7 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    //[self addTaskToArray:manager];
+    [self addTaskToArray:manager];
     [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
@@ -41,20 +41,20 @@
                 
                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:users] forUserType:ContactUserType withComplation:^(NSError *error) {
                     if(!error) {
+                        if ([self isTaskArrayEmpty:manager]) {
+                            [self makeTownByIdRequest];
+                        }
                         for (id key in [lastMsgs allKeys]) {
                             User *user = [[DataStorage sharedDataStorage] getUserForId:[NSNumber numberWithInt:[key intValue]]];
                             
                             [[DataStorage sharedDataStorage] createAndSaveMessage:[lastMsgs objectForKey:key] forUserId:user.userId andMessageType:LastMessageType withComplation:^(Message *lastMsg) {
                                 [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:^(id object) {
-                                    [self getChatMsgsForUser:user.userId :nil];
+                                    //[self getChatMsgsForUser:user.userId :nil];
                                 }];
                             }];
                         }
-                        
                     }
                 }];
-                
-                
             }
             else {
                 NSLog(@"Error: no valid data");

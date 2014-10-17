@@ -371,6 +371,7 @@ static int const refreshTag = 111;
 }
 
 - (void) loadNextPageAfterUser:(User*) user{
+    [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
     if(_bottomSwitch.switchState)
         [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
     else
@@ -400,6 +401,7 @@ static int const refreshTag = 111;
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
 
     User *user = [self.allUsers objectAtIndexPath:indexPath];
+    NSLog(@"city id %@", user.cityId);
     [mCell configureCell: user];
     return mCell;
 }

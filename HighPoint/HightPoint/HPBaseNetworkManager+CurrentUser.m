@@ -24,7 +24,7 @@
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCurrentUserRequest];
     AFHTTPRequestOperationManager *manager = [self requestOperationManager];
-    //[self addTaskToArray:manager];
+    [self addTaskToArray:manager];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];

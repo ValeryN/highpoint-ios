@@ -46,6 +46,7 @@
                     }//save points
                     [[DataStorage sharedDataStorage] createAndSavePoint:arr withComplation:^(NSError *error) {
                         if(!error) {
+                            NSLog(@"stop save points");
                             NSDictionary *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                             if (usr && (![usr isKindOfClass:[NSNull class]])) {
                                 
@@ -54,6 +55,7 @@
                                     [dataArray addObject:[usr objectForKey:key]];
                                 }//save users from points
                                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:dataArray forUserType:MainListUserType withComplation:^(NSError *error) {
+                                    NSLog(@"stop save users");
                                     if(!error) {
                                         if([self isTaskArrayEmpty:manager]) {
                                             [self makeTownByIdRequest];
@@ -68,8 +70,12 @@
                     }];
                 }
             }
-            else
+            else {
+                if([self isTaskArrayEmpty:manager]) {
+                    [self makeTownByIdRequest];
+                }
                 NSLog(@"Error: no valid data");
+            }
         }
         
         //NSMutableDictionary *parsedDictionary = [NSMutableDictionary new];

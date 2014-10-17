@@ -41,19 +41,21 @@
     [self.navigationController setNavigationBarHidden:YES];
     [[DataStorage sharedDataStorage] deleteAndSaveAllUsersWithBlock:^(NSError *error) {
         if(!error) {
-            [[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
-            [[DataStorage sharedDataStorage] deleteAndSaveAllMessages];
+            //[[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
+            //[[DataStorage sharedDataStorage] deleteAndSaveAllMessages];
             
             [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
+            [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
             [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:1];   //4
             [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:1];    //2
-            [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
+            
+            
             [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
             [[HPBaseNetworkManager sharedNetworkManager] getPointLikesRequest:@1];  //3
             [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest]; //1
             
             [[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequest];
-            //[[HPBaseNetworkManager sharedNetworkManager] getUserPhotoRequest];
+            ////[[HPBaseNetworkManager sharedNetworkManager] getUserPhotoRequest];
             [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
         }
     }];
