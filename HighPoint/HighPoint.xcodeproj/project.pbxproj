@@ -269,7 +269,6 @@
 		4C91C1EC1958170C002B27D4 /* HPGreenButtonVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C91C1EA1958170C002B27D4 /* HPGreenButtonVC.xib */; };
 		4C91C1ED19581711002B27D4 /* HPGreenButtonVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C91C1E7195812A4002B27D4 /* HPGreenButtonVC.m */; };
 		4CA7B63B195C379000DC9D52 /* HPAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7B63A195C379000DC9D52 /* HPAvatarView.m */; };
-		4CA7B63C195C379000DC9D52 /* HPAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CA7B63A195C379000DC9D52 /* HPAvatarView.m */; };
 		4CA7B63E195C37B200DC9D52 /* HPAvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA7B63D195C37B200DC9D52 /* HPAvatarView.xib */; };
 		4CA7B63F195C37B200DC9D52 /* HPAvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CA7B63D195C37B200DC9D52 /* HPAvatarView.xib */; };
 		4CAD4A601949B1A600E8E26C /* UIButton+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAD4A5F1949B1A600E8E26C /* UIButton+HighPoint.m */; };
@@ -679,7 +678,6 @@
 		3B6DB49918FFC24D00C26A50 /* HighPoint-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HighPoint-Info.plist"; sourceTree = "<group>"; };
 		3B6DB49B18FFC24D00C26A50 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3B6DB49D18FFC24D00C26A50 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		3B6DB49F18FFC24D00C26A50 /* HighPoint-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HighPoint-Prefix.pch"; sourceTree = "<group>"; };
 		3B6DB4A018FFC24D00C26A50 /* HPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPAppDelegate.h; sourceTree = "<group>"; };
 		3B6DB4A118FFC24D00C26A50 /* HPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPAppDelegate.m; sourceTree = "<group>"; };
 		3B6DB4A418FFC24D00C26A50 /* HightPoint.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HightPoint.xcdatamodel; sourceTree = "<group>"; };
@@ -827,6 +825,7 @@
 		4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSearchCityCell.xib; sourceTree = "<group>"; };
 		444F12CA19E6C0B000CF5867 /* HPRoundedShadowedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundedShadowedImageView.h; sourceTree = "<group>"; };
 		444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRoundedShadowedImageView.m; sourceTree = "<group>"; };
+		448E7C0019F54D590066801C /* HighPoint-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HighPoint-Prefix.pch"; sourceTree = "<group>"; };
 		44AD911A19E8149600F835C9 /* HPRoundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundView.h; sourceTree = "<group>"; };
 		44AD911B19E8149600F835C9 /* HPRoundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRoundView.m; sourceTree = "<group>"; };
 		44B52FCB19AB81300016E80B /* PSMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSMenuItem.h; sourceTree = "<group>"; };
@@ -1577,10 +1576,10 @@
 		3B6DB49818FFC24D00C26A50 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				448E7C0019F54D590066801C /* HighPoint-Prefix.pch */,
 				3B6DB49918FFC24D00C26A50 /* HighPoint-Info.plist */,
 				3B6DB49A18FFC24D00C26A50 /* InfoPlist.strings */,
 				3B6DB49D18FFC24D00C26A50 /* main.m */,
-				3B6DB49F18FFC24D00C26A50 /* HighPoint-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3055,7 +3054,6 @@
 				4C8096AA193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
 				4CAD4A611949B1A600E8E26C /* UIButton+HighPoint.m in Sources */,
 				4CF3A329194ECBB500D4FECC /* HPMainViewListTableViewCell+HighPoint.m in Sources */,
-				4CA7B63C195C379000DC9D52 /* HPAvatarView.m in Sources */,
 				4CDC98B719517FB4006D2F89 /* UIViewController+HighPoint.m in Sources */,
 				3B6DB4BB18FFC24D00C26A50 /* HightPointTests.m in Sources */,
 				4C1A488319629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */,
@@ -3257,7 +3255,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "HightPoint/HightPoint-Prefix.pch";
+				GCC_PREFIX_HEADER = "HightPoint/HighPoint-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -3279,7 +3277,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "HightPoint/HightPoint-Prefix.pch";
+				GCC_PREFIX_HEADER = "HightPoint/HighPoint-Prefix.pch";
 				INFOPLIST_FILE = "HightPointTests/HighPointTests-Info.plist";
 				PRODUCT_NAME = HighPointTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
