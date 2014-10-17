@@ -15,7 +15,6 @@ typedef NS_ENUM(NSUInteger, SettingsNotificationType){
 };
 
 @interface HPSettingsDataManager : NSObject
-+ (instancetype) sharedInstance;
 
 @property (nonatomic) BOOL soundEnabled;
 @property (nonatomic) SettingsNotificationType notificationType;
@@ -24,6 +23,4 @@ typedef NS_ENUM(NSUInteger, SettingsNotificationType){
 @property (nonatomic) BOOL notificationPointTimeIsUpEnabled;
 @property (nonatomic,retain) NSString* applicationCode;
 
--(instancetype) init __attribute__((unavailable("use +sharedInstance instead")));
-+(instancetype) new __attribute__((unavailable("use +sharedInstance instead")));
 @end

@@ -9,13 +9,12 @@
 #import "HPUserInfoPhotoAlbumViewController.h"
 #import "iCarousel.h"
 #import "Photo.h"
-#import "UIImageView+HighlightedWebCache.h"
-#import "UIImageView+WebCache.h"
 #import "Avatar.h"
 #import "HPChatViewController.h"
 #import "Contact.h"
 #import "DataStorage.h"
 #import "HPRoundView.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface HPUserInfoPhotoAlbumViewController ()
 @property(nonatomic, weak) IBOutlet iCarousel *carousel;
@@ -220,10 +219,10 @@
     if(index > 0){
         NSIndexPath * path = [NSIndexPath indexPathForRow:index - 1 inSection:0];
         Photo* photo = [self.fetchedController objectAtIndexPath:path];
-        [view sd_setImageWithURL:[NSURL URLWithString:photo.imgeSrc] placeholderImage:[UIImage imageNamed:@"transparentflower"]];
+        [view setImageWithURL:[NSURL URLWithString:photo.imgeSrc]  placeholderImage:[UIImage imageNamed:@"transparentflower"]];
     }
     else{
-        [view sd_setImageWithURL:[NSURL URLWithString:self.user.avatar.originalImgSrc] placeholderImage:[UIImage imageNamed:@"transparentflower"]];
+        [view setImageWithURL:[NSURL URLWithString:self.user.avatar.originalImgSrc]  placeholderImage:[UIImage imageNamed:@"transparentflower"]];
     }
     
     CGRect rect = CGRectMake([UIScreen mainScreen].bounds.size.width, 0, self.view.frame.size.width,self.view.frame.size.height);

@@ -18,7 +18,10 @@
 #define CONSTRAINT_TOP_FOR_TAKE_PHOTO 330.0
 
 @interface HPAddPhotoMenuViewController ()
-
+@property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
+@property (weak, nonatomic) IBOutlet UIButton *takePhoto;
+@property (weak, nonatomic) IBOutlet UIButton *pickPhoto;
+@property (nonatomic) UIToolbar* bgToolbar;
 @end
 
 @implementation HPAddPhotoMenuViewController
@@ -41,84 +44,36 @@
     isCamera = NO;
     
     [self createGreenButton];
-    [self fixUserConstraint];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self setBgBlur];
 }
-- (void) fixUserConstraint
-{
-    self.cancelBtn.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    if (![UIDevice hp_isWideScreen])
-    {
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.cancelBtn
-                                                              attribute: NSLayoutAttributeTop
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: self.view
-                                                              attribute: NSLayoutAttributeTop
-                                                             multiplier: 1.0
-                                                               constant: CONSTRAINT_TOP_FOR_CANCEL]];
-        
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.pickPhoto
-                                                              attribute: NSLayoutAttributeTop
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: self.view
-                                                              attribute: NSLayoutAttributeTop
-                                                             multiplier: 1.0
-                                                               constant: CONSTRAINT_TOP_FOR_CHOOSE_PHOTO]];
-        
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.takePhoto
-                                                              attribute: NSLayoutAttributeTop
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: self.view
-                                                              attribute: NSLayoutAttributeTop
-                                                             multiplier: 1.0
-                                                               constant: CONSTRAINT_TOP_FOR_TAKE_PHOTO]];
-    }
-}
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 
 #pragma mark - blur for bg
 
 - (void) setBgBlur {
-    //self.view.opaque = NO;
-    //Place the UIImage in a UIImageView
-    self.backGroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    self.backGroundView.image = [self.screenShoot hp_applyBlurWithRadius:2];
-    [self.view insertSubview:self.backGroundView atIndex:0];
-    
-    self.darkBgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    self.darkBgView.backgroundColor = [UIColor colorWithRed:30.f / 255.f green:29.f / 255.f blue:48.f / 255.f alpha:0.9];
-    [self.backGroundView addSubview:self.darkBgView];
-
+    self.bgToolbar = [[UIToolbar alloc] initWithFrame:self.view.frame];
+    self.bgToolbar.barStyle = UIBarStyleBlack;
+    self.bgToolbar.translucent = YES;
+    [self.view insertSubview:self.bgToolbar atIndex:0];
 }
 
 - (void) hideView {
-    [self.backGroundView removeFromSuperview];
-    self.backGroundView = nil;
-    [self.darkBgView removeFromSuperview];
-    self.darkBgView = nil;
     if([self.delegate respondsToSelector:@selector(viewWillBeHidden:andIntPath:)]) {
         [self.delegate viewWillBeHidden:nil andIntPath:nil];
         //animation support if need
     }
-    //[self dismissViewControllerAnimated: YES
-    //                         completion: nil];
 }
 
 #pragma mark - cancel
 - (IBAction)cancelBtnTap:(id)sender {
-    if([self.delegate respondsToSelector:@selector(closeMenu)]) {
-        [self.delegate closeMenu];
-    }
+    [self.view removeFromSuperview];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    [self removeFromParentViewController];
 }
 
 
@@ -147,7 +102,9 @@
 #pragma mark - image picker
 
 - (void) showPhotoPickerController {
+    @weakify(self);
     dispatch_async(dispatch_get_main_queue(), ^{
+        @strongify(self);
         UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
         imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         imagePickerController.delegate = self;
@@ -159,41 +116,34 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *currentImage;
-    __block NSString *intUrl;
+    @weakify(self);
+    UIImage *currentImage = [info valueForKey:UIImagePickerControllerOriginalImage];
     if (isCamera) {
-        currentImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-        // Request to save the image to camera roll
-        [library writeImageToSavedPhotosAlbum:[currentImage CGImage] orientation:(ALAssetOrientation)[currentImage imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
-            if (error) {
-                NSLog(@"Error: ImagePicker %@",error);
-            } else {
-                intUrl = [assetURL absoluteString];
-            }
-            isCamera = NO;
-            [picker  dismissViewControllerAnimated:YES completion:^{
-                if([self.delegate respondsToSelector:@selector(viewWillBeHidden:andIntPath:)])
-                {
-                    
-                    [self.backGroundView removeFromSuperview];
-                    self.backGroundView = nil;
-                    if(currentImage && intUrl)
-                        [self.delegate viewWillBeHidden:currentImage andIntPath:intUrl];
-                    //animation support if need
+        [picker dismissViewControllerAnimated:YES completion:nil];
+        
+        if([self.delegate respondsToSelector:@selector(viewWillBeHidden:andIntPath:)])
+        {
+            if(currentImage)
+                [self.delegate viewWillBeHidden:currentImage andIntPath:nil];
+        }
+        
+        NSData* imageData = UIImageJPEGRepresentation(currentImage, 0.9);
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+            [library writeImageDataToSavedPhotosAlbum:imageData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+                if (error) {
+                    NSLog(@"Error: ImagePicker %@",error);
                 }
-
+                isCamera = NO;
             }];
-        }];
+        });
     } else {
         isCamera = NO;
-        currentImage = [info valueForKey:UIImagePickerControllerOriginalImage];
-        NSURL *path = [info valueForKey:UIImagePickerControllerReferenceURL];
+        
         [picker dismissViewControllerAnimated:YES completion:^{
-            [self.backGroundView removeFromSuperview];
-            self.backGroundView = nil;
+            @strongify(self);
             if(currentImage)
-                [self.delegate viewWillBeHidden:currentImage andIntPath:intUrl];
+                [self.delegate viewWillBeHidden:currentImage andIntPath:nil];
             
         }];
     }
@@ -275,4 +225,14 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    if(self.view.window == nil){
+        [self.navigationController setNavigationBarHidden:NO animated:NO];
+        self.view = nil;
+    }
+}
+- (void)dealloc{
+    NSLog(@"Dealloc");
+}
 @end

@@ -89,7 +89,9 @@
 
 - (void) backButtonTaped: (id) sender
 {
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.navigationController popViewControllerAnimated: YES];
+   
 }
 
 #pragma mark - check mark
@@ -148,6 +150,7 @@
     
     [[DataStorage sharedDataStorage] updateCityAtUserFilter:cityForFilter];
     [self checkMarksReload];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.navigationController popViewControllerAnimated: YES];
 }
 

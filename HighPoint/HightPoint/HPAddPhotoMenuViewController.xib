@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="ParaType - Futura PT Book.otf">
+            <string>FuturaPT-Book</string>
+            <string>FuturaPT-Book</string>
+            <string>FuturaPT-Book</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPAddPhotoMenuViewController">
             <connections>
@@ -17,8 +25,13 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cDt-PG-Og7">
-                    <rect key="frame" x="108" y="521" width="105" height="20"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cDt-PG-Og7">
+                    <rect key="frame" x="108" y="528" width="105" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="105" id="IKh-T2-cQk"/>
+                        <constraint firstAttribute="height" constant="20" id="PbQ-nz-2Ja"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
                     <state key="normal" title="Отменить">
                         <color key="titleColor" red="0.31372549019607843" green="0.8901960784313725" blue="0.76078431372549016" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -28,9 +41,14 @@
                         <action selector="cancelBtnTap:" destination="-1" eventType="touchUpInside" id="Nh3-hN-ndZ"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bds-bs-jeY">
-                    <rect key="frame" x="63" y="418" width="195" height="32"/>
-                    <state key="normal" title="Сделать фотографию" backgroundImage="green_btn.png">
+                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bds-bs-jeY" customClass="HPRoundButton">
+                    <rect key="frame" x="63" y="424" width="195" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="195" id="NfI-Yv-E7Z"/>
+                        <constraint firstAttribute="height" constant="32" id="gh9-gd-3H8"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
+                    <state key="normal" title="Сделать фотографию">
                         <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -39,9 +57,14 @@
                         <action selector="takePhotoBtnTap:" destination="-1" eventType="touchUpInside" id="l51-Wg-Ab5"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Af8-xd-B7U">
-                    <rect key="frame" x="63" y="466" width="195" height="32"/>
-                    <state key="normal" title="Выбрать из альбома" backgroundImage="green_btn.png">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Af8-xd-B7U" customClass="HPRoundButton">
+                    <rect key="frame" x="63" y="476" width="195" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="195" id="Yhb-YV-oN2"/>
+                        <constraint firstAttribute="height" constant="32" id="lmP-oS-SFC"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
+                    <state key="normal" title="Выбрать из альбома">
                         <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -52,11 +75,18 @@
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="cDt-PG-Og7" firstAttribute="top" secondItem="Af8-xd-B7U" secondAttribute="bottom" constant="20" id="2gs-Jc-xNH"/>
+                <constraint firstItem="Af8-xd-B7U" firstAttribute="top" secondItem="bds-bs-jeY" secondAttribute="bottom" constant="20" id="VlF-OG-hZD"/>
+                <constraint firstAttribute="centerX" secondItem="bds-bs-jeY" secondAttribute="centerX" id="Wko-DI-wsg"/>
+                <constraint firstAttribute="centerX" secondItem="cDt-PG-Og7" secondAttribute="centerX" id="Xpa-Ku-KW8"/>
+                <constraint firstAttribute="centerX" secondItem="Af8-xd-B7U" secondAttribute="centerX" id="bA8-9x-6Rm"/>
+                <constraint firstAttribute="bottom" secondItem="cDt-PG-Og7" secondAttribute="bottom" constant="20" id="rZT-Sx-cDI"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
     <resources>
-        <image name="green_btn.png" width="315" height="64"/>
         <image name="green_btn_pressed.png" width="315" height="64"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

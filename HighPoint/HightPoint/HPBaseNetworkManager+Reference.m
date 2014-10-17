@@ -35,6 +35,7 @@
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error];
+
             if(jsonDict && ![[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
                 NSArray *places = [[jsonDict objectForKey:@"data"] objectForKey:@"places"];
                 NSMutableString *str = [NSMutableString new];
@@ -43,24 +44,24 @@
                     if(city == nil) {
                         [str appendFormat:@"%d,", [d[@"cityId"] intValue]];
                     }
-                }
-                //str = [NSMutableString stringWithString:@"1,2,3,4,5,6"];
-                if(str.length > 0) {
-                    NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:str, @"cityIds", nil];
-                    [self getGeoLocationForPlaces:param withBlock:^(NSString* result) {
-                        [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user withComplation:^(NSError *error) {
-                            if(!error) {
-                                
-                            }
+                    //str = [NSMutableString stringWithString:@"1,2,3,4,5,6"];
+                    if(str.length > 0) {
+                        NSDictionary *param = [[NSDictionary alloc] initWithObjectsAndKeys:str, @"cityIds", nil];
+                        [self getGeoLocationForPlaces:param withBlock:^(NSString* result) {
+                            [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user withComplation:^(NSError *error) {
+                                if(!error) {
+                                    
+                                }
+                            }];
                         }];
+                    }
+                    else [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user withComplation:^(NSError *error) {
+                        if(!error) {
+                            
+                        }
                     }];
                 }
-                else [[DataStorage sharedDataStorage] linkParameter:[jsonDict objectForKey:@"data"] toUser:user withComplation:^(NSError *error) {
-                    if(!error) {
-                        
-                    }
-                }];
-                
+
             } else {
                 
                 NSLog(@"Error: %@", error.localizedDescription);

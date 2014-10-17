@@ -8,12 +8,11 @@
 #import "UIDevice+HighPoint.h"
 #import "UIView+HighPoint.h"
 #import "Photo.h"
-#import "UIImageView+WebCache.h"
-
 #import "HPMakeAvatarViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "DataStorage.h"
 #import "HPBaseNetworkManager+Photos.h"
+#import "UIImageView+AFNetworking.h"
 
 
 
@@ -47,13 +46,15 @@
 }
 
 - (void)configureSetUserPicButton {
+    @weakify(self);
     RAC(self, setUserPicButton.hidden) = [[[RACSignal combineLatest:@[[[self isCurrentUserPicSignal] not], [self isPhotoDeletedSignal]]] and] not];
     [[self.setUserPicButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        
+        @strongify(self);
         
         HPMakeAvatarViewController *avaView = [[HPMakeAvatarViewController alloc] initWithNibName: @"HPMakeAvatarViewController" bundle: nil];
         
         avaView.doneCallback = ^(UIImage *editedImage, UIImageView *parentView, NSDictionary *param, BOOL canceled){
+            
             if(editedImage && !canceled) {
                 
                 CGFloat x = [[param objectForKey:@"x"] floatValue];
@@ -70,11 +71,6 @@
                     y = y - parentView.frame.origin.y;
                 }
                 if(y < 0) y = 0;
-                NSNumber *height = [NSNumber numberWithInt:(int) editedImage.size.height * [[param objectForKey:@"scale"] floatValue]];
-                NSNumber *width = [NSNumber numberWithInt:(int) editedImage.size.width * [[param objectForKey:@"scale"] floatValue]];
-                
-                NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:height, @"height", width, @"width",[NSNumber numberWithInt:(int)x], @"left", [NSNumber numberWithInt:(int)y], @"top", nil];
-                
 
                 
                 ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
@@ -100,32 +96,11 @@
         
         Photo *photo = [self.photosArray objectAtIndex:self.carousel.currentItemIndex];
         if([photo.photoId intValue] > 0) {
-            
-            NSString* avatarUrl = photo.imgeSrc;
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            [manager downloadImageWithURL:[NSURL URLWithString:avatarUrl]
-                                  options:0
-                                 progress:^(NSInteger receivedSize, NSInteger expectedSize)
-             {
-                 // progression tracking code
-             }
-                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *url)
-             {
-                 if (image)
-                 {
-                     avaView.sourceImage = image;
-                     //[avaView reset:YES];
-                     //avaView.cImg = image;
-                     self.navigationController.delegate = nil;
-                     [self.navigationController pushViewController:avaView animated:YES];
-                     
-                     
-                 }
-             }];
+            avaView.sourceImage = [self imageViewForCellIndex:self.carousel.currentItemIndex].image;
+            [self.navigationController pushViewController:avaView animated:YES];
         } else {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-                @autoreleasepool {
-                    
+                @strongify(self);
                     ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
                     [assetsLibrary assetForURL:[NSURL URLWithString:photo.imgeSrc] resultBlock: ^(ALAsset *asset)   {
                         ALAssetRepresentation *representation = [asset defaultRepresentation];
@@ -136,6 +111,7 @@
                                                            orientation:(UIImageOrientation) representation.orientation];
                             
                             dispatch_async(dispatch_get_main_queue(), ^(void) {
+                                @strongify(self);
                                 avaView.sourceImage = image;
                                 [avaView reset:YES];
                                 //avaView.cImg = image;
@@ -146,7 +122,6 @@
                     } failureBlock:^(NSError *error)    {
                         
                     }];
-                }
             });
         }
     }];
@@ -166,6 +141,7 @@
     }]] replayLast];
 
     [RACObserve(self, deletedPhotoIndex) subscribeNext:^(id x) {
+        @strongify(self);
         [self.carousel reloadData];
     }];
 }
@@ -186,6 +162,7 @@
         @strongify(self);
         [self.navigationController setNavigationBarHidden:fullScreenMode.boolValue animated:YES];
         [UIView animateWithDuration:0.3 animations:^{
+            @strongify(self);
             self.setUserPicButton.alpha = fullScreenMode.boolValue ? 0 : 1.0f;
             self.deletePicButton.alpha = fullScreenMode.boolValue ? 0 : 1.0f;
         }];
@@ -276,13 +253,11 @@
     }
 }
 
-- (UIView *)imageViewForCellIndex:(NSUInteger)index {
+- (UIImageView *)imageViewForCellIndex:(NSUInteger)index {
     UIImageView *view = [[UIImageView alloc] init];
     Photo *photo = [self.photosArray objectAtIndex:index];
     if([photo.photoId intValue] > 0) {
-        
-        [view sd_setImageWithURL:[NSURL URLWithString:photo.imgeSrc]
-                placeholderImage:nil];
+        [view setImageWithURL:[NSURL URLWithString:photo.imgeSrc] placeholderImage:nil];
         CGRect rect = CGRectMake([UIScreen mainScreen].bounds.size.width, 0, 320.0, 200);
         view.contentMode = UIViewContentModeScaleAspectFill;
         view.clipsToBounds = YES;
@@ -299,8 +274,7 @@
         view.frame = rect;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-            @autoreleasepool {
-                
+
                 ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
                 [assetsLibrary assetForURL:[NSURL URLWithString:photo.imgeSrc] resultBlock: ^(ALAsset *asset)   {
                     ALAssetRepresentation *representation = [asset defaultRepresentation];
@@ -317,11 +291,11 @@
                 } failureBlock:^(NSError *error)    {
                     
                 }];
-            }
+            
         });
         
     }
-return view;
+    return view;
 }
 
 - (UIView *)deletedImageCellView {
