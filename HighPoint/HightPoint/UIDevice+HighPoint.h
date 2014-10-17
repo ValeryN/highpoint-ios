@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 scade. All rights reserved.
 //
 
-//==============================================================================
 
 #import <UIKit/UIKit.h>
 #import <CoreTelephony/CTCarrier.h>
@@ -14,7 +13,7 @@
 
 #import "HPIOSVersion.h"
 
-//==============================================================================
+
 
 typedef enum
 {
@@ -64,7 +63,6 @@ typedef enum
 	EDEVICEPLATFORM_UNKNOWN
 } EDevicePlatform; 
 
-//==============================================================================
 
 @interface UIDevice (HighPoint)
 

@@ -6,12 +6,11 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import "UINavigationController+HighPoint.h"
 #import "UIDevice+HighPoint.h"
 
-//==============================================================================
+
 
 #define ANIMATION_SPEED 0.5
 

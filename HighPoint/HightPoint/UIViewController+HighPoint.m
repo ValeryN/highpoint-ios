@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
+
 
 #import "UIViewController+HighPoint.h"
 
-//==============================================================================
+
 
 @implementation UIViewController (HighPoint)
 
-//==============================================================================
+
 
 - (void)hp_setNavigationItemPropertiesFromOtherItem:(UINavigationItem *)navItem {
     // WORKAROUND: we can't link UINavigationItem to UIViewController from IB, and navigationItem property in UIViewController is readonly
@@ -35,7 +35,7 @@
     }
 }
 
-//==============================================================================
+
 
 - (UIBarButtonItem *)createBarButtonItemWithImage:(UIImage *)image
                                   highlighedImage:(UIImage *)highlighedImage

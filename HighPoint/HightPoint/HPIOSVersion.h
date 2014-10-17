@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 scade.com. All rights reserved.
 //
 
-//==============================================================================
+
 
 #import <Foundation/Foundation.h>
 
-//==============================================================================
+
 
 @interface HPIOSVersion : NSObject
 

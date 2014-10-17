@@ -243,11 +243,15 @@
 + (NSDictionary *) getFilterParamsForRequest {
     UserFilter *filter = [[DataStorage sharedDataStorage] getUserFilter];
     NSString *cityIds = filter.city.cityId? [filter.city.cityId stringValue]: @"";
-    NSString *genders;
+    NSString *genders = @"";
     if ([filter.gender allObjects].count > 0) {
         for (int i = 0; i < [filter.gender allObjects].count; i ++) {
             Gender * gender = [[filter.gender allObjects] objectAtIndex:i];
-            [genders stringByAppendingString:[gender.genderType stringValue]];
+            genders = [genders stringByAppendingString:[gender.genderType stringValue]];
+            genders = [genders stringByAppendingString:@","];
+        }
+        if ([genders length] > 0) {
+            genders = [genders substringToIndex:[genders length] - 1];
         }
     } else {
         genders = @"";

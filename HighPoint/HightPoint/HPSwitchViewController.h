@@ -6,18 +6,15 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import <UIKit/UIKit.h>
 
-//==============================================================================
 
 @protocol HPSwitchProtocol
 - (void) switchedToLeft;
 - (void) switchedToRight;
 @end
 
-//==============================================================================
 
 @interface HPSwitchViewController : UIViewController <UIGestureRecognizerDelegate>
 

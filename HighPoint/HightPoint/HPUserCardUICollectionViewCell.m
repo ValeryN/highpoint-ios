@@ -97,21 +97,21 @@
 #pragma mark - privacy
 
 - (void) setAvatarVisibilityBlur :(User *) user {
-    if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
+    if (([user.visibility intValue] == UserVisibilityBlur) || ([user.visibility intValue] == UserVisibilityHidden)) {
         self.avatarImageView.image = [self.avatarImageView.image hp_imageWithGaussianBlur: AVATAR_BLUR_RADIUS];
     }
 }
 
 - (void) setPrivacyText :(User *) user {
-    if ([user.visibility intValue] == 2) {
-        if ([user.gender intValue] == 1) {
+    if ([user.visibility intValue] == UserVisibilityBlur) {
+        if ([user.gender intValue] == UserGenderMale) {
             self.userInfoLabel.text = NSLocalizedString(@"HIDE_HIS_PROFILE_INFO", nil);
         } else {
             self.userInfoLabel.text = NSLocalizedString(@"HIDE_HER_PROFILE_INFO", nil);
         }
     }
-    if ([user.visibility intValue] == 3) {
-        if ([user.gender intValue] == 1) {
+    if ([user.visibility intValue] == UserVisibilityHidden) {
+        if ([user.gender intValue] == UserGenderMale) {
             self.userInfoLabel.text = NSLocalizedString(@"HIDE_HER_NAME_INFO", nil);
         } else {
             self.userInfoLabel.text = NSLocalizedString(@"HIDE_HIS_NAME_INFO", nil);

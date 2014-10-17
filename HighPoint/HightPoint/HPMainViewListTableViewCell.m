@@ -56,7 +56,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
     
     [self addGestureRecognizer];
-    if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
+    if (([user.visibility intValue] == UserVisibilityBlur) || ([user.visibility intValue] == UserVisibilityHidden)) {
         self.privacyLabel.hidden = NO;
         self.secondLabel.hidden = YES;
         self.firstLabel.hidden = YES;
@@ -71,16 +71,16 @@ static HPMainViewListTableViewCell* _prevCell;
 
 
 - (void) setPrivacyText :(User *) user {
-    if ([user.visibility intValue] == 3) {
-        if ([user.gender intValue] == 1) {
+    if ([user.visibility intValue] == UserVisibilityHidden) {
+        if ([user.gender intValue] == UserGenderMale) {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HIS_PROFILE", nil);
         } else {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HER_PROFILE", nil);
         }
     }
     
-    if ([user.visibility intValue] == 2) {
-        if ([user.gender intValue] == 1) {
+    if ([user.visibility intValue] == UserVisibilityBlur) {
+        if ([user.gender intValue] == UserGenderMale) {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HIS_NAME", nil);
         } else {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HER_NAME", nil);

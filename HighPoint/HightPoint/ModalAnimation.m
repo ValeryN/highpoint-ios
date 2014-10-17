@@ -6,22 +6,20 @@
 //  Copyright (c) 2013 CapTech. All rights reserved.
 //
 
-//==============================================================================
 
 #import "ModalAnimation.h"
 
-//==============================================================================
 
 @implementation ModalAnimation {
     UIView *_coverView;
     NSArray *_constraints;
 }
 
-//==============================================================================
+
 
 #pragma mark - Animated Transitioning
 
-//==============================================================================
+
 
 - (void) animateTransition: (id<UIViewControllerContextTransitioning>)transitionContext
 {
@@ -88,7 +86,7 @@
     }
 }
 
-//==============================================================================
+
 
 -(NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
     if (self.type == AnimationTypePresent) return 1.0;
@@ -96,6 +94,6 @@
     else return [super transitionDuration:transitionContext];
 }
 
-//==============================================================================
+
 
 @end
