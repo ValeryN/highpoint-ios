@@ -141,11 +141,11 @@
         oldFilterCityId = uf.city.cityId;
         
         for (Gender *num in [uf.gender allObjects]) {
-            if ([num.genderType intValue] == 2) {
+            if ([num.genderType intValue] == UserGenderFemale) {
                 [self.womenSw setOn:YES];
                 oldIsFemale = YES;
             }
-            if ([num.genderType intValue] == 1) {
+            if ([num.genderType intValue] == UserGenderMale) {
                 oldIsMale = YES;
             }
         }
@@ -184,7 +184,8 @@
     //save filter entity and make user filter request
 
     if ([self isFilterValuesChanged]) {
-         [self saveFilter];
+        [self saveFilterToDB];
+        [self saveFilter];
         self.navigationController.delegate = self.savedDelegate;
 
         if ([self.delegate respondsToSelector:@selector(showNavigationBar)]) {
@@ -298,10 +299,10 @@
         self.oldRangeSlider.lowerValue = [uf.minAge floatValue];
         self.oldRangeSlider.upperValue = [uf.maxAge floatValue];
         for (Gender *num in [uf.gender allObjects]) {
-            if ([num.genderType intValue] == 2) {
+            if ([num.genderType intValue] == UserGenderFemale) {
                 [self.womenSw setOn:YES];
             }
-            if ([num.genderType intValue] == 1) {
+            if ([num.genderType intValue] == UserGenderMale) {
                 [self.menSw setOn:YES];
             }
         }
@@ -337,10 +338,10 @@
 - (NSDictionary *) saveFilterToDB {
     NSMutableArray *genderArr = [[NSMutableArray alloc] init];
     if (self.womenSw.isOn) {
-        [genderArr addObject:[NSNumber numberWithFloat:2]];
+        [genderArr addObject:[NSNumber numberWithFloat:UserGenderFemale]];
     }
     if (self.menSw.isOn) {
-        [genderArr addObject:[NSNumber numberWithFloat:1]];
+        [genderArr addObject:[NSNumber numberWithFloat:UserGenderMale]];
     }
     NSArray *filterCities;
     if (self.townSwitch.isOn) {
@@ -355,8 +356,24 @@
 }
 
 - (void) saveFilter {
-    NSDictionary *param = [self saveFilterToDB];
-    [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:param];
+    NSString *genderStr = @"";
+    if (self.womenSw.isOn) {
+        genderStr = [genderStr stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)UserGenderFemale]];
+    }
+    if (self.menSw.isOn) {
+        if (self.womenSw.isOn) {
+            genderStr = [genderStr stringByAppendingString:@","];
+        }
+         genderStr = [genderStr stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)UserGenderMale]];
+    }
+    NSString *filterCities = @"";
+    if (self.townSwitch.isOn) {
+        filterCities =  [filterCities stringByAppendingString:[NSString stringWithFormat:@"%@", uf.city.cityId]];
+    } else {
+        filterCities = @"";
+    }
+    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: [NSNumber numberWithLong:lroundf(self.oldRangeSlider.upperValue)], @"maxAge",[NSNumber numberWithLong:lroundf(self.oldRangeSlider.lowerValue)], @"minAge", [NSNumber numberWithFloat:0], @"viewType", genderStr, @"genders", filterCities, @"cityIds", nil];
+    [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
 }
 
 #pragma mark - table view
