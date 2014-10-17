@@ -35,6 +35,7 @@
 "REQUESTED_HER_PROFILE" = "Вы попросили открыть вам\r свой профиль";
 "REQUESTED_HIS_PROFILE" = "Вы попросили открыть вам\r свой профиль";
 
+"INTERNET_CONNECTION_ERROR" = "Подключение к сети интернет отсутствует";
 
 //USER FILTER SCREEN
 "ADD_FILTER_CITY" = "Добавить город";

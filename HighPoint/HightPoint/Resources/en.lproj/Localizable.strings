@@ -23,8 +23,8 @@
 "HIDE_HIS_PROFILE_INFO" = "Скрыл свой профиль";
 "SEND_MSG_HIM" = "Написать ему";
 "SEND_MSG_HER" = "Написать ей";
-
-
+//NETWORK ALERT
+"INTERNET_CONNECTION_ERROR" = "Подключение к сети интернет отсутствует";
 
 //USER INFO SCREEN
 "REQUEST_HER_NAME" = "Вы можете попросить ее открыть\rвам свое имя и фотографии";

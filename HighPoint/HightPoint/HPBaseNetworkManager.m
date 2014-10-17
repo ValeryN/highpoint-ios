@@ -99,6 +99,17 @@ static HPBaseNetworkManager *networkManager;
 }
 - (void) setNetworkStatusMonitorCallback {
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        
+        if([AFStringFromNetworkReachabilityStatus(status) isEqualToString:@"Reachable via WiFi"] ||
+           [AFStringFromNetworkReachabilityStatus(status) isEqualToString:@"Reachable via WWAN"]) {
+            
+        }else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNeedHideSplashView object:nil userInfo:nil];
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
+        
         NSLog(@"Warning: Reachability status %@", AFStringFromNetworkReachabilityStatus(status));
     }];
 }
@@ -134,6 +145,23 @@ static HPBaseNetworkManager *networkManager;
         [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
     }
 }
+- (void) makePingWithBlock:(resultBlock)block {
+    NSString *url = @"http://www.apple.com";
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval = 5;
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSInteger httpStatusCode = operation.response.statusCode;
+        if(httpStatusCode == 200) {
+            block (@"success");
+            } else {
+            block(@"Error");
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(@"Error");
+    }];
+}
+
 # pragma mark -
 # pragma mark http requests
 #pragma mark - geolocation

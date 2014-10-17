@@ -35,7 +35,7 @@
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error];
-            if(jsonDict) {
+            if(jsonDict && ![[jsonDict objectForKey:@"data"] isKindOfClass:[NSNull class]]) {
                 NSArray *places = [[jsonDict objectForKey:@"data"] objectForKey:@"places"];
                 NSMutableString *str = [NSMutableString new];
                 for(NSDictionary *d in places) {

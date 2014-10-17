@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HightPoint/HPBaseNetworkManager+AuthorizationAndRegistration.m"
-            timestampString = "435068105.376911"
+            filePath = "HightPoint/HPBaseNetworkManager.m"
+            timestampString = "435156182.057965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "-makeAutorizationRequest:"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "-makePingWithBlock:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

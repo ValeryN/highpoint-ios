@@ -43,6 +43,7 @@
         if(!error) {
             [[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
             [[DataStorage sharedDataStorage] deleteAndSaveAllMessages];
+            
             [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
             [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:1];   //4
             [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:1];    //2
