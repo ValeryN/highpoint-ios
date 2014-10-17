@@ -33,7 +33,7 @@
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error];
-            if (operation.response.statusCode == 403) {
+            if (operation.response.statusCode == HTTPStatusForbidden) {
                 NSNumber *errorCode = [jsonDict objectForKey:@"error"];
                 if ([errorCode isEqualToValue:@8]) {
                     // show wrong file format error
@@ -85,11 +85,11 @@
                                                                      options:kNilOptions
                                                                        error:&error];
             if(jsonDict) {
-                if (operation.response.statusCode == 403) {
+                if (operation.response.statusCode == HTTPStatusForbidden) {
                     //access denied
                     return;
                 }
-                if (operation.response.statusCode == 404) {
+                if (operation.response.statusCode == HTTPStatusNotFound) {
                     //not found
                     return;
                 }

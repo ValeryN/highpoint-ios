@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import <UIKit/UIKit.h>
 
@@ -16,7 +15,6 @@
 #import "CrossDissolveAnimation.h"
 #import "HPUserCardViewController.h"
 
-//==============================================================================
 
 @interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, HPSwitchProtocol, NSFetchedResultsControllerDelegate, HPUserCardViewControllerDelegate, HPFilterSettingsViewControllerDelegate>
 {

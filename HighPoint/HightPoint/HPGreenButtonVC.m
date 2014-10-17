@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
+
 
 #import "HPGreenButtonVC.h"
 #import "UIButton+HighPoint.h"
 
-//==============================================================================
+
 
 @implementation HPGreenButtonVC {
     NSString *titleText;
@@ -53,7 +53,6 @@
     [self.button setTitle: buttonTitle forState: UIControlStateSelected];
 }
 
-//==============================================================================
 
 
 - (IBAction) touchUpInside:(id)sender
@@ -61,14 +60,13 @@
     [self releaseButton];
 }
 
-//==============================================================================
+
 
 - (IBAction) touchDown:(id)sender
 {
     [self highlightButton];
 }
 
-//==============================================================================
 
 - (void) highlightButton
 {
@@ -81,7 +79,7 @@
     _leftPartPressed.hidden = NO;
 }
 
-//==============================================================================
+
 
 - (void) releaseButton
 {
@@ -97,6 +95,6 @@
         [_delegate greenButtonPressed: self];
 }
 
-//==============================================================================
+
 
 @end

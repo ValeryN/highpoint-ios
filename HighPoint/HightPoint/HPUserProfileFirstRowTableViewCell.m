@@ -38,7 +38,7 @@
 - (IBAction)labelSliderChanged:(NMRangeSlider*)sender {
     
     NSMutableString *text;
-    if([self.user.gender intValue] == 2) {
+    if([self.user.gender intValue] == UserGenderFemale) {
         text = [NSMutableString stringWithString:@"Привыкла"];
     } else {
         text = [NSMutableString stringWithString:@"Привык"];

@@ -366,7 +366,7 @@
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error];
-            if (operation.response.statusCode == 403) {
+            if (operation.response.statusCode == HTTPStatusForbidden) {
                 NSNumber *errorCode = [jsonDict objectForKey:@"error"];
                 if ([errorCode isEqualToValue:@8]) {
                     // show wrong file format error

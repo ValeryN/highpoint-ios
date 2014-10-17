@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
+
 
 #define IMAGE_PLACEHOLDER @"img_sample1.png"
 
@@ -15,7 +15,7 @@
 #import "User.h"
 #import "User+UserImage.h"
 
-//==============================================================================
+
 @interface HPAvatarView()
 @property (nonatomic, weak) IBOutlet UIView* mainView;
 @property (nonatomic, weak) IBOutlet UIImageView* avatar;
@@ -26,7 +26,7 @@
 @end
 @implementation HPAvatarView
 
-//==============================================================================
+
 
 + (HPAvatarView*) avatarViewWithUser:(User*) user
 {
@@ -35,7 +35,7 @@
     return avatarView;
 }
 
-//==============================================================================
+
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {

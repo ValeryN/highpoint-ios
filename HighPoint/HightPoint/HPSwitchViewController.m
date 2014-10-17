@@ -6,23 +6,19 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import "HPSwitchViewController.h"
 #import "Constants.h"
 #import "Utils.h"
 #import "UIButton+HighPoint.h"
 
-//==============================================================================
 
 #define SWITCH_ANIMATION_SPEED 0.2
 #define SIDE_BORDER_SIZE 15
 
-//==============================================================================
 
 @implementation HPSwitchViewController
 
-//==============================================================================
 
 - (void) viewDidLoad
 {
@@ -30,7 +26,6 @@
     [self initObjects];
 }
 
-//==============================================================================
 
 - (void) initObjects
 {
@@ -47,7 +42,6 @@
     [self makeRightButtonClickable];
 }
 
-//==============================================================================
 
 - (void) positionSwitcher: (CGRect) rect
 {
@@ -57,11 +51,9 @@
     _backgroundView.frame = rect;
 }
 
-//==============================================================================
 
 #pragma mark - Gestures -
 
-//==============================================================================
 
 - (IBAction) buttonTap:(id)sender
 {
@@ -72,7 +64,7 @@
         [self moveSwitchToLeft];
 }
 
-//==============================================================================
+
 
 - (IBAction) tapGesture:(UITapGestureRecognizer *)recognizer
 {
@@ -83,7 +75,6 @@
         [self moveSwitchToLeft];
 }
 
-//==============================================================================
 
 - (IBAction) swipeRightGesture:(UISwipeGestureRecognizer *)recognizer
 {
@@ -95,7 +86,6 @@
     }
 }
 
-//==============================================================================
 
 - (IBAction) swipeLeftGesture:(UISwipeGestureRecognizer *)recognizer
 {
@@ -107,7 +97,6 @@
     }
 }
 
-//==============================================================================
 
 - (void) moveSwitchToRight
 {
@@ -132,7 +121,6 @@
 
 }
 
-//==============================================================================
 
 - (void) moveSwitchToLeft
 {
@@ -157,7 +145,6 @@
     [_delegate switchedToLeft];
 }
 
-//==============================================================================
 
 - (void) makeRightButtonClickable
 {
@@ -167,7 +154,6 @@
     _leftButtonInactive.userInteractionEnabled = NO;
 }
 
-//==============================================================================
 
 - (void) makeLeftButtonClickable
 {
@@ -177,7 +163,6 @@
     _leftButtonInactive.userInteractionEnabled = YES;
 }
 
-//==============================================================================
 
 - (CGRect) switchOnLabel: (UIView*) label
 {
@@ -188,6 +173,5 @@
     return rect;
 }
 
-//==============================================================================
 
 @end

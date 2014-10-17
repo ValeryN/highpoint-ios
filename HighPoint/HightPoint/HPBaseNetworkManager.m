@@ -152,7 +152,7 @@ static HPBaseNetworkManager *networkManager;
     manager.responseSerializer = [AFHTTPResponseSerializer new];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSInteger httpStatusCode = operation.response.statusCode;
-        if(httpStatusCode == 200) {
+        if(httpStatusCode == HTTPStatusOK) {
             block (@"success");
             } else {
             block(@"Error");
