@@ -213,6 +213,7 @@
 		443B19E219EBEB0000108C05 /* RACollectionViewTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B19E019EBEB0000108C05 /* RACollectionViewTripletLayout.m */; };
 		4448BB5519AF352F008840E6 /* HPSearchCityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */; };
 		444F12CC19E6C0B000CF5867 /* HPRoundedShadowedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */; };
+		448E7C0319F5681A0066801C /* HPCurrentUserPrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 448E7C0219F5681A0066801C /* HPCurrentUserPrivacyViewController.m */; };
 		44AD911C19E8149600F835C9 /* HPRoundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AD911B19E8149600F835C9 /* HPRoundView.m */; };
 		44B52FCD19AB81300016E80B /* PSMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B52FCC19AB81300016E80B /* PSMenuItem.m */; };
 		44B5F3A319B867CC00DB13F4 /* HPUserProfileCarouselDeletedCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44B5F3A219B867CC00DB13F4 /* HPUserProfileCarouselDeletedCellView.xib */; };
@@ -414,8 +415,7 @@
 		CDC2D7CF1988E33C0002B196 /* Chat.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC2D7CE1988E33C0002B196 /* Chat.m */; };
 		CDD842C6197F7D4A00CCB857 /* UITextField+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD842C5197F7D4A00CCB857 /* UITextField+HighPoint.m */; };
 		CDD858B8198F84AF00AB6D07 /* curruser_card_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDD858B7198F84AF00AB6D07 /* curruser_card_new.png */; };
-		CDD858BB198F84DA00AB6D07 /* HPCurrentUserUICollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD858BA198F84DA00AB6D07 /* HPCurrentUserUICollectionViewCell.m */; };
-		CDD858BD198F84EB00AB6D07 /* HPCurrentUserUICollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD858BC198F84EB00AB6D07 /* HPCurrentUserUICollectionViewCell.xib */; };
+		CDD858BD198F84EB00AB6D07 /* HPCurrentUserPrivacyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD858BC198F84EB00AB6D07 /* HPCurrentUserPrivacyViewController.xib */; };
 		CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */; };
 		CDE0BDC4196E636600CBCF58 /* HPUserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */; };
 		CDE0BDCA196E7FC000CBCF58 /* HPCurrentUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */; };
@@ -826,6 +826,8 @@
 		444F12CA19E6C0B000CF5867 /* HPRoundedShadowedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundedShadowedImageView.h; sourceTree = "<group>"; };
 		444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRoundedShadowedImageView.m; sourceTree = "<group>"; };
 		448E7C0019F54D590066801C /* HighPoint-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HighPoint-Prefix.pch"; sourceTree = "<group>"; };
+		448E7C0119F5681A0066801C /* HPCurrentUserPrivacyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserPrivacyViewController.h; sourceTree = "<group>"; };
+		448E7C0219F5681A0066801C /* HPCurrentUserPrivacyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserPrivacyViewController.m; sourceTree = "<group>"; };
 		44AD911A19E8149600F835C9 /* HPRoundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundView.h; sourceTree = "<group>"; };
 		44AD911B19E8149600F835C9 /* HPRoundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRoundView.m; sourceTree = "<group>"; };
 		44B52FCB19AB81300016E80B /* PSMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSMenuItem.h; sourceTree = "<group>"; };
@@ -1119,9 +1121,7 @@
 		CDD842C4197F7D4A00CCB857 /* UITextField+HighPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+HighPoint.h"; sourceTree = "<group>"; };
 		CDD842C5197F7D4A00CCB857 /* UITextField+HighPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+HighPoint.m"; sourceTree = "<group>"; };
 		CDD858B7198F84AF00AB6D07 /* curruser_card_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = curruser_card_new.png; sourceTree = "<group>"; };
-		CDD858B9198F84DA00AB6D07 /* HPCurrentUserUICollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserUICollectionViewCell.h; sourceTree = "<group>"; };
-		CDD858BA198F84DA00AB6D07 /* HPCurrentUserUICollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserUICollectionViewCell.m; sourceTree = "<group>"; };
-		CDD858BC198F84EB00AB6D07 /* HPCurrentUserUICollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCurrentUserUICollectionViewCell.xib; sourceTree = "<group>"; };
+		CDD858BC198F84EB00AB6D07 /* HPCurrentUserPrivacyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPCurrentUserPrivacyViewController.xib; sourceTree = "<group>"; };
 		CDE0BDC0196E636600CBCF58 /* HPUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPUserInfoViewController.h; sourceTree = "<group>"; };
 		CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPUserInfoViewController.m; sourceTree = "<group>"; };
 		CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPUserInfoViewController.xib; sourceTree = "<group>"; };
@@ -1973,6 +1973,16 @@
 			name = "Card view";
 			sourceTree = "<group>";
 		};
+		448E7C0419F568740066801C /* Privacy */ = {
+			isa = PBXGroup;
+			children = (
+				CDD858BC198F84EB00AB6D07 /* HPCurrentUserPrivacyViewController.xib */,
+				448E7C0119F5681A0066801C /* HPCurrentUserPrivacyViewController.h */,
+				448E7C0219F5681A0066801C /* HPCurrentUserPrivacyViewController.m */,
+			);
+			name = Privacy;
+			sourceTree = "<group>";
+		};
 		44AC68C019A23F1B00AD5661 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2453,14 +2463,12 @@
 		CDE0BDC5196E7F9900CBCF58 /* Current User */ = {
 			isa = PBXGroup;
 			children = (
+				448E7C0419F568740066801C /* Privacy */,
 				44C5AB2D19ED681100EF897E /* Settings */,
 				3B49DE1B1934A50C00C3EF1E /* Profile */,
 				CDE0BDCB196E832E00CBCF58 /* HPCurrentUserViewController.h */,
 				CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */,
 				CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */,
-				CDD858B9198F84DA00AB6D07 /* HPCurrentUserUICollectionViewCell.h */,
-				CDD858BA198F84DA00AB6D07 /* HPCurrentUserUICollectionViewCell.m */,
-				CDD858BC198F84EB00AB6D07 /* HPCurrentUserUICollectionViewCell.xib */,
 				CDC009941990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.h */,
 				CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */,
 				CDC009971990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib */,
@@ -2687,7 +2695,7 @@
 				3BE9DE38197FD8F300AFA641 /* 15.jpg in Resources */,
 				CDFA8A1D196BEA6200D04451 /* Notice.png in Resources */,
 				CDFA8A1A196BEA6200D04451 /* Lens Tap.png in Resources */,
-				CDD858BD198F84EB00AB6D07 /* HPCurrentUserUICollectionViewCell.xib in Resources */,
+				CDD858BD198F84EB00AB6D07 /* HPCurrentUserPrivacyViewController.xib in Resources */,
 				3B5EFDB719811EE900408427 /* Camera@2x.png in Resources */,
 				CD08B82D198B6F850006AF4A /* usercard_new_wp.png in Resources */,
 				3BA00C7B19D44EE900C5AE83 /* slider-default-handle_@2x.png in Resources */,
@@ -2834,6 +2842,7 @@
 				3B6DB4A518FFC24D00C26A50 /* HightPoint.xcdatamodeld in Sources */,
 				44B91D3C19E2D62500B8D0AE /* HPUserInfoPhotoAlbumViewController.m in Sources */,
 				3BE83C1619796B2A0043E03E /* HEBubbleViewItem.m in Sources */,
+				448E7C0319F5681A0066801C /* HPCurrentUserPrivacyViewController.m in Sources */,
 				3BDA4CA8190660B400EF6619 /* SRWebSocket.m in Sources */,
 				3B9C749B1990FB7E006ADAE7 /* HPMakeAvatarViewController.m in Sources */,
 				4C8096A9193DDA7300E4C174 /* UIDevice+HighPoint.m in Sources */,
@@ -2904,7 +2913,6 @@
 				4CDC98BD19519EEB006D2F89 /* UIView+HighPoint.m in Sources */,
 				4C91C1E8195812A4002B27D4 /* HPGreenButtonVC.m in Sources */,
 				3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */,
-				CDD858BB198F84DA00AB6D07 /* HPCurrentUserUICollectionViewCell.m in Sources */,
 				3BDA4C6A19064AC900EF6619 /* AFURLSessionManager.m in Sources */,
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
 				CDD842C6197F7D4A00CCB857 /* UITextField+HighPoint.m in Sources */,

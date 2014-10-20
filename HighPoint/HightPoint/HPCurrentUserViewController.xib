@@ -20,6 +20,7 @@
             <connections>
                 <outlet property="avatarView" destination="lNe-UF-Nv6" id="ojj-6Q-KAT"/>
                 <outlet property="nameLabel" destination="Bgf-m2-j6c" id="Yp5-I4-FSU"/>
+                <outlet property="openPrivacyButton" destination="Oq7-hd-G6n" id="LOg-cN-vAN"/>
                 <outlet property="pointStatus" destination="GTn-ve-g4k" id="Gyb-m5-Yv7"/>
                 <outlet property="pointTextField" destination="xsC-30-x4d" id="ynH-Sx-7Wn"/>
                 <outlet property="userInfoLabel" destination="RFJ-3V-aLP" id="nmp-t8-Oeb"/>
@@ -37,6 +38,15 @@
                         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i5M-Pr-FkT">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="449"/>
                             <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 лет, Москва" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFJ-3V-aLP">
+                                    <rect key="frame" x="109" y="59" width="176" height="29"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="29" id="iLJ-TK-RkG"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
+                                    <color key="textColor" red="0.87843137250000003" green="0.90588235289999997" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рустем Богданов" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bgf-m2-j6c">
                                     <rect key="frame" x="109" y="33" width="176" height="29"/>
                                     <constraints>
@@ -46,12 +56,6 @@
                                     <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oq7-hd-G6n">
-                                    <rect key="frame" x="105" y="17" width="203" height="88"/>
-                                    <state key="normal" image="RightArrow">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNe-UF-Nv6" customClass="HPAvatarView">
                                     <rect key="frame" x="13" y="17" width="88" height="88"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -60,6 +64,12 @@
                                         <constraint firstAttribute="height" constant="88" id="xWi-G2-1wT"/>
                                     </constraints>
                                 </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oq7-hd-G6n">
+                                    <rect key="frame" x="8" y="17" width="300" height="88"/>
+                                    <state key="normal" image="RightArrow">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                </button>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xsC-30-x4d">
                                     <rect key="frame" x="12" y="124" width="296" height="100"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -145,22 +155,13 @@
                                         <constraint firstAttribute="width" constant="12" id="qn5-H7-dtx"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 лет, Москва" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFJ-3V-aLP">
-                                    <rect key="frame" x="109" y="59" width="176" height="29"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="29" id="iLJ-TK-RkG"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
-                                    <color key="textColor" red="0.87843137250000003" green="0.90588235289999997" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
                             </subviews>
                             <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="centerX" secondItem="ZI4-7L-cfz" secondAttribute="centerX" id="432-3r-ubY"/>
                                 <constraint firstItem="uEh-ig-8hu" firstAttribute="centerY" secondItem="PlW-gc-jtI" secondAttribute="centerY" constant="0.5" id="5Bp-FO-i3R"/>
                                 <constraint firstAttribute="trailing" secondItem="Bgf-m2-j6c" secondAttribute="trailing" constant="35" id="72Z-s5-VxT"/>
-                                <constraint firstItem="Oq7-hd-G6n" firstAttribute="leading" secondItem="lNe-UF-Nv6" secondAttribute="trailing" constant="4" id="7Cj-cQ-Zko"/>
+                                <constraint firstItem="Oq7-hd-G6n" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="8YK-dG-lPw"/>
                                 <constraint firstAttribute="trailing" secondItem="PlW-gc-jtI" secondAttribute="trailing" constant="11" id="9yS-IO-0Wt"/>
                                 <constraint firstAttribute="trailing" secondItem="RFJ-3V-aLP" secondAttribute="trailing" constant="35" id="CFy-mN-OQ2"/>
                                 <constraint firstItem="xsC-30-x4d" firstAttribute="top" secondItem="lNe-UF-Nv6" secondAttribute="bottom" constant="19" id="ETc-c2-j5W"/>

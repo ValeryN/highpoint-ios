@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "HPUserProfileViewController.h"
 #import "HPCurrentUserPointCollectionViewCell.h"
-#import "HPCurrentUserUICollectionViewCell.h"
 
 
 @interface HPCurrentUserViewController : UIViewController 

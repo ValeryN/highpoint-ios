@@ -10,7 +10,6 @@
 #import "DataStorage.h"
 #import "UIDevice+HighPoint.h"
 #import "HPPointLikesViewController.h"
-#import "HPCurrentUserUICollectionViewCell.h"
 #import "Utils.h"
 #import "HPSettingsViewController.h"
 #import "HPAvatarView.h"
@@ -18,6 +17,7 @@
 #import "HPRequest.h"
 #import "HPRequest+Points.h"
 #import "User+UserImage.h"
+#import "HPCurrentUserPrivacyViewController.h"
 
 
 @interface HPCurrentUserViewController ()
@@ -29,6 +29,8 @@
 @property (nonatomic,weak) IBOutlet UILabel* userInfoLabel;
 @property (nonatomic,weak) IBOutlet UITextView* pointTextField;
 @property (nonatomic,weak) IBOutlet UILabel* pointStatus;
+
+@property (nonatomic, weak) IBOutlet UIButton* openPrivacyButton;
 @end
 
 @implementation HPCurrentUserViewController
@@ -38,19 +40,29 @@
     [super viewDidLoad];
     self.currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
     [self configureUserInfo];
+    [self configureButtons];
 }
 
+- (void) configureButtons{
+    @weakify(self);
+    [[self.openPrivacyButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        HPCurrentUserPrivacyViewController* privacyVc = [[HPCurrentUserPrivacyViewController alloc] initWithNibName:@"HPCurrentUserPrivacyViewController" bundle:nil];
+        privacyVc.currentUser = self.currentUser;
+        [self.navigationController pushViewController:privacyVc animated:YES];
+    }];
+}
 - (void) configureUserInfo{
-    RAC(self, nameLabel.text) = [[self currentUserSignal] map:^id(User* value) {
+    RAC(self.nameLabel,text) = [[self currentUserSignal] map:^id(User* value) {
         return value.name;
     }];
     
-    RAC(self,userInfoLabel.text) = [[self currentUserSignal] map:^id(User* value) {
+    RAC(self.userInfoLabel,text) = [[self currentUserSignal] map:^id(User* value) {
         NSString *cityName = value.city.cityName ? value.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
         return [NSString stringWithFormat:@"%@ лет, %@", value.age,cityName];
     }];
     
-    RAC(self, avatarView.user) = [self currentUserSignal];
+    RAC(self.avatarView, user) = [self currentUserSignal];
 }
 
 - (RACSignal*) currentUserSignal{

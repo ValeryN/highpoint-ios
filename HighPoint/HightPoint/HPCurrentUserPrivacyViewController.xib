@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="ParaType - Futura PT Book.otf">
+            <string>FuturaPT-Book</string>
+            <string>FuturaPT-Book</string>
+            <string>FuturaPT-Book</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPCurrentUserPrivacyViewController">
+            <connections>
+                <outlet property="avatarView" destination="vcZ-4b-ZZd" id="fv0-NQ-aX0"/>
+                <outlet property="invisibleBtn" destination="ORa-gb-ekh" id="miX-9g-ZJF"/>
+                <outlet property="lockBtn" destination="e3F-ix-bAp" id="8AB-ci-J2Q"/>
+                <outlet property="userInfoLabel" destination="Npl-tE-ma0" id="FOG-mb-rfO"/>
+                <outlet property="view" destination="PFE-19-Yli" id="s9y-jN-CTh"/>
+                <outlet property="visibleBtn" destination="zd6-YN-0dY" id="ofV-5v-z6Y"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="PFE-19-Yli">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WLJ-kv-ax9">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K4C-xk-OcD">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="481"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vcZ-4b-ZZd" customClass="HPRoundedShadowedImageView">
+                                    <rect key="frame" x="8" y="8" width="304" height="304"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="vcZ-4b-ZZd" secondAttribute="height" multiplier="1:1" id="cwE-CV-Cjo"/>
+                                    </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="image" keyPath="image" value="18.jpg"/>
+                                        <userDefinedRuntimeAttribute type="image" keyPath="blendImage" value="Blend 4X.png"/>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                            <real key="value" value="4"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                            <real key="value" value="2"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                            <size key="value" width="2" height="1"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </view>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Сегодня в планах треш-угар вечеринка с ирландскими гномами. Будем слушать фолк, пить виски и отплясывать джигу на столе." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="in0-bO-Zqa">
+                                    <rect key="frame" x="20" y="214" width="280" height="83"/>
+                                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="16"/>
+                                    <color key="textColor" red="0.87843137250000003" green="0.90588235289999997" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Анастасия, 30 лет, Москва" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Npl-tE-ma0">
+                                    <rect key="frame" x="20" y="328" width="280" height="21"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="21" id="3rM-sp-8V6"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
+                                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ORa-gb-ekh">
+                                    <rect key="frame" x="143" y="367" width="35" height="35"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="35" id="19N-fP-Jq4"/>
+                                        <constraint firstAttribute="width" constant="35" id="eVg-Uw-EuT"/>
+                                    </constraints>
+                                    <state key="normal" backgroundImage="Eye.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="disabled" backgroundImage="Eye Active.png"/>
+                                    <state key="selected" backgroundImage="Eye Active.png"/>
+                                    <state key="highlighted" backgroundImage="Eye Tap.png"/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e3F-ix-bAp">
+                                    <rect key="frame" x="241" y="367" width="35" height="35"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="35" id="BeL-3A-Ja5"/>
+                                        <constraint firstAttribute="height" constant="35" id="th5-7n-P2C"/>
+                                    </constraints>
+                                    <state key="normal" backgroundImage="Lock.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="disabled" backgroundImage="Lock Active.png"/>
+                                    <state key="selected" backgroundImage="Lock Active.png"/>
+                                    <state key="highlighted" backgroundImage="Lock Tap.png"/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zd6-YN-0dY">
+                                    <rect key="frame" x="44" y="367" width="35" height="35"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="35" id="B11-he-Uji"/>
+                                        <constraint firstAttribute="width" constant="35" id="fdF-Sq-pIc"/>
+                                    </constraints>
+                                    <state key="normal" backgroundImage="Eye.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="disabled" backgroundImage="Eye Active.png"/>
+                                    <state key="selected" backgroundImage="Eye Active.png"/>
+                                    <state key="highlighted" backgroundImage="Eye Tap.png"/>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Скрытая информация о вас будет доступна только по запросу" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="71i-vI-dzp">
+                                    <rect key="frame" x="15" y="419" width="290" height="52"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="290" id="FAv-qY-AXs"/>
+                                        <constraint firstAttribute="height" constant="52" id="Oa6-WQ-1MX"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="16"/>
+                                    <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstItem="in0-bO-Zqa" firstAttribute="leading" secondItem="K4C-xk-OcD" secondAttribute="leading" constant="20" id="2YN-Px-2oT"/>
+                                <constraint firstAttribute="trailing" secondItem="in0-bO-Zqa" secondAttribute="trailing" constant="20" id="5x0-HG-LpC"/>
+                                <constraint firstAttribute="trailing" secondItem="e3F-ix-bAp" secondAttribute="trailing" constant="44" id="BIP-cj-xUX"/>
+                                <constraint firstItem="ORa-gb-ekh" firstAttribute="centerY" secondItem="e3F-ix-bAp" secondAttribute="centerY" id="C8U-XR-wyZ"/>
+                                <constraint firstAttribute="centerX" secondItem="71i-vI-dzp" secondAttribute="centerX" id="Eku-LN-5oc"/>
+                                <constraint firstAttribute="bottom" secondItem="71i-vI-dzp" secondAttribute="bottom" constant="10" id="FSs-LT-ybM"/>
+                                <constraint firstItem="vcZ-4b-ZZd" firstAttribute="leading" secondItem="K4C-xk-OcD" secondAttribute="leading" constant="8" id="KH8-j1-W20"/>
+                                <constraint firstAttribute="centerX" secondItem="ORa-gb-ekh" secondAttribute="centerX" id="KfU-Qr-huk"/>
+                                <constraint firstItem="in0-bO-Zqa" firstAttribute="bottom" secondItem="vcZ-4b-ZZd" secondAttribute="bottom" constant="-15" id="NSa-4j-5g7"/>
+                                <constraint firstItem="Npl-tE-ma0" firstAttribute="top" secondItem="vcZ-4b-ZZd" secondAttribute="bottom" constant="16" id="UUM-8I-9ML"/>
+                                <constraint firstItem="Npl-tE-ma0" firstAttribute="leading" secondItem="K4C-xk-OcD" secondAttribute="leading" constant="20" id="eiq-aq-E3h"/>
+                                <constraint firstItem="vcZ-4b-ZZd" firstAttribute="top" secondItem="K4C-xk-OcD" secondAttribute="top" constant="8" id="mVw-nZ-ycc"/>
+                                <constraint firstAttribute="trailing" secondItem="Npl-tE-ma0" secondAttribute="trailing" constant="20" id="mib-nb-kih"/>
+                                <constraint firstAttribute="trailing" secondItem="vcZ-4b-ZZd" secondAttribute="trailing" constant="8" id="owH-x1-4Iz"/>
+                                <constraint firstItem="ORa-gb-ekh" firstAttribute="top" secondItem="Npl-tE-ma0" secondAttribute="bottom" constant="18" id="rTw-3Q-a1C"/>
+                                <constraint firstItem="zd6-YN-0dY" firstAttribute="centerY" secondItem="ORa-gb-ekh" secondAttribute="centerY" id="vPM-6h-kaD"/>
+                                <constraint firstItem="71i-vI-dzp" firstAttribute="top" secondItem="ORa-gb-ekh" secondAttribute="bottom" constant="17" id="w0Q-YJ-yeY"/>
+                                <constraint firstItem="zd6-YN-0dY" firstAttribute="leading" secondItem="K4C-xk-OcD" secondAttribute="leading" constant="44" id="zIh-Wp-dTw"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="K4C-xk-OcD" firstAttribute="leading" secondItem="WLJ-kv-ax9" secondAttribute="leading" id="EsZ-vX-vtI"/>
+                        <constraint firstItem="K4C-xk-OcD" firstAttribute="top" secondItem="WLJ-kv-ax9" secondAttribute="top" id="MPu-nN-yUF"/>
+                        <constraint firstAttribute="bottom" secondItem="K4C-xk-OcD" secondAttribute="bottom" id="l9s-qw-sGU"/>
+                        <constraint firstAttribute="trailing" secondItem="K4C-xk-OcD" secondAttribute="trailing" id="lPG-4P-jOW"/>
+                        <constraint firstItem="K4C-xk-OcD" firstAttribute="width" secondItem="WLJ-kv-ax9" secondAttribute="width" id="wcm-pg-aYA"/>
+                    </constraints>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="WLJ-kv-ax9" secondAttribute="trailing" id="WdL-8r-fbZ"/>
+                <constraint firstAttribute="bottom" secondItem="WLJ-kv-ax9" secondAttribute="bottom" id="hji-7l-3LM"/>
+                <constraint firstItem="WLJ-kv-ax9" firstAttribute="top" secondItem="PFE-19-Yli" secondAttribute="top" id="lmR-P6-Zys"/>
+                <constraint firstItem="WLJ-kv-ax9" firstAttribute="leading" secondItem="PFE-19-Yli" secondAttribute="leading" id="pQA-Sc-cEH"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="18.jpg" width="480" height="640"/>
+        <image name="Blend 4X.png" width="320" height="120"/>
+        <image name="Eye Active.png" width="64" height="65"/>
+        <image name="Eye Tap.png" width="64" height="64"/>
+        <image name="Eye.png" width="64" height="64"/>
+        <image name="Lock Active.png" width="64" height="64"/>
+        <image name="Lock Tap.png" width="64" height="64"/>
+        <image name="Lock.png" width="64" height="64"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
