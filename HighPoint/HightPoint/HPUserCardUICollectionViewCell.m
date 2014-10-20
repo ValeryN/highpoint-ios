@@ -28,12 +28,20 @@
 @property (weak, nonatomic) IBOutlet UIButton *heartBtn;
 @property (weak, nonatomic) IBOutlet UIView *photoView;
 @property (weak, nonatomic) IBOutlet UILabel *photoCountLabel;
+@property (retain, nonatomic) User* currUser;
 @end
 
-@implementation HPUserCardUICollectionViewCell {
-    User *_currUser;
-}
+@implementation HPUserCardUICollectionViewCell
 
+- (void)awakeFromNib{
+    [super awakeFromNib];
+    RAC(self.heartBtn,selected) = [RACObserve(self, currUser.point.pointLiked) map:^id(id value) {
+        if(value==nil)
+            return @NO;
+        else
+            return value;
+    }];
+}
 
 - (void) bindViewModel: (User *) user {
     for(UIView *subview in [self subviews]) {
@@ -41,12 +49,13 @@
             [subview removeFromSuperview];
         }
     }
+    self.currUser = user;
+    
     UITextView *pointTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, 300, 40)];
     pointTextView.textAlignment=NSTextAlignmentCenter;
     pointTextView.backgroundColor = [UIColor clearColor];
     pointTextView.userInteractionEnabled = NO;
-    pointTextView.text = user.point.pointText;
-    _currUser = user;
+    pointTextView.text = user.point.pointText;    
     [pointTextView hp_tuneForUserPoint];
     [self.userInfoLabel hp_tuneForUserCardName];
     [self.sendMsgBtn hp_tuneFontForGreenButton];
@@ -71,7 +80,6 @@
     self.userInfoLabel.text = [NSString stringWithFormat:@"%@, %@ лет, %@", user.name, user.age, cityName];
     [self loadAvatar:user];
     [self addSubview:pointTextView];
-    [self.heartBtn setSelected:[user.point.pointLiked boolValue]];
     [self setAvatarVisibilityBlur:user];
     [self setPrivacyText:user];
     if ([_currUser.gender isEqualToNumber:@1]) {
@@ -130,8 +138,7 @@
     NSLog(@"current point prev = %d", [_currUser.point.pointLiked boolValue]);
     if ([_currUser.point.pointLiked boolValue]) {
         //unlike request
-        [self.heartBtn setSelected:NO];
-        [[DataStorage sharedDataStorage] setAndSavePointLiked: _currUser.point.pointId isLiked:NO withComplationBlock:^(id object) {
+        [[DataStorage sharedDataStorage] setAndSavePointLiked: self.currUser.point.pointId isLiked:NO withComplationBlock:^(id object) {
             if (object) {
                 [[HPBaseNetworkManager sharedNetworkManager] makePointUnLikeRequest:_currUser.point.pointId];
             }
@@ -140,10 +147,8 @@
             }
         }];
     } else {
-        //like request
-        [self.heartBtn setSelected:YES];
-        
-        [[DataStorage sharedDataStorage] setAndSavePointLiked: _currUser.point.pointId isLiked:YES withComplationBlock:^(id object) {
+        //like request        
+        [[DataStorage sharedDataStorage] setAndSavePointLiked: self.currUser.point.pointId isLiked:YES withComplationBlock:^(id object) {
             if (object) {
                 [[HPBaseNetworkManager sharedNetworkManager] makePointLikeRequest:_currUser.point.pointId];
             }

@@ -202,7 +202,9 @@
     CGRect visibleRect = (CGRect){.origin = self.usersCollectionView.contentOffset, .size = self.usersCollectionView.bounds.size};
     CGPoint visiblePoint = CGPointMake(CGRectGetMidX(visibleRect), CGRectGetMidY(visibleRect));
     NSIndexPath *visibleIndexPath = [self.usersCollectionView indexPathForItemAtPoint:visiblePoint];
-    [self.changeViewedUserCard sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+    if(visibleIndexPath){
+        [self.changeViewedUserCard sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+    }
     
     NSUInteger lastRowIndex = [self collectionView:self.usersCollectionView numberOfItemsInSection:0] - 1;
     if(lastRowIndex == visibleIndexPath.row){

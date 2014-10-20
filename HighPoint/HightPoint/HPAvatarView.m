@@ -63,14 +63,17 @@
     @weakify(self);
 
     RACSignal * prepareForReuse = [self rac_signalForSelector:@selector(setUser:)];
-    RACSignal * changeUserSignal = [RACObserve(self,user) replayLast];
-    RACSignal * changeUserOnlineSignal = [[changeUserSignal map:^id(User *value) {
-        return value.online;
+    RACSignal * changeUserSignal = [[RACObserve(self,user.userId) distinctUntilChanged] replayLast];
+    RACSignal * changeUserOnlineSignal = [[changeUserSignal map:^id(NSNumber *value) {
+        @strongify(self);
+        return self.user.online;
     }] replayLast];
-
-    RAC(self,avatar.image) = [changeUserSignal flattenMap:^RACStream *(User* value) {
-        if(value != nil)
-            return [[value userImageSignal] takeUntil:prepareForReuse];
+    
+    RAC(self,avatar.image) = [changeUserSignal flattenMap:^RACStream *(NSNumber* value) {
+        if(value != nil){
+            @strongify(self);
+            return [[self.user userImageSignal] takeUntil:prepareForReuse];
+        }
         else
             return [RACSignal empty];
     }];

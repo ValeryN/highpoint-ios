@@ -421,7 +421,7 @@ static int const refreshTag = 111;
         [self.mainListTable reloadData];
         [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }];
-    [card.needLoadNextPage subscribeNext:^(User* x) {
+    [[card.needLoadNextPage distinctUntilChanged] subscribeNext:^(User* x) {
         @strongify(self);
         [self loadNextPageAfterUser:x];
     }];

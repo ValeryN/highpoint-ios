@@ -1181,7 +1181,15 @@ static DataStorage *dataStorage;
     }
     if(predicate) {
         NSArray *sch = [UserPoint findAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
-        if(sch.count > 0) return sch[0];
+        if(sch.count == 1) {
+            return sch[0];
+        }
+        else if(sch.count == 0){
+            return nil;
+        }
+        else{
+            NSAssert(false, @"Points not unique");
+        }
     } else return nil;
 }
 
