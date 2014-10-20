@@ -29,6 +29,7 @@
 #import "HPUserCardViewController.h"
 #import "HPSelectPopularCityViewController.h"
 #import "UIButton+ExtendedEdges.h"
+#import "UINavigationBar+HighPoint.h"
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
@@ -70,6 +71,7 @@ static int const refreshTag = 111;
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController.navigationBar configureTranslucentNavigationBar];
     [self configureNavigationBar];
     [self registerNotification];
     [self updateCurrentView];

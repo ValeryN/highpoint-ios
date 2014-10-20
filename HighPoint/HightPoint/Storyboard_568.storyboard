@@ -129,10 +129,10 @@
                                                             <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Скрыла свое имя и фотографии" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="157" translatesAutoresizingMaskIntoConstraints="NO" id="81M-9F-wN0">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Скрыла свое имя и фотографии" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="81M-9F-wN0">
                                                             <rect key="frame" x="100" y="26" width="157" height="52"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                            <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -148,14 +148,14 @@
                                                     <rect key="frame" x="269" y="0.0" width="50" height="104"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Point Notice.png" translatesAutoresizingMaskIntoConstraints="NO" id="WWu-Bc-zmw" userLabel="Show point button">
-                                                            <rect key="frame" x="15" y="40" width="23" height="24"/>
+                                                            <rect key="frame" x="13" y="40" width="24" height="24"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="У нас тут очень весело. Если кто не боится таких развлечений, пишите!" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="256" translatesAutoresizingMaskIntoConstraints="NO" id="bwY-Gy-lWp" userLabel="Label - Point Text">
-                                                    <rect key="frame" x="12" y="0.0" width="256" height="104"/>
+                                                    <rect key="frame" x="12" y="11" width="256" height="80"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                                                     <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
@@ -199,12 +199,12 @@
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j7y-09-8PB" userLabel="Filter Group View">
                                 <rect key="frame" x="0.0" y="516" width="320" height="48"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7c7-ao-JSu" userLabel="Lens Button">
-                                        <rect key="frame" x="12" y="0.0" width="24" height="24"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7c7-ao-JSu" userLabel="Lens Button">
+                                        <rect key="frame" x="12" y="0.0" width="26" height="26"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="24" id="0jM-CC-yUl"/>
-                                            <constraint firstAttribute="height" constant="24" id="SPl-Ei-qiF"/>
+                                            <constraint firstAttribute="width" constant="26" id="0jM-CC-yUl"/>
+                                            <constraint firstAttribute="height" constant="26" id="SPl-Ei-qiF"/>
                                         </constraints>
                                         <state key="normal" backgroundImage="Lens">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -217,13 +217,14 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="Jbi-BC-O7W"/>
-                                    <constraint firstItem="7c7-ao-JSu" firstAttribute="leading" secondItem="j7y-09-8PB" secondAttribute="leading" constant="12" id="PHt-MY-Z0r"/>
+                                    <constraint firstItem="7c7-ao-JSu" firstAttribute="leading" secondItem="j7y-09-8PB" secondAttribute="leading" constant="14" id="PHt-MY-Z0r"/>
                                     <constraint firstAttribute="width" constant="320" id="c0G-Zy-5Zk"/>
                                     <constraint firstItem="7c7-ao-JSu" firstAttribute="top" secondItem="j7y-09-8PB" secondAttribute="top" id="lFX-Fn-CxS"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="rlD-h7-wo0" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" id="5rw-wY-iUP"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="j7y-09-8PB" secondAttribute="bottom" id="7yF-fJ-F2L"/>
@@ -295,5 +296,5 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <color key="tintColor" red="0.13333333333333333" green="0.1764705882352941" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
+    <color key="tintColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
 </document>

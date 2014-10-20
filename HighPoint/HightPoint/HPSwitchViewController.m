@@ -14,7 +14,7 @@
 
 
 #define SWITCH_ANIMATION_SPEED 0.2
-#define SIDE_BORDER_SIZE 15
+#define SIDE_BORDER_SIZE 9
 
 
 @implementation HPSwitchViewController

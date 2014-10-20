@@ -40,6 +40,22 @@ static HPMainViewListTableViewCell* _prevCell;
     
     [self.firstLabel hp_tuneForUserListCellName];
     self.firstLabel.text = user.name;
+    UIColor *onlineUserNameColor = [UIColor colorWithRed: 64.0 / 255.0
+                                                   green: 199.0 / 255.0
+                                                    blue: 79.0 / 255.0
+                                                   alpha: 1.0];
+    
+    UIColor *offlineUserNameColor = [UIColor colorWithRed: 255.0 / 255.0
+                                                   green: 153.0 / 255.0
+                                                    blue: 0.0 / 255.0
+                                                   alpha: 1.0];
+    
+    if ([user.online boolValue]) {
+        self.firstLabel.textColor = onlineUserNameColor;
+    } else {
+        self.firstLabel.textColor = offlineUserNameColor;
+    }
+    
     [self.secondLabel hp_tuneForUserListCellAgeAndCity];
     ;
     NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);

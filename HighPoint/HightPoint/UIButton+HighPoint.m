@@ -35,7 +35,7 @@
 
 - (void) hp_tuneFontForSwitch
 {
-    self.titleLabel.font = [UIFont fontWithName: @"FuturaPT-Light" size: 18.0];
+    self.titleLabel.font = [UIFont fontWithName: @"FuturaPT-Book" size: 18.0];
 }
 
 
