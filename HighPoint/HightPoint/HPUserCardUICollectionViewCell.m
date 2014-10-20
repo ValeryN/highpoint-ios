@@ -48,10 +48,9 @@
     pointTextView.text = user.point.pointText;
     _currUser = user;
     [pointTextView hp_tuneForUserPoint];
-    [self.userInfoLabel hp_tuneForUserCardName];
     [self.sendMsgBtn hp_tuneFontForGreenButton];
     self.photoView.clipsToBounds = YES;
-    self.photoView.layer.cornerRadius = 3;
+    self.photoView.layer.cornerRadius = 2;
     [self.photoCountLabel hp_tuneForUserCardPhotoIndex];
     if (user.point) {
         self.heartBtn.hidden = NO;
@@ -64,11 +63,35 @@
     CGSize pointTVSize = [self getContentSize:pointTextView];
     CGRect frame = pointTextView.frame;
     frame.size.height = pointTVSize.height;
-    frame.origin.y = self.frame.size.height - 120 - pointTVSize.height;
+    frame.origin.y = self.frame.size.height - 115 - pointTVSize.height;
     [pointTextView setFrame:frame];
     self.avatarImageView.image = [UIImage imageNamed:@"img_sample1.png"];
     NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
     self.userInfoLabel.text = [NSString stringWithFormat:@"%@, %@ лет, %@", user.name, user.age, cityName];
+    
+    UIColor *onlineUserNameColor = [UIColor colorWithRed: 64.0 / 255.0
+                                                   green: 199.0 / 255.0
+                                                    blue: 79.0 / 255.0
+                                                   alpha: 1.0];
+    
+    UIColor *offlineUserNameColor = [UIColor colorWithRed: 255.0 / 255.0
+                                                    green: 153.0 / 255.0
+                                                     blue: 0.0 / 255.0
+                                                    alpha: 1.0];
+    NSMutableAttributedString *text =
+    [[NSMutableAttributedString alloc]
+     initWithAttributedString: self.userInfoLabel.attributedText];
+    
+    if ([_currUser.online boolValue]) {
+        [text addAttribute:NSForegroundColorAttributeName
+                     value:onlineUserNameColor
+                     range:NSMakeRange(0, user.name.length)];
+    } else {
+        [text addAttribute:NSForegroundColorAttributeName
+                     value:offlineUserNameColor
+                     range:NSMakeRange(0, user.name.length)];
+    }
+    [self.userInfoLabel setAttributedText: text];
     [self loadAvatar:user];
     [self addSubview:pointTextView];
     [self.heartBtn setSelected:[user.point.pointLiked boolValue]];

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="ParaType - Futura PT Book.otf">
+            <string>FuturaPT-Book</string>
+            <string>FuturaPT-Book</string>
             <string>FuturaPT-Book</string>
         </mutableArray>
     </customFonts>
@@ -19,46 +22,46 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H8c-ZC-2A3" customClass="HPRoundedShadowedImageView">
-                        <rect key="frame" x="5" y="8" width="310" height="310"/>
+                        <rect key="frame" x="8" y="8" width="304" height="304"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                <integer key="value" value="10"/>
+                                <integer key="value" value="5"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                <real key="value" value="3"/>
+                                <integer key="value" value="2"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="image" keyPath="blendImage" value="Blend 4X.png"/>
                             <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                <real key="value" value="0.80000000000000004"/>
+                                <real key="value" value="0.40000000000000002"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                <size key="value" width="0.0" height="4"/>
+                                <size key="value" width="0.0" height="2"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Анастасия, 24 года, Эдинбург" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpO-gG-wdI">
-                        <rect key="frame" x="5" y="330" width="310" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <rect key="frame" x="16" y="332" width="288" height="21"/>
+                        <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
+                        <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Qb-XHI" customClass="HPRoundButton">
-                        <rect key="frame" x="99" y="370" width="128" height="30"/>
+                        <rect key="frame" x="96" y="372" width="128" height="30"/>
                         <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
                         <state key="normal" title="Написать ей">
-                            <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.0" green="0.79607843140000001" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <state key="highlighted" title="Написать ей" backgroundImage="green_btn_pressed.png">
-                            <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.0" green="0.79607843140000001" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                         <connections>
                             <action selector="sendMsgBtnTap:" destination="NJ4-rg-JfA" eventType="touchUpInside" id="ghP-Sx-GdG"/>
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cls-dI-Z4a">
-                        <rect key="frame" x="36" y="374" width="24" height="23"/>
+                        <rect key="frame" x="36" y="375" width="24" height="23"/>
                         <state key="normal" backgroundImage="Heart">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -71,22 +74,22 @@
                     <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Расследуем убйиства, совершенные гражданином Раскольниковым. Следы занесли нас в Екатеринбург" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o0L-9t-MmA">
                         <rect key="frame" x="20" y="212" width="280" height="80"/>
                         <color key="backgroundColor" red="0.87058823529999996" green="0.38431372549999998" blue="0.38431372549999998" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="16"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
-                    <view clipsSubviews="YES" alpha="0.64999999999999969" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N43-Kl-9ca" customClass="HPRoundView">
-                        <rect key="frame" x="19" y="21" width="42" height="23"/>
+                    <view clipsSubviews="YES" alpha="0.59999999999999964" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N43-Kl-9ca" customClass="HPRoundView">
+                        <rect key="frame" x="20" y="20" width="49" height="23"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Camera Small.png" translatesAutoresizingMaskIntoConstraints="NO" id="q6q-fM-aAe">
-                                <rect key="frame" x="5" y="6" width="15" height="12"/>
+                                <rect key="frame" x="8" y="5" width="15" height="13"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="12" id="JDn-hi-9o5"/>
+                                    <constraint firstAttribute="height" constant="13" id="JDn-hi-9o5"/>
                                     <constraint firstAttribute="width" constant="15" id="kSA-Y5-X8b"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQe-AH-y1m">
-                                <rect key="frame" x="26" y="1" width="10" height="21"/>
+                                <rect key="frame" x="31" y="1" width="10" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="v53-le-GKS"/>
                                 </constraints>
@@ -98,12 +101,12 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="q6q-fM-aAe" firstAttribute="leading" secondItem="N43-Kl-9ca" secondAttribute="leading" constant="5" id="4Kz-uK-mMO"/>
+                            <constraint firstItem="q6q-fM-aAe" firstAttribute="leading" secondItem="N43-Kl-9ca" secondAttribute="leading" constant="8" id="4Kz-uK-mMO"/>
                             <constraint firstAttribute="height" constant="23" id="KmZ-W3-RcA"/>
-                            <constraint firstItem="ZQe-AH-y1m" firstAttribute="leading" secondItem="q6q-fM-aAe" secondAttribute="trailing" constant="6" id="bIJ-AM-NOg"/>
+                            <constraint firstItem="ZQe-AH-y1m" firstAttribute="leading" secondItem="q6q-fM-aAe" secondAttribute="trailing" constant="8" id="bIJ-AM-NOg"/>
                             <constraint firstAttribute="centerY" secondItem="q6q-fM-aAe" secondAttribute="centerY" id="nW4-xc-xCH"/>
                             <constraint firstAttribute="centerY" secondItem="ZQe-AH-y1m" secondAttribute="centerY" id="nbo-a1-hLh"/>
-                            <constraint firstAttribute="trailing" secondItem="ZQe-AH-y1m" secondAttribute="trailing" constant="6" id="re8-TF-isw"/>
+                            <constraint firstAttribute="trailing" secondItem="ZQe-AH-y1m" secondAttribute="trailing" constant="8" id="re8-TF-isw"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -116,8 +119,8 @@
             </view>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="N43-Kl-9ca" firstAttribute="leading" secondItem="NJ4-rg-JfA" secondAttribute="leading" constant="19" id="0LM-Yn-6Hj"/>
-                <constraint firstItem="N43-Kl-9ca" firstAttribute="top" secondItem="NJ4-rg-JfA" secondAttribute="top" constant="21" id="vEX-nd-kCd"/>
+                <constraint firstItem="N43-Kl-9ca" firstAttribute="leading" secondItem="NJ4-rg-JfA" secondAttribute="leading" constant="20" id="0LM-Yn-6Hj"/>
+                <constraint firstItem="N43-Kl-9ca" firstAttribute="top" secondItem="NJ4-rg-JfA" secondAttribute="top" constant="20" id="vEX-nd-kCd"/>
             </constraints>
             <size key="customSize" width="158" height="193"/>
             <connections>
