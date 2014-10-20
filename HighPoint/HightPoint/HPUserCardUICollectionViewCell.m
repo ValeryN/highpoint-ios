@@ -28,12 +28,20 @@
 @property (weak, nonatomic) IBOutlet UIButton *heartBtn;
 @property (weak, nonatomic) IBOutlet UIView *photoView;
 @property (weak, nonatomic) IBOutlet UILabel *photoCountLabel;
+@property (retain, nonatomic) User* currUser;
 @end
 
-@implementation HPUserCardUICollectionViewCell {
-    User *_currUser;
-}
+@implementation HPUserCardUICollectionViewCell
 
+- (void)awakeFromNib{
+    [super awakeFromNib];
+    RAC(self.heartBtn,selected) = [RACObserve(self, currUser.point.pointLiked) map:^id(id value) {
+        if(value==nil)
+            return @NO;
+        else
+            return value;
+    }];
+}
 
 - (void) bindViewModel: (User *) user {
     for(UIView *subview in [self subviews]) {
@@ -41,17 +49,17 @@
             [subview removeFromSuperview];
         }
     }
+    self.currUser = user;
+    
     UITextView *pointTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 0, 300, 40)];
     pointTextView.textAlignment=NSTextAlignmentCenter;
     pointTextView.backgroundColor = [UIColor clearColor];
     pointTextView.userInteractionEnabled = NO;
-    pointTextView.text = user.point.pointText;
-    _currUser = user;
+    pointTextView.text = user.point.pointText;    
     [pointTextView hp_tuneForUserPoint];
-    [self.userInfoLabel hp_tuneForUserCardName];
     [self.sendMsgBtn hp_tuneFontForGreenButton];
     self.photoView.clipsToBounds = YES;
-    self.photoView.layer.cornerRadius = 3;
+    self.photoView.layer.cornerRadius = 2;
     [self.photoCountLabel hp_tuneForUserCardPhotoIndex];
     if (user.point) {
         self.heartBtn.hidden = NO;
@@ -64,14 +72,37 @@
     CGSize pointTVSize = [self getContentSize:pointTextView];
     CGRect frame = pointTextView.frame;
     frame.size.height = pointTVSize.height;
-    frame.origin.y = self.frame.size.height - 120 - pointTVSize.height;
+    frame.origin.y = self.frame.size.height - 115 - pointTVSize.height;
     [pointTextView setFrame:frame];
     self.avatarImageView.image = [UIImage imageNamed:@"img_sample1.png"];
     NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
     self.userInfoLabel.text = [NSString stringWithFormat:@"%@, %@ лет, %@", user.name, user.age, cityName];
+    
+    UIColor *onlineUserNameColor = [UIColor colorWithRed: 64.0 / 255.0
+                                                   green: 199.0 / 255.0
+                                                    blue: 79.0 / 255.0
+                                                   alpha: 1.0];
+    
+    UIColor *offlineUserNameColor = [UIColor colorWithRed: 255.0 / 255.0
+                                                    green: 153.0 / 255.0
+                                                     blue: 0.0 / 255.0
+                                                    alpha: 1.0];
+    NSMutableAttributedString *text =
+    [[NSMutableAttributedString alloc]
+     initWithAttributedString: self.userInfoLabel.attributedText];
+    
+    if ([_currUser.online boolValue]) {
+        [text addAttribute:NSForegroundColorAttributeName
+                     value:onlineUserNameColor
+                     range:NSMakeRange(0, user.name.length)];
+    } else {
+        [text addAttribute:NSForegroundColorAttributeName
+                     value:offlineUserNameColor
+                     range:NSMakeRange(0, user.name.length)];
+    }
+    [self.userInfoLabel setAttributedText: text];
     [self loadAvatar:user];
     [self addSubview:pointTextView];
-    [self.heartBtn setSelected:[user.point.pointLiked boolValue]];
     [self setAvatarVisibilityBlur:user];
     [self setPrivacyText:user];
     if ([_currUser.gender isEqualToNumber:@1]) {
@@ -97,21 +128,21 @@
 #pragma mark - privacy
 
 - (void) setAvatarVisibilityBlur :(User *) user {
-    if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
+    if (([user.visibility intValue] == UserVisibilityBlur) || ([user.visibility intValue] == UserVisibilityHidden)) {
         self.avatarImageView.image = [self.avatarImageView.image hp_imageWithGaussianBlur: AVATAR_BLUR_RADIUS];
     }
 }
 
 - (void) setPrivacyText :(User *) user {
-    if ([user.visibility intValue] == 2) {
-        if ([user.gender intValue] == 1) {
+    if ([user.visibility intValue] == UserVisibilityBlur) {
+        if ([user.gender intValue] == UserGenderMale) {
             self.userInfoLabel.text = NSLocalizedString(@"HIDE_HIS_PROFILE_INFO", nil);
         } else {
             self.userInfoLabel.text = NSLocalizedString(@"HIDE_HER_PROFILE_INFO", nil);
         }
     }
-    if ([user.visibility intValue] == 3) {
-        if ([user.gender intValue] == 1) {
+    if ([user.visibility intValue] == UserVisibilityHidden) {
+        if ([user.gender intValue] == UserGenderMale) {
             self.userInfoLabel.text = NSLocalizedString(@"HIDE_HER_NAME_INFO", nil);
         } else {
             self.userInfoLabel.text = NSLocalizedString(@"HIDE_HIS_NAME_INFO", nil);
@@ -130,8 +161,7 @@
     NSLog(@"current point prev = %d", [_currUser.point.pointLiked boolValue]);
     if ([_currUser.point.pointLiked boolValue]) {
         //unlike request
-        [self.heartBtn setSelected:NO];
-        [[DataStorage sharedDataStorage] setAndSavePointLiked: _currUser.point.pointId isLiked:NO withComplationBlock:^(id object) {
+        [[DataStorage sharedDataStorage] setAndSavePointLiked: self.currUser.point.pointId isLiked:NO withComplationBlock:^(id object) {
             if (object) {
                 [[HPBaseNetworkManager sharedNetworkManager] makePointUnLikeRequest:_currUser.point.pointId];
             }
@@ -140,10 +170,8 @@
             }
         }];
     } else {
-        //like request
-        [self.heartBtn setSelected:YES];
-        
-        [[DataStorage sharedDataStorage] setAndSavePointLiked: _currUser.point.pointId isLiked:YES withComplationBlock:^(id object) {
+        //like request        
+        [[DataStorage sharedDataStorage] setAndSavePointLiked: self.currUser.point.pointId isLiked:YES withComplationBlock:^(id object) {
             if (object) {
                 [[HPBaseNetworkManager sharedNetworkManager] makePointLikeRequest:_currUser.point.pointId];
             }

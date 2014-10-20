@@ -53,9 +53,11 @@
                     }
                     [[DataStorage sharedDataStorage] createAndSavePoint:arr withComplation:^(NSError *error) {
                         if(!error) {
+                            NSLog(@"end save points");
                             NSArray *usr = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                             if (usr && (![usr isKindOfClass:[NSNull class]])) {
                                 [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:usr] forUserType:MainListUserType withComplation:^(NSError *error) {
+                                    NSLog(@"end save points");
                                     if(!error) {
                                         if([self isTaskArrayEmpty:manager]) {
                                             [self makeTownByIdRequest];

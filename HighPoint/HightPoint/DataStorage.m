@@ -1181,7 +1181,15 @@ static DataStorage *dataStorage;
     }
     if(predicate) {
         NSArray *sch = [UserPoint findAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
-        if(sch.count > 0) return sch[0];
+        if(sch.count == 1) {
+            return sch[0];
+        }
+        else if(sch.count == 0){
+            return nil;
+        }
+        else{
+            NSAssert(false, @"Points not unique");
+        }
     } else return nil;
 }
 
@@ -1477,6 +1485,12 @@ static DataStorage *dataStorage;
         NSFetchedResultsController *controller = [User fetchAllSortedBy:@"userId" ascending:YES withPredicate:predicate groupBy:nil delegate:nil];
         return controller;
     } else return nil;
+}
+- (NSFetchedResultsController *)allUsersAndContactFetchResultsController {
+    NSMutableString *predicateString = [NSMutableString string];
+    [predicateString appendFormat:@"isCurrentUser != 1"];
+    [predicateString appendFormat:@"%@",[Utils getUserFilterPredicateString]];
+    return [self usersFetchResultControllerWithPredicate:predicateString];
 }
 - (NSFetchedResultsController *)allUsersFetchResultsController {
     NSMutableString *predicateString = [NSMutableString string];

@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import <UIKit/UIKit.h>
 #import "RACollectionViewReorderableTripletLayout.h"
@@ -20,8 +19,7 @@
 #import "HPSelectTownViewController.h"
 #import "HPAddEducationViewController.h"
 #import "HPBubbleTextField.h"
-//==============================================================================
-//==============================================================================
+
 
 @interface HPUserProfileViewController : UIViewController
 @property (nonatomic, weak) IBOutlet UISegmentedControl *segmentControl;

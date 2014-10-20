@@ -17,4 +17,7 @@
 @interface HPChatTableViewCell : TLSwipeForOptionsCell <UIScrollViewDelegate,RACTableViewCellProtocol>
 @property(nonatomic, strong) UITapGestureRecognizer *tap_Gesture;
 
+- (IBAction)deleteBtnTap:(id)sender;
+
+
 @end

@@ -44,7 +44,7 @@ typedef void (^complationBlock) (id object);
 + (DataStorage*) sharedDataStorage;
 
 
-
+- (NSFetchedResultsController *)allUsersAndContactFetchResultsController;
 - (void) updateUserFilterEntity : (NSDictionary *) param;
 - (void) setAndSaveCityToUserFilter:(City *) globalCity;
 - (void) updateCityAtUserFilter:(City *)city;

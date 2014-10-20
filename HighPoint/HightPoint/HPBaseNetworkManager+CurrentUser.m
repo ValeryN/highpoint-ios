@@ -24,7 +24,7 @@
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCurrentUserRequest];
     AFHTTPRequestOperationManager *manager = [self requestOperationManager];
-    //[self addTaskToArray:manager];
+    [self addTaskToArray:manager];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
@@ -68,7 +68,11 @@
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:kCurrentUserFilter];
-    [[self requestOperationManager] POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer new];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[UserTokenUtils getUserToken] forHTTPHeaderField:@"Authorization: Bearer"];
+    [[self requestOperationManager] POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         NSData* jsonData = [operation.responseString dataUsingEncoding:NSUTF8StringEncoding];
         if(jsonData) {
@@ -362,7 +366,7 @@
             NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData
                                                                      options:kNilOptions
                                                                        error:&error];
-            if (operation.response.statusCode == 403) {
+            if (operation.response.statusCode == HTTPStatusForbidden) {
                 NSNumber *errorCode = [jsonDict objectForKey:@"error"];
                 if ([errorCode isEqualToValue:@8]) {
                     // show wrong file format error

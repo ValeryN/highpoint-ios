@@ -29,6 +29,7 @@
 #import "HPUserCardViewController.h"
 #import "HPSelectPopularCityViewController.h"
 #import "UIButton+ExtendedEdges.h"
+#import "UINavigationBar+HighPoint.h"
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
@@ -70,6 +71,7 @@ static int const refreshTag = 111;
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController.navigationBar configureTranslucentNavigationBar];
     [self configureNavigationBar];
     [self registerNotification];
     [self updateCurrentView];
@@ -371,6 +373,7 @@ static int const refreshTag = 111;
 }
 
 - (void) loadNextPageAfterUser:(User*) user{
+    [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
     if(_bottomSwitch.switchState)
         [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
     else
@@ -400,6 +403,7 @@ static int const refreshTag = 111;
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
 
     User *user = [self.allUsers objectAtIndexPath:indexPath];
+    NSLog(@"city id %@", user.cityId);
     [mCell configureCell: user];
     return mCell;
 }
@@ -419,7 +423,7 @@ static int const refreshTag = 111;
         [self.mainListTable reloadData];
         [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }];
-    [card.needLoadNextPage subscribeNext:^(User* x) {
+    [[card.needLoadNextPage distinctUntilChanged] subscribeNext:^(User* x) {
         @strongify(self);
         [self loadNextPageAfterUser:x];
     }];

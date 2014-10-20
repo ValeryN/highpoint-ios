@@ -6,12 +6,11 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import "UINavigationController+HighPoint.h"
 #import "UIDevice+HighPoint.h"
 
-//==============================================================================
+
 
 #define ANIMATION_SPEED 0.5
 
@@ -64,16 +63,18 @@
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:34.0 / 255.0
                                                                green:45.0 / 255.0
                                                                 blue:77.0 / 255.0
-                                                               alpha:1.0]];
+                                                               alpha:0.9]];
+    [[UINavigationBar appearance] setTintColor:[UIColor clearColor]];
     NSShadow *shadow = [NSShadow new];
     [shadow setShadowColor: [UIColor clearColor]];
     [shadow setShadowOffset: CGSizeMake(0.0f, 0.0f)];
     [[UINavigationBar appearance] setTitleTextAttributes:@{
             NSForegroundColorAttributeName : color,
             NSShadowAttributeName : shadow,
-            NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Light" size:18.0f]
+            NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:18.0f]
     }];
-    [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:80.f/255.f green:227.f/255.f blue:194.f/255.f alpha:1.0f]];
+    [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:230.f/255.f green:236.f/255.f blue:242.f/255.f alpha:1.0f]];
+    
 }
 
 

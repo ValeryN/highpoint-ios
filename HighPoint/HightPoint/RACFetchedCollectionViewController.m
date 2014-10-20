@@ -108,9 +108,11 @@
         case NSFetchedResultsChangeDelete:
             change[@(type)] = indexPath;
             break;
-        case NSFetchedResultsChangeUpdate:
-            change[@(type)] = indexPath;
-            break;
+//        Shoul be updated by rac
+//        case NSFetchedResultsChangeUpdate:
+//            change[@(type)] = indexPath;
+//            break;
+//
         case NSFetchedResultsChangeMove:
             change[@(type)] = @[indexPath, newIndexPath];
             break;

@@ -13,6 +13,7 @@
 #import "DataStorage.h"
 #import "NSManagedObject+HighPoint.h"
 #import "NSManagedObjectContext+HighPoint.h"
+#import "HPBaseNetworkManager+Contacts.h"
 
 @interface HPChatTableViewCell ()
 
@@ -127,4 +128,7 @@
 }
 
 
+- (IBAction)deleteBtnTap:(id)sender {
+    [[HPBaseNetworkManager sharedNetworkManager] deleteContactRequest:self.contact.user.userId];
+}
 @end

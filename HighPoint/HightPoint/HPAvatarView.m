@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
+
 
 #define IMAGE_PLACEHOLDER @"img_sample1.png"
 
@@ -15,7 +15,7 @@
 #import "User.h"
 #import "User+UserImage.h"
 
-//==============================================================================
+
 @interface HPAvatarView()
 @property (nonatomic, weak) IBOutlet UIView* mainView;
 @property (nonatomic, weak) IBOutlet UIImageView* avatar;
@@ -27,23 +27,6 @@
 @implementation HPAvatarView
 
 
-- (void)prepareForInterfaceBuilder{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    UIImage *image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"13" ofType:@"jpg"]];
-    CALayer *maskLayer = [CALayer layer];
-    maskLayer.frame = self.bounds;
-    [maskLayer setContents:(id)[[UIImage imageWithContentsOfFile:[bundle pathForResource:@"Userpic-Mask" ofType:@"png"]] resizeImageToSize:self.bounds.size].CGImage];
-    
-    UIImageView* imageView = [[UIImageView alloc]  initWithFrame:self.bounds];
-    imageView.image = image;
-    imageView.layer.mask = maskLayer;
-    imageView.layer.masksToBounds = YES;
-    self.backgroundColor = [UIColor clearColor];
-    [self addSubview:imageView];
-}
-
-
-//==============================================================================
 
 + (HPAvatarView*) avatarViewWithUser:(User*) user
 {
@@ -52,15 +35,13 @@
     return avatarView;
 }
 
-//==============================================================================
+
 
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder: aDecoder];
     if (self) {
-#ifndef TARGET_INTERFACE_BUILDER
         [self sharedInit];
-#endif
     }
     return self;
 }
@@ -70,9 +51,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-#ifndef TARGET_INTERFACE_BUILDER
         [self sharedInit];
-#endif
     }
     return self;
 }
@@ -84,14 +63,17 @@
     @weakify(self);
 
     RACSignal * prepareForReuse = [self rac_signalForSelector:@selector(setUser:)];
-    RACSignal * changeUserSignal = [RACObserve(self,user) replayLast];
-    RACSignal * changeUserOnlineSignal = [[changeUserSignal map:^id(User *value) {
-        return value.online;
+    RACSignal * changeUserSignal = [[RACObserve(self,user.userId) distinctUntilChanged] replayLast];
+    RACSignal * changeUserOnlineSignal = [[changeUserSignal map:^id(NSNumber *value) {
+        @strongify(self);
+        return self.user.online;
     }] replayLast];
-
-    RAC(self,avatar.image) = [changeUserSignal flattenMap:^RACStream *(User* value) {
-        if(value != nil)
-            return [[value userImageSignal] takeUntil:prepareForReuse];
+    
+    RAC(self,avatar.image) = [changeUserSignal flattenMap:^RACStream *(NSNumber* value) {
+        if(value != nil){
+            @strongify(self);
+            return [[self.user userImageSignal] takeUntil:prepareForReuse];
+        }
         else
             return [RACSignal empty];
     }];

@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import "HPUserProfileViewController.h"
 #import "Utils.h"
@@ -37,7 +36,7 @@
 #define CONSTRAINT_TRASHBUTTON_FROM_LEFT 274.0
 #define FIRST_ROW_HEIGHT_CONST 90.0
 #define BUBBLE_VIEW_WIDTH_CONST 290.0
-//==============================================================================
+
 
 @interface HPUserProfileViewController ()
 @property(nonatomic, retain) HPUserProfileInfoEditTabViewController *infoEditTabViewController;
@@ -46,7 +45,7 @@
 
 @implementation HPUserProfileViewController
 
-//==============================================================================
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

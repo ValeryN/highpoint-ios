@@ -17,6 +17,14 @@ typedef enum {
     UnreadMessageType,
     NotSendedMessageType
 } MessageTypes;
+
+typedef NS_ENUM(NSUInteger, HTTPStatusCode){
+    HTTPStatusOK = 200,
+    HTTPStatusForbidden = 403,
+    HTTPStatusNotFound = 404
+};
+
+
 typedef void (^resultBlock) (id object);
 @interface HPBaseNetworkManager : NSObject <SocketIODelegate>
 + (HPBaseNetworkManager*) sharedNetworkManager;

@@ -84,7 +84,7 @@
                     
                     for(NSDictionary *dict in cities) {
                         [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:YES withComplation:^(id object) {
-                            
+                            NSLog(@"%@", object);
                         }];
                     }
                 }

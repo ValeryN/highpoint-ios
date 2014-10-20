@@ -6,15 +6,14 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
 
 #import "HPMainViewListTableViewCell+HighPoint.h"
 
-//==============================================================================
+
 
 @implementation HPMainViewListTableViewCell (HighPoint)
 
-//==============================================================================
+
 
 - (void) hp_tuneForUserListPressedCell
 {
@@ -26,13 +25,12 @@
     self.backgroundColor = color;
 }
 
-//==============================================================================
+
 
 - (void) hp_tuneForUserListReleasedCell
 {
     self.backgroundColor = [UIColor clearColor];
 }
 
-//==============================================================================
 
 @end

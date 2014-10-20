@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-//==============================================================================
+
 
 #import <UIKit/UIKit.h>
 
 @class User;
 
-//==============================================================================
+
 
 IB_DESIGNABLE
 @interface HPAvatarView : UIView

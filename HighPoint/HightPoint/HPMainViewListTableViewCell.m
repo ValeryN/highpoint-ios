@@ -40,6 +40,22 @@ static HPMainViewListTableViewCell* _prevCell;
     
     [self.firstLabel hp_tuneForUserListCellName];
     self.firstLabel.text = user.name;
+    UIColor *onlineUserNameColor = [UIColor colorWithRed: 64.0 / 255.0
+                                                   green: 199.0 / 255.0
+                                                    blue: 79.0 / 255.0
+                                                   alpha: 1.0];
+    
+    UIColor *offlineUserNameColor = [UIColor colorWithRed: 255.0 / 255.0
+                                                   green: 153.0 / 255.0
+                                                    blue: 0.0 / 255.0
+                                                   alpha: 1.0];
+    
+    if ([user.online boolValue]) {
+        self.firstLabel.textColor = onlineUserNameColor;
+    } else {
+        self.firstLabel.textColor = offlineUserNameColor;
+    }
+    
     [self.secondLabel hp_tuneForUserListCellAgeAndCity];
     ;
     NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
@@ -56,7 +72,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
     
     [self addGestureRecognizer];
-    if (([user.visibility intValue] == 2) || ([user.visibility intValue] == 3)) {
+    if (([user.visibility intValue] == UserVisibilityBlur) || ([user.visibility intValue] == UserVisibilityHidden)) {
         self.privacyLabel.hidden = NO;
         self.secondLabel.hidden = YES;
         self.firstLabel.hidden = YES;
@@ -71,16 +87,16 @@ static HPMainViewListTableViewCell* _prevCell;
 
 
 - (void) setPrivacyText :(User *) user {
-    if ([user.visibility intValue] == 3) {
-        if ([user.gender intValue] == 1) {
+    if ([user.visibility intValue] == UserVisibilityHidden) {
+        if ([user.gender intValue] == UserGenderMale) {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HIS_PROFILE", nil);
         } else {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HER_PROFILE", nil);
         }
     }
     
-    if ([user.visibility intValue] == 2) {
-        if ([user.gender intValue] == 1) {
+    if ([user.visibility intValue] == UserVisibilityBlur) {
+        if ([user.gender intValue] == UserGenderMale) {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HIS_NAME", nil);
         } else {
             self.privacyLabel.text = NSLocalizedString(@"HIDE_HER_NAME", nil);
