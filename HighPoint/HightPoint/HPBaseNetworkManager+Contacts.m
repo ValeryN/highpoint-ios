@@ -95,12 +95,11 @@
                 if ([[jsonDict objectForKey:@"data"] objectForKey:@"id"]) {
                     [[DataStorage sharedDataStorage] deleteAndSaveContact:contactId];
                     [[DataStorage sharedDataStorage] deleteAndSaveChatByUserId:contactId];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedUpdateContactListViews object:self userInfo:nil];
                 }
             } else {
                 NSLog(@"Error: %@", error.localizedDescription);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [alert show];
+               // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+              //  [alert show];
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
