@@ -243,7 +243,7 @@
             }
         }
         else {
-            [self.delegate resetNavigationBarButtons];
+            //[self.delegate resetNavigationBarButtons];
         }
     }];
 }
@@ -327,10 +327,11 @@
     self.avatarImageView.layer.cornerRadius = 5;
     self.avatarImageView.image = [UIImage imageNamed:@"no_image.png"];
     @weakify(self);
-
+/*
     RAC(self.avatarImageView, image) = [[[RACObserve(self, delegate.avatarSignal).flatten  deliverOn:[RACScheduler scheduler]] map:^id(UIImage *avatarImage) {
         return [avatarImage addBlendToPhoto];
     }] deliverOn:[RACScheduler mainThreadScheduler]];
+*/
 }
 
 - (void)configurePublishButton {
@@ -393,7 +394,7 @@
 
 - (void)createUserPointWithCurrentData {
     if ([self.delegate respondsToSelector:@selector(createPointWithPointText:andTime:forUser:)]) {
-        [self.delegate createPointWithPointText:self.pointTextView.text andTime:@(self.pointTimeSlider.value) forUser:self.currentUser];
+        //[self.delegate createPointWithPointText:self.pointTextView.text andTime:@(self.pointTimeSlider.value) forUser:self.currentUser];
     }
     self.editUserPointMode = NO;
     self.pointTextView.text = @"";
@@ -403,7 +404,7 @@
 - (void)deleteCurrentUserPoint
 {
     if ([self.delegate respondsToSelector:@selector(deleteCurrentUserPointForUser:)]) {
-        [self.delegate deleteCurrentUserPointForUser:self.currentUser];
+        //[self.delegate deleteCurrentUserPointForUser:self.currentUser];
     }
     self.editUserPointMode = NO;
 }

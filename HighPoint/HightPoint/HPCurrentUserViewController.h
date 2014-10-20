@@ -11,8 +11,6 @@
 #import "HPCurrentUserPointCollectionViewCell.h"
 #import "HPCurrentUserUICollectionViewCell.h"
 
-@class ModalAnimation;
-@interface HPCurrentUserViewController : UIViewController < UIViewControllerTransitioningDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HPCurrentUserPointCollectionViewCellDelegate,HPCurrentUserUICollectionViewCellDelegate>
-@property(nonatomic, retain) RACSignal *avatarSignal;
-@property (nonatomic, retain) RACSignal *usersLikeYourPost;
+
+@interface HPCurrentUserViewController : UIViewController 
 @end
