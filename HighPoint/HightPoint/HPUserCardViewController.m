@@ -46,7 +46,8 @@
 @end
 
 @implementation HPUserCardViewController {
-     BOOL isFirstLoad;
+    BOOL isFirstLoad;
+    float currentOffsetBegin;
 }
 
 - (instancetype) initWithController:(NSFetchedResultsController*) controller andSelectedUser:(User*) user{
@@ -278,16 +279,20 @@
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
-
 #pragma mark - Pagination
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    currentOffsetBegin = scrollView.contentOffset.y;
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     float currentOffset = scrollView.contentOffset.y;
-    float targetOffset = targetContentOffset->y;
     float pageWidth = 418 + 10; // h + space
     float newTargetOffset = 0;
-    if (targetOffset > currentOffset){
-        newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth - self.topLayoutGuide.length;
+    if (currentOffset > currentOffsetBegin){
+        newTargetOffset = ceilf((currentOffset + 50) / pageWidth) * pageWidth - self.topLayoutGuide.length;
     } else {
         newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth - self.topLayoutGuide.length;
     }
@@ -296,7 +301,6 @@
     } else if (newTargetOffset >= (scrollView.contentSize.height - 400)) {
         newTargetOffset = scrollView.contentSize.height - self.topLayoutGuide.length;
     }
-    
     targetContentOffset->y = currentOffset;
     [scrollView setContentOffset:CGPointMake(0, newTargetOffset) animated:YES];
 }
