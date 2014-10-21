@@ -40,6 +40,16 @@
     [self.rightButtonInactive hp_tuneFontForSwitch];
 
     [self makeRightButtonClickable];
+    self.view.layer.cornerRadius = self.view.frame.size.height/2;
+    self.view.layer.borderWidth = 1;
+    self.view.layer.borderColor = [UIColor colorWithRed:0.f/255.f green:203.f/255.f blue:254.f/255.f alpha:1.f].CGColor;
+    self.view.layer.masksToBounds = YES;
+    
+    self.switchView.backgroundColor = [UIColor colorWithRed:0.f/255.f green:203.f/255.f blue:254.f/255.f alpha:1.f];
+    self.switchView.layer.cornerRadius = self.view.frame.size.height/2 - 1;
+    self.switchView.layer.borderWidth = 1;
+    self.switchView.layer.borderColor = [UIColor colorWithRed:0.f/255.f green:203.f/255.f blue:254.f/255.f alpha:1.f].CGColor;
+    self.switchView.layer.masksToBounds = YES;
 }
 
 
