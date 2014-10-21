@@ -101,20 +101,6 @@
 }
 
 - (void)configureNavigationBar {
-    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] init];
-    if ([UIDevice hp_isIOS6]) {
-        leftBarItem.image = [UIImage imageNamed:@"Down"];
-    }
-    else {
-        leftBarItem.image = [[UIImage imageNamed:@"Down"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    }
-    @weakify(self);
-    leftBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
-        @strongify(self)
-        [self dismissViewControllerAnimated:YES completion:nil];
-        return [RACSignal empty];
-    }];
-    self.navigationItem.leftBarButtonItem = leftBarItem;
     self.navigationItem.rightBarButtonItem = nil;
 
     [RACObserve(self, navigationController.navigationBar) subscribeNext:^(UINavigationBar *navigationBar) {

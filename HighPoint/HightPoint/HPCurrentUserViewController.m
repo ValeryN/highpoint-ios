@@ -31,6 +31,8 @@
 @property (nonatomic,weak) IBOutlet UILabel* pointStatus;
 
 @property (nonatomic, weak) IBOutlet UIButton* openPrivacyButton;
+@property (nonatomic, weak) IBOutlet UIButton* openPhotoAlbumButton;
+@property (nonatomic, weak) IBOutlet UIButton* openConciergeButton;
 @end
 
 @implementation HPCurrentUserViewController
@@ -50,6 +52,17 @@
         HPCurrentUserPrivacyViewController* privacyVc = [[HPCurrentUserPrivacyViewController alloc] initWithNibName:@"HPCurrentUserPrivacyViewController" bundle:nil];
         privacyVc.currentUser = self.currentUser;
         [self.navigationController pushViewController:privacyVc animated:YES];
+    }];
+    
+    [[self.openPhotoAlbumButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        @strongify(self);
+        HPUserProfileViewController* profile = [[HPUserProfileViewController alloc] initWithNibName:@"HPUserProfile" bundle:nil];
+        profile.user = self.currentUser;
+        [self.navigationController pushViewController:profile animated:YES];
+    }];
+    
+    [[self.openConciergeButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        [[[UIAlertView alloc] initWithTitle:@"Not implemented" message:@"No design" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
     }];
 }
 - (void) configureUserInfo{
