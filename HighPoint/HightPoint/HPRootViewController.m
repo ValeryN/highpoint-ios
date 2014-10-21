@@ -362,8 +362,6 @@ static int const refreshTag = 111;
     NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
     //NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
     NSInteger lastRowIndex = [[self.allUsers fetchedObjects] count] - 1;
-    NSLog(@"%d", indexPath.row);
-    NSLog(@"%d", lastRowIndex);
     if ((indexPath.section == lastSectionIndex) && ((indexPath.row  == lastRowIndex - 4) )) {//|| (lastRowIndex - indexPath.row  == 4)
         // This is the last cell
 
@@ -646,7 +644,6 @@ static int const refreshTag = 111;
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     if(self.view.window == nil){
-        self.view = nil;
         self.overlayView = nil;
         self.activityIndicator = nil;
         self.rotationAnimation = nil;
