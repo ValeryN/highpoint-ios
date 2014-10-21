@@ -19,6 +19,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPCurrentUserViewController">
             <connections>
                 <outlet property="avatarView" destination="lNe-UF-Nv6" id="ojj-6Q-KAT"/>
+                <outlet property="mainScroll" destination="TFN-Kv-rcT" id="t9R-9V-CN1"/>
                 <outlet property="nameLabel" destination="Bgf-m2-j6c" id="Yp5-I4-FSU"/>
                 <outlet property="openConciergeButton" destination="cJc-gX-dMu" id="aSv-zQ-pNF"/>
                 <outlet property="openPhotoAlbumButton" destination="uEh-ig-8hu" id="34H-qi-sTA"/>
@@ -158,7 +159,7 @@
                                     </constraints>
                                 </imageView>
                             </subviews>
-                            <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="centerX" secondItem="ZI4-7L-cfz" secondAttribute="centerX" id="432-3r-ubY"/>
                                 <constraint firstItem="uEh-ig-8hu" firstAttribute="centerY" secondItem="PlW-gc-jtI" secondAttribute="centerY" constant="0.5" id="5Bp-FO-i3R"/>
@@ -196,6 +197,7 @@
                             </constraints>
                         </view>
                     </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="i5M-Pr-FkT" firstAttribute="leading" secondItem="TFN-Kv-rcT" secondAttribute="leading" id="E6y-LZ-t40"/>
                         <constraint firstItem="i5M-Pr-FkT" firstAttribute="top" secondItem="TFN-Kv-rcT" secondAttribute="top" id="ETj-Vb-3Uv"/>

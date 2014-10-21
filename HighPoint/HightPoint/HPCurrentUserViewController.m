@@ -25,6 +25,7 @@
 @property(nonatomic) RACSignal* currentUserSignal;
 
 @property (nonatomic,weak) IBOutlet HPAvatarView* avatarView;
+@property (nonatomic,weak) IBOutlet UIScrollView* mainScroll;
 @property (nonatomic,weak) IBOutlet UILabel* nameLabel;
 @property (nonatomic,weak) IBOutlet UILabel* userInfoLabel;
 @property (nonatomic,weak) IBOutlet UITextView* pointTextField;
@@ -41,8 +42,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
+    self.automaticallyAdjustsScrollViewInsets = YES;
+    [self configureBlurView];
     [self configureUserInfo];
     [self configureButtons];
+    [self configureLeftBarButton];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    UIEdgeInsets insets = UIEdgeInsetsMake(self.topLayoutGuide.length,
+                                           0.0,
+                                           self.bottomLayoutGuide.length,
+                                           0.0);
+    self.mainScroll.contentInset = self.mainScroll.scrollIndicatorInsets = insets;
+    self.mainScroll.contentOffset = (CGPoint){0,-self.topLayoutGuide.length};
+}
+
+- (void) configureBlurView{
+    self.view.backgroundColor = [UIColor clearColor];
+    UIToolbar* toolbar = [[UIToolbar alloc] initWithFrame:self.view.frame];
+    toolbar.barStyle = UIBarStyleBlack;
+    toolbar.translucent = YES;
+    [self.view insertSubview:toolbar atIndex:0];
 }
 
 - (void) configureButtons{
@@ -65,6 +88,7 @@
         [[[UIAlertView alloc] initWithTitle:@"Not implemented" message:@"No design" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
     }];
 }
+
 - (void) configureUserInfo{
     RAC(self.nameLabel,text) = [[self currentUserSignal] map:^id(User* value) {
         return value.name;
@@ -76,6 +100,23 @@
     }];
     
     RAC(self.avatarView, user) = [self currentUserSignal];
+}
+
+- (void) configureLeftBarButton{
+    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] init];
+    if ([UIDevice hp_isIOS6]) {
+        leftBarItem.image = [UIImage imageNamed:@"Close"];
+    }
+    else {
+        leftBarItem.image = [[UIImage imageNamed:@"Close"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+    @weakify(self);
+    leftBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+        @strongify(self)
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return [RACSignal empty];
+    }];
+    self.navigationItem.leftBarButtonItem = leftBarItem;
 }
 
 - (RACSignal*) currentUserSignal{
