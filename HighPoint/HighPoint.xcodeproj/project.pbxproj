@@ -397,6 +397,7 @@
 		CDA44BB619A5D84700E33230 /* HPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA44BB419A5D84700E33230 /* HPSettingsViewController.m */; };
 		CDA44BB719A5D84700E33230 /* HPSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */; };
 		CDA44BBE19A5E8EA00E33230 /* HPAuthorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA44BBD19A5E8EA00E33230 /* HPAuthorizationViewController.m */; };
+		CDA8100919F77ECC00C5AB5D /* HPSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA8100819F77ECC00C5AB5D /* HPSpinnerView.m */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
 		CDA911C819656573005DC0C4 /* HPTownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */; };
 		CDB9527D19A1F87D00238DFC /* HPSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB9527C19A1F87D00238DFC /* HPSplashViewController.m */; };
@@ -1098,6 +1099,8 @@
 		CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSettingsViewController.xib; sourceTree = "<group>"; };
 		CDA44BBC19A5E8EA00E33230 /* HPAuthorizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAuthorizationViewController.h; sourceTree = "<group>"; };
 		CDA44BBD19A5E8EA00E33230 /* HPAuthorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAuthorizationViewController.m; sourceTree = "<group>"; };
+		CDA8100719F77ECC00C5AB5D /* HPSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSpinnerView.h; sourceTree = "<group>"; };
+		CDA8100819F77ECC00C5AB5D /* HPSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSpinnerView.m; sourceTree = "<group>"; };
 		CDA911C419656573005DC0C4 /* HPTownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTownTableViewCell.h; sourceTree = "<group>"; };
 		CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTownTableViewCell.m; sourceTree = "<group>"; };
 		CDA911C619656573005DC0C4 /* HPTownTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPTownTableViewCell.xib; sourceTree = "<group>"; };
@@ -2161,6 +2164,8 @@
 				444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */,
 				CDE92D8C19F625710084B210 /* HPSegmentControl.h */,
 				CDE92D8D19F625710084B210 /* HPSegmentControl.m */,
+				CDA8100719F77ECC00C5AB5D /* HPSpinnerView.h */,
+				CDA8100819F77ECC00C5AB5D /* HPSpinnerView.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -2875,6 +2880,7 @@
 				3B6DB4A218FFC24D00C26A50 /* HPAppDelegate.m in Sources */,
 				3B39D31D195C3122002520B9 /* SocketIOTransportWebsocket.m in Sources */,
 				3B6F95DC19B5AEA10095E7BF /* Place.m in Sources */,
+				CDA8100919F77ECC00C5AB5D /* HPSpinnerView.m in Sources */,
 				3BE83C1519796B2A0043E03E /* HEBubbleView.m in Sources */,
 				44AD911C19E8149600F835C9 /* HPRoundView.m in Sources */,
 				4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */,

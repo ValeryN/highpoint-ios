@@ -24,5 +24,6 @@ static NSString * const kNeedUpdateUserFilterData = @"kNeedUpdateUserFilterData"
 static NSString * const kNeedUpdatePullToRefreshInd = @"NeedUpdatePullToRefreshInd";
 static NSString * const kNeedUpdateProfileData = @"NeedUpdateProfileData";
 static NSString * const kNeedUpdateUserPhotos = @"NeedUpdateUserPhotos";
+static NSString * const kNeedHideSpinnerView = @"NeedHideSpinnerView";
 
 #endif

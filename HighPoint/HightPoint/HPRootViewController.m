@@ -64,6 +64,7 @@ static int const refreshTag = 111;
                                                              multiplier: 1.0
                                                                constant: CONSTRAINT_TABLEVIEW_HEIGHT]];
     }
+    self.bottomSpinnerView.hidden = YES;
 }
 
 
@@ -96,15 +97,13 @@ static int const refreshTag = 111;
 
 
 - (void) registerNotification {
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserFilterCities:) name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupFilterSendResults:) name:kNeedUpdateUserFilterData object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addPullToRefresh) name:kNeedUpdatePullToRefreshInd object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSpinnerView) name:kNeedHideSpinnerView object:nil];
 }
 
-
 - (void) unregisterNotification {
-    //[[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserFilterData object:nil];
 }
@@ -174,38 +173,6 @@ static int const refreshTag = 111;
 
 - (IBAction) filterButtonTap: (id)sender
 {
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-//        CGRect rect = [keyWindow frame];
-//        UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
-//        CGContextRef context = UIGraphicsGetCurrentContext();
-//        [keyWindow.layer renderInContext:context];
-//        UIImage *capturedScreen = [UIGraphicsGetImageFromCurrentImageContext() resizeImageToSize:(CGSize){rect.size.width/3, rect.size.height/3}];
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
-//            filter.delegate = self;
-//            filter.screenShoot = capturedScreen;
-//            _crossDissolveAnimationController.viewForInteraction = filter.view;
-//            [self.navigationController pushViewController:filter animated:YES];
-//            _crossDissolveAnimationController.viewForInteraction = nil;
-//        });
-//    });
-//    
-//    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
-//    self.providesPresentationContextTransitionStyle = YES;
-//    self.definesPresentationContext = YES;
-//    filter.delegate = self;
-//    [filter setModalPresentationStyle:UIModalPresentationOverCurrentContext];
-//    [self.navigationController setNavigationBarHidden:YES animated:NO];
-//    self.filterNavigationController = [[UINavigationController alloc] initWithRootViewController:filter];
-//    [self.filterNavigationController.view setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.1]];
-//    self.filterNavigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//         [self presentViewController:self.filterNavigationController animated:YES completion: ^{
-//         }];
-//    });
-    
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.filterController = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
     self.filterController.delegate = self;
@@ -332,6 +299,10 @@ static int const refreshTag = 111;
     }
 }
 
+- (void) hideSpinnerView {
+    self.bottomSpinnerView.hidden = YES;
+}
+
 - (void)refresh:(UIRefreshControl *)refreshControl {
     
     [self makeUsersRequest];
@@ -344,6 +315,7 @@ static int const refreshTag = 111;
         [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
     else [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
 }
+
 
 #pragma mark - scroll view
 
@@ -371,6 +343,7 @@ static int const refreshTag = 111;
 }
 
 - (void) loadNextPageAfterUser:(User*) user{
+    self.bottomSpinnerView.hidden = NO;
     [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
     if(_bottomSwitch.switchState)
         [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
