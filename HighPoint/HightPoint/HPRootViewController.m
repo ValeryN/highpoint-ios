@@ -174,8 +174,9 @@ static int const refreshTag = 111;
         self.navigationController.definesPresentationContext = YES;
         [presentingController setModalPresentationStyle:UIModalPresentationOverCurrentContext];
     }
-    
+    presentingController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self.navigationController presentViewController:presentingController animated:YES completion:nil];
+    
 }
 
 
@@ -230,9 +231,15 @@ static int const refreshTag = 111;
     self.filterController = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
     self.filterController.delegate = self;
     self.filterController.view.frame = self.view.bounds;
+    self.filterController.view.alpha = 0;
     [self.view addSubview:self.filterController.view];
     [self addChildViewController:self.filterController];
-    [self.filterController didMoveToParentViewController:self];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.filterController.view.alpha = 1;
+    } completion:^(BOOL finished) {
+        [self.filterController didMoveToParentViewController:self];
+    }];
 }
 
 

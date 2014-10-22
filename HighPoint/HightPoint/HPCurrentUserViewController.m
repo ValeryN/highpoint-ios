@@ -26,6 +26,7 @@
 
 @property (nonatomic,weak) IBOutlet HPAvatarView* avatarView;
 @property (nonatomic,weak) IBOutlet UIScrollView* mainScroll;
+@property (nonatomic,weak) IBOutlet UIView* contentView;
 @property (nonatomic,weak) IBOutlet UILabel* nameLabel;
 @property (nonatomic,weak) IBOutlet UILabel* userInfoLabel;
 @property (nonatomic,weak) IBOutlet UITextView* pointTextField;
@@ -113,7 +114,12 @@
     @weakify(self);
     leftBarItem.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
         @strongify(self)
-        [self dismissViewControllerAnimated:YES completion:nil];
+        self.navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [UIView animateWithDuration:0.3 animations:^{
+            self.navigationController.view.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self.navigationController dismissViewControllerAnimated:NO completion:nil];
+        }];        
         return [RACSignal empty];
     }];
     self.navigationItem.leftBarButtonItem = leftBarItem;
