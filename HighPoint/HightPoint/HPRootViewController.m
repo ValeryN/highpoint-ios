@@ -88,7 +88,7 @@ static int const refreshTag = 111;
     self.mainListTable.hidden = NO;
     self.isNeedScrollToIndex = NO;
     [self.lensBtn setHitTestEdgeInsets:UIEdgeInsetsMake(-15, -15, -15, -15)];
-    
+    self.blendImageView.alpha = 1.0f;
 }
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
