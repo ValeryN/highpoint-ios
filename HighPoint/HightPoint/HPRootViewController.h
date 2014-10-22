@@ -42,6 +42,7 @@
 
 @property (strong, nonatomic) HPFilterSettingsViewController *filterController;
 @property (weak, nonatomic) IBOutlet HPSpinnerView *bottomSpinnerView;
+@property (weak, nonatomic) IBOutlet UIImageView *blendImageView;
 
 
 - (IBAction) filterButtonTap:(id)sender;

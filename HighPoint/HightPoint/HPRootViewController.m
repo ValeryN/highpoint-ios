@@ -33,7 +33,8 @@
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
-#define HIDE_FILTER_ANIMATION_SPEED 0.5
+#define HIDE_FILTER_ANIMATION_SPEED 0.25
+#define HIDE_BLEND_ANIMATION_SPEED 0.15
 #define PORTION_OF_DATA 7
 #define CONSTRAINT_TABLEVIEW_HEIGHT 416
 static int const refreshTag = 111;
@@ -478,7 +479,7 @@ static int const refreshTag = 111;
         //if (_filterGroupView.frame.origin.y != [self topFilterBorder])
         //    return;
 
-       [self showFilters];
+       [self hideFilters];
     }
 
     if (velocity.y < 0)
@@ -487,7 +488,7 @@ static int const refreshTag = 111;
         //if (_filterGroupView.frame.origin.y != [self bottomFilterBorder])
         //    return;
 
-        [self hideFilters];
+        [self showFilters];
     }
 }
 
@@ -507,6 +508,11 @@ static int const refreshTag = 111;
      }
                      completion: ^(BOOL finished)
      {
+         self.blendImageView.alpha = 1.0f;
+         [UIView beginAnimations:nil context:NULL];
+         [UIView setAnimationDuration:HIDE_BLEND_ANIMATION_SPEED];
+         self.blendImageView.alpha = 0.0f;
+         [UIView commitAnimations];
      }];
 }
 
@@ -525,6 +531,11 @@ static int const refreshTag = 111;
      }
                      completion: ^(BOOL finished)
      {
+         self.blendImageView.alpha = 0.0f;
+         [UIView beginAnimations:nil context:NULL];
+         [UIView setAnimationDuration:HIDE_BLEND_ANIMATION_SPEED];
+         self.blendImageView.alpha = 1.0f;
+         [UIView commitAnimations];
      }];
 }
 

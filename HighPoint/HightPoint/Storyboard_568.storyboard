@@ -214,6 +214,7 @@
                                         <state key="normal" backgroundImage="Lens">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="highlighted" backgroundImage="Lens Tap.png"/>
                                         <connections>
                                             <action selector="filterButtonTap:" destination="d74-B2-43R" eventType="touchUpInside" id="LHf-PF-kCO"/>
                                         </connections>
@@ -244,28 +245,26 @@
                     </view>
                     <navigationItem key="navigationItem" title="Девушки, 24-27, Москва" id="uF6-uG-LRu">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="C05-69-sr6">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sff-ia-dzY" userLabel="Profile - Button">
+                            <button key="customView" opaque="NO" alpha="0.39999999999999963" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sff-ia-dzY" userLabel="Profile - Button">
                                 <rect key="frame" x="16" y="9" width="26" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <state key="normal" backgroundImage="Profile">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted" backgroundImage="Profile Tap.png"/>
                                 <connections>
                                     <action selector="profileButtonPressedStart:" destination="d74-B2-43R" eventType="touchUpInside" id="4k6-lH-taX"/>
                                 </connections>
                             </button>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="y6x-65-r5e">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aHY-bi-ett" userLabel="Chats list - Button">
+                            <button key="customView" opaque="NO" alpha="0.39999999999999963" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aHY-bi-ett" userLabel="Chats list - Button">
                                 <rect key="frame" x="278" y="9" width="26" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <state key="normal" backgroundImage="Bubble">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted" backgroundImage="Bubble Tap"/>
                                 <connections>
                                     <action selector="bubbleButtonPressedStart:" destination="d74-B2-43R" eventType="touchUpInside" id="mPf-iV-DQJ"/>
                                 </connections>
@@ -276,6 +275,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="blendImageView" destination="rlD-h7-wo0" id="agk-ER-kvU"/>
                         <outlet property="bottomSpinnerView" destination="F6v-Uz-jVI" id="kJN-Dj-jED"/>
                         <outlet property="chatsListButton" destination="aHY-bi-ett" id="UR2-jA-ZDa"/>
                         <outlet property="filterGroupView" destination="j7y-09-8PB" id="V6I-jv-RfS"/>
@@ -292,12 +292,11 @@
     <resources>
         <image name="Blend 5X.png" width="320" height="160"/>
         <image name="Bubble" width="25" height="25"/>
-        <image name="Bubble Tap" width="26" height="25"/>
         <image name="Lens" width="24" height="24"/>
+        <image name="Lens Tap.png" width="48" height="48"/>
         <image name="Point Notice Tap" width="23" height="24"/>
         <image name="Point Notice.png" width="23" height="25"/>
         <image name="Profile" width="26" height="26"/>
-        <image name="Profile Tap.png" width="193" height="32"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
