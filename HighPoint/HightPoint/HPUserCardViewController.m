@@ -28,6 +28,7 @@
 #import "ModalAnimation.h"
 #import "HPUserCardUICollectionViewCell.h"
 #import "HPChatListViewController.h"
+#import "HPPictogramButton.h"
 
 //#define ICAROUSEL_ITEMS_COUNT 50
 //#define ICAROUSEL_ITEMS_WIDTH 264.0
@@ -97,15 +98,15 @@
 
 - (void) createNavigationItem
 {
-    UIBarButtonItem* chatlistButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Bubble"]
-                                                         highlighedImage: [UIImage imageNamed:@"Bubble Tap"]
+    UIBarButtonItem* chatlistButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Bubble.png"]
+                                                         highlighedImage: nil
                                                                   action: @selector(chatsListTaped:)];
     [chatlistButton.customView addSubview: _notificationView];
     
     self.navigationItem.rightBarButtonItem = chatlistButton;
     
     UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Close.png"]
-                                                     highlighedImage:[UIImage imageNamed:@"Close Tap.png"]
+                                                     highlighedImage:nil
                                                               action:@selector(backButtonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
@@ -130,7 +131,7 @@
                                   highlighedImage: (UIImage*) highlighedImage
                                            action: (SEL) action
 {
-    UIButton* newButton = [UIButton buttonWithType: UIButtonTypeCustom];
+    HPPictogramButton* newButton = [UIButton buttonWithType: UIButtonTypeCustom];
     newButton.frame = CGRectMake(0, 0, image.size.width, image.size.height);
     [newButton setBackgroundImage: image forState: UIControlStateNormal];
     [newButton setBackgroundImage: highlighedImage forState: UIControlStateHighlighted];

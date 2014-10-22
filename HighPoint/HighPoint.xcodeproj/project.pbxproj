@@ -396,6 +396,7 @@
 		CDA44BB619A5D84700E33230 /* HPSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA44BB419A5D84700E33230 /* HPSettingsViewController.m */; };
 		CDA44BB719A5D84700E33230 /* HPSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */; };
 		CDA44BBE19A5E8EA00E33230 /* HPAuthorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA44BBD19A5E8EA00E33230 /* HPAuthorizationViewController.m */; };
+		CDA7466719F7B68800AAE50D /* HPPictogramButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA7466619F7B68800AAE50D /* HPPictogramButton.m */; };
 		CDA8100919F77ECC00C5AB5D /* HPSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA8100819F77ECC00C5AB5D /* HPSpinnerView.m */; };
 		CDA8101119F78E5300C5AB5D /* Lens Tap.png in Resources */ = {isa = PBXBuildFile; fileRef = CDA8101019F78E5300C5AB5D /* Lens Tap.png */; };
 		CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDA911C519656573005DC0C4 /* HPTownTableViewCell.m */; };
@@ -1096,6 +1097,8 @@
 		CDA44BB519A5D84700E33230 /* HPSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSettingsViewController.xib; sourceTree = "<group>"; };
 		CDA44BBC19A5E8EA00E33230 /* HPAuthorizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAuthorizationViewController.h; sourceTree = "<group>"; };
 		CDA44BBD19A5E8EA00E33230 /* HPAuthorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAuthorizationViewController.m; sourceTree = "<group>"; };
+		CDA7466519F7B68800AAE50D /* HPPictogramButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPPictogramButton.h; sourceTree = "<group>"; };
+		CDA7466619F7B68800AAE50D /* HPPictogramButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPPictogramButton.m; sourceTree = "<group>"; };
 		CDA8100719F77ECC00C5AB5D /* HPSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPSpinnerView.h; sourceTree = "<group>"; };
 		CDA8100819F77ECC00C5AB5D /* HPSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPSpinnerView.m; sourceTree = "<group>"; };
 		CDA8101019F78E5300C5AB5D /* Lens Tap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lens Tap.png"; sourceTree = "<group>"; };
@@ -2126,6 +2129,8 @@
 			children = (
 				44F37F4219E6E0BC007B6CD4 /* HPRoundButton.h */,
 				44F37F4319E6E0BC007B6CD4 /* HPRoundButton.m */,
+				CDA7466519F7B68800AAE50D /* HPPictogramButton.h */,
+				CDA7466619F7B68800AAE50D /* HPPictogramButton.m */,
 				3B3170B5191BA56900B72AC1 /* HPSwitchViewController.h */,
 				3B3170B6191BA56900B72AC1 /* HPSwitchViewController.m */,
 				4C5AC331193C5D7800A72676 /* HPSwitch.xib */,
@@ -3038,6 +3043,7 @@
 				44B91D4819E2DD0200B8D0AE /* HPUserInfoSecondRowTableViewCell.m in Sources */,
 				7C5F71B018047BEC2C554C2C /* HPSearchCityCell.m in Sources */,
 				3B52B2C419C30128000B543C /* NSPersistentStoreCoordinator+MagicalRecord.m in Sources */,
+				CDA7466719F7B68800AAE50D /* HPPictogramButton.m in Sources */,
 				7C5F795CB877D8686DA19608 /* RACFetchedTableViewController.m in Sources */,
 				7C5F79EC9D12BAAA275ED2C1 /* CALayer+HighPoint.m in Sources */,
 				7C5F7946F545EF53383F39D5 /* HPRequest.m in Sources */,
