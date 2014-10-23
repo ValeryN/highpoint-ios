@@ -18,6 +18,9 @@
 #import "HPRequest+Points.h"
 #import "User+UserImage.h"
 #import "HPCurrentUserPrivacyViewController.h"
+#import "UIViewController+HighPoint.h"
+#import "UITextView+HPRacSignal.h"
+#import "UITextView+HightPoint.h"
 
 
 @interface HPCurrentUserViewController ()
@@ -35,6 +38,9 @@
 @property (nonatomic, weak) IBOutlet UIButton* openPrivacyButton;
 @property (nonatomic, weak) IBOutlet UIButton* openPhotoAlbumButton;
 @property (nonatomic, weak) IBOutlet UIButton* openConciergeButton;
+
+@property (nonatomic) BOOL pointMode;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint * totalContentViewHeightConstraint;
 @end
 
 @implementation HPCurrentUserViewController
@@ -42,23 +48,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.currentUser = [[DataStorage sharedDataStorage] getCurrentUser];
     self.automaticallyAdjustsScrollViewInsets = YES;
     [self configureBlurView];
     [self configureUserInfo];
     [self configureButtons];
     [self configureLeftBarButton];
-}
-
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
+    [self configureOffsetInEditMode];
     
-    UIEdgeInsets insets = UIEdgeInsetsMake(self.topLayoutGuide.length,
-                                           0.0,
-                                           self.bottomLayoutGuide.length,
-                                           0.0);
-    self.mainScroll.contentInset = self.mainScroll.scrollIndicatorInsets = insets;
-    self.mainScroll.contentOffset = (CGPoint){0,-self.topLayoutGuide.length};
 }
 
 - (void) configureBlurView{
@@ -116,8 +114,10 @@
         @strongify(self)
         self.navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [UIView animateWithDuration:0.3 animations:^{
+            @strongify(self);
             self.navigationController.view.alpha = 0;
         } completion:^(BOOL finished) {
+            @strongify(self);
             [self.navigationController dismissViewControllerAnimated:NO completion:nil];
         }];        
         return [RACSignal empty];
@@ -125,11 +125,38 @@
     self.navigationItem.leftBarButtonItem = leftBarItem;
 }
 
+- (void) configureOffsetInEditMode{
+    @weakify(self);
+    [[self moveUpAvatarSignal] subscribeNext:^(NSNumber* x) {
+        @strongify(self);
+        if(!x.boolValue){
+            [self.contentView removeConstraint:self.totalContentViewHeightConstraint];
+        }
+        else{
+            self.totalContentViewHeightConstraint.constant = self.view.frame.size.height+120;
+            [self.contentView addConstraint:self.totalContentViewHeightConstraint];
+            self.mainScroll.bounces = NO;
+            [self.mainScroll layoutIfNeeded];
+            [UIView animateWithDuration:0.25 animations:^{
+                 [self.mainScroll setContentOffset:(CGPoint){0,120}];
+                 [self.mainScroll layoutIfNeeded];
+            }];
+        }
+    }];
+    RAC(self, mainScroll.bounces) = [[self moveUpAvatarSignal] not];
+    RAC(self, mainScroll.scrollEnabled) = [[self moveUpAvatarSignal] not];
+}
+
 - (RACSignal*) currentUserSignal{
     if(!_currentUserSignal){
         _currentUserSignal = [[RACObserve(self, currentUser) distinctUntilChanged] replayLast];
     }
     return _currentUserSignal;
+}
+
+- (RACSignal*) moveUpAvatarSignal {
+    RACSignal * keyboardIsOpened = [self.pointTextField rac_isEditing];
+    return [[RACSignal combineLatest:@[RACObserve(self, pointMode),keyboardIsOpened]] or];
 }
 
 - (void)didReceiveMemoryWarning{

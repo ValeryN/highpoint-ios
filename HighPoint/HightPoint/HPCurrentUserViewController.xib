@@ -19,6 +19,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPCurrentUserViewController">
             <connections>
                 <outlet property="avatarView" destination="lNe-UF-Nv6" id="ojj-6Q-KAT"/>
+                <outlet property="contentView" destination="i5M-Pr-FkT" id="2KM-Nd-1f6"/>
                 <outlet property="mainScroll" destination="TFN-Kv-rcT" id="t9R-9V-CN1"/>
                 <outlet property="nameLabel" destination="Bgf-m2-j6c" id="Yp5-I4-FSU"/>
                 <outlet property="openConciergeButton" destination="cJc-gX-dMu" id="aSv-zQ-pNF"/>
@@ -26,6 +27,7 @@
                 <outlet property="openPrivacyButton" destination="Oq7-hd-G6n" id="LOg-cN-vAN"/>
                 <outlet property="pointStatus" destination="GTn-ve-g4k" id="Gyb-m5-Yv7"/>
                 <outlet property="pointTextField" destination="xsC-30-x4d" id="ynH-Sx-7Wn"/>
+                <outlet property="totalContentViewHeightConstraint" destination="3RJ-3F-gvG" id="OT9-fS-Rwz"/>
                 <outlet property="userInfoLabel" destination="RFJ-3V-aLP" id="nmp-t8-Oeb"/>
                 <outlet property="view" destination="gsZ-iA-YhH" id="Uo6-Zt-wb4"/>
             </connections>
@@ -39,7 +41,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <subviews>
                         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i5M-Pr-FkT">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="449"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="500"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 лет, Москва" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFJ-3V-aLP">
                                     <rect key="frame" x="109" y="59" width="176" height="29"/>
@@ -161,6 +163,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstAttribute="height" constant="500" id="3RJ-3F-gvG"/>
                                 <constraint firstAttribute="centerX" secondItem="ZI4-7L-cfz" secondAttribute="centerX" id="432-3r-ubY"/>
                                 <constraint firstItem="uEh-ig-8hu" firstAttribute="centerY" secondItem="PlW-gc-jtI" secondAttribute="centerY" constant="0.5" id="5Bp-FO-i3R"/>
                                 <constraint firstAttribute="trailing" secondItem="Bgf-m2-j6c" secondAttribute="trailing" constant="35" id="72Z-s5-VxT"/>
@@ -190,7 +193,7 @@
                                 <constraint firstAttribute="trailing" secondItem="uEh-ig-8hu" secondAttribute="trailing" constant="11" id="mjU-MH-HMT"/>
                                 <constraint firstAttribute="trailing" secondItem="ZI4-7L-cfz" secondAttribute="trailing" constant="12" id="p34-NP-6sF"/>
                                 <constraint firstItem="lNe-UF-Nv6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="13" id="tpE-cG-bI3"/>
-                                <constraint firstAttribute="bottom" secondItem="cJc-gX-dMu" secondAttribute="bottom" constant="20" id="tr9-Nm-7XZ"/>
+                                <constraint firstAttribute="bottom" secondItem="cJc-gX-dMu" secondAttribute="bottom" priority="750" constant="700" id="tr9-Nm-7XZ"/>
                                 <constraint firstAttribute="trailing" secondItem="299-xw-MSC" secondAttribute="trailing" constant="11" id="xwe-S0-gO6"/>
                                 <constraint firstAttribute="trailing" secondItem="Oq7-hd-G6n" secondAttribute="trailing" constant="12" id="yDl-zF-6rk"/>
                                 <constraint firstAttribute="trailing" secondItem="xsC-30-x4d" secondAttribute="trailing" constant="12" id="zsF-RA-kIp"/>
