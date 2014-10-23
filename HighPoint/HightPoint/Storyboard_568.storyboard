@@ -105,6 +105,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <view alpha="0.84999999999999987" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Ox-Oj-PnU">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
+                                                    <color key="backgroundColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                                <view alpha="0.84999999999999987" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aQY-Dw-epD">
+                                                    <rect key="frame" x="0.0" y="103" width="320" height="1"/>
+                                                    <color key="backgroundColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qbC-tq-hhG" userLabel="Main info group">
                                                     <rect key="frame" x="12" y="0.0" width="256" height="104"/>
                                                     <subviews>
@@ -172,6 +180,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="avatar" destination="ekU-kd-49v" id="zH1-Ic-SOw"/>
+                                            <outlet property="bottomSeparatorView" destination="aQY-Dw-epD" id="9uT-Or-zao"/>
                                             <outlet property="firstLabel" destination="kbB-KV-Mr0" id="j6S-M9-zfd"/>
                                             <outlet property="mainInfoGroup" destination="qbC-tq-hhG" id="buP-Fd-adS"/>
                                             <outlet property="point" destination="bwY-Gy-lWp" id="9XC-am-whB"/>
@@ -179,6 +188,7 @@
                                             <outlet property="secondLabel" destination="bMB-4H-hBy" id="SdI-v6-BhP"/>
                                             <outlet property="showPointButton" destination="WWu-Bc-zmw" id="we9-Xw-NHA"/>
                                             <outlet property="showPointGroup" destination="IHw-GO-4eP" id="BOV-M9-IaV"/>
+                                            <outlet property="topSeparatorView" destination="1Ox-Oj-PnU" id="aBg-dI-t5K"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

@@ -37,5 +37,7 @@
 
 @property (nonatomic, strong) IBOutlet HPAvatarView *avatar;
 
+@property (weak, nonatomic) IBOutlet UIView *topSeparatorView;
+@property (weak, nonatomic) IBOutlet UIView *bottomSeparatorView;
 
 @end

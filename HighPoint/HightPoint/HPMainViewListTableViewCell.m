@@ -83,6 +83,10 @@ static HPMainViewListTableViewCell* _prevCell;
         self.firstLabel.hidden = NO;
     }
 
+    self.topSeparatorView.alpha = 0;
+    self.bottomSeparatorView.alpha = 0;
+    self.topSeparatorView.frame = CGRectMake(self.topSeparatorView.frame.origin.x, self.topSeparatorView.frame.origin.y, self.topSeparatorView.frame.size.width, 0.5);
+    self.bottomSeparatorView.frame = CGRectMake(self.bottomSeparatorView.frame.origin.x, self.bottomSeparatorView.frame.origin.y, self.bottomSeparatorView.frame.size.width, 0.5);
 }
 
 
@@ -188,6 +192,8 @@ static HPMainViewListTableViewCell* _prevCell;
          @strongify(self);
          self.mainInfoGroup.frame = rect;
          self.point.alpha = 1.0;
+         self.topSeparatorView.alpha = 0.15;
+         self.bottomSeparatorView.alpha = 0.15;
      }
                      completion: ^(BOOL finished)
      {
@@ -211,6 +217,8 @@ static HPMainViewListTableViewCell* _prevCell;
              @strongify(self);
              self.point.alpha = 0.0;
              self.mainInfoGroup.frame = rect;
+             self.topSeparatorView.alpha = 0;
+             self.bottomSeparatorView.alpha = 0;
          }
                          completion: ^(BOOL finished)
          {
