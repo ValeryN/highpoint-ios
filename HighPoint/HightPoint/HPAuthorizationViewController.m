@@ -9,7 +9,9 @@
 #import "HPAuthorizationViewController.h"
 //#import "HPBaseNetworkManager.h"
 #import "NotificationsConstants.h"
-#import "HPSplashViewController.h"
+
+#import "HPRootViewController.h"
+#import "HPAppDelegate.h"
 #import "HPBaseNetworkManager+AuthorizationAndRegistration.h"
 
 @interface HPAuthorizationViewController ()
@@ -78,11 +80,12 @@
 - (void) handleAuthResults :(NSNotification *)notification {
     NSNumber *status =  [notification.userInfo objectForKey:@"status"];
     if ([status isEqualToNumber:@1]) {
-        HPSplashViewController *splashController;
-        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Storyboard_568" bundle:nil];
-        splashController = [storyBoard instantiateViewControllerWithIdentifier:@"HPSplashViewController"];
-        [self.navigationController pushViewController:splashController animated:YES];
-    } else {
+        
+        HPRootViewController *rootController;
+        UIStoryboard *mainstoryboard = [UIStoryboard storyboardWithName:@"Storyboard_568" bundle:nil];
+        rootController = [mainstoryboard instantiateViewControllerWithIdentifier:@"HPRootViewController"];
+        ((HPAppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController = [[UINavigationController alloc] initWithRootViewController:rootController];
+        } else {
         NSLog(@"Error: Auth Error");
     }
 }

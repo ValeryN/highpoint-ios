@@ -19,6 +19,17 @@
 #import "HPAuthorizationViewController.h"
 #import "NotificationsConstants.h"
 #import "AFNetworkActivityIndicatorManager.h"
+#import "DataStorage.h"
+#import "HPBaseNetworkManager.h"
+#import "HPBaseNetworkManager+ApplicationSettings.h"
+#import "HPBaseNetworkManager+CurrentUser.h"
+#import "HPBaseNetworkManager+Contacts.h"
+#import "HPBaseNetworkManager+Messages.h"
+#import "HPBaseNetworkManager+Users.h"
+#import "HPBaseNetworkManager+Points.h"
+#import "HPBaseNetworkManager+Geo.h"
+#import "HPRootViewController.h"
+#import "NotificationsConstants.h"
 
 
 @implementation HPAppDelegate
@@ -36,34 +47,52 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"HightPoint.sqlite"];
     _managedObjectContext = [NSManagedObjectContext MR_defaultContext];
+    [self managedObjectContext];
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
-    //[[HPBaseNetworkManager sharedNetworkManager] startNetworkStatusMonitor];
-    //[[HPBaseNetworkManager sharedNetworkManager] setNetworkStatusMonitorCallback];
     [URLs isServerUrlSetted];
     
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"b209e48e58a6fe3f6737b5fee1d95f4d"];
-    [[BITHockeyManager sharedHockeyManager] startManager];
-    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
-    
-    
-    UIStoryboard* storyBoard = [UIStoryboard storyboardWithName: @"Storyboard_568" bundle: nil];
-    if ([UserTokenUtils getUserToken]) {
-        HPSplashViewController* splashViewController = [storyBoard instantiateViewControllerWithIdentifier: @"HPSplashViewController"];
-         self.navigationController = [[UINavigationController alloc] initWithRootViewController:splashViewController];
-    } else {
-        HPAuthorizationViewController* authViewController = [storyBoard instantiateViewControllerWithIdentifier: @"auth"];
-        self.window.rootViewController = authViewController;
-        self.navigationController = [[UINavigationController alloc] initWithRootViewController:authViewController];
-    }
-
-    [self managedObjectContext];
-
-    [self.navigationController hp_configureNavigationBar];
-    
-    [self.window setRootViewController:self.navigationController];
-    
-    [self.window makeKeyAndVisible];
-    return YES;
+    [[DataStorage sharedDataStorage] deleteAndSaveAllUsersWithBlock:^(NSError *error) {
+        if(!error) {
+            //[[DataStorage sharedDataStorage] deleteAndSaveAllContacts];
+            //[[DataStorage sharedDataStorage] deleteAndSaveAllMessages];
+            
+            [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
+            [[HPBaseNetworkManager sharedNetworkManager] getCurrentUserRequest];
+            [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:1];   //4
+            [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:1];    //2
+            
+            
+            [[HPBaseNetworkManager sharedNetworkManager] getContactsRequest];
+            [[HPBaseNetworkManager sharedNetworkManager] getPointLikesRequest:@1];  //3
+            [[HPBaseNetworkManager sharedNetworkManager] getUnreadMessageRequest]; //1
+            
+            [[HPBaseNetworkManager sharedNetworkManager] getApplicationSettingsRequest];
+            ////[[HPBaseNetworkManager sharedNetworkManager] getUserPhotoRequest];
+            [[HPBaseNetworkManager sharedNetworkManager] getPopularCitiesRequest];
+            
+            [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"b209e48e58a6fe3f6737b5fee1d95f4d"];
+            [[BITHockeyManager sharedHockeyManager] startManager];
+            [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+            
+            
+            UIStoryboard* storyBoard = [UIStoryboard storyboardWithName: @"Storyboard_568" bundle: nil];
+            if ([UserTokenUtils getUserToken]) {
+                HPRootViewController *rootController;
+                UIStoryboard *mainstoryboard = [UIStoryboard storyboardWithName:@"Storyboard_568" bundle:nil];
+                rootController = [mainstoryboard instantiateViewControllerWithIdentifier:@"HPRootViewController"];
+                self.navigationController = [[UINavigationController alloc] initWithRootViewController:rootController];
+            } else {
+                HPAuthorizationViewController* authViewController = [storyBoard instantiateViewControllerWithIdentifier: @"auth"];
+                self.window.rootViewController = authViewController;
+                self.navigationController = [[UINavigationController alloc] initWithRootViewController:authViewController];
+            }
+            
+            [self.navigationController hp_configureNavigationBar];
+            [self.window setRootViewController:self.navigationController];
+            [self.window makeKeyAndVisible];
+        }
+    }];
+return YES;
 }
 
 

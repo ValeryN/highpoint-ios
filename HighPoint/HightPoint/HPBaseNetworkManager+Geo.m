@@ -38,19 +38,15 @@
                 for(NSDictionary *dict in cities) {
                     
                     [[DataStorage sharedDataStorage] createAndSaveCity:dict popular:NO withComplation:^(City *city) {
-                        NSArray *users = [[DataStorage sharedDataStorage] getUsersForCityId: city.cityId];
-                        
-                        for(User *user in users) {
+                        NSArray *arr = [[DataStorage sharedDataStorage] getUsersForCityId: city.cityId];
+                        for(User *user in arr) {
                             [[DataStorage sharedDataStorage] setAndSaveCityToUser:user.userId forCity:city];
                         }
                     }];
-                    
                 }
-                
                 [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
                                                                                                      object:nil
                                                                                                    userInfo:nil]];
-                
             }
             else
                 NSLog(@"Error: no valid data");

@@ -1000,13 +1000,14 @@ static DataStorage *dataStorage;
             UserPoint *localPoint;
             NSDateFormatter *df = [[NSDateFormatter alloc] init];
             [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+            
             NSArray *localPoints = [UserPoint findAllWithPredicate:[NSPredicate predicateWithFormat:@"pointId == %d", [dict[@"id"] intValue] ] inContext:localContext];
             if(localPoints.count >0) {
                 localPoint = localPoints[0];
             } else {
                 localPoint = [UserPoint createInContext:localContext];
             }
-            
+            localPoint.pointId = [dict[@"id"] convertToNSNumber];
             localPoint.pointCreatedAt = [df dateFromString:dict[@"createdAt"]];
             localPoint.pointLiked = [dict[@"liked"] convertToNSNumber];
             localPoint.pointText = [dict[@"text"] convertToNSString];
@@ -1097,6 +1098,22 @@ static DataStorage *dataStorage;
         
     }];
 }
+
+
+- (void)backgroundFetchWithPredicate:(NSPredicate *)predicate completion:(void(^)(NSArray *, NSError *))completion {
+    NSManagedObjectContext *privateContext = [NSManagedObjectContext MR_context];
+    [privateContext performBlock:^{
+        NSArray *users = [User  findAllSortedBy:@"userId" ascending:NO withPredicate:predicate inContext:privateContext];
+        NSArray *privateObjectIDs = [users valueForKey:@"objectID"];
+        // Return to our main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSPredicate *mainPredicate = [NSPredicate predicateWithFormat:@"self IN %@", privateObjectIDs];
+            NSArray *finalResults = [User findAllWithPredicate:mainPredicate];
+            completion(finalResults, nil);
+        });
+    }];
+}
+
 - (NSArray*) getUsersForCityId:(NSNumber*) cityId {
     
     NSMutableString *predicateString = [NSMutableString string];
@@ -1106,12 +1123,13 @@ static DataStorage *dataStorage;
         predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     @catch (NSException *exception) {
-        return nil;
+        
     }
     if(predicate) {
+        
         NSArray *users = [User  findAllSortedBy:@"userId" ascending:NO withPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
         return users;
-    } else return nil;
+    }
 }
 
 - (User *)getUserForId:(NSNumber *)id_ {

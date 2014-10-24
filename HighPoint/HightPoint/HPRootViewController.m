@@ -360,8 +360,6 @@ static int const refreshTag = 111;
     NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
     //NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
     NSInteger lastRowIndex = [[self.allUsers fetchedObjects] count] - 1;
-    NSLog(@"%d", indexPath.row);
-    NSLog(@"%d", lastRowIndex);
     if ((indexPath.section == lastSectionIndex) && ((indexPath.row  == lastRowIndex - 4) )) {//|| (lastRowIndex - indexPath.row  == 4)
         // This is the last cell
 
@@ -399,10 +397,10 @@ static int const refreshTag = 111;
     HPMainViewListTableViewCell *mCell = [tableView dequeueReusableCellWithIdentifier: mainCellId forIndexPath:indexPath];
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
-
     User *user = [self.allUsers objectAtIndexPath:indexPath];
-    NSLog(@"city id %@", user.cityId);
-    [mCell configureCell: user];
+    if(user) {
+        [mCell configureCell: user];
+    }
     return mCell;
 }
 
