@@ -28,6 +28,7 @@
 #import "ModalAnimation.h"
 #import "HPUserCardUICollectionViewCell.h"
 #import "HPChatListViewController.h"
+#import "HPPictogramButton.h"
 
 //#define ICAROUSEL_ITEMS_COUNT 50
 //#define ICAROUSEL_ITEMS_WIDTH 264.0
@@ -46,7 +47,8 @@
 @end
 
 @implementation HPUserCardViewController {
-     BOOL isFirstLoad;
+    BOOL isFirstLoad;
+    float currentOffsetBegin;
 }
 
 - (instancetype) initWithController:(NSFetchedResultsController*) controller andSelectedUser:(User*) user{
@@ -96,15 +98,15 @@
 
 - (void) createNavigationItem
 {
-    UIBarButtonItem* chatlistButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Bubble"]
-                                                         highlighedImage: [UIImage imageNamed:@"Bubble Tap"]
+    UIBarButtonItem* chatlistButton = [self createBarButtonItemWithImage: [UIImage imageNamed:@"Bubble.png"]
+                                                         highlighedImage: nil
                                                                   action: @selector(chatsListTaped:)];
     [chatlistButton.customView addSubview: _notificationView];
     
     self.navigationItem.rightBarButtonItem = chatlistButton;
     
     UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Close.png"]
-                                                     highlighedImage:[UIImage imageNamed:@"Close Tap.png"]
+                                                     highlighedImage:nil
                                                               action:@selector(backButtonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
@@ -129,7 +131,7 @@
                                   highlighedImage: (UIImage*) highlighedImage
                                            action: (SEL) action
 {
-    UIButton* newButton = [UIButton buttonWithType: UIButtonTypeCustom];
+    HPPictogramButton* newButton = [UIButton buttonWithType: UIButtonTypeCustom];
     newButton.frame = CGRectMake(0, 0, image.size.width, image.size.height);
     [newButton setBackgroundImage: image forState: UIControlStateNormal];
     [newButton setBackgroundImage: highlighedImage forState: UIControlStateHighlighted];
@@ -202,7 +204,9 @@
     CGRect visibleRect = (CGRect){.origin = self.usersCollectionView.contentOffset, .size = self.usersCollectionView.bounds.size};
     CGPoint visiblePoint = CGPointMake(CGRectGetMidX(visibleRect), CGRectGetMidY(visibleRect));
     NSIndexPath *visibleIndexPath = [self.usersCollectionView indexPathForItemAtPoint:visiblePoint];
-    [self.changeViewedUserCard sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+    if(visibleIndexPath){
+        [self.changeViewedUserCard sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+    }
     
     NSUInteger lastRowIndex = [self collectionView:self.usersCollectionView numberOfItemsInSection:0] - 1;
     if(lastRowIndex == visibleIndexPath.row){
@@ -276,16 +280,20 @@
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
-
 #pragma mark - Pagination
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    currentOffsetBegin = scrollView.contentOffset.y;
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     float currentOffset = scrollView.contentOffset.y;
-    float targetOffset = targetContentOffset->y;
     float pageWidth = 418 + 10; // h + space
     float newTargetOffset = 0;
-    if (targetOffset > currentOffset){
-        newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth - self.topLayoutGuide.length;
+    if (currentOffset > currentOffsetBegin){
+        newTargetOffset = ceilf((currentOffset + 50) / pageWidth) * pageWidth - self.topLayoutGuide.length;
     } else {
         newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth - self.topLayoutGuide.length;
     }
@@ -294,7 +302,6 @@
     } else if (newTargetOffset >= (scrollView.contentSize.height - 400)) {
         newTargetOffset = scrollView.contentSize.height - self.topLayoutGuide.length;
     }
-    
     targetContentOffset->y = currentOffset;
     [scrollView setContentOffset:CGPointMake(0, newTargetOffset) animated:YES];
 }

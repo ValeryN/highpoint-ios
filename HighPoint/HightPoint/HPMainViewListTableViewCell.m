@@ -40,6 +40,22 @@ static HPMainViewListTableViewCell* _prevCell;
     
     [self.firstLabel hp_tuneForUserListCellName];
     self.firstLabel.text = user.name;
+    UIColor *onlineUserNameColor = [UIColor colorWithRed: 64.0 / 255.0
+                                                   green: 199.0 / 255.0
+                                                    blue: 79.0 / 255.0
+                                                   alpha: 1.0];
+    
+    UIColor *offlineUserNameColor = [UIColor colorWithRed: 255.0 / 255.0
+                                                   green: 153.0 / 255.0
+                                                    blue: 0.0 / 255.0
+                                                   alpha: 1.0];
+    
+    if ([user.online boolValue]) {
+        self.firstLabel.textColor = onlineUserNameColor;
+    } else {
+        self.firstLabel.textColor = offlineUserNameColor;
+    }
+    
     [self.secondLabel hp_tuneForUserListCellAgeAndCity];
     ;
     NSString *cityName = user.city.cityName ? user.city.cityName : NSLocalizedString(@"UNKNOWN_CITY_ID", nil);
@@ -67,6 +83,10 @@ static HPMainViewListTableViewCell* _prevCell;
         self.firstLabel.hidden = NO;
     }
 
+    self.topSeparatorView.alpha = 0;
+    self.bottomSeparatorView.alpha = 0;
+    self.topSeparatorView.frame = CGRectMake(self.topSeparatorView.frame.origin.x, self.topSeparatorView.frame.origin.y, self.topSeparatorView.frame.size.width, 0.5);
+    self.bottomSeparatorView.frame = CGRectMake(self.bottomSeparatorView.frame.origin.x, self.bottomSeparatorView.frame.origin.y, self.bottomSeparatorView.frame.size.width, 0.5);
 }
 
 
@@ -172,6 +192,8 @@ static HPMainViewListTableViewCell* _prevCell;
          @strongify(self);
          self.mainInfoGroup.frame = rect;
          self.point.alpha = 1.0;
+         self.topSeparatorView.alpha = 0.15;
+         self.bottomSeparatorView.alpha = 0.15;
      }
                      completion: ^(BOOL finished)
      {
@@ -195,6 +217,8 @@ static HPMainViewListTableViewCell* _prevCell;
              @strongify(self);
              self.point.alpha = 0.0;
              self.mainInfoGroup.frame = rect;
+             self.topSeparatorView.alpha = 0;
+             self.bottomSeparatorView.alpha = 0;
          }
                          completion: ^(BOOL finished)
          {

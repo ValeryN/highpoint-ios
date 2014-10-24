@@ -105,6 +105,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <view alpha="0.84999999999999987" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Ox-Oj-PnU">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
+                                                    <color key="backgroundColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                                <view alpha="0.84999999999999987" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aQY-Dw-epD">
+                                                    <rect key="frame" x="0.0" y="103" width="320" height="1"/>
+                                                    <color key="backgroundColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qbC-tq-hhG" userLabel="Main info group">
                                                     <rect key="frame" x="12" y="0.0" width="256" height="104"/>
                                                     <subviews>
@@ -129,10 +137,10 @@
                                                             <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Скрыла свое имя и фотографии" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="157" translatesAutoresizingMaskIntoConstraints="NO" id="81M-9F-wN0">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Скрыла свое имя и фотографии" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="81M-9F-wN0">
                                                             <rect key="frame" x="100" y="26" width="157" height="52"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                            <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -147,15 +155,15 @@
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IHw-GO-4eP" userLabel="Point Group">
                                                     <rect key="frame" x="269" y="0.0" width="50" height="104"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Point Notice.png" translatesAutoresizingMaskIntoConstraints="NO" id="WWu-Bc-zmw" userLabel="Show point button">
-                                                            <rect key="frame" x="15" y="40" width="23" height="24"/>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Point Notice.png" highlightedImage="Point Notice Tap" translatesAutoresizingMaskIntoConstraints="NO" id="WWu-Bc-zmw" userLabel="Show point button">
+                                                            <rect key="frame" x="13" y="40" width="23" height="24"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="У нас тут очень весело. Если кто не боится таких развлечений, пишите!" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="256" translatesAutoresizingMaskIntoConstraints="NO" id="bwY-Gy-lWp" userLabel="Label - Point Text">
-                                                    <rect key="frame" x="12" y="0.0" width="256" height="104"/>
+                                                    <rect key="frame" x="12" y="11" width="256" height="80"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                                                     <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
@@ -172,6 +180,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="avatar" destination="ekU-kd-49v" id="zH1-Ic-SOw"/>
+                                            <outlet property="bottomSeparatorView" destination="aQY-Dw-epD" id="9uT-Or-zao"/>
                                             <outlet property="firstLabel" destination="kbB-KV-Mr0" id="j6S-M9-zfd"/>
                                             <outlet property="mainInfoGroup" destination="qbC-tq-hhG" id="buP-Fd-adS"/>
                                             <outlet property="point" destination="bwY-Gy-lWp" id="9XC-am-whB"/>
@@ -179,6 +188,7 @@
                                             <outlet property="secondLabel" destination="bMB-4H-hBy" id="SdI-v6-BhP"/>
                                             <outlet property="showPointButton" destination="WWu-Bc-zmw" id="we9-Xw-NHA"/>
                                             <outlet property="showPointGroup" destination="IHw-GO-4eP" id="BOV-M9-IaV"/>
+                                            <outlet property="topSeparatorView" destination="1Ox-Oj-PnU" id="aBg-dI-t5K"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -196,19 +206,25 @@
                                     <constraint firstAttribute="height" constant="160" id="kyO-jP-t1j"/>
                                 </constraints>
                             </imageView>
+                            <view hidden="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F6v-Uz-jVI" customClass="HPSpinnerView">
+                                <rect key="frame" x="148" y="469" width="25" height="25"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j7y-09-8PB" userLabel="Filter Group View">
                                 <rect key="frame" x="0.0" y="516" width="320" height="48"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7c7-ao-JSu" userLabel="Lens Button">
-                                        <rect key="frame" x="12" y="0.0" width="24" height="24"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7c7-ao-JSu" userLabel="Lens Button" customClass="HPPictogramButton">
+                                        <rect key="frame" x="12" y="0.0" width="26" height="26"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="24" id="0jM-CC-yUl"/>
-                                            <constraint firstAttribute="height" constant="24" id="SPl-Ei-qiF"/>
+                                            <constraint firstAttribute="width" constant="26" id="0jM-CC-yUl"/>
+                                            <constraint firstAttribute="height" constant="26" id="SPl-Ei-qiF"/>
                                         </constraints>
                                         <state key="normal" backgroundImage="Lens">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <state key="highlighted" backgroundImage="Lens"/>
                                         <connections>
                                             <action selector="filterButtonTap:" destination="d74-B2-43R" eventType="touchUpInside" id="LHf-PF-kCO"/>
                                         </connections>
@@ -217,19 +233,21 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="Jbi-BC-O7W"/>
-                                    <constraint firstItem="7c7-ao-JSu" firstAttribute="leading" secondItem="j7y-09-8PB" secondAttribute="leading" constant="12" id="PHt-MY-Z0r"/>
+                                    <constraint firstItem="7c7-ao-JSu" firstAttribute="leading" secondItem="j7y-09-8PB" secondAttribute="leading" constant="14" id="PHt-MY-Z0r"/>
                                     <constraint firstAttribute="width" constant="320" id="c0G-Zy-5Zk"/>
                                     <constraint firstItem="7c7-ao-JSu" firstAttribute="top" secondItem="j7y-09-8PB" secondAttribute="top" id="lFX-Fn-CxS"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="rlD-h7-wo0" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" id="5rw-wY-iUP"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="j7y-09-8PB" secondAttribute="bottom" id="7yF-fJ-F2L"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="NN0-MU-hah" secondAttribute="bottom" id="86P-js-lea"/>
                             <constraint firstItem="duf-3g-gJ3" firstAttribute="top" secondItem="rlD-h7-wo0" secondAttribute="bottom" id="ApK-Jj-pTD"/>
                             <constraint firstAttribute="trailing" secondItem="NN0-MU-hah" secondAttribute="trailing" id="BPR-FZ-znb"/>
+                            <constraint firstItem="F6v-Uz-jVI" firstAttribute="top" secondItem="NN0-MU-hah" secondAttribute="bottom" constant="-35" id="Lcd-Hg-lKi"/>
                             <constraint firstAttribute="trailing" secondItem="j7y-09-8PB" secondAttribute="trailing" id="omS-3C-nAj"/>
                             <constraint firstItem="NN0-MU-hah" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" id="pGc-sa-CYS"/>
                             <constraint firstItem="j7y-09-8PB" firstAttribute="leading" secondItem="Ixf-VR-DTw" secondAttribute="leading" id="rSD-cS-IWZ"/>
@@ -237,28 +255,28 @@
                     </view>
                     <navigationItem key="navigationItem" title="Девушки, 24-27, Москва" id="uF6-uG-LRu">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="C05-69-sr6">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sff-ia-dzY" userLabel="Profile - Button">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sff-ia-dzY" userLabel="Profile - Button" customClass="HPPictogramButton">
                                 <rect key="frame" x="16" y="9" width="26" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <state key="normal" backgroundImage="Profile">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted" backgroundImage="Profile Tap.png"/>
+                                <state key="highlighted" backgroundImage="Profile"/>
                                 <connections>
                                     <action selector="profileButtonPressedStart:" destination="d74-B2-43R" eventType="touchUpInside" id="4k6-lH-taX"/>
                                 </connections>
                             </button>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="y6x-65-r5e">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aHY-bi-ett" userLabel="Chats list - Button">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aHY-bi-ett" userLabel="Chats list - Button" customClass="HPPictogramButton">
                                 <rect key="frame" x="278" y="9" width="26" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <state key="normal" backgroundImage="Bubble">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted" backgroundImage="Bubble Tap"/>
+                                <state key="highlighted" backgroundImage="Bubble"/>
                                 <connections>
                                     <action selector="bubbleButtonPressedStart:" destination="d74-B2-43R" eventType="touchUpInside" id="mPf-iV-DQJ"/>
                                 </connections>
@@ -269,6 +287,8 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="blendImageView" destination="rlD-h7-wo0" id="agk-ER-kvU"/>
+                        <outlet property="bottomSpinnerView" destination="F6v-Uz-jVI" id="kJN-Dj-jED"/>
                         <outlet property="chatsListButton" destination="aHY-bi-ett" id="UR2-jA-ZDa"/>
                         <outlet property="filterGroupView" destination="j7y-09-8PB" id="V6I-jv-RfS"/>
                         <outlet property="lensBtn" destination="7c7-ao-JSu" id="3l5-ei-7KT"/>
@@ -283,17 +303,16 @@
     </scenes>
     <resources>
         <image name="Blend 5X.png" width="320" height="160"/>
-        <image name="Bubble" width="26" height="25"/>
-        <image name="Bubble Tap" width="26" height="25"/>
+        <image name="Bubble" width="25" height="25"/>
         <image name="Lens" width="24" height="24"/>
-        <image name="Point Notice.png" width="46" height="48"/>
+        <image name="Point Notice Tap" width="23" height="24"/>
+        <image name="Point Notice.png" width="23" height="25"/>
         <image name="Profile" width="26" height="26"/>
-        <image name="Profile Tap.png" width="193" height="32"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <color key="tintColor" red="0.13333333333333333" green="0.1764705882352941" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
+    <color key="tintColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.30196078431372547" alpha="1" colorSpace="calibratedRGB"/>
 </document>

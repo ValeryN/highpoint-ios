@@ -79,4 +79,8 @@ static NSString * const kMessage = @"message";
 #define months [NSArray arrayWithObjects: @"января", @"февраля",@"марта",@"апреля", @"мая",@"июня",@"июля", @"августа",@"сентября",@"октября", @"ноября",@"декабря", nil]
 
 
+//fonts
+
+#define FUTURAPT_BOOK_15 [UIFont fontWithName: @"FuturaPT-Book" size: 15.0];
+
 #endif

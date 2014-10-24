@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment version="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="ParaType - Futura PT Book.otf">
+            <string>FuturaPT-Book</string>
+            <string>FuturaPT-Book</string>
+            <string>FuturaPT-Book</string>
+            <string>FuturaPT-Book</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HPSwitchViewController">
             <connections>
-                <outlet property="backgroundView" destination="dkK-EG-PQx" id="dH4-3Q-Gvc"/>
-                <outlet property="centerPart" destination="lyf-Ol-tlp" id="Asr-Gt-e7h"/>
                 <outlet property="leftButton" destination="rIX-NY-JXy" id="KyW-3Z-Mmi"/>
                 <outlet property="leftButtonInactive" destination="epL-sT-kUh" id="gON-ET-TmO"/>
                 <outlet property="rightButton" destination="1gL-dw-Bvw" id="4Oj-ZI-6KD"/>
@@ -22,35 +28,17 @@
             <rect key="frame" x="0.0" y="0.0" width="185" height="32"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Rectangle" id="dkK-EG-PQx">
-                    <rect key="frame" x="0.0" y="0.0" width="185" height="32"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </imageView>
                 <view contentMode="scaleToFill" id="elf-tI-zPF" userLabel="Switch View">
                     <rect key="frame" x="2" y="2" width="97" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Switcher-L" id="KHO-IV-qCD" userLabel="Left Part Image View">
-                            <rect key="frame" x="0.0" y="0.0" width="15" height="28"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Switcher-R" id="OVO-au-9tb" userLabel="Right Part Image View">
-                            <rect key="frame" x="82" y="0.0" width="15" height="28"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Switcher-C" id="lyf-Ol-tlp" userLabel="Center Part Image View">
-                            <rect key="frame" x="15" y="0.0" width="67" height="28"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rIX-NY-JXy" userLabel="Все люди - Button">
-                    <rect key="frame" x="17" y="4" width="67" height="24"/>
+                    <rect key="frame" x="11" y="4" width="75" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
                     <state key="normal" title="Все люди">
-                        <color key="titleColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="0.12549019607843137" green="0.12156862745098039" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="highlighted">
@@ -61,42 +49,45 @@
                     </connections>
                 </button>
                 <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="epL-sT-kUh" userLabel="Все люди Inactive- Button">
-                    <rect key="frame" x="17" y="4" width="67" height="24"/>
+                    <rect key="frame" x="11" y="4" width="75" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
                     <state key="normal" title="Все люди">
-                        <color key="titleColor" red="0.31372549019607843" green="0.8901960784313725" blue="0.76078431372549016" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="0.0" green="0.79607843140000001" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="highlighted">
-                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="0.0" green="0.79607843140000001" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="buttonTap:" destination="-1" eventType="touchUpInside" id="nH6-86-6K1"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lTp-Zu-6pz" userLabel="Поинты Inactive - Button">
-                    <rect key="frame" x="114" y="4" width="54" height="24"/>
+                    <rect key="frame" x="99" y="4" width="75" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
                     <state key="normal" title="Поинты">
-                        <color key="titleColor" red="0.31372549019607843" green="0.8901960784313725" blue="0.76078431372549016" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="0.0" green="0.79607843140000001" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="highlighted">
-                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="0.0" green="0.79607843140000001" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="buttonTap:" destination="-1" eventType="touchUpInside" id="89E-BI-nQh"/>
                     </connections>
                 </button>
                 <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1gL-dw-Bvw" userLabel="Поинты - Button">
-                    <rect key="frame" x="114" y="4" width="54" height="24"/>
+                    <rect key="frame" x="99" y="4" width="75" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="18"/>
                     <state key="normal" title="Поинты">
-                        <color key="titleColor" red="0.1176470588" green="0.1137254902" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="0.12549019610000001" green="0.1215686275" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="highlighted">
-                        <color key="titleColor" red="0.31372549020000001" green="0.89019607840000003" blue="0.76078431369999999" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="0.12549019610000001" green="0.1215686275" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="buttonTap:" destination="-1" eventType="touchUpInside" id="sdD-MM-HTK"/>
@@ -122,12 +113,6 @@
             </connections>
         </swipeGestureRecognizer>
     </objects>
-    <resources>
-        <image name="Rectangle" width="193" height="32"/>
-        <image name="Switcher-C" width="1" height="28"/>
-        <image name="Switcher-L" width="15" height="28"/>
-        <image name="Switcher-R" width="15" height="28"/>
-    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

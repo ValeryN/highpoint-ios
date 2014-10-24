@@ -26,7 +26,15 @@
     return _af_sharedImageRequestOperationQueue;
 }
 
-
++ (UIImage*) placeHolderImage{
+    static UIImage *_avatarPlaceholderImage = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _avatarPlaceholderImage = [UIImage imageNamed:IMAGE_NOT_DOWNLOADED];
+    });
+    
+    return _avatarPlaceholderImage;
+}
 - (RACSignal *) userImageSignal
 {
     User* userInContext = [self moveToContext:[NSManagedObjectContext threadContext]];
@@ -34,15 +42,15 @@
     NSURL * imageURL = [NSURL URLWithString:avatarUrl];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:imageURL];
     [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
-    return [[User getPlaceholderImage] takeUntilReplacement:[[User getAvatarFromCacheWithUrl:request] catchTo:[User getAvatarFromNetworkWithUrl:request]]];
+    return [[[User getPlaceholderImage] takeUntilReplacement:[[User getAvatarFromCacheWithUrl:request] catchTo:[User getAvatarFromNetworkWithUrl:request]]] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 + (RACSignal*) getPlaceholderImage{
-    return [RACSignal return:[UIImage imageNamed:IMAGE_NOT_DOWNLOADED]];
+    return [RACSignal return:[self placeHolderImage]];
 }
 
 + (RACSignal *) getAvatarFromCacheWithUrl:(NSURLRequest*)avatarRequest{
-    return [[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+    return [[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
         
         UIImage* image = [[[UIImageView class] sharedImageCache] cachedImageForRequest:avatarRequest];
         if(image){
@@ -53,13 +61,14 @@
             [subscriber sendError:[NSError errorWithDomain:@"afnetwimage.cache.notfound" code:404 userInfo:nil]];
         }
         return nil;
-    }] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]];
+    }] subscribeOn:[RACScheduler scheduler]];
 }
 
 + (RACSignal*) getAvatarFromNetworkWithUrl:(NSURLRequest*) avatarRequest{
-    return [[[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+    return [[[[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
         __block AFHTTPRequestOperation* operation = [[AFHTTPRequestOperation alloc] initWithRequest:avatarRequest];
         operation.responseSerializer = [AFImageResponseSerializer serializer];
+        operation.completionQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             [subscriber sendNext:responseObject];
             [subscriber sendCompleted];
@@ -75,6 +84,6 @@
             [operation cancel];
             operation = nil;
         }];
-    }] retry:2] catchTo:[RACSignal return:[UIImage imageNamed:IMAGE_ERROR_DOWNLOAD]]] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler mainThreadScheduler]];
+    }] subscribeOn:[RACScheduler scheduler]] retry:2] catchTo:[RACSignal return:[UIImage imageNamed:IMAGE_ERROR_DOWNLOAD]]];
 }
 @end

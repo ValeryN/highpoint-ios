@@ -75,14 +75,13 @@
             else
                 NSLog(@"Error: no valid data");
         }
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedHideSpinnerView object:nil userInfo:nil]];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if([self isTaskArrayEmpty:manager]) {
             [self makeTownByIdRequest];
         }
         NSLog(@"Error: %@", error.localizedDescription);
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //[alert show];
-        
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedHideSpinnerView object:nil userInfo:nil]];
     }];
 }
 #pragma mark - user info

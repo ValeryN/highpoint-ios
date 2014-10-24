@@ -15,9 +15,21 @@
 - (void)drawRect:(CGRect)rect
 {
     self.layer.cornerRadius = rect.size.height/2;
-    self.layer.borderWidth = 2;
-    self.layer.borderColor = [UIColor colorWithRed:80.f/255.f green:227.f/255.f blue:194.f/255.f alpha:1.f].CGColor;
+    self.layer.borderWidth = 1;
+    self.layer.borderColor = [UIColor colorWithRed:0.f/255.f green:203.f/255.f blue:254.f/255.f alpha:1.f].CGColor;
     self.titleEdgeInsets = UIEdgeInsetsMake(0, 10.f, 0, 10.f);
+    self.layer.masksToBounds = YES;
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    
+    if (highlighted) {
+        self.backgroundColor = [UIColor colorWithRed:0.f/255.f green:203.f/255.f blue:254.f/255.f alpha:0.15];
+    } else {
+        self.backgroundColor = [UIColor clearColor];
+    }
+    
 }
 
 @end
