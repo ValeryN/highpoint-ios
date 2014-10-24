@@ -1006,7 +1006,7 @@ static DataStorage *dataStorage;
             } else {
                 localPoint = [UserPoint createInContext:localContext];
             }
-            
+            localPoint.pointId = [dict[@"id"] convertToNSNumber];
             localPoint.pointCreatedAt = [df dateFromString:dict[@"createdAt"]];
             localPoint.pointLiked = [dict[@"liked"] convertToNSNumber];
             localPoint.pointText = [dict[@"text"] convertToNSString];

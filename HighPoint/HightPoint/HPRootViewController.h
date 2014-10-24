@@ -14,6 +14,7 @@
 #import "ScaleAnimation.h"
 #import "CrossDissolveAnimation.h"
 #import "HPUserCardViewController.h"
+#import "HPSpinnerView.h"
 
 
 @interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, HPSwitchProtocol, NSFetchedResultsControllerDelegate, HPUserCardViewControllerDelegate, HPFilterSettingsViewControllerDelegate>
@@ -40,6 +41,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *lensBtn;
 
 @property (strong, nonatomic) HPFilterSettingsViewController *filterController;
+@property (weak, nonatomic) IBOutlet HPSpinnerView *bottomSpinnerView;
+@property (weak, nonatomic) IBOutlet UIImageView *blendImageView;
+
 
 - (IBAction) filterButtonTap:(id)sender;
 - (IBAction) profileButtonPressedStart: (id) sender;

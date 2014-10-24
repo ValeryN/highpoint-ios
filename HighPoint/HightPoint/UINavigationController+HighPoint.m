@@ -60,11 +60,9 @@
                                      green:236.0 / 255.0
                                       blue:242.0 / 255.0
                                      alpha:1.0];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:34.0 / 255.0
-                                                               green:45.0 / 255.0
-                                                                blue:77.0 / 255.0
-                                                               alpha:0.9]];
-    [[UINavigationBar appearance] setTintColor:[UIColor clearColor]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:30.0 / 255.0 green:29.0 / 255.0 blue:48.0 / 255.0 alpha:1.0]];
+    [self.navigationController.navigationBar setTranslucent:NO];
+    
     NSShadow *shadow = [NSShadow new];
     [shadow setShadowColor: [UIColor clearColor]];
     [shadow setShadowOffset: CGSizeMake(0.0f, 0.0f)];
@@ -73,8 +71,6 @@
             NSShadowAttributeName : shadow,
             NSFontAttributeName : [UIFont fontWithName:@"FuturaPT-Book" size:18.0f]
     }];
-    [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:230.f/255.f green:236.f/255.f blue:242.f/255.f alpha:1.0f]];
-    
 }
 
 

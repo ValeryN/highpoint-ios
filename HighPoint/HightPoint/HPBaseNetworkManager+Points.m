@@ -60,9 +60,7 @@
                                         if([self isTaskArrayEmpty:manager]) {
                                             [self makeTownByIdRequest];
                                         }
-                                        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews
-                                                                                                                             object:nil
-                                                                                                                           userInfo:nil]];
+                                        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedUpdateUsersListViews object:nil userInfo:nil]];
                                     }
                                 }];
                             }
@@ -79,17 +77,15 @@
         }
         
         //NSMutableDictionary *parsedDictionary = [NSMutableDictionary new];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedHideSpinnerView
+                                                                                             object:nil
+                                                                                           userInfo:nil]];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
         if([self isTaskArrayEmpty:manager]) {
             [self makeTownByIdRequest];
         }
-        
-        
         NSLog(@"Error: %@", error.localizedDescription);
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка!" message:error.localizedDescription delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        //[alert show];
-        
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNeedHideSpinnerView object:nil userInfo:nil]];
     }];
     
 }

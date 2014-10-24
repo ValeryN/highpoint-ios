@@ -33,7 +33,8 @@
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
-#define HIDE_FILTER_ANIMATION_SPEED 0.5
+#define HIDE_FILTER_ANIMATION_SPEED 0.25
+#define HIDE_BLEND_ANIMATION_SPEED 0.15
 #define PORTION_OF_DATA 7
 #define CONSTRAINT_TABLEVIEW_HEIGHT 416
 static int const refreshTag = 111;
@@ -64,6 +65,7 @@ static int const refreshTag = 111;
                                                              multiplier: 1.0
                                                                constant: CONSTRAINT_TABLEVIEW_HEIGHT]];
     }
+    self.bottomSpinnerView.hidden = YES;
 }
 
 
@@ -86,8 +88,7 @@ static int const refreshTag = 111;
     self.mainListTable.hidden = NO;
     self.isNeedScrollToIndex = NO;
     [self.lensBtn setHitTestEdgeInsets:UIEdgeInsetsMake(-15, -15, -15, -15)];
-    
-    [self reserPresentationViewCoontrollerContext];
+    self.blendImageView.alpha = 1.0f;
 }
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -97,15 +98,13 @@ static int const refreshTag = 111;
 
 
 - (void) registerNotification {
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentView) name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserFilterCities:) name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupFilterSendResults:) name:kNeedUpdateUserFilterData object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addPullToRefresh) name:kNeedUpdatePullToRefreshInd object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSpinnerView) name:kNeedHideSpinnerView object:nil];
 }
 
-
 - (void) unregisterNotification {
-    //[[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUsersListViews object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateFilterCities object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserFilterData object:nil];
 }
@@ -151,32 +150,12 @@ static int const refreshTag = 111;
 
 #pragma mark - Navigation bar button tap handler -
 
-- (void) reserPresentationViewCoontrollerContext{
-    if([UIDevice hp_isIOS7]){
-        [self.navigationController setModalPresentationStyle:UIModalPresentationNone];
-    }
-    else{
-        self.navigationController.providesPresentationContextTransitionStyle = NO;
-        self.navigationController.definesPresentationContext = NO;
-    }
-}
 
 - (IBAction) profileButtonPressedStart: (id) sender
 {
     [self showNotificationBadge];
     HPCurrentUserViewController* cuController = [[HPCurrentUserViewController alloc] initWithNibName: @"HPCurrentUserViewController" bundle: nil];
-    UINavigationController* presentingController = [[UINavigationController alloc] initWithRootViewController:cuController];
-    if([UIDevice hp_isIOS7]){
-        [self.navigationController setModalPresentationStyle:UIModalPresentationCurrentContext];
-    }
-    else{
-        self.navigationController.providesPresentationContextTransitionStyle = YES;
-        self.navigationController.definesPresentationContext = YES;
-        [presentingController setModalPresentationStyle:UIModalPresentationOverCurrentContext];
-    }
-    presentingController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self.navigationController presentViewController:presentingController animated:YES completion:nil];
-    
+    [self.navigationController pushViewController:cuController animated:YES];
 }
 
 
@@ -195,51 +174,13 @@ static int const refreshTag = 111;
 
 - (IBAction) filterButtonTap: (id)sender
 {
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-//        CGRect rect = [keyWindow frame];
-//        UIGraphicsBeginImageContextWithOptions(rect.size,YES,0.0f);
-//        CGContextRef context = UIGraphicsGetCurrentContext();
-//        [keyWindow.layer renderInContext:context];
-//        UIImage *capturedScreen = [UIGraphicsGetImageFromCurrentImageContext() resizeImageToSize:(CGSize){rect.size.width/3, rect.size.height/3}];
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
-//            filter.delegate = self;
-//            filter.screenShoot = capturedScreen;
-//            _crossDissolveAnimationController.viewForInteraction = filter.view;
-//            [self.navigationController pushViewController:filter animated:YES];
-//            _crossDissolveAnimationController.viewForInteraction = nil;
-//        });
-//    });
-//    
-//    HPFilterSettingsViewController* filter = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
-//    self.providesPresentationContextTransitionStyle = YES;
-//    self.definesPresentationContext = YES;
-//    filter.delegate = self;
-//    [filter setModalPresentationStyle:UIModalPresentationOverCurrentContext];
-//    [self.navigationController setNavigationBarHidden:YES animated:NO];
-//    self.filterNavigationController = [[UINavigationController alloc] initWithRootViewController:filter];
-//    [self.filterNavigationController.view setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.1]];
-//    self.filterNavigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//         [self presentViewController:self.filterNavigationController animated:YES completion: ^{
-//         }];
-//    });
-    
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.filterController = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
     self.filterController.delegate = self;
     self.filterController.view.frame = self.view.bounds;
-    self.filterController.view.alpha = 0;
     [self.view addSubview:self.filterController.view];
     [self addChildViewController:self.filterController];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        self.filterController.view.alpha = 1;
-    } completion:^(BOOL finished) {
-        [self.filterController didMoveToParentViewController:self];
-    }];
+    [self.filterController didMoveToParentViewController:self];
 }
 
 
@@ -359,6 +300,10 @@ static int const refreshTag = 111;
     }
 }
 
+- (void) hideSpinnerView {
+    self.bottomSpinnerView.hidden = YES;
+}
+
 - (void)refresh:(UIRefreshControl *)refreshControl {
     
     [self makeUsersRequest];
@@ -371,6 +316,7 @@ static int const refreshTag = 111;
         [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
     else [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
 }
+
 
 #pragma mark - scroll view
 
@@ -389,8 +335,6 @@ static int const refreshTag = 111;
     NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
     //NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
     NSInteger lastRowIndex = [[self.allUsers fetchedObjects] count] - 1;
-    NSLog(@"%d", indexPath.row);
-    NSLog(@"%d", lastRowIndex);
     if ((indexPath.section == lastSectionIndex) && ((indexPath.row  == lastRowIndex - 4) )) {//|| (lastRowIndex - indexPath.row  == 4)
         // This is the last cell
 
@@ -400,6 +344,7 @@ static int const refreshTag = 111;
 }
 
 - (void) loadNextPageAfterUser:(User*) user{
+    self.bottomSpinnerView.hidden = NO;
     [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
     if(_bottomSwitch.switchState)
         [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
@@ -534,7 +479,7 @@ static int const refreshTag = 111;
         //if (_filterGroupView.frame.origin.y != [self topFilterBorder])
         //    return;
 
-       [self showFilters];
+       [self hideFilters];
     }
 
     if (velocity.y < 0)
@@ -543,7 +488,7 @@ static int const refreshTag = 111;
         //if (_filterGroupView.frame.origin.y != [self bottomFilterBorder])
         //    return;
 
-        [self hideFilters];
+        [self showFilters];
     }
 }
 
@@ -563,6 +508,11 @@ static int const refreshTag = 111;
      }
                      completion: ^(BOOL finished)
      {
+         self.blendImageView.alpha = 1.0f;
+         [UIView beginAnimations:nil context:NULL];
+         [UIView setAnimationDuration:HIDE_BLEND_ANIMATION_SPEED];
+         self.blendImageView.alpha = 0.0f;
+         [UIView commitAnimations];
      }];
 }
 
@@ -581,6 +531,11 @@ static int const refreshTag = 111;
      }
                      completion: ^(BOOL finished)
      {
+         self.blendImageView.alpha = 0.0f;
+         [UIView beginAnimations:nil context:NULL];
+         [UIView setAnimationDuration:HIDE_BLEND_ANIMATION_SPEED];
+         self.blendImageView.alpha = 1.0f;
+         [UIView commitAnimations];
      }];
 }
 
@@ -673,7 +628,6 @@ static int const refreshTag = 111;
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     if(self.view.window == nil){
-        self.view = nil;
         self.overlayView = nil;
         self.activityIndicator = nil;
         self.rotationAnimation = nil;

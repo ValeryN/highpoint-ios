@@ -50,10 +50,6 @@
     [self initOldFilterValues];
     self.womenSw.layer.cornerRadius = 16.0;
     self.menSw.layer.cornerRadius = 16.0;
-    //self.notificationView = [Utils getNotificationViewForText:@"8"];
-    
-    [self.closeButton setBackgroundImage:[UIImage imageNamed:@"Close.png"] forState:UIControlStateNormal];
-    [self.closeButton setBackgroundImage:[UIImage imageNamed:@"Close Tap.png"] forState:UIControlStateHighlighted];
     
     self.filterLabel.font = [UIFont fontWithName:@"FuturaPT-Light" size:18.0f];
     self.filterLabel.textColor = [UIColor colorWithRed:230.0/255.0 green:236.0/255.0 blue:242.0/255.0 alpha:1.0];

@@ -30,7 +30,6 @@
 
 @property (nonatomic, weak) IBOutlet UIView *switchView;
 @property (nonatomic, weak) IBOutlet UIImageView *backgroundView;
-@property (nonatomic, weak) IBOutlet UIImageView *centerPart;
 
 @property (nonatomic, weak) IBOutlet UIButton *leftButton;
 @property (nonatomic, weak) IBOutlet UIButton *leftButtonInactive;
