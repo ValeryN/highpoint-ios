@@ -7,6 +7,6 @@
 
 @interface UITextView (HPRacSignal)
 - (RACSignal *)rac_textBeginEdit;
-
 - (RACSignal *)rac_textEndEdit;
+- (RACSignal *)rac_isEditing;
 @end

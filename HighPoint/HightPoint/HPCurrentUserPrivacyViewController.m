@@ -6,19 +6,22 @@
 //  Copyright (c) 2014 SurfStudio. All rights reserved.
 //
 
-#import "HPCurrentUserUICollectionViewCell.h"
+#import "HPCurrentUserPrivacyViewController.h"
 #import "UILabel+HighPoint.h"
 #import "UIImage+HighPoint.h"
 #import "UIDevice+HighPoint.h"
 #import "Avatar.h"
 #import "UserPoint.h"
 #import "HPCurrentUserViewController.h"
+#import "DataStorage.h"
+#import "HPRoundedShadowedImageView.h"
+#import "User+UserImage.h"
 
 #define AVATAR_BLUR_RADIUS 10.0
 
-@interface HPCurrentUserUICollectionViewCell ()
+@interface HPCurrentUserPrivacyViewController ()
+@property(weak, nonatomic) IBOutlet HPRoundedShadowedImageView* avatarView;
 @property(weak, nonatomic) IBOutlet UILabel *yourProfilelabel;
-@property(weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property(weak, nonatomic) IBOutlet UILabel *userInfoLabel;
 @property(weak, nonatomic) IBOutlet UIButton *visibleBtn;
 @property(weak, nonatomic) IBOutlet UIButton *lockBtn;
@@ -29,11 +32,10 @@
 @property(nonatomic, weak) IBOutlet NSLayoutConstraint *bottomPositionNameConstraint;
 @end
 
-@implementation HPCurrentUserUICollectionViewCell
+@implementation HPCurrentUserPrivacyViewController
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    [self remove4InchConstraint];
+- (void)viewDidLoad {
+    [super viewDidLoad];
 
     [self configureCellInfoLabel];
     [self configureYourNameLabel];
@@ -57,38 +59,38 @@
 #pragma mark Configuring UIElements
 
 - (void)configureHiddenButton {
+    @weakify(self);
     RAC(self, invisibleBtn.enabled) = [RACObserve(self, currentUser.visibility) map:^id(NSNumber *visibility) {
         return @(visibility.unsignedIntegerValue != UserVisibilityHidden);
     }];
 
-    @weakify(self);
     [[self.invisibleBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self.delegate updateUserVisibility:UserVisibilityHidden forUser:self.currentUser];
+        [[DataStorage sharedDataStorage] updateAndSaveVisibility:UserVisibilityHidden forUser:self.currentUser];
     }];
 }
 
 - (void)configureBlurButton {
+    @weakify(self);
     RAC(self, lockBtn.enabled) = [RACObserve(self, currentUser.visibility) map:^id(NSNumber *visibility) {
         return @(visibility.unsignedIntegerValue != UserVisibilityBlur);
     }];
 
-    @weakify(self);
     [[self.lockBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self.delegate updateUserVisibility:UserVisibilityBlur forUser:self.currentUser];
+        [[DataStorage sharedDataStorage] updateAndSaveVisibility:UserVisibilityBlur forUser:self.currentUser];
     }];
 }
 
 - (void)configureVisibleButton {
+    @weakify(self);
     RAC(self, visibleBtn.enabled) = [RACObserve(self, currentUser.visibility) map:^id(NSNumber *visibility) {
         return @(visibility.unsignedIntegerValue != UserVisibilityVisible);
     }];
 
-    @weakify(self);
     [[self.visibleBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self.delegate updateUserVisibility:UserVisibilityVisible forUser:self.currentUser];
+        [[DataStorage sharedDataStorage] updateAndSaveVisibility:UserVisibilityVisible forUser:self.currentUser];
     }];
 }
 
@@ -129,11 +131,14 @@
     }];
 }
 
-- (void)configureAvatarImageView {
+- (RACSignal*) avatarSignal{
+    return [RACObserve(self, currentUser) flattenMap:^RACStream *(User* value) {
+        return value.userImageSignal;
+    }];
+}
 
-    self.avatarImageView.layer.cornerRadius = 5;
-    self.avatarImageView.layer.masksToBounds = YES;
-    RAC(self.avatarImageView, image) = [[[[RACSignal combineLatest:@[RACObserve(self, delegate.avatarSignal).flatten, RACObserve(self, currentUser.visibility)]] deliverOn:[RACScheduler scheduler]] map:^id(RACTuple *x) {
+- (void)configureAvatarImageView {
+    RAC(self.avatarView, image) = [[[[RACSignal combineLatest:@[[self avatarSignal], RACObserve(self, currentUser.visibility)]] deliverOn:[RACScheduler scheduler]] map:^id(RACTuple *x) {
         RACTupleUnpack(UIImage *avatarImage, NSNumber *visibility) = x;
         if (visibility.unsignedIntegerValue == UserVisibilityVisible) {
             return avatarImage;

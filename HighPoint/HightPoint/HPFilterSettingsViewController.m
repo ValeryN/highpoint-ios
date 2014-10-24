@@ -187,9 +187,6 @@
         if ([self.delegate respondsToSelector:@selector(showNavigationBar)]) {
             [self.delegate showNavigationBar];
         }
-
-        [self.view removeFromSuperview];
-        [self removeFromParentViewController];
         
         if ([self.delegate respondsToSelector:@selector(showActivity)]) {
             [self.delegate showActivity];
@@ -203,9 +200,17 @@
         if ([self.delegate respondsToSelector:@selector(showNavigationBar)]) {
             [self.delegate showNavigationBar];
         }
+        
+    }
+    
+    self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.alpha = 0;
+    } completion:^(BOOL finished) {
         [self.view removeFromSuperview];
         [self removeFromParentViewController];
-    }
+    }];
+    
 }
 - (IBAction) menSwitchTap:(id)sender {
     if(![self.menSw isOn] && ![self.womenSw isOn]) {

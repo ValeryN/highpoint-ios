@@ -52,4 +52,14 @@ static void RACUseDelegateProxy(UITextView*self) {
 
     return signal;
 }
+
+- (RACSignal *)rac_isEditing {
+    RACSignal * signalStartEditing = [[[self rac_textBeginEdit] map:^id(id value) {
+        return @YES;
+    }] skip:1];
+    RACSignal * signalStopEditing = [[[self rac_textEndEdit] map:^id(id value) {
+        return @NO;
+    }] skip:1];
+    return [[RACSignal return:@([self isFirstResponder])] takeUntilReplacement:[[[RACSignal merge:@[signalStartEditing,signalStopEditing]] takeUntil:self.rac_willDeallocSignal] setNameWithFormat:@"%@ -rac_isEditingSignal", [self rac_description]]];
+}
 @end

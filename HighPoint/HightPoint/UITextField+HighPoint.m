@@ -33,4 +33,14 @@ static void RACUseDelegateProxy(UITextView*self) {
     return [[[self rac_signalForControlEvents:UIControlEventEditingDidEndOnExit] takeUntil:self.rac_willDeallocSignal] setNameWithFormat:@"%@ -rac_keyboardReturnSignal", [self rac_description]];
 }
 
+- (RACSignal *)rac_isEditing {
+    RACSignal * signalStartEditing = [[self rac_signalForControlEvents:UIControlEventEditingDidBegin] map:^id(id value) {
+        return @YES;
+    }];
+    RACSignal * signalStopEditing = [[self rac_signalForControlEvents:UIControlEventEditingDidEndOnExit] map:^id(id value) {
+        return @NO;
+    }];
+    return [[[RACSignal merge:@[signalStartEditing,signalStopEditing]] takeUntil:self.rac_willDeallocSignal] setNameWithFormat:@"%@ -rac_isEditingSignal", [self rac_description]];;
+}
+
 @end

@@ -12,13 +12,7 @@
 
 @class HPCurrentUserViewController;
 
-@protocol HPCurrentUserUICollectionViewCellDelegate <NSObject>
-@required
-- (void) updateUserVisibility:(UserVisibilityType) visibilityType forUser:(User*) user;
-@end
 
-@interface HPCurrentUserUICollectionViewCell : UICollectionViewCell
+@interface HPCurrentUserPrivacyViewController : UIViewController
 @property (nonatomic, retain) User* currentUser;
-@property (nonatomic, weak) HPCurrentUserViewController* delegate;
-
 @end

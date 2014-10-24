@@ -14,6 +14,7 @@
 
 
 
+IB_DESIGNABLE
 @interface HPAvatarView : UIView
 + (HPAvatarView *)avatarViewWithUser:(User *)user;
 
