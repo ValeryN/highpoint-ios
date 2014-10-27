@@ -212,6 +212,8 @@
 		443B19E219EBEB0000108C05 /* RACollectionViewTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 443B19E019EBEB0000108C05 /* RACollectionViewTripletLayout.m */; };
 		4448BB5519AF352F008840E6 /* HPSearchCityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */; };
 		444F12CC19E6C0B000CF5867 /* HPRoundedShadowedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */; };
+		446D81A719FE6C610096495D /* HPCurrentUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */; };
+		446D81AC19FE7B0E0096495D /* HPCurrentUserPointCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */; };
 		448E7C0319F5681A0066801C /* HPCurrentUserPrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 448E7C0219F5681A0066801C /* HPCurrentUserPrivacyViewController.m */; };
 		44AD911C19E8149600F835C9 /* HPRoundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AD911B19E8149600F835C9 /* HPRoundView.m */; };
 		44B52FCD19AB81300016E80B /* PSMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B52FCC19AB81300016E80B /* PSMenuItem.m */; };
@@ -409,7 +411,6 @@
 		CDBB915F19B9C5CC00546853 /* NSNull+Convert.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB915E19B9C5CC00546853 /* NSNull+Convert.m */; };
 		CDBB916219B9D39F00546853 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBB916119B9D39F00546853 /* User.m */; };
 		CDC009931990C5ED00B3FF75 /* curruser_point_new.png in Resources */ = {isa = PBXBuildFile; fileRef = CDC009921990C5ED00B3FF75 /* curruser_point_new.png */; };
-		CDC009961990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */; };
 		CDC009981990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC009971990C6C900B3FF75 /* HPCurrentUserPointCollectionViewCell.xib */; };
 		CDC2D7CF1988E33C0002B196 /* Chat.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC2D7CE1988E33C0002B196 /* Chat.m */; };
 		CDD842C6197F7D4A00CCB857 /* UITextField+HighPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD842C5197F7D4A00CCB857 /* UITextField+HighPoint.m */; };
@@ -417,7 +418,6 @@
 		CDD858BD198F84EB00AB6D07 /* HPCurrentUserPrivacyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDD858BC198F84EB00AB6D07 /* HPCurrentUserPrivacyViewController.xib */; };
 		CDE0BDC3196E636600CBCF58 /* HPUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDC1196E636600CBCF58 /* HPUserInfoViewController.m */; };
 		CDE0BDC4196E636600CBCF58 /* HPUserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC2196E636600CBCF58 /* HPUserInfoViewController.xib */; };
-		CDE0BDCA196E7FC000CBCF58 /* HPCurrentUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */; };
 		CDE0BDCD196E832E00CBCF58 /* HPCurrentUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE0BDCC196E832E00CBCF58 /* HPCurrentUserViewController.m */; };
 		CDE3465B19863CA70076961A /* HPChatMsgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE3465A19863CA70076961A /* HPChatMsgTableViewCell.xib */; };
 		CDE92D8E19F625710084B210 /* HPSegmentControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE92D8D19F625710084B210 /* HPSegmentControl.m */; };
@@ -2569,7 +2569,7 @@
 				ORGANIZATIONNAME = SurfStudio;
 				TargetAttributes = {
 					3B6DB48B18FFC24C00C26A50 = {
-						DevelopmentTeam = B9639RHZFT;
+						DevelopmentTeam = J67Y29BQR7;
 					};
 					3B6DB4AB18FFC24D00C26A50 = {
 						TestTargetID = 3B6DB48B18FFC24C00C26A50;
@@ -2681,6 +2681,7 @@
 				CDA33D9E199367E60054201C /* filter_new.png in Resources */,
 				CDE92DA519F659E40084B210 /* Userpic Shape Red@2x.png in Resources */,
 				3B298FCF192F476100BEC2AA /* slider-metal-track.png in Resources */,
+				446D81A719FE6C610096495D /* HPCurrentUserViewController.xib in Resources */,
 				3BA00C7A19D44EE800C5AE83 /* slider-default-handle_.png in Resources */,
 				3B298FC7192F476100BEC2AA /* slider-default7-trackBackground.png in Resources */,
 				3B3170A5191B7A1D00B72AC1 /* img_sample1.png in Resources */,
@@ -2725,9 +2726,8 @@
 				3B52B2CC19C30128000B543C /* README.md in Resources */,
 				3BE9DE38197FD8F300AFA641 /* 15.jpg in Resources */,
 				CDFA8A1D196BEA6200D04451 /* Notice.png in Resources */,
-				CDFA8A1A196BEA6200D04451 /* Lens Tap.png in Resources */,
 				CDD858BD198F84EB00AB6D07 /* HPCurrentUserPrivacyViewController.xib in Resources */,
-				CDD858BD198F84EB00AB6D07 /* HPCurrentUserUICollectionViewCell.xib in Resources */,
+				CDD858BD198F84EB00AB6D07 /* HPCurrentUserPrivacyViewController.xib in Resources */,
 				3B5EFDB719811EE900408427 /* Camera@2x.png in Resources */,
 				CD08B82D198B6F850006AF4A /* usercard_new_wp.png in Resources */,
 				3BA00C7B19D44EE900C5AE83 /* slider-default-handle_@2x.png in Resources */,
@@ -2737,7 +2737,6 @@
 				3B298FC0192F476100BEC2AA /* slider-default-trackCrossedOver.png in Resources */,
 				CDE92DA219F659E40084B210 /* Point Notice Tap@2x.png in Resources */,
 				3BB5E86C1936121F00DDF5F9 /* bar_background.png in Resources */,
-				CDE0BDCA196E7FC000CBCF58 /* HPCurrentUserViewController.xib in Resources */,
 				3BA00C7F19D4501A00C5AE83 /* slider-default7-handle_@2x.png in Resources */,
 				CDFA8A0E196BE5E900D04451 /* HPChatTableViewCell.xib in Resources */,
 				3BE9DE42197FD8F300AFA641 /* 6.jpg in Resources */,
@@ -3002,7 +3001,6 @@
 				3B52B2C819C30128000B543C /* MagicalRecord+Options.m in Sources */,
 				3B52B2C319C30128000B543C /* NSPersistentStore+MagicalRecord.m in Sources */,
 				CD3AF59C197E624600CC8767 /* HPAvatarLittleView.m in Sources */,
-				CDC009961990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m in Sources */,
 				3BA5E3B219C0414500E374F2 /* AppSetting.m in Sources */,
 				4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */,
 				CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */,
@@ -3068,6 +3066,7 @@
 				7C5F7281799A75B9D2E54697 /* HPAddEducationViewController.m in Sources */,
 				3B2F766319EE4F5100E280E8 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				7C5F71AA70A2396390631A2B /* HPAddCareerViewController.m in Sources */,
+				446D81AC19FE7B0E0096495D /* HPCurrentUserPointCollectionViewCell.m in Sources */,
 				3BA5E3BC19C09FAE00E374F2 /* HPBaseNetworkManager+CurrentUser.m in Sources */,
 				40314B3D2DFFC91E7BA6686C /* Message+SectionIdentifier.m in Sources */,
 				3B52B2C519C30128000B543C /* MagicalRecord+Actions.m in Sources */,

@@ -7,7 +7,10 @@
 #import "HPRequest.h"
 
 @class UserPoint;
+@class User;
 
 @interface HPRequest (Points)
 + (RACSignal *)getLikedUserOfPoint:(UserPoint *)point;
++ (RACSignal*) createPointWithText:(NSString*) text dueDate:(NSDate*) date forUser:(User*) user;
++ (RACSignal*) deletePoint:(UserPoint*) point;
 @end

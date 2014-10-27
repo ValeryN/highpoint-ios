@@ -27,6 +27,7 @@
                                                      });
                                                  }
                                                  failure:^(AFHTTPRequestOperation *localOperation, NSError *error) {
+                                                     NSLog(@"Error: failed download %@",localOperation.request.URL.absoluteString);
                                                      [subscriber sendError:error];
                                                  }];
         return [RACDisposable disposableWithBlock:^{

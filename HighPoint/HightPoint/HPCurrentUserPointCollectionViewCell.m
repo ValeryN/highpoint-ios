@@ -248,6 +248,7 @@
     }];
 }
 
+
 //Visibility of point settings
 - (void)configurePointSettingsView {
     RAC(self.pointSettingsView, hidden) = [[RACSignal combineLatest:@[RACObserve(self, editUserPointMode),RACObserve(self, currentUser.point)]] map:^id(RACTuple * value) {
@@ -351,7 +352,7 @@
     @weakify(self);
     [[self.publishSettBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self createUserPointWithCurrentData];
+
     }];
 }
 
@@ -386,28 +387,11 @@
     @weakify(self);
     [[self.deletePointSettBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self deleteCurrentUserPoint];
+
     }];
 }
 
-#pragma mark Actions
 
-- (void)createUserPointWithCurrentData {
-    if ([self.delegate respondsToSelector:@selector(createPointWithPointText:andTime:forUser:)]) {
-        //[self.delegate createPointWithPointText:self.pointTextView.text andTime:@(self.pointTimeSlider.value) forUser:self.currentUser];
-    }
-    self.editUserPointMode = NO;
-    self.pointTextView.text = @"";
-}
-
-
-- (void)deleteCurrentUserPoint
-{
-    if ([self.delegate respondsToSelector:@selector(deleteCurrentUserPointForUser:)]) {
-        //[self.delegate deleteCurrentUserPointForUser:self.currentUser];
-    }
-    self.editUserPointMode = NO;
-}
 #pragma mark Signals
 
 - (RACSignal *)textViewIsEditing {
@@ -490,7 +474,7 @@
     [rightBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:80.f / 255.f green:227.f / 255.f blue:194.f / 255.f alpha:0.4]} forState:UIControlStateDisabled];
     rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:[RACSignal return:@([self symbolsInPostIsAvailableToPost])] signalBlock:^RACSignal *(id input) {
         @strongify(self)
-        [self createUserPointWithCurrentData];
+
         return [RACSignal empty];
     }];
     return rightBarItem;
@@ -504,7 +488,7 @@
     [rightBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor colorWithRed:80.f / 255.f green:227.f / 255.f blue:194.f / 255.f alpha:0.4]} forState:UIControlStateDisabled];
     rightBarItem.rac_command = [[RACCommand alloc] initWithEnabled:[RACSignal return:@YES] signalBlock:^RACSignal *(id input) {
         @strongify(self)
-        [self deleteCurrentUserPoint];
+
         return [RACSignal empty];
     }];
     return rightBarItem;
