@@ -26,6 +26,20 @@
 @end
 @implementation HPAvatarView
 
+- (void)prepareForInterfaceBuilder{
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    UIImage *image = [UIImage imageWithContentsOfFile:[bundle pathForResource:@"13" ofType:@"jpg"]];
+    CALayer *maskLayer = [CALayer layer];
+    maskLayer.frame = self.bounds;
+    [maskLayer setContents:(id)[[UIImage imageWithContentsOfFile:[bundle pathForResource:@"Userpic-Mask" ofType:@"png"]] resizeImageToSize:self.bounds.size].CGImage];
+    
+    UIImageView* imageView = [[UIImageView alloc]  initWithFrame:self.bounds];
+    imageView.image = image;
+    imageView.layer.mask = maskLayer;
+    imageView.layer.masksToBounds = YES;
+    self.backgroundColor = [UIColor clearColor];
+    [self addSubview:imageView];
+}
 
 
 + (HPAvatarView*) avatarViewWithUser:(User*) user
@@ -41,7 +55,9 @@
 {
     self = [super initWithCoder: aDecoder];
     if (self) {
+#ifndef TARGET_INTERFACE_BUILDER
         [self sharedInit];
+#endif
     }
     return self;
 }
@@ -51,7 +67,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+#ifndef TARGET_INTERFACE_BUILDER
         [self sharedInit];
+#endif
     }
     return self;
 }
