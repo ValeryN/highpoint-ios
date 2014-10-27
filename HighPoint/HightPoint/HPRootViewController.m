@@ -89,6 +89,7 @@ static int const refreshTag = 111;
     self.isNeedScrollToIndex = NO;
     [self.lensBtn setHitTestEdgeInsets:UIEdgeInsetsMake(-15, -15, -15, -15)];
     self.blendImageView.alpha = 1.0f;
+    [self resetPresentationViewCoontrollerContext];
 }
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -151,12 +152,33 @@ static int const refreshTag = 111;
 #pragma mark - Navigation bar button tap handler -
 
 
+- (void) resetPresentationViewCoontrollerContext{
+    if([UIDevice hp_isIOS7]){
+            [self.navigationController setModalPresentationStyle:UIModalPresentationNone];
+    }
+    else{
+            self.navigationController.providesPresentationContextTransitionStyle = NO;
+            self.navigationController.definesPresentationContext = NO;
+    }
+}
+
 - (IBAction) profileButtonPressedStart: (id) sender
 {
     [self showNotificationBadge];
     HPCurrentUserViewController* cuController = [[HPCurrentUserViewController alloc] initWithNibName: @"HPCurrentUserViewController" bundle: nil];
-    [self.navigationController pushViewController:cuController animated:YES];
+    UINavigationController* presentingController = [[UINavigationController alloc] initWithRootViewController:cuController];
+    if([UIDevice hp_isIOS7]){
+            [self.navigationController setModalPresentationStyle:UIModalPresentationCurrentContext];
+        }
+    else{
+            self.navigationController.providesPresentationContextTransitionStyle = YES;
+            self.navigationController.definesPresentationContext = YES;
+            [presentingController setModalPresentationStyle:UIModalPresentationOverCurrentContext];
+        }
+    presentingController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self.navigationController presentViewController:presentingController animated:YES completion:nil];
 }
+
 
 
 - (IBAction) bubbleButtonPressedStart: (id) sender
@@ -180,7 +202,17 @@ static int const refreshTag = 111;
     self.filterController.view.frame = self.view.bounds;
     [self.view addSubview:self.filterController.view];
     [self addChildViewController:self.filterController];
+    self.filterController.view.alpha = 0;
     [self.filterController didMoveToParentViewController:self];
+    @weakify(self);
+    [UIView animateWithDuration:0.3 animations:^{
+        @strongify(self);
+        self.filterController.view.alpha = 1;
+    } completion:^(BOOL finished) {
+        @strongify(self);
+        [self.filterController didMoveToParentViewController:self];
+    }];
+
 }
 
 
