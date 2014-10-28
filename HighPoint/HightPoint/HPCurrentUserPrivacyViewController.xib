@@ -18,6 +18,7 @@
                 <outlet property="avatarView" destination="vcZ-4b-ZZd" id="fv0-NQ-aX0"/>
                 <outlet property="invisibleBtn" destination="ORa-gb-ekh" id="miX-9g-ZJF"/>
                 <outlet property="lockBtn" destination="e3F-ix-bAp" id="8AB-ci-J2Q"/>
+                <outlet property="pointLabel" destination="in0-bO-Zqa" id="wLo-bK-FcC"/>
                 <outlet property="userInfoLabel" destination="Npl-tE-ma0" id="FOG-mb-rfO"/>
                 <outlet property="view" destination="PFE-19-Yli" id="s9y-jN-CTh"/>
                 <outlet property="visibilityInfoLabel" destination="71i-vI-dzp" id="RI8-f0-yad"/>

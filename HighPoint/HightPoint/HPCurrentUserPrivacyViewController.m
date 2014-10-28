@@ -27,9 +27,12 @@
 @property(weak, nonatomic) IBOutlet UIButton *lockBtn;
 @property(weak, nonatomic) IBOutlet UIButton *invisibleBtn;
 @property(weak, nonatomic) IBOutlet UILabel *visibilityInfoLabel;
+@property(weak, nonatomic) IBOutlet UILabel *pointLabel;
 
 @property(nonatomic, strong) IBOutletCollection(NSLayoutConstraint) NSArray *constraintFor4inch;
 @property(nonatomic, weak) IBOutlet NSLayoutConstraint *bottomPositionNameConstraint;
+
+@property(nonatomic,retain) RACSignal* visibilitySignal;
 @end
 
 @implementation HPCurrentUserPrivacyViewController
@@ -44,6 +47,7 @@
     [self configureBlurButton];
     [self configureHiddenButton];
     [self configureAvatarImageView];
+    [self configurePointLabel];
 }
 
 #pragma mark - constraint
@@ -60,7 +64,7 @@
 
 - (void)configureHiddenButton {
     @weakify(self);
-    RAC(self, invisibleBtn.enabled) = [RACObserve(self, currentUser.visibility) map:^id(NSNumber *visibility) {
+    RAC(self, invisibleBtn.enabled) = [[self visibilitySignal]  map:^id(NSNumber *visibility) {
         return @(visibility.unsignedIntegerValue != UserVisibilityHidden);
     }];
 
@@ -72,7 +76,7 @@
 
 - (void)configureBlurButton {
     @weakify(self);
-    RAC(self, lockBtn.enabled) = [RACObserve(self, currentUser.visibility) map:^id(NSNumber *visibility) {
+    RAC(self, lockBtn.enabled) = [[self visibilitySignal]  map:^id(NSNumber *visibility) {
         return @(visibility.unsignedIntegerValue != UserVisibilityBlur);
     }];
 
@@ -84,7 +88,7 @@
 
 - (void)configureVisibleButton {
     @weakify(self);
-    RAC(self, visibleBtn.enabled) = [RACObserve(self, currentUser.visibility) map:^id(NSNumber *visibility) {
+    RAC(self, visibleBtn.enabled) = [[self visibilitySignal]  map:^id(NSNumber *visibility) {
         return @(visibility.unsignedIntegerValue != UserVisibilityVisible);
     }];
 
@@ -98,7 +102,7 @@
     @weakify(self);
     if(![UIDevice hp_isWideScreen]){
         self.visibilityInfoLabel.alpha = 0;
-        [[RACObserve(self, currentUser.visibility) skip:1] subscribeNext:^(id x) {
+        [[[self visibilitySignal]  skip:1] subscribeNext:^(id x) {
             [UIView animateKeyframesWithDuration:0.5f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 @strongify(self);
                 self.visibilityInfoLabel.alpha = 1;
@@ -119,7 +123,7 @@
         }];
     }
     
-    RAC(self.visibilityInfoLabel, text) = [RACObserve(self, currentUser.visibility) map:^id(NSNumber *visibility) {
+    RAC(self.visibilityInfoLabel, text) = [[self visibilitySignal]  map:^id(NSNumber *visibility) {
         switch ((UserVisibilityType)visibility.unsignedIntegerValue) {
             case UserVisibilityVisible:
                 return @"Фотографии и личная информация видна всем людям";
@@ -138,7 +142,7 @@
 }
 
 - (void)configureYourNameLabel {
-    RAC(self.userInfoLabel, text) = [[RACSignal combineLatest:@[RACObserve(self, currentUser),RACObserve(self, currentUser.visibility)]] map:^id(RACTuple *x) {
+    RAC(self.userInfoLabel, text) = [[RACSignal combineLatest:@[RACObserve(self, currentUser),[self visibilitySignal]]] map:^id(RACTuple *x) {
         RACTupleUnpack(User *user,NSNumber * visibility) = x;
         switch ((UserVisibilityType) visibility.unsignedIntegerValue) {
             case UserVisibilityVisible: {
@@ -157,7 +161,7 @@
         return @"";
     }];
 
-    RAC(self.bottomPositionNameConstraint, priority) = [RACObserve(self, currentUser.visibility) map:^id(NSNumber *visibility) {
+    RAC(self.bottomPositionNameConstraint, priority) = [[self visibilitySignal] map:^id(NSNumber *visibility) {
         if (visibility.unsignedIntegerValue == UserVisibilityVisible) {
             return @(800);
         }
@@ -168,6 +172,36 @@
     }];
 }
 
+- (void) configurePointLabel{
+    RAC(self.pointLabel, text) = [[RACSignal combineLatest:@[RACObserve(self, currentUser.point),[self visibilitySignal]]] map:^id(RACTuple* value) {
+        RACTupleUnpack(UserPoint* point, NSNumber* visibility) = value;
+        if(!point && visibility.integerValue == UserVisibilityHidden){
+            return @"Вы польностью скрыли свой профиль от других пользователей. Опубликуйте поинт что-бы появится в ленте.";
+        }
+        else if(point){
+            return point.pointText;
+        }
+        else
+            return @"";
+    }];
+    RAC(self.pointLabel, textColor) = [[RACSignal combineLatest:@[RACObserve(self, currentUser.point),[self visibilitySignal]]] map:^id(RACTuple* value) {
+        RACTupleUnpack(UserPoint* point, NSNumber* visibility) = value;
+        if(!point && visibility.integerValue == UserVisibilityHidden){
+            return [UIColor colorWithRed:1.f green:102.f/255.f blue:112.f/255.f alpha:1];
+        }
+        else
+            return [UIColor colorWithRed:224.f/255.f green:231.f/255.f blue:239.f/255.f alpha:1];
+    }];
+}
+
+- (RACSignal*) visibilitySignal{
+    if(!_visibilitySignal)
+    {
+        _visibilitySignal = [RACObserve(self, currentUser.visibility) replayLast];
+    }
+    return _visibilitySignal;
+}
+
 - (RACSignal*) avatarSignal{
     return [RACObserve(self, currentUser) flattenMap:^RACStream *(User* value) {
         return value.userImageSignal;
@@ -175,7 +209,7 @@
 }
 
 - (void)configureAvatarImageView {
-    RAC(self.avatarView, image) = [[[[RACSignal combineLatest:@[[self avatarSignal], RACObserve(self, currentUser.visibility)]] deliverOn:[RACScheduler scheduler]] map:^id(RACTuple *x) {
+    RAC(self.avatarView, image) = [[[[RACSignal combineLatest:@[[self avatarSignal], [self visibilitySignal]]] deliverOn:[RACScheduler scheduler]] map:^id(RACTuple *x) {
         RACTupleUnpack(UIImage *avatarImage, NSNumber *visibility) = x;
         if (visibility.unsignedIntegerValue == UserVisibilityVisible) {
             return avatarImage;
