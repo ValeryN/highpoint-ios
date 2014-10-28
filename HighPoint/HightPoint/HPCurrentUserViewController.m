@@ -32,16 +32,16 @@
 @property(nonatomic, retain) User *currentUser;
 @property(nonatomic) RACSignal* currentUserSignal;
 
-@property (nonatomic,weak) IBOutlet HPAvatarView* avatarView;
-@property (nonatomic,weak) IBOutlet UIScrollView* mainScroll;
-@property (nonatomic,weak) IBOutlet UIView* contentView;
-@property (nonatomic,weak) IBOutlet UILabel* nameLabel;
-@property (nonatomic,weak) IBOutlet UILabel* userInfoLabel;
-@property (nonatomic,weak) IBOutlet UITextView* pointTextField;
+@property (nonatomic, weak) IBOutlet HPAvatarView* avatarView;
+@property (nonatomic, weak) IBOutlet UIScrollView* mainScroll;
+@property (nonatomic, weak) IBOutlet UIView* contentView;
+@property (nonatomic, weak) IBOutlet UILabel* nameLabel;
+@property (nonatomic, weak) IBOutlet UILabel* userInfoLabel;
+@property (nonatomic, weak) IBOutlet UITextView* pointTextField;
 @property (nonatomic, weak) IBOutlet UILabel* placeholderLabel;
-@property (nonatomic,weak) IBOutlet UILabel* pointStatus;
-@property (nonatomic,weak) IBOutlet UILabel* pointCountLabel;
-@property (nonatomic,weak) IBOutlet UILabel* pointWillActiveTimeLabel;
+@property (nonatomic, weak) IBOutlet UILabel* pointStatus;
+@property (nonatomic, weak) IBOutlet UILabel* pointCountLabel;
+@property (nonatomic, weak) IBOutlet UILabel* pointWillActiveTimeLabel;
 @property (nonatomic, weak) IBOutlet UIButton* openPrivacyButton;
 @property (nonatomic, weak) IBOutlet UIButton* openPhotoAlbumButton;
 @property (nonatomic, weak) IBOutlet UIButton* openConciergeButton;
@@ -51,11 +51,11 @@
 @property (nonatomic, weak) IBOutlet UIView* viewForCreatePoint;
 @property (nonatomic, weak) IBOutlet UIView* buttonsView;
 @property (nonatomic, weak) IBOutlet UIView* selectTimeView;
-@property(weak, nonatomic) IBOutlet HPSlider *pointTimeSlider;
+@property (nonatomic, weak) IBOutlet HPSlider *pointTimeSlider;
 
-@property (nonatomic,weak) IBOutlet UIView* likesView;
-@property (nonatomic,weak) IBOutlet UIView* likesSubView;
-@property (nonatomic,weak) IBOutlet UIButton* likesButton;
+@property (nonatomic, weak) IBOutlet UIView* likesView;
+@property (nonatomic, weak) IBOutlet UIView* likesSubView;
+@property (nonatomic, weak) IBOutlet UIButton* likesButton;
 
 @property (nonatomic) BOOL pointMode;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint * totalContentViewHeightConstraint;
@@ -339,22 +339,25 @@
                 [self.likesSubView addSubview:avatarView];
             }
             if (constraintViewDictionary.count) {
-                NSMutableString *horizontalConstraintFormat = @"H:".mutableCopy;
-                
-                for (NSString *key in constraintViewDictionary) {
-                    [self.likesSubView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[%@(32)]", key]
-                                                                                                 options:NSLayoutFormatAlignAllCenterY
+                if(self.likesSubView)
+                {
+                    NSMutableString *horizontalConstraintFormat = @"H:".mutableCopy;
+                    
+                    for (NSString *key in constraintViewDictionary) {
+                        [self.likesSubView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[%@(32)]", key]
+                                                                                                     options:NSLayoutFormatAlignAllCenterY
+                                                                                                     metrics:nil
+                                                                                                       views:constraintViewDictionary]];
+                        [horizontalConstraintFormat appendFormat:@"[%@(32)]-(4)-", key];
+                        
+                        
+                    }
+                    [horizontalConstraintFormat appendString:@"|"];
+                    [self.likesSubView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:horizontalConstraintFormat
+                                                                                                 options:0
                                                                                                  metrics:nil
                                                                                                    views:constraintViewDictionary]];
-                    [horizontalConstraintFormat appendFormat:@"[%@(32)]-(4)-", key];
-                    
-                    
                 }
-                [horizontalConstraintFormat appendString:@"|"];
-                [self.likesSubView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:horizontalConstraintFormat
-                                                                                             options:0
-                                                                                             metrics:nil
-                                                                                               views:constraintViewDictionary]];
             }
             
         }
@@ -586,6 +589,14 @@
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     if(self.view.window == nil){
+        self.totalContentViewHeightConstraint = nil;
+        self.textViewHeightConstraint = nil;
+        self.moveUpAvatarSignal = nil;
+        self.keyboardIsOpen = nil;
+        self.applyPointTextPress = nil;
+        self.pointSignal = nil;
+        self.pointTimeLeftSignal = nil;
+        self.usersLikeYourPost = nil;
         self.view = nil;
     }
 }
