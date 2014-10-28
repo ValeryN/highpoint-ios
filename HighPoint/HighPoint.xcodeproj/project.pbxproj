@@ -1644,7 +1644,6 @@
 				44B91D3F19E2D6FF00B8D0AE /* Chat */,
 				CDA44BB819A5E78700E33230 /* AuthorizationViewController */,
 				CDB9527719A1F2FB00238DFC /* SplashViewController */,
-				CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */,
 				CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */,
 				CDA22EE0196FB22A0032210F /* ConciergeViewController */,
 				3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */,
@@ -2371,7 +2370,7 @@
 			path = External/TLSwipeForOptionsCell;
 			sourceTree = "<group>";
 		};
-		CD6D7A88197CDA3F0002E8A0 /* PointLikesViewController */ = {
+		CD6D7A88197CDA3F0002E8A0 /* Point likes */ = {
 			isa = PBXGroup;
 			children = (
 				CD6D7A89197CDA6D0002E8A0 /* HPPointLikesViewController.h */,
@@ -2381,7 +2380,7 @@
 				CD6D7A8F197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m */,
 				CD6D7A91197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib */,
 			);
-			name = PointLikesViewController;
+			name = "Point likes";
 			sourceTree = "<group>";
 		};
 		CD7C99551973BCFD00F1AAAB /* AddPhotoMenuView */ = {
@@ -2493,6 +2492,7 @@
 		CDE0BDC5196E7F9900CBCF58 /* Current User */ = {
 			isa = PBXGroup;
 			children = (
+				CD6D7A88197CDA3F0002E8A0 /* Point likes */,
 				448E7C0419F568740066801C /* Privacy */,
 				44C5AB2D19ED681100EF897E /* Settings */,
 				3B49DE1B1934A50C00C3EF1E /* Profile */,

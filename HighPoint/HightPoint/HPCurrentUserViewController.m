@@ -59,7 +59,7 @@
 
 @property (nonatomic) BOOL pointMode;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint * totalContentViewHeightConstraint;
-
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint * textViewHeightConstraint;
 
 @property (nonatomic, retain) RACSignal* moveUpAvatarSignal;
 @property (nonatomic, retain) RACSignal* keyboardIsOpen;
@@ -144,6 +144,16 @@
             return value.pointText;
         }
     }];
+    
+    [[self moveUpAvatarSignal] subscribeNext:^(NSNumber* x) {
+        @strongify(self);
+        if(x.boolValue){
+            [self.pointTextField addConstraint:self.textViewHeightConstraint];
+        }
+        else{
+            [self.pointTextField removeConstraint:self.textViewHeightConstraint];
+        }
+    }];    
 }
 
 - (void) configureSelectTimeView{

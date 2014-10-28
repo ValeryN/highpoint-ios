@@ -40,6 +40,7 @@
                 <outlet property="pointTextField" destination="xsC-30-x4d" id="ynH-Sx-7Wn"/>
                 <outlet property="pointTimeSlider" destination="OeK-kr-H0u" id="D2C-Em-VS4"/>
                 <outlet property="selectTimeView" destination="32h-TI-iDp" id="9QC-lh-lsC"/>
+                <outlet property="textViewHeightConstraint" destination="vxi-eh-BJn" id="Co4-xT-iLV"/>
                 <outlet property="totalContentViewHeightConstraint" destination="3RJ-3F-gvG" id="OT9-fS-Rwz"/>
                 <outlet property="userInfoLabel" destination="RFJ-3V-aLP" id="nmp-t8-Oeb"/>
                 <outlet property="view" destination="gsZ-iA-YhH" id="Uo6-Zt-wb4"/>
@@ -92,7 +93,7 @@
                                     </state>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PpQ-mM-RFW">
-                                    <rect key="frame" x="17" y="132" width="286" height="83"/>
+                                    <rect key="frame" x="13" y="132" width="294" height="100"/>
                                     <string key="text">Напишите здесь о ваших планах
 или желаниях на ближайшее время.
 Это сообщение увидят все люди
@@ -102,10 +103,10 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xsC-30-x4d">
-                                    <rect key="frame" x="12" y="124" width="296" height="100"/>
+                                    <rect key="frame" x="8" y="124" width="304" height="100"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="100" id="ECI-FV-9ad"/>
+                                        <constraint firstAttribute="height" constant="100" id="vxi-eh-BJn"/>
                                     </constraints>
                                     <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                                     <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="16"/>
@@ -373,9 +374,10 @@
                                 <constraint firstItem="lNe-UF-Nv6" firstAttribute="height" secondItem="Oq7-hd-G6n" secondAttribute="height" id="LC9-9d-7BB"/>
                                 <constraint firstItem="knB-IY-foF" firstAttribute="centerX" secondItem="ZI4-7L-cfz" secondAttribute="centerX" id="LfL-yv-2lu"/>
                                 <constraint firstAttribute="trailing" secondItem="32h-TI-iDp" secondAttribute="trailing" id="OCP-PR-urf"/>
+                                <constraint firstItem="xsC-30-x4d" firstAttribute="height" secondItem="PpQ-mM-RFW" secondAttribute="height" id="P1J-bz-kPg"/>
                                 <constraint firstItem="ZI4-7L-cfz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="PWd-XX-AAn"/>
                                 <constraint firstItem="lNe-UF-Nv6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="17" id="S5m-Aw-gwC"/>
-                                <constraint firstItem="xsC-30-x4d" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="TAf-Tj-IOr"/>
+                                <constraint firstItem="xsC-30-x4d" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="TAf-Tj-IOr"/>
                                 <constraint firstAttribute="trailing" secondItem="LMq-Oa-uey" secondAttribute="trailing" id="Ubs-BS-ZjK"/>
                                 <constraint firstAttribute="centerX" secondItem="xsC-30-x4d" secondAttribute="centerX" id="VdU-aG-aFb"/>
                                 <constraint firstItem="Bgf-m2-j6c" firstAttribute="centerY" secondItem="lNe-UF-Nv6" secondAttribute="centerY" constant="-14" id="WCD-z2-rrt"/>
@@ -391,7 +393,7 @@
                                 <constraint firstItem="knB-IY-foF" firstAttribute="height" secondItem="ZI4-7L-cfz" secondAttribute="height" id="wNY-Vj-JJi"/>
                                 <constraint firstAttribute="trailing" secondItem="Oq7-hd-G6n" secondAttribute="trailing" constant="12" id="yDl-zF-6rk"/>
                                 <constraint firstItem="PpQ-mM-RFW" firstAttribute="top" secondItem="xsC-30-x4d" secondAttribute="top" constant="8" id="ywt-Zc-xih"/>
-                                <constraint firstAttribute="trailing" secondItem="xsC-30-x4d" secondAttribute="trailing" constant="12" id="zsF-RA-kIp"/>
+                                <constraint firstAttribute="trailing" secondItem="xsC-30-x4d" secondAttribute="trailing" constant="8" id="zsF-RA-kIp"/>
                             </constraints>
                         </view>
                     </subviews>
