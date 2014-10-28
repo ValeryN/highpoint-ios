@@ -62,7 +62,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="500"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 лет, Москва" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFJ-3V-aLP">
-                                    <rect key="frame" x="109" y="59" width="176" height="29"/>
+                                    <rect key="frame" x="109" y="57" width="176" height="29"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="29" id="iLJ-TK-RkG"/>
                                     </constraints>
@@ -71,7 +71,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рустем Богданов" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bgf-m2-j6c">
-                                    <rect key="frame" x="109" y="33" width="176" height="29"/>
+                                    <rect key="frame" x="109" y="31" width="176" height="29"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="29" id="vSW-t4-Scv"/>
                                     </constraints>
@@ -80,7 +80,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lNe-UF-Nv6" customClass="HPAvatarView">
-                                    <rect key="frame" x="13" y="17" width="88" height="88"/>
+                                    <rect key="frame" x="13" y="15" width="88" height="88"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="88" id="KwS-5x-ago"/>
@@ -88,13 +88,13 @@
                                     </constraints>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oq7-hd-G6n">
-                                    <rect key="frame" x="8" y="17" width="300" height="88"/>
+                                    <rect key="frame" x="8" y="15" width="300" height="88"/>
                                     <state key="normal" image="RightArrow">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PpQ-mM-RFW">
-                                    <rect key="frame" x="13" y="132" width="294" height="100"/>
+                                    <rect key="frame" x="13" y="130" width="294" height="100"/>
                                     <string key="text">Напишите здесь о ваших планах
 или желаниях на ближайшее время.
 Это сообщение увидят все люди
@@ -104,7 +104,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xsC-30-x4d">
-                                    <rect key="frame" x="8" y="124" width="304" height="100"/>
+                                    <rect key="frame" x="8" y="122" width="304" height="100"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="100" id="vxi-eh-BJn"/>
@@ -117,7 +117,7 @@
                                     </connections>
                                 </textView>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZI4-7L-cfz" userLabel="No point view">
-                                    <rect key="frame" x="12" y="237" width="296" height="48"/>
+                                    <rect key="frame" x="12" y="235" width="296" height="48"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Поинт не опубликован" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTn-ve-g4k">
                                             <rect key="frame" x="0.0" y="13" width="190" height="21"/>
@@ -155,7 +155,7 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vrl-Bp-wAI" userLabel="With point view">
-                                    <rect key="frame" x="12" y="237" width="296" height="48"/>
+                                    <rect key="frame" x="12" y="235" width="296" height="48"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Поинт будет активен 6 часов" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uLC-VF-IaQ">
                                             <rect key="frame" x="0.0" y="13" width="190" height="21"/>
@@ -193,7 +193,7 @@
                                     </constraints>
                                 </view>
                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="knB-IY-foF" userLabel="Create point view">
-                                    <rect key="frame" x="12" y="237" width="296" height="48"/>
+                                    <rect key="frame" x="12" y="235" width="296" height="48"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Осталось символов: 64" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gbi-99-KsZ">
                                             <rect key="frame" x="0.0" y="13" width="190" height="21"/>
@@ -267,7 +267,7 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LMq-Oa-uey" userLabel="Buttons view">
-                                    <rect key="frame" x="0.0" y="285" width="320" height="144"/>
+                                    <rect key="frame" x="0.0" y="283" width="320" height="144"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uMw-wB-RLu">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="48"/>
@@ -368,7 +368,7 @@
                                 <constraint firstAttribute="trailing" secondItem="RFJ-3V-aLP" secondAttribute="trailing" constant="35" id="CFy-mN-OQ2"/>
                                 <constraint firstItem="knB-IY-foF" firstAttribute="centerY" secondItem="ZI4-7L-cfz" secondAttribute="centerY" id="Deg-D1-pWD"/>
                                 <constraint firstItem="xsC-30-x4d" firstAttribute="top" secondItem="lNe-UF-Nv6" secondAttribute="bottom" constant="19" id="ETc-c2-j5W"/>
-                                <constraint firstAttribute="bottom" secondItem="LMq-Oa-uey" secondAttribute="bottom" priority="750" constant="20" id="FYQ-0c-FtG"/>
+                                <constraint firstAttribute="bottom" secondItem="LMq-Oa-uey" secondAttribute="bottom" priority="750" constant="5" id="FYQ-0c-FtG"/>
                                 <constraint firstItem="ZI4-7L-cfz" firstAttribute="centerY" secondItem="vrl-Bp-wAI" secondAttribute="centerY" id="IhE-tx-dpZ"/>
                                 <constraint firstItem="lNe-UF-Nv6" firstAttribute="centerY" secondItem="Oq7-hd-G6n" secondAttribute="centerY" id="J81-4T-rjg"/>
                                 <constraint firstItem="RFJ-3V-aLP" firstAttribute="leading" secondItem="Bgf-m2-j6c" secondAttribute="leading" id="JSM-St-62E"/>
@@ -377,7 +377,7 @@
                                 <constraint firstAttribute="trailing" secondItem="32h-TI-iDp" secondAttribute="trailing" id="OCP-PR-urf"/>
                                 <constraint firstItem="xsC-30-x4d" firstAttribute="height" secondItem="PpQ-mM-RFW" secondAttribute="height" id="P1J-bz-kPg"/>
                                 <constraint firstItem="ZI4-7L-cfz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="PWd-XX-AAn"/>
-                                <constraint firstItem="lNe-UF-Nv6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="17" id="S5m-Aw-gwC"/>
+                                <constraint firstItem="lNe-UF-Nv6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="15" id="S5m-Aw-gwC"/>
                                 <constraint firstItem="xsC-30-x4d" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="TAf-Tj-IOr"/>
                                 <constraint firstAttribute="trailing" secondItem="LMq-Oa-uey" secondAttribute="trailing" id="Ubs-BS-ZjK"/>
                                 <constraint firstAttribute="centerX" secondItem="xsC-30-x4d" secondAttribute="centerX" id="VdU-aG-aFb"/>
