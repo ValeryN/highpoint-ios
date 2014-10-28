@@ -302,8 +302,11 @@
     } else if (newTargetOffset >= (scrollView.contentSize.height - 400)) {
         newTargetOffset = scrollView.contentSize.height - self.topLayoutGuide.length;
     }
-    targetContentOffset->y = currentOffset;
-    [scrollView setContentOffset:CGPointMake(0, newTargetOffset) animated:YES];
+    if(newTargetOffset+self.topLayoutGuide.length < scrollView.contentSize.height){
+        targetContentOffset->y = currentOffset;
+        [scrollView setContentOffset:CGPointMake(0, newTargetOffset) animated:YES];
+    }
+    
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
