@@ -39,6 +39,7 @@
                 <outlet property="pointStatus" destination="GTn-ve-g4k" id="Gyb-m5-Yv7"/>
                 <outlet property="pointTextField" destination="xsC-30-x4d" id="ynH-Sx-7Wn"/>
                 <outlet property="pointTimeSlider" destination="OeK-kr-H0u" id="D2C-Em-VS4"/>
+                <outlet property="pointWillActiveTimeLabel" destination="uLC-VF-IaQ" id="YTQ-Di-iyX"/>
                 <outlet property="selectTimeView" destination="32h-TI-iDp" id="9QC-lh-lsC"/>
                 <outlet property="textViewHeightConstraint" destination="vxi-eh-BJn" id="Co4-xT-iLV"/>
                 <outlet property="totalContentViewHeightConstraint" destination="3RJ-3F-gvG" id="OT9-fS-Rwz"/>

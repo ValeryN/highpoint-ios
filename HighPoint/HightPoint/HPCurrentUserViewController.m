@@ -250,7 +250,7 @@
     RAC(self,pointWillActiveTimeLabel.text) = [[self pointTimeLeftSignal] map:^id(NSNumber* value) {
         int hourActive = ceilf(value.floatValue/60.f/60.f);
         NSString* stringFormat = SLPluralizedString(@"POINT_WILL_ACTIVE",hourActive, nil);
-        return [RACSignal return:[NSString stringWithFormat:stringFormat, hourActive]];
+        return [NSString stringWithFormat:stringFormat, hourActive];
     }];
     
     [[[self applyPointTextPress] filter:^BOOL(id value) {
@@ -468,13 +468,13 @@
 }
 
 - (RACSignal *)pointTimeLeftSignal{
-    if(_pointTimeLeftSignal){
-        _pointTimeLeftSignal = [[self pointSignal] map:^id(UserPoint* value) {
+    if(!_pointTimeLeftSignal){
+        _pointTimeLeftSignal = [[[self pointSignal] map:^id(UserPoint* value) {
             if(value){
                 return @(value.pointValidTo.timeIntervalSince1970 - [[NSDate date] timeIntervalSince1970]);
             }
             return @(-1);
-        }];
+        }] replayLast];
     }
     return _pointTimeLeftSignal;
 }
