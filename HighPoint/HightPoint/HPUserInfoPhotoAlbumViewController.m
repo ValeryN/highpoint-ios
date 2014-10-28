@@ -201,7 +201,9 @@
 #pragma mark Carousel delegate
 
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
+    @weakify(self);
     if([self.user.visibility isEqual: @(UserVisibilityVisible)]){
+        @strongify(self);
         id<NSFetchedResultsSectionInfo>  sectionInfo = self.fetchedController.sections[0];
         return sectionInfo.numberOfObjects + 1;
     }

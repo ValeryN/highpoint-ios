@@ -75,7 +75,9 @@
 }
 
 - (void)configureSegmentedControl {
+    @weakify(self);
     [RACObserve(self.user, visibility) subscribeNext:^(NSNumber* type) {
+        @strongify(self);
         switch ((UserVisibilityType)type.intValue) {
             case UserVisibilityBlur:
             case UserVisibilityVisible:
