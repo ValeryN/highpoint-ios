@@ -38,6 +38,7 @@
 #define PORTION_OF_DATA 7
 #define CONSTRAINT_TABLEVIEW_HEIGHT 416
 static int const refreshTag = 111;
+static NSString *mainCellId = @"maincell";
 #define kNavBarDefaultPosition CGPointMake(160,64)
 
 @implementation HPRootViewController {
@@ -90,6 +91,7 @@ static int const refreshTag = 111;
     [self.lensBtn setHitTestEdgeInsets:UIEdgeInsetsMake(-15, -15, -15, -15)];
     self.blendImageView.alpha = 1.0f;
     [self resetPresentationViewCoontrollerContext];
+    [self.mainListTable registerNib:[UINib nibWithNibName:@"HPMainViewListTableViewCell" bundle:nil] forCellReuseIdentifier:mainCellId];
 }
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -401,7 +403,7 @@ static int const refreshTag = 111;
 
 - (UITableViewCell*) tableView: (UITableView*) tableView cellForRowAtIndexPath: (NSIndexPath*) indexPath
 {
-    static NSString *mainCellId = @"maincell";
+    
     HPMainViewListTableViewCell *mCell = [tableView dequeueReusableCellWithIdentifier: mainCellId forIndexPath:indexPath];
     if (!mCell)
         mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];

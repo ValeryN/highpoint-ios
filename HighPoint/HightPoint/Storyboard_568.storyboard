@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BBy-ip-1SR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BBy-ip-1SR">
     <dependencies>
         <deployment version="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Authorization View Controller-->
@@ -97,101 +97,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="104" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="NN0-MU-hah">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <color key="backgroundColor" red="0.11764705882352941" green="0.11372549019607843" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="maincell" rowHeight="104" id="qqS-lS-YFR" customClass="HPMainViewListTableViewCell">
-                                        <rect key="frame" x="0.0" y="1" width="320" height="104"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qqS-lS-YFR" id="lWp-py-opE">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view alpha="0.84999999999999987" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Ox-Oj-PnU">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
-                                                    <color key="backgroundColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                                <view alpha="0.84999999999999987" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aQY-Dw-epD">
-                                                    <rect key="frame" x="0.0" y="103" width="320" height="1"/>
-                                                    <color key="backgroundColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qbC-tq-hhG" userLabel="Main info group">
-                                                    <rect key="frame" x="12" y="0.0" width="256" height="104"/>
-                                                    <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekU-kd-49v" userLabel="Avatar - View" customClass="HPAvatarView">
-                                                            <rect key="frame" x="0.0" y="8" width="88" height="88"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="88" id="i06-3D-oUF"/>
-                                                                <constraint firstAttribute="height" constant="88" id="rSL-WA-qDv"/>
-                                                            </constraints>
-                                                        </view>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kbB-KV-Mr0" userLabel="Name Label">
-                                                            <rect key="frame" x="100" y="31" width="160" height="21"/>
-                                                            <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="17"/>
-                                                            <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bMB-4H-hBy" userLabel="Age Location Label">
-                                                            <rect key="frame" x="100" y="52" width="160" height="21"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Скрыла свое имя и фотографии" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="81M-9F-wN0">
-                                                            <rect key="frame" x="100" y="26" width="157" height="52"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstItem="ekU-kd-49v" firstAttribute="top" secondItem="qbC-tq-hhG" secondAttribute="top" constant="8" id="8Yl-A0-V9t"/>
-                                                        <constraint firstItem="ekU-kd-49v" firstAttribute="leading" secondItem="qbC-tq-hhG" secondAttribute="leading" id="akr-WU-y8J"/>
-                                                        <constraint firstAttribute="height" constant="104" id="il8-eu-eSy"/>
-                                                        <constraint firstAttribute="width" constant="256" id="ywn-yl-1Og"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IHw-GO-4eP" userLabel="Point Group">
-                                                    <rect key="frame" x="269" y="0.0" width="50" height="104"/>
-                                                    <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Point Notice.png" highlightedImage="Point Notice Tap" translatesAutoresizingMaskIntoConstraints="NO" id="WWu-Bc-zmw" userLabel="Show point button">
-                                                            <rect key="frame" x="13" y="40" width="23" height="24"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                        </imageView>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                </view>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="У нас тут очень весело. Если кто не боится таких развлечений, пишите!" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="256" translatesAutoresizingMaskIntoConstraints="NO" id="bwY-Gy-lWp" userLabel="Label - Point Text">
-                                                    <rect key="frame" x="12" y="11" width="256" height="80"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
-                                                    <color key="textColor" red="0.90196078431372551" green="0.92549019607843142" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <gestureRecognizers/>
-                                            <constraints>
-                                                <constraint firstItem="qbC-tq-hhG" firstAttribute="leading" secondItem="lWp-py-opE" secondAttribute="leading" constant="12" id="C6o-bf-Zw8"/>
-                                                <constraint firstItem="qbC-tq-hhG" firstAttribute="top" secondItem="lWp-py-opE" secondAttribute="top" id="ocs-Ge-t5p"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="avatar" destination="ekU-kd-49v" id="zH1-Ic-SOw"/>
-                                            <outlet property="bottomSeparatorView" destination="aQY-Dw-epD" id="9uT-Or-zao"/>
-                                            <outlet property="firstLabel" destination="kbB-KV-Mr0" id="j6S-M9-zfd"/>
-                                            <outlet property="mainInfoGroup" destination="qbC-tq-hhG" id="buP-Fd-adS"/>
-                                            <outlet property="point" destination="bwY-Gy-lWp" id="9XC-am-whB"/>
-                                            <outlet property="privacyLabel" destination="81M-9F-wN0" id="wfV-fj-CDL"/>
-                                            <outlet property="secondLabel" destination="bMB-4H-hBy" id="SdI-v6-BhP"/>
-                                            <outlet property="showPointButton" destination="WWu-Bc-zmw" id="we9-Xw-NHA"/>
-                                            <outlet property="showPointGroup" destination="IHw-GO-4eP" id="BOV-M9-IaV"/>
-                                            <outlet property="topSeparatorView" destination="1Ox-Oj-PnU" id="aBg-dI-t5K"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="d74-B2-43R" id="FKm-HQ-ezG"/>
                                     <outlet property="delegate" destination="d74-B2-43R" id="7Qq-ef-nZr"/>
@@ -305,8 +210,6 @@
         <image name="Blend 5X.png" width="320" height="160"/>
         <image name="Bubble" width="25" height="25"/>
         <image name="Lens" width="24" height="24"/>
-        <image name="Point Notice Tap" width="23" height="24"/>
-        <image name="Point Notice.png" width="23" height="25"/>
         <image name="Profile" width="26" height="26"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

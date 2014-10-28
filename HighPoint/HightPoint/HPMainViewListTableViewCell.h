@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "HPAvatarView.h"
 #import "UserPoint.h"
+#import "RACTableViewController.h"
 
 
 @class User;
-@interface HPMainViewListTableViewCell : UITableViewCell <UIGestureRecognizerDelegate> {
+@interface HPMainViewListTableViewCell : UITableViewCell <UIGestureRecognizerDelegate, RACTableViewCellProtocol> {
     BOOL handleLongTap;
 }
 

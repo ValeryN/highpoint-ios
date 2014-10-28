@@ -242,6 +242,7 @@
 		44D23B9C19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */; };
 		44D23BA419D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */; };
 		44D23BA619D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */; };
+		44D72A9619FF98FE0013F2E5 /* HPMainViewListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D72A9519FF98FE0013F2E5 /* HPMainViewListTableViewCell.xib */; };
 		44E66BAF19A238240010117A /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */; };
 		44F37F4419E6E0BC007B6CD4 /* HPRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F37F4319E6E0BC007B6CD4 /* HPRoundButton.m */; };
 		4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
@@ -363,8 +364,6 @@
 		CD68A9C4196D0DE80090D6D1 /* TLSwipeForOptionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD68A9C2196D0DE80090D6D1 /* TLSwipeForOptionsCell.m */; };
 		CD6D7A8C197CDA6D0002E8A0 /* HPPointLikesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6D7A8A197CDA6D0002E8A0 /* HPPointLikesViewController.m */; };
 		CD6D7A8D197CDA6D0002E8A0 /* HPPointLikesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD6D7A8B197CDA6D0002E8A0 /* HPPointLikesViewController.xib */; };
-		CD6D7A90197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6D7A8F197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m */; };
-		CD6D7A92197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD6D7A91197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib */; };
 		CD7C995F1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7C995D1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib */; };
 		CD7C99621973C10500F1AAAB /* HPAddPhotoMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7C99611973C10500F1AAAB /* HPAddPhotoMenuViewController.m */; };
 		CD7C99641973E40F00F1AAAB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD7C99631973E40F00F1AAAB /* MobileCoreServices.framework */; };
@@ -882,6 +881,7 @@
 		44D23B9B19D2C4CA008FD52A /* HPChatMsgOpenAllowCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenAllowCell.xib; sourceTree = "<group>"; };
 		44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenDenyCell.xib; sourceTree = "<group>"; };
 		44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenRequestCell.xib; sourceTree = "<group>"; };
+		44D72A9519FF98FE0013F2E5 /* HPMainViewListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPMainViewListTableViewCell.xib; sourceTree = "<group>"; };
 		44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = External/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libReactiveCocoa-iOS.a"; path = "HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework/build/Debug-iphoneos/libReactiveCocoa-iOS.a"; sourceTree = "<group>"; };
 		44F37F4219E6E0BC007B6CD4 /* HPRoundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundButton.h; sourceTree = "<group>"; };
@@ -1053,9 +1053,6 @@
 		CD6D7A89197CDA6D0002E8A0 /* HPPointLikesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPPointLikesViewController.h; sourceTree = "<group>"; };
 		CD6D7A8A197CDA6D0002E8A0 /* HPPointLikesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPPointLikesViewController.m; sourceTree = "<group>"; };
 		CD6D7A8B197CDA6D0002E8A0 /* HPPointLikesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPPointLikesViewController.xib; sourceTree = "<group>"; };
-		CD6D7A8E197CE3190002E8A0 /* HPPointLikeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPPointLikeCollectionViewCell.h; sourceTree = "<group>"; };
-		CD6D7A8F197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPPointLikeCollectionViewCell.m; sourceTree = "<group>"; };
-		CD6D7A91197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPPointLikeCollectionViewCell.xib; sourceTree = "<group>"; };
 		CD7C995D1973C0CB00F1AAAB /* HPAddPhotoMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPAddPhotoMenuViewController.xib; sourceTree = "<group>"; };
 		CD7C99601973C10500F1AAAB /* HPAddPhotoMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAddPhotoMenuViewController.h; sourceTree = "<group>"; };
 		CD7C99611973C10500F1AAAB /* HPAddPhotoMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAddPhotoMenuViewController.m; sourceTree = "<group>"; };
@@ -1979,6 +1976,7 @@
 				3BDA4C9C19064EAB00EF6619 /* HPRootViewController.m */,
 				3B31709B191B6B5100B72AC1 /* HPMainViewListTableViewCell.h */,
 				3B31709C191B6B5100B72AC1 /* HPMainViewListTableViewCell.m */,
+				44D72A9519FF98FE0013F2E5 /* HPMainViewListTableViewCell.xib */,
 			);
 			name = "List view";
 			sourceTree = "<group>";
@@ -2376,9 +2374,6 @@
 				CD6D7A89197CDA6D0002E8A0 /* HPPointLikesViewController.h */,
 				CD6D7A8A197CDA6D0002E8A0 /* HPPointLikesViewController.m */,
 				CD6D7A8B197CDA6D0002E8A0 /* HPPointLikesViewController.xib */,
-				CD6D7A8E197CE3190002E8A0 /* HPPointLikeCollectionViewCell.h */,
-				CD6D7A8F197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m */,
-				CD6D7A91197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib */,
 			);
 			name = "Point likes";
 			sourceTree = "<group>";
@@ -2705,6 +2700,7 @@
 				4448BB5519AF352F008840E6 /* HPSearchCityCell.xib in Resources */,
 				CDFA8A20196BEA6200D04451 /* Switcher-L.png in Resources */,
 				CDA33D9C199341EA0054201C /* delete_point_new.png in Resources */,
+				44D72A9619FF98FE0013F2E5 /* HPMainViewListTableViewCell.xib in Resources */,
 				CD4CA3B81980F71E0016DF7E /* Add Tap.png in Resources */,
 				3BE83C08197902950043E03E /* Photos_R.png in Resources */,
 				3B298FC4192F476100BEC2AA /* slider-default7-handle@2x.png in Resources */,
@@ -2761,7 +2757,6 @@
 				3B318653191A674A0000DD8B /* Notice-C.png in Resources */,
 				3B298FC3192F476100BEC2AA /* slider-default7-handle.png in Resources */,
 				3BE83C07197902950043E03E /* Photos_C.png in Resources */,
-				CD6D7A92197CE32D0002E8A0 /* HPPointLikeCollectionViewCell.xib in Resources */,
 				3B298FCD192F476100BEC2AA /* slider-metal-handle.png in Resources */,
 				3B51A1E0198B661C0016E907 /* Remove@2x.png in Resources */,
 				CD4CA3B91980F71E0016DF7E /* Add.png in Resources */,
@@ -3006,7 +3001,6 @@
 				CDA911C719656573005DC0C4 /* HPTownTableViewCell.m in Sources */,
 				3BA4E6781998D0AD002A3A0D /* Contact.m in Sources */,
 				CD08B830198B7E200006AF4A /* HPUICollectionViewFlowLayout.m in Sources */,
-				CD6D7A90197CE3190002E8A0 /* HPPointLikeCollectionViewCell.m in Sources */,
 				CD4CA3BD19810F7C0016DF7E /* HPChatMsgTableViewCell.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
 				3B52B2BD19C30128000B543C /* NSManagedObject+MagicalRequests.m in Sources */,

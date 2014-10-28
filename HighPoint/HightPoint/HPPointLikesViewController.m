@@ -7,18 +7,19 @@
 //
 
 #import "HPPointLikesViewController.h"
-#import "HPPointLikeCollectionViewCell.h"
 #import "User.h"
 #import "NSManagedObjectContext+HighPoint.h"
 #import "UINavigationBar+HighPoint.h"
 #import "HPBaseNetworkManager+Reference.h"
 #import "HPUserInfoViewController.h"
 #import "DataStorage.h"
+#import "HPUserCardViewController.h"
+#import "UIViewController+HighPoint.h"
 
 
 @interface HPPointLikesViewController ()
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultController;
-@property (nonatomic, weak) IBOutlet UICollectionView* collectionView;
+@property (nonatomic, weak) IBOutlet UITableView* tableView;
 @end
 
 @implementation HPPointLikesViewController
@@ -39,70 +40,39 @@
 
 - (void)viewDidLoad
 {
+    @weakify(self);
     [super viewDidLoad];
-    [self configureCollectionView: self.collectionView withSignal:RACObserve(self, fetchedResultController) andTemplateCell:[UINib nibWithNibName:@"HPPointLikeCollectionViewCell" bundle:nil]];
+    [self configureTableView:self.tableView withSignal:RACObserve(self, fetchedResultController) andTemplateCell:[UINib nibWithNibName:@"HPMainViewListTableViewCell" bundle:nil]];
+    [self.selectRowSignal subscribeNext:^(User* x) {
+        @strongify(self);
+        HPUserCardViewController* cardController = [[HPUserCardViewController alloc] initWithController:self.fetchedResultController andSelectedUser:x];
+        [self.navigationController pushViewController:cardController animated:YES];
+    }];
     [self configureNavigationBar];
 }
 
-- (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
-    
-}
 
 #pragma mark - navigation bar
 
 - (void)configureNavigationBar {
-
-    [RACObserve(self, navigationController.navigationBar) subscribeNext:^(UINavigationBar * x) {
-        [x configureTranslucentNavigationBar];
-    }];
-
     self.navigationItem.title = NSLocalizedString(@"POINT_LIKES_TITLE", nil);
-    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Down.png"]
-                                                     highlighedImage:[UIImage imageNamed:@"Down Tap.png"]
+    UIBarButtonItem* backButton = [self createBarButtonItemWithImage:[UIImage imageNamed:@"Back"]
+                                                     highlighedImage:[UIImage imageNamed:@"Back Tap.png"]
                                                               action:@selector(backButtonTaped:)];
     self.navigationItem.leftBarButtonItem = backButton;
 }
 
-- (UIBarButtonItem*) createBarButtonItemWithImage: (UIImage*) image
-                                  highlighedImage: (UIImage*) highlighedImage
-                                           action: (SEL) action
-{
-    UIButton* newButton = [UIButton buttonWithType: UIButtonTypeCustom];
-    newButton.frame = CGRectMake(0, 0, 22, 10);
-    [newButton setBackgroundImage: image forState: UIControlStateNormal];
-    [newButton setBackgroundImage: highlighedImage forState: UIControlStateHighlighted];
-    [newButton addTarget: self
-                  action: action
-        forControlEvents: UIControlEventTouchUpInside];
-    
-    UIBarButtonItem*newButtonItem = [[UIBarButtonItem alloc] initWithCustomView: newButton];
-    
-    return newButtonItem;
-}
 
 - (void)backButtonTaped: (id) sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - UICollectionView Datasource
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(0, 0, 0, 0);
-}
-
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    User * usr = [[self.fetchedResultController fetchedObjects] objectAtIndex:indexPath.row];
-    if(usr) {
-        [[HPBaseNetworkManager sharedNetworkManager] makeReferenceRequest:[[DataStorage sharedDataStorage] prepareParamFromUser:usr]];
+- (void) didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    if(self.view.window == nil){
+        self.view = nil;
     }
-    HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
-    uiController.user = [[self.fetchedResultController fetchedObjects] objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:uiController animated:YES];
 }
 
 @end

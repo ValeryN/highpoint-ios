@@ -26,6 +26,12 @@ static HPMainViewListTableViewCell* _prevCell;
 
 @implementation HPMainViewListTableViewCell
 
+#pragma mark from nib
+- (void)bindViewModel:(id)viewModel{
+    [self configureCell:viewModel];
+}
+
+#pragma mark from code
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if(self){

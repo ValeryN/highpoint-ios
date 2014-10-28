@@ -26,7 +26,7 @@
                 <outlet property="avatarView" destination="lNe-UF-Nv6" id="ojj-6Q-KAT"/>
                 <outlet property="buttonsView" destination="LMq-Oa-uey" id="sk5-au-no7"/>
                 <outlet property="contentView" destination="i5M-Pr-FkT" id="2KM-Nd-1f6"/>
-                <outlet property="likesLabel" destination="ntf-vp-TOm" id="gXt-XF-NqH"/>
+                <outlet property="likesButton" destination="eX6-2q-i8w" id="OMR-Gh-9YU"/>
                 <outlet property="likesSubView" destination="6Wb-Dl-vs0" id="hsI-FO-dxL"/>
                 <outlet property="likesView" destination="uMw-wB-RLu" id="mg8-l4-Co1"/>
                 <outlet property="mainScroll" destination="TFN-Kv-rcT" id="t9R-9V-CN1"/>
@@ -272,25 +272,40 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uMw-wB-RLu">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="48"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Оценили ваш поинт" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntf-vp-TOm">
-                                                    <rect key="frame" x="12" y="13" width="215" height="21"/>
-                                                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="16"/>
-                                                    <color key="textColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Wb-Dl-vs0">
-                                                    <rect key="frame" x="189" y="8" width="120" height="32"/>
+                                                    <rect key="frame" x="192" y="8" width="120" height="32"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                                    </accessibility>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="120" id="6XB-3Z-bqt"/>
                                                     </constraints>
                                                 </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eX6-2q-i8w">
+                                                    <rect key="frame" x="12" y="0.0" width="297" height="48"/>
+                                                    <fontDescription key="fontDescription" name="FuturaPT-Book" family="Futura PT" pointSize="16"/>
+                                                    <state key="normal" title="Оценили ваш поинт">
+                                                        <color key="titleColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="disabled">
+                                                        <color key="titleColor" red="0.90196078430000004" green="0.92549019610000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="showLikesViewController:" destination="-1" eventType="touchUpInside" id="eOQ-HK-iUK"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstItem="6Wb-Dl-vs0" firstAttribute="top" secondItem="uMw-wB-RLu" secondAttribute="top" constant="8" id="IHc-ef-FjX"/>
+                                                <constraint firstAttribute="bottom" secondItem="eX6-2q-i8w" secondAttribute="bottom" id="KTC-cD-Adv"/>
+                                                <constraint firstItem="eX6-2q-i8w" firstAttribute="top" secondItem="uMw-wB-RLu" secondAttribute="top" id="OI2-FE-dgH"/>
+                                                <constraint firstAttribute="trailing" secondItem="eX6-2q-i8w" secondAttribute="trailing" constant="11" id="VoZ-EA-0vu"/>
                                                 <constraint firstAttribute="bottom" secondItem="6Wb-Dl-vs0" secondAttribute="bottom" constant="8" id="dRK-IN-PR6"/>
-                                                <constraint firstAttribute="trailing" secondItem="6Wb-Dl-vs0" secondAttribute="trailing" constant="11" id="rmH-s8-oIT"/>
+                                                <constraint firstItem="eX6-2q-i8w" firstAttribute="leading" secondItem="uMw-wB-RLu" secondAttribute="leading" constant="12" id="fpz-ON-ZJd"/>
+                                                <constraint firstAttribute="trailing" secondItem="6Wb-Dl-vs0" secondAttribute="trailing" constant="8" id="rmH-s8-oIT"/>
                                             </constraints>
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEh-ig-8hu">

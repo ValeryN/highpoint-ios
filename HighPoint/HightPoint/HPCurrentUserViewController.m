@@ -55,7 +55,7 @@
 
 @property (nonatomic,weak) IBOutlet UIView* likesView;
 @property (nonatomic,weak) IBOutlet UIView* likesSubView;
-@property (nonatomic,weak) IBOutlet UILabel* likesLabel;
+@property (nonatomic,weak) IBOutlet UIButton* likesButton;
 
 @property (nonatomic) BOOL pointMode;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint * totalContentViewHeightConstraint;
@@ -100,7 +100,7 @@
 
 - (void) configureButtons{
     @weakify(self);
-    RAC(self,buttonsView.hidden) = RACObserve(self, pointMode);
+    RAC(self.buttonsView,hidden) = RACObserve(self, pointMode);
     [[self.openPrivacyButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
         HPCurrentUserPrivacyViewController* privacyVc = [[HPCurrentUserPrivacyViewController alloc] initWithNibName:@"HPCurrentUserPrivacyViewController" bundle:nil];
@@ -134,9 +134,9 @@
         self.pointMode = YES;
     }];
     
-    RAC(self, pointTextField.userInteractionEnabled) = [havePointSignal not];
-    RAC(self, placeholderLabel.hidden) = RACObserve(self, pointMode);
-    RAC(self, placeholderLabel.text) = [[self pointSignal] map:^id(UserPoint* value) {
+    RAC(self.pointTextField, userInteractionEnabled) = [havePointSignal not];
+    RAC(self.placeholderLabel, hidden) = RACObserve(self, pointMode);
+    RAC(self.placeholderLabel, text) = [[self pointSignal] map:^id(UserPoint* value) {
         if(!value){
             return NSLocalizedString(@"YOUR_EMPTY_POINT", nil);
         }
@@ -159,7 +159,7 @@
 - (void) configureSelectTimeView{
     [self.pointTimeSlider setValue:6 animated:YES];
     [self.pointTimeSlider initOnLoad];
-    RAC(self,selectTimeView.hidden) = [[[RACSignal combineLatest:@[RACObserve(self, pointMode),[[self keyboardIsOpen] not]]] and] not];
+    RAC(self.selectTimeView,hidden) = [[[RACSignal combineLatest:@[RACObserve(self, pointMode),[[self keyboardIsOpen] not]]] and] not];
 }
 
 - (void) configureUserInfo{
@@ -177,7 +177,7 @@
 
 - (void) configureLeftBarButton{
     @weakify(self);
-    RAC(self,navigationItem.leftBarButtonItem) = [RACObserve(self, pointMode) map:^id(NSNumber* value) {
+    RAC(self.navigationItem,leftBarButtonItem) = [[RACObserve(self, pointMode) map:^id(NSNumber* value) {
         @strongify(self);
         if(value.boolValue){
             return [self closePointEditBarButton];
@@ -185,7 +185,7 @@
         else{
             return [self closeCurrentUserViewControolerBarButton];
         }
-    }];
+    }] takeUntil:self.view.rac_willDeallocSignal];
 }
 
 - (void) configureOffsetInEditMode{
@@ -209,8 +209,8 @@
             }];
         }
     }];
-    RAC(self, mainScroll.bounces) = [[self moveUpAvatarSignal] not];
-    RAC(self, mainScroll.scrollEnabled) = [[self moveUpAvatarSignal] not];
+    RAC(self.mainScroll, bounces) = [[self moveUpAvatarSignal] not];
+    RAC(self.mainScroll, scrollEnabled) = [[self moveUpAvatarSignal] not];
 }
 
 - (RACSignal*) currentUserSignal{
@@ -229,15 +229,15 @@
             return @(NO);
     }];
     
-    RAC(self,viewForNoPoint.hidden) = [[[RACSignal combineLatest:@[[[self moveUpAvatarSignal] not],[havePointSignal not]]] and] not];
-    RAC(self,viewForPoint.hidden) = [[[RACSignal combineLatest:@[[[self moveUpAvatarSignal] not],havePointSignal]] and] not];
-    RAC(self,viewForCreatePoint.hidden) = [[self moveUpAvatarSignal] not];
+    RAC(self.viewForNoPoint,hidden) = [[[RACSignal combineLatest:@[[[self moveUpAvatarSignal] not],[havePointSignal not]]] and] not];
+    RAC(self.viewForPoint,hidden) = [[[RACSignal combineLatest:@[[[self moveUpAvatarSignal] not],havePointSignal]] and] not];
+    RAC(self.viewForCreatePoint,hidden) = [[self moveUpAvatarSignal] not];
     
-    RAC(self,pointCountLabel.text) = [self.pointTextField.rac_textSignal map:^id(NSString* value) {
+    RAC(self.pointCountLabel,text) = [self.pointTextField.rac_textSignal map:^id(NSString* value) {
         return [NSString stringWithFormat:@"Осталось символов: %d",POINT_LENGTH - value.length];
     }];
     
-    RAC(self,pointCountLabel.textColor) = [self.pointTextField.rac_textSignal map:^id(NSString* value) {
+    RAC(self.pointCountLabel,textColor) = [self.pointTextField.rac_textSignal map:^id(NSString* value) {
         @strongify(self);
         if([self symbolsInPostIsWarningToPost]){
             return [UIColor colorWithRed:230.f/255.f green:236.f/255.f blue:242.f/255.f alpha:1];
@@ -247,7 +247,7 @@
         }
     }];
     
-    RAC(self,pointWillActiveTimeLabel.text) = [[self pointTimeLeftSignal] map:^id(NSNumber* value) {
+    RAC(self.pointWillActiveTimeLabel,text) = [[self pointTimeLeftSignal] map:^id(NSNumber* value) {
         int hourActive = ceilf(value.floatValue/60.f/60.f);
         NSString* stringFormat = SLPluralizedString(@"POINT_WILL_ACTIVE",hourActive, nil);
         return [NSString stringWithFormat:stringFormat, hourActive];
@@ -273,7 +273,7 @@
 
 - (void) configureRightBarButton{
     @weakify(self);
-    RAC(self, navigationItem.rightBarButtonItem) = [[RACSignal combineLatest:@[[self moveUpAvatarSignal],[self keyboardIsOpen]]] map:^id(RACTuple* value) {
+    RAC(self.navigationItem,rightBarButtonItem) = [[[RACSignal combineLatest:@[[self moveUpAvatarSignal],[self keyboardIsOpen]]] map:^id(RACTuple* value) {
         @strongify(self);
         if(!((NSNumber*)value.first).boolValue){
             return [self preferencesBarButton];
@@ -284,26 +284,33 @@
         else{
             return [self publishPointBarButton];
         }
-    }];
+    }] takeUntil:self.view.rac_willDeallocSignal];
 }
 
 - (void) configureLikesView{
     @weakify(self);
-    
-    RACSignal *yourHavePoint = [RACObserve(self.currentUser, point) map:^id(id value) {
-        return @(value!=nil);
-    }];
     //По умолчанию никто не любит твой пост, как мило =)
     RACSignal *nobodyLikeYourPost = [[RACSignal return:@YES] concat:[self.usersLikeYourPost map:^id(NSArray *value) {
         return @(value.count == 0);
     }]];
     
-    RAC(self, likesLabel.text) = [nobodyLikeYourPost map:^id(NSNumber* value) {
+    
+    RAC(self.likesButton, enabled) = [nobodyLikeYourPost map:^id(NSNumber* value) {
         if(value.boolValue){
-            return @"Никто пока не оценил ваш пост";
+            return @(NO);
         }
         else{
-            return @"Оценили ваш поинт";
+            return @(YES);
+        }
+    }];
+    
+    [nobodyLikeYourPost subscribeNext:^(NSNumber* value) {
+        @strongify(self);
+        if(value.boolValue){
+            [self.likesButton setTitle:@"Никто не оценил ваш поинт" forState:UIControlStateNormal];
+        }
+        else{
+            [self.likesButton setTitle:@"Оценили ваш поинт" forState:UIControlStateNormal];
         }
     }];
     
@@ -313,7 +320,7 @@
         else
             return @(NO);
     }];
-    RAC(self,likesView.hidden) = [havePointSignal not];
+    RAC(self.likesView,hidden) = [havePointSignal not];
     
     [self.usersLikeYourPost subscribeNext:^(RACTuple *usersTuple) {
         @strongify(self);
@@ -555,6 +562,11 @@
     [self deleteCurrentUserPoint];
 }
 
+- (IBAction) showLikesViewController:(id)sender{
+    HPPointLikesViewController* pointLikesViewController = [[HPPointLikesViewController alloc] initWithNibName:@"HPPointLikesViewController" bundle:nil];
+    pointLikesViewController.user = self.currentUser;
+    [self.navigationController pushViewController:pointLikesViewController animated:YES];
+}
 
 
 #pragma mark Delegates
