@@ -36,7 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     [self configureCellInfoLabel];
     [self configureYourNameLabel];
     [self configureProfileVisibilityLabel];
@@ -95,8 +95,45 @@
 }
 
 - (void)configureProfileVisibilityLabel {
-    RAC(self.visibilityInfoLabel, hidden) = [RACObserve(self, currentUser.visibility) map:^id(NSNumber *visibility) {
-        return @(visibility.unsignedIntegerValue == UserVisibilityVisible);
+    @weakify(self);
+    if(![UIDevice hp_isWideScreen]){
+        self.visibilityInfoLabel.alpha = 0;
+        [[RACObserve(self, currentUser.visibility) skip:1] subscribeNext:^(id x) {
+            [UIView animateKeyframesWithDuration:0.5f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                @strongify(self);
+                self.visibilityInfoLabel.alpha = 1;
+                self.visibleBtn.alpha = 0;
+                self.lockBtn.alpha = 0;
+                self.invisibleBtn.alpha = 0;
+            } completion:^(BOOL completed){
+                if(completed){
+                    [UIView animateKeyframesWithDuration:0.5f delay:0.5 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                        @strongify(self);
+                        self.visibilityInfoLabel.alpha = 0;
+                        self.visibleBtn.alpha = 1;
+                        self.lockBtn.alpha = 1;
+                        self.invisibleBtn.alpha = 1;
+                    } completion:nil];
+                }
+            }];
+        }];
+    }
+    
+    RAC(self.visibilityInfoLabel, text) = [RACObserve(self, currentUser.visibility) map:^id(NSNumber *visibility) {
+        switch ((UserVisibilityType)visibility.unsignedIntegerValue) {
+            case UserVisibilityVisible:
+                return @"Фотографии и личная информация видна всем людям";
+                break;
+            case UserVisibilityBlur:
+                return @"Ваши фотографии никто не увидити, пока вы сами не захотите этого";
+                break;
+            case UserVisibilityHidden:
+                return @"Ваши фотографии и личную информацию никто не увидит, пока вы сами не захотите этого";
+                break;
+            default:
+                return @"";
+                break;
+        }
     }];
 }
 
