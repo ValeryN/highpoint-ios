@@ -28,7 +28,7 @@ static HPMainViewListTableViewCell* _prevCell;
 
 #pragma mark from nib
 - (void)bindViewModel:(id)viewModel{
-    [self configureCell:viewModel];
+    [self configureCell:[viewModel MR_inContext:[NSManagedObjectContext MR_contextForCurrentThread]]];
 }
 
 #pragma mark from code

@@ -251,6 +251,7 @@
 		4C1A488319629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
 		4C1FE936196427220016DED5 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FE935196427220016DED5 /* UIImage+StackBlur.m */; };
 		4C1FE937196427220016DED5 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FE935196427220016DED5 /* UIImage+StackBlur.m */; };
+		4C3C5C3C1A0118830020D9DD /* HPAdditionalUserInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3C5C3B1A0118830020D9DD /* HPAdditionalUserInfoManager.m */; };
 		4C5AC332193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
 		4C5AC333193C5D7800A72676 /* HPSwitch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5AC331193C5D7800A72676 /* HPSwitch.xib */; };
 		4C8096A7193DDA7300E4C174 /* HPIOSVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8096A4193DDA7300E4C174 /* HPIOSVersion.m */; };
@@ -896,6 +897,8 @@
 		4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+HightPoint.m"; sourceTree = "<group>"; };
 		4C1FE934196427220016DED5 /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+StackBlur.h"; sourceTree = "<group>"; };
 		4C1FE935196427220016DED5 /* UIImage+StackBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+StackBlur.m"; sourceTree = "<group>"; };
+		4C3C5C3A1A0118830020D9DD /* HPAdditionalUserInfoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAdditionalUserInfoManager.h; sourceTree = "<group>"; };
+		4C3C5C3B1A0118830020D9DD /* HPAdditionalUserInfoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPAdditionalUserInfoManager.m; sourceTree = "<group>"; };
 		4C5AC331193C5D7800A72676 /* HPSwitch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSwitch.xib; sourceTree = "<group>"; };
 		4C8096A3193DDA7300E4C174 /* HPIOSVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPIOSVersion.h; sourceTree = "<group>"; };
 		4C8096A4193DDA7300E4C174 /* HPIOSVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPIOSVersion.m; sourceTree = "<group>"; };
@@ -1651,7 +1654,6 @@
 				CDA22EE0196FB22A0032210F /* ConciergeViewController */,
 				3BCB5B04192F8CF200E5DCA9 /* HPSelectTownViewController */,
 				3B9C74971990FB24006ADAE7 /* HPMakeAvatarViewController */,
-				3BD12E57192DFDF30026BA11 /* HPFilterSettingsViewController */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1763,7 +1765,7 @@
 			name = HPSelectTownViewController;
 			sourceTree = "<group>";
 		};
-		3BD12E57192DFDF30026BA11 /* HPFilterSettingsViewController */ = {
+		3BD12E57192DFDF30026BA11 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
 				3BD12E58192DFE380026BA11 /* HPFilterSettingsViewController.h */,
@@ -1773,7 +1775,7 @@
 				CDA33DA01993709C0054201C /* HPCityTableViewCell.m */,
 				CDA33DA11993709C0054201C /* HPCityTableViewCell.xib */,
 			);
-			name = HPFilterSettingsViewController;
+			name = Filter;
 			sourceTree = "<group>";
 		};
 		3BDA4C431906449D00EF6619 /* Utils */ = {
@@ -1788,6 +1790,8 @@
 				3B3170B8191BA64B00B72AC1 /* Constants.h */,
 				CD183C35196418D0002AC98D /* UserTokenUtils.h */,
 				CD183C36196418D0002AC98D /* UserTokenUtils.m */,
+				4C3C5C3A1A0118830020D9DD /* HPAdditionalUserInfoManager.h */,
+				4C3C5C3B1A0118830020D9DD /* HPAdditionalUserInfoManager.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1978,6 +1982,7 @@
 		443B19E419EBF4A500108C05 /* List view */ = {
 			isa = PBXGroup;
 			children = (
+				3BD12E57192DFDF30026BA11 /* Filter */,
 				3BDA4C9B19064EAB00EF6619 /* HPRootViewController.h */,
 				3BDA4C9C19064EAB00EF6619 /* HPRootViewController.m */,
 				3B31709B191B6B5100B72AC1 /* HPMainViewListTableViewCell.h */,
@@ -2957,6 +2962,7 @@
 				4C91C1E8195812A4002B27D4 /* HPGreenButtonVC.m in Sources */,
 				3B49DE241934CF2500C3EF1E /* HPSlideDownAnimation.m in Sources */,
 				3BDA4C6A19064AC900EF6619 /* AFURLSessionManager.m in Sources */,
+				4C3C5C3C1A0118830020D9DD /* HPAdditionalUserInfoManager.m in Sources */,
 				3B6DB49E18FFC24D00C26A50 /* main.m in Sources */,
 				CDD842C6197F7D4A00CCB857 /* UITextField+HighPoint.m in Sources */,
 				4C89BD34193CAAF100DAE2EE /* UINavigationController+HighPoint.m in Sources */,

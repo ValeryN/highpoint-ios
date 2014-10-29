@@ -16,7 +16,7 @@
         return NO;
     if (![dictionary[@"liked"] isKindOfClass:[NSNumber class]])
         return NO;
-    if (![dictionary[@"userId"] isKindOfClass:[NSString class]] )
+    if (![dictionary[@"userId"] isKindOfClass:[NSNumber class]] )
         return NO;
     if (![dictionary[@"validTo"] isKindOfClass:[NSString class]])
         return NO;

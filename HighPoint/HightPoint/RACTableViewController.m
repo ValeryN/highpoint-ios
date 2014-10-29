@@ -14,7 +14,7 @@
 @implementation RACTableViewController {
 
 }
-- (void)configureTable:(UITableView*) tableView viewWithSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
+- (void)configureTableView:(UITableView*) tableView withSignal:(RACSignal *)source andTemplateCell:(UINib *)templateCellNib {
     _data = [NSArray array];
     @weakify(self);
     [source subscribeNext:^(id x) {

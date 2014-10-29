@@ -20,5 +20,5 @@
 @dynamic pointValidTo;
 @dynamic likedBy;
 @dynamic user;
-
+@dynamic userId;
 @end

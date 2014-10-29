@@ -15,12 +15,13 @@
 #import "NotificationsConstants.h"
 #import "UIDevice+HighPoint.h"
 #import "HPSelectPopularCityViewController.h"
+#import "NMRangeSlider.h"
 
 #define CONSTRAINT_TOP_FOR_CLOSE_BTN 434
 
 
 @interface HPFilterSettingsViewController () {
-    UserFilter *uf;
+    
     //old values
     NSNumber *oldMinAge;
     NSNumber *oldMaxAge;
@@ -28,7 +29,43 @@
     BOOL oldIsMale;
     BOOL oldIsFemale;
 }
+@property (nonatomic, retain) UserFilter *uf;
 
+@property (nonatomic, weak) IBOutlet UIButton *closeButton;
+@property (nonatomic, weak) IBOutlet UILabel *filterLabel;
+@property (nonatomic, weak) IBOutlet UISwitch *womenSw;
+@property (nonatomic, weak) IBOutlet UISwitch *menSw;
+@property (nonatomic, weak) IBOutlet UILabel *menLabel;
+@property (nonatomic, weak) IBOutlet UILabel *womenLabel;
+@property (nonatomic, weak) IBOutlet UILabel *oldLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *townSwitch;
+
+@property (nonatomic, weak) IBOutlet UILabel *townLabel;
+@property (nonatomic, weak) IBOutlet UILabel *guideLabel1;
+@property (nonatomic, weak) IBOutlet UILabel *guideLabel2;
+@property (nonatomic, weak) IBOutlet UILabel *guideLabel3;
+@property (nonatomic, weak) IBOutlet UILabel *guideLabel4;
+
+
+@property (nonatomic, weak) id savedDelegate;
+@property (nonatomic, weak) IBOutlet UILabel *oldLabelVal;
+@property (nonatomic, strong) IBOutlet NMRangeSlider *oldRangeSlider;
+@property (nonatomic, strong) UIView *notificationView;
+@property (nonatomic, assign) BOOL menSwitchState;
+@property (nonatomic, assign) BOOL womenSwitchState;
+
+@property (weak, nonatomic) IBOutlet UITableView *townsTableView;
+@property (strong, nonatomic) UIImage *screenShoot;
+@property (strong, nonatomic) UIView *darkBgView;
+@property (weak, nonatomic) IBOutlet UIImageView *backGroundView;
+
+@property (strong, nonatomic) UIToolbar* bgToolbar;
+
+- (IBAction) menSwitchTap:(id)sender;
+- (IBAction) womenSwitchTap:(id)sender;
+
+- (IBAction) closeButtonTap:(id)sender;
+- (IBAction) townSwitchTap:(id)sender;
 @end
 
 @implementation HPFilterSettingsViewController
@@ -45,8 +82,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    uf = [[DataStorage sharedDataStorage] getUserFilter];
+    self.uf = [[DataStorage sharedDataStorage] getUserFilter];
     [self initOldFilterValues];
     self.womenSw.layer.cornerRadius = 16.0;
     self.menSw.layer.cornerRadius = 16.0;
@@ -88,7 +124,22 @@
     self.oldRangeSlider.tintColor = [UIColor colorWithRed:93.0/255.0 green:186.0/255.0 blue:164.0/255.0 alpha:1.0];
     self.townsTableView.delegate = self;
     self.townsTableView.dataSource = self;
+    [self configureOutlets];
 }
+
+- (void) configureOutlets{
+    RAC(self,gender) = [RACObserve(self, uf.gender) map:^id(NSSet* globalValue) {
+        if(globalValue.count == 1)
+        {
+            return @(((Gender*)[globalValue anyObject]).genderType.intValue);
+        }
+        return @(UserGenderNone);
+    }];
+    RAC(self,city) = RACObserve(self, uf.city);
+    RAC(self,fromAge) = RACObserve(self, uf.minAge);
+    RAC(self,toAge) = RACObserve(self, uf.maxAge);
+}
+
 - (void) viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:YES];
     [super viewWillAppear:animated];
@@ -98,7 +149,7 @@
     self.bgToolbar.translucent = YES;
     [self.view insertSubview:self.bgToolbar atIndex:0];
     
-    uf = [[DataStorage sharedDataStorage] getUserFilter];
+    
     [self fixSelfConstraint];
     [self registerNotification];
     self.oldRangeSlider.minimumValue = 18;
@@ -107,6 +158,8 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:NO];
+    [self saveFilterToDB];
     [super viewWillDisappear:animated];
     [self unregisterNotification];
     
@@ -131,12 +184,12 @@
 
 #pragma mark - old values 
 - (void) initOldFilterValues {
-    if (uf) {
-        oldMinAge = uf.minAge;
-        oldMaxAge = uf.maxAge;
-        oldFilterCityId = uf.city.cityId;
+    if (self.uf) {
+        oldMinAge = self.uf.minAge;
+        oldMaxAge = self.uf.maxAge;
+        oldFilterCityId = self.uf.city.cityId;
         
-        for (Gender *num in [uf.gender allObjects]) {
+        for (Gender *num in [self.uf.gender allObjects]) {
             if ([num.genderType intValue] == UserGenderFemale) {
                 [self.womenSw setOn:YES];
                 oldIsFemale = YES;
@@ -167,7 +220,7 @@
     if (![oldMaxAge isEqualToNumber:[NSNumber numberWithLong:lroundf(self.oldRangeSlider.upperValue)]]) {
         return YES;
     }
-    if (oldFilterCityId != uf.city.cityId) {
+    if (oldFilterCityId != self.uf.city.cityId) {
         return YES;
     }
     return NO;
@@ -181,26 +234,8 @@
 
     if ([self isFilterValuesChanged]) {
         [self saveFilterToDB];
-        [self saveFilter];
-        self.navigationController.delegate = self.savedDelegate;
-
-        if ([self.delegate respondsToSelector:@selector(showNavigationBar)]) {
-            [self.delegate showNavigationBar];
-        }
-        
-        if ([self.delegate respondsToSelector:@selector(showActivity)]) {
-            [self.delegate showActivity];
-        }
-        
-        if ([self.delegate respondsToSelector:@selector(updateCurrentView)]) {
-            [self.delegate updateCurrentView];
-        }
-        
     } else {
-        if ([self.delegate respondsToSelector:@selector(showNavigationBar)]) {
-            [self.delegate showNavigationBar];
-        }
-        
+
     }
     
     self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
@@ -296,10 +331,10 @@
 #pragma mark - update view 
 
 - (void) updateViewValues {
-    if (uf) {
-        self.oldRangeSlider.lowerValue = [uf.minAge floatValue];
-        self.oldRangeSlider.upperValue = [uf.maxAge floatValue];
-        for (Gender *num in [uf.gender allObjects]) {
+    if (self.uf) {
+        self.oldRangeSlider.lowerValue = [self.uf.minAge floatValue];
+        self.oldRangeSlider.upperValue = [self.uf.maxAge floatValue];
+        for (Gender *num in [self.uf.gender allObjects]) {
             if ([num.genderType intValue] == UserGenderFemale) {
                 [self.womenSw setOn:YES];
             }
@@ -307,7 +342,7 @@
                 [self.menSw setOn:YES];
             }
         }
-        if (uf.city) {
+        if (self.uf.city) {
             [self.townSwitch setOn:YES];
             self.guideLabel1.hidden = YES;
             self.guideLabel2.hidden = YES;
@@ -346,7 +381,7 @@
     }
     NSArray *filterCities;
     if (self.townSwitch.isOn) {
-        filterCities = [NSArray arrayWithObjects: uf.city.cityId, nil];
+        filterCities = [NSArray arrayWithObjects: self.uf.city.cityId, nil];
     } else {
         filterCities = nil;
     }
@@ -369,7 +404,7 @@
     }
     NSString *filterCities = @"";
     if (self.townSwitch.isOn) {
-        filterCities =  [filterCities stringByAppendingString:[NSString stringWithFormat:@"%@", uf.city.cityId]];
+        filterCities =  [filterCities stringByAppendingString:[NSString stringWithFormat:@"%@", self.uf.city.cityId]];
     } else {
         filterCities = @"";
     }
@@ -389,8 +424,8 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HPCityTableViewCell" owner:self options:nil];
         townCell = [nib objectAtIndex:0];
     }
-    if (uf.city) {
-        [townCell configureCell:uf.city];
+    if (self.uf.city) {
+        [townCell configureCell:self.uf.city];
     } else {
         [townCell configureCell:nil];
     }

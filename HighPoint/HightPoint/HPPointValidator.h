@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HPValidatorProtocol.h"
 
 @interface HPPointValidator : NSObject<HPValidatorProtocol>
 

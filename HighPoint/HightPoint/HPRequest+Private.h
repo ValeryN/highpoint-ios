@@ -11,16 +11,19 @@
 #import "UserPoint.h"
 
 @interface HPRequest (Private)
+//Requests
++ (RACSignal*)requestCitiesForUsersServerArray:(RACSignal*) signal;
 //Validator
-+ (RACSignal *)validateServerMessagesArray:(RACSignal *)signal;
-+ (RACSignal *)validateServerPointsArray:(RACSignal *)signal;
-+ (RACSignal *)validateServerUsersArray:(RACSignal *)signal;
-+ (RACSignal *)validateServerCityArray:(RACSignal *)signal;
++ (RACSignal*)validateServerMessagesArray:(RACSignal *)signal;
++ (RACSignal*)validateServerPointsArray:(RACSignal *)signal;
++ (RACSignal*)validateServerUsersArray:(RACSignal *)signal;
++ (RACSignal*)validateServerCityArray:(RACSignal *)signal;
 //Savers
-+ (RACSignal*) mergeUserSignal:(RACSignal*) userSignal withPointsSingal:(RACSignal*) pointsSignal;
-+ (RACSignal *)saveServerCityArray:(RACSignal *)signal;
-+ (RACSignal *)saveServerUsersArray:(RACSignal *)signal;
-+ (RACSignal *)setUsersArray:(RACSignal *)signal toLikePost:(UserPoint *)point;
-+ (RACSignal *)saveServerMessagesArray:(RACSignal *)signal;
-+ (RACSignal*) saveServerPointsArray:(RACSignal *) signal;
++ (RACSignal*)mergeUserSignal:(RACSignal*) userSignal withCitySingal:(RACSignal*) citySignal;
++ (RACSignal*)mergeUserSignal:(RACSignal*) userSignal withPointsSingal:(RACSignal*) pointsSignal;
++ (RACSignal*)saveServerCityArray:(RACSignal *)signal;
++ (RACSignal*)saveServerUsersArray:(RACSignal *)signal;
++ (RACSignal*)setUsersArray:(RACSignal *)signal toLikePost:(UserPoint *)point;
++ (RACSignal*)saveServerMessagesArray:(RACSignal *)signal;
++ (RACSignal*)saveServerPointsArray:(RACSignal *) signal;
 @end

@@ -8,4 +8,5 @@
 
 @interface HPRequest (GeoLocations)
 + (RACSignal *)findCitiesWithSearchString:(NSString *)string;
++ (RACSignal *)getCitiesById:(NSArray*) cities;
 @end

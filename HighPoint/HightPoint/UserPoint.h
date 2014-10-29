@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSDate * pointValidTo;
 @property (nonatomic, retain) NSSet *likedBy;
 @property (nonatomic, retain) User *user;
+@property (nonatomic, retain) NSNumber* userId;
 @end
 
 @interface UserPoint (CoreDataGeneratedAccessors)

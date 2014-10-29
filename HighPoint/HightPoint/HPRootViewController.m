@@ -30,6 +30,9 @@
 #import "HPSelectPopularCityViewController.h"
 #import "UIButton+ExtendedEdges.h"
 #import "UINavigationBar+HighPoint.h"
+#import "HPRequest+Users.h"
+
+#define MIN_SCROLL_BOTTOM_PIXEL_TO_LOAD 200
 
 #define CELLS_COUNT 20  //  for test purposes only remove on production
 #define SWITCH_BOTTOM_SHIFT 16
@@ -41,6 +44,12 @@ static int const refreshTag = 111;
 static NSString *mainCellId = @"maincell";
 #define kNavBarDefaultPosition CGPointMake(160,64)
 
+@interface HPRootViewController()
+@property (nonatomic, retain) HPFilterSettingsViewController* filterViewController;
+@property (nonatomic, retain) NSMutableArray* tableArray;
+@property (nonatomic, retain) UIImageView *refreshSpinnerView;
+@end
+
 @implementation HPRootViewController {
     BOOL isFirstLoad;
     BOOL startUpdate;
@@ -51,34 +60,178 @@ static NSString *mainCellId = @"maincell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    isFirstLoad = YES;
-    self.isNeedScrollToIndex = NO;
-    [self createSwitch];
-    
-    _crossDissolveAnimationController = [[CrossDissolveAnimation alloc] initWithNavigationController:self.navigationController];
-    if (![UIDevice hp_isWideScreen])
-    {
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: self.mainListTable
-                                                              attribute: NSLayoutAttributeHeight
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: nil
-                                                              attribute: NSLayoutAttributeHeight
-                                                             multiplier: 1.0
-                                                               constant: CONSTRAINT_TABLEVIEW_HEIGHT]];
-    }
-    self.bottomSpinnerView.hidden = YES;
+    [self configureSwitchViewController];
+    [self configureFilterViewController];
+    [self configureTableViewData];
+    [self configureTableView:self.mainListTable withSignal:RACObserve(self, tableArray) andTemplateCell:[UINib nibWithNibName:@"HPMainViewListTableViewCell" bundle:nil]];
+    [self configureNextPageLoad];
+    [self configurePullToRefresh];
+    [RACObserve(self, bottomSwitch.switchState) subscribeNext:^(id x) {
+        NSLog(@"Change state");
+    }];
 }
 
+#pragma mark configures
+- (void) configureFilterViewController {
+    self.filterViewController = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
+    self.filterViewController.view.frame = self.view.bounds;
+    [self addChildViewController:self.filterViewController];
+}
+
+- (void) configureTableViewData{
+    @weakify(self);
+    RACSignal* changeUserFilterSignal = [RACSignal combineLatest:@[RACObserve(self, filterViewController.gender), RACObserve(self, filterViewController.fromAge),RACObserve(self, filterViewController.toAge),RACObserve(self, filterViewController.city), RACObserve(self, bottomSwitch.switchState)]];
+    
+    [[[changeUserFilterSignal doNext:^(id x) {
+        self.tableArray = nil;
+    }] throttle:0.1] subscribeNext:^(RACTuple* value) {
+        @strongify(self);
+        RACTupleUnpack(NSNumber* gender, NSNumber* fromAge,NSNumber* toAge,City* filterCity, NSNumber* onlyPoint) = value;
+        [[[HPRequest getUsersWithCity:filterCity withGender:gender.unsignedIntegerValue fromAge:fromAge.unsignedIntegerValue toAge:toAge.unsignedIntegerValue withPoint:onlyPoint.boolValue afterUser:nil] takeUntil:[changeUserFilterSignal skip:1]] subscribeNext:^(NSArray* x) {
+            @strongify(self);
+            self.tableArray = [x mutableCopy];
+        }];
+    }];
+}
+
+- (void) configureNextPageLoad{
+    @weakify(self);
+    RACSignal *contentOffsetSignal = [RACObserve(self.mainListTable, contentOffset) replayLast];
+    [[[[[[contentOffsetSignal map:^id(id value) {
+        @strongify(self);
+        CGFloat offset = [value CGPointValue].y;
+        if(offset > 0){
+            return @(offset > self.mainListTable.contentSize.height - self.mainListTable.frame.size.height - MIN_SCROLL_BOTTOM_PIXEL_TO_LOAD);
+        }
+        return @(NO);
+    }] distinctUntilChanged] filter:^BOOL(NSNumber *x) {
+        return x.boolValue;
+    }] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler scheduler]] subscribeNext:^(NSNumber *x) {
+        @strongify(self);
+        [self loadNextPageAfterUser:[self.tableArray lastObject]];
+    }];
+}
+
+- (void) configurePullToRefresh {
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.tintColor = [UIColor clearColor];
+    refreshControl.tag = refreshTag;
+    UIView *refreshLoadingView = [[UIView alloc] initWithFrame:refreshControl.bounds];
+    refreshLoadingView.backgroundColor = [UIColor clearColor];
+    self.refreshSpinnerView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Spinner"]];
+    
+    CGRect rect  = self.refreshSpinnerView .frame;
+    rect.origin.x = refreshControl.bounds.size.width / 2 - self.refreshSpinnerView .frame.size.width/2;
+    rect.origin.y = 10;
+    self.refreshSpinnerView.frame = rect;
+    
+    
+    [refreshLoadingView addSubview:self.refreshSpinnerView];
+    
+    [refreshControl addSubview:self.refreshSpinnerView];
+    [refreshControl addTarget:self action:@selector(reloadAllData:) forControlEvents:UIControlEventValueChanged];
+    [self.mainListTable addSubview:refreshControl];
+}
+
+- (void) configureSwitchViewController
+{
+    if (!_bottomSwitch)
+    {
+        _bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
+        _bottomSwitch.delegate = self;
+        [self addChildViewController: _bottomSwitch];
+        [_filterGroupView addSubview: _bottomSwitch.view];
+        
+        CGRect rect = [UIScreen mainScreen].bounds;
+        rect = CGRectMake(fabs(rect.size.width - _bottomSwitch.view.frame.size.width) / 2,
+                          _filterGroupView.frame.size.height - SWITCH_BOTTOM_SHIFT - _bottomSwitch.view.frame.size.height,
+                          _bottomSwitch.view.frame.size.width,
+                          _bottomSwitch.view.frame.size.height);
+        [_bottomSwitch positionSwitcher: rect];
+    }
+}
+
+#pragma mark actions
+- (void) reloadAllData:(UIRefreshControl*) refresh {
+    CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.fromValue = @0.0;
+    rotationAnimation.toValue = @(M_PI * 2.0f);
+    rotationAnimation.duration = 1.0f;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = 20;
+    [self.refreshSpinnerView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    [refresh beginRefreshing];
+    @weakify(self);
+    [[HPRequest getUsersWithCity:self.filterViewController.city withGender:self.filterViewController.gender  fromAge:self.filterViewController.fromAge toAge:self.filterViewController.toAge withPoint:self.bottomSwitch.switchState afterUser:nil] subscribeNext:^(NSArray* x) {
+        @strongify(self);
+        self.tableArray = [x mutableCopy];
+        [refresh endRefreshing];
+        [self.refreshSpinnerView.layer performSelector:@selector(removeAllAnimations) withObject:nil afterDelay:1];
+    }];
+}
+
+- (void) loadNextPageAfterUser:(User*) user{
+    @weakify(self);
+    [[HPRequest getUsersWithCity:self.filterViewController.city withGender:self.filterViewController.gender  fromAge:self.filterViewController.fromAge toAge:self.filterViewController.toAge withPoint:self.bottomSwitch.switchState afterUser:user] subscribeNext:^(NSArray* x) {
+        @strongify(self);
+        NSMutableArray *contents = [self mutableArrayValueForKey:@keypath(self, tableArray)];
+        [contents addObjectsFromArray:x];
+    }];
+}
+
+- (void) resetPresentationViewCoontrollerContext{
+    if([UIDevice hp_isIOS7]){
+        [self.navigationController setModalPresentationStyle:UIModalPresentationNone];
+    }
+    else{
+        self.navigationController.providesPresentationContextTransitionStyle = NO;
+        self.navigationController.definesPresentationContext = NO;
+    }
+}
+
+#pragma mark IBActions
+
+- (IBAction) profileButtonPressedStart: (id) sender
+{
+    [self showNotificationBadge];
+    HPCurrentUserViewController* cuController = [[HPCurrentUserViewController alloc] initWithNibName: @"HPCurrentUserViewController" bundle: nil];
+    UINavigationController* presentingController = [[UINavigationController alloc] initWithRootViewController:cuController];
+    if([UIDevice hp_isIOS7]){
+        [self.navigationController setModalPresentationStyle:UIModalPresentationCurrentContext];
+    }
+    else
+    {
+        self.navigationController.providesPresentationContextTransitionStyle = YES;
+        self.navigationController.definesPresentationContext = YES;
+        [presentingController setModalPresentationStyle:UIModalPresentationOverCurrentContext];
+    }
+    presentingController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self.navigationController presentViewController:presentingController animated:YES completion:nil];
+}
+
+- (IBAction) filterButtonTap: (id)sender
+{
+    [self.view addSubview:self.filterViewController.view];
+    self.filterViewController.view.alpha = 0;
+    [self.filterViewController didMoveToParentViewController:self];
+    @weakify(self);
+    [UIView animateWithDuration:0.3 animations:^{
+        @strongify(self);
+        self.filterViewController.view.alpha = 1;
+    } completion:^(BOOL finished) {
+        @strongify(self);
+        [self.filterViewController didMoveToParentViewController:self];
+    }];
+    
+}
+
+#pragma mark TRASH!
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
     [self.navigationController.navigationBar configureTranslucentNavigationBar];
     [self configureNavigationBar];
-    [self registerNotification];
-    [self updateCurrentView];
-    [self addPullToRefresh];
     if(!isFirstLoad)
         [self.mainListTable reloadData];
     self.mainListTable.hidden = YES;
@@ -93,42 +246,14 @@ static NSString *mainCellId = @"maincell";
     [self resetPresentationViewCoontrollerContext];
     [self.mainListTable registerNib:[UINib nibWithNibName:@"HPMainViewListTableViewCell" bundle:nil] forCellReuseIdentifier:mainCellId];
 }
+
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self unregisterNotification];
     self.allUsers.delegate = nil;
 }
 
 
-- (void) registerNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserFilterCities:) name:kNeedUpdateFilterCities object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupFilterSendResults:) name:kNeedUpdateUserFilterData object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addPullToRefresh) name:kNeedUpdatePullToRefreshInd object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSpinnerView) name:kNeedHideSpinnerView object:nil];
-}
 
-- (void) unregisterNotification {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateFilterCities object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNeedUpdateUserFilterData object:nil];
-}
-
-- (void) createSwitch
-{
-    if (!_bottomSwitch)
-    {
-        _bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
-        _bottomSwitch.delegate = self;
-        [self addChildViewController: _bottomSwitch];
-        [_filterGroupView addSubview: _bottomSwitch.view];
-
-        CGRect rect = [UIScreen mainScreen].bounds;
-        rect = CGRectMake(fabs(rect.size.width - _bottomSwitch.view.frame.size.width) / 2,
-                          _filterGroupView.frame.size.height - SWITCH_BOTTOM_SHIFT - _bottomSwitch.view.frame.size.height,
-                         _bottomSwitch.view.frame.size.width,
-                         _bottomSwitch.view.frame.size.height);
-        [_bottomSwitch positionSwitcher: rect];
-    }
-}
 
 #pragma mark - Configure Navigation bar method -
 
@@ -154,32 +279,9 @@ static NSString *mainCellId = @"maincell";
 #pragma mark - Navigation bar button tap handler -
 
 
-- (void) resetPresentationViewCoontrollerContext{
-    if([UIDevice hp_isIOS7]){
-            [self.navigationController setModalPresentationStyle:UIModalPresentationNone];
-    }
-    else{
-            self.navigationController.providesPresentationContextTransitionStyle = NO;
-            self.navigationController.definesPresentationContext = NO;
-    }
-}
 
-- (IBAction) profileButtonPressedStart: (id) sender
-{
-    [self showNotificationBadge];
-    HPCurrentUserViewController* cuController = [[HPCurrentUserViewController alloc] initWithNibName: @"HPCurrentUserViewController" bundle: nil];
-    UINavigationController* presentingController = [[UINavigationController alloc] initWithRootViewController:cuController];
-    if([UIDevice hp_isIOS7]){
-            [self.navigationController setModalPresentationStyle:UIModalPresentationCurrentContext];
-        }
-    else{
-            self.navigationController.providesPresentationContextTransitionStyle = YES;
-            self.navigationController.definesPresentationContext = YES;
-            [presentingController setModalPresentationStyle:UIModalPresentationOverCurrentContext];
-        }
-    presentingController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self.navigationController presentViewController:presentingController animated:YES completion:nil];
-}
+
+
 
 
 
@@ -193,137 +295,12 @@ static NSString *mainCellId = @"maincell";
 }
 
 
-#pragma mark - filter button tap handler -
 
-
-- (IBAction) filterButtonTap: (id)sender
-{
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-    self.filterController = [[HPFilterSettingsViewController alloc] initWithNibName: @"HPFilterSettings" bundle: nil];
-    self.filterController.delegate = self;
-    self.filterController.view.frame = self.view.bounds;
-    [self.view addSubview:self.filterController.view];
-    [self addChildViewController:self.filterController];
-    self.filterController.view.alpha = 0;
-    [self.filterController didMoveToParentViewController:self];
-    @weakify(self);
-    [UIView animateWithDuration:0.3 animations:^{
-        @strongify(self);
-        self.filterController.view.alpha = 1;
-    } completion:^(BOOL finished) {
-        @strongify(self);
-        [self.filterController didMoveToParentViewController:self];
-    }];
-
-}
-
-
-- (void) updateCurrentView {
-    startUpdate  = NO;
-    self.navigationItem.title = [Utils getTitleStringForUserFilter];
-    if (_bottomSwitch.switchState) {
-        self.allUsers = [[DataStorage sharedDataStorage] allUsersWithPointFetchResultsController];
-    } else {
-        self.allUsers = [[DataStorage sharedDataStorage] allUsersFetchResultsController];
-    }
-    [self.mainListTable reloadData];
-}
-
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller;
-{
-    // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
-    [self.mainListTable beginUpdates];
-}
-
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
-{
-    switch(type) {
-        case NSFetchedResultsChangeInsert:
-            // your code for insert
-            break;
-        case NSFetchedResultsChangeDelete:
-            // your code for deletion
-            break;
-    }
-}
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
-{
-
-    switch(type) {
-        case NSFetchedResultsChangeInsert:
-            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-
-        case NSFetchedResultsChangeDelete:
-            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-
-        case NSFetchedResultsChangeUpdate: {
-            User *user = [self.allUsers objectAtIndexPath:indexPath];
-            [(HPMainViewListTableViewCell *) [self.mainListTable cellForRowAtIndexPath:indexPath] configureCell:user];
-        }
-            break;
-
-        case NSFetchedResultsChangeMove:
-            [self.mainListTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self.mainListTable insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-    }
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
-   [self.mainListTable endUpdates];
-    //[self.mainListTable reloadData];
-}
-
-
-#pragma mark - update user filter
-
--(void) updateUserFilterCities :(NSNotification *) notification {
-    NSArray *cities = [notification.userInfo objectForKey:@"cities"];
-    
-    [[DataStorage sharedDataStorage] setAndSaveCityToUserFilter:cities[0]];
-    
-}
 
 #pragma mark - pull-to-refresh   
 
-- (void) addPullToRefresh {
-    [self removeRefreshControl];
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.tintColor = [UIColor clearColor];
-    refreshControl.tag = refreshTag;
-    UIView *refreshLoadingView = [[UIView alloc] initWithFrame:refreshControl.bounds];
-    refreshLoadingView.backgroundColor = [UIColor clearColor];
-    UIImageView *spinner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Spinner"]];
-    
-    CGRect rect  = spinner.frame;
-    rect.origin.x = refreshControl.bounds.size.width / 2 - spinner.frame.size.width/2;
-    rect.origin.y = 10;
-    spinner.frame = rect;
-    
-    
-    
-    CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    rotationAnimation.fromValue = @0.0;
-    rotationAnimation.toValue = @(M_PI * 2.0f);
-    rotationAnimation.duration = 1.0f;
-    rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = HUGE_VALF;
-    [spinner.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
-    
-    
-    
-    [refreshLoadingView addSubview:spinner];
-    
-    [refreshControl addSubview:refreshLoadingView];
-    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
-    [self.mainListTable addSubview:refreshControl];
-}
+
+
 - (void) removeRefreshControl {
     NSArray *views = [self.mainListTable subviews];
     for(UIView *v in views) {
@@ -336,19 +313,6 @@ static NSString *mainCellId = @"maincell";
 
 - (void) hideSpinnerView {
     self.bottomSpinnerView.hidden = YES;
-}
-
-- (void)refresh:(UIRefreshControl *)refreshControl {
-    
-    [self makeUsersRequest];
-    [refreshControl endRefreshing];
-    //[self.mainListTable reloadData];
-}
-
-- (void) makeUsersRequest {
-    if(_bottomSwitch.switchState)
-        [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:0];
-    else [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:0];
 }
 
 
@@ -377,69 +341,9 @@ static NSString *mainCellId = @"maincell";
     }
 }
 
-- (void) loadNextPageAfterUser:(User*) user{
-    self.bottomSpinnerView.hidden = NO;
-    [[HPBaseNetworkManager sharedNetworkManager] createTaskArray];
-    if(_bottomSwitch.switchState)
-        [[HPBaseNetworkManager sharedNetworkManager] getPointsRequest:[user.userId intValue]];
-    else
-        [[HPBaseNetworkManager sharedNetworkManager] getUsersRequest:[user.userId intValue]];
-}
+
 
 #pragma mark - TableView and DataSource delegate -
-
-
-- (NSInteger) numberOfSectionsInTableView: (UITableView*) tableView
-{
-    return 1;
-}
-
-- (NSInteger) tableView: (UITableView*) tableView numberOfRowsInSection: (NSInteger) section
-{
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.allUsers sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
-}
-
-
-- (UITableViewCell*) tableView: (UITableView*) tableView cellForRowAtIndexPath: (NSIndexPath*) indexPath
-{
-    
-    HPMainViewListTableViewCell *mCell = [tableView dequeueReusableCellWithIdentifier: mainCellId forIndexPath:indexPath];
-    if (!mCell)
-        mCell = [[HPMainViewListTableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: mainCellId];
-    User *user = [self.allUsers objectAtIndexPath:indexPath];
-    if(user) {
-        [mCell configureCell: user];
-    }
-    return mCell;
-}
-
-
-- (void) tableView: (UITableView*) tableView didSelectRowAtIndexPath: (NSIndexPath*) indexPath
-{
-    HPMainViewListTableViewCell *mCell = (HPMainViewListTableViewCell*) [self.mainListTable cellForRowAtIndexPath:indexPath];
-    [mCell hidePoint];
-    
-    HPUserCardViewController* card = [[HPUserCardViewController alloc] initWithController:self.allUsers andSelectedUser:[self.allUsers objectAtIndexPath:indexPath]];
-    @weakify(self);
-    [[[card.changeViewedUserCard takeUntil:[self rac_signalForSelector:@selector(viewWillAppear:)]] takeLast:1]
-    subscribeNext:^(User* user) {
-        @strongify(self);
-        NSIndexPath* path = [self.allUsers indexPathForObject:user];
-        [self.mainListTable reloadData];
-        [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    }];
-    [[card.needLoadNextPage distinctUntilChanged] subscribeNext:^(User* x) {
-        @strongify(self);
-        [self loadNextPageAfterUser:x];
-    }];
-    
-    [self.navigationController pushViewController: card animated: YES];
-}
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
-}
-
 #pragma mark - Notification view hide/show method -
 
 - (void) hideNotificationBadge
@@ -476,14 +380,12 @@ static NSString *mainCellId = @"maincell";
 
 - (void) switchedToLeft
 {
-    [self updateCurrentView];
     [self.mainListTable reloadData];
 }
 
 
 - (void) switchedToRight
 {
-    [self updateCurrentView];
     [self.mainListTable reloadData];
 }
 
@@ -611,7 +513,6 @@ static NSString *mainCellId = @"maincell";
 - (void) setupFilterSendResults :(NSNotification *)notification {
     NSNumber *status =  [notification.userInfo objectForKey:@"status"];
     if ([status isEqualToNumber:@1]) {
-        [self getNewFilteredUsers];
         self.mainListTable.hidden = NO;
         self.sendFilterBtn.hidden = YES;
         self.filterGroupView.hidden = NO;
@@ -624,9 +525,6 @@ static NSString *mainCellId = @"maincell";
 }
 
 
-- (void) getNewFilteredUsers {
-    [self makeUsersRequest];
-}
 
 
 #pragma mark - delegate

@@ -52,7 +52,8 @@
         @"minAge":@(fromAge),
         @"maxAge":@(toAge),
         @"genders":(gender==0)?@"1,2":@(gender),
-        @"includePoints":@(YES)
+        @"includePoints":@(YES),
+        @"includeUsers":@(YES)
         } mutableCopy];
     
     if(city){
@@ -64,13 +65,15 @@
     }
     
     RACSignal *dataFromServer = [[self getDataFromServerWithUrl:url andParameters:param] replayLast];
-    RACSignal *validatedUsersServerData = [self validateServerUsersArray:dataFromServer];
+    RACSignal *validatedUsersServerData = [self validateServerUsersArray:[dataFromServer deliverOn:[RACScheduler scheduler]]];
+    RACSignal *citiesArray = [self requestCitiesForUsersServerArray:validatedUsersServerData];
     RACSignal *savedUsersDataToDataBase = [self saveServerUsersArray:validatedUsersServerData];
+    RACSignal *savedUsersWithCity = [self mergeUserSignal:savedUsersDataToDataBase withCitySingal:citiesArray];
     
-    RACSignal *validatedPointsServerData = [self validateServerPointsArray:dataFromServer];
+    RACSignal *validatedPointsServerData = [self validateServerPointsArray:[dataFromServer deliverOn:[RACScheduler scheduler]]];
     RACSignal *savedPointsDataToDataBase = [self saveServerPointsArray:validatedPointsServerData];
     
-    return [self mergeUserSignal:savedUsersDataToDataBase withPointsSingal:savedPointsDataToDataBase];
+    return [[self mergeUserSignal:savedUsersWithCity withPointsSingal:savedPointsDataToDataBase] deliverOn:[RACScheduler mainThreadScheduler]];
 }
 
 #pragma mark private

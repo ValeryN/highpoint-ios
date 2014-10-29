@@ -8,7 +8,7 @@
 #import "Constants.h"
 #import "DataStorage.h"
 #import "HPCityValidator.h"
-
+#import "HPRequest+Private.h"
 
 @implementation HPRequest (GeoLocations)
 
@@ -29,5 +29,19 @@
     return savedDataToDataBase;
 }
 
++ (RACSignal *)getCitiesById:(NSArray*) cities{
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    url = [url stringByAppendingString:kGeoLocationRequest];
+    NSDictionary *param = @{@"cityIds" : [cities componentsJoinedByString:@","]};
+    
+    RACSignal *dataFromServer = [self getDataFromServerWithUrl:url andParameters:param];
+    
+    RACSignal *validatedServerData = [self validateServerCityArray:dataFromServer];
+    
+    RACSignal *savedDataToDataBase = [self saveServerCityArray:validatedServerData];
+    
+    return savedDataToDataBase;
+}
 
 @end

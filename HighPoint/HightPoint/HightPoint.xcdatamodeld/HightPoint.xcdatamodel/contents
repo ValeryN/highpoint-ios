@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13F34" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A389" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AppSetting" representedClassName="AppSetting" syncable="YES">
         <attribute name="avatarMaxFileSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="avatarMinCropSizeHeight" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -200,6 +200,7 @@
         <attribute name="pointText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pointUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="pointValidTo" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="likedBy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="likedPosts" inverseEntity="User" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="point" inverseEntity="User" syncable="YES"/>
     </entity>
@@ -226,6 +227,6 @@
         <element name="Speciality" positionX="-182" positionY="-621" width="128" height="88"/>
         <element name="User" positionX="-20" positionY="-531" width="128" height="508"/>
         <element name="UserFilter" positionX="538" positionY="-306" width="128" height="133"/>
-        <element name="UserPoint" positionX="324" positionY="36" width="128" height="163"/>
+        <element name="UserPoint" positionX="324" positionY="36" width="128" height="180"/>
     </elements>
 </model>

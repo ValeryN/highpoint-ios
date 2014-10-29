@@ -41,7 +41,7 @@
         return NO;
     if (![dictionary[@"nameForms"] isKindOfClass:[NSArray class]] && ![dictionary[@"nameForms"] isKindOfClass:[NSNull class]] && dictionary[@"nameForms"])
         return NO;
-    if (![dictionary[@"online"] isKindOfClass:[NSNumber class]])
+    if (![dictionary[@"online"] isKindOfClass:[NSNumber class]] && ![dictionary[@"online"] isKindOfClass:[NSNull class]] && dictionary[@"online"])
         return NO;
     if (![dictionary[@"visibility"] isKindOfClass:[NSNumber class]])
         return NO;

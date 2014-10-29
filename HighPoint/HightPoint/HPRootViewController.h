@@ -15,13 +15,13 @@
 #import "CrossDissolveAnimation.h"
 #import "HPUserCardViewController.h"
 #import "HPSpinnerView.h"
+#import "RACTableViewController.h"
 
 
-@interface HPRootViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, HPSwitchProtocol, NSFetchedResultsControllerDelegate, HPUserCardViewControllerDelegate, HPFilterSettingsViewControllerDelegate>
+@interface HPRootViewController : RACTableViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, HPSwitchProtocol, NSFetchedResultsControllerDelegate, HPUserCardViewControllerDelegate>
 {
-    ScaleAnimation *_scaleAnimationController;
     CrossDissolveAnimation *_crossDissolveAnimationController;
-    HPSwitchViewController *_bottomSwitch;
+    
 }
 
 @property (nonatomic, strong) UIView *overlayView;
@@ -43,7 +43,7 @@
 @property (strong, nonatomic) HPFilterSettingsViewController *filterController;
 @property (weak, nonatomic) IBOutlet HPSpinnerView *bottomSpinnerView;
 @property (weak, nonatomic) IBOutlet UIImageView *blendImageView;
-
+@property (nonatomic, retain) IBOutlet HPSwitchViewController *bottomSwitch;
 
 - (IBAction) filterButtonTap:(id)sender;
 - (IBAction) profileButtonPressedStart: (id) sender;

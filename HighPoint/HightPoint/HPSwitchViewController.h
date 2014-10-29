@@ -36,6 +36,6 @@
 @property (nonatomic, weak) IBOutlet UIButton *rightButton;
 @property (nonatomic, weak) IBOutlet UIButton *rightButtonInactive;
 
-@property (nonatomic, assign) BOOL switchState;
+@property (nonatomic) BOOL switchState;
 
 @end

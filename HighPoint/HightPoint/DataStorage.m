@@ -798,6 +798,7 @@ static DataStorage *dataStorage;
 
 - (void)createAndSaveUserEntity:(NSMutableArray*) params forUserType:(UserType)type withComplation:(complationBlock)block {
     __weak typeof(self) weakSelf = self;
+    __block User* user;
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext)    {
         NSDateFormatter *dft = [[NSDateFormatter alloc] init];
         [dft setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
@@ -811,7 +812,7 @@ static DataStorage *dataStorage;
             //} else if ([key isKindOfClass:[NSDictionary class]]) {
             //    param = key;
             //}
-            User *user;
+            
             NSArray *localUsers = [User findAllWithPredicate:[NSPredicate predicateWithFormat:@"userId == %d", [param[@"id"] intValue] ] inContext:localContext];
             if(localUsers.count >0) {
                 user = localUsers[0] ;
@@ -986,18 +987,16 @@ static DataStorage *dataStorage;
             }
         }
     } completion:^(BOOL success, NSError *error)    {
-        
-        block(error);
+        block(user);
     }];
 }
 #pragma mark -
 #pragma mark pointEntity
 
 - (void) createAndSavePoint:(NSArray*) array withComplation:(complationBlock)block{
-    
+    __block UserPoint* localPoint;
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext)    {
         for(NSDictionary *dict in array) {
-            UserPoint *localPoint;
             NSDateFormatter *df = [[NSDateFormatter alloc] init];
             [df setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
             
@@ -1021,7 +1020,7 @@ static DataStorage *dataStorage;
         }
     } completion:^(BOOL success, NSError *error)    {
         //[[NSManagedObjectContext defaultContext] saveNestedContexts];
-        block(error);
+        block(localPoint);
     }];
 }
 

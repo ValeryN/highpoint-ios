@@ -36,7 +36,7 @@
         return [RACSignal empty];
     }];
 
-    [self configureTable:self.resultTableView viewWithSignal:tableViewSignal andTemplateCell:[UINib nibWithNibName:@"HPSearchCityCell" bundle:nil]];
+    [self configureTableView:self.resultTableView withSignal:tableViewSignal andTemplateCell:[UINib nibWithNibName:@"HPSearchCityCell" bundle:nil]];
 
     [self.searchBar becomeFirstResponder];
 }

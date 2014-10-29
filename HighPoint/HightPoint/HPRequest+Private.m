@@ -13,6 +13,7 @@
 #import "HPUserValidator.h"
 #import "HPPointValidator.h"
 #import "HPCityValidator.h"
+#import "HPAdditionalUserInfoManager.h"
 
 @implementation HPRequest (Private)
 #pragma mark validator
@@ -42,8 +43,11 @@
         //Проверяем масив городов что он есть, и является массивом
         if ([value isKindOfClass:[NSDictionary class]]) {
             if ([value[@"data"] isKindOfClass:[NSDictionary class]]) {
+                if ([value[@"data"][@"points"] isKindOfClass:[NSDictionary class]]) {
+                    return [RACSignal return:((NSDictionary*)value[@"data"][@"points"]).allValues];
+                }
                 if ([value[@"data"][@"points"] isKindOfClass:[NSArray class]]) {
-                    return [RACSignal return:value[@"data"][@"points"]];
+                    return [RACSignal return:((NSDictionary*)value[@"data"][@"points"])];
                 }
             }
             if ([value[@"data"] isKindOfClass:[NSNull class]]) {
@@ -64,6 +68,10 @@
         //Проверяем масив городов что он есть, и является массивом
         if ([value isKindOfClass:[NSDictionary class]]) {
             if ([value[@"data"] isKindOfClass:[NSDictionary class]]) {
+                if ([value[@"data"][@"users"] isKindOfClass:[NSDictionary class]]) {
+                    return [RACSignal return:((NSDictionary*)value[@"data"][@"users"]).allValues];
+                }
+
                 if ([value[@"data"][@"users"] isKindOfClass:[NSArray class]]) {
                     return [RACSignal return:value[@"data"][@"users"]];
                 }
@@ -119,7 +127,7 @@
                         [subscriber sendCompleted];
                     }
                     else {
-                        [subscriber sendNext:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
+                        [subscriber sendError:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
                     }
                 }];
                 return nil;
@@ -134,14 +142,12 @@
 + (RACSignal *)saveServerUsersArray:(RACSignal *)signal {
     return [[signal map:^NSArray *(NSArray *value) {
         return [value.rac_sequence map:^id(NSDictionary *cityDict) {
-            return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+            return [[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
                 //Записывем каждый элемент
                 NSMutableArray *arr = [NSMutableArray arrayWithObject:cityDict];
-                [[DataStorage sharedDataStorage] createAndSaveUserEntity:arr forUserType:PointLikeUserType withComplation:^(id object) {
-                    if (!object) {
-                        
-                        User *usr = [[DataStorage sharedDataStorage] getUserForId:cityDict[@"id"]];
-                        [subscriber sendNext:usr];
+                [[DataStorage sharedDataStorage] createAndSaveUserEntity:arr forUserType:PointLikeUserType withComplation:^(User* object) {
+                    if (object) {
+                        [subscriber sendNext:[object MR_inContext:[NSManagedObjectContext MR_contextForCurrentThread]]];
                         [subscriber sendCompleted];
                     }
                     else {
@@ -149,7 +155,7 @@
                     }
                 }];
                 return nil;
-            }];
+            }] subscribeOn:[RACScheduler scheduler]];
         }].array;
     }] flattenMap:^RACStream *(NSArray *value) {
         //Обеденяем все элементы и сохраняем
@@ -164,29 +170,30 @@
     
     return [[signal map:^NSArray *(NSArray *value) {
         return [value.rac_sequence map:^id(NSDictionary *dict) {
-            return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
+            return [[RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
                 __block UserPoint *userPoint;
                 [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                     userPoint = [UserPoint MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"pointId == %d", [dict[@"id"] intValue]] inContext:localContext];
                     if(!userPoint)
                         userPoint = [UserPoint MR_createInContext:localContext];
                     userPoint.pointId = [dict[@"id"] convertToNSNumber];
+                    userPoint.userId = [dict[@"userId"] convertToNSNumber];
                     userPoint.pointCreatedAt = [df dateFromString:dict[@"createdAt"]];
                     userPoint.pointLiked = [dict[@"liked"] convertToNSNumber];
                     userPoint.pointText = [dict[@"text"] convertToNSString];
                     userPoint.pointUserId = [[dict[@"userId"] convertToNSNumber] convertToNSNumber];
                     userPoint.pointValidTo =  [df dateFromString:dict[@"validTo"]];
                 } completion:^(BOOL success, NSError *error) {
-                    if(success){
+                    if(!error){
                         [subscriber sendNext:[userPoint MR_inContext:[NSManagedObjectContext MR_contextForCurrentThread]]];
                         [subscriber sendCompleted];
                     }
                     else{
-                        [subscriber sendNext:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
+                        [subscriber sendError:error];
                     }
                 }];
                 return nil;
-            }];
+            }] subscribeOn:[RACScheduler scheduler]];
         }].array;
     }] flattenMap:^RACStream *(NSArray *value) {
         //Обеденяем все элементы и сохраняем
@@ -196,7 +203,7 @@
 
 + (RACSignal*) mergeUserSignal:(RACSignal*) userSignal withPointsSingal:(RACSignal*) pointsSignal{
     return [[RACSignal zip:@[userSignal,pointsSignal]] flattenMap:^RACSignal*(RACTuple* value) {
-        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
             RACTupleUnpack(NSArray* usersArrayGlobal, NSArray* pointsArrayGlobal) = value;
             NSManagedObjectContext* context = [NSManagedObjectContext MR_contextForCurrentThread];
             NSArray* userArrayLocal = [usersArrayGlobal.rac_sequence map:^id(User* user) {
@@ -209,19 +216,19 @@
             NSDictionary* cacheDictionary = [NSDictionary dictionaryWithObjects:userArrayLocal forKeys:[userArrayLocal valueForKeyPath:@"userId"]];
             [MagicalRecord saveUsingCurrentThreadContextWithBlock:^(NSManagedObjectContext *localContext) {
                 for(UserPoint* point in pointsArrayLocal){
-                    point.user = cacheDictionary[point.user.userId];
+                    point.user = cacheDictionary[point.userId];
                 }
             } completion:^(BOOL success, NSError *error) {
-                if(success){
+                if(!error){
                     [subscriber sendNext:userArrayLocal];
                     [subscriber sendCompleted];
                 }
                 else{
-                    [subscriber sendNext:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
+                    [subscriber sendError:error];
                 }
             }];
             return nil;
-        }];
+        }] subscribeOn:[RACScheduler scheduler]];
     }];
 }
 
@@ -236,7 +243,7 @@
                         [subscriber sendCompleted];
                     }
                     else {
-                        [subscriber sendNext:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
+                        [subscriber sendError:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
                     }
                 }];
                 return nil;
@@ -269,7 +276,7 @@
                     [subscriber sendCompleted];
                 }
                 else {
-                    [subscriber sendNext:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
+                    [subscriber sendError:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
                 }
                 
                 
@@ -285,4 +292,45 @@
     }];
 }
 
++ (RACSignal *) requestCitiesForUsersServerArray:(RACSignal*) signal{
+    return [[signal map:^NSArray *(NSArray *value) {
+        return [value.rac_sequence map:^id(NSDictionary *userDict) {
+            return [[HPAdditionalUserInfoManager instance] getCitySignalForId:userDict[@"cityId"]];
+        }].array;
+    }] flattenMap:^RACStream *(NSArray *value) {
+        //Обеденяем все элементы и сохраняем
+        return [RACSignal zip:value];
+    }];
+}
+
++ (RACSignal*) mergeUserSignal:(RACSignal*) userSignal withCitySingal:(RACSignal*) citySignal{
+    return [[RACSignal zip:@[userSignal,citySignal]] flattenMap:^RACSignal*(RACTuple* value) {
+        return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+            RACTupleUnpack(NSArray* usersArrayGlobal, NSArray* citiesArrayGlobal) = value;
+            NSManagedObjectContext* context = [NSManagedObjectContext MR_contextForCurrentThread];
+            NSArray* userArrayLocal = [usersArrayGlobal.rac_sequence map:^id(User* user) {
+                return [user MR_inContext:context];
+            }].array;
+            NSArray* citiesArrayLocal = [citiesArrayGlobal.rac_sequence map:^id(City* city) {
+                return [city MR_inContext:context];
+            }].array;
+            
+            NSDictionary* cacheDictionary = [NSDictionary dictionaryWithObjects:citiesArrayLocal forKeys:[userArrayLocal valueForKeyPath:@"cityId"]];
+            [MagicalRecord saveUsingCurrentThreadContextWithBlock:^(NSManagedObjectContext *localContext) {
+                for(User* user in userArrayLocal){
+                    user.city = cacheDictionary[user.cityId];
+                }
+            } completion:^(BOOL success, NSError *error) {
+                if(!error){
+                    [subscriber sendNext:userArrayLocal];
+                    [subscriber sendCompleted];
+                }
+                else{
+                    [subscriber sendError:error];
+                }
+            }];
+            return nil;
+        }] subscribeOn:[RACScheduler scheduler]];
+    }];
+}
 @end
