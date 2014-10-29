@@ -10,7 +10,7 @@
 #import "HPCityValidator.h"
 #import "DataStorage.h"
 #import "HPUserValidator.h"
-
+#import "HPRequest+Private.h"
 
 @implementation HPRequest (Points)
 
@@ -59,78 +59,6 @@
     RACSignal *savedUsersArray = [self saveServerUsersArray:validUsersJsonArrayFromServer];
     RACSignal *likedUsersArray = [self setUsersArray:savedUsersArray toLikePost:point];
     return likedUsersArray;
-}
-
-#pragma mark private
-
-+ (RACSignal *)validateServerUsersArray:(RACSignal *)signal {
-    return [[signal flattenMap:^RACStream *(NSDictionary *value) {
-        //Проверяем масив городов что он есть, и является массивом
-        if ([value isKindOfClass:[NSDictionary class]]) {
-            if ([value[@"data"] isKindOfClass:[NSDictionary class]]) {
-                if ([value[@"data"][@"users"] isKindOfClass:[NSArray class]]) {
-                    return [RACSignal return:value[@"data"][@"users"]];
-                }
-            }
-            if ([value[@"data"] isKindOfClass:[NSNull class]]) {
-                return [RACSignal empty];
-            }
-        }
-
-        return [RACSignal error:[NSError errorWithDomain:@"Not valid json data" code:400 userInfo:value]];
-    }] map:^id(NSArray *value) {
-        return [value.rac_sequence filter:^BOOL(NSDictionary *validatedDictionary) {
-            return [HPUserValidator validateDictionary:validatedDictionary];
-        }].array;
-    }];
-}
-
-+ (RACSignal *)saveServerUsersArray:(RACSignal *)signal {
-    return [[signal map:^NSArray *(NSArray *value) {
-        return [value.rac_sequence map:^id(NSDictionary *cityDict) {
-            return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-                //Записывем каждый элемент
-                NSMutableArray *arr = [NSMutableArray arrayWithObject:cityDict];
-                [[DataStorage sharedDataStorage] createAndSaveUserEntity:arr forUserType:PointLikeUserType withComplation:^(id object) {
-                    if (!object) {
-                        
-                        User *usr = [[DataStorage sharedDataStorage] getUserForId:cityDict[@"id"]];
-                        [subscriber sendNext:usr];
-                        [subscriber sendCompleted];
-                    }
-                    else {
-                        [subscriber sendNext:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
-                    }
-                }];
-                return nil;
-            }];
-        }].array;
-    }] flattenMap:^RACStream *(NSArray *value) {
-        //Обеденяем все элементы и сохраняем
-        return [RACSignal zip:value];
-    }];
-}
-
-+ (RACSignal *)setUsersArray:(RACSignal *)signal toLikePost:(UserPoint *)point {
-    return [[signal map:^NSArray *(NSArray *value) {
-        return [value.rac_sequence map:^id(User *user) {
-            return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-                //Записывем каждый элемент
-                [[DataStorage sharedDataStorage] setAndSaveUser:user toLikePoint:point withComplationBlock:^(id object) {
-                    if (object) {
-                        [subscriber sendNext:object];
-                        [subscriber sendCompleted];
-                    }
-                    else {
-                        [subscriber sendNext:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
-                    }
-                }];
-                return nil;
-            }];
-        }].array;
-    }] flattenMap:^RACStream *(NSArray *value) {
-        return [RACSignal zip:value];
-    }];
 }
 
 @end

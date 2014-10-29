@@ -19,6 +19,7 @@ typedef NS_ENUM(NSUInteger, UserVisibilityType){
 };
 
 typedef NS_ENUM(NSUInteger, UserGenderType){
+    UserGenderNone = 0,
     UserGenderMale = 1,
     UserGenderFemale = 2,
 };

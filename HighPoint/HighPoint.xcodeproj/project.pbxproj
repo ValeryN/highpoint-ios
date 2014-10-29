@@ -214,6 +214,8 @@
 		444F12CC19E6C0B000CF5867 /* HPRoundedShadowedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */; };
 		446D81A719FE6C610096495D /* HPCurrentUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE0BDC8196E7FC000CBCF58 /* HPCurrentUserViewController.xib */; };
 		446D81AC19FE7B0E0096495D /* HPCurrentUserPointCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC009951990C6B800B3FF75 /* HPCurrentUserPointCollectionViewCell.m */; };
+		44850DFD19FFEAEF00E391CA /* HPPointValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 44850DFC19FFEAEF00E391CA /* HPPointValidator.m */; };
+		44850E0019FFED5900E391CA /* HPRequest+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 44850DFF19FFED5900E391CA /* HPRequest+Private.m */; };
 		448E7C0319F5681A0066801C /* HPCurrentUserPrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 448E7C0219F5681A0066801C /* HPCurrentUserPrivacyViewController.m */; };
 		44AD911C19E8149600F835C9 /* HPRoundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AD911B19E8149600F835C9 /* HPRoundView.m */; };
 		44B52FCD19AB81300016E80B /* PSMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B52FCC19AB81300016E80B /* PSMenuItem.m */; };
@@ -831,6 +833,10 @@
 		4448BB5419AF352F008840E6 /* HPSearchCityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPSearchCityCell.xib; sourceTree = "<group>"; };
 		444F12CA19E6C0B000CF5867 /* HPRoundedShadowedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundedShadowedImageView.h; sourceTree = "<group>"; };
 		444F12CB19E6C0B000CF5867 /* HPRoundedShadowedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPRoundedShadowedImageView.m; sourceTree = "<group>"; };
+		44850DFB19FFEAEF00E391CA /* HPPointValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPPointValidator.h; sourceTree = "<group>"; };
+		44850DFC19FFEAEF00E391CA /* HPPointValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPPointValidator.m; sourceTree = "<group>"; };
+		44850DFE19FFED5900E391CA /* HPRequest+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HPRequest+Private.h"; sourceTree = "<group>"; };
+		44850DFF19FFED5900E391CA /* HPRequest+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HPRequest+Private.m"; sourceTree = "<group>"; };
 		448E7C0019F54D590066801C /* HighPoint-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HighPoint-Prefix.pch"; sourceTree = "<group>"; };
 		448E7C0119F5681A0066801C /* HPCurrentUserPrivacyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCurrentUserPrivacyViewController.h; sourceTree = "<group>"; };
 		448E7C0219F5681A0066801C /* HPCurrentUserPrivacyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCurrentUserPrivacyViewController.m; sourceTree = "<group>"; };
@@ -2249,6 +2255,8 @@
 				7C5F7545A79171BAE0130F8F /* Validator */,
 				7C5F7A880E78E425DF2258B3 /* HPRequest+Users.m */,
 				7C5F71A01EE66993DB4C0254 /* HPRequest+Users.h */,
+				44850DFE19FFED5900E391CA /* HPRequest+Private.h */,
+				44850DFF19FFED5900E391CA /* HPRequest+Private.m */,
 			);
 			name = Requests;
 			sourceTree = "<group>";
@@ -2263,6 +2271,8 @@
 				7C5F73C934BCABFC7B0524D9 /* HPCityValidator.h */,
 				7C5F723A77FC99E169F73496 /* HPMessageValidator.m */,
 				7C5F725CA10D817EEA4C9EC3 /* HPMessageValidator.h */,
+				44850DFB19FFEAEF00E391CA /* HPPointValidator.h */,
+				44850DFC19FFEAEF00E391CA /* HPPointValidator.m */,
 			);
 			name = Validator;
 			sourceTree = "<group>";
@@ -2901,6 +2911,7 @@
 				3BDA4C6919064AC900EF6619 /* AFURLResponseSerialization.m in Sources */,
 				3BA665F819A4B30800618E97 /* Education.m in Sources */,
 				CD55FD2919792C30003EE9E9 /* School.m in Sources */,
+				44850DFD19FFEAEF00E391CA /* HPPointValidator.m in Sources */,
 				3BA5E3B919C09E8C00E374F2 /* HPBaseNetworkManager+AuthorizationAndRegistration.m in Sources */,
 				3B52B2B819C30128000B543C /* NSString+MagicalDataImport.m in Sources */,
 				44C5AB3619ED696600EF897E /* HPSettingsTableViewCell.m in Sources */,
@@ -3004,6 +3015,7 @@
 				CD4CA3BD19810F7C0016DF7E /* HPChatMsgTableViewCell.m in Sources */,
 				3B2C1FA119260F0500D499A7 /* iCarousel.m in Sources */,
 				3B52B2BD19C30128000B543C /* NSManagedObject+MagicalRequests.m in Sources */,
+				44850E0019FFED5900E391CA /* HPRequest+Private.m in Sources */,
 				3B52B2B919C30128000B543C /* NSManagedObject+MagicalAggregation.m in Sources */,
 				3BBF88F219C17E4C00B934E6 /* HPBaseNetworkManager+Reference.m in Sources */,
 				CDE92D8E19F625710084B210 /* HPSegmentControl.m in Sources */,

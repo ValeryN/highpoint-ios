@@ -10,11 +10,15 @@
 #import "Constants.h"
 #import "HPMessageValidator.h"
 #import "DataStorage.h"
-#import "NSNumber+Convert.h"
+
+#import "HPUserValidator.h"
+#import "HPPointValidator.h"
+#import "HPRequest+Private.h"
 
 
 @implementation HPRequest (Users)
 
+#pragma mark public
 + (RACSignal*)getMessagesForUser:(User *)user afterMessage:(Message *)message {
     NSString *url = nil;
     url = [URLs getServerURL];
@@ -34,65 +38,41 @@
     return savedDataToDataBase;
 }
 
-
-+ (RACSignal *)validateServerMessagesArray:(RACSignal *)signal {
-    return [[signal flattenMap:^RACStream *(NSDictionary *value) {
-        //Проверяем масив городов что он есть, и является массивом
-        if ([value isKindOfClass:[NSDictionary class]]) {
-            if ([value[@"data"] isKindOfClass:[NSDictionary class]]) {
-                if ([value[@"data"][@"messages"] isKindOfClass:[NSArray class]]) {
-                    return [RACSignal return:value[@"data"][@"messages"]];
-                }
-            }
-            if ([value[@"data"] isKindOfClass:[NSNull class]]) {
-                return [RACSignal empty];
-            }
-        }
-
-        return [RACSignal error:[NSError errorWithDomain:@"Not valid json data" code:400 userInfo:value]];
-    }] map:^id(NSArray *value) {
-        return [value.rac_sequence filter:^BOOL(NSDictionary *validatedDictionary) {
-            return [HPMessageValidator validateDictionary:validatedDictionary];
-        }].array;
-    }];
-}
-//TODO: not final version
-+ (RACSignal *)saveServerMessagesArray:(RACSignal *)signal {
-    //NSNumber * currentUserId = [[DataStorage sharedDataStorage] getCurrentUser].userId;
-    return [[signal map:^NSArray *(NSArray *value) {
-        //
-        [[DataStorage sharedDataStorage] createAndSaveMessageArray:value andMessageType:HistoryMessageType withComplation:^(id object) {
-            if(!object) {
-                
-            }
-        }];
-        return [value.rac_sequence map:^id(NSDictionary *cityDict) { //[value.rac_sequence map:^id(NSDictionary *cityDict)
-            return [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> subscriber) {
-                
-                //NSNumber *userId = [cityDict[@"destinationId"] isEqual:currentUserId]?cityDict[@"sourceId"]:cityDict[@"destinationId"];
-                //Записывем каждый элемент
-                
-                id message = [[DataStorage sharedDataStorage] getMessageForId:[cityDict[@"id"] convertToNSNumber]];
-                if (message) {
-                    //Пробрасываем дальнейшие данные не JSON а уже City
-                    [subscriber sendNext:message];
-                    [subscriber sendCompleted];
-                    }
-                    else {
-                    [subscriber sendNext:[NSError errorWithDomain:@"CoreData fault" code:500 userInfo:nil]];
-                    }
-                
++ (RACSignal*) getUsersWithCity:(City*) city withGender:(UserGenderType) gender fromAge:(NSUInteger) fromAge toAge:(NSUInteger) toAge withPoint:(BOOL) withPoint afterUser:(User*) user{
+    NSString *url = nil;
+    url = [URLs getServerURL];
+    if(withPoint){
+        url = [url stringByAppendingString:kPointsRequest];
+    }
+    else{
+        url = [url stringByAppendingString:kUsersRequest];
+    }
     
-                [[DataStorage sharedDataStorage] createAndSaveCity:cityDict popular:NO withComplation:^(City *object) {
-
-                }];
-                return nil;
-            }];
-        }].array;
-    }] flattenMap:^RACStream *(NSArray *value) {
-        //Обеденяем все элементы и сохраняем
-        return [RACSignal zip:value];
-    }];
+    NSMutableDictionary *param = [@{
+        @"minAge":@(fromAge),
+        @"maxAge":@(toAge),
+        @"genders":(gender==0)?@"1,2":@(gender),
+        @"includePoints":@(YES)
+        } mutableCopy];
+    
+    if(city){
+        [param setValue:city.cityId forKey:@"cityIds"];
+    }
+    
+    if(user){
+        [param setValue:user.userId forKey:@"afterUserId"];
+    }
+    
+    RACSignal *dataFromServer = [[self getDataFromServerWithUrl:url andParameters:param] replayLast];
+    RACSignal *validatedUsersServerData = [self validateServerUsersArray:dataFromServer];
+    RACSignal *savedUsersDataToDataBase = [self saveServerUsersArray:validatedUsersServerData];
+    
+    RACSignal *validatedPointsServerData = [self validateServerPointsArray:dataFromServer];
+    RACSignal *savedPointsDataToDataBase = [self saveServerPointsArray:validatedPointsServerData];
+    
+    return [self mergeUserSignal:savedUsersDataToDataBase withPointsSingal:savedPointsDataToDataBase];
 }
+
+#pragma mark private
 
 @end

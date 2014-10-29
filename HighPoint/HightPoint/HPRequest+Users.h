@@ -5,10 +5,13 @@
 
 #import <Foundation/Foundation.h>
 #import "HPRequest.h"
+#import "City.h"
+#import "User.h"
 
 @class User;
 @class Message;
 
 @interface HPRequest (Users)
 + (RACSignal*) getMessagesForUser:(User*) user afterMessage:(Message*) message;
++ (RACSignal*) getUsersWithCity:(City*) city withGender:(UserGenderType) gender fromAge:(NSUInteger) fromAge toAge:(NSUInteger) toAge withPoint:(BOOL) withPoint afterUser:(User*) user;
 @end
