@@ -228,7 +228,7 @@ static HPMainViewListTableViewCell* _prevCell;
          }
                          completion: ^(BOOL finished)
          {
-             [HPMainViewListTableViewCell makeCellReleased];
+             
          }];
     }
 }
@@ -326,13 +326,8 @@ static HPMainViewListTableViewCell* _prevCell;
 }
 
 
-+ (void) makeCellReleased
-{
-    if (_prevCell) {
-        
-        [_prevCell hp_tuneForUserListReleasedCell];
-    }
+- (void)prepareForReuse{
+    [self hp_tuneForUserListReleasedCell];
 }
-
 
 @end

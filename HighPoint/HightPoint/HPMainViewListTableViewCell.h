@@ -17,7 +17,6 @@
     BOOL handleLongTap;
 }
 
-+ (void) makeCellReleased;
 
 - (void) configureCell:(User*) user;
 - (void) vibrateThePoint;

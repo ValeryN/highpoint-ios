@@ -48,12 +48,31 @@ static NSString *mainCellId = @"maincell";
 @property (nonatomic, retain) HPFilterSettingsViewController* filterViewController;
 @property (nonatomic, retain) NSMutableArray* tableArray;
 @property (nonatomic, retain) UIImageView *refreshSpinnerView;
+
+//May be some trash
+@property (nonatomic, strong) UIView *overlayView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *sendFilterBtn;
+
+@property (nonatomic, strong) CABasicAnimation* rotationAnimation;
+@property (nonatomic, weak) IBOutlet UIButton* chatsListButton;
+@property (nonatomic, weak) IBOutlet UIView* filterGroupView;
+@property (nonatomic, weak) IBOutlet UITableView *mainListTable;
+@property (nonatomic, strong) NSFetchedResultsController *allUsers;
+@property (nonatomic, strong) UIView *notificationView;
+@property (nonatomic, assign) CGRect savedFrame;
+@property (assign, nonatomic) BOOL isNeedScrollToIndex;
+@property (assign, nonatomic) int currentIndex;
+@property (weak, nonatomic) IBOutlet UIButton *lensBtn;
+
+@property (strong, nonatomic) HPFilterSettingsViewController *filterController;
+@property (weak, nonatomic) IBOutlet HPSpinnerView *bottomSpinnerView;
+@property (weak, nonatomic) IBOutlet UIImageView *blendImageView;
+@property (nonatomic, retain) IBOutlet HPSwitchViewController *bottomSwitch;
+
 @end
 
-@implementation HPRootViewController {
-    BOOL isFirstLoad;
-    BOOL startUpdate;
-}
+@implementation HPRootViewController
 
 #pragma mark - controller view delegate -
 
@@ -66,9 +85,7 @@ static NSString *mainCellId = @"maincell";
     [self configureTableView:self.mainListTable withSignal:RACObserve(self, tableArray) andTemplateCell:[UINib nibWithNibName:@"HPMainViewListTableViewCell" bundle:nil]];
     [self configureNextPageLoad];
     [self configurePullToRefresh];
-    [RACObserve(self, bottomSwitch.switchState) subscribeNext:^(id x) {
-        NSLog(@"Change state");
-    }];
+    [self configureNavigationBar];
 }
 
 #pragma mark configures
@@ -133,12 +150,26 @@ static NSString *mainCellId = @"maincell";
     [self.mainListTable addSubview:refreshControl];
 }
 
+- (void) configureNavigationBar
+{
+    self.navigationController.delegate = self;
+    long int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:nil];
+    if (msgsCount > 0) {
+        if(self.notificationView)
+            [self.notificationView removeFromSuperview];
+        self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%ld", msgsCount]];
+        [self.navigationItem.rightBarButtonItem.customView addSubview:self.notificationView];
+        self.notificationView.userInteractionEnabled = NO;
+    } else {
+        [self.notificationView removeFromSuperview];
+    }
+}
+
 - (void) configureSwitchViewController
 {
     if (!_bottomSwitch)
     {
         _bottomSwitch = [[HPSwitchViewController alloc] initWithNibName: @"HPSwitch" bundle: nil];
-        _bottomSwitch.delegate = self;
         [self addChildViewController: _bottomSwitch];
         [_filterGroupView addSubview: _bottomSwitch.view];
         
@@ -189,11 +220,55 @@ static NSString *mainCellId = @"maincell";
     }
 }
 
+
+- (void) hideBottomFilterView
+{
+    [UIView animateWithDuration: HIDE_FILTER_ANIMATION_SPEED
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^
+     {
+         CGRect rect = _filterGroupView.frame;
+         rect.origin.y = self.view.frame.size.height;
+         _filterGroupView.frame = rect;
+     }
+                     completion: ^(BOOL finished)
+     {
+         self.blendImageView.alpha = 1.0f;
+         [UIView beginAnimations:nil context:NULL];
+         [UIView setAnimationDuration:HIDE_BLEND_ANIMATION_SPEED];
+         self.blendImageView.alpha = 0.0f;
+         [UIView commitAnimations];
+     }];
+}
+
+
+
+- (void) showBottomFilterView
+{
+    [UIView animateWithDuration: HIDE_FILTER_ANIMATION_SPEED
+                          delay: 0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^
+     {
+         CGRect rect = _filterGroupView.frame;
+         rect.origin.y = self.view.frame.size.height - _filterGroupView.frame.size.height;
+         _filterGroupView.frame = rect;
+     }
+                     completion: ^(BOOL finished)
+     {
+         self.blendImageView.alpha = 0.0f;
+         [UIView beginAnimations:nil context:NULL];
+         [UIView setAnimationDuration:HIDE_BLEND_ANIMATION_SPEED];
+         self.blendImageView.alpha = 1.0f;
+         [UIView commitAnimations];
+     }];
+}
+
 #pragma mark IBActions
 
 - (IBAction) profileButtonPressedStart: (id) sender
 {
-    [self showNotificationBadge];
     HPCurrentUserViewController* cuController = [[HPCurrentUserViewController alloc] initWithNibName: @"HPCurrentUserViewController" bundle: nil];
     UINavigationController* presentingController = [[UINavigationController alloc] initWithRootViewController:cuController];
     if([UIDevice hp_isIOS7]){
@@ -225,184 +300,22 @@ static NSString *mainCellId = @"maincell";
     
 }
 
-#pragma mark TRASH!
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.navigationController.navigationBar configureTranslucentNavigationBar];
-    [self configureNavigationBar];
-    if(!isFirstLoad)
-        [self.mainListTable reloadData];
-    self.mainListTable.hidden = YES;
-    startUpdate = NO;
-    isFirstLoad = NO;
-    self.allUsers.delegate = self;
-    
-    self.mainListTable.hidden = NO;
-    self.isNeedScrollToIndex = NO;
-    [self.lensBtn setHitTestEdgeInsets:UIEdgeInsetsMake(-15, -15, -15, -15)];
-    self.blendImageView.alpha = 1.0f;
-    [self resetPresentationViewCoontrollerContext];
-    [self.mainListTable registerNib:[UINib nibWithNibName:@"HPMainViewListTableViewCell" bundle:nil] forCellReuseIdentifier:mainCellId];
-}
-
-- (void) viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.allUsers.delegate = nil;
-}
-
-
-
-
-#pragma mark - Configure Navigation bar method -
-
-- (void) configureNavigationBar
-{
-    self.navigationController.delegate = self;
-    [self updateNotificationViewCount];
-}
-
-- (void) updateNotificationViewCount {
-    long int msgsCount = [[DataStorage sharedDataStorage] allUnreadMessagesCount:nil];
-    if (msgsCount > 0) {
-        if(self.notificationView)
-            [self.notificationView removeFromSuperview];
-        self.notificationView = [Utils getNotificationViewForText:[NSString stringWithFormat:@"%ld", msgsCount]];
-        [self.navigationItem.rightBarButtonItem.customView addSubview:self.notificationView];
-        self.notificationView.userInteractionEnabled = NO;
-    } else {
-        [self.notificationView removeFromSuperview];
-    }
-}
-
-#pragma mark - Navigation bar button tap handler -
-
-
-
-
-
-
-
-
 - (IBAction) bubbleButtonPressedStart: (id) sender
 {
     //[self hideNotificationBadge];
     HPChatListViewController* chatList = [[HPChatListViewController alloc] initWithNibName: @"HPChatListViewController" bundle: nil];
-    _crossDissolveAnimationController.viewForInteraction = chatList.view;
     [self.navigationController pushViewController:chatList animated:YES];
-    _crossDissolveAnimationController.viewForInteraction = nil;
 }
 
 
+#pragma mark scroll delegate
 
-
-#pragma mark - pull-to-refresh   
-
-
-
-- (void) removeRefreshControl {
-    NSArray *views = [self.mainListTable subviews];
-    for(UIView *v in views) {
-        if(v.tag == refreshTag) {
-            [v removeFromSuperview];
-            break;
-        }
-    }
-}
-
-- (void) hideSpinnerView {
-    self.bottomSpinnerView.hidden = YES;
-}
-
-
-#pragma mark - scroll view
-
-
-- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-}
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     NSArray *arr = [self.mainListTable indexPathsForVisibleRows];
     for(NSIndexPath *path in arr) {
         HPMainViewListTableViewCell *cell = (HPMainViewListTableViewCell*) [self.mainListTable cellForRowAtIndexPath:path];
         [cell hidePoint];
     }
-}
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
-    //NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
-    NSInteger lastRowIndex = [[self.allUsers fetchedObjects] count] - 1;
-    if ((indexPath.section == lastSectionIndex) && ((indexPath.row  == lastRowIndex - 4) )) {//|| (lastRowIndex - indexPath.row  == 4)
-        // This is the last cell
-
-        User *user = [[self.allUsers fetchedObjects] lastObject];
-        [self loadNextPageAfterUser:user];
-    }
-}
-
-
-
-#pragma mark - TableView and DataSource delegate -
-#pragma mark - Notification view hide/show method -
-
-- (void) hideNotificationBadge
-{
-    [UIView transitionWithView:[self navigationController].view
-                      duration:0.2
-                       options:UIViewAnimationOptionTransitionCrossDissolve //any animation
-                    animations:^ {
-                        self.notificationView.hidden = YES;
-                    }
-                    completion:^(BOOL finished){
-                        
-                    }];
-
-}
-
-
-- (void) showNotificationBadge
-{
-    [UIView transitionWithView:[self navigationController].view
-                      duration:0.2
-                       options:UIViewAnimationOptionTransitionCrossDissolve //any animation
-                    animations:^ {
-                        self.notificationView.hidden = NO;
-                    }
-                    completion:^(BOOL finished){
-
-                    }];
-}
-
-
-#pragma mark - HPSwitch Delegate -
-
-
-- (void) switchedToLeft
-{
-    [self.mainListTable reloadData];
-}
-
-
-- (void) switchedToRight
-{
-    [self.mainListTable reloadData];
-}
-
-
-#pragma mark - scroll delegate -
-
-
-- (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    
-    [HPMainViewListTableViewCell makeCellReleased];
-}
-
-
-- (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    [HPMainViewListTableViewCell makeCellReleased];
 }
 
 
@@ -412,150 +325,17 @@ static NSString *mainCellId = @"maincell";
 {
     if (velocity.y > 0)
     {
-        //if (_filterGroupView.frame.origin.y != [self topFilterBorder])
-        //    return;
-
-       [self hideFilters];
+       [self hideBottomFilterView];
     }
 
     if (velocity.y < 0)
     {
-        
-        //if (_filterGroupView.frame.origin.y != [self bottomFilterBorder])
-        //    return;
-
-        [self showFilters];
+        [self showBottomFilterView];
     }
 }
 
 
-#pragma mark - filter animation -
-
-- (void) hideFilters
-{
-    [UIView animateWithDuration: HIDE_FILTER_ANIMATION_SPEED
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-     {
-         CGRect rect = _filterGroupView.frame;
-         rect.origin.y = [self bottomFilterBorder];
-         _filterGroupView.frame = rect;
-     }
-                     completion: ^(BOOL finished)
-     {
-         self.blendImageView.alpha = 1.0f;
-         [UIView beginAnimations:nil context:NULL];
-         [UIView setAnimationDuration:HIDE_BLEND_ANIMATION_SPEED];
-         self.blendImageView.alpha = 0.0f;
-         [UIView commitAnimations];
-     }];
-}
-
-
-
-- (void) showFilters
-{
-    [UIView animateWithDuration: HIDE_FILTER_ANIMATION_SPEED
-                          delay: 0
-                        options: UIViewAnimationOptionCurveLinear
-                     animations: ^
-     {
-         CGRect rect = _filterGroupView.frame;
-         rect.origin.y = [self topFilterBorder];
-         _filterGroupView.frame = rect;
-     }
-                     completion: ^(BOOL finished)
-     {
-         self.blendImageView.alpha = 0.0f;
-         [UIView beginAnimations:nil context:NULL];
-         [UIView setAnimationDuration:HIDE_BLEND_ANIMATION_SPEED];
-         self.blendImageView.alpha = 1.0f;
-         [UIView commitAnimations];
-     }];
-}
-
-
-- (CGFloat) topFilterBorder
-{
-    return self.view.frame.size.height - _filterGroupView.frame.size.height;
-}
-
-
-- (CGFloat) bottomFilterBorder
-{
-    return self.view.frame.size.height;
-}
-
-
-#pragma mark - filter resend
-
-- (IBAction)sendFilterValue:(id)sender {
-    [self showActivity];
-    UserFilter *uf = [[DataStorage sharedDataStorage] getUserFilter];
-    NSString *genders = @"";
-    
-    for (Gender *gender in [uf.gender allObjects]) {
-        if ([gender.genderType isEqualToNumber:@2]) {
-            genders = genders.length > 0 ? [genders stringByAppendingString: @",2"] : [genders stringByAppendingString: @"2"];
-        }
-        if ([gender.genderType isEqualToNumber:@1]) {
-            genders = genders.length > 0 ? [genders stringByAppendingString: @",1"] : [genders stringByAppendingString: @"1"];
-        }
-    }
-
-    NSDictionary *filterParams = [[NSDictionary alloc] initWithObjectsAndKeys: uf.maxAge, @"maxAge", uf.minAge, @"minAge", [NSNumber numberWithFloat:0], @"viewType", genders, @"genders",uf.city.cityId, @"cityIds", nil];
-     [[HPBaseNetworkManager sharedNetworkManager] makeUpdateCurrentUserFilterSettingsRequest:filterParams];
-}
-
-#pragma mark - reload on filter change 
-
-- (void) setupFilterSendResults :(NSNotification *)notification {
-    NSNumber *status =  [notification.userInfo objectForKey:@"status"];
-    if ([status isEqualToNumber:@1]) {
-        self.mainListTable.hidden = NO;
-        self.sendFilterBtn.hidden = YES;
-        self.filterGroupView.hidden = NO;
-    } else {
-        self.mainListTable.hidden = YES;
-        self.sendFilterBtn.hidden = NO;
-        self.filterGroupView.hidden = YES;
-    }
-    [self hideActivity];
-}
-
-
-
-
-#pragma mark - delegate
-- (void) showNavigationBar {
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
-}
-
-
-#pragma mark - activity
-
-- (void)showActivity {
-    if(!self.overlayView)
-        self.overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height +20) ];
-    self.overlayView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    if(!self.activityIndicator)
-        self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    self.activityIndicator.center = self.overlayView.center;
-    [self.overlayView addSubview:self.activityIndicator];
-    [self.activityIndicator startAnimating];
-    [[[[[UIApplication sharedApplication]delegate] window] rootViewController].view addSubview:self.overlayView];
-    //todo: disable buttons
-}
-
-- (void) hideActivity {
-    [self.activityIndicator stopAnimating];
-    [self.activityIndicator removeFromSuperview];
-    self.activityIndicator = nil;
-    [self.overlayView removeFromSuperview];
-    self.overlayView = nil;
-    //todo: enable buttons
-}
+#pragma mark view controller delegate
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
