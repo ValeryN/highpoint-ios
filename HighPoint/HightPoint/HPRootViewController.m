@@ -113,8 +113,8 @@ static NSString *mainCellId = @"maincell";
 
 - (void) configureNextPageLoad{
     @weakify(self);
-    RACSignal *contentOffsetSignal = [RACObserve(self.mainListTable, contentOffset) replayLast];
-    [[[[[[contentOffsetSignal map:^id(id value) {
+    RACSignal *contentOffsetSignal = [[RACObserve(self.mainListTable, contentOffset) subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler scheduler]];
+    [[[[contentOffsetSignal map:^id(id value) {
         @strongify(self);
         CGFloat offset = [value CGPointValue].y;
         if(offset > 0){
@@ -123,7 +123,7 @@ static NSString *mainCellId = @"maincell";
         return @(NO);
     }] distinctUntilChanged] filter:^BOOL(NSNumber *x) {
         return x.boolValue;
-    }] subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler scheduler]] subscribeNext:^(NSNumber *x) {
+    }] subscribeNext:^(NSNumber *x) {
         @strongify(self);
         [self loadNextPageAfterUser:[self.tableArray lastObject]];
     }];
@@ -137,7 +137,7 @@ static NSString *mainCellId = @"maincell";
     refreshLoadingView.backgroundColor = [UIColor clearColor];
     self.refreshSpinnerView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Spinner"]];
     
-    CGRect rect  = self.refreshSpinnerView .frame;
+    CGRect rect  = self.refreshSpinnerView.frame;
     rect.origin.x = refreshControl.bounds.size.width / 2 - self.refreshSpinnerView .frame.size.width/2;
     rect.origin.y = 10;
     self.refreshSpinnerView.frame = rect;
@@ -205,8 +205,9 @@ static NSString *mainCellId = @"maincell";
     @weakify(self);
     [[HPRequest getUsersWithCity:self.filterViewController.city withGender:self.filterViewController.gender  fromAge:self.filterViewController.fromAge toAge:self.filterViewController.toAge withPoint:self.bottomSwitch.switchState afterUser:user] subscribeNext:^(NSArray* x) {
         @strongify(self);
-        NSMutableArray *contents = [self mutableArrayValueForKey:@keypath(self, tableArray)];
-        [contents addObjectsFromArray:x];
+        [self willChangeValueForKey:@"tableArray"];
+        [self.tableArray addObjectsFromArray:x];
+        [self didChangeValueForKey:@"tableArray"];
     }];
 }
 
