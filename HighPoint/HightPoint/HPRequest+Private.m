@@ -312,10 +312,13 @@
                 return [user MR_inContext:context];
             }].array;
             NSArray* citiesArrayLocal = [citiesArrayGlobal.rac_sequence map:^id(City* city) {
-                return [city MR_inContext:context];
+                if([city isKindOfClass:[City class]])
+                    return [city MR_inContext:context];
+                return nil;
             }].array;
             
-            NSDictionary* cacheDictionary = [NSDictionary dictionaryWithObjects:citiesArrayLocal forKeys:[userArrayLocal valueForKeyPath:@"cityId"]];
+            NSArray* filteredCityArray = [citiesArrayLocal filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"class == %@", [City class]]];
+            NSDictionary* cacheDictionary = [NSDictionary dictionaryWithObjects:filteredCityArray forKeys:[filteredCityArray valueForKeyPath:@"cityId"]];
             [MagicalRecord saveUsingCurrentThreadContextWithBlock:^(NSManagedObjectContext *localContext) {
                 for(User* user in userArrayLocal){
                     user.city = cacheDictionary[user.cityId];

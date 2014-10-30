@@ -43,7 +43,9 @@
     }];
 }
 
-- (void) bindViewModel: (User *) user {
+- (void) bindViewModel: (User *) globalUser {
+    User* user = [globalUser MR_inContext:[NSManagedObjectContext MR_contextForCurrentThread]];
+    
     for(UIView *subview in [self subviews]) {
         if([subview isKindOfClass:[UITextView class]]) {
             [subview removeFromSuperview];

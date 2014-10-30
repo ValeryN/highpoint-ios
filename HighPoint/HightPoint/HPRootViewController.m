@@ -83,6 +83,7 @@ static NSString *mainCellId = @"maincell";
     [self configureFilterViewController];
     [self configureTableViewData];
     [self configureTableView:self.mainListTable withSignal:RACObserve(self, tableArray) andTemplateCell:[UINib nibWithNibName:@"HPMainViewListTableViewCell" bundle:nil]];
+    [self configureSelectionTable];
     [self configureNextPageLoad];
     [self configurePullToRefresh];
     [self configureNavigationBar];
@@ -108,6 +109,24 @@ static NSString *mainCellId = @"maincell";
             @strongify(self);
             self.tableArray = [x mutableCopy];
         }];
+    }];
+}
+
+- (void) configureSelectionTable{
+    @weakify(self);
+    [self.selectRowSignal subscribeNext:^(User* x) {
+        @strongify(self);
+        HPUserCardViewController* userCardViewController = [[HPUserCardViewController alloc] initWithTableArraySignal:RACObserve(self,tableArray) andSelectedUser:x];
+        [userCardViewController.changeViewedUserCard subscribeNext:^(User* x) {
+            NSIndexPath* path = [NSIndexPath indexPathForRow:[self.tableArray indexOfObject:x] inSection:0];
+            [self.mainListTable reloadData];
+            [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        }];
+        [userCardViewController.needLoadNextPage subscribeNext:^(User* x) {
+            @strongify(self);
+            [self loadNextPageAfterUser:x];
+        }];
+        [self.navigationController pushViewController:userCardViewController animated:YES];
     }];
 }
 
@@ -203,11 +222,17 @@ static NSString *mainCellId = @"maincell";
 
 - (void) loadNextPageAfterUser:(User*) user{
     @weakify(self);
-    [[HPRequest getUsersWithCity:self.filterViewController.city withGender:self.filterViewController.gender  fromAge:self.filterViewController.fromAge toAge:self.filterViewController.toAge withPoint:self.bottomSwitch.switchState afterUser:user] subscribeNext:^(NSArray* x) {
+    [[HPRequest getUsersWithCity:self.filterViewController.city?[self.filterViewController.city MR_inContext:[NSManagedObjectContext MR_contextForCurrentThread]]:nil withGender:self.filterViewController.gender  fromAge:self.filterViewController.fromAge toAge:self.filterViewController.toAge withPoint:self.bottomSwitch.switchState afterUser:[user MR_inContext:[NSManagedObjectContext MR_contextForCurrentThread]]] subscribeNext:^(NSArray* x) {
         @strongify(self);
-        [self willChangeValueForKey:@"tableArray"];
-        [self.tableArray addObjectsFromArray:x];
-        [self didChangeValueForKey:@"tableArray"];
+        @synchronized(self.tableArray){
+            [self willChangeValueForKey:@"tableArray"];
+            for(User* user in x){
+                if(![self.tableArray containsObject:user]){
+                    [self.tableArray addObject:user];
+                }
+            }
+            [self didChangeValueForKey:@"tableArray"];
+        }
     }];
 }
 

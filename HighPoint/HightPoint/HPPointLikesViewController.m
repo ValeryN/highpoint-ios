@@ -45,7 +45,7 @@
     [self configureTableView:self.tableView withSignal:RACObserve(self, fetchedResultController) andTemplateCell:[UINib nibWithNibName:@"HPMainViewListTableViewCell" bundle:nil]];
     [self.selectRowSignal subscribeNext:^(User* x) {
         @strongify(self);
-        HPUserCardViewController* cardController = [[HPUserCardViewController alloc] initWithController:self.fetchedResultController andSelectedUser:x];
+        HPUserCardViewController* cardController = [[HPUserCardViewController alloc] initWithTableArraySignal:RACObserve(self,fetchedResultController.fetchedObjects) andSelectedUser:x];
         [self.navigationController pushViewController:cardController animated:YES];
     }];
     [self configureNavigationBar];

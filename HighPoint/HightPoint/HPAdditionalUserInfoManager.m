@@ -64,11 +64,14 @@ static HPAdditionalUserInfoManager *additionalManager;
             [self.cityToLoad setObject:[NSNull null] forKey:cityId];
             [self didChangeValueForKey:@"cityToLoad"];
         }
-        return [[[RACObserve(self, cityToLoad) filter:^BOOL(NSDictionary* value) {
+        
+        RACSignal * dataSignal = [[RACObserve(self, cityToLoad) filter:^BOOL(NSDictionary* value) {
             return ![value[cityId] isEqual:[NSNull null]];
         }] map:^id(NSDictionary* value) {
             return value[cityId];
-        }] take:1];
+        }];
+        RACSignal * timeoutSignal = [[RACSignal return:nil] delay:5];
+        return [[RACSignal merge:@[dataSignal,timeoutSignal]] take:1];
     }
 }
 

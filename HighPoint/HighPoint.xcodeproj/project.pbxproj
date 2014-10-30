@@ -245,6 +245,7 @@
 		44D23BA419D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */; };
 		44D23BA619D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */; };
 		44D72A9619FF98FE0013F2E5 /* HPMainViewListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44D72A9519FF98FE0013F2E5 /* HPMainViewListTableViewCell.xib */; };
+		44DE3CBD1A02621D007DDFBB /* RACCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44DE3CBC1A02621D007DDFBB /* RACCollectionViewController.m */; };
 		44E66BAF19A238240010117A /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */; };
 		44F37F4419E6E0BC007B6CD4 /* HPRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F37F4319E6E0BC007B6CD4 /* HPRoundButton.m */; };
 		4C1A488219629A7C00DD36F9 /* UITextView+HightPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A488119629A7C00DD36F9 /* UITextView+HightPoint.m */; };
@@ -889,6 +890,8 @@
 		44D23BA319D2C4CA008FD52A /* HPChatMsgOpenDenyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenDenyCell.xib; sourceTree = "<group>"; };
 		44D23BA519D2C4CA008FD52A /* HPChatMsgOpenRequestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPChatMsgOpenRequestCell.xib; sourceTree = "<group>"; };
 		44D72A9519FF98FE0013F2E5 /* HPMainViewListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HPMainViewListTableViewCell.xib; sourceTree = "<group>"; };
+		44DE3CBB1A02621D007DDFBB /* RACCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACCollectionViewController.h; sourceTree = "<group>"; };
+		44DE3CBC1A02621D007DDFBB /* RACCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACCollectionViewController.m; sourceTree = "<group>"; };
 		44E66B9319A2340A0010117A /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = External/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
 		44E66BAE19A238240010117A /* libReactiveCocoa-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libReactiveCocoa-iOS.a"; path = "HightPoint/External/ReactiveCocoa/ReactiveCocoaFramework/build/Debug-iphoneos/libReactiveCocoa-iOS.a"; sourceTree = "<group>"; };
 		44F37F4219E6E0BC007B6CD4 /* HPRoundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPRoundButton.h; sourceTree = "<group>"; };
@@ -2170,6 +2173,8 @@
 				7C5F72B3F429363DD1851AE9 /* RACTableViewController.h */,
 				7C5F7566517F0FB2EEE84EC4 /* RACFetchedTableViewController.m */,
 				7C5F72E15153FFA4E1BB4024 /* RACFetchedTableViewController.h */,
+				44DE3CBB1A02621D007DDFBB /* RACCollectionViewController.h */,
+				44DE3CBC1A02621D007DDFBB /* RACCollectionViewController.m */,
 				7C5F7EF040173F22819BDD4D /* RACFetchedCollectionViewController.m */,
 				7C5F7D0B7D92387D4D5A39C0 /* RACFetchedCollectionViewController.h */,
 				7C5F74A7CC9232A8FAF89848 /* HPHorizontalPanGestureRecognizer.m */,
@@ -2970,6 +2975,7 @@
 				3B52B2B719C30128000B543C /* NSRelationshipDescription+MagicalDataImport.m in Sources */,
 				CDBB915619B9BA1900546853 /* UserPoint.m in Sources */,
 				CD55FD1119792025003EE9E9 /* Language.m in Sources */,
+				44DE3CBD1A02621D007DDFBB /* RACCollectionViewController.m in Sources */,
 				CD4CA3B51980F22F0016DF7E /* HPChatViewController.m in Sources */,
 				CDA0A0B01999DAC10017D35B /* HPSelectPopularCityViewController.m in Sources */,
 				44C5AB6F19EEB88900EF897E /* BKPasscodeViewController.m in Sources */,

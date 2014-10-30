@@ -40,7 +40,7 @@
 //#define CONSTRAINT_HEIGHT_FOR_CAROUSEL 340
 
 @interface HPUserCardViewController()
-@property (nonatomic, retain) NSFetchedResultsController* searchController;
+@property (nonatomic, retain) NSArray* tableArray;
 @property (nonatomic, strong) UIView *notificationView;
 @property (weak, nonatomic) IBOutlet UICollectionView *usersCollectionView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *bottomActivityView;
@@ -51,25 +51,26 @@
     float currentOffsetBegin;
 }
 
-- (instancetype) initWithController:(NSFetchedResultsController*) controller andSelectedUser:(User*) user{
+- (instancetype) initWithTableArraySignal:(RACSignal*) tableSignal andSelectedUser:(User*) user{
     self = [super initWithNibName: @"HPUserCardViewController" bundle: nil];
     if (self) {
         self.changeViewedUserCard = [RACSubject subject];
         self.needLoadNextPage = [RACSubject subject];
         
-        self.searchController = [[NSFetchedResultsController alloc] initWithFetchRequest:[controller.fetchRequest copy] managedObjectContext:controller.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-        self.searchController.delegate = self;
-        [self.searchController performFetch:nil];
+        [tableSignal subscribeNext:^(NSArray* x) {
+            self.tableArray = x;
+        }];
         
         @weakify(self);
         [[RACObserve(self, usersCollectionView) filter:^BOOL(id value) {
             return value != nil;
         }] subscribeNext:^(UICollectionView* collection) {
             @strongify(self);
-            [self configureCollectionView:collection withSignal:[RACSignal return:self.searchController] andTemplateCell:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil]];
+            [self configureCollectionView:collection withSignal:tableSignal andTemplateCell:[UINib nibWithNibName:@"HPUserCardUICollectionViewCell" bundle:nil]];
             [[[RACObserve(collection, contentSize) skip:1] take:1] subscribeNext:^(id x) {
                 @strongify(self);
-                [collection scrollToItemAtIndexPath:[self.searchController indexPathForObject:user] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+                NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.tableArray indexOfObject:user] inSection:0];
+                [collection scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
             }];
         }];
         
@@ -205,13 +206,15 @@
     CGPoint visiblePoint = CGPointMake(CGRectGetMidX(visibleRect), CGRectGetMidY(visibleRect));
     NSIndexPath *visibleIndexPath = [self.usersCollectionView indexPathForItemAtPoint:visiblePoint];
     if(visibleIndexPath){
-        [self.changeViewedUserCard sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+        User * usr = self.tableArray[visibleIndexPath.row];
+        [self.changeViewedUserCard sendNext:usr];
     }
     
     NSUInteger lastRowIndex = [self collectionView:self.usersCollectionView numberOfItemsInSection:0] - 1;
     if(lastRowIndex == visibleIndexPath.row){
         //Load on last cell
-        [self.needLoadNextPage sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+        User * usr = self.tableArray[visibleIndexPath.row];
+        [self.needLoadNextPage sendNext:usr];
     }
 }
 - (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
@@ -222,7 +225,8 @@
     NSUInteger lastRowIndex = [self collectionView:self.usersCollectionView numberOfItemsInSection:0] - 1;
     //Pull to load more
     if(lastRowIndex == visibleIndexPath.row){
-        [self.needLoadNextPage sendNext:[self.searchController objectAtIndexPath:visibleIndexPath]];
+        User * usr = self.tableArray[visibleIndexPath.row];
+        [self.needLoadNextPage sendNext:usr];
     }
 }
 
@@ -260,7 +264,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    User * usr = [self.searchController objectAtIndexPath:indexPath];
+    User * usr = self.tableArray[indexPath.row];
     HPUserInfoViewController* uiController = [[HPUserInfoViewController alloc] initWithNibName: @"HPUserInfoViewController" bundle: nil];
     uiController.user = usr;
     [self.navigationController pushViewController:uiController animated:YES];
