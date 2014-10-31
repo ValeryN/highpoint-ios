@@ -122,7 +122,7 @@ static NSString *mainCellId = @"maincell";
             [self.mainListTable reloadData];
             [self.mainListTable scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:NO];
         }];
-        [userCardViewController.needLoadNextPage subscribeNext:^(User* x) {
+        [[userCardViewController.needLoadNextPage distinctUntilChanged] subscribeNext:^(User* x) {
             @strongify(self);
             [self loadNextPageAfterUser:x];
         }];
@@ -133,7 +133,7 @@ static NSString *mainCellId = @"maincell";
 - (void) configureNextPageLoad{
     @weakify(self);
     RACSignal *contentOffsetSignal = [[RACObserve(self.mainListTable, contentOffset) subscribeOn:[RACScheduler scheduler]] deliverOn:[RACScheduler scheduler]];
-    [[[[contentOffsetSignal map:^id(id value) {
+    [[[[[contentOffsetSignal map:^id(id value) {
         @strongify(self);
         CGFloat offset = [value CGPointValue].y;
         if(offset > 0){
@@ -142,6 +142,9 @@ static NSString *mainCellId = @"maincell";
         return @(NO);
     }] distinctUntilChanged] filter:^BOOL(NSNumber *x) {
         return x.boolValue;
+    }] filter:^BOOL(NSNumber *x) {
+        @strongify(self);
+        return self.view.window!=nil;
     }] subscribeNext:^(NSNumber *x) {
         @strongify(self);
         [self loadNextPageAfterUser:[self.tableArray lastObject]];
