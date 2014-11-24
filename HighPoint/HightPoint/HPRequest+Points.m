@@ -50,7 +50,9 @@
 }
 
 + (RACSignal *)getLikedUserOfPoint:(UserPoint *)point {
-
+    if(!point){
+        return [RACSignal empty];
+    }
     NSString *url = nil;
     url = [URLs getServerURL];
     url = [url stringByAppendingString:[NSString stringWithFormat:kPointLikesRequest, point.pointId]];

@@ -987,7 +987,7 @@ static DataStorage *dataStorage;
             }
         }
     } completion:^(BOOL success, NSError *error)    {
-        block(user);
+        block([user MR_inThreadContext]);
     }];
 }
 #pragma mark -
@@ -1020,7 +1020,7 @@ static DataStorage *dataStorage;
         }
     } completion:^(BOOL success, NSError *error)    {
         //[[NSManagedObjectContext defaultContext] saveNestedContexts];
-        block(localPoint);
+        block([localPoint MR_inThreadContext]);
     }];
 }
 
@@ -1681,10 +1681,10 @@ static DataStorage *dataStorage;
 
 
 - (void)createAndSaveContactEntity:(User *)glovaluser forMessage:(Message *)globallastMessage withComplation:(complationBlock)block {
-    
     __weak typeof(self) weakSelf = self;
+    __block Contact *contactEnt;
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        Contact *contactEnt = [weakSelf getContactById:glovaluser.userId forContext:localContext];
+        contactEnt = [weakSelf getContactById:glovaluser.userId forContext:localContext];
         if(!contactEnt) {
             contactEnt = [Contact createInContext:localContext];
         }
@@ -1692,14 +1692,15 @@ static DataStorage *dataStorage;
         contactEnt.lastmessage = intMess;
         contactEnt.user = [glovaluser MR_inContext:localContext];
         intMess.contact = contactEnt;
+        NSAssert(contactEnt.user, @"User must be set");
+        NSAssert(contactEnt.lastmessage, @"Message must be set");
     } completion:^(BOOL success, NSError *error)    {
-        block ([self getContactById:glovaluser.userId forContext:[NSManagedObjectContext MR_defaultContext]]);
+        block ([contactEnt MR_inThreadContext]);
     }];
 }
 
 
 - (void)deleteAndSaveAllContacts {
-    
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         NSArray *contacts = [Contact findAllInContext:localContext];
         if(contacts.count > 0) {

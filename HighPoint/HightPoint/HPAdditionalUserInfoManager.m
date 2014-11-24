@@ -70,7 +70,7 @@ static HPAdditionalUserInfoManager *additionalManager;
         }] map:^id(NSDictionary* value) {
             return value[cityId];
         }];
-        RACSignal * timeoutSignal = [[RACSignal return:nil] delay:5];
+        RACSignal * timeoutSignal = [[RACSignal return:nil] delay:30];
         return [[RACSignal merge:@[dataSignal,timeoutSignal]] take:1];
     }
 }

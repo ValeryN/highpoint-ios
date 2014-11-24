@@ -39,16 +39,14 @@
                 NSArray *users = [[jsonDict objectForKey:@"data"] objectForKey:@"users"];
                 NSDictionary *lastMsgs = [[jsonDict objectForKey:@"data"] objectForKey:@"messages"];
                 
-                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:users] forUserType:ContactUserType withComplation:^(NSError *error) {
-                    if(!error) {
+                [[DataStorage sharedDataStorage] createAndSaveUserEntity:[NSMutableArray arrayWithArray:users] forUserType:ContactUserType withComplation:^(User *user) {
+                    if(user) {
                         if ([self isTaskArrayEmpty:manager]) {
                             [self makeTownByIdRequest];
                         }
                         for (id key in [lastMsgs allKeys]) {
-                            User *user = [[DataStorage sharedDataStorage] getUserForId:[NSNumber numberWithInt:[key intValue]]];
-                            
                             [[DataStorage sharedDataStorage] createAndSaveMessage:[lastMsgs objectForKey:key] forUserId:user.userId andMessageType:LastMessageType withComplation:^(Message *lastMsg) {
-                                [[DataStorage sharedDataStorage] createAndSaveContactEntity:user forMessage:lastMsg withComplation:^(id object) {
+                                [[DataStorage sharedDataStorage] createAndSaveContactEntity:[user MR_inThreadContext] forMessage:lastMsg withComplation:^(id object) {
                                     //[self getChatMsgsForUser:user.userId :nil];
                                 }];
                             }];

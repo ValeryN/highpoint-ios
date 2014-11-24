@@ -30,6 +30,7 @@
 #import "HPBaseNetworkManager+Geo.h"
 #import "HPRootViewController.h"
 #import "NotificationsConstants.h"
+#import "HPAppearanceManager.h"
 
 
 @implementation HPAppDelegate
@@ -43,6 +44,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [HPAppearanceManager loadAllAppearance];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"HightPoint.sqlite"];
